@@ -52,5 +52,97 @@ npm install
 npm run dev
 ````
 
+## Create First Users
+
+1. Create command
+```
+php artisan make:command MakeFirstUser
+```
+
+2. Add to app/Console/Kernel.php
+```
+protected $commands = [
+    'App\Console\Commands\MakeFirstUser',
+];
+```
+
+3. Setup the command
+
+```
+protected $signature = 'cmr:make-first-user';
+  .
+  .
+  .
+  
+public function handle()
+{
+    echo env('APP_NAME');
+
+    $user_name = 'Paul Barham';
+    $user_email = 'paulb@savagesoft.com';
+
+    $user  = \App\User::where('email', $user_email)->first();
+
+    if ( $user ) {
+        $this->error( "User |$user_name|$user_email| exists, cannot add");
+        die();
+    }
+
+    $user = \App\User::create([
+        'email' => $user_email,
+        'name' => $user_name,
+        'password' => bcrypt('secret')
+    ]);
+}
+```
+
+# Create first user
+````
+php artisan cmr:make-first-user
+````
+
+# Setup Passport
+
+````
+php artisan passport:keys --force
+php artisan passport:install --force
+````
+# Create accessToken for API
+  
+````
+  php artisan tinker
+  >>> $user = User::find(1)
+  >>> $token = $user->createToken('Hackerpair')->accessToken
+  => "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIs...Um1Py-KdjXfQ"
+````
+
+# Added token to .env for testing
+
+````
+TEST_API_TOKEN="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni..."
+````
+
+# Test the API
+In OSX not your Vagrant box
+
+````
+php artisan aps:api-test
+````
+
+# Test website
+````
+https://cms.apskc.ldev/login
+````
+
+# Added CrudGenderator
+See [https://github.com/zmon/laravel-crud-generator](https://github.com/zmon/laravel-crud-generator)
+
+````
+php artisan make:crud student
+````
+
+For each of the existing tables you will need to create a migration simular to 2019_01_04_192740_roles_update_time_stamps.php
+
+
 
 
