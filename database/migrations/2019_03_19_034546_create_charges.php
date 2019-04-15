@@ -23,7 +23,12 @@ class CreateCharges extends Migration
             $table->string('class',64)->nullable();
             $table->string('type',64)->nullable();
             $table->string('sentence',64)->nullable();
+            $table->string('convicted',64)->nullable();
             $table->string('eligible',64)->nullable();
+            $table->string('expunge',64)->nullable();
+
+            $table->text('note')->nullable();
+
 
             $table->integer('created_by')->default(0)->nullable();
             $table->integer('modified_by')->default(0)->nullable();
@@ -31,7 +36,7 @@ class CreateCharges extends Migration
 
             $table->timestamps();
 
-            $table->foreign('conviction_id')->references('id')->on('convictions');
+         //   $table->foreign('conviction_id')->references('id')->on('convictions');
 
         });
     }
@@ -44,9 +49,9 @@ class CreateCharges extends Migration
     public function down()
     {
 
-        Schema::table('convictions', function(Blueprint $table) {
-            $table->dropForeign('charges_convictions_id_foreign');
-        });
+//        Schema::table('convictions', function(Blueprint $table) {
+//            $table->dropForeign('charges_convictions_id_foreign');
+//        });
         Schema::dropIfExists('charges');
     }
 }

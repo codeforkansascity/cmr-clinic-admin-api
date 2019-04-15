@@ -15,6 +15,8 @@ class Conviction extends Model
      */
     protected $fillable = [
         'client_id',
+        'name',
+        'arrest_date',
         'case_number',
         'agency',
         'court_name',
@@ -23,6 +25,7 @@ class Conviction extends Model
         'your_name_in_case',
         'release_status',
         'release_date',
+        'note'
     ];
 
 
