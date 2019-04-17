@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::post('/clients/{client_id}/convictions','API\ConvictionController@add');
 Route::apiResource('clients', 'API\ClientController');
 Route::apiResource('convictions', 'API\ConvictionController');
 

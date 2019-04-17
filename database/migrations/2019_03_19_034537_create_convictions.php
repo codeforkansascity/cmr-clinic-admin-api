@@ -24,9 +24,10 @@ class CreateConvictions extends Migration
             $table->string('agency',64)->nullable();
             $table->string('court_name',64)->nullable();
             $table->string('court_city_county',64)->nullable();
-            $table->string('name_of_judge',64)->nullable();
-            $table->string('your_name_in_case',64)->nullable();
+            $table->string('judge',64)->nullable();
+            $table->string('record_name',64)->nullable();
             $table->string('release_status',64)->nullable();
+
             $table->date('release_date')->nullable();
             $table->text('note')->nullable();
 

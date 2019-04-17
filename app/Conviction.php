@@ -25,6 +25,8 @@ class Conviction extends Model
         'your_name_in_case',
         'release_status',
         'release_date',
+        'judge',
+        'record_name',
         'note'
     ];
 

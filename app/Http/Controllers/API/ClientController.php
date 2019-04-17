@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Client;
+use App\Conviction;
 
 class ClientController extends Controller
 {
@@ -26,7 +27,8 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        return Client::create($request->all());
+        $newClient = Client::create($request->all());
+        return $newClient->id;
     }
 
     /**
@@ -37,7 +39,18 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        return Client::find($id);
+        $client =  Client::find($id);
+        $convictions = Conviction::select('*')
+            ->where('client_id', $id)
+        ->get();
+info(print_r($convictions,true));
+        if ($convictions->count() > 0) {
+            $client['convictions'] = $convictions;
+        }
+
+
+
+        return $client;
     }
 
     /**

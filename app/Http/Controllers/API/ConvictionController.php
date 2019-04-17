@@ -18,6 +18,15 @@ class ConvictionController extends Controller
         return Conviction::all();
     }
 
+    public function add(Request $request, $client_id)
+    {
+        info("convictions::add($client_id");
+
+        $data = $request->all();
+        $data['client_id'] = $client_id;
+        return Conviction::create($data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

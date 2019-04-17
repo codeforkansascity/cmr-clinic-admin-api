@@ -31,11 +31,30 @@ class CreateClients extends Migration
             $table->string('license_issuing_state',64)->nullable();
             $table->string('license_expiration_date',64)->nullable();
 
+            // NEW
+            $table->string('filing_court',64)->nullable();
+
+            $table->string('judicial_ciruit_number',64)->nullable();
+            $table->string('count_name',64)->nullable();
+            $table->string('judge_name',64)->nullable();
+            $table->string('division_name',64)->nullable();
+            $table->string('petitioner_name',64)->nullable();
+            $table->string('division_number',64)->nullable();
+            $table->string('city_name_here',64)->nullable();
+            $table->string('county_name',64)->nullable();
+            $table->string('arresting_county',64)->nullable();
+            $table->string('prosecuting_county',64)->nullable();
+            $table->string('arresting_municipality',64)->nullable();
+            $table->text('other_agencies_name')->nullable();
+            //
+
             $table->integer('created_by')->default(0)->nullable();
             $table->integer('modified_by')->default(0)->nullable();
             $table->integer('purged_by')->default(0)->nullable();
 
             $table->timestamps();
+
+
         });
     }
 

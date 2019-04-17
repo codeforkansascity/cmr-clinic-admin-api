@@ -28,6 +28,19 @@ class Client extends Model
         'license_number',
         'license_issuing_state',
         'license_expiration_date',
+        'filing_court',
+        'judicial_ciruit_number',
+        'count_name',
+        'judge_name',
+        'division_name',
+        'petitioner_name',
+        'division_number',
+        'city_name_here',
+        'county_name',
+        'arresting_county',
+        'prosecuting_county',
+        'arresting_municipality',
+        'other_agencies_name',
     ];
 
 
