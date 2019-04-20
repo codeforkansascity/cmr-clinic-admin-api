@@ -18,13 +18,22 @@ class ConvictionController extends Controller
         return Conviction::all();
     }
 
+    public function indexByClient(Request $request, $client_id)
+    {
+        return Conviction::where('client_id',$client_id)->get();
+    }
+
     public function add(Request $request, $client_id)
     {
-        info("convictions::add($client_id");
+        info("convictions::add($client_id)");
+        info(print_r($request->toArray(),true));
 
         $data = $request->all();
         $data['client_id'] = $client_id;
-        return Conviction::create($data);
+
+
+        $conviction =  Conviction::create($data);
+        return $conviction->id;
     }
 
     /**

@@ -4,10 +4,9 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Client;
-use App\Conviction;
+use App\Charge;
 
-class ClientController extends Controller
+class ChargeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +15,17 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return Client::all();
+        return Charge::all();
+    }
+
+    public function add(Request $request, $client_id, $conviction_id)
+    {
+        info("Charges::add($client_id");
+
+        $data = $request->all();
+        $data['conviction_id'] = $conviction_id;
+        $charge =  Charge::create($data);
+        return $charge->id;
     }
 
     /**
@@ -27,8 +36,7 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        $newClient = Client::create($request->all());
-        return $newClient->id;
+        return Charge::create($request->all());
     }
 
     /**
@@ -39,18 +47,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        $client =  Client::find($id);
-//        $convictions = Conviction::select('*')
-//            ->where('client_id', $id)
-//        ->get();
-//info(print_r($convictions,true));
-//        if ($convictions->count() > 0) {
-//            $client['convictions'] = $convictions;
-//        }
-//
-//
-
-        return $client;
+        return Charge::find($id);
     }
 
     /**
@@ -62,10 +59,10 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $client = Client::findOrFail($id);
-        $client->update($request->all());
+        $Charge = Charge::findOrFail($id);
+        $Charge->update($request->all());
 
-        return $client;
+        return $Charge;
     }
 
     /**
@@ -76,7 +73,7 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        Client::find($id)->delete();
+        Charge::find($id)->delete();
 
         return 204;
     }
