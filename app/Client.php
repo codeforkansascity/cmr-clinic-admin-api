@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
 
+    var $table = 'client';
+
 
     /**
      * The attributes that are mass assignable.

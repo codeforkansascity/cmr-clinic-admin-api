@@ -13,7 +13,7 @@ class CreateConvictions extends Migration
      */
     public function up()
     {
-        Schema::create('convictions', function (Blueprint $table) {
+        Schema::create('conviction', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->unsignedBigInteger('client_id')->default(0);
@@ -29,7 +29,7 @@ class CreateConvictions extends Migration
             $table->string('release_status',64)->nullable();
 
             $table->date('release_date')->nullable();
-            $table->text('note')->nullable();
+            $table->text('notes')->nullable();
 
             $table->integer('created_by')->default(0)->nullable();
             $table->integer('modified_by')->default(0)->nullable();
@@ -55,6 +55,6 @@ class CreateConvictions extends Migration
 //        Schema::table('convictions', function(Blueprint $table) {
 //            $table->dropForeign('convictions_client_id_foreign');
 //        });
-        Schema::dropIfExists('convictions');
+        Schema::dropIfExists('conviction');
     }
 }

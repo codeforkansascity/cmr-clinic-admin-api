@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Charge extends Model
 {
 
+    var $table = 'charge';
+
 
     /**
      * The attributes that are mass assignable.
@@ -17,13 +19,14 @@ class Charge extends Model
         'conviction_id',
         'charge',
         'citation',
-        'class',
-        'type',
+        'conviction_class_type',
+        'conviction_charge_type',
         'sentence',
         'convicted',
         'eligible',
-        'expunge',
-        'note',
+        'please_expunge',
+        'please_print',
+        'notes',
     ];
 
 

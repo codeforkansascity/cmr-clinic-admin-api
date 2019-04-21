@@ -13,7 +13,7 @@ class CreateClients extends Migration
      */
     public function up()
     {
-        Schema::create('clients', function (Blueprint $table) {
+        Schema::create('client', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->string('full_name',64)->default('');
@@ -34,17 +34,16 @@ class CreateClients extends Migration
             // NEW
             $table->string('filing_court',64)->nullable();
 
-            $table->string('judicial_ciruit_number',64)->nullable();
+            $table->text('judicial_ciruit_number')->nullable();
             $table->string('count_name',64)->nullable();
-            $table->string('judge_name',64)->nullable();
-            $table->string('division_name',64)->nullable();
-            $table->string('petitioner_name',64)->nullable();
-            $table->string('division_number',64)->nullable();
-            $table->string('city_name_here',64)->nullable();
-            $table->string('county_name',64)->nullable();
-            $table->string('arresting_county',64)->nullable();
-            $table->string('prosecuting_county',64)->nullable();
-            $table->string('arresting_municipality',64)->nullable();
+            $table->text('judge_name')->nullable();
+            $table->text('division_name')->nullable();
+            $table->text('petitioner_name')->nullable();
+            $table->text('division_number')->nullable();
+            $table->text('county_name')->nullable();
+            $table->text('arresting_county')->nullable();
+            $table->text('prosecuting_county')->nullable();
+            $table->text('arresting_municipality')->nullable();
             $table->text('other_agencies_name')->nullable();
             //
 
@@ -65,6 +64,6 @@ class CreateClients extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clients');
+        Schema::dropIfExists('client');
     }
 }

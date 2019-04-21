@@ -40,15 +40,7 @@ class ClientController extends Controller
     public function show($id)
     {
         $client =  Client::find($id);
-//        $convictions = Conviction::select('*')
-//            ->where('client_id', $id)
-//        ->get();
-//info(print_r($convictions,true));
-//        if ($convictions->count() > 0) {
-//            $client['convictions'] = $convictions;
-//        }
-//
-//
+
 
         return $client;
     }

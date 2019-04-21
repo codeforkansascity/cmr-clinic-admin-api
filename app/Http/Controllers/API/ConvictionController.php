@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Conviction;
+use App\Charge;
 
 class ConvictionController extends Controller
 {
@@ -20,7 +21,19 @@ class ConvictionController extends Controller
 
     public function indexByClient(Request $request, $client_id)
     {
-        return Conviction::where('client_id',$client_id)->get();
+        $convictions = Conviction::where('client_id',$client_id)->get();
+
+        foreach ( $convictions AS $i => $conviction) {
+            $conviction_id = $conviction->id;
+            $charges = Charge::where('conviction_id',$conviction_id)->get();
+            if ($charges->count() > 0) {
+                $convictions[$i]['charges'] = $charges;
+            }
+        }
+
+
+        return $convictions;
+
     }
 
     public function add(Request $request, $client_id)
@@ -82,6 +95,8 @@ class ConvictionController extends Controller
     public function destroy($id)
     {
         Conviction::find($id)->delete();
+        Charge::where('conviction_id',$id)->delete();
+
 
         return 204;
     }
