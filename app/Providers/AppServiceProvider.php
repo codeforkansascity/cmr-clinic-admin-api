@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+	// This should resolve the error Specified key was too long error
+        //   from https://laravel-news.com/laravel-5-4-key-too-long-error
+        Schema::defaultStringLength(191);
     }
 }
