@@ -40,6 +40,8 @@ class CreateClients extends Migration
             $table->text('division_name')->nullable();
             $table->text('petitioner_name')->nullable();
             $table->text('division_number')->nullable();
+            $table->text('city_name_here')->nullable();
+
             $table->text('county_name')->nullable();
             $table->text('arresting_county')->nullable();
             $table->text('prosecuting_county')->nullable();
