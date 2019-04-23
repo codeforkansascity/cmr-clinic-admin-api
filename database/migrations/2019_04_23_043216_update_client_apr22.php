@@ -15,6 +15,9 @@ class UpdateClientApr22 extends Migration
     {
         Schema::table('client', function (Blueprint $table) {
             $table->renameColumn('judicial_ciruit_number', 'judicial_circuit_number');
+            $table->text('previous_expungements')->nullable();
+            $table->renameColumn('zip', 'zip_code');
+
         });
     }
 
@@ -27,6 +30,9 @@ class UpdateClientApr22 extends Migration
     {
         Schema::table('client', function (Blueprint $table) {
             $table->renameColumn('judicial_circuit_number', 'judicial_ciruit_number');
+            $table->dropColumn('previous_expungements');
+            $table->renameColumn('zip_code', 'zip');
+
         });
     }
 }

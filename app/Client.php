@@ -31,7 +31,7 @@ class Client extends Model
         'license_issuing_state',
         'license_expiration_date',
         'filing_court',
-        'judicial_ciruit_number',
+        'judicial_circuit_number',
         'count_name',
         'judge_name',
         'division_name',
@@ -43,6 +43,7 @@ class Client extends Model
         'prosecuting_county',
         'arresting_municipality',
         'other_agencies_name',
+        'previous_expungements'
     ];
 
 
