@@ -14,13 +14,7 @@ use Illuminate\Http\Request;
 */
 
 
-Route::post('/clients/{client_id}/convictions','API\ConvictionController@add')->name('client.conviction.add');
-Route::get('/clients/{client_id}/convictions','API\ConvictionController@indexByClient')->name('client.conviction.index_by_client');
-Route::post('/clients/{client_id}/convictions/{conviction_id}/charges','API\ChargeController@add');
 
-Route::apiResource('clients', 'API\ClientController');
-Route::apiResource('convictions', 'API\ConvictionController');
-Route::apiResource('charges', 'API\ChargeController');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -29,5 +23,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('/me', 'UserController@me');
+
+    Route::post('/clients/{client_id}/convictions','API\ConvictionController@add')->name('client.conviction.add');
+    Route::get('/clients/{client_id}/convictions','API\ConvictionController@indexByClient')->name('client.conviction.index_by_client');
+    Route::post('/clients/{client_id}/convictions/{conviction_id}/charges','API\ChargeController@add');
+
+    Route::apiResource('clients', 'API\ClientController');
+    Route::apiResource('convictions', 'API\ConvictionController');
+    Route::apiResource('charges', 'API\ChargeController');
 
 });
