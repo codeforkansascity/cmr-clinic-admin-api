@@ -20,9 +20,14 @@ Route::get('/', function () {
 Auth::routes(['verify' => true, 'register' => false]);
 
 
+Route::group(['middleware' => 'auth'], function () {
 
 
+    Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/changePassword','HomeController@showChangePasswordForm');
+    Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
 
+
+});
 

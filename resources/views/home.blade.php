@@ -16,8 +16,6 @@
 
                     Please goto <a href="https://cmr-clinic.codeforkc.org">The clinic site</a>
 
-                    <p>You can also <a href="https://cmr-20-app.codeforkc.org/password/reset"</p>
-
 
                 </div>
             </div>
