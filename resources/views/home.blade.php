@@ -14,13 +14,10 @@
                         </div>
                     @endif
 
-                    You are logged in!
-<example-component></example-component>
-                        <passport-clients></passport-clients>
-                        <hr>
-                        <passport-authorized-clients></passport-authorized-clients>
-                        <hr>
-                        <passport-personal-access-tokens></passport-personal-access-tokens>
+                    Please goto <a href="https://cmr-clinic.codeforkc.org">The clinic site</a>
+
+                    <p>You can also <a href="https://cmr-20-app.codeforkc.org/password/reset"</p>
+
 
                 </div>
             </div>
