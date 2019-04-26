@@ -24,6 +24,13 @@ class ConvictionController extends Controller
         $convictions = Conviction::where('client_id',$client_id)->get();
 
         foreach ( $convictions AS $i => $conviction) {
+
+            if ( $conviction['release_date']) {
+                info($conviction['release_date']);
+                $convictions[$i]['release_date'] = date("d/m/Y", strtotime($conviction['release_date']));
+            }
+
+
             $conviction_id = $conviction->id;
             $charges = Charge::where('conviction_id',$conviction_id)->get();
             if ($charges->count() > 0) {
