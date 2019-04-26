@@ -3,10 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\RecordSignature;
 
 class Conviction extends Model
 {
 
+    use RecordSignature;
     var $table = 'conviction';
 
     /**
@@ -29,7 +31,9 @@ class Conviction extends Model
         'judge',
         'record_name',
         'notes',
-        'approximate_date_of_charge'
+        'approximate_date_of_charge',
+        'created_by',
+        'modified_by',
     ];
 
 

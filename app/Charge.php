@@ -3,10 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\RecordSignature;
 
 class Charge extends Model
 {
 
+    use RecordSignature;
     var $table = 'charge';
 
 
@@ -27,6 +29,8 @@ class Charge extends Model
         'please_expunge',
         'please_print',
         'notes',
+        'created_by',
+        'modified_by',
     ];
 
 

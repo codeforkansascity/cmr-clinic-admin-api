@@ -3,10 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\RecordSignature;
 
 class Client extends Model
 {
 
+    use RecordSignature;
     var $table = 'client';
 
 
@@ -44,7 +46,9 @@ class Client extends Model
         'arresting_municipality',
         'other_agencies_name',
         'previous_expungements',
-        'status'
+        'status',
+        'created_by',
+        'modified_by',
     ];
 
 
