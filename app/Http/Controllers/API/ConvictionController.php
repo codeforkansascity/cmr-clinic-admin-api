@@ -26,7 +26,6 @@ class ConvictionController extends Controller
         foreach ( $convictions AS $i => $conviction) {
 
             if ( $conviction['release_date']) {
-                info($conviction['release_date']);
                 $convictions[$i]['release_date'] = date("d/m/Y", strtotime($conviction['release_date']));
             }
 

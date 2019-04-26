@@ -24,7 +24,7 @@ trait RecordSignature
 
         static::updating(function ($model) {
             $model->fillable[] = 'modified_by';
- 
+            $user = \Auth::User();
             if ( $user ) {
                 $model->modified_by = $user->id;
             } else {
