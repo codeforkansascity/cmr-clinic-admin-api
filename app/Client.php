@@ -26,7 +26,7 @@ class Client extends Model
         'address_line_2',
         'city',
         'state',
-        'zip',
+        'zip_code',
         'license_number',
         'license_issuing_state',
         'license_expiration_date',
@@ -43,7 +43,8 @@ class Client extends Model
         'prosecuting_county',
         'arresting_municipality',
         'other_agencies_name',
-        'previous_expungements'
+        'previous_expungements',
+        'status'
     ];
 
 
