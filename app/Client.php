@@ -9,7 +9,6 @@ class Client extends Model
 {
 
     use RecordSignature;
-    var $table = 'client';
 
 
     /**
