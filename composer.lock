@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "49dc152ac891c676b7cda84e9c0c545f",
+    "content-hash": "f865322c43df517fcffb7c8206e574dc",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3883,6 +3883,47 @@
                 "psr-7"
             ],
             "time": "2019-01-05T20:13:32+00:00"
+        },
+        {
+            "name": "zmon/laravel-crud-generator-zmon",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zmon/laravel-crud-generator.git",
+                "reference": "e367e3374409d21f31e5b241bfccfa85432c5b9b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zmon/laravel-crud-generator/zipball/e367e3374409d21f31e5b241bfccfa85432c5b9b",
+                "reference": "e367e3374409d21f31e5b241bfccfa85432c5b9b",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": ">=5.0.0",
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CrudGenerator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alfredo Aguirre",
+                    "email": "alfrednx@gmail.com"
+                },
+                {
+                    "name": "Paul Barham",
+                    "email": "paulb@savagesoft.com"
+                }
+            ],
+            "description": "php artisan command to generate fully working crud with grid paginated server side only by having database tables",
+            "time": "2019-05-18T05:04:15+00:00"
         }
     ],
     "packages-dev": [
@@ -5650,7 +5691,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "zmon/laravel-crud-generator-zmon": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
