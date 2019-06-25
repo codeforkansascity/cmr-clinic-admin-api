@@ -1,4 +1,7 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/js/components/client-form.js": "/js/components/client-form.js",
+    "/js/components/client-grid.js": "/js/components/client-grid.js",
+    "/js/components/vendors~client-form.js": "/js/components/vendors~client-form.js"
 }

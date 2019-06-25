@@ -27,5 +27,13 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Passport::routes();
+
+        // Give super-admin the ability to do anything
+        //  From: https://github.com/spatie/laravel-permission/wiki/Global-%22Admin%22-role
+
+
+        Gate::after(function ($user, $ability) {
+            return true; //  $user->hasRole('super-admin'); // note this returns boolean
+        });
     }
 }
