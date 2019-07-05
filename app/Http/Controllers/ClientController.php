@@ -8,13 +8,15 @@ use App\Http\Middleware\TrimStrings;
 use App\Client;
 use Illuminate\Http\Request;
 
-use App\Http\Requests\ClientRequest;
+use App\Http\Requests\ClientFormRequest;
+use App\Http\Requests\ClientIndexRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 use App\Exports\ClientExport;
 use Maatwebsite\Excel\Facades\Excel;
+//use PDF; // TCPDF, not currently in use
 
 class ClientController extends Controller
 {
@@ -70,18 +72,18 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(ClientIndexRequest $request)
     {
 
         if (!Auth::user()->can('client index')) {
-            \Session::flash('flash_error_message', 'You do not have access to Applicants');
+            \Session::flash('flash_error_message', 'You do not have access to Applicantss.');
             return Redirect::route('home');
         }
 
         // Remember the search parameters, we saved them in the Query
         $page = session('client_page', '');
         $search = session('client_keyword', '');
-        $column = session('client_column', 'full_name');
+        $column = session('client_column', 'Name');
         $direction = session('client_direction', '-1');
 
         $can_add = Auth::user()->can('client add');
@@ -103,9 +105,13 @@ class ClientController extends Controller
 	public function create()
 	{
 
-        if (!Auth::user()->can('client add')) {
-            \Session::flash('flash_error_message', 'You do not have access to add a Applicants');
-            return Redirect::route('home');
+        if (!Auth::user()->can('client add')) {  // TODO: add -> create
+            \Session::flash('flash_error_message', 'You do not have access to add a Applicants.');
+            if (Auth::user()->can('vc_vendor index')) {
+                return Redirect::route('client.index');
+            } else {
+                return Redirect::route('home');
+            }
         }
 
 	    return view('client.create');
@@ -118,7 +124,7 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ClientRequest $request)
+    public function store(ClientFormRequest $request)
     {
 
         $client = new \App\Client;
@@ -131,7 +137,7 @@ class ClientController extends Controller
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Vc Vendor ' . $client->full_name . ' was added');
+        \Session::flash('flash_success_message', 'Vc Vendor ' . $client->name . ' was added');
 
         return response()->json([
             'message' => 'Added record'
@@ -149,14 +155,20 @@ class ClientController extends Controller
     {
 
         if (!Auth::user()->can('client view')) {
-            \Session::flash('flash_error_message', 'You do not have access to add a Applicants');
-            return Redirect::route('home');
+            \Session::flash('flash_error_message', 'You do not have access to view a Applicants.');
+            if (Auth::user()->can('vc_vendor index')) {
+                return Redirect::route('client.index');
+            } else {
+                return Redirect::route('home');
+            }
         }
 
-        if ($client = $this->find($id)) {
-            return view('client.show', compact('client'));
+        if ($client = $this->sanitizeAndFind($id)) {
+            $can_edit = Auth::user()->can('client edit');
+            $can_delete = Auth::user()->can('client delete');
+            return view('client.show', compact('client','can_edit', 'can_delete'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Applicants to display');
+            \Session::flash('flash_error_message', 'Unable to find Applicants to display.');
             return Redirect::route('client.index');
         }
     }
@@ -170,14 +182,18 @@ class ClientController extends Controller
     public function edit($id)
     {
         if (!Auth::user()->can('client edit')) {
-            \Session::flash('flash_error_message', 'You do not have access to add a Applicants');
-            return Redirect::route('home');
+            \Session::flash('flash_error_message', 'You do not have access to edit a Applicants.');
+            if (Auth::user()->can('vc_vendor index')) {
+                return Redirect::route('client.index');
+            } else {
+                return Redirect::route('home');
+            }
         }
 
-        if ($client = $this->find($id)) {
+        if ($client = $this->sanitizeAndFind($id)) {
             return view('client.edit', compact('client'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Applicants to edit');
+            \Session::flash('flash_error_message', 'Unable to find Applicants to edit.');
             return Redirect::route('client.index');
         }
 
@@ -189,9 +205,19 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Client $client     * @return \Illuminate\Http\Response
      */
-    public function update(ClientRequest $request, $id)
+    public function update(ClientFormRequest $request, $id)
     {
-        if (!$client = $this->find($id)) {
+
+//        if (!Auth::user()->can('client update')) {
+//            \Session::flash('flash_error_message', 'You do not have access to update a Applicants.');
+//            if (!Auth::user()->can('client index')) {
+//                return Redirect::route('client.index');
+//            } else {
+//                return Redirect::route('home');
+//            }
+//        }
+
+        if (!$client = $this->sanitizeAndFind($id)) {
        //     \Session::flash('flash_error_message', 'Unable to find Applicants to edit');
             return response()->json([
                 'message' => 'Not Found'
@@ -210,7 +236,7 @@ class ClientController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Applicants ' . $client->full_name . ' was changed');
+            \Session::flash('flash_success_message', 'Applicants ' . $client->name . ' was changed');
         } else {
             \Session::flash('flash_info_message', 'No changes were made');
         }
@@ -227,25 +253,35 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
+
         if (!Auth::user()->can('client delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a Applicants');
-            if (!Auth::user()->can('client index')) {
+            \Session::flash('flash_error_message', 'You do not have access to remove a Applicants.');
+            if (Auth::user()->can('client index')) {
                  return Redirect::route('client.index');
             } else {
                 return Redirect::route('home');
             }
         }
 
-        $client = $this->find($id);
-        if ( $client) {
-            $client->delete();
-            \Session::flash('flash_success_message', 'Invitation for ' . $client->full_name . ' was removed.');
+        $client = $this->sanitizeAndFind($id);
+
+        if ( $client  && $client->canDelete()) {
+
+            try {
+                $client->delete();
+            } catch (\Exception $e) {
+                return response()->json([
+                    'message' => 'Unable to process request.'
+                ], 400);
+            }
+
+            \Session::flash('flash_success_message', 'Invitation for ' . $client->name . ' was removed.');
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Invite to delete');
+            \Session::flash('flash_error_message', 'Unable to find Invite to delete.');
 
         }
 
-        if (!Auth::user()->can('client index')) {
+        if (Auth::user()->can('client index')) {
              return Redirect::route('client.index');
         } else {
             return Redirect::route('home');
@@ -260,7 +296,7 @@ class ClientController extends Controller
      * @param $id
      * @return Client or null
      */
-    private function find($id)
+    private function sanitizeAndFind($id)
     {
         return \App\Client::find(intval($id));
     }
@@ -270,16 +306,20 @@ class ClientController extends Controller
     {
 
         if (!Auth::user()->can('client excel')) {
-            \Session::flash('flash_error_message', 'You do not have access to download Applicants');
-            return Redirect::route('home');
+            \Session::flash('flash_error_message', 'You do not have access to download Applicants.');
+            if (Auth::user()->can('client index')) {
+                return Redirect::route('client.index');
+            } else {
+                return Redirect::route('home');
+            }
         }
 
         // Remember the search parameters, we saved them in the Query
         $search = session('client_keyword', '');
-        $column = session('client_column', 'full_name');
+        $column = session('client_column', 'name');
         $direction = session('client_direction', '-1');
 
-        $column = $column ? $column : 'full_name';
+        $column = $column ? $column : 'name';
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
@@ -292,14 +332,77 @@ class ClientController extends Controller
         // TODO: is it possible to do 0 check before query executes somehow? i think the query would have to be executed twice, once for count, once for excel library
         return Excel::download(
             new ClientExport($dataQuery),
-            'client.xlsx'
-        );
+            'client.xlsx');
 
-        //} else {
-        //    \Session::flash('flash_error_message', 'There are no organizations to download.');
-        //    return Redirect::route('organization.index');
-        //}
+    }
 
+
+        public function print()
+{
+        if (!Auth::user()->can('client export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+            \Session::flash('flash_error_message', 'You do not have access to print Applicants');
+            if (Auth::user()->can('client index')) {
+                return Redirect::route('client.index');
+            } else {
+                return Redirect::route('home');
+            }
+        }
+
+        // Remember the search parameters, we saved them in the Query
+        $search = session('client_keyword', '');
+        $column = session('client_column', 'name');
+        $direction = session('client_direction', '-1');
+        $column = $column ? $column : 'name';
+
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+
+        // Get query data
+        $columns = [
+            'full_name',
+            'phone',
+            'filing_court',
+            'status',
+        ];
+        $dataQuery = Client::pdfDataQuery($column, $direction, $search, $columns);
+        $data = $dataQuery->get();
+
+        // Pass it to the view for html formatting:
+        $printHtml = view('client.print', compact( 'data' ) );
+
+        // Begin DOMPDF/laravel-dompdf
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->setPaper('a4', 'landscape');
+        $pdf->setOptions(['isPhpEnabled' => TRUE]);
+        $pdf->loadHTML($printHtml);
+        $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
+        return $pdf->stream('client-' . $currentDate->format('Ymd_Hi') . '.pdf');
+
+        /*
+        ///////////////////////////////////////////////////////////////////////
+        /// Begin TCPDF/tcpdf-laravel test - keeping for reference
+        // NOTE: you'll need to uncomment the use at the top for "PDF"
+        PDF::SetTitle('Vendors');
+        PDF::SetAutoPageBreak(TRUE, 15);
+        PDF::SetMargins(PDF_MARGIN_LEFT, 15, PDF_MARGIN_RIGHT, 15);
+        PDF::SetFooterMargin(PDF_MARGIN_FOOTER);
+        PDF::setHeaderCallback(function($pdf){
+            $currentDate = new \DateTime();
+            $currentDate->setTimezone(new \DateTimeZone('America/Chicago'));
+            $pdf->Cell(0,10,'Date ' . $currentDate->format('Y-m-d g:ia'),0,false,'C',0,'',0,false,'T','M');
+        });
+        PDF::setFooterCallback(function($pdf){
+            //$pdf->SetY(-15);
+            //var_dump(get_class_methods('Elibyy\TCPDF\TCPDFHelper')); exit;
+            $pdf->Cell(0,10,'Page ' . $pdf->getAliasNumPage().'/'.$pdf->getAliasNbPages(),0,false,'C',0,'',0,false,'T','M');
+        });
+        PDF::AddPage('L'); // Landscape
+        //var_dump($dataQuery->get()); exit;
+        //var_dump(get_class_methods('App\Exports\VcVendorExport')); exit; // query headings map download store queue toResponse
+        PDF::writeHTML($html);
+        PDF::Output('vc-vendor.pdf');
+        /// End TCPDF/tcpdf-laravel test
+        ///////////////////////////////////////////////////////////////////////
+        */
     }
 
 }

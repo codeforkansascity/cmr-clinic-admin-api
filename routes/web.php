@@ -38,3 +38,9 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 
+
+Route::get('/api-client', 'ClientApi@index');
+Route::get('/api-client/options', 'ClientApi@getOptions');
+Route::get('/client/download', 'ClientController@download')->name('client.download');
+Route::get('/client/print', 'ClientController@print')->name('client.print');
+Route::resource('/client', 'ClientController');

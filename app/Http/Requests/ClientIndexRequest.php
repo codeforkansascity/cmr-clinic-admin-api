@@ -14,7 +14,7 @@ class ClientIndexRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->can('client index');
+        return true;  // Authorization is being done in the controler  ClientController::index()
     }
 
     /**

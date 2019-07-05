@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Model
 {
+
+    use SoftDeletes;
 
     /**
      * fillable - attributes that can be mass-assigned
@@ -28,6 +31,7 @@ class Client extends Model
             'license_expiration_date',
             'filing_court',
             'judicial_circuit_number',
+            'count_name',
             'judge_name',
             'division_name',
             'petitioner_name',
@@ -69,6 +73,12 @@ class Client extends Model
         return true;
     }
 
+    public function canDelete()
+    {
+        return true;
+    }
+
+
     /**
      * Get Grid/index data PAGINATED
      *
@@ -78,14 +88,20 @@ class Client extends Model
      * @param string $keyword
      * @return mixed
      */
-    static function filteredData(
+    static function indexData(
         $per_page,
         $column,
         $direction,
         $keyword = '')
     {
-        return self::buildBaseGridQuery($column, $direction, $keyword)
-            ->paginate($per_page);
+        return self::buildBaseGridQuery($column, $direction, $keyword,
+            [ 'id',
+                    'full_name',
+                    'phone',
+                    'filing_court',
+                    'status',
+            ])
+        ->paginate($per_page);
     }
 
 
@@ -100,13 +116,15 @@ class Client extends Model
      * @param $column
      * @param $direction
      * @param string $keyword
+     * @param string|array $columns
      * @return mixed
      */
 
     static function buildBaseGridQuery(
         $column,
         $direction,
-        $keyword = '')
+        $keyword = '',
+        $columns = '*')
     {
         // Map sort direction from 1/-1 integer to asc/desc sql keyword
         switch ($direction) {
@@ -118,11 +136,11 @@ class Client extends Model
                 break;
         }
 
-        $query = Client::select('*')
+        $query = Client::select($columns)
         ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('full_name', 'like', '%' . $keyword . '%');
+            $query->where('name', 'like', '%' . $keyword . '%');
         }
         return $query;
     }
@@ -140,14 +158,29 @@ class Client extends Model
     static function exportDataQuery(
         $column,
         $direction,
-        $keyword = '')
+        $keyword = '',
+        $columns = '*')
     {
 
         info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
-        return self::buildBaseGridQuery($column, $direction, $keyword);
+        return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
 
     }
+
+        static function pdfDataQuery(
+            $column,
+            $direction,
+            $keyword = '',
+            $columns = '*')
+        {
+
+            info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+
+            return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
+
+        }
+
 
     /**
      * Get "options" for HTML select tag
@@ -161,8 +194,8 @@ class Client extends Model
         $thisModel = new static;
 
         $records = $thisModel::select('id',
-            'full_name')
-            ->orderBy('full_name')
+            'name')
+            ->orderBy('name')
             ->get();
 
         if (!$flat) {
@@ -171,7 +204,7 @@ class Client extends Model
             $data = [];
 
             foreach ($records AS $rec) {
-                $data[] = ['id' => $rec['id'], 'full_name' => $rec['full_name']];
+                $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
             }
 
             return $data;

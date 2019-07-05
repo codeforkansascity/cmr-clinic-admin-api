@@ -17,6 +17,12 @@ class RenameTables extends Migration
         Schema::rename('conviction', 'convictions');
         Schema::rename('charge', 'charges');
 
+        Schema::table('clients', function (Blueprint $table) {
+
+
+            $table->softDeletes();
+        });
+
     }
 
     /**
@@ -26,6 +32,11 @@ class RenameTables extends Migration
      */
     public function down()
     {
+
+        Schema::table('clients', function (Blueprint $table) {
+
+            $table->dropColumn('deleted_at');
+        });
         Schema::rename('clients', 'client');
         Schema::rename('convictions', 'conviction');
         Schema::rename('charges', 'charge');

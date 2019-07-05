@@ -281,6 +281,213 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "client-form",
@@ -291,7 +498,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     csrf_token: {
       type: String,
-      default: ''
+      default: ""
     }
   },
   data: function data() {
@@ -300,36 +507,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         // _method: 'patch',
         _token: this.csrf_token,
         id: 0,
-        full_name: '',
-        phone: '',
-        email: '',
-        sex: '',
-        race: '',
-        dob: '',
-        address_line_1: '',
-        address_line_2: '',
-        city: '',
-        state: '',
-        zip_code: '',
-        license_number: '',
-        license_issuing_state: '',
-        license_expiration_date: '',
-        filing_court: '',
-        judicial_circuit_number: '',
-        judge_name: '',
-        division_name: '',
-        petitioner_name: '',
-        division_number: '',
-        city_name_here: '',
-        county_name: '',
-        arresting_county: '',
-        prosecuting_county: '',
-        arresting_municipality: '',
-        other_agencies_name: '',
-        previous_expungements: '',
-        status: '',
-        external_ref: '',
-        any_pending_cases: ''
+        full_name: "",
+        phone: "",
+        email: "",
+        sex: "",
+        race: "",
+        dob: "",
+        address_line_1: "",
+        address_line_2: "",
+        city: "",
+        state: "",
+        zip_code: "",
+        license_number: "",
+        license_issuing_state: "",
+        license_expiration_date: "",
+        filing_court: "",
+        judicial_circuit_number: "",
+        count_name: "",
+        judge_name: "",
+        division_name: "",
+        petitioner_name: "",
+        division_number: "",
+        city_name_here: "",
+        county_name: "",
+        arresting_county: "",
+        prosecuting_county: "",
+        arresting_municipality: "",
+        other_agencies_name: "",
+        previous_expungements: "",
+        status: "",
+        external_ref: "",
+        any_pending_cases: ""
       },
       form_errors: {
         id: false,
@@ -349,6 +557,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         license_expiration_date: false,
         filing_court: false,
         judicial_circuit_number: false,
+        count_name: false,
         judge_name: false,
         division_name: false,
         petitioner_name: false,
@@ -365,7 +574,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         any_pending_cases: false
       },
       server_message: false,
-      try_logging_in: false
+      try_logging_in: false,
+      processing: false
     };
   },
   mounted: function mounted() {
@@ -392,25 +602,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 this.server_message = false;
-                url = '';
-                amethod = '';
+                this.processing = true;
+                url = "";
+                amethod = "";
 
                 if (this.form_data.id) {
-                  url = '/client/' + this.form_data.id;
-                  amethod = 'put';
+                  url = "/client/" + this.form_data.id;
+                  amethod = "put";
                 } else {
-                  url = '/client';
-                  amethod = 'post';
+                  url = "/client";
+                  amethod = "post";
                 }
 
-                _context.next = 6;
+                _context.next = 7;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default()({
                   method: amethod,
                   url: url,
                   data: this.form_data
                 }).then(function (res) {
                   if (res.status === 200) {
-                    window.location = '/client';
+                    window.location = "/client";
                   } else {
                     _this2.server_message = res.status;
                   }
@@ -427,15 +638,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       });
                     } else if (error.response.status === 404) {
                       // Record not found
-                      _this2.server_message = 'Record not found';
-                      window.location = '/client';
+                      _this2.server_message = "Record not found";
+                      window.location = "/client";
                     } else if (error.response.status === 419) {
                       // Unknown status
-                      _this2.server_message = 'Unknown Status, please try to ';
+                      _this2.server_message = "Unknown Status, please try to ";
                       _this2.try_logging_in = true;
                     } else if (error.response.status === 500) {
                       // Unknown status
-                      _this2.server_message = 'Server Error, please try to ';
+                      _this2.server_message = "Server Error, please try to ";
                       _this2.try_logging_in = true;
                     } else {
                       _this2.server_message = error.response.data.message;
@@ -444,9 +655,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     console.log(error.response);
                     _this2.server_message = error;
                   }
+
+                  _this2.processing = false;
                 });
 
-              case 6:
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -497,7 +710,7 @@ var render = function() {
             "div",
             { staticClass: "alert alert-danger", attrs: { role: "alert" } },
             [
-              _vm._v("\n        " + _vm._s(this.server_message) + "  "),
+              _vm._v("\n        " + _vm._s(this.server_message) + "\n        "),
               _vm.try_logging_in
                 ? _c("a", { attrs: { href: "/login" } }, [_vm._v("Login")])
                 : _vm._e()
@@ -1173,6 +1386,48 @@ var render = function() {
               "std-form-group",
               {
                 attrs: {
+                  label: "Count Name",
+                  errors: _vm.form_errors.count_name
+                }
+              },
+              [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form_data.count_name,
+                      expression: "form_data.count_name"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", name: "count_name" },
+                  domProps: { value: _vm.form_data.count_name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.form_data, "count_name", $event.target.value)
+                    }
+                  }
+                })
+              ]
+            )
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "div",
+          { staticClass: "col-md-9" },
+          [
+            _c(
+              "std-form-group",
+              {
+                attrs: {
                   label: "Judge Name",
                   errors: _vm.form_errors.judge_name
                 }
@@ -1795,7 +2050,26 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _vm._m(0)
+      _c("div", { staticClass: "form-group mt-4" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-6" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                attrs: { type: "submit", disabled: _vm.processing }
+              },
+              [
+                this.form_data.id
+                  ? _c("span", [_vm._v("Change")])
+                  : _c("span", [_vm._v("Add")])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _vm._m(0)
+        ])
+      ])
     ]
   )
 }
@@ -1804,29 +2078,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-6" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary btn-sm",
-              attrs: { type: "submit" }
-            },
-            [_vm._v("\n                    Change\n                ")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-6 text-right" }, [
-          _c(
-            "a",
-            {
-              staticClass: "btn btn-sm btn-default float-right",
-              attrs: { href: "/client" }
-            },
-            [_vm._v("Cancel")]
-          )
-        ])
+    return _c("div", { staticClass: "col-md-6 text-md-right mt-2 mt-md-0" }, [
+      _c("a", { staticClass: "btn btn-default", attrs: { href: "/client" } }, [
+        _vm._v("Cancel")
       ])
     ])
   }
