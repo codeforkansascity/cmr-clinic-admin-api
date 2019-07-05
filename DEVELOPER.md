@@ -24,7 +24,12 @@ mix.webpackConfig({
         chunkFilename: 'js/components/[name].js',
     },
 });
-``
+```
+
+php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="migrations"
+php artisan migrate
+
+
 
 npm install laravel-mix-copy-watched
 
