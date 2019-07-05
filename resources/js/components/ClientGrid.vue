@@ -57,7 +57,7 @@
                             v-bind:selectedKey="sortKey"
                             title="Sort by Full Name"
                             :params="{
-                                sortField: 'full_name',
+                                sortField: 'name',
                                 InitialSortOrder: 'asc'
                             }"
                         >
@@ -124,7 +124,7 @@
                     </tr>
 
                     <tr v-else v-for="row in this.gridData" :key="row.id">
-                        <td data-title="Full Name">{{ row.full_name }}</td>
+                        <td data-title="Full Name">{{ row.name }}</td>
                         <td data-title="Phone">{{ row.phone }}</td>
                         <td data-title="Filing Court">
                             {{ row.filing_court }}

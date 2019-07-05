@@ -15,7 +15,7 @@ class Client extends Model
      */
     protected $fillable = [
             'id',
-            'full_name',
+            'name',
             'phone',
             'email',
             'sex',
@@ -96,7 +96,7 @@ class Client extends Model
     {
         return self::buildBaseGridQuery($column, $direction, $keyword,
             [ 'id',
-                    'full_name',
+                    'name',
                     'phone',
                     'filing_court',
                     'status',

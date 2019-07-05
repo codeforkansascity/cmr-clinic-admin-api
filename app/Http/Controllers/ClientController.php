@@ -358,7 +358,7 @@ class ClientController extends Controller
 
         // Get query data
         $columns = [
-            'full_name',
+            'name',
             'phone',
             'filing_court',
             'status',

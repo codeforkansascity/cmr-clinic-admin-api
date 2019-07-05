@@ -12,13 +12,13 @@
             <div class="col-md-9">
                 <std-form-group
                     label="Full Name"
-                    :errors="form_errors.full_name"
+                    :errors="form_errors.name"
                 >
                     <input
                         type="text"
                         class="form-control"
-                        name="full_name"
-                        v-model="form_data.full_name"
+                        name="name"
+                        v-model="form_data.name"
                     />
                 </std-form-group>
             </div>
@@ -488,7 +488,7 @@ export default {
                 // _method: 'patch',
                 _token: this.csrf_token,
                 id: 0,
-                full_name: "",
+                name: "",
                 phone: "",
                 email: "",
                 sex: "",
@@ -522,7 +522,7 @@ export default {
             },
             form_errors: {
                 id: false,
-                full_name: false,
+                name: false,
                 phone: false,
                 email: false,
                 sex: false,

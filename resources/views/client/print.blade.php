@@ -11,7 +11,7 @@
 @section('table-data-rows')
     @foreach($data as $obj)
         <tr>
-                    <td>{{ $obj->full_name }}</td>
+                    <td>{{ $obj->name }}</td>
                     <td>{{ $obj->phone }}</td>
                     <td>{{ $obj->filing_court }}</td>
                     <td>{{ $obj->status }}</td>

@@ -30,7 +30,7 @@ class ClientExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
                         'id',
-                        'full_name',
+                        'name',
                         'phone',
                         'email',
                         'sex',
@@ -72,7 +72,7 @@ class ClientExport implements FromQuery, WithHeadings, WithMapping
         return [
 
                         $client->id,
-                        $client->full_name,
+                        $client->name,
                         $client->phone,
                         $client->email,
                         $client->sex,

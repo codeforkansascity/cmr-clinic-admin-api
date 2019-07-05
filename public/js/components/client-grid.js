@@ -714,7 +714,7 @@ var render = function() {
                     selectedKey: _vm.sortKey,
                     title: "Sort by Full Name",
                     params: {
-                      sortField: "full_name",
+                      sortField: "name",
                       InitialSortOrder: "asc"
                     }
                   },
@@ -809,7 +809,7 @@ var render = function() {
               : _vm._l(this.gridData, function(row) {
                   return _c("tr", { key: row.id }, [
                     _c("td", { attrs: { "data-title": "Full Name" } }, [
-                      _vm._v(_vm._s(row.full_name))
+                      _vm._v(_vm._s(row.name))
                     ]),
                     _vm._v(" "),
                     _c("td", { attrs: { "data-title": "Phone" } }, [

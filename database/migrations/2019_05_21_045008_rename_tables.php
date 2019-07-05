@@ -18,8 +18,7 @@ class RenameTables extends Migration
         Schema::rename('charge', 'charges');
 
         Schema::table('clients', function (Blueprint $table) {
-
-
+            $table->renameColumn('full_name', 'name');
             $table->softDeletes();
         });
 
@@ -34,7 +33,7 @@ class RenameTables extends Migration
     {
 
         Schema::table('clients', function (Blueprint $table) {
-
+            $table->renameColumn('name', 'full_name');
             $table->dropColumn('deleted_at');
         });
         Schema::rename('clients', 'client');

@@ -507,7 +507,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         // _method: 'patch',
         _token: this.csrf_token,
         id: 0,
-        full_name: "",
+        name: "",
         phone: "",
         email: "",
         sex: "",
@@ -541,7 +541,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       form_errors: {
         id: false,
-        full_name: false,
+        name: false,
         phone: false,
         email: false,
         sex: false,
@@ -725,28 +725,26 @@ var render = function() {
           [
             _c(
               "std-form-group",
-              {
-                attrs: { label: "Full Name", errors: _vm.form_errors.full_name }
-              },
+              { attrs: { label: "Full Name", errors: _vm.form_errors.name } },
               [
                 _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.form_data.full_name,
-                      expression: "form_data.full_name"
+                      value: _vm.form_data.name,
+                      expression: "form_data.name"
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", name: "full_name" },
-                  domProps: { value: _vm.form_data.full_name },
+                  attrs: { type: "text", name: "name" },
+                  domProps: { value: _vm.form_data.name },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.form_data, "full_name", $event.target.value)
+                      _vm.$set(_vm.form_data, "name", $event.target.value)
                     }
                   }
                 })

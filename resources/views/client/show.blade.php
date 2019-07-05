@@ -19,7 +19,7 @@
 
                      @component('../components/std-show-field', ['value' => $client->id])
             Id            @endcomponent
-                     @component('../components/std-show-field', ['value' => $client->full_name])
+                     @component('../components/std-show-field', ['value' => $client->name])
             Full Name            @endcomponent
                      @component('../components/std-show-field', ['value' => $client->phone])
             Phone            @endcomponent

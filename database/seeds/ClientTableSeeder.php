@@ -19,7 +19,7 @@ class ClientTableSeeder extends Seeder
 
         $user = \App\Client::create([
             'id' => '2',
-            'full_name' => 'Teresa Lee Kuvalis',
+            'name' => 'Teresa Lee Kuvalis',
             'phone' => $faker->phoneNumber,
             'email' => $faker->unique()->safeEmail,
             'sex' => 'Male',

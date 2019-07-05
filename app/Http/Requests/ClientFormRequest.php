@@ -38,7 +38,7 @@ class ClientFormRequest extends FormRequest
 
 
             'id' => 'numeric',
-            'full_name' => 'nullable|string|max:64',
+            'name' => 'nullable|string|max:64',
             'phone' => 'nullable|string|max:64',
             'email' => 'nullable|string|max:225',
             'sex' => 'nullable|string|max:64',
