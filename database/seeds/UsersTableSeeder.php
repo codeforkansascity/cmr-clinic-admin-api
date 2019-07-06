@@ -17,12 +17,12 @@ class UsersTableSeeder extends Seeder
             $user = \App\User::create([
                 'email' => 'paulb@savagesoft.com',
                 'name' => 'Paul Barham',
-                'password' => bcrypt('secret')
+                'password' => bcrypt(env('TEST_USER_PASSWORD', $faker->unique()->safeEmail))
             ]);
         $user = \App\User::create([
             'email' => 'camilo.snapp@gmail.com',
             'name' => 'Camilo Snapp',
-            'password' => bcrypt($faker->address)
+            'password' => bcrypt(env('TEST_USER_PASSWORD', $faker->unique()->safeEmail))
         ]);
 
     }
