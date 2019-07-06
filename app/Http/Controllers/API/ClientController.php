@@ -9,6 +9,9 @@ use App\Conviction;
 
 class ClientController extends Controller
 {
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +19,39 @@ class ClientController extends Controller
      */
     public function index()
     {
+
+        info(__METHOD__ );
+
         return Client::all();
+    }
+
+    /**
+     * Display a listing of the resource with pagination.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index_v1_0_1(Request $request)
+    {
+
+        info(__METHOD__ );
+
+//        $page = $request->get('page', '1');                // Pagination looks at the request
+//        //    so not quite sure if we need this
+//        $column = $request->get('column', 'Name');
+//        $direction = $request->get('direction', '-1');
+//        $keyword = $request->get('keyword', '');
+//
+//
+//
+//        $keyword = $keyword != 'null' ? $keyword : '';
+//        $column = $column ? mb_strtolower($column) : 'name';
+
+
+        $column = 'name';
+        $direction = '-1';
+        $keyword = '';
+
+        return Client::indexData(10, $column, $direction, $keyword);
     }
 
     /**
