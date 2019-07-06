@@ -134,6 +134,9 @@ class Client extends Model
             case '-1':
                 $direction = 'asc';
                 break;
+            default:
+                $direction = 'asc';
+                break;
         }
 
         $query = Client::select($columns)

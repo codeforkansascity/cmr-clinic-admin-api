@@ -35,21 +35,17 @@ class ClientController extends Controller
 
         info(__METHOD__ );
 
-//        $page = $request->get('page', '1');                // Pagination looks at the request
-//        //    so not quite sure if we need this
-//        $column = $request->get('column', 'Name');
-//        $direction = $request->get('direction', '-1');
-//        $keyword = $request->get('keyword', '');
-//
-//
-//
-//        $keyword = $keyword != 'null' ? $keyword : '';
-//        $column = $column ? mb_strtolower($column) : 'name';
+        $page = $request->get('page', '1');                // Pagination looks at the request
+        //    so not quite sure if we need this
+        $column = $request->get('column', 'Name');
+        $direction = $request->get('direction', '-1');
+        $keyword = $request->get('keyword', '');
 
 
-        $column = 'name';
-        $direction = '-1';
-        $keyword = '';
+
+        $keyword = $keyword != 'null' ? $keyword : '';
+        $column = $column ? mb_strtolower($column) : 'name';
+
 
         return Client::indexData(10, $column, $direction, $keyword);
     }
