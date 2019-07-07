@@ -3,6 +3,9 @@ Vue.component('ss-grid-pagination', './components/SsGridPagination.vue');
 Vue.component('ss-grid-pagination-location', './components/SsPaginationLocation.vue');
 Vue.component('search-form-group', './components/SearchFormGroup.vue');
 
+Vue.component('std-form-group', () => import(/* webpackChunkName:"std-form-group" */ './components/StdFormGroup.vue'));
+
+
 
 //Vue.component('client-grid',       require('./components/ClientGrid.vue'));    // May need to add .default);
 //Vue.component('client-form',       require('./components/ClientForm.vue'));    // May need to add .default);
