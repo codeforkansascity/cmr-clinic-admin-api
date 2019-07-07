@@ -39,19 +39,19 @@ class CreateStatuses extends Migration
             'sequence' => 10,
         ]);
         $status = \App\Status::create([
-            'name' => 'Record Entered',
+            'name' => 'Criminal History Entered',
             'alias' => 'Entered',
             'sequence' => 20,
         ]);
         $status = \App\Status::create([
-            'name' => 'Record Reviewed',
-            'alias' => 'Entered',
+            'name' => 'Criminal History Reviewed',
+            'alias' => 'Reviewed',
             'sequence' => 30,
         ]);
         $status = \App\Status::create([
             'name' => 'Meet with Client',
             'alias' => 'Meet',
-            'sequence' => 30,
+            'sequence' => 70,
         ]);
 
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
@@ -100,7 +100,7 @@ class CreateStatuses extends Migration
 
     private function addRole($role, $permissions)
     {
-        
+
         try {
             $role = Role::findByName($role);
         } catch (Exception $e) {

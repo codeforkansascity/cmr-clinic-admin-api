@@ -64,6 +64,17 @@
                             Name
                         </ss-grid-column-header>
                         <ss-grid-column-header
+                                v-on:selectedSort="sortColumn"
+                                v-bind:selectedKey="sortKey"
+                                title="Sort by Alias"
+                                :params="{
+                                sortField: 'alias',
+                                InitialSortOrder: 'asc'
+                            }"
+                        >
+                            Alias
+                        </ss-grid-column-header>
+                        <ss-grid-column-header
                             v-on:selectedSort="sortColumn"
                             v-bind:selectedKey="sortKey"
                             title="Sort by Sequence"
@@ -113,6 +124,7 @@
                                 {{ row.name }}
                             </span>
                         </td>
+                        <td data-title="Sequence">{{ row.alias }}</td>
                         <td data-title="Sequence">{{ row.sequence }}</td>
                         <td
                             data-title="Actions"
@@ -166,13 +178,15 @@
 import SsGridColumnHeader from "./SsGridColumnHeader";
 import SsGridPagination from "./SsGridPagination";
 import SsGridPaginationLocation from "./SsPaginationLocation";
+import SearchFormGroup from "./SearchFormGroup";
 
 export default {
     name: "status-grid",
     components: {
         SsGridColumnHeader,
         SsGridPaginationLocation,
-        SsGridPagination
+        SsGridPagination,
+        SearchFormGroup
     },
     props: {
         params: {

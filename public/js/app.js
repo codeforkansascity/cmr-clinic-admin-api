@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/components/" + ({"client-grid":"client-grid","vendors~client-form":"vendors~client-form","client-form":"client-form"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "js/components/" + ({"client-grid~status-grid":"client-grid~status-grid","client-grid":"client-grid","status-grid":"status-grid","vendors~client-form~status-form":"vendors~client-form~status-form","client-form":"client-form","status-form":"status-form"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -51810,10 +51810,18 @@ Vue.component('search-form-group', './components/SearchFormGroup.vue'); //Vue.co
 //Vue.component('client-form',       require('./components/ClientForm.vue'));    // May need to add .default);
 
 Vue.component('client-grid', function () {
-  return __webpack_require__.e(/*! import() | client-grid */ "client-grid").then(__webpack_require__.bind(null, /*! ./components/ClientGrid.vue */ "./resources/js/components/ClientGrid.vue"));
+  return Promise.all(/*! import() | client-grid */[__webpack_require__.e("client-grid~status-grid"), __webpack_require__.e("client-grid")]).then(__webpack_require__.bind(null, /*! ./components/ClientGrid.vue */ "./resources/js/components/ClientGrid.vue"));
 });
 Vue.component('client-form', function () {
-  return Promise.all(/*! import() | client-form */[__webpack_require__.e("vendors~client-form"), __webpack_require__.e("client-form")]).then(__webpack_require__.bind(null, /*! ./components/ClientForm.vue */ "./resources/js/components/ClientForm.vue"));
+  return Promise.all(/*! import() | client-form */[__webpack_require__.e("vendors~client-form~status-form"), __webpack_require__.e("client-form")]).then(__webpack_require__.bind(null, /*! ./components/ClientForm.vue */ "./resources/js/components/ClientForm.vue"));
+}); //Vue.component('status-grid',       require('./components/StatusGrid.vue'));    // May need to add .default);
+//Vue.component('status-form',       require('./components/StatusForm.vue'));    // May need to add .default);
+
+Vue.component('status-grid', function () {
+  return Promise.all(/*! import() | status-grid */[__webpack_require__.e("client-grid~status-grid"), __webpack_require__.e("status-grid")]).then(__webpack_require__.bind(null, /*! ./components/StatusGrid.vue */ "./resources/js/components/StatusGrid.vue"));
+});
+Vue.component('status-form', function () {
+  return Promise.all(/*! import() | status-form */[__webpack_require__.e("vendors~client-form~status-form"), __webpack_require__.e("status-form")]).then(__webpack_require__.bind(null, /*! ./components/StatusForm.vue */ "./resources/js/components/StatusForm.vue"));
 });
 
 /***/ }),

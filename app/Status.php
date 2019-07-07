@@ -18,7 +18,6 @@ class Status extends Model
             'name',
             'alias',
             'sequence',
-            'deleted_at',
         ];
 
     protected $hidden = [
@@ -70,6 +69,7 @@ class Status extends Model
         return self::buildBaseGridQuery($column, $direction, $keyword,
             [ 'id',
                     'name',
+                    'alias',
                     'sequence',
             ])
         ->paginate($per_page);
