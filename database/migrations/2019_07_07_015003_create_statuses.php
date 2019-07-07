@@ -54,33 +54,6 @@ class CreateStatuses extends Migration
             'sequence' => 70,
         ]);
 
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
-
-        Permission::findOrCreate('status index');
-        Permission::findOrCreate('status add');
-        Permission::findOrCreate('status update');
-        Permission::findOrCreate('status view');
-        Permission::findOrCreate('status destroy');
-        Permission::findOrCreate('status export-pdf');
-        Permission::findOrCreate('status export-excel');
-
-        $this->addRole('only index', 'status index');
-        $this->addRole('cmr-admin', [
-                'status index',
-                'status add',
-                'status update',
-                'status view',
-                'status destroy',
-                'status export-pdf',
-                'status export-excel'
-            ]
-        );
-        $this->addRole('read-only', [
-                'status index',
-                'status view',
-            ]
-        );
-
     }
 
     /**

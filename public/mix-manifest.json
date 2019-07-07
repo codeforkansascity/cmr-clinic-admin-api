@@ -6,6 +6,7 @@
     "/js/components/client-grid~status-grid.js": "/js/components/client-grid~status-grid.js",
     "/js/components/status-form.js": "/js/components/status-form.js",
     "/js/components/status-grid.js": "/js/components/status-grid.js",
+    "/js/components/std-form-group.js": "/js/components/std-form-group.js",
     "/js/components/vendors~client-form~status-form.js": "/js/components/vendors~client-form~status-form.js",
     "/img/icons/danger.svg": "/img/icons/danger.svg",
     "/img/icons/help.svg": "/img/icons/help.svg",

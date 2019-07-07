@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/components/" + ({"client-grid~status-grid":"client-grid~status-grid","client-grid":"client-grid","status-grid":"status-grid","vendors~client-form~status-form":"vendors~client-form~status-form","client-form":"client-form","status-form":"status-form"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "js/components/" + ({"client-grid~status-grid":"client-grid~status-grid","client-grid":"client-grid","status-grid":"status-grid","std-form-group":"std-form-group","vendors~client-form~status-form":"vendors~client-form~status-form","client-form":"client-form","status-form":"status-form"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -51806,7 +51806,10 @@ Vue.mixin({
 Vue.component('ss-grid-column-header', './components/SsGridColumnHeader.vue');
 Vue.component('ss-grid-pagination', './components/SsGridPagination.vue');
 Vue.component('ss-grid-pagination-location', './components/SsPaginationLocation.vue');
-Vue.component('search-form-group', './components/SearchFormGroup.vue'); //Vue.component('client-grid',       require('./components/ClientGrid.vue'));    // May need to add .default);
+Vue.component('search-form-group', './components/SearchFormGroup.vue');
+Vue.component('std-form-group', function () {
+  return __webpack_require__.e(/*! import() | std-form-group */ "std-form-group").then(__webpack_require__.bind(null, /*! ./components/StdFormGroup.vue */ "./resources/js/components/StdFormGroup.vue"));
+}); //Vue.component('client-grid',       require('./components/ClientGrid.vue'));    // May need to add .default);
 //Vue.component('client-form',       require('./components/ClientForm.vue'));    // May need to add .default);
 
 Vue.component('client-grid', function () {
