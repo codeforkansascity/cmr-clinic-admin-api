@@ -8,3 +8,8 @@ Vue.component('search-form-group', './components/SearchFormGroup.vue');
 //Vue.component('client-form',       require('./components/ClientForm.vue'));    // May need to add .default);
 Vue.component('client-grid', () => import(/* webpackChunkName:"client-grid" */ './components/ClientGrid.vue'));
 Vue.component('client-form', () => import(/* webpackChunkName:"client-form" */ './components/ClientForm.vue'));
+
+//Vue.component('status-grid',       require('./components/StatusGrid.vue'));    // May need to add .default);
+//Vue.component('status-form',       require('./components/StatusForm.vue'));    // May need to add .default);
+Vue.component('status-grid', () => import(/* webpackChunkName:"status-grid" */ './components/StatusGrid.vue'));
+Vue.component('status-form', () => import(/* webpackChunkName:"status-form" */ './components/StatusForm.vue'));
