@@ -1,3 +1,5 @@
+composer dumpautoload
+
 php artisan auth:clear-resets
 php artisan route:clear
 php artisan view:clear

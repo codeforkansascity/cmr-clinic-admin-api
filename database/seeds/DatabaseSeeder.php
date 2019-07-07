@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(UsersTableSeeder::class);
+        $this->call(SpatiePermissionTableSeeder::class);
         $this->call(OauthPersonalAccessClientsTableSeeder::class);
         $this->call(OauthClientsTableSeeder::class);
         $this->call(ClientTableSeeder::class);

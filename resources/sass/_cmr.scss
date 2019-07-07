@@ -1,0 +1,506 @@
+// This file contains custom styles;
+// overrides of Bootstrap's variables and custom variables are located in _variables.scss
+
+///////////////////////////////////////////////////////////////////////////////
+// General
+///////////////////////////////////////////////////////////////////////////////
+body {
+
+  color: $black;
+}
+
+.body-with-nav {
+  padding-top: 55px; /* Approx height of navbar */
+  padding-bottom: 55px;
+}
+
+main.container {
+  position: relative;
+}
+
+small,
+.invalid-feedback {
+  font-size: 90%;
+}
+
+.skip-link:focus {
+  display: block;
+  position: absolute;
+  top: 65px;
+  left: 10px;
+  padding: 1rem;
+  background-color: #fff;
+  z-index: 10000;
+}
+
+.breadcrumb,
+.breadcrumb-item {
+  display: inline-block !important;
+  background-color: transparent;
+  padding: 0;
+}
+
+.breadcrumb-wrap .svg-icon {
+  width: 24px;
+  height: 24px;
+  /*margin-top: -2px;
+  margin-bottom: -2px;*/
+  margin-right: 3px;
+}
+
+a.btn {
+  text-decoration: none;
+}
+
+.text-faded {
+  color: #888;
+}
+
+.indented-block {
+  display: block;
+  padding-left: 1rem;
+}
+
+.alert .svg-icon {
+  margin-right: 4px;
+}
+
+.alerts.global:empty {
+  display: none;
+}
+
+body.loading-screen {
+  /*overflow: hidden;*/
+}
+
+.loading-overlay.global,
+.loading-message.global {
+  display: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+body.loading-screen .loading-overlay.global,
+body.loading-screen .loading-message.global {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.loading-overlay.global {
+  background-color: #000;
+  opacity: 0.5;
+  z-index: 9998;
+}
+
+.loading-message.global {
+  z-index: 9999;
+}
+
+.loading-message.global > div {
+  background-color: #fff;
+  padding: 2rem 3rem;
+}
+
+.loading-message.local {
+  text-align: center;
+  display: none;
+}
+
+.loading-message img {
+  width: 32px;
+  height: 32px;
+  margin-right: 7px;
+}
+
+.svg-icon {
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+  /*vertical-align: top;
+  margin: -6px -1px -6px -7px;*/
+  vertical-align: middle;
+  margin: -4px 0 0 -2px;
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Header/Nav
+///////////////////////////////////////////////////////////////////////////////
+.navbar a {
+  text-decoration: none !important;
+}
+
+.navbar-right > * {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.navbar-collapse a.text-primary:link,
+.navbar-collapse a.text-primary:visited {
+  color: lighten($link-color, 12%) !important; // The normal is too much for the dark bg
+}
+
+.navbar-collapse a.text-primary:hover,
+.navbar-collapse a.text-primary:focus,
+.navbar-collapse a.text-primary:active {
+  color: lighten($link-color, 15%) !important; // The normal hover is too much for the dark bg
+}
+
+.page-header {
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.page-help-link {
+  position: absolute;
+  right: 15px;
+  top: -28px;
+}
+
+.dropdown-toggle::after {
+  vertical-align: middle;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Grids/Tables
+///////////////////////////////////////////////////////////////////////////////
+.grid .table th {
+  border-bottom-width: 0;
+  border-right: 1px solid #ced4da;
+  border-top-color: #ced4da;
+  border-bottom: 1px solid #999;
+}
+.grid .table th:first-of-type {
+  border-left: 1px solid #ced4da;
+}
+
+.grid .table th > a {
+  display: block;
+  margin: -0.75rem; /* For edge-to-edge fill */
+  padding: 0.75rem;
+}
+.grid .table th > a > .arrow.dsc {
+  border-top-color: $link-color;
+}
+.grid .table th > a > .arrow.asc {
+  border-bottom-color: $link-color;
+}
+.grid .table th > a:hover,
+.grid .table th > a:focus,
+.grid .table th > a:active,
+.grid .table th > a.active {
+  /*background-color: #343a40;*/
+  background-color: #999;
+  color: #fff;
+}
+.grid .table th > a:hover > .arrow.dsc,
+.grid .table th > a:focus > .arrow.dsc,
+.grid .table th > a:active > .arrow.dsc,
+.grid .table th > a.active > .arrow.dsc {
+  border-top-color: #fff;
+}
+.grid .table th > a:hover > .arrow.asc,
+.grid .table th > a:focus > .arrow.asc,
+.grid .table th > a:active > .arrow.asc,
+.grid .table th > a.active > .arrow.asc {
+  border-bottom-color: #fff;
+}
+
+.grid-action-item {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 3px;
+}
+
+td.grid-alert {
+  height: 475px;
+}
+
+td.grid-alert {
+  font-size: 2em;
+  vertical-align: middle;
+  text-align: center;
+  margin-top: 160px;
+}
+
+@media only screen and (max-width: map-get($grid-breakpoints, "lg")) {
+  .grid-action-item {
+    margin: 0 6px 0 0;
+  }
+
+  .btn-group.pagination {
+    flex-wrap: wrap;
+  }
+}
+
+// START No-More-Tables
+// Found in https://elvery.net/demo/responsive-tables/
+@media only screen and (max-width: map-get($grid-breakpoints, "lg")) {
+  /* Force table to not be like tables anymore */
+  .no-more-tables table,
+  .no-more-tables thead,
+  .no-more-tables tbody,
+  .no-more-tables th,
+  .no-more-tables td,
+  .no-more-tables tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  .no-more-tables thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .no-more-tables tr {
+    border: 1px solid #ccc;
+  }
+
+  .no-more-tables td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+    white-space: normal;
+    text-align: left;
+    min-height: 48px; /* In case it's empty */
+  }
+
+  .no-more-tables td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    /*top: 6px;
+    left: 6px;*/
+    top: 0;
+    left: 0;
+    width: 45%;
+    /*padding-right: 10px;*/
+    padding: 0.75rem 0 0.75rem 0.75rem;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: 700;
+
+  }
+
+  /* Label the data */
+  .no-more-tables td:before {
+    content: attr(data-title);
+  }
+}
+// End No-More-Tables
+
+// Grid Table Arrows
+th.active .arrow {
+  opacity: 1;
+}
+.arrow {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0;
+  height: 0;
+  margin-left: 5px;
+  /*opacity: 0.66;*/
+}
+
+/* These draw the arrows */
+.arrow.asc {
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid black;
+}
+
+.arrow.dsc {
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid black;
+}
+// End grid table arrows
+
+///////////////////////////////////////////////////////////////////////////////
+// Forms
+///////////////////////////////////////////////////////////////////////////////
+
+.form-control-label {
+  font-weight: 700;
+}
+
+.card .card-header {
+  font-weight: 700;
+  color: #000;
+}
+
+.card .col-form-label {
+  color: #000;
+  font-weight: 700;
+}
+
+.form-check-label:hover {
+  cursor: pointer;
+}
+
+@media only screen and (max-width: map-get($grid-breakpoints, "sm")) {
+  // Sizing
+  .form-control.w-75,
+  .form-control.w-50,
+  .form-control.w-25 {
+    width: 100% !important;
+  }
+  // End sizing
+}
+
+// Field Level Errors
+.is-invalid .form-control {
+  border-color: $red !important;
+  //box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+
+.is-valid .form-control {
+  border-color: $green !important;
+  //box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+
+.invalid-feedback,
+.valid-feedback {
+  display: inline-block !important;
+}
+
+.form-text,
+.invalid-feedback,
+.valid-feedback {
+  margin-top: 0.5rem;
+}
+
+.form-text + .invalid-feedback,
+.form-text + .valid-feedback {
+  margin-top: 0;
+}
+
+.is-invalid .form-check-input,
+.is-invalid .form-check-label,
+.is-invalid .form-control-label,
+.is-invalid .invalid-feedback,
+.is-invalid .form-text {
+  color: $red !important;
+}
+
+.is-valid .form-check-input,
+.is-valid .form-check-label,
+.is-valid .form-control-label,
+.is-valid .invalid-feedback,
+.is-valid .form-text {
+  color: $green !important;
+}
+// End Field level errors
+
+.col-form-label {
+  color: #888;
+}
+
+.text-only .col-form-label,
+.text-only .form-text {
+  padding: 0 15px;
+  margin: 0;
+}
+
+.text-only .form-text {
+  font-weight: 700;
+  padding: 0 !important;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Forms Field Errors
+///////////////////////////////////////////////////////////////////////////////
+
+.has-error .help-block,
+.has-error .control-label,
+.has-error .radio,
+.has-error .checkbox,
+.has-error .radio-inline,
+.has-error .checkbox-inline,
+.has-error.radio label,
+.has-error.checkbox label,
+.has-error.radio-inline label,
+.has-error.checkbox-inline label {
+  color: #a94442;
+}
+
+.has-error .form-control {
+  border-color: #a94442;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.has-error .form-control:focus {
+  border-color: #843534;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;
+}
+
+.has-error .input-group-addon {
+  color: #a94442;
+  border-color: #a94442;
+  background-color: #f2dede;
+}
+
+.has-error .form-control-feedback {
+  color: #a94442;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// * The following classes were added from the vue-password code since the score set by the JavaScript was
+// * different from the score set from the PHP API
+// * https://github.com/skegel13/vue-password/blob/master/src/components/VuePasswordCustom.vue
+///////////////////////////////////////////////////////////////////////////////
+.VuePassword__Meter {
+  color: rgb(175, 175, 175);
+  display: block;
+  height: .5rem;
+  margin-top: .2rem;
+  padding-left: .5rem;
+  padding-right: .5rem;
+  width: 100%;
+}
+
+.VuePassword__Meter path {
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.VuePassword--very-weak {
+  color: rgb(175, 175, 175);
+}
+
+.VuePassword--weak {
+  color: rgb(230, 30, 30);
+}
+
+.VuePassword--medium {
+  color: rgb(255, 160, 65);
+}
+
+.VuePassword--good {
+  color: rgb(100, 200, 75);
+}
+
+.VuePassword--great {
+  color: rgb(75, 150, 50);
+}
+
+.VuePassword__Message {
+  cursor: default;
+  font-size: 1rem;
+  padding-left: .5rem;
+  padding-right: .5rem;
+  text-align: right;
+  text-transform: uppercase;
+}
+

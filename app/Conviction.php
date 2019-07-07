@@ -9,7 +9,6 @@ class Conviction extends Model
 {
 
     use RecordSignature;
-    var $table = 'conviction';
 
     /**
      * The attributes that are mass assignable.
