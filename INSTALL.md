@@ -1,35 +1,67 @@
-## Restart
+# Install
+
+These instructions assume you have git, npm, composer, php, mysql installed, that iss have a running Laravel environment.
+
+
+Since this is used with the front end, we normaly create a directory called `cmr`
+that we clone both projects into. 
 
 ```
-php artisan migrate:reset
+              cmr
+               |
+    -----------+----------
+    |                     |
+cmr-clinic       cmr-clinic-admin-api
+```
+## Clone the repository
 
 ```
+git clone git@github.com:zmon/cmr-clinic-admin-api.git
+```
 
-## Migrate
+## Setup the `.env` file and adjust
+
+```
+cp .env.example .env
+php artisan key:generate
+```
+
+Adjust:
+
+1. `DB_` setting to reflect the database you will use
+2. `TEST_USER_PASSWORD` to the test password you want for the inital user. 
+    See `database/seeds/UserTableSeeder.php` for user name
+3. `MAIL_` should be adjusted if you are goint to test Forgot password or other functions that meil.    
+3. If you regenerate Passport Keys you man need to adjust `PASSWORD_CLIENT_ID`
+
+## Install the dependencies
+
+```
+composer install
+npm install
+npm run dev
+```
+
+## Crate database tables and seed them
 
 ```
 php artisan migrate
-
+php artisan db:seed
 ```
 
-## Install Passport
+## Setup hosting
+
+You can setup any `apache` hosting environment you would like.
+
+For OSX with [Valet](https://laravel.com/docs/5.8/valet) installed the following will work from the 
+top directory of your project
 
 ```
-php artisan passport:install
-
+valet link
+valet open
 ```
 
-## Save the Keys
+You should now beable to login as `paulb@savagesoft.com`  Using the password you set in the `.env`
 
-In your `.env` file put
 
-```
-PERSONAL_CLIENT_ID=1
-PERSONAL_CLIENT_SECRET=mR7k7ITv4f...
-PASSWORD_CLIENT_ID=2
-PASSWORD_CLIENT_SECRET=FJWQRS3PQj...
 
-```
-
-The `PASSWORD_CLIENT_ID`, andd `PASSWORD_CLIENT_SECRET` will be used by the client or its proxy 
-to authenticate
