@@ -44,3 +44,8 @@ Route::get('/api-client/options', 'ClientApi@getOptions');
 Route::get('/client/download', 'ClientController@download')->name('client.download');
 Route::get('/client/print', 'ClientController@print')->name('client.print');
 Route::resource('/client', 'ClientController');
+Route::get('/api-status', 'StatusApi@index');
+Route::get('/api-status/options', 'StatusApi@getOptions');
+Route::get('/status/download', 'StatusController@download')->name('status.download');
+Route::get('/status/print', 'StatusController@print')->name('status.print');
+Route::resource('/status', 'StatusController');

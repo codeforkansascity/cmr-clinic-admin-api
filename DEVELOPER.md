@@ -43,6 +43,7 @@ composer require maatwebsite/excel
 composer require spatie/laravel-permission
 
  php artisan make:crud clients --force --display-name="Applicants" --grid-columns="full_name:filing_court:phone:address:status"
+php artisan make:crud statuses --force --display-name="Statuses" --grid-columns="name:alais:sequence"
 
 
 #

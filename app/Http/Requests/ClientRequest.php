@@ -37,7 +37,6 @@ class ClientRequest extends FormRequest
          //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
 
             'id' => 'numeric',
-            'id' => 'numeric',
             'name' => 'nullable|string|max:64',
             'phone' => 'nullable|string|max:64',
             'email' => 'nullable|string|max:225',
@@ -65,7 +64,7 @@ class ClientRequest extends FormRequest
             'arresting_municipality' => 'nullable|string',
             'other_agencies_name' => 'nullable|string',
             'previous_expungements' => 'nullable|string',
-            'status' => 'nullable|string|max:255',
+            'notes' => 'nullable|string|max:255',
             'external_ref' => 'nullable|string|max:42',
             'any_pending_cases' => 'nullable|string|max:255',
 

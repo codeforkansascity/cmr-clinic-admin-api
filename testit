@@ -3,12 +3,13 @@ composer dumpautoload
 php artisan auth:clear-resets
 php artisan route:clear
 php artisan view:clear
-php artisan config:clear;
-php artisan cache:clear
 php artisan clear-compiled
+php artisan cache:clear
+php artisan config:clear;
 
 php artisan migrate:reset --env=testing
 php artisan migrate --env=testing
 php artisan db:seed --env=testing
+
 
 vendor/bin/phpunit

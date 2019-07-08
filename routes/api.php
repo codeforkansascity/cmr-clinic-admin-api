@@ -33,5 +33,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('clients', 'API\ClientController');
     Route::apiResource('convictions', 'API\ConvictionController');
     Route::apiResource('charges', 'API\ChargeController');
+    Route::apiResource('statuses', 'API\StatusController');
 
 });

@@ -14,7 +14,7 @@
                     <td>{{ $obj->name }}</td>
                     <td>{{ $obj->phone }}</td>
                     <td>{{ $obj->filing_court }}</td>
-                    <td>{{ $obj->status }}</td>
+                    <td>{{ $obj->notes }}</td>
                 </tr>
     @endforeach
 @endsection

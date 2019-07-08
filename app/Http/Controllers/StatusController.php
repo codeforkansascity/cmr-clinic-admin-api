@@ -5,20 +5,20 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Middleware\TrimStrings;
-use App\Client;
+use App\Status;
 use Illuminate\Http\Request;
 
-use App\Http\Requests\ClientFormRequest;
-use App\Http\Requests\ClientIndexRequest;
+use App\Http\Requests\StatusFormRequest;
+use App\Http\Requests\StatusIndexRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-use App\Exports\ClientExport;
+use App\Exports\StatusExport;
 use Maatwebsite\Excel\Facades\Excel;
 //use PDF; // TCPDF, not currently in use
 
-class ClientController extends Controller
+class StatusController extends Controller
 {
 
     /**
@@ -28,9 +28,9 @@ class ClientController extends Controller
      *
         <ui-select-pick-one
             label="My Label"
-            url="/api-client/options"
+            url="/api-status/options"
             class="form-group"
-            v-model="clientSelected"
+            v-model="statusSelected"
             v-on:input="getData">
         </ui-select-pick-one>
      *
@@ -39,30 +39,30 @@ class ClientController extends Controller
      *
      *   In Controler
      *
-             $client_options = \App\Client::getOptions();
+             $status_options = \App\Status::getOptions();
 
 
      *
      *   In View
 
             @component('../components/select-pick-one', [
-                'fld' => 'client_id',
-                'selected_id' => $RECORD->client_id,
-                'first_option' => 'Select a Clients',
-                'options' => $client_options
+                'fld' => 'status_id',
+                'selected_id' => $RECORD->status_id,
+                'first_option' => 'Select a Statuses',
+                'options' => $status_options
             ])
             @endcomponent
      *
      * Permissions
      *
 
-             Permission::create(['name' => 'client index']);
-             Permission::create(['name' => 'client add']);
-             Permission::create(['name' => 'client update']);
-             Permission::create(['name' => 'client view']);
-             Permission::create(['name' => 'client destroy']);
-             Permission::create(['name' => 'client export-pdf']);
-             Permission::create(['name' => 'client export-excel']);
+             Permission::create(['name' => 'status index']);
+             Permission::create(['name' => 'status add']);
+             Permission::create(['name' => 'status update']);
+             Permission::create(['name' => 'status view']);
+             Permission::create(['name' => 'status destroy']);
+             Permission::create(['name' => 'status export-pdf']);
+             Permission::create(['name' => 'status export-excel']);
 
     */
 
@@ -72,28 +72,28 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(ClientIndexRequest $request)
+    public function index(StatusIndexRequest $request)
     {
 
-        if (!Auth::user()->can('client index')) {
-            \Session::flash('flash_error_message', 'You do not have access to Applicantss.');
+        if (!Auth::user()->can('status index')) {
+            \Session::flash('flash_error_message', 'You do not have access to Statusess.');
             return Redirect::route('home');
         }
 
         // Remember the search parameters, we saved them in the Query
-        $page = session('client_page', '');
-        $search = session('client_keyword', '');
-        $column = session('client_column', 'Name');
-        $direction = session('client_direction', '-1');
+        $page = session('status_page', '');
+        $search = session('status_keyword', '');
+        $column = session('status_column', 'Name');
+        $direction = session('status_direction', '-1');
 
-        $can_add = Auth::user()->can('client add');
-        $can_show = Auth::user()->can('client view');
-        $can_edit = Auth::user()->can('client edit');
-        $can_delete = Auth::user()->can('client delete');
-        $can_excel = Auth::user()->can('client excel');
-        $can_pdf = Auth::user()->can('client pdf');
+        $can_add = Auth::user()->can('status add');
+        $can_show = Auth::user()->can('status view');
+        $can_edit = Auth::user()->can('status edit');
+        $can_delete = Auth::user()->can('status delete');
+        $can_excel = Auth::user()->can('status excel');
+        $can_pdf = Auth::user()->can('status pdf');
 
-        return view('client.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
+        return view('status.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
 
     }
 
@@ -105,16 +105,16 @@ class ClientController extends Controller
 	public function create()
 	{
 
-        if (!Auth::user()->can('client add')) {  // TODO: add -> create
-            \Session::flash('flash_error_message', 'You do not have access to add a Applicants.');
+        if (!Auth::user()->can('status add')) {  // TODO: add -> create
+            \Session::flash('flash_error_message', 'You do not have access to add a Statuses.');
             if (Auth::user()->can('vc_vendor index')) {
-                return Redirect::route('client.index');
+                return Redirect::route('status.index');
             } else {
                 return Redirect::route('home');
             }
         }
 
-	    return view('client.create');
+	    return view('status.create');
 	}
 
 
@@ -124,20 +124,20 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ClientFormRequest $request)
+    public function store(StatusFormRequest $request)
     {
 
-        $client = new \App\Client;
+        $status = new \App\Status;
 
         try {
-            $client->add($request->validated());
+            $status->add($request->validated());
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Unable to process request'
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Vc Vendor ' . $client->name . ' was added');
+        \Session::flash('flash_success_message', 'Vc Vendor ' . $status->name . ' was added');
 
         return response()->json([
             'message' => 'Added record'
@@ -154,22 +154,22 @@ class ClientController extends Controller
     public function show($id)
     {
 
-        if (!Auth::user()->can('client view')) {
-            \Session::flash('flash_error_message', 'You do not have access to view a Applicants.');
+        if (!Auth::user()->can('status view')) {
+            \Session::flash('flash_error_message', 'You do not have access to view a Statuses.');
             if (Auth::user()->can('vc_vendor index')) {
-                return Redirect::route('client.index');
+                return Redirect::route('status.index');
             } else {
                 return Redirect::route('home');
             }
         }
 
-        if ($client = $this->sanitizeAndFind($id)) {
-            $can_edit = Auth::user()->can('client edit');
-            $can_delete = Auth::user()->can('client delete');
-            return view('client.show', compact('client','can_edit', 'can_delete'));
+        if ($status = $this->sanitizeAndFind($id)) {
+            $can_edit = Auth::user()->can('status edit');
+            $can_delete = Auth::user()->can('status delete');
+            return view('status.show', compact('status','can_edit', 'can_delete'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Applicants to display.');
-            return Redirect::route('client.index');
+            \Session::flash('flash_error_message', 'Unable to find Statuses to display.');
+            return Redirect::route('status.index');
         }
     }
 
@@ -181,20 +181,20 @@ class ClientController extends Controller
      */
     public function edit($id)
     {
-        if (!Auth::user()->can('client edit')) {
-            \Session::flash('flash_error_message', 'You do not have access to edit a Applicants.');
+        if (!Auth::user()->can('status edit')) {
+            \Session::flash('flash_error_message', 'You do not have access to edit a Statuses.');
             if (Auth::user()->can('vc_vendor index')) {
-                return Redirect::route('client.index');
+                return Redirect::route('status.index');
             } else {
                 return Redirect::route('home');
             }
         }
 
-        if ($client = $this->sanitizeAndFind($id)) {
-            return view('client.edit', compact('client'));
+        if ($status = $this->sanitizeAndFind($id)) {
+            return view('status.edit', compact('status'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Applicants to edit.');
-            return Redirect::route('client.index');
+            \Session::flash('flash_error_message', 'Unable to find Statuses to edit.');
+            return Redirect::route('status.index');
         }
 
     }
@@ -203,40 +203,40 @@ class ClientController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Client $client     * @return \Illuminate\Http\Response
+     * @param  \App\Status $status     * @return \Illuminate\Http\Response
      */
-    public function update(ClientFormRequest $request, $id)
+    public function update(StatusFormRequest $request, $id)
     {
 
-//        if (!Auth::user()->can('client update')) {
-//            \Session::flash('flash_error_message', 'You do not have access to update a Applicants.');
-//            if (!Auth::user()->can('client index')) {
-//                return Redirect::route('client.index');
+//        if (!Auth::user()->can('status update')) {
+//            \Session::flash('flash_error_message', 'You do not have access to update a Statuses.');
+//            if (!Auth::user()->can('status index')) {
+//                return Redirect::route('status.index');
 //            } else {
 //                return Redirect::route('home');
 //            }
 //        }
 
-        if (!$client = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Applicants to edit');
+        if (!$status = $this->sanitizeAndFind($id)) {
+       //     \Session::flash('flash_error_message', 'Unable to find Statuses to edit');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
         }
 
-        $client->fill($request->all());
+        $status->fill($request->all());
 
-        if ($client->isDirty()) {
+        if ($status->isDirty()) {
 
             try {
-                $client->save();
+                $status->save();
             } catch (\Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request'
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Applicants ' . $client->name . ' was changed');
+            \Session::flash('flash_success_message', 'Statuses ' . $status->name . ' was changed');
         } else {
             \Session::flash('flash_info_message', 'No changes were made');
         }
@@ -249,40 +249,40 @@ class ClientController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Client $client     * @return \Illuminate\Http\Response
+     * @param  \App\Status $status     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
 
-        if (!Auth::user()->can('client delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a Applicants.');
-            if (Auth::user()->can('client index')) {
-                 return Redirect::route('client.index');
+        if (!Auth::user()->can('status delete')) {
+            \Session::flash('flash_error_message', 'You do not have access to remove a Statuses.');
+            if (Auth::user()->can('status index')) {
+                 return Redirect::route('status.index');
             } else {
                 return Redirect::route('home');
             }
         }
 
-        $client = $this->sanitizeAndFind($id);
+        $status = $this->sanitizeAndFind($id);
 
-        if ( $client  && $client->canDelete()) {
+        if ( $status  && $status->canDelete()) {
 
             try {
-                $client->delete();
+                $status->delete();
             } catch (\Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request.'
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Invitation for ' . $client->name . ' was removed.');
+            \Session::flash('flash_success_message', 'Invitation for ' . $status->name . ' was removed.');
         } else {
             \Session::flash('flash_error_message', 'Unable to find Invite to delete.');
 
         }
 
-        if (Auth::user()->can('client index')) {
-             return Redirect::route('client.index');
+        if (Auth::user()->can('status index')) {
+             return Redirect::route('status.index');
         } else {
             return Redirect::route('home');
         }
@@ -294,30 +294,30 @@ class ClientController extends Controller
      * Find by ID, sanitize the ID first
      *
      * @param $id
-     * @return Client or null
+     * @return Status or null
      */
     private function sanitizeAndFind($id)
     {
-        return \App\Client::find(intval($id));
+        return \App\Status::find(intval($id));
     }
 
 
     public function download()
     {
 
-        if (!Auth::user()->can('client excel')) {
-            \Session::flash('flash_error_message', 'You do not have access to download Applicants.');
-            if (Auth::user()->can('client index')) {
-                return Redirect::route('client.index');
+        if (!Auth::user()->can('status excel')) {
+            \Session::flash('flash_error_message', 'You do not have access to download Statuses.');
+            if (Auth::user()->can('status index')) {
+                return Redirect::route('status.index');
             } else {
                 return Redirect::route('home');
             }
         }
 
         // Remember the search parameters, we saved them in the Query
-        $search = session('client_keyword', '');
-        $column = session('client_column', 'name');
-        $direction = session('client_direction', '-1');
+        $search = session('status_keyword', '');
+        $column = session('status_column', 'name');
+        $direction = session('status_direction', '-1');
 
         $column = $column ? $column : 'name';
 
@@ -325,33 +325,33 @@ class ClientController extends Controller
 
         info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
-        $dataQuery = Client::exportDataQuery($column, $direction, $search);
+        $dataQuery = Status::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());
         //if ($data->count() > 0) {
 
         // TODO: is it possible to do 0 check before query executes somehow? i think the query would have to be executed twice, once for count, once for excel library
         return Excel::download(
-            new ClientExport($dataQuery),
-            'client.xlsx');
+            new StatusExport($dataQuery),
+            'status.xlsx');
 
     }
 
 
         public function print()
 {
-        if (!Auth::user()->can('client export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print Applicants');
-            if (Auth::user()->can('client index')) {
-                return Redirect::route('client.index');
+        if (!Auth::user()->can('status export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+            \Session::flash('flash_error_message', 'You do not have access to print Statuses');
+            if (Auth::user()->can('status index')) {
+                return Redirect::route('status.index');
             } else {
                 return Redirect::route('home');
             }
         }
 
         // Remember the search parameters, we saved them in the Query
-        $search = session('client_keyword', '');
-        $column = session('client_column', 'name');
-        $direction = session('client_direction', '-1');
+        $search = session('status_keyword', '');
+        $column = session('status_column', 'name');
+        $direction = session('status_direction', '-1');
         $column = $column ? $column : 'name';
 
         info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
@@ -359,15 +359,13 @@ class ClientController extends Controller
         // Get query data
         $columns = [
             'name',
-            'phone',
-            'filing_court',
-            'notes',
+            'sequence',
         ];
-        $dataQuery = Client::pdfDataQuery($column, $direction, $search, $columns);
+        $dataQuery = Status::pdfDataQuery($column, $direction, $search, $columns);
         $data = $dataQuery->get();
 
         // Pass it to the view for html formatting:
-        $printHtml = view('client.print', compact( 'data' ) );
+        $printHtml = view('status.print', compact( 'data' ) );
 
         // Begin DOMPDF/laravel-dompdf
         $pdf = \App::make('dompdf.wrapper');
@@ -375,7 +373,7 @@ class ClientController extends Controller
         $pdf->setOptions(['isPhpEnabled' => TRUE]);
         $pdf->loadHTML($printHtml);
         $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
-        return $pdf->stream('client-' . $currentDate->format('Ymd_Hi') . '.pdf');
+        return $pdf->stream('status-' . $currentDate->format('Ymd_Hi') . '.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////

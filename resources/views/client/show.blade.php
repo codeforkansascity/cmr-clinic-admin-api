@@ -75,7 +75,7 @@
             Other Agencies Name            @endcomponent
                      @component('../components/std-show-field', ['value' => $client->previous_expungements])
             Previous Expungements            @endcomponent
-                     @component('../components/std-show-field', ['value' => $client->status])
+                     @component('../components/std-show-field', ['value' => $client->notes])
             Status            @endcomponent
                      @component('../components/std-show-field', ['value' => $client->external_ref])
             External Ref            @endcomponent

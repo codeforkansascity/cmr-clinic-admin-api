@@ -51,6 +51,14 @@ class InitialPermissions
         Permission::create(['name' => 'charge export-pdf']);
         Permission::create(['name' => 'charge export-excel']);
 
+        Permission::findOrCreate('status index');
+        Permission::findOrCreate('status add');
+        Permission::findOrCreate('status update');
+        Permission::findOrCreate('status view');
+        Permission::findOrCreate('status destroy');
+        Permission::findOrCreate('status export-pdf');
+        Permission::findOrCreate('status export-excel');
+
 
         $role = Role::create(['name' => 'cant']);
         $role->givePermissionTo(['always fail']);
@@ -59,6 +67,7 @@ class InitialPermissions
         $role->givePermissionTo(['client index']);
         $role->givePermissionTo(['conviction index']);
         $role->givePermissionTo(['charge index']);
+        $role->givePermissionTo(['status index']);
 
         $role = Role::create(['name' => 'cmr-admin']);
         $role->givePermissionTo([
@@ -86,6 +95,14 @@ class InitialPermissions
             'charge export-pdf',
             'charge export-excel',
 
+            'status index',
+            'status add',
+            'status update',
+            'status view',
+            'status destroy',
+            'status export-pdf',
+            'status export-excel',
+
         ]);
 
 
@@ -101,6 +118,9 @@ class InitialPermissions
 
             'charge index',
             'charge view',
+
+            'status index',
+            'status view',
         ]);
 
     }

@@ -58,7 +58,7 @@ class ClientExport implements FromQuery, WithHeadings, WithMapping
                         'arresting_municipality',
                         'other_agencies_name',
                         'previous_expungements',
-                        'status',
+                        'notes',
                         'external_ref',
                         'any_pending_cases',
                     ];
@@ -100,7 +100,7 @@ class ClientExport implements FromQuery, WithHeadings, WithMapping
                         $client->arresting_municipality,
                         $client->other_agencies_name,
                         $client->previous_expungements,
-                        $client->status,
+                        $client->notes,
                         $client->external_ref,
                         $client->any_pending_cases,
                     ];

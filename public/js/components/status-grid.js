@@ -1,8 +1,8 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["client-grid"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["status-grid"],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ClientGrid.vue?vue&type=script&lang=js&":
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StatusGrid.vue?vue&type=script&lang=js&":
 /*!*********************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ClientGrid.vue?vue&type=script&lang=js& ***!
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/StatusGrid.vue?vue&type=script&lang=js& ***!
   \*********************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -189,16 +189,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "client-grid",
+  name: "status-grid",
   components: {
     SsGridColumnHeader: _SsGridColumnHeader__WEBPACK_IMPORTED_MODULE_0__["default"],
     SsGridPaginationLocation: _SsPaginationLocation__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -240,7 +236,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     goToNew: function goToNew() {
-      window.location.href = "/client/create";
+      window.location.href = "/status/create";
     },
     sortColumn: function sortColumn(obj) {
       this.sortKey = obj.sortField;
@@ -288,7 +284,7 @@ __webpack_require__.r(__webpack_exports__);
             } else if (error.response.status === 404) {
               // Record not found
               _this.server_message = "Record not found";
-              window.location = "/client";
+              window.location = "/status";
             } else if (error.response.status === 419) {
               // Unknown status
               _this.server_message = "Unknown Status, please try to ";
@@ -308,7 +304,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     getDataUrl: function getDataUrl(new_page_number) {
-      var url = "api-client?";
+      var url = "api-status?";
       var queryParams = [];
       queryParams.push("page=" + new_page_number);
       if (this.isDefined(this.query) && this.query.trim().length > 0) queryParams.push("keyword=" + this.query); //                if (this.isDefined(this.searchType)) queryParams.push('search_type=' + this.searchType);
@@ -323,9 +319,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ClientGrid.vue?vue&type=template&id=b1b4fc48&":
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StatusGrid.vue?vue&type=template&id=629d71fa&":
 /*!*************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ClientGrid.vue?vue&type=template&id=b1b4fc48& ***!
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/StatusGrid.vue?vue&type=template&id=629d71fa& ***!
   \*************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -450,7 +446,7 @@ var render = function() {
                 {
                   attrs: {
                     selectedKey: _vm.sortKey,
-                    title: "Sort by Full Name",
+                    title: "Sort by Name",
                     params: {
                       sortField: "name",
                       InitialSortOrder: "asc"
@@ -458,9 +454,25 @@ var render = function() {
                   },
                   on: { selectedSort: _vm.sortColumn }
                 },
+                [_vm._v("\n                        Name\n                    ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "ss-grid-column-header",
+                {
+                  attrs: {
+                    selectedKey: _vm.sortKey,
+                    title: "Sort by Alias",
+                    params: {
+                      sortField: "alias",
+                      InitialSortOrder: "asc"
+                    }
+                  },
+                  on: { selectedSort: _vm.sortColumn }
+                },
                 [
                   _vm._v(
-                    "\n                        Full Name\n                    "
+                    "\n                        Alias\n                    "
                   )
                 ]
               ),
@@ -470,9 +482,9 @@ var render = function() {
                 {
                   attrs: {
                     selectedKey: _vm.sortKey,
-                    title: "Sort by Phone",
+                    title: "Sort by Sequence",
                     params: {
-                      sortField: "phone",
+                      sortField: "sequence",
                       InitialSortOrder: "asc"
                     }
                   },
@@ -480,47 +492,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\n                        Phone\n                    "
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "ss-grid-column-header",
-                {
-                  attrs: {
-                    selectedKey: _vm.sortKey,
-                    title: "Sort by Filing Court",
-                    params: {
-                      sortField: "filing_court",
-                      InitialSortOrder: "asc"
-                    }
-                  },
-                  on: { selectedSort: _vm.sortColumn }
-                },
-                [
-                  _vm._v(
-                    "\n                        Filing Court\n                    "
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "ss-grid-column-header",
-                {
-                  attrs: {
-                    selectedKey: _vm.sortKey,
-                    title: "Sort by Notes",
-                    params: {
-                      sortField: "notes",
-                      InitialSortOrder: "asc"
-                    }
-                  },
-                  on: { selectedSort: _vm.sortColumn }
-                },
-                [
-                  _vm._v(
-                    "\n                        Notes\n                    "
+                    "\n                        Sequence\n                    "
                   )
                 ]
               ),
@@ -546,24 +518,34 @@ var render = function() {
               ? _c("tr", [_vm._m(2)])
               : _vm._l(this.gridData, function(row) {
                   return _c("tr", { key: row.id }, [
-                    _c("td", { attrs: { "data-title": "Full Name" } }, [
-                      _vm._v(_vm._s(row.name))
+                    _c("td", { attrs: { "data-title": "Name" } }, [
+                      _vm.params.CanShow == "1"
+                        ? _c("a", { attrs: { href: "/status/" + row.id } }, [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(row.name) +
+                                "\n                        "
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.params.CanShow != "1"
+                        ? _c("span", [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(row.name) +
+                                "\n                        "
+                            )
+                          ])
+                        : _vm._e()
                     ]),
                     _vm._v(" "),
-                    _c("td", { attrs: { "data-title": "Phone" } }, [
-                      _vm._v(_vm._s(row.phone))
+                    _c("td", { attrs: { "data-title": "Sequence" } }, [
+                      _vm._v(_vm._s(row.alias))
                     ]),
                     _vm._v(" "),
-                    _c("td", { attrs: { "data-title": "Filing Court" } }, [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(row.filing_court) +
-                          "\n                    "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { attrs: { "data-title": "Notes" } }, [
-                      _vm._v(_vm._s(row.notes))
+                    _c("td", { attrs: { "data-title": "Sequence" } }, [
+                      _vm._v(_vm._s(row.sequence))
                     ]),
                     _vm._v(" "),
                     _c(
@@ -578,7 +560,7 @@ var render = function() {
                               "a",
                               {
                                 staticClass: "grid-action-item",
-                                attrs: { href: "/client/" + row.id + "/edit" }
+                                attrs: { href: "/status/" + row.id + "/edit" }
                               },
                               [
                                 _vm._v(
@@ -635,7 +617,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "grid-alert", attrs: { colspan: "5" } }, [
+    return _c("td", { staticClass: "grid-alert", attrs: { colspan: "3" } }, [
       _c("div", { staticClass: "alert alert-info", attrs: { role: "alert" } }, [
         _vm._v(
           "\n                            Please wait.\n                        "
@@ -647,7 +629,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "grid-alert", attrs: { colspan: "5" } }, [
+    return _c("td", { staticClass: "grid-alert", attrs: { colspan: "3" } }, [
       _c(
         "div",
         { staticClass: "alert alert-warning", attrs: { role: "alert" } },
@@ -663,7 +645,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "grid-alert", attrs: { colspan: "5" } }, [
+    return _c("td", { staticClass: "grid-alert", attrs: { colspan: "3" } }, [
       _c(
         "div",
         { staticClass: "alert alert-warning", attrs: { role: "alert" } },
@@ -684,7 +666,7 @@ var staticRenderFns = [
         "a",
         {
           staticClass: "btn btn-primary mb-2 mr-2",
-          attrs: { href: "/client/download" }
+          attrs: { href: "/status/download" }
         },
         [_vm._v("Export to Excel")]
       ),
@@ -693,7 +675,7 @@ var staticRenderFns = [
         "a",
         {
           staticClass: "btn btn-primary mb-2 mr-2",
-          attrs: { href: "/client/print" }
+          attrs: { href: "/status/print" }
         },
         [_vm._v("Print PDF")]
       )
@@ -706,17 +688,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/components/ClientGrid.vue":
+/***/ "./resources/js/components/StatusGrid.vue":
 /*!************************************************!*\
-  !*** ./resources/js/components/ClientGrid.vue ***!
+  !*** ./resources/js/components/StatusGrid.vue ***!
   \************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ClientGrid_vue_vue_type_template_id_b1b4fc48___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ClientGrid.vue?vue&type=template&id=b1b4fc48& */ "./resources/js/components/ClientGrid.vue?vue&type=template&id=b1b4fc48&");
-/* harmony import */ var _ClientGrid_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ClientGrid.vue?vue&type=script&lang=js& */ "./resources/js/components/ClientGrid.vue?vue&type=script&lang=js&");
+/* harmony import */ var _StatusGrid_vue_vue_type_template_id_629d71fa___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StatusGrid.vue?vue&type=template&id=629d71fa& */ "./resources/js/components/StatusGrid.vue?vue&type=template&id=629d71fa&");
+/* harmony import */ var _StatusGrid_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StatusGrid.vue?vue&type=script&lang=js& */ "./resources/js/components/StatusGrid.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -726,9 +708,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ClientGrid_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ClientGrid_vue_vue_type_template_id_b1b4fc48___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ClientGrid_vue_vue_type_template_id_b1b4fc48___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _StatusGrid_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _StatusGrid_vue_vue_type_template_id_629d71fa___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _StatusGrid_vue_vue_type_template_id_629d71fa___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -738,38 +720,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/ClientGrid.vue"
+component.options.__file = "resources/js/components/StatusGrid.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/ClientGrid.vue?vue&type=script&lang=js&":
+/***/ "./resources/js/components/StatusGrid.vue?vue&type=script&lang=js&":
 /*!*************************************************************************!*\
-  !*** ./resources/js/components/ClientGrid.vue?vue&type=script&lang=js& ***!
+  !*** ./resources/js/components/StatusGrid.vue?vue&type=script&lang=js& ***!
   \*************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientGrid_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ClientGrid.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ClientGrid.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientGrid_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StatusGrid_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./StatusGrid.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StatusGrid.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StatusGrid_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/ClientGrid.vue?vue&type=template&id=b1b4fc48&":
+/***/ "./resources/js/components/StatusGrid.vue?vue&type=template&id=629d71fa&":
 /*!*******************************************************************************!*\
-  !*** ./resources/js/components/ClientGrid.vue?vue&type=template&id=b1b4fc48& ***!
+  !*** ./resources/js/components/StatusGrid.vue?vue&type=template&id=629d71fa& ***!
   \*******************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientGrid_vue_vue_type_template_id_b1b4fc48___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ClientGrid.vue?vue&type=template&id=b1b4fc48& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ClientGrid.vue?vue&type=template&id=b1b4fc48&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientGrid_vue_vue_type_template_id_b1b4fc48___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StatusGrid_vue_vue_type_template_id_629d71fa___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./StatusGrid.vue?vue&type=template&id=629d71fa& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StatusGrid.vue?vue&type=template&id=629d71fa&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StatusGrid_vue_vue_type_template_id_629d71fa___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ClientGrid_vue_vue_type_template_id_b1b4fc48___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StatusGrid_vue_vue_type_template_id_629d71fa___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

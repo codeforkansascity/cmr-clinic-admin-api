@@ -19,14 +19,19 @@
                         <a class="nav-link" href="{{ route('client.index') }}">Applicants <span class="sr-only">(current)</span></a>
                     </li>
                 @endif
-                @canany(['invite index'])
+
                     <li class="nav-item dropdown @php if(isset($nav_path[0]) && $nav_path[0] == 'admin') echo 'active'; @endphp">
                         <a class="nav-link dropdown-toggle" href="#TODO" id="dropdown-admin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown-admin">
-                            <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'invite') echo 'active'; @endphp" href="/invite">Invite Users</a>
+                            @canany(['invite index'])
+                                <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'invite') echo 'active'; @endphp" href="/invite">Invite Users</a>
+                            @endcanany
+                                @canany(['status index'])
+                                    <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'status') echo 'active'; @endphp" href="/status">Applicant Statuses</a>
+                                @endcanany
                         </div>
                     </li>
-                @endcanany
+
             </ul>
 
             <?php /* Right (auxiliary) menu items: */ ?>
