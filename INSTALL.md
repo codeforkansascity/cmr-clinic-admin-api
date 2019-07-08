@@ -13,11 +13,7 @@ that we clone both projects into.
     |                     |
 cmr-clinic       cmr-clinic-admin-api
 ```
-## Clone the repository
-
-```
-git clone git@github.com:zmon/cmr-clinic-admin-api.git
-```
+## Fork the repository and clone it to your desktop
 
 ## Setup the `.env` file and adjust
 
