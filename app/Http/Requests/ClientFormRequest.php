@@ -66,7 +66,7 @@ class ClientFormRequest extends FormRequest
             'arresting_municipality' => 'nullable|string',
             'other_agencies_name' => 'nullable|string',
             'previous_expungements' => 'nullable|string',
-            'status' => 'nullable|string|max:255',
+            'notes' => 'nullable|string|max:255',
             'external_ref' => 'nullable|string|max:42',
             'any_pending_cases' => 'nullable|string|max:255',
 

@@ -510,9 +510,9 @@ var render = function() {
                 {
                   attrs: {
                     selectedKey: _vm.sortKey,
-                    title: "Sort by Status",
+                    title: "Sort by Notes",
                     params: {
-                      sortField: "status",
+                      sortField: "notes",
                       InitialSortOrder: "asc"
                     }
                   },
@@ -520,7 +520,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\n                        Status\n                    "
+                    "\n                        Notes\n                    "
                   )
                 ]
               ),
@@ -562,8 +562,8 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
-                    _c("td", { attrs: { "data-title": "Status" } }, [
-                      _vm._v(_vm._s(row.status))
+                    _c("td", { attrs: { "data-title": "Notes" } }, [
+                      _vm._v(_vm._s(row.notes))
                     ]),
                     _vm._v(" "),
                     _c(

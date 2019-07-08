@@ -406,12 +406,12 @@
         </div>
         <div class="row">
             <div class="col-md-9">
-                <std-form-group label="Status" :errors="form_errors.status">
+                <std-form-group label="Notes" :errors="form_errors.notes">
                     <input
                         type="text"
                         class="form-control"
-                        name="status"
-                        v-model="form_data.status"
+                        name="notes"
+                        v-model="form_data.notes"
                     />
                 </std-form-group>
             </div>
@@ -516,7 +516,7 @@ export default {
                 arresting_municipality: "",
                 other_agencies_name: "",
                 previous_expungements: "",
-                status: "",
+                notes: "",
                 external_ref: "",
                 any_pending_cases: ""
             },
@@ -550,7 +550,7 @@ export default {
                 arresting_municipality: false,
                 other_agencies_name: false,
                 previous_expungements: false,
-                status: false,
+                notes: false,
                 external_ref: false,
                 any_pending_cases: false
             },

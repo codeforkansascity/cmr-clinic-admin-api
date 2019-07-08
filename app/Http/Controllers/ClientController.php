@@ -361,7 +361,7 @@ class ClientController extends Controller
             'name',
             'phone',
             'filing_court',
-            'status',
+            'notes',
         ];
         $dataQuery = Client::pdfDataQuery($column, $direction, $search, $columns);
         $data = $dataQuery->get();

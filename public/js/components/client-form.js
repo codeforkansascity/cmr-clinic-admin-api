@@ -535,7 +535,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         arresting_municipality: "",
         other_agencies_name: "",
         previous_expungements: "",
-        status: "",
+        notes: "",
         external_ref: "",
         any_pending_cases: ""
       },
@@ -569,7 +569,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         arresting_municipality: false,
         other_agencies_name: false,
         previous_expungements: false,
-        status: false,
+        notes: false,
         external_ref: false,
         any_pending_cases: false
       },
@@ -1926,26 +1926,26 @@ var render = function() {
           [
             _c(
               "std-form-group",
-              { attrs: { label: "Status", errors: _vm.form_errors.status } },
+              { attrs: { label: "Notes", errors: _vm.form_errors.notes } },
               [
                 _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.form_data.status,
-                      expression: "form_data.status"
+                      value: _vm.form_data.notes,
+                      expression: "form_data.notes"
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", name: "status" },
-                  domProps: { value: _vm.form_data.status },
+                  attrs: { type: "text", name: "notes" },
+                  domProps: { value: _vm.form_data.notes },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.form_data, "status", $event.target.value)
+                      _vm.$set(_vm.form_data, "notes", $event.target.value)
                     }
                   }
                 })

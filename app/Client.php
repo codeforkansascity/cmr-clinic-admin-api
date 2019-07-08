@@ -43,7 +43,7 @@ class Client extends Model
             'arresting_municipality',
             'other_agencies_name',
             'previous_expungements',
-            'status',
+            'notes',
             'external_ref',
             'any_pending_cases',
         ];
@@ -99,7 +99,7 @@ class Client extends Model
                     'name',
                     'phone',
                     'filing_court',
-                    'status',
+                    'notes',
             ])
         ->paginate($per_page);
     }
