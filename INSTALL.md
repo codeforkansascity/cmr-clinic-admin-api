@@ -45,6 +45,12 @@ php artisan migrate
 php artisan db:seed
 ```
 
+## Setup Passport
+
+````
+php artisan passport:keys --force
+````
+
 ## Setup hosting
 
 You can setup any `apache` hosting environment you would like.
