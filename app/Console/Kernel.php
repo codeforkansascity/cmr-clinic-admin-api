@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\ConvertTextDatesCommand',
         'App\Console\Commands\MakeFirstUser',
         'App\Console\Commands\SetInitialPermissions',
+        'App\Console\Commands\SetYesNoCommand',
     ];
 
     /**
