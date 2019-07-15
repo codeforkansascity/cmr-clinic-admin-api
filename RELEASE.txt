@@ -1,0 +1,9 @@
+2.0.0.2 2019-07-14 - Added searchable client grid.
+                   - Charge fields convicted, eligible, and please_expunge are now boolean and can have set, no, and yes values.
+                   - Converted text date fields to date, DOB, License expiration date, and release date.
+                   - Rename clients Status to Notes
+                   - Added CMS client and matter numbers to client
+                   - Cleaned up README.md
+                   - Setup test data including seeders for test data.
+                   - Table names are now plural.
+

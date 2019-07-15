@@ -1,0 +1,11 @@
+
+
+
+cat ../db-backup/drop-all-tables.sql | mysql -u root devcmr
+
+gzcat ../db-backup/0431-cmr_20.sql.gz | mysql -u root devcmr
+
+php artisan migrate:status
+php artisan migrate
+
+

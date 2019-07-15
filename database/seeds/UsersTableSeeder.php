@@ -14,16 +14,32 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-            $user = \App\User::create([
-                'email' => 'paulb@savagesoft.com',
-                'name' => 'Paul Barham',
-                'password' => bcrypt($faker->address)
-            ]);
+        
+        $user = \App\User::create([
+            'email' => 'paulb@savagesoft.com',
+            'name' => 'Paul Barham',
+            'password' => bcrypt(env('TEST_USER_PASSWORD', $faker->unique()->safeEmail))
+        ]);
+        $user->assignRole('super-admin');
+
+        $user = \App\User::create([
+            'email' => 'paulb+cant@savagesoft.com',
+            'name' => 'No Access',
+            'password' => bcrypt('secret')
+        ]);
+        $user->assignRole('cant');
+
         $user = \App\User::create([
             'email' => 'camilo.snapp@gmail.com',
             'name' => 'Camilo Snapp',
-            'password' => bcrypt($faker->address)
+            'password' => bcrypt(env('TEST_USER_PASSWORD', $faker->unique()->safeEmail))
         ]);
+        $user->assignRole('super-admin');
+
+        factory(App\User::class, 40)->create()->each(function ($user) {
+            $role = \App\Role::inRandomOrder()->first();
+            $user->assignRole($role->name);
+        });
 
     }
 }

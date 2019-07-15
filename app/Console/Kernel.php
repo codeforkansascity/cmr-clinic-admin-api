@@ -13,7 +13,10 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        'App\Console\Commands\ConvertTextDatesCommand',
         'App\Console\Commands\MakeFirstUser',
+        'App\Console\Commands\SetInitialPermissions',
+        'App\Console\Commands\SetYesNoCommand',
     ];
 
     /**

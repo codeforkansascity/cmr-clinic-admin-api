@@ -17,9 +17,9 @@ class ClientTableSeeder extends Seeder
 
         $faker = Faker::create();
 
-        $user = \App\Client::create([
+        $client = \App\Client::create([
             'id' => '2',
-            'full_name' => 'Teresa Lee Kuvalis',
+            'name' => 'Teresa Lee Kuvalis',
             'phone' => $faker->phoneNumber,
             'email' => $faker->unique()->safeEmail,
             'sex' => 'Male',
@@ -51,8 +51,12 @@ class ClientTableSeeder extends Seeder
             'created_at' => '2019-04-22',
             'updated_at' => '2019-04-27',
             'previous_expungements' => NULL,
-            'status' => 'Check on parole release date.  If 2011 (per client), ready for expungement.  If 2013 (per records), wait 1 year on felony traficking. Assault on LEO not eligible',
+            'notes' => 'Check on parole release date.  If 2011 (per client), ready for expungement.  If 2013 (per records), wait 1 year on felony traficking. Assault on LEO not eligible',
 
         ]);
+
+
+            $clients = factory(App\Client::class, 100)->create();
+
     }
 }

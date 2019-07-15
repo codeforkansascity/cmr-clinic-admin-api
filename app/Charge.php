@@ -9,7 +9,6 @@ class Charge extends Model
 {
 
     use RecordSignature;
-    var $table = 'charge';
 
 
     /**
