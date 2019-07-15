@@ -46,6 +46,8 @@ class Client extends Model
             'notes',
             'external_ref',
             'any_pending_cases',
+            'cms_client_number',
+            'cms_matter_number',
         ];
 
     protected $hidden = [
@@ -97,8 +99,7 @@ class Client extends Model
         return self::buildBaseGridQuery($column, $direction, $keyword,
             [ 'id',
                     'name',
-                    'phone',
-                    'filing_court',
+                    'dob',
                     'notes',
             ])
         ->paginate($per_page);
