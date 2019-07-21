@@ -30,6 +30,11 @@ class Assignment extends Model
         'updated_at',
     ];
 
+    public function user()
+    {
+        return $this->hasOne('App\User','');
+    }
+
     public function add($attributes)
     {
 

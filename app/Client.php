@@ -48,6 +48,7 @@ class Client extends Model
             'any_pending_cases',
             'cms_client_number',
             'cms_matter_number',
+            'assignment_id',
         ];
 
     protected $hidden = [
@@ -58,6 +59,11 @@ class Client extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function assignment()
+    {
+        return $this->hasOne('App\Assignment', 'id', 'assignment_id');
+    }
 
     public function add($attributes)
     {
