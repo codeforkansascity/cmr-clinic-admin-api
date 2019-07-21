@@ -1,9 +1,9 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["status-form"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["assignment-form"],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StatusForm.vue?vue&type=script&lang=js&":
-/*!*********************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/StatusForm.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AssignmentForm.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AssignmentForm.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -101,9 +101,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "status-form",
+  name: "assignment-form",
   props: {
     record: {
       type: [Boolean, Object],
@@ -121,15 +124,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _token: this.csrf_token,
         id: 0,
         name: "",
-        alias: "",
-        sequence: 0,
+        client_id: 0,
+        user_id: 0,
         deleted_at: ""
       },
       form_errors: {
         id: false,
         name: false,
-        alias: false,
-        sequence: false,
+        client_id: false,
+        user_id: false,
         deleted_at: false
       },
       server_message: false,
@@ -166,10 +169,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 amethod = "";
 
                 if (this.form_data.id) {
-                  url = "/status/" + this.form_data.id;
+                  url = "/assignment/" + this.form_data.id;
                   amethod = "put";
                 } else {
-                  url = "/status";
+                  url = "/assignment";
                   amethod = "post";
                 }
 
@@ -180,7 +183,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   data: this.form_data
                 }).then(function (res) {
                   if (res.status === 200) {
-                    window.location = "/status";
+                    window.location = "/assignment";
                   } else {
                     _this2.server_message = res.status;
                   }
@@ -198,7 +201,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     } else if (error.response.status === 404) {
                       // Record not found
                       _this2.server_message = "Record not found";
-                      window.location = "/status";
+                      window.location = "/assignment";
                     } else if (error.response.status === 419) {
                       // Unknown status
                       _this2.server_message = "Unknown Status, please try to ";
@@ -237,10 +240,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StatusForm.vue?vue&type=template&id=50104cfe&":
-/*!*************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/StatusForm.vue?vue&type=template&id=50104cfe& ***!
-  \*************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AssignmentForm.vue?vue&type=template&id=946d7848&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AssignmentForm.vue?vue&type=template&id=946d7848& ***!
+  \*****************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -321,26 +324,28 @@ var render = function() {
           [
             _c(
               "std-form-group",
-              { attrs: { label: "Alias", errors: _vm.form_errors.alias } },
+              {
+                attrs: { label: "Client Id", errors: _vm.form_errors.client_id }
+              },
               [
                 _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.form_data.alias,
-                      expression: "form_data.alias"
+                      value: _vm.form_data.client_id,
+                      expression: "form_data.client_id"
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", name: "alias" },
-                  domProps: { value: _vm.form_data.alias },
+                  attrs: { type: "text", name: "client_id" },
+                  domProps: { value: _vm.form_data.client_id },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.form_data, "alias", $event.target.value)
+                      _vm.$set(_vm.form_data, "client_id", $event.target.value)
                     }
                   }
                 })
@@ -358,28 +363,26 @@ var render = function() {
           [
             _c(
               "std-form-group",
-              {
-                attrs: { label: "Sequence", errors: _vm.form_errors.sequence }
-              },
+              { attrs: { label: "User Id", errors: _vm.form_errors.user_id } },
               [
                 _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.form_data.sequence,
-                      expression: "form_data.sequence"
+                      value: _vm.form_data.user_id,
+                      expression: "form_data.user_id"
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", name: "sequence" },
-                  domProps: { value: _vm.form_data.sequence },
+                  attrs: { type: "text", name: "user_id" },
+                  domProps: { value: _vm.form_data.user_id },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.form_data, "sequence", $event.target.value)
+                      _vm.$set(_vm.form_data, "user_id", $event.target.value)
                     }
                   }
                 })
@@ -461,9 +464,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-6 text-md-right mt-2 mt-md-0" }, [
-      _c("a", { staticClass: "btn btn-default", attrs: { href: "/status" } }, [
-        _vm._v("Cancel")
-      ])
+      _c(
+        "a",
+        { staticClass: "btn btn-default", attrs: { href: "/assignment" } },
+        [_vm._v("Cancel")]
+      )
     ])
   }
 ]
@@ -473,17 +478,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/components/StatusForm.vue":
-/*!************************************************!*\
-  !*** ./resources/js/components/StatusForm.vue ***!
-  \************************************************/
+/***/ "./resources/js/components/AssignmentForm.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/AssignmentForm.vue ***!
+  \****************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _StatusForm_vue_vue_type_template_id_50104cfe___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StatusForm.vue?vue&type=template&id=50104cfe& */ "./resources/js/components/StatusForm.vue?vue&type=template&id=50104cfe&");
-/* harmony import */ var _StatusForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StatusForm.vue?vue&type=script&lang=js& */ "./resources/js/components/StatusForm.vue?vue&type=script&lang=js&");
+/* harmony import */ var _AssignmentForm_vue_vue_type_template_id_946d7848___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AssignmentForm.vue?vue&type=template&id=946d7848& */ "./resources/js/components/AssignmentForm.vue?vue&type=template&id=946d7848&");
+/* harmony import */ var _AssignmentForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AssignmentForm.vue?vue&type=script&lang=js& */ "./resources/js/components/AssignmentForm.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -493,9 +498,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _StatusForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _StatusForm_vue_vue_type_template_id_50104cfe___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _StatusForm_vue_vue_type_template_id_50104cfe___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _AssignmentForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AssignmentForm_vue_vue_type_template_id_946d7848___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AssignmentForm_vue_vue_type_template_id_946d7848___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -505,38 +510,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/StatusForm.vue"
+component.options.__file = "resources/js/components/AssignmentForm.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/StatusForm.vue?vue&type=script&lang=js&":
-/*!*************************************************************************!*\
-  !*** ./resources/js/components/StatusForm.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************/
+/***/ "./resources/js/components/AssignmentForm.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/AssignmentForm.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StatusForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./StatusForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StatusForm.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StatusForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AssignmentForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./AssignmentForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AssignmentForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AssignmentForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/StatusForm.vue?vue&type=template&id=50104cfe&":
-/*!*******************************************************************************!*\
-  !*** ./resources/js/components/StatusForm.vue?vue&type=template&id=50104cfe& ***!
-  \*******************************************************************************/
+/***/ "./resources/js/components/AssignmentForm.vue?vue&type=template&id=946d7848&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/AssignmentForm.vue?vue&type=template&id=946d7848& ***!
+  \***********************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StatusForm_vue_vue_type_template_id_50104cfe___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./StatusForm.vue?vue&type=template&id=50104cfe& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StatusForm.vue?vue&type=template&id=50104cfe&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StatusForm_vue_vue_type_template_id_50104cfe___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AssignmentForm_vue_vue_type_template_id_946d7848___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./AssignmentForm.vue?vue&type=template&id=946d7848& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AssignmentForm.vue?vue&type=template&id=946d7848&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AssignmentForm_vue_vue_type_template_id_946d7848___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StatusForm_vue_vue_type_template_id_50104cfe___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AssignmentForm_vue_vue_type_template_id_946d7848___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

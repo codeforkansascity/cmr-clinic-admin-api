@@ -49,3 +49,8 @@ Route::get('/api-status/options', 'StatusApi@getOptions');
 Route::get('/status/download', 'StatusController@download')->name('status.download');
 Route::get('/status/print', 'StatusController@print')->name('status.print');
 Route::resource('/status', 'StatusController');
+Route::get('/api-assignment', 'AssignmentApi@index');
+Route::get('/api-assignment/options', 'AssignmentApi@getOptions');
+Route::get('/assignment/download', 'AssignmentController@download')->name('assignment.download');
+Route::get('/assignment/print', 'AssignmentController@print')->name('assignment.print');
+Route::resource('/assignment', 'AssignmentController');

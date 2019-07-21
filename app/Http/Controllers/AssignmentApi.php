@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
+use App\Assignment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Client;
-use App\Conviction;
+use App\Http\Requests\AssignmentIndexRequest;
 
-class ClientController extends Controller
+class AssignmentApi extends Controller
 {
-
 
 
     /**
@@ -18,29 +16,8 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(AssignmentIndexRequest $request)
     {
-
-        info(__METHOD__ );
-
-        return Client::all();
-    }
-
-    /**
-     * Display a listing of the resource with pagination.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index_v1_0_1(Request $request)
-    {
-
-        if (!Auth::user()->can('client index')) {
-            return response()->json([
-                'error' => 'Not authorized'
-            ], 403);
-        }
-
-        info(__METHOD__ );
 
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
@@ -48,25 +25,28 @@ class ClientController extends Controller
         $direction = $request->get('direction', '-1');
         $keyword = $request->get('keyword', '');
 
-        $assigned_filter = $request->get('assigned_filter', -1);
-
-
+        // Save the search parameters so we can remember when we go back to the index
+        //   The page is being done by Laravel
+        session([
+            'assignment_page' => $page,
+            'assignment_column' => $column,
+            'assignment_direction' => $direction,
+            'assignment_keyword' => $keyword
+        ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
         $column = $column ? mb_strtolower($column) : 'name';
 
-        switch ($column) {
-            case 'assigned_to':
-                $column = 'users.name';
-                break;
-            default:
-                $column = 'clients.' . $column;
-                break;
+        return Assignment::indexData(10, $column, $direction, $keyword);
+    }
 
-        }
+    /**
+     * Returns "options" for HTML select
+     * @return array
+     */
+    public function getOptions() {
 
-
-        return Client::indexData(10, $column, $direction, $keyword, $assigned_filter);
+        return Assignment::getOptions();
     }
 
     /**
@@ -77,8 +57,7 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        $newClient = Client::create($request->all());
-        return $newClient->id;
+        //
     }
 
     /**
@@ -89,10 +68,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        $client =  Client::find($id);
-
-
-        return $client;
+        //
     }
 
     /**
@@ -104,10 +80,7 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $client = Client::findOrFail($id);
-        $client->update($request->all());
-
-        return $client;
+        //
     }
 
     /**
@@ -118,8 +91,6 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        Client::find($id)->delete();
-
-        return 204;
+        //
     }
 }
