@@ -101,6 +101,7 @@ class Client extends Model
                     'name',
                     'dob',
                     'notes',
+                    'cms_client_number'
             ])
         ->paginate($per_page);
     }

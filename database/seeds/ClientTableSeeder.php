@@ -32,7 +32,7 @@ class ClientTableSeeder extends Seeder
             'zip_code' => $faker->postcode,
             'license_number' => 'L999999999',
             'license_issuing_state' => 'Missouri',
-            'license_expiration_date' => '11/03/2025',
+            'license_expiration_date' => '2025-04-23',
             'filing_court' => 'Jackson',
             'judicial_circuit_number' => 'NULL',
             'judge_name' => $faker->name,
