@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Assignment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use App\Client;
+use App\Http\Requests\ClientFormRequest;
 use App\Conviction;
 
 class ClientController extends Controller
@@ -102,9 +105,18 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ClientFormRequest $request, $id)
     {
         $client = Client::findOrFail($id);
+
+        if ($client->assignment_id != $request->assignment_id) {
+
+            Assignment::create([
+                'client_id' => intval($id),
+                'user_id' => $request->assignment_id
+            ]);
+
+        }
 
 
         $client->update($request->all());

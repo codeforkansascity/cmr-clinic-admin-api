@@ -43,7 +43,7 @@ class UserController extends Controller
 
         $data =  User::getAssigneeOptions();
 
-        $data = [ (object)['id' => '-1', 'name' => 'All'], (object)['id' => '0', 'name' => 'Unassigned'] ] + $data->toArray();
+        $data = [ (object)['id' => '-1', 'name' => 'All Assigned'], (object)['id' => '0', 'name' => 'Unassigned'] ] + $data->toArray();
 
         return $data;
     }

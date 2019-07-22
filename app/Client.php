@@ -151,8 +151,7 @@ class Client extends Model
         }
 
         $query = Client::select($columns)
-            ->leftJoin('assignments', 'clients.assignment_id', 'assignments.id')
-            ->leftJoin('users', 'assignments.user_id', 'users.id')
+            ->leftJoin('users', 'clients.assignment_id', 'users.id')
         ->orderBy($column, $direction);
 
         if ($keyword) {
