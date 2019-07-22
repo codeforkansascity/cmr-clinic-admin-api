@@ -8,7 +8,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="icon" href="{{ asset('img/favicon.png') }}">
         <link href="/css/app.css" rel="stylesheet">
-        <title>@yield('page-title') - APS</title>
+        <title>@yield('page-title') - CMR</title>
     </head>
     <body class="body-with-nav">
         <a href="#app" class="skip-link sr-only sr-only-focusable">Skip to main content</a>
