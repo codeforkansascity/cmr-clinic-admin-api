@@ -21,3 +21,7 @@ Vue.component('status-form', () => import(/* webpackChunkName:"status-form" */ '
 //Vue.component('assignment-form',       require('./components/AssignmentForm.vue'));    // May need to add .default);
 Vue.component('assignment-grid', () => import(/* webpackChunkName:"assignment-grid" */ './components/AssignmentGrid.vue'));
 Vue.component('assignment-form', () => import(/* webpackChunkName:"assignment-form" */ './components/AssignmentForm.vue'));
+//Vue.component('step-grid',       require('./components/StepGrid.vue'));    // May need to add .default);
+//Vue.component('step-form',       require('./components/StepForm.vue'));    // May need to add .default);
+Vue.component('step-grid', () => import(/* webpackChunkName:"step-grid" */ './components/StepGrid.vue'));
+Vue.component('step-form', () => import(/* webpackChunkName:"step-form" */ './components/StepForm.vue'));

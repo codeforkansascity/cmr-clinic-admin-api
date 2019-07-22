@@ -54,3 +54,8 @@ Route::get('/api-assignment/options', 'AssignmentApi@getOptions');
 Route::get('/assignment/download', 'AssignmentController@download')->name('assignment.download');
 Route::get('/assignment/print', 'AssignmentController@print')->name('assignment.print');
 Route::resource('/assignment', 'AssignmentController');
+Route::get('/api-step', 'StepApi@index');
+Route::get('/api-step/options', 'StepApi@getOptions');
+Route::get('/step/download', 'StepController@download')->name('step.download');
+Route::get('/step/print', 'StepController@print')->name('step.print');
+Route::resource('/step', 'StepController');
