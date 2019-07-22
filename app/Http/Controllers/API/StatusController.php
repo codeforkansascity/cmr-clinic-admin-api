@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Status;
 
 class StatusController extends Controller
@@ -93,9 +94,14 @@ class StatusController extends Controller
             ], 403);
         }
 
-        $data =  Status::getOptions();
+        $data =  Status::getOptions()->toArray();
 
-        $data = [ (object)['id' => '-1', 'name' => 'All Status'], (object)['id' => '0', 'name' => 'Unassigned'] ] + $data->toArray();
+        info(print_r($data,true));
+
+        array_unshift($data, ['id' => '-1', 'name' => 'All Status']);
+        array_unshift($data, ['id' => '0', 'name' => 'Unassigned'] );
+
+        info(print_r($data,true));
 
         return $data;
     }

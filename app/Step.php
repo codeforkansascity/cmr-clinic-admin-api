@@ -30,6 +30,11 @@ class Step extends Model
         'updated_at',
     ];
 
+    public function status()
+    {
+        return $this->hasOne('App\Status', 'id', 'status_id');
+    }
+
     public function add($attributes)
     {
 

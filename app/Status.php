@@ -166,8 +166,10 @@ class Status extends Model
 
         $records = $thisModel::select('id',
             'name')
-            ->orderBy('name')
+            ->orderBy('sequence')
             ->get();
+
+        info(print_r($records->toArray(),true));
 
         if (!$flat) {
             return $records;

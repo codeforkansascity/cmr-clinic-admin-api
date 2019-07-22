@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Assignment;
+use App\Step;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
@@ -71,7 +72,7 @@ class ClientController extends Controller
         }
 
 
-        return Client::indexData(10, $column, $direction, $keyword, $assigned_filter);
+        return Client::indexData(10, $column, $direction, $keyword, $assigned_filter, $status_filter);
     }
 
     /**
@@ -94,7 +95,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        $client =  Client::with('assignment','assignment.user')->find($id);
+        $client =  Client::with('assignment','assignment.user','step', 'step.status')->find($id);
 
 
         return $client;
@@ -109,19 +110,40 @@ class ClientController extends Controller
      */
     public function update(ClientFormRequest $request, $id)
     {
-        $client = Client::findOrFail($id);
+        $client = Client::with('assignment','assignment.user','step', 'step.status')->findOrFail($id);
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        $all_fields = $request->all();
+
+        if (!$client->step || ($client->step->status_id != $request->status_id)) {
+
+                $step = Step::create([
+                    'client_id' => intval($id),
+                    'status_id' => $request->status_id,
+                    'created_by' => $user_id,
+                    'modified_by' => $user_id
+                ]);
+
+                $all_fields['step_id'] = $step->id;
+
+        }
 
         if ($client->assignment_id != $request->assignment_id) {
 
             Assignment::create([
                 'client_id' => intval($id),
-                'user_id' => $request->assignment_id
+                'user_id' => $request->assignment_id,
+                'created_by' => $user_id,
+                'modified_by' => $user_id
             ]);
 
         }
 
 
-        $client->update($request->all());
+
+
+        $client->update($all_fields);
 
         return $client;
     }

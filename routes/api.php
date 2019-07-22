@@ -32,7 +32,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 
     Route::get('/assignees/options','UserController@assignee_options')->name('assignees.options');
-    Route::get('/status/options','API\Status@options')->name('status.options');
+    Route::get('/status/options','API\StatusController@options')->name('status.options');
 
     Route::apiResource('clients', 'API\ClientController');
     Route::apiResource('convictions', 'API\ConvictionController');

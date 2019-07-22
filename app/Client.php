@@ -62,9 +62,15 @@ class Client extends Model
         'updated_at',
     ];
 
+
+
     public function assignment()
     {
         return $this->hasOne('App\Assignment', 'id', 'assignment_id');
+    }
+    public function step()
+    {
+        return $this->hasOne('App\Step', 'id', 'step_id');
     }
 
     public function add($attributes)
@@ -191,11 +197,12 @@ class Client extends Model
 
         }
 
+        info("\$status_filter=|$status_filter|");
         switch ($status_filter) {
             case -1:
                 break;
             case 0:
-                $query->where('clients.steps', 0);
+                $query->where('clients.step_id', 0);
                 break;
             default:
                 $query->where('steps.status_id', intval($status_filter));
