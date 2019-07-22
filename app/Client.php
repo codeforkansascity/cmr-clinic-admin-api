@@ -49,7 +49,8 @@ class Client extends Model
             'cms_client_number',
             'cms_matter_number',
             'assignment_id',
-        ];
+            'step_id',
+    ];
 
     protected $hidden = [
         'active',

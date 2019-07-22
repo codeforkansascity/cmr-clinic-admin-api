@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/components/" + ({"assignment-grid~client-grid~status-grid":"assignment-grid~client-grid~status-grid","assignment-grid":"assignment-grid","client-grid":"client-grid","status-grid":"status-grid","std-form-group":"std-form-group","vendors~assignment-form~client-form~status-form":"vendors~assignment-form~client-form~status-form","assignment-form":"assignment-form","client-form":"client-form","status-form":"status-form"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "js/components/" + ({"assignment-grid~client-grid~status-grid~step-grid":"assignment-grid~client-grid~status-grid~step-grid","assignment-grid":"assignment-grid","client-grid":"client-grid","status-grid":"status-grid","step-grid":"step-grid","std-form-group":"std-form-group","vendors~assignment-form~client-form~status-form~step-form":"vendors~assignment-form~client-form~status-form~step-form","assignment-form":"assignment-form","client-form":"client-form","status-form":"status-form","step-form":"step-form"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -51813,26 +51813,34 @@ Vue.component('std-form-group', function () {
 //Vue.component('client-form',       require('./components/ClientForm.vue'));    // May need to add .default);
 
 Vue.component('client-grid', function () {
-  return Promise.all(/*! import() | client-grid */[__webpack_require__.e("assignment-grid~client-grid~status-grid"), __webpack_require__.e("client-grid")]).then(__webpack_require__.bind(null, /*! ./components/ClientGrid.vue */ "./resources/js/components/ClientGrid.vue"));
+  return Promise.all(/*! import() | client-grid */[__webpack_require__.e("assignment-grid~client-grid~status-grid~step-grid"), __webpack_require__.e("client-grid")]).then(__webpack_require__.bind(null, /*! ./components/ClientGrid.vue */ "./resources/js/components/ClientGrid.vue"));
 });
 Vue.component('client-form', function () {
-  return Promise.all(/*! import() | client-form */[__webpack_require__.e("vendors~assignment-form~client-form~status-form"), __webpack_require__.e("client-form")]).then(__webpack_require__.bind(null, /*! ./components/ClientForm.vue */ "./resources/js/components/ClientForm.vue"));
+  return Promise.all(/*! import() | client-form */[__webpack_require__.e("vendors~assignment-form~client-form~status-form~step-form"), __webpack_require__.e("client-form")]).then(__webpack_require__.bind(null, /*! ./components/ClientForm.vue */ "./resources/js/components/ClientForm.vue"));
 }); //Vue.component('status-grid',       require('./components/StatusGrid.vue'));    // May need to add .default);
 //Vue.component('status-form',       require('./components/StatusForm.vue'));    // May need to add .default);
 
 Vue.component('status-grid', function () {
-  return Promise.all(/*! import() | status-grid */[__webpack_require__.e("assignment-grid~client-grid~status-grid"), __webpack_require__.e("status-grid")]).then(__webpack_require__.bind(null, /*! ./components/StatusGrid.vue */ "./resources/js/components/StatusGrid.vue"));
+  return Promise.all(/*! import() | status-grid */[__webpack_require__.e("assignment-grid~client-grid~status-grid~step-grid"), __webpack_require__.e("status-grid")]).then(__webpack_require__.bind(null, /*! ./components/StatusGrid.vue */ "./resources/js/components/StatusGrid.vue"));
 });
 Vue.component('status-form', function () {
-  return Promise.all(/*! import() | status-form */[__webpack_require__.e("vendors~assignment-form~client-form~status-form"), __webpack_require__.e("status-form")]).then(__webpack_require__.bind(null, /*! ./components/StatusForm.vue */ "./resources/js/components/StatusForm.vue"));
+  return Promise.all(/*! import() | status-form */[__webpack_require__.e("vendors~assignment-form~client-form~status-form~step-form"), __webpack_require__.e("status-form")]).then(__webpack_require__.bind(null, /*! ./components/StatusForm.vue */ "./resources/js/components/StatusForm.vue"));
 }); //Vue.component('assignment-grid',       require('./components/AssignmentGrid.vue'));    // May need to add .default);
 //Vue.component('assignment-form',       require('./components/AssignmentForm.vue'));    // May need to add .default);
 
 Vue.component('assignment-grid', function () {
-  return Promise.all(/*! import() | assignment-grid */[__webpack_require__.e("assignment-grid~client-grid~status-grid"), __webpack_require__.e("assignment-grid")]).then(__webpack_require__.bind(null, /*! ./components/AssignmentGrid.vue */ "./resources/js/components/AssignmentGrid.vue"));
+  return Promise.all(/*! import() | assignment-grid */[__webpack_require__.e("assignment-grid~client-grid~status-grid~step-grid"), __webpack_require__.e("assignment-grid")]).then(__webpack_require__.bind(null, /*! ./components/AssignmentGrid.vue */ "./resources/js/components/AssignmentGrid.vue"));
 });
 Vue.component('assignment-form', function () {
-  return Promise.all(/*! import() | assignment-form */[__webpack_require__.e("vendors~assignment-form~client-form~status-form"), __webpack_require__.e("assignment-form")]).then(__webpack_require__.bind(null, /*! ./components/AssignmentForm.vue */ "./resources/js/components/AssignmentForm.vue"));
+  return Promise.all(/*! import() | assignment-form */[__webpack_require__.e("vendors~assignment-form~client-form~status-form~step-form"), __webpack_require__.e("assignment-form")]).then(__webpack_require__.bind(null, /*! ./components/AssignmentForm.vue */ "./resources/js/components/AssignmentForm.vue"));
+}); //Vue.component('step-grid',       require('./components/StepGrid.vue'));    // May need to add .default);
+//Vue.component('step-form',       require('./components/StepForm.vue'));    // May need to add .default);
+
+Vue.component('step-grid', function () {
+  return Promise.all(/*! import() | step-grid */[__webpack_require__.e("assignment-grid~client-grid~status-grid~step-grid"), __webpack_require__.e("step-grid")]).then(__webpack_require__.bind(null, /*! ./components/StepGrid.vue */ "./resources/js/components/StepGrid.vue"));
+});
+Vue.component('step-form', function () {
+  return Promise.all(/*! import() | step-form */[__webpack_require__.e("vendors~assignment-form~client-form~status-form~step-form"), __webpack_require__.e("step-form")]).then(__webpack_require__.bind(null, /*! ./components/StepForm.vue */ "./resources/js/components/StepForm.vue"));
 });
 
 /***/ }),

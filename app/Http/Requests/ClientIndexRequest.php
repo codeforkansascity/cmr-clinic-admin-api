@@ -29,6 +29,8 @@ class ClientIndexRequest extends FormRequest
             'column' => 'nullable|string',
             'direction' => 'numeric',
             'keyword' => 'string',
+            'assignment_id' => 'nullable|numeric',
+            'step_id' => 'nullable|numeric',
         ];
     }
 }
