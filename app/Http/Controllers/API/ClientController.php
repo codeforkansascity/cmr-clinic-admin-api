@@ -92,7 +92,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        $client =  Client::with('assignment','assignment.user')->find($id);
+        $client =  Client::find($id);
 
 
         return $client;
