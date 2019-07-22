@@ -53,6 +53,8 @@ class ClientController extends Controller
 
         $assigned_filter = $request->get('assigned_filter', -1);
 
+        $status_filter = $request->get('status_filter', -1);
+
 
 
         $keyword = $keyword != 'null' ? $keyword : '';

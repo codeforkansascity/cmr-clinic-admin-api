@@ -81,4 +81,22 @@ class StatusController extends Controller
 
         return 204;
     }
+
+    /**
+     * Returns "options" for HTML select
+     * @return array
+     */
+    public function options() {
+        if (!Auth::user()->can('status index')) {
+            return response()->json([
+                'error' => 'Not authorized'
+            ], 403);
+        }
+
+        $data =  Status::getOptions();
+
+        $data = [ (object)['id' => '-1', 'name' => 'All Status'], (object)['id' => '0', 'name' => 'Unassigned'] ] + $data->toArray();
+
+        return $data;
+    }
 }
