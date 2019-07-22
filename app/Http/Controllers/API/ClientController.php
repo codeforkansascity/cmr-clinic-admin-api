@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Assignment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use App\Client;
+use App\Http\Requests\ClientFormRequest;
 use App\Conviction;
 
 class ClientController extends Controller
@@ -33,6 +37,12 @@ class ClientController extends Controller
     public function index_v1_0_1(Request $request)
     {
 
+        if (!Auth::user()->can('client index')) {
+            return response()->json([
+                'error' => 'Not authorized'
+            ], 403);
+        }
+
         info(__METHOD__ );
 
         $page = $request->get('page', '1');                // Pagination looks at the request
@@ -41,13 +51,25 @@ class ClientController extends Controller
         $direction = $request->get('direction', '-1');
         $keyword = $request->get('keyword', '');
 
+        $assigned_filter = $request->get('assigned_filter', -1);
+
 
 
         $keyword = $keyword != 'null' ? $keyword : '';
         $column = $column ? mb_strtolower($column) : 'name';
 
+        switch ($column) {
+            case 'assigned_to':
+                $column = 'users.name';
+                break;
+            default:
+                $column = 'clients.' . $column;
+                break;
 
-        return Client::indexData(10, $column, $direction, $keyword);
+        }
+
+
+        return Client::indexData(10, $column, $direction, $keyword, $assigned_filter);
     }
 
     /**
@@ -70,7 +92,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        $client =  Client::find($id);
+        $client =  Client::with('assignment','assignment.user')->find($id);
 
 
         return $client;
@@ -83,9 +105,20 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ClientFormRequest $request, $id)
     {
         $client = Client::findOrFail($id);
+
+        if ($client->assignment_id != $request->assignment_id) {
+
+            Assignment::create([
+                'client_id' => intval($id),
+                'user_id' => $request->assignment_id
+            ]);
+
+        }
+
+
         $client->update($request->all());
 
         return $client;

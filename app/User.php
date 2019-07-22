@@ -38,4 +38,36 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+
+    /**
+     * Get "options" for HTML select tag
+     *
+     * If flat return an array.
+     * Otherwise, return an array of records.  Helps keep in proper order durring ajax calls to Chrome
+     */
+    static public function getAssigneeOptions($flat = false)
+    {
+
+        $thisModel = new static;
+
+        $records = $thisModel::select('id',
+            'name')
+            ->orderBy('name')
+            ->get();
+
+        if (!$flat) {
+            return $records;
+        } else {
+            $data = [];
+
+            foreach ($records AS $rec) {
+                $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
+            }
+
+            return $data;
+        }
+
+    }
 }

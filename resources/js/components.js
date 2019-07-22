@@ -16,3 +16,8 @@ Vue.component('client-form', () => import(/* webpackChunkName:"client-form" */ '
 //Vue.component('status-form',       require('./components/StatusForm.vue'));    // May need to add .default);
 Vue.component('status-grid', () => import(/* webpackChunkName:"status-grid" */ './components/StatusGrid.vue'));
 Vue.component('status-form', () => import(/* webpackChunkName:"status-form" */ './components/StatusForm.vue'));
+
+//Vue.component('assignment-grid',       require('./components/AssignmentGrid.vue'));    // May need to add .default);
+//Vue.component('assignment-form',       require('./components/AssignmentForm.vue'));    // May need to add .default);
+Vue.component('assignment-grid', () => import(/* webpackChunkName:"assignment-grid" */ './components/AssignmentGrid.vue'));
+Vue.component('assignment-form', () => import(/* webpackChunkName:"assignment-form" */ './components/AssignmentForm.vue'));

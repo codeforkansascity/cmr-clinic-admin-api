@@ -67,6 +67,10 @@ class ClientRequest extends FormRequest
             'notes' => 'nullable|string|max:255',
             'external_ref' => 'nullable|string|max:42',
             'any_pending_cases' => 'nullable|string|max:255',
+            'cms_client_number' => 'nullable|string|max:255',
+            'cms_matter_number' => 'nullable|string|max:255',
+            'assignment_id' => 'numeric|nullable',
+
 
         ];
 

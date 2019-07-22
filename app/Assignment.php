@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Client extends Model
+class Assignment extends Model
 {
 
     use SoftDeletes;
@@ -16,39 +16,9 @@ class Client extends Model
     protected $fillable = [
             'id',
             'name',
-            'phone',
-            'email',
-            'sex',
-            'race',
-            'dob',
-            'address_line_1',
-            'address_line_2',
-            'city',
-            'state',
-            'zip_code',
-            'license_number',
-            'license_issuing_state',
-            'license_expiration_date',
-            'filing_court',
-            'judicial_circuit_number',
-            'count_name',
-            'judge_name',
-            'division_name',
-            'petitioner_name',
-            'division_number',
-            'city_name_here',
-            'county_name',
-            'arresting_county',
-            'prosecuting_county',
-            'arresting_municipality',
-            'other_agencies_name',
-            'previous_expungements',
-            'notes',
-            'external_ref',
-            'any_pending_cases',
-            'cms_client_number',
-            'cms_matter_number',
-            'assignment_id',
+            'client_id',
+            'user_id',
+            'deleted_at',
         ];
 
     protected $hidden = [
@@ -60,9 +30,9 @@ class Client extends Model
         'updated_at',
     ];
 
-    public function assignment()
+    public function user()
     {
-        return $this->hasOne('App\Assignment', 'id', 'assignment_id');
+        return $this->hasOne('App\User', 'id', 'user_id');
     }
 
     public function add($attributes)
@@ -100,16 +70,11 @@ class Client extends Model
         $per_page,
         $column,
         $direction,
-        $keyword = '',
-        $filter_assigned = -1)
+        $keyword = '')
     {
-        return self::buildBaseGridQuery($column, $direction, $keyword, $filter_assigned,
-            [ 'clients.id',
-                    'clients.name',
-                    'clients.dob',
-                    'clients.notes',
-                    'clients.cms_client_number',
-                    'users.name AS assigned_to'
+        return self::buildBaseGridQuery($column, $direction, $keyword,
+            [ 'id',
+                    'name',
             ])
         ->paginate($per_page);
     }
@@ -134,7 +99,6 @@ class Client extends Model
         $column,
         $direction,
         $keyword = '',
-        $assigned_filter = -1,
         $columns = '*')
     {
         // Map sort direction from 1/-1 integer to asc/desc sql keyword
@@ -145,31 +109,14 @@ class Client extends Model
             case '-1':
                 $direction = 'asc';
                 break;
-            default:
-                $direction = 'asc';
-                break;
         }
 
-        $query = Client::select($columns)
-            ->leftJoin('users', 'clients.assignment_id', 'users.id')
+        $query = Assignment::select($columns)
         ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('clients.name', 'like', '%' . $keyword . '%');
+            $query->where('name', 'like', '%' . $keyword . '%');
         }
-
-        switch ($assigned_filter) {
-            case -1:
-                break;
-            case 0:
-                $query->where('clients.assignment_id', 0);
-                break;
-            default:
-                $query->where('clients.assignment_id', intval($assigned_filter));
-                break;
-
-        }
-
         return $query;
     }
 
