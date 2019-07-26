@@ -10813,6 +10813,12 @@ body.loading-screen .loading-message.global {
   top: -28px;
 }
 
+.page-help-link {
+  position: absolute;
+  right: 15px;
+  top: -28px;
+}
+
 .dropdown-toggle::after {
   vertical-align: middle;
 }
@@ -10997,6 +11003,44 @@ th.active .arrow {
   cursor: pointer;
 }
 
+.form-group-standard label {
+  display: block;
+}
+
+.form-group-inline {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 30px;
+}
+
+.form-group-inline label {
+  display: inline-block;
+  vertical-align: middle;
+  margin-bottom: 0;
+  margin-right: 5px;
+}
+
+.form-group-inline > * {
+  vertical-align: middle;
+  margin-bottom: 0;
+}
+
+a.form-group-help > img {
+  /*margin-left: 20px;
+  width: 1.5em;
+  height: 1.5em;*/
+  width: 22px;
+  height: 22px;
+}
+
+a.form-group-help > .help-text {
+  display: none;
+}
+
+.tooltip-inner {
+  text-align: left;
+}
+
 @media only screen and (max-width: 576px) {
   .form-control.w-75,
   .form-control.w-50,
@@ -11032,16 +11076,14 @@ th.active .arrow {
 .is-invalid .form-check-input,
 .is-invalid .form-check-label,
 .is-invalid .form-control-label,
-.is-invalid .invalid-feedback,
-.is-invalid .form-text {
+.is-invalid .invalid-feedback {
   color: #e3342f !important;
 }
 
 .is-valid .form-check-input,
 .is-valid .form-check-label,
 .is-valid .form-control-label,
-.is-valid .invalid-feedback,
-.is-valid .form-text {
+.is-valid .invalid-feedback {
   color: #38c172 !important;
 }
 
@@ -11058,6 +11100,10 @@ th.active .arrow {
 .text-only .form-text {
   font-weight: 700;
   padding: 0 !important;
+}
+
+.trim-last-p p:last-child {
+  margin-bottom: 0;
 }
 
 .has-error .help-block,

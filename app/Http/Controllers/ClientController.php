@@ -162,6 +162,10 @@ class ClientController extends Controller
         }
 
         if ($client = $this->sanitizeAndFind($id)) {
+
+
+            dump($client);
+
             $can_edit = Auth::user()->can('client edit');
             $can_delete = Auth::user()->can('client delete');
             return view('client.show', compact('client','can_edit', 'can_delete'));

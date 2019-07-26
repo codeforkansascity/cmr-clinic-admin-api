@@ -5,8 +5,28 @@ Vue.component('search-form-group', './components/SearchFormGroup.vue');
 
 Vue.component('std-form-group', () => import(/* webpackChunkName:"std-form-group" */ './components/StdFormGroup.vue'));
 
+/*
+     UI
+ */
+Vue.component('ui-field-view', require('./components/UiFieldView.vue'));
+Vue.component('ui-select-pick-one', require('./components/UiSelectPickOne.vue'));
+
+Vue.component('std-form-group', () => import(/* webpackChunkName:"std-form-group" */ './components/SS/StdFormGroup.vue'));
+Vue.component('fld-input', () => import(/* webpackChunkName:"fld-input" */ './components/SS/FldInput.vue'));
+Vue.component('fld-text-area', () => import(/* webpackChunkName:"fld-text-area" */ './components/SS/FldTextArea.vue'));
+Vue.component('fld-checkbox', () => import(/* webpackChunkName:"fld-checkbox" */ './components/SS/FldCheckBox.vue'));
+Vue.component('fld-state', () => import(/* webpackChunkName:"fld-state" */ './components/SS/FldState.vue'));
+
+Vue.component('dsp-boolean', () => import(/* webpackChunkName:"dsp-boolean" */ './components/SS/DspBoolean.vue'));
+Vue.component('dsp-textarea', () => import(/* webpackChunkName:"dsp-textarea" */ './components/SS/DspTextArea.vue'));
+Vue.component('dsp-text', () => import(/* webpackChunkName:"dsp-text" */ './components/SS/DspText.vue'));
+
+Vue.component('search-form-group', () => import(/* webpackChunkName:"search-form-group" */ './components/SearchFormGroup.vue'));
 
 
+/*
+     Application Components
+ */
 //Vue.component('client-grid',       require('./components/ClientGrid.vue'));    // May need to add .default);
 //Vue.component('client-form',       require('./components/ClientForm.vue'));    // May need to add .default);
 Vue.component('client-grid', () => import(/* webpackChunkName:"client-grid" */ './components/ClientGrid.vue'));
@@ -40,3 +60,4 @@ Vue.component('step-form', () => import(/* webpackChunkName:"step-form" */ './co
 Vue.component('assignment-show', () => import(/* webpackChunkName:"assignment-Show" */ './components/AssignmentShow.vue'));
 Vue.component('step-show', () => import(/* webpackChunkName:"step-Show" */ './components/StepShow.vue'));
 Vue.component('status-show', () => import(/* webpackChunkName:"status-Show" */ './components/StatusShow.vue'));
+

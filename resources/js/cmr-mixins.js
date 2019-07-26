@@ -15,3 +15,13 @@ Vue.mixin({
         },
     }
 });
+
+Vue.directive('tooltip', function(el, binding){
+    jQuery(el).on('click', function(e){ e.preventDefault() });
+    jQuery(el).tooltip({
+        title: jQuery('.help-text', el).html(),
+        html: true,
+        placement: 'top',
+        trigger: 'hover focus'
+    });
+});

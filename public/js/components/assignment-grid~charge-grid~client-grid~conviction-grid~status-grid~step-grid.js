@@ -25,9 +25,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "grid-column-header",
+  name: "ss-grid-column-header",
   props: {
-    'params': {
+    params: {
       default: function _default() {}
     },
     selectedKey: [String, Number, Boolean],
@@ -45,7 +45,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     sortBy: function sortBy() {
-      if (this.sortOrder == 'asc') {
+      if (this.sortOrder == "asc") {
         this.sortOrder = -1;
       } else {
         this.sortOrder = this.sortOrder == 1 ? -1 : 1;
@@ -128,8 +128,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'ss-grid-pagination',
+  name: "ss-grid-pagination",
   props: {
     current_page: [String, Number],
     last_page: [String, Number],
@@ -175,7 +181,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     gotoPage: function gotoPage(page) {
-      this.$emit('goto-page', page);
+      this.$emit("goto-page", page);
     },
     isCurrentPage: function isCurrentPage(page) {
       return page == this.current_page;
@@ -208,8 +214,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "pagination-location",
+  name: "ss-pagination-location",
   props: {
     current_page: [String, Number],
     last_page: [String, Number],
@@ -291,11 +298,14 @@ var render = function() {
       },
       [
         _c(
-          "a",
+          "button",
           {
             staticClass: "btn btn-outline-secondary mb-2",
-            class: { disabled: _vm.isCurrentPageFirst },
-            attrs: { href: "#", title: "First" },
+            attrs: {
+              type: "button",
+              title: "First",
+              disabled: _vm.isCurrentPageFirst
+            },
             on: {
               click: function($event) {
                 $event.preventDefault()
@@ -307,11 +317,14 @@ var render = function() {
         ),
         _vm._v(" "),
         _c(
-          "a",
+          "button",
           {
             staticClass: "btn btn-outline-secondary mb-2",
-            class: { disabled: _vm.isCurrentPageFirst },
-            attrs: { href: "#", title: "Previous" },
+            attrs: {
+              type: "button",
+              title: "Previous",
+              disabled: _vm.isCurrentPageFirst
+            },
             on: {
               click: function($event) {
                 $event.preventDefault()
@@ -326,14 +339,14 @@ var render = function() {
           return page > _vm.current_page - 2 && page < _vm.current_page + 2
             ? [
                 _c(
-                  "a",
+                  "button",
                   {
                     class: {
                       "btn mb-2": true,
                       "btn-secondary active": _vm.isCurrentPage(page),
                       "btn-outline-secondary": !_vm.isCurrentPage(page)
                     },
-                    attrs: { href: "#", title: "Page " + page },
+                    attrs: { type: "button", title: "Page " + page },
                     on: {
                       click: function($event) {
                         $event.preventDefault()
@@ -352,11 +365,14 @@ var render = function() {
         }),
         _vm._v(" "),
         _c(
-          "a",
+          "button",
           {
             staticClass: "btn btn-outline-secondary mb-2",
-            class: { disabled: _vm.isCurrentPageLast },
-            attrs: { href: "#", title: "Next" },
+            attrs: {
+              type: "button",
+              title: "Next",
+              disabled: _vm.isCurrentPageLast
+            },
             on: {
               click: function($event) {
                 $event.preventDefault()
@@ -368,11 +384,14 @@ var render = function() {
         ),
         _vm._v(" "),
         _c(
-          "a",
+          "button",
           {
             staticClass: "btn btn-outline-secondary mb-2",
-            class: { disabled: _vm.isCurrentPageLast },
-            attrs: { href: "#", title: "Last" },
+            attrs: {
+              type: "button",
+              title: "Last",
+              disabled: _vm.isCurrentPageLast
+            },
             on: {
               click: function($event) {
                 $event.preventDefault()
@@ -418,7 +437,7 @@ var render = function() {
           _vm._s(_vm.last_page) +
           ", " +
           _vm._s(_vm.total) +
-          " Total Results\n    "
+          " Total\n        Results\n    "
       )
     ])
   ])
