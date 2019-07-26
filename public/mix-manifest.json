@@ -20,5 +20,10 @@
     "/js/components/conviction-Show.js": "/js/components/conviction-Show.js",
     "/js/components/conviction-form.js": "/js/components/conviction-form.js",
     "/js/components/conviction-grid.js": "/js/components/conviction-grid.js",
-    "/js/components/vendors~assignment-form~client-form~conviction-form~status-form.js": "/js/components/vendors~assignment-form~client-form~conviction-form~status-form.js"
+    "/js/components/vendors~assignment-form~client-form~conviction-form~status-form.js": "/js/components/vendors~assignment-form~client-form~conviction-form~status-form.js",
+    "/js/components/assignment-grid~charge-grid~client-grid~conviction-grid~status-grid.js": "/js/components/assignment-grid~charge-grid~client-grid~conviction-grid~status-grid.js",
+    "/js/components/charge-Show.js": "/js/components/charge-Show.js",
+    "/js/components/charge-form.js": "/js/components/charge-form.js",
+    "/js/components/charge-grid.js": "/js/components/charge-grid.js",
+    "/js/components/vendors~assignment-form~charge-form~client-form~conviction-form~status-form.js": "/js/components/vendors~assignment-form~charge-form~client-form~conviction-form~status-form.js"
 }

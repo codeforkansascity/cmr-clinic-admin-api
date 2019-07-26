@@ -27,3 +27,8 @@ Vue.component('client-show', () => import(/* webpackChunkName:"client-Show" */ '
 Vue.component('conviction-grid', () => import(/* webpackChunkName:"conviction-grid" */ './components/ConvictionGrid.vue'));
 Vue.component('conviction-form', () => import(/* webpackChunkName:"conviction-form" */ './components/ConvictionForm.vue'));
 Vue.component('conviction-show', () => import(/* webpackChunkName:"conviction-Show" */ './components/ConvictionShow.vue'));
+//Vue.component('charge-grid',       require('./components/ChargeGrid.vue'));    // May need to add .default);
+//Vue.component('charge-form',       require('./components/ChargeForm.vue'));    // May need to add .default);
+Vue.component('charge-grid', () => import(/* webpackChunkName:"charge-grid" */ './components/ChargeGrid.vue'));
+Vue.component('charge-form', () => import(/* webpackChunkName:"charge-form" */ './components/ChargeForm.vue'));
+Vue.component('charge-show', () => import(/* webpackChunkName:"charge-Show" */ './components/ChargeShow.vue'));

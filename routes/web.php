@@ -59,3 +59,8 @@ Route::get('/api-conviction/options', 'ConvictionApi@getOptions');
 Route::get('/conviction/download', 'ConvictionController@download')->name('conviction.download');
 Route::get('/conviction/print', 'ConvictionController@print')->name('conviction.print');
 Route::resource('/conviction', 'ConvictionController');
+Route::get('/api-charge', 'ChargeApi@index');
+Route::get('/api-charge/options', 'ChargeApi@getOptions');
+Route::get('/charge/download', 'ChargeController@download')->name('charge.download');
+Route::get('/charge/print', 'ChargeController@print')->name('charge.print');
+Route::resource('/charge', 'ChargeController');
