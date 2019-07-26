@@ -15,8 +15,5 @@
     "/img/icons/square.svg": "/img/icons/square.svg",
     "/img/icons/success.svg": "/img/icons/success.svg",
     "/img/icons/warning.svg": "/img/icons/warning.svg",
-    "/js/components/assignment-grid~client-grid~status-grid~step-grid.js": "/js/components/assignment-grid~client-grid~status-grid~step-grid.js",
-    "/js/components/step-form.js": "/js/components/step-form.js",
-    "/js/components/step-grid.js": "/js/components/step-grid.js",
-    "/js/components/vendors~assignment-form~client-form~status-form~step-form.js": "/js/components/vendors~assignment-form~client-form~status-form~step-form.js"
+    "/js/components/client-Show.js": "/js/components/client-Show.js"
 }

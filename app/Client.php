@@ -20,7 +20,7 @@ class Client extends Model
             'email',
             'sex',
             'race',
-            'dob',
+            'dob_text',
             'address_line_1',
             'address_line_2',
             'city',
@@ -28,7 +28,7 @@ class Client extends Model
             'zip_code',
             'license_number',
             'license_issuing_state',
-            'license_expiration_date',
+            'license_expiration_date_text',
             'filing_court',
             'judicial_circuit_number',
             'count_name',
@@ -46,9 +46,14 @@ class Client extends Model
             'notes',
             'external_ref',
             'any_pending_cases',
+            'deleted_at',
+            'status_id',
+            'dob',
+            'license_expiration_date',
             'cms_client_number',
             'cms_matter_number',
             'assignment_id',
+            'step_id',
         ];
 
     protected $hidden = [
@@ -59,11 +64,6 @@ class Client extends Model
         'created_at',
         'updated_at',
     ];
-
-    public function assignment()
-    {
-        return $this->hasOne('App\Assignment', 'id', 'assignment_id');
-    }
 
     public function add($attributes)
     {
@@ -100,16 +100,12 @@ class Client extends Model
         $per_page,
         $column,
         $direction,
-        $keyword = '',
-        $filter_assigned = -1)
+        $keyword = '')
     {
-        return self::buildBaseGridQuery($column, $direction, $keyword, $filter_assigned,
-            [ 'clients.id',
-                    'clients.name',
-                    'clients.dob',
-                    'clients.notes',
-                    'clients.cms_client_number',
-                    'users.name AS assigned_to'
+        return self::buildBaseGridQuery($column, $direction, $keyword,
+            [ 'id',
+                    'name',
+                    'notes',
             ])
         ->paginate($per_page);
     }
@@ -134,7 +130,6 @@ class Client extends Model
         $column,
         $direction,
         $keyword = '',
-        $assigned_filter = -1,
         $columns = '*')
     {
         // Map sort direction from 1/-1 integer to asc/desc sql keyword
@@ -151,25 +146,11 @@ class Client extends Model
         }
 
         $query = Client::select($columns)
-            ->leftJoin('users', 'clients.assignment_id', 'users.id')
         ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('clients.name', 'like', '%' . $keyword . '%');
+            $query->where('name', 'like', '%' . $keyword . '%');
         }
-
-        switch ($assigned_filter) {
-            case -1:
-                break;
-            case 0:
-                $query->where('clients.assignment_id', 0);
-                break;
-            default:
-                $query->where('clients.assignment_id', intval($assigned_filter));
-                break;
-
-        }
-
         return $query;
     }
 

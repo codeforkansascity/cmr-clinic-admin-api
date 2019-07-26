@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/components/" + ({"assignment-grid~client-grid~status-grid":"assignment-grid~client-grid~status-grid","assignment-grid":"assignment-grid","client-grid":"client-grid","status-grid":"status-grid","std-form-group":"std-form-group","vendors~assignment-form~client-form~status-form":"vendors~assignment-form~client-form~status-form","assignment-form":"assignment-form","client-form":"client-form","status-form":"status-form"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "js/components/" + ({"assignment-grid~client-grid~status-grid":"assignment-grid~client-grid~status-grid","assignment-grid":"assignment-grid","client-grid":"client-grid","status-grid":"status-grid","client-Show":"client-Show","std-form-group":"std-form-group","vendors~assignment-form~client-form~status-form":"vendors~assignment-form~client-form~status-form","assignment-form":"assignment-form","client-form":"client-form","status-form":"status-form"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -51833,6 +51833,9 @@ Vue.component('assignment-grid', function () {
 });
 Vue.component('assignment-form', function () {
   return Promise.all(/*! import() | assignment-form */[__webpack_require__.e("vendors~assignment-form~client-form~status-form"), __webpack_require__.e("assignment-form")]).then(__webpack_require__.bind(null, /*! ./components/AssignmentForm.vue */ "./resources/js/components/AssignmentForm.vue"));
+});
+Vue.component('client-show', function () {
+  return __webpack_require__.e(/*! import() | client-Show */ "client-Show").then(__webpack_require__.bind(null, /*! ./components/ClientShow.vue */ "./resources/js/components/ClientShow.vue"));
 });
 
 /***/ }),

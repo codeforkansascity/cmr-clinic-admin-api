@@ -55,40 +55,18 @@
                         <ss-grid-column-header
                             v-on:selectedSort="sortColumn"
                             v-bind:selectedKey="sortKey"
-                            title="Sort by Full Name"
+                            title="Sort by Name"
                             :params="{
                                 sortField: 'name',
                                 InitialSortOrder: 'asc'
                             }"
                         >
-                            Full Name
+                            Name
                         </ss-grid-column-header>
                         <ss-grid-column-header
                             v-on:selectedSort="sortColumn"
                             v-bind:selectedKey="sortKey"
-                            title="Sort by Phone"
-                            :params="{
-                                sortField: 'phone',
-                                InitialSortOrder: 'asc'
-                            }"
-                        >
-                            Phone
-                        </ss-grid-column-header>
-                        <ss-grid-column-header
-                            v-on:selectedSort="sortColumn"
-                            v-bind:selectedKey="sortKey"
-                            title="Sort by Filing Court"
-                            :params="{
-                                sortField: 'filing_court',
-                                InitialSortOrder: 'asc'
-                            }"
-                        >
-                            Filing Court
-                        </ss-grid-column-header>
-                        <ss-grid-column-header
-                            v-on:selectedSort="sortColumn"
-                            v-bind:selectedKey="sortKey"
-                            title="Sort by Notes""
+                            title="Sort by Notes"
                             :params="{
                                 sortField: 'notes',
                                 InitialSortOrder: 'asc'
@@ -101,14 +79,14 @@
                 </thead>
                 <tbody>
                     <tr v-if="gridState == 'wait'">
-                        <td colspan="5" class="grid-alert">
+                        <td colspan="3" class="grid-alert">
                             <div class="alert alert-info" role="alert">
                                 Please wait.
                             </div>
                         </td>
                     </tr>
                     <tr v-if="gridState == 'error'">
-                        <td colspan="5" class="grid-alert">
+                        <td colspan="3" class="grid-alert">
                             <div class="alert alert-warning" role="alert">
                                 Error please try again.
                             </div>
@@ -116,7 +94,7 @@
                     </tr>
 
                     <tr v-if="gridState == 'good' && !gridData.length">
-                        <td colspan="5" class="grid-alert">
+                        <td colspan="3" class="grid-alert">
                             <div class="alert alert-warning" role="alert">
                                 No matching records found.
                             </div>
@@ -124,10 +102,16 @@
                     </tr>
 
                     <tr v-else v-for="row in this.gridData" :key="row.id">
-                        <td data-title="Full Name">{{ row.name }}</td>
-                        <td data-title="Phone">{{ row.phone }}</td>
-                        <td data-title="Filing Court">
-                            {{ row.filing_court }}
+                        <td data-title="Name">
+                            <a
+                                v-bind:href="'/client/' + row.id"
+                                v-if="params.CanShow == '1'"
+                            >
+                                {{ row.name }}
+                            </a>
+                            <span v-if="params.CanShow != '1'">
+                                {{ row.name }}
+                            </span>
                         </td>
                         <td data-title="Notes">{{ row.notes }}</td>
                         <td
@@ -182,15 +166,13 @@
 import SsGridColumnHeader from "./SsGridColumnHeader";
 import SsGridPagination from "./SsGridPagination";
 import SsGridPaginationLocation from "./SsPaginationLocation";
-import SearchFormGroup from "./SearchFormGroup";
 
 export default {
     name: "client-grid",
     components: {
         SsGridColumnHeader,
         SsGridPaginationLocation,
-        SsGridPagination,
-        SearchFormGroup
+        SsGridPagination
     },
     props: {
         params: {
@@ -200,12 +182,11 @@ export default {
     },
 
     mounted: function() {
-        this.params.Page = !isNaN(parseInt(this.params.Page))
+        this.current_page = !isNaN(parseInt(this.params.Page))
             ? parseInt(this.params.Page)
-            : null;
+            : 1;
         this.query = this.params.Search;
-        this.current_page = this.params.Page;
-        this.getData(1);
+        this.getData(this.current_page);
     },
 
     data: function() {
@@ -213,7 +194,7 @@ export default {
             gridState: "wait",
             query: this.params.Search,
             gridData: [],
-            current_page: this.params.Page,
+            current_page: 1,
             last_page: null,
             total: null,
 

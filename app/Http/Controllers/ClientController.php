@@ -27,11 +27,9 @@ class ClientController extends Controller
      * Vue component example.
      *
         <ui-select-pick-one
-            label="My Label"
             url="/api-client/options"
-            class="form-group"
             v-model="clientSelected"
-            v-on:input="getData">
+            :selected_id=clientSelected">
         </ui-select-pick-one>
      *
      *
@@ -359,8 +357,6 @@ class ClientController extends Controller
         // Get query data
         $columns = [
             'name',
-            'phone',
-            'filing_court',
             'notes',
         ];
         $dataQuery = Client::pdfDataQuery($column, $direction, $search, $columns);

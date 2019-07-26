@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "dd9dc5d428a5ae486220536dbe6a1a8d",
+    "content-hash": "64fdf9820f2032ea4df944fcaf4c3d44",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4434,6 +4434,47 @@
                 "psr-7"
             ],
             "time": "2019-01-05T20:13:32+00:00"
+        },
+        {
+            "name": "zmon/laravel-crud-generator-zmon",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zmon/laravel-crud-generator.git",
+                "reference": "27712877ae1d9244348644ab6b4bbb2dff591f56"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zmon/laravel-crud-generator/zipball/27712877ae1d9244348644ab6b4bbb2dff591f56",
+                "reference": "27712877ae1d9244348644ab6b4bbb2dff591f56",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": ">=5.0.0",
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CrudGenerator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alfredo Aguirre",
+                    "email": "alfrednx@gmail.com"
+                },
+                {
+                    "name": "Paul Barham",
+                    "email": "paulb@savagesoft.com"
+                }
+            ],
+            "description": "php artisan command to generate fully working crud with grid paginated server side only by having database tables",
+            "time": "2019-07-26T17:44:31+00:00"
         }
     ],
     "packages-dev": [
@@ -6197,47 +6238,6 @@
                 "validate"
             ],
             "time": "2018-12-25T11:19:39+00:00"
-        },
-        {
-            "name": "zmon/laravel-crud-generator-zmon",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zmon/laravel-crud-generator.git",
-                "reference": "3894c9b850443f5c673cd97d4c5b5e69bb2fcde3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zmon/laravel-crud-generator/zipball/3894c9b850443f5c673cd97d4c5b5e69bb2fcde3",
-                "reference": "3894c9b850443f5c673cd97d4c5b5e69bb2fcde3",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/framework": ">=5.0.0",
-                "php": ">=5.5.9"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "CrudGenerator\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alfredo Aguirre",
-                    "email": "alfrednx@gmail.com"
-                },
-                {
-                    "name": "Paul Barham",
-                    "email": "paulb@savagesoft.com"
-                }
-            ],
-            "description": "php artisan command to generate fully working crud with grid paginated server side only by having database tables",
-            "time": "2019-07-05T00:03:03+00:00"
         }
     ],
     "aliases": [],

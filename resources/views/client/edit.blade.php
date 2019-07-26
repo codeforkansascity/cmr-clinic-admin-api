@@ -15,5 +15,5 @@
     </ol>
 @endsection
 @section('content')
-    <client-form csrf_token="{{ csrf_token() }}" :record='{!! json_encode($client,JSON_HEX_APOS) !!}'></client-form>
+    <client-form csrf_token="{{ csrf_token() }}" :record='@json($client)'></client-form>
 @endsection
