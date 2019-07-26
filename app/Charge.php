@@ -3,41 +3,33 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\RecordSignature;
 
 class Charge extends Model
 {
 
-    use SoftDeletes;
+    use RecordSignature;
+
 
     /**
-     * fillable - attributes that can be mass-assigned
+     * The attributes that are mass assignable.
+     *
+     * @var array
      */
     protected $fillable = [
-            'id',
-            'conviction_id',
-            'charge',
-            'citation',
-            'conviction_class_type',
-            'conviction_charge_type',
-            'sentence',
-            'convicted_text',
-            'eligible_text',
-            'please_expunge_text',
-            'to_print',
-            'notes',
-            'convicted',
-            'eligible',
-            'please_expunge',
-        ];
-
-    protected $hidden = [
-        'active',
+        'conviction_id',
+        'charge',
+        'citation',
+        'conviction_class_type',
+        'conviction_charge_type',
+        'sentence',
+        'convicted',
+        'eligible',
+        'please_expunge',
+        'please_print',
+        'notes',
         'created_by',
         'modified_by',
-        'purged_by',
-        'created_at',
-        'updated_at',
     ];
 
     public function add($attributes)

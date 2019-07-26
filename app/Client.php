@@ -4,11 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\RecordSignature;
 
 class Client extends Model
 {
 
     use SoftDeletes;
+    use RecordSignature;
 
     /**
      * fillable - attributes that can be mass-assigned
@@ -65,6 +67,11 @@ class Client extends Model
         'updated_at',
     ];
 
+    public function assignment()
+    {
+        return $this->hasOne('App\Assignment', 'id', 'assignment_id');
+    }
+
     public function add($attributes)
     {
 
@@ -100,12 +107,16 @@ class Client extends Model
         $per_page,
         $column,
         $direction,
-        $keyword = '')
+        $keyword = '',
+        $filter_assigned = -1)
     {
-        return self::buildBaseGridQuery($column, $direction, $keyword,
-            [ 'id',
-                    'name',
-                    'notes',
+        return self::buildBaseGridQuery($column, $direction, $keyword, $filter_assigned,
+            [ 'clients.id',
+                    'clients.name',
+                    'clients.dob',
+                    'clients.notes',
+                    'clients.cms_client_number',
+                    'users.name AS assigned_to'
             ])
         ->paginate($per_page);
     }
@@ -130,6 +141,7 @@ class Client extends Model
         $column,
         $direction,
         $keyword = '',
+        $assigned_filter = -1,
         $columns = '*')
     {
         // Map sort direction from 1/-1 integer to asc/desc sql keyword
@@ -146,11 +158,25 @@ class Client extends Model
         }
 
         $query = Client::select($columns)
+            ->leftJoin('users', 'clients.assignment_id', 'users.id')
         ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('name', 'like', '%' . $keyword . '%');
+            $query->where('clients.name', 'like', '%' . $keyword . '%');
         }
+
+        switch ($assigned_filter) {
+            case -1:
+                break;
+            case 0:
+                $query->where('clients.assignment_id', 0);
+                break;
+            default:
+                $query->where('clients.assignment_id', intval($assigned_filter));
+                break;
+
+        }
+
         return $query;
     }
 

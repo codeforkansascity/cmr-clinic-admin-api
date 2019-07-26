@@ -3,41 +3,36 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\RecordSignature;
 
 class Conviction extends Model
 {
 
-    use SoftDeletes;
+    use RecordSignature;
 
     /**
-     * fillable - attributes that can be mass-assigned
+     * The attributes that are mass assignable.
+     *
+     * @var array
      */
     protected $fillable = [
-            'id',
-            'client_id',
-            'name',
-            'arrest_date',
-            'case_number',
-            'agency',
-            'court_name',
-            'court_city_county',
-            'judge',
-            'record_name',
-            'release_status',
-            'release_date_text',
-            'notes',
-            'approximate_date_of_charge',
-            'release_date',
-        ];
-
-    protected $hidden = [
-        'active',
+        'client_id',
+        'name',
+        'arrest_date',
+        'case_number',
+        'agency',
+        'court_name',
+        'court_city_county',
+        'name_of_judge',
+        'your_name_in_case',
+        'release_status',
+        'release_date',
+        'judge',
+        'record_name',
+        'notes',
+        'approximate_date_of_charge',
         'created_by',
         'modified_by',
-        'purged_by',
-        'created_at',
-        'updated_at',
     ];
 
     public function add($attributes)
