@@ -8,54 +8,67 @@
             {{ this.server_message }}
             <a v-if="try_logging_in" href="/login">Login</a>
         </div>
+
         <div class="row">
-            <div class="col-md-9">
-                <std-form-group label="Name" :errors="form_errors.name">
-                    <input
-                        type="text"
-                        class="form-control"
-                        name="name"
-                        v-model="form_data.name"
-                    />
+            <div class="col-md-12">
+                <std-form-group
+                    label="Id"
+                    label-for="id"
+                    :errors="form_errors.id"
+                >
+                    <fld-input name="id" v-model="form_data.id" />
                 </std-form-group>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
+                <std-form-group
+                    label="Name"
+                    label-for="name"
+                    :errors="form_errors.name"
+                    :required="true"
+                >
+                    <fld-input name="name" v-model="form_data.name" required />
+                    <template slot="help">
+                        Name must be unique.
+                    </template>
+                </std-form-group>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
                 <std-form-group
                     label="Client Id"
+                    label-for="client_id"
                     :errors="form_errors.client_id"
                 >
-                    <input
-                        type="text"
-                        class="form-control"
-                        name="client_id"
-                        v-model="form_data.client_id"
-                    />
+                    <fld-input name="client_id" v-model="form_data.client_id" />
                 </std-form-group>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-md-9">
-                <std-form-group label="User Id" :errors="form_errors.user_id">
-                    <input
-                        type="text"
-                        class="form-control"
-                        name="user_id"
-                        v-model="form_data.user_id"
-                    />
+            <div class="col-md-12">
+                <std-form-group
+                    label="User Id"
+                    label-for="user_id"
+                    :errors="form_errors.user_id"
+                >
+                    <fld-input name="user_id" v-model="form_data.user_id" />
                 </std-form-group>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <std-form-group
                     label="Deleted At"
+                    label-for="deleted_at"
                     :errors="form_errors.deleted_at"
                 >
-                    <input
-                        type="text"
-                        class="form-control"
+                    <fld-input
                         name="deleted_at"
                         v-model="form_data.deleted_at"
                     />

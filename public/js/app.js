@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/components/" + ({"assignment-grid~charge-grid~client-grid~conviction-grid~status-grid~step-grid":"assignment-grid~charge-grid~client-grid~conviction-grid~status-grid~step-grid","assignment-grid":"assignment-grid","charge-grid":"charge-grid","client-grid":"client-grid","conviction-grid":"conviction-grid","status-grid":"status-grid","step-grid":"step-grid","charge-Show":"charge-Show","client-Show":"client-Show","conviction-Show":"conviction-Show","std-form-group":"std-form-group","vendors~assignment-form~charge-form~client-form~conviction-form~status-form~step-form":"vendors~assignment-form~charge-form~client-form~conviction-form~status-form~step-form","assignment-form":"assignment-form","charge-form":"charge-form","client-form":"client-form","conviction-form":"conviction-form","status-form":"status-form","step-form":"step-form"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "js/components/" + ({"assignment-Show":"assignment-Show","assignment-grid~charge-grid~client-grid~conviction-grid~status-grid~step-grid":"assignment-grid~charge-grid~client-grid~conviction-grid~status-grid~step-grid","assignment-grid":"assignment-grid","charge-grid":"charge-grid","client-grid":"client-grid","conviction-grid":"conviction-grid","status-grid":"status-grid","step-grid":"step-grid","charge-Show":"charge-Show","client-Show":"client-Show","conviction-Show":"conviction-Show","status-Show":"status-Show","std-form-group":"std-form-group","step-Show":"step-Show","vendors~assignment-form~charge-form~client-form~conviction-form~status-form~step-form":"vendors~assignment-form~charge-form~client-form~conviction-form~status-form~step-form","assignment-form":"assignment-form","charge-form":"charge-form","client-form":"client-form","conviction-form":"conviction-form","status-form":"status-form","step-form":"step-form"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -51866,6 +51866,15 @@ Vue.component('step-grid', function () {
 });
 Vue.component('step-form', function () {
   return Promise.all(/*! import() | step-form */[__webpack_require__.e("vendors~assignment-form~charge-form~client-form~conviction-form~status-form~step-form"), __webpack_require__.e("step-form")]).then(__webpack_require__.bind(null, /*! ./components/StepForm.vue */ "./resources/js/components/StepForm.vue"));
+});
+Vue.component('assignment-show', function () {
+  return __webpack_require__.e(/*! import() | assignment-Show */ "assignment-Show").then(__webpack_require__.bind(null, /*! ./components/AssignmentShow.vue */ "./resources/js/components/AssignmentShow.vue"));
+});
+Vue.component('step-show', function () {
+  return __webpack_require__.e(/*! import() | step-Show */ "step-Show").then(__webpack_require__.bind(null, /*! ./components/StepShow.vue */ "./resources/js/components/StepShow.vue"));
+});
+Vue.component('status-show', function () {
+  return __webpack_require__.e(/*! import() | status-Show */ "status-Show").then(__webpack_require__.bind(null, /*! ./components/StatusShow.vue */ "./resources/js/components/StatusShow.vue"));
 });
 
 /***/ }),

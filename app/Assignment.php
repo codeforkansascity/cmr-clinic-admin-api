@@ -75,6 +75,8 @@ class Assignment extends Model
         return self::buildBaseGridQuery($column, $direction, $keyword,
             [ 'id',
                     'name',
+                    'client_id',
+                    'user_id',
             ])
         ->paginate($per_page);
     }
@@ -107,6 +109,9 @@ class Assignment extends Model
                 $direction = 'desc';
                 break;
             case '-1':
+                $direction = 'asc';
+                break;
+            default:
                 $direction = 'asc';
                 break;
         }

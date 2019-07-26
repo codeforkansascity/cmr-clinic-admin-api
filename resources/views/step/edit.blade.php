@@ -15,5 +15,5 @@
     </ol>
 @endsection
 @section('content')
-    <step-form csrf_token="{{ csrf_token() }}" :record='{!! json_encode($step,JSON_HEX_APOS) !!}'></step-form>
+    <step-form csrf_token="{{ csrf_token() }}" :record='@json($step)'></step-form>
 @endsection

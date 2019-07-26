@@ -331,7 +331,7 @@ class StepControllerTest extends TestCase
         // act as the user we got and request the create_new_article route
         $response = $this->actingAs($user)->get(route('step.show',['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Steps to display.');
+        $response->assertSessionHas('flash_error_message','Unable to find Step to display.');
 
     }
 
@@ -346,7 +346,7 @@ class StepControllerTest extends TestCase
         // act as the user we got and request the create_new_article route
         $response = $this->actingAs($user)->get(route('step.edit',['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Steps to edit.');
+        $response->assertSessionHas('flash_error_message','Unable to find Step to edit.');
 
     }
 
@@ -381,6 +381,8 @@ class StepControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => "",
+            'client_id' => "",
+            'status_id' => "",
         ];
 
         $totalNumberOfStepsBefore = Step::count();
@@ -408,6 +410,8 @@ class StepControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => "a",
+            'client_id' => "a",
+            'status_id' => "a",
         ];
 
         $totalNumberOfStepsBefore = Step::count();
@@ -437,6 +441,8 @@ class StepControllerTest extends TestCase
 
         $data = [
           'name' => $faker->name,
+          'client_id' => "",
+          'status_id' => "",
         ];
 
         info('--  Step  --');
@@ -462,6 +468,12 @@ class StepControllerTest extends TestCase
         $this->assertEquals($lastInsertedInTheDB->name, $data['name'], "the name of the saved step is different from the input data");
 
 
+        $this->assertEquals($lastInsertedInTheDB->client_id, $data['client_id'], "the client_id of the saved step is different from the input data");
+
+
+        $this->assertEquals($lastInsertedInTheDB->status_id, $data['status_id'], "the status_id of the saved step is different from the input data");
+
+
     }
 
     /**
@@ -484,6 +496,8 @@ class StepControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => $step->name,
+            'client_id' => "",
+            'status_id' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('step.store'), $data);
@@ -548,6 +562,8 @@ class StepControllerTest extends TestCase
         $step_dup = [
 
             'name' => $faker->name,
+            'client_id' => "",
+            'status_id' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('step.store'), $step_dup);

@@ -63,19 +63,41 @@
                         >
                             Name
                         </ss-grid-column-header>
+                        <ss-grid-column-header
+                            v-on:selectedSort="sortColumn"
+                            v-bind:selectedKey="sortKey"
+                            title="Sort by Client Id"
+                            :params="{
+                                sortField: 'client_id',
+                                InitialSortOrder: 'asc'
+                            }"
+                        >
+                            Client Id
+                        </ss-grid-column-header>
+                        <ss-grid-column-header
+                            v-on:selectedSort="sortColumn"
+                            v-bind:selectedKey="sortKey"
+                            title="Sort by User Id"
+                            :params="{
+                                sortField: 'user_id',
+                                InitialSortOrder: 'asc'
+                            }"
+                        >
+                            User Id
+                        </ss-grid-column-header>
                         <th style="width:20%;" class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-if="gridState == 'wait'">
-                        <td colspan="2" class="grid-alert">
+                        <td colspan="4" class="grid-alert">
                             <div class="alert alert-info" role="alert">
                                 Please wait.
                             </div>
                         </td>
                     </tr>
                     <tr v-if="gridState == 'error'">
-                        <td colspan="2" class="grid-alert">
+                        <td colspan="4" class="grid-alert">
                             <div class="alert alert-warning" role="alert">
                                 Error please try again.
                             </div>
@@ -83,7 +105,7 @@
                     </tr>
 
                     <tr v-if="gridState == 'good' && !gridData.length">
-                        <td colspan="2" class="grid-alert">
+                        <td colspan="4" class="grid-alert">
                             <div class="alert alert-warning" role="alert">
                                 No matching records found.
                             </div>
@@ -102,6 +124,8 @@
                                 {{ row.name }}
                             </span>
                         </td>
+                        <td data-title="Client Id">{{ row.client_id }}</td>
+                        <td data-title="User Id">{{ row.user_id }}</td>
                         <td
                             data-title="Actions"
                             class="text-lg-center text-nowrap"
@@ -170,12 +194,11 @@ export default {
     },
 
     mounted: function() {
-        this.params.Page = !isNaN(parseInt(this.params.Page))
+        this.current_page = !isNaN(parseInt(this.params.Page))
             ? parseInt(this.params.Page)
-            : null;
+            : 1;
         this.query = this.params.Search;
-        this.current_page = this.params.Page;
-        this.getData(1);
+        this.getData(this.current_page);
     },
 
     data: function() {
@@ -183,7 +206,7 @@ export default {
             gridState: "wait",
             query: this.params.Search,
             gridData: [],
-            current_page: this.params.Page,
+            current_page: 1,
             last_page: null,
             total: null,
 

@@ -164,6 +164,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -181,17 +205,16 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.params.Page = !isNaN(parseInt(this.params.Page)) ? parseInt(this.params.Page) : null;
+    this.current_page = !isNaN(parseInt(this.params.Page)) ? parseInt(this.params.Page) : 1;
     this.query = this.params.Search;
-    this.current_page = this.params.Page;
-    this.getData(1);
+    this.getData(this.current_page);
   },
   data: function data() {
     return {
       gridState: "wait",
       query: this.params.Search,
       gridData: [],
-      current_page: this.params.Page,
+      current_page: 1,
       last_page: null,
       total: null,
       sortOrder: this.params.sortOrder,
@@ -431,6 +454,46 @@ var render = function() {
               ),
               _vm._v(" "),
               _c(
+                "ss-grid-column-header",
+                {
+                  attrs: {
+                    selectedKey: _vm.sortKey,
+                    title: "Sort by Client Id",
+                    params: {
+                      sortField: "client_id",
+                      InitialSortOrder: "asc"
+                    }
+                  },
+                  on: { selectedSort: _vm.sortColumn }
+                },
+                [
+                  _vm._v(
+                    "\n                        Client Id\n                    "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "ss-grid-column-header",
+                {
+                  attrs: {
+                    selectedKey: _vm.sortKey,
+                    title: "Sort by User Id",
+                    params: {
+                      sortField: "user_id",
+                      InitialSortOrder: "asc"
+                    }
+                  },
+                  on: { selectedSort: _vm.sortColumn }
+                },
+                [
+                  _vm._v(
+                    "\n                        User Id\n                    "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
                 "th",
                 { staticClass: "text-center", staticStyle: { width: "20%" } },
                 [_vm._v("Actions")]
@@ -475,6 +538,14 @@ var render = function() {
                             )
                           ])
                         : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { attrs: { "data-title": "Client Id" } }, [
+                      _vm._v(_vm._s(row.client_id))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { attrs: { "data-title": "User Id" } }, [
+                      _vm._v(_vm._s(row.user_id))
                     ]),
                     _vm._v(" "),
                     _c(
@@ -548,7 +619,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "grid-alert", attrs: { colspan: "2" } }, [
+    return _c("td", { staticClass: "grid-alert", attrs: { colspan: "4" } }, [
       _c("div", { staticClass: "alert alert-info", attrs: { role: "alert" } }, [
         _vm._v(
           "\n                            Please wait.\n                        "
@@ -560,7 +631,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "grid-alert", attrs: { colspan: "2" } }, [
+    return _c("td", { staticClass: "grid-alert", attrs: { colspan: "4" } }, [
       _c(
         "div",
         { staticClass: "alert alert-warning", attrs: { role: "alert" } },
@@ -576,7 +647,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "grid-alert", attrs: { colspan: "2" } }, [
+    return _c("td", { staticClass: "grid-alert", attrs: { colspan: "4" } }, [
       _c(
         "div",
         { staticClass: "alert alert-warning", attrs: { role: "alert" } },

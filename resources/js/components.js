@@ -36,3 +36,7 @@ Vue.component('charge-show', () => import(/* webpackChunkName:"charge-Show" */ '
 //Vue.component('step-form',       require('./components/StepForm.vue'));    // May need to add .default);
 Vue.component('step-grid', () => import(/* webpackChunkName:"step-grid" */ './components/StepGrid.vue'));
 Vue.component('step-form', () => import(/* webpackChunkName:"step-form" */ './components/StepForm.vue'));
+
+Vue.component('assignment-show', () => import(/* webpackChunkName:"assignment-Show" */ './components/AssignmentShow.vue'));
+Vue.component('step-show', () => import(/* webpackChunkName:"step-Show" */ './components/StepShow.vue'));
+Vue.component('status-show', () => import(/* webpackChunkName:"status-Show" */ './components/StatusShow.vue'));

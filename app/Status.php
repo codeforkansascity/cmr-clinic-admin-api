@@ -18,6 +18,7 @@ class Status extends Model
             'name',
             'alias',
             'sequence',
+            'deleted_at',
         ];
 
     protected $hidden = [
@@ -105,6 +106,9 @@ class Status extends Model
             case '-1':
                 $direction = 'asc';
                 break;
+            default:
+                $direction = 'asc';
+                break;
         }
 
         $query = Status::select($columns)
@@ -166,10 +170,8 @@ class Status extends Model
 
         $records = $thisModel::select('id',
             'name')
-            ->orderBy('sequence')
+            ->orderBy('name')
             ->get();
-
-        info(print_r($records->toArray(),true));
 
         if (!$flat) {
             return $records;

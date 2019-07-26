@@ -29,5 +29,8 @@
     "/js/components/assignment-grid~charge-grid~client-grid~conviction-grid~status-grid~step-grid.js": "/js/components/assignment-grid~charge-grid~client-grid~conviction-grid~status-grid~step-grid.js",
     "/js/components/step-form.js": "/js/components/step-form.js",
     "/js/components/step-grid.js": "/js/components/step-grid.js",
-    "/js/components/vendors~assignment-form~charge-form~client-form~conviction-form~status-form~step-form.js": "/js/components/vendors~assignment-form~charge-form~client-form~conviction-form~status-form~step-form.js"
+    "/js/components/vendors~assignment-form~charge-form~client-form~conviction-form~status-form~step-form.js": "/js/components/vendors~assignment-form~charge-form~client-form~conviction-form~status-form~step-form.js",
+    "/js/components/assignment-Show.js": "/js/components/assignment-Show.js",
+    "/js/components/step-Show.js": "/js/components/step-Show.js",
+    "/js/components/status-Show.js": "/js/components/status-Show.js"
 }

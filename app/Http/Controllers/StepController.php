@@ -27,11 +27,9 @@ class StepController extends Controller
      * Vue component example.
      *
         <ui-select-pick-one
-            label="My Label"
             url="/api-step/options"
-            class="form-group"
             v-model="stepSelected"
-            v-on:input="getData">
+            :selected_id=stepSelected">
         </ui-select-pick-one>
      *
      *
@@ -76,7 +74,7 @@ class StepController extends Controller
     {
 
         if (!Auth::user()->can('step index')) {
-            \Session::flash('flash_error_message', 'You do not have access to Stepss.');
+            \Session::flash('flash_error_message', 'You do not have access to Steps.');
             return Redirect::route('home');
         }
 
@@ -106,7 +104,7 @@ class StepController extends Controller
 	{
 
         if (!Auth::user()->can('step add')) {  // TODO: add -> create
-            \Session::flash('flash_error_message', 'You do not have access to add a Steps.');
+            \Session::flash('flash_error_message', 'You do not have access to add a Step.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('step.index');
             } else {
@@ -155,7 +153,7 @@ class StepController extends Controller
     {
 
         if (!Auth::user()->can('step view')) {
-            \Session::flash('flash_error_message', 'You do not have access to view a Steps.');
+            \Session::flash('flash_error_message', 'You do not have access to view a Step.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('step.index');
             } else {
@@ -168,7 +166,7 @@ class StepController extends Controller
             $can_delete = Auth::user()->can('step delete');
             return view('step.show', compact('step','can_edit', 'can_delete'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Steps to display.');
+            \Session::flash('flash_error_message', 'Unable to find Step to display.');
             return Redirect::route('step.index');
         }
     }
@@ -182,7 +180,7 @@ class StepController extends Controller
     public function edit($id)
     {
         if (!Auth::user()->can('step edit')) {
-            \Session::flash('flash_error_message', 'You do not have access to edit a Steps.');
+            \Session::flash('flash_error_message', 'You do not have access to edit a Step.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('step.index');
             } else {
@@ -193,7 +191,7 @@ class StepController extends Controller
         if ($step = $this->sanitizeAndFind($id)) {
             return view('step.edit', compact('step'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Steps to edit.');
+            \Session::flash('flash_error_message', 'Unable to find Step to edit.');
             return Redirect::route('step.index');
         }
 
@@ -209,7 +207,7 @@ class StepController extends Controller
     {
 
 //        if (!Auth::user()->can('step update')) {
-//            \Session::flash('flash_error_message', 'You do not have access to update a Steps.');
+//            \Session::flash('flash_error_message', 'You do not have access to update a Step.');
 //            if (!Auth::user()->can('step index')) {
 //                return Redirect::route('step.index');
 //            } else {
@@ -218,7 +216,7 @@ class StepController extends Controller
 //        }
 
         if (!$step = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Steps to edit');
+       //     \Session::flash('flash_error_message', 'Unable to find Step to edit');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
@@ -236,7 +234,7 @@ class StepController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Steps ' . $step->name . ' was changed');
+            \Session::flash('flash_success_message', 'Step ' . $step->name . ' was changed');
         } else {
             \Session::flash('flash_info_message', 'No changes were made');
         }
@@ -255,7 +253,7 @@ class StepController extends Controller
     {
 
         if (!Auth::user()->can('step delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a Steps.');
+            \Session::flash('flash_error_message', 'You do not have access to remove a Step.');
             if (Auth::user()->can('step index')) {
                  return Redirect::route('step.index');
             } else {
@@ -306,7 +304,7 @@ class StepController extends Controller
     {
 
         if (!Auth::user()->can('step excel')) {
-            \Session::flash('flash_error_message', 'You do not have access to download Steps.');
+            \Session::flash('flash_error_message', 'You do not have access to download Step.');
             if (Auth::user()->can('step index')) {
                 return Redirect::route('step.index');
             } else {
@@ -340,7 +338,7 @@ class StepController extends Controller
         public function print()
 {
         if (!Auth::user()->can('step export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print Steps');
+            \Session::flash('flash_error_message', 'You do not have access to print Step');
             if (Auth::user()->can('step index')) {
                 return Redirect::route('step.index');
             } else {
@@ -359,6 +357,8 @@ class StepController extends Controller
         // Get query data
         $columns = [
             'name',
+            'client_id',
+            'status_id',
         ];
         $dataQuery = Step::pdfDataQuery($column, $direction, $search, $columns);
         $data = $dataQuery->get();

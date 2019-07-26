@@ -331,7 +331,7 @@ class AssignmentControllerTest extends TestCase
         // act as the user we got and request the create_new_article route
         $response = $this->actingAs($user)->get(route('assignment.show',['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Assignments to display.');
+        $response->assertSessionHas('flash_error_message','Unable to find Assignment to display.');
 
     }
 
@@ -346,7 +346,7 @@ class AssignmentControllerTest extends TestCase
         // act as the user we got and request the create_new_article route
         $response = $this->actingAs($user)->get(route('assignment.edit',['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Assignments to edit.');
+        $response->assertSessionHas('flash_error_message','Unable to find Assignment to edit.');
 
     }
 
@@ -381,6 +381,8 @@ class AssignmentControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => "",
+            'client_id' => "",
+            'user_id' => "",
         ];
 
         $totalNumberOfAssignmentsBefore = Assignment::count();
@@ -408,6 +410,8 @@ class AssignmentControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => "a",
+            'client_id' => "a",
+            'user_id' => "a",
         ];
 
         $totalNumberOfAssignmentsBefore = Assignment::count();
@@ -437,6 +441,8 @@ class AssignmentControllerTest extends TestCase
 
         $data = [
           'name' => $faker->name,
+          'client_id' => "",
+          'user_id' => "",
         ];
 
         info('--  Assignment  --');
@@ -462,6 +468,12 @@ class AssignmentControllerTest extends TestCase
         $this->assertEquals($lastInsertedInTheDB->name, $data['name'], "the name of the saved assignment is different from the input data");
 
 
+        $this->assertEquals($lastInsertedInTheDB->client_id, $data['client_id'], "the client_id of the saved assignment is different from the input data");
+
+
+        $this->assertEquals($lastInsertedInTheDB->user_id, $data['user_id'], "the user_id of the saved assignment is different from the input data");
+
+
     }
 
     /**
@@ -484,6 +496,8 @@ class AssignmentControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => $assignment->name,
+            'client_id' => "",
+            'user_id' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('assignment.store'), $data);
@@ -548,6 +562,8 @@ class AssignmentControllerTest extends TestCase
         $assignment_dup = [
 
             'name' => $faker->name,
+            'client_id' => "",
+            'user_id' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('assignment.store'), $assignment_dup);

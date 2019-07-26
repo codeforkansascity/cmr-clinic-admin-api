@@ -15,5 +15,5 @@
     </ol>
 @endsection
 @section('content')
-    <status-form csrf_token="{{ csrf_token() }}" :record='{!! json_encode($status,JSON_HEX_APOS) !!}'></status-form>
+    <status-form csrf_token="{{ csrf_token() }}" :record='@json($status)'></status-form>
 @endsection

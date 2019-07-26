@@ -107,6 +107,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "step-form",
@@ -286,73 +296,30 @@ var render = function() {
       _c("div", { staticClass: "row" }, [
         _c(
           "div",
-          { staticClass: "col-md-9" },
-          [
-            _c(
-              "std-form-group",
-              { attrs: { label: "Name", errors: _vm.form_errors.name } },
-              [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form_data.name,
-                      expression: "form_data.name"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", name: "name" },
-                  domProps: { value: _vm.form_data.name },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.form_data, "name", $event.target.value)
-                    }
-                  }
-                })
-              ]
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-9" },
+          { staticClass: "col-md-12" },
           [
             _c(
               "std-form-group",
               {
-                attrs: { label: "Client Id", errors: _vm.form_errors.client_id }
+                attrs: {
+                  label: "Id",
+                  "label-for": "id",
+                  errors: _vm.form_errors.id
+                }
               },
               [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form_data.client_id,
-                      expression: "form_data.client_id"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", name: "client_id" },
-                  domProps: { value: _vm.form_data.client_id },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.form_data, "client_id", $event.target.value)
-                    }
+                _c("fld-input", {
+                  attrs: { name: "id" },
+                  model: {
+                    value: _vm.form_data.id,
+                    callback: function($$v) {
+                      _vm.$set(_vm.form_data, "id", $$v)
+                    },
+                    expression: "form_data.id"
                   }
                 })
-              ]
+              ],
+              1
             )
           ],
           1
@@ -362,36 +329,37 @@ var render = function() {
       _c("div", { staticClass: "row" }, [
         _c(
           "div",
-          { staticClass: "col-md-9" },
+          { staticClass: "col-md-12" },
           [
             _c(
               "std-form-group",
               {
-                attrs: { label: "Status Id", errors: _vm.form_errors.status_id }
+                attrs: {
+                  label: "Name",
+                  "label-for": "name",
+                  errors: _vm.form_errors.name,
+                  required: true
+                }
               },
               [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form_data.status_id,
-                      expression: "form_data.status_id"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", name: "status_id" },
-                  domProps: { value: _vm.form_data.status_id },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.form_data, "status_id", $event.target.value)
-                    }
+                _c("fld-input", {
+                  attrs: { name: "name", required: "" },
+                  model: {
+                    value: _vm.form_data.name,
+                    callback: function($$v) {
+                      _vm.$set(_vm.form_data, "name", $$v)
+                    },
+                    expression: "form_data.name"
                   }
-                })
-              ]
+                }),
+                _vm._v(" "),
+                _c("template", { slot: "help" }, [
+                  _vm._v(
+                    "\n                    Name must be unique.\n                "
+                  )
+                ])
+              ],
+              2
             )
           ],
           1
@@ -401,39 +369,96 @@ var render = function() {
       _c("div", { staticClass: "row" }, [
         _c(
           "div",
-          { staticClass: "col-md-9" },
+          { staticClass: "col-md-12" },
+          [
+            _c(
+              "std-form-group",
+              {
+                attrs: {
+                  label: "Client Id",
+                  "label-for": "client_id",
+                  errors: _vm.form_errors.client_id
+                }
+              },
+              [
+                _c("fld-input", {
+                  attrs: { name: "client_id" },
+                  model: {
+                    value: _vm.form_data.client_id,
+                    callback: function($$v) {
+                      _vm.$set(_vm.form_data, "client_id", $$v)
+                    },
+                    expression: "form_data.client_id"
+                  }
+                })
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "div",
+          { staticClass: "col-md-12" },
+          [
+            _c(
+              "std-form-group",
+              {
+                attrs: {
+                  label: "Status Id",
+                  "label-for": "status_id",
+                  errors: _vm.form_errors.status_id
+                }
+              },
+              [
+                _c("fld-input", {
+                  attrs: { name: "status_id" },
+                  model: {
+                    value: _vm.form_data.status_id,
+                    callback: function($$v) {
+                      _vm.$set(_vm.form_data, "status_id", $$v)
+                    },
+                    expression: "form_data.status_id"
+                  }
+                })
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "div",
+          { staticClass: "col-md-12" },
           [
             _c(
               "std-form-group",
               {
                 attrs: {
                   label: "Deleted At",
+                  "label-for": "deleted_at",
                   errors: _vm.form_errors.deleted_at
                 }
               },
               [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form_data.deleted_at,
-                      expression: "form_data.deleted_at"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", name: "deleted_at" },
-                  domProps: { value: _vm.form_data.deleted_at },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.form_data, "deleted_at", $event.target.value)
-                    }
+                _c("fld-input", {
+                  attrs: { name: "deleted_at" },
+                  model: {
+                    value: _vm.form_data.deleted_at,
+                    callback: function($$v) {
+                      _vm.$set(_vm.form_data, "deleted_at", $$v)
+                    },
+                    expression: "form_data.deleted_at"
                   }
                 })
-              ]
+              ],
+              1
             )
           ],
           1

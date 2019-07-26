@@ -27,11 +27,9 @@ class AssignmentController extends Controller
      * Vue component example.
      *
         <ui-select-pick-one
-            label="My Label"
             url="/api-assignment/options"
-            class="form-group"
             v-model="assignmentSelected"
-            v-on:input="getData">
+            :selected_id=assignmentSelected">
         </ui-select-pick-one>
      *
      *
@@ -76,7 +74,7 @@ class AssignmentController extends Controller
     {
 
         if (!Auth::user()->can('assignment index')) {
-            \Session::flash('flash_error_message', 'You do not have access to Assignmentss.');
+            \Session::flash('flash_error_message', 'You do not have access to Assignments.');
             return Redirect::route('home');
         }
 
@@ -106,7 +104,7 @@ class AssignmentController extends Controller
 	{
 
         if (!Auth::user()->can('assignment add')) {  // TODO: add -> create
-            \Session::flash('flash_error_message', 'You do not have access to add a Assignments.');
+            \Session::flash('flash_error_message', 'You do not have access to add a Assignment.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('assignment.index');
             } else {
@@ -155,7 +153,7 @@ class AssignmentController extends Controller
     {
 
         if (!Auth::user()->can('assignment view')) {
-            \Session::flash('flash_error_message', 'You do not have access to view a Assignments.');
+            \Session::flash('flash_error_message', 'You do not have access to view a Assignment.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('assignment.index');
             } else {
@@ -168,7 +166,7 @@ class AssignmentController extends Controller
             $can_delete = Auth::user()->can('assignment delete');
             return view('assignment.show', compact('assignment','can_edit', 'can_delete'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Assignments to display.');
+            \Session::flash('flash_error_message', 'Unable to find Assignment to display.');
             return Redirect::route('assignment.index');
         }
     }
@@ -182,7 +180,7 @@ class AssignmentController extends Controller
     public function edit($id)
     {
         if (!Auth::user()->can('assignment edit')) {
-            \Session::flash('flash_error_message', 'You do not have access to edit a Assignments.');
+            \Session::flash('flash_error_message', 'You do not have access to edit a Assignment.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('assignment.index');
             } else {
@@ -193,7 +191,7 @@ class AssignmentController extends Controller
         if ($assignment = $this->sanitizeAndFind($id)) {
             return view('assignment.edit', compact('assignment'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Assignments to edit.');
+            \Session::flash('flash_error_message', 'Unable to find Assignment to edit.');
             return Redirect::route('assignment.index');
         }
 
@@ -209,7 +207,7 @@ class AssignmentController extends Controller
     {
 
 //        if (!Auth::user()->can('assignment update')) {
-//            \Session::flash('flash_error_message', 'You do not have access to update a Assignments.');
+//            \Session::flash('flash_error_message', 'You do not have access to update a Assignment.');
 //            if (!Auth::user()->can('assignment index')) {
 //                return Redirect::route('assignment.index');
 //            } else {
@@ -218,7 +216,7 @@ class AssignmentController extends Controller
 //        }
 
         if (!$assignment = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Assignments to edit');
+       //     \Session::flash('flash_error_message', 'Unable to find Assignment to edit');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
@@ -236,7 +234,7 @@ class AssignmentController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Assignments ' . $assignment->name . ' was changed');
+            \Session::flash('flash_success_message', 'Assignment ' . $assignment->name . ' was changed');
         } else {
             \Session::flash('flash_info_message', 'No changes were made');
         }
@@ -255,7 +253,7 @@ class AssignmentController extends Controller
     {
 
         if (!Auth::user()->can('assignment delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a Assignments.');
+            \Session::flash('flash_error_message', 'You do not have access to remove a Assignment.');
             if (Auth::user()->can('assignment index')) {
                  return Redirect::route('assignment.index');
             } else {
@@ -306,7 +304,7 @@ class AssignmentController extends Controller
     {
 
         if (!Auth::user()->can('assignment excel')) {
-            \Session::flash('flash_error_message', 'You do not have access to download Assignments.');
+            \Session::flash('flash_error_message', 'You do not have access to download Assignment.');
             if (Auth::user()->can('assignment index')) {
                 return Redirect::route('assignment.index');
             } else {
@@ -340,7 +338,7 @@ class AssignmentController extends Controller
         public function print()
 {
         if (!Auth::user()->can('assignment export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print Assignments');
+            \Session::flash('flash_error_message', 'You do not have access to print Assignment');
             if (Auth::user()->can('assignment index')) {
                 return Redirect::route('assignment.index');
             } else {
@@ -359,6 +357,8 @@ class AssignmentController extends Controller
         // Get query data
         $columns = [
             'name',
+            'client_id',
+            'user_id',
         ];
         $dataQuery = Assignment::pdfDataQuery($column, $direction, $search, $columns);
         $data = $dataQuery->get();
