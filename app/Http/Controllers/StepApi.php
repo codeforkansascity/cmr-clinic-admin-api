@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
+use App\Step;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Status;
+use App\Http\Requests\StepIndexRequest;
 
-class StatusController extends Controller
+class StepApi extends Controller
 {
 
+
     /**
-     * Display a listing of the resource with pagination.
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(StepIndexRequest $request)
     {
 
         $page = $request->get('page', '1');                // Pagination looks at the request
@@ -24,10 +25,28 @@ class StatusController extends Controller
         $direction = $request->get('direction', '-1');
         $keyword = $request->get('keyword', '');
 
+        // Save the search parameters so we can remember when we go back to the index
+        //   The page is being done by Laravel
+        session([
+            'step_page' => $page,
+            'step_column' => $column,
+            'step_direction' => $direction,
+            'step_keyword' => $keyword
+        ]);
+
         $keyword = $keyword != 'null' ? $keyword : '';
         $column = $column ? mb_strtolower($column) : 'name';
 
-        return Status::indexData(10, $column, $direction, $keyword);
+        return Step::indexData(10, $column, $direction, $keyword);
+    }
+
+    /**
+     * Returns "options" for HTML select
+     * @return array
+     */
+    public function getOptions() {
+
+        return Step::getOptions();
     }
 
     /**
@@ -38,8 +57,7 @@ class StatusController extends Controller
      */
     public function store(Request $request)
     {
-        $newStatus = Status::create($request->all());
-        return $newStatus->id;
+        //
     }
 
     /**
@@ -50,9 +68,7 @@ class StatusController extends Controller
      */
     public function show($id)
     {
-        $status =  Status::find($id);
-
-        return $status;
+        //
     }
 
     /**
@@ -64,10 +80,7 @@ class StatusController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $status = Status::findOrFail($id);
-        $status->update($request->all());
-
-        return $status;
+        //
     }
 
     /**
@@ -78,31 +91,6 @@ class StatusController extends Controller
      */
     public function destroy($id)
     {
-        Status::find($id)->delete();
-
-        return 204;
-    }
-
-    /**
-     * Returns "options" for HTML select
-     * @return array
-     */
-    public function options() {
-        if (!Auth::user()->can('status index')) {
-            return response()->json([
-                'error' => 'Not authorized'
-            ], 403);
-        }
-
-        $data =  Status::getOptions()->toArray();
-
-        info(print_r($data,true));
-
-        array_unshift($data, ['id' => '-1', 'name' => 'All Status']);
-        array_unshift($data, ['id' => '0', 'name' => 'Unassigned'] );
-
-        info(print_r($data,true));
-
-        return $data;
+        //
     }
 }

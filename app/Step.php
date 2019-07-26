@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Status extends Model
+class Step extends Model
 {
 
     use SoftDeletes;
@@ -16,8 +16,9 @@ class Status extends Model
     protected $fillable = [
             'id',
             'name',
-            'alias',
-            'sequence',
+            'client_id',
+            'status_id',
+            'deleted_at',
         ];
 
     protected $hidden = [
@@ -28,6 +29,11 @@ class Status extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function status()
+    {
+        return $this->hasOne('App\Status', 'id', 'status_id');
+    }
 
     public function add($attributes)
     {
@@ -69,8 +75,6 @@ class Status extends Model
         return self::buildBaseGridQuery($column, $direction, $keyword,
             [ 'id',
                     'name',
-                    'alias',
-                    'sequence',
             ])
         ->paginate($per_page);
     }
@@ -107,7 +111,7 @@ class Status extends Model
                 break;
         }
 
-        $query = Status::select($columns)
+        $query = Step::select($columns)
         ->orderBy($column, $direction);
 
         if ($keyword) {
@@ -166,10 +170,8 @@ class Status extends Model
 
         $records = $thisModel::select('id',
             'name')
-            ->orderBy('sequence')
+            ->orderBy('name')
             ->get();
-
-        info(print_r($records->toArray(),true));
 
         if (!$flat) {
             return $records;

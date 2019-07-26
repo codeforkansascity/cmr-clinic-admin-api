@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class ClientIndexRequest extends FormRequest
+class StepIndexRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class ClientIndexRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;  // Authorization is being done in the controler  ClientController::index()
+        return true;  // Authorization is being done in the controler  StepController::index()
     }
 
     /**
@@ -29,8 +29,6 @@ class ClientIndexRequest extends FormRequest
             'column' => 'nullable|string',
             'direction' => 'numeric',
             'keyword' => 'string',
-            'assignment_id' => 'nullable|numeric',
-            'step_id' => 'nullable|numeric',
         ];
     }
 }

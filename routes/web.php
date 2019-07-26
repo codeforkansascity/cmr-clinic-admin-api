@@ -64,3 +64,8 @@ Route::get('/api-charge/options', 'ChargeApi@getOptions');
 Route::get('/charge/download', 'ChargeController@download')->name('charge.download');
 Route::get('/charge/print', 'ChargeController@print')->name('charge.print');
 Route::resource('/charge', 'ChargeController');
+Route::get('/api-step', 'StepApi@index');
+Route::get('/api-step/options', 'StepApi@getOptions');
+Route::get('/step/download', 'StepController@download')->name('step.download');
+Route::get('/step/print', 'StepController@print')->name('step.print');
+Route::resource('/step', 'StepController');
