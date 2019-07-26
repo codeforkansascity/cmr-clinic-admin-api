@@ -79,6 +79,12 @@ class Client extends Model
         return $this->hasOne('App\Step', 'id', 'step_id');
     }
 
+    public function conviction()
+    {
+        return $this->hasMany('App\Conviction');
+
+    }
+
     public function add($attributes)
     {
 

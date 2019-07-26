@@ -164,7 +164,7 @@ class ClientController extends Controller
         if ($client = $this->sanitizeAndFind($id)) {
 
 
-            dump($client);
+
 
             $can_edit = Auth::user()->can('client edit');
             $can_delete = Auth::user()->can('client delete');
@@ -193,6 +193,9 @@ class ClientController extends Controller
         }
 
         if ($client = $this->sanitizeAndFind($id)) {
+
+            dump($client->toArray());
+
             return view('client.edit', compact('client'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Applicants to edit.');
@@ -300,7 +303,9 @@ class ClientController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\Client::find(intval($id));
+        return \App\Client::with(
+            'conviction', 'conviction.charge', 'assignment', 'step'
+        )->find(intval($id));
     }
 
 

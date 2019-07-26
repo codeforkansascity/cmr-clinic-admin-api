@@ -35,6 +35,11 @@ class Conviction extends Model
         'modified_by',
     ];
 
+    public function charge()
+    {
+        return $this->hasMany('App\Charge');
+    }
+
     public function add($attributes)
     {
 
