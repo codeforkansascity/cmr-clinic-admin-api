@@ -22,3 +22,8 @@ Vue.component('status-form', () => import(/* webpackChunkName:"status-form" */ '
 Vue.component('assignment-grid', () => import(/* webpackChunkName:"assignment-grid" */ './components/AssignmentGrid.vue'));
 Vue.component('assignment-form', () => import(/* webpackChunkName:"assignment-form" */ './components/AssignmentForm.vue'));
 Vue.component('client-show', () => import(/* webpackChunkName:"client-Show" */ './components/ClientShow.vue'));
+//Vue.component('conviction-grid',       require('./components/ConvictionGrid.vue'));    // May need to add .default);
+//Vue.component('conviction-form',       require('./components/ConvictionForm.vue'));    // May need to add .default);
+Vue.component('conviction-grid', () => import(/* webpackChunkName:"conviction-grid" */ './components/ConvictionGrid.vue'));
+Vue.component('conviction-form', () => import(/* webpackChunkName:"conviction-form" */ './components/ConvictionForm.vue'));
+Vue.component('conviction-show', () => import(/* webpackChunkName:"conviction-Show" */ './components/ConvictionShow.vue'));

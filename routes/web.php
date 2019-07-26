@@ -54,3 +54,8 @@ Route::get('/api-assignment/options', 'AssignmentApi@getOptions');
 Route::get('/assignment/download', 'AssignmentController@download')->name('assignment.download');
 Route::get('/assignment/print', 'AssignmentController@print')->name('assignment.print');
 Route::resource('/assignment', 'AssignmentController');
+Route::get('/api-conviction', 'ConvictionApi@index');
+Route::get('/api-conviction/options', 'ConvictionApi@getOptions');
+Route::get('/conviction/download', 'ConvictionController@download')->name('conviction.download');
+Route::get('/conviction/print', 'ConvictionController@print')->name('conviction.print');
+Route::resource('/conviction', 'ConvictionController');

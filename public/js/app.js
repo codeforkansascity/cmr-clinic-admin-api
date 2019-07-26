@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/components/" + ({"assignment-grid~client-grid~status-grid":"assignment-grid~client-grid~status-grid","assignment-grid":"assignment-grid","client-grid":"client-grid","status-grid":"status-grid","client-Show":"client-Show","std-form-group":"std-form-group","vendors~assignment-form~client-form~status-form":"vendors~assignment-form~client-form~status-form","assignment-form":"assignment-form","client-form":"client-form","status-form":"status-form"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "js/components/" + ({"assignment-grid~client-grid~conviction-grid~status-grid":"assignment-grid~client-grid~conviction-grid~status-grid","assignment-grid":"assignment-grid","client-grid":"client-grid","conviction-grid":"conviction-grid","status-grid":"status-grid","client-Show":"client-Show","conviction-Show":"conviction-Show","std-form-group":"std-form-group","vendors~assignment-form~client-form~conviction-form~status-form":"vendors~assignment-form~client-form~conviction-form~status-form","assignment-form":"assignment-form","client-form":"client-form","conviction-form":"conviction-form","status-form":"status-form"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -51813,29 +51813,40 @@ Vue.component('std-form-group', function () {
 //Vue.component('client-form',       require('./components/ClientForm.vue'));    // May need to add .default);
 
 Vue.component('client-grid', function () {
-  return Promise.all(/*! import() | client-grid */[__webpack_require__.e("assignment-grid~client-grid~status-grid"), __webpack_require__.e("client-grid")]).then(__webpack_require__.bind(null, /*! ./components/ClientGrid.vue */ "./resources/js/components/ClientGrid.vue"));
+  return Promise.all(/*! import() | client-grid */[__webpack_require__.e("assignment-grid~client-grid~conviction-grid~status-grid"), __webpack_require__.e("client-grid")]).then(__webpack_require__.bind(null, /*! ./components/ClientGrid.vue */ "./resources/js/components/ClientGrid.vue"));
 });
 Vue.component('client-form', function () {
-  return Promise.all(/*! import() | client-form */[__webpack_require__.e("vendors~assignment-form~client-form~status-form"), __webpack_require__.e("client-form")]).then(__webpack_require__.bind(null, /*! ./components/ClientForm.vue */ "./resources/js/components/ClientForm.vue"));
+  return Promise.all(/*! import() | client-form */[__webpack_require__.e("vendors~assignment-form~client-form~conviction-form~status-form"), __webpack_require__.e("client-form")]).then(__webpack_require__.bind(null, /*! ./components/ClientForm.vue */ "./resources/js/components/ClientForm.vue"));
 }); //Vue.component('status-grid',       require('./components/StatusGrid.vue'));    // May need to add .default);
 //Vue.component('status-form',       require('./components/StatusForm.vue'));    // May need to add .default);
 
 Vue.component('status-grid', function () {
-  return Promise.all(/*! import() | status-grid */[__webpack_require__.e("assignment-grid~client-grid~status-grid"), __webpack_require__.e("status-grid")]).then(__webpack_require__.bind(null, /*! ./components/StatusGrid.vue */ "./resources/js/components/StatusGrid.vue"));
+  return Promise.all(/*! import() | status-grid */[__webpack_require__.e("assignment-grid~client-grid~conviction-grid~status-grid"), __webpack_require__.e("status-grid")]).then(__webpack_require__.bind(null, /*! ./components/StatusGrid.vue */ "./resources/js/components/StatusGrid.vue"));
 });
 Vue.component('status-form', function () {
-  return Promise.all(/*! import() | status-form */[__webpack_require__.e("vendors~assignment-form~client-form~status-form"), __webpack_require__.e("status-form")]).then(__webpack_require__.bind(null, /*! ./components/StatusForm.vue */ "./resources/js/components/StatusForm.vue"));
+  return Promise.all(/*! import() | status-form */[__webpack_require__.e("vendors~assignment-form~client-form~conviction-form~status-form"), __webpack_require__.e("status-form")]).then(__webpack_require__.bind(null, /*! ./components/StatusForm.vue */ "./resources/js/components/StatusForm.vue"));
 }); //Vue.component('assignment-grid',       require('./components/AssignmentGrid.vue'));    // May need to add .default);
 //Vue.component('assignment-form',       require('./components/AssignmentForm.vue'));    // May need to add .default);
 
 Vue.component('assignment-grid', function () {
-  return Promise.all(/*! import() | assignment-grid */[__webpack_require__.e("assignment-grid~client-grid~status-grid"), __webpack_require__.e("assignment-grid")]).then(__webpack_require__.bind(null, /*! ./components/AssignmentGrid.vue */ "./resources/js/components/AssignmentGrid.vue"));
+  return Promise.all(/*! import() | assignment-grid */[__webpack_require__.e("assignment-grid~client-grid~conviction-grid~status-grid"), __webpack_require__.e("assignment-grid")]).then(__webpack_require__.bind(null, /*! ./components/AssignmentGrid.vue */ "./resources/js/components/AssignmentGrid.vue"));
 });
 Vue.component('assignment-form', function () {
-  return Promise.all(/*! import() | assignment-form */[__webpack_require__.e("vendors~assignment-form~client-form~status-form"), __webpack_require__.e("assignment-form")]).then(__webpack_require__.bind(null, /*! ./components/AssignmentForm.vue */ "./resources/js/components/AssignmentForm.vue"));
+  return Promise.all(/*! import() | assignment-form */[__webpack_require__.e("vendors~assignment-form~client-form~conviction-form~status-form"), __webpack_require__.e("assignment-form")]).then(__webpack_require__.bind(null, /*! ./components/AssignmentForm.vue */ "./resources/js/components/AssignmentForm.vue"));
 });
 Vue.component('client-show', function () {
   return __webpack_require__.e(/*! import() | client-Show */ "client-Show").then(__webpack_require__.bind(null, /*! ./components/ClientShow.vue */ "./resources/js/components/ClientShow.vue"));
+}); //Vue.component('conviction-grid',       require('./components/ConvictionGrid.vue'));    // May need to add .default);
+//Vue.component('conviction-form',       require('./components/ConvictionForm.vue'));    // May need to add .default);
+
+Vue.component('conviction-grid', function () {
+  return Promise.all(/*! import() | conviction-grid */[__webpack_require__.e("assignment-grid~client-grid~conviction-grid~status-grid"), __webpack_require__.e("conviction-grid")]).then(__webpack_require__.bind(null, /*! ./components/ConvictionGrid.vue */ "./resources/js/components/ConvictionGrid.vue"));
+});
+Vue.component('conviction-form', function () {
+  return Promise.all(/*! import() | conviction-form */[__webpack_require__.e("vendors~assignment-form~client-form~conviction-form~status-form"), __webpack_require__.e("conviction-form")]).then(__webpack_require__.bind(null, /*! ./components/ConvictionForm.vue */ "./resources/js/components/ConvictionForm.vue"));
+});
+Vue.component('conviction-show', function () {
+  return __webpack_require__.e(/*! import() | conviction-Show */ "conviction-Show").then(__webpack_require__.bind(null, /*! ./components/ConvictionShow.vue */ "./resources/js/components/ConvictionShow.vue"));
 });
 
 /***/ }),
