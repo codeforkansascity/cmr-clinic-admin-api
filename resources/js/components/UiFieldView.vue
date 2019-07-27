@@ -12,13 +12,14 @@
 </template>
 
 <script>
-export default {
-    name: "ui-field-view",
-    props: {
-        params: {
-            type: Object,
-            default: function() {}
+    export default {
+        name: "ui-field-view",
+        props: {
+            params: {
+                type: Object,
+                default: function () {
+                }
+            }
         }
-    }
-};
+    };
 </script>

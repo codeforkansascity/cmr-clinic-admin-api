@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 
-
 use App\Http\Middleware\TrimStrings;
 use App\Assignment;
 use Illuminate\Http\Request;
@@ -16,6 +15,7 @@ use Illuminate\Support\Facades\Session;
 
 use App\Exports\AssignmentExport;
 use Maatwebsite\Excel\Facades\Excel;
+
 //use PDF; // TCPDF, not currently in use
 
 class AssignmentController extends Controller
@@ -26,43 +26,40 @@ class AssignmentController extends Controller
      *
      * Vue component example.
      *
-        <ui-select-pick-one
-            url="/api-assignment/options"
-            v-model="assignmentSelected"
-            :selected_id=assignmentSelected">
-        </ui-select-pick-one>
+     * <ui-select-pick-one
+     * url="/api-assignment/options"
+     * v-model="assignmentSelected"
+     * :selected_id=assignmentSelected">
+     * </ui-select-pick-one>
      *
      *
      * Blade component example.
      *
      *   In Controler
      *
-             $assignment_options = \App\Assignment::getOptions();
-
-
+     * $assignment_options = \App\Assignment::getOptions();
      *
      *   In View
-
-            @component('../components/select-pick-one', [
-                'fld' => 'assignment_id',
-                'selected_id' => $RECORD->assignment_id,
-                'first_option' => 'Select a Assignments',
-                'options' => $assignment_options
-            ])
-            @endcomponent
+     *
+     * @component('../components/select-pick-one', [
+     * 'fld' => 'assignment_id',
+     * 'selected_id' => $RECORD->assignment_id,
+     * 'first_option' => 'Select a Assignments',
+     * 'options' => $assignment_options
+     * ])
+     * @endcomponent
      *
      * Permissions
      *
-
-             Permission::create(['name' => 'assignment index']);
-             Permission::create(['name' => 'assignment add']);
-             Permission::create(['name' => 'assignment update']);
-             Permission::create(['name' => 'assignment view']);
-             Permission::create(['name' => 'assignment destroy']);
-             Permission::create(['name' => 'assignment export-pdf']);
-             Permission::create(['name' => 'assignment export-excel']);
-
-    */
+     *
+     * Permission::create(['name' => 'assignment index']);
+     * Permission::create(['name' => 'assignment add']);
+     * Permission::create(['name' => 'assignment update']);
+     * Permission::create(['name' => 'assignment view']);
+     * Permission::create(['name' => 'assignment destroy']);
+     * Permission::create(['name' => 'assignment export-pdf']);
+     * Permission::create(['name' => 'assignment export-excel']);
+     */
 
 
     /**
@@ -100,8 +97,8 @@ class AssignmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-	public function create()
-	{
+    public function create()
+    {
 
         if (!Auth::user()->can('assignment add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Assignment.');
@@ -112,8 +109,8 @@ class AssignmentController extends Controller
             }
         }
 
-	    return view('assignment.create');
-	}
+        return view('assignment.create');
+    }
 
 
     /**
@@ -164,7 +161,7 @@ class AssignmentController extends Controller
         if ($assignment = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('assignment edit');
             $can_delete = Auth::user()->can('assignment delete');
-            return view('assignment.show', compact('assignment','can_edit', 'can_delete'));
+            return view('assignment.show', compact('assignment', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Assignment to display.');
             return Redirect::route('assignment.index');
@@ -201,7 +198,7 @@ class AssignmentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Assignment $assignment     * @return \Illuminate\Http\Response
+     * @param  \App\Assignment $assignment * @return \Illuminate\Http\Response
      */
     public function update(AssignmentFormRequest $request, $id)
     {
@@ -216,7 +213,7 @@ class AssignmentController extends Controller
 //        }
 
         if (!$assignment = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Assignment to edit');
+            //     \Session::flash('flash_error_message', 'Unable to find Assignment to edit');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
@@ -247,7 +244,7 @@ class AssignmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Assignment $assignment     * @return \Illuminate\Http\Response
+     * @param  \App\Assignment $assignment * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -255,7 +252,7 @@ class AssignmentController extends Controller
         if (!Auth::user()->can('assignment delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Assignment.');
             if (Auth::user()->can('assignment index')) {
-                 return Redirect::route('assignment.index');
+                return Redirect::route('assignment.index');
             } else {
                 return Redirect::route('home');
             }
@@ -263,7 +260,7 @@ class AssignmentController extends Controller
 
         $assignment = $this->sanitizeAndFind($id);
 
-        if ( $assignment  && $assignment->canDelete()) {
+        if ($assignment && $assignment->canDelete()) {
 
             try {
                 $assignment->delete();
@@ -280,7 +277,7 @@ class AssignmentController extends Controller
         }
 
         if (Auth::user()->can('assignment index')) {
-             return Redirect::route('assignment.index');
+            return Redirect::route('assignment.index');
         } else {
             return Redirect::route('home');
         }
@@ -335,8 +332,8 @@ class AssignmentController extends Controller
     }
 
 
-        public function print()
-{
+    public function print()
+    {
         if (!Auth::user()->can('assignment export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Assignment');
             if (Auth::user()->can('assignment index')) {
@@ -364,7 +361,7 @@ class AssignmentController extends Controller
         $data = $dataQuery->get();
 
         // Pass it to the view for html formatting:
-        $printHtml = view('assignment.print', compact( 'data' ) );
+        $printHtml = view('assignment.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
         $pdf = \App::make('dompdf.wrapper');

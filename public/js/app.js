@@ -1964,6 +1964,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ui-select-pick-one",
   props: {
@@ -38686,7 +38687,7 @@ var render = function() {
     },
     _vm._l(_vm.optionsList, function(c) {
       return _c("option", { domProps: { value: c.value } }, [
-        _vm._v("\n        " + _vm._s(c.text))
+        _vm._v("\n        " + _vm._s(c.text) + "\n    ")
       ])
     }),
     0

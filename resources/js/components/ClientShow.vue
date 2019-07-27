@@ -6,7 +6,7 @@
                     Name
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.name" />
+                    <dsp-text v-model="record.name"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -14,7 +14,7 @@
                     Phone
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.phone" />
+                    <dsp-text v-model="record.phone"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -22,7 +22,7 @@
                     Email
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.email" />
+                    <dsp-text v-model="record.email"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -30,7 +30,7 @@
                     Sex
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.sex" />
+                    <dsp-text v-model="record.sex"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -38,7 +38,7 @@
                     Race
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.race" />
+                    <dsp-text v-model="record.race"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -46,7 +46,7 @@
                     Dob Text
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.dob_text" />
+                    <dsp-text v-model="record.dob_text"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -54,7 +54,7 @@
                     Address Line 1
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.address_line_1" />
+                    <dsp-text v-model="record.address_line_1"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -62,7 +62,7 @@
                     Address Line 2
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.address_line_2" />
+                    <dsp-text v-model="record.address_line_2"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -70,7 +70,7 @@
                     City
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.city" />
+                    <dsp-text v-model="record.city"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -78,7 +78,7 @@
                     State
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.state" />
+                    <dsp-text v-model="record.state"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -86,7 +86,7 @@
                     Zip Code
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.zip_code" />
+                    <dsp-text v-model="record.zip_code"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -94,7 +94,7 @@
                     License Number
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.license_number" />
+                    <dsp-text v-model="record.license_number"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -102,7 +102,7 @@
                     License Issuing State
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.license_issuing_state" />
+                    <dsp-text v-model="record.license_issuing_state"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -110,7 +110,7 @@
                     License Expiration Date Text
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.license_expiration_date_text" />
+                    <dsp-text v-model="record.license_expiration_date_text"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -118,7 +118,7 @@
                     Filing Court
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.filing_court" />
+                    <dsp-text v-model="record.filing_court"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -126,7 +126,7 @@
                     Judicial Circuit Number
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.judicial_circuit_number" />
+                    <dsp-text v-model="record.judicial_circuit_number"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -134,7 +134,7 @@
                     Count Name
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.count_name" />
+                    <dsp-text v-model="record.count_name"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -142,7 +142,7 @@
                     Judge Name
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.judge_name" />
+                    <dsp-text v-model="record.judge_name"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -150,7 +150,7 @@
                     Division Name
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.division_name" />
+                    <dsp-text v-model="record.division_name"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -158,7 +158,7 @@
                     Petitioner Name
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.petitioner_name" />
+                    <dsp-text v-model="record.petitioner_name"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -166,7 +166,7 @@
                     Division Number
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.division_number" />
+                    <dsp-text v-model="record.division_number"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -174,7 +174,7 @@
                     City Name Here
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.city_name_here" />
+                    <dsp-text v-model="record.city_name_here"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -182,7 +182,7 @@
                     County Name
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.county_name" />
+                    <dsp-text v-model="record.county_name"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -190,7 +190,7 @@
                     Arresting County
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.arresting_county" />
+                    <dsp-text v-model="record.arresting_county"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -198,7 +198,7 @@
                     Prosecuting County
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.prosecuting_county" />
+                    <dsp-text v-model="record.prosecuting_county"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -206,7 +206,7 @@
                     Arresting Municipality
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.arresting_municipality" />
+                    <dsp-text v-model="record.arresting_municipality"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -214,7 +214,7 @@
                     Other Agencies Name
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.other_agencies_name" />
+                    <dsp-text v-model="record.other_agencies_name"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -222,7 +222,7 @@
                     Previous Expungements
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.previous_expungements" />
+                    <dsp-text v-model="record.previous_expungements"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -230,7 +230,7 @@
                     Notes
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.notes" />
+                    <dsp-text v-model="record.notes"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -238,7 +238,7 @@
                     External Ref
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.external_ref" />
+                    <dsp-text v-model="record.external_ref"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -246,7 +246,7 @@
                     Any Pending Cases
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.any_pending_cases" />
+                    <dsp-text v-model="record.any_pending_cases"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -254,7 +254,7 @@
                     Deleted At
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.deleted_at" />
+                    <dsp-text v-model="record.deleted_at"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -262,7 +262,7 @@
                     Status Id
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.status_id" />
+                    <dsp-text v-model="record.status_id"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -270,7 +270,7 @@
                     Dob
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.dob" />
+                    <dsp-text v-model="record.dob"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -278,7 +278,7 @@
                     License Expiration Date
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.license_expiration_date" />
+                    <dsp-text v-model="record.license_expiration_date"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -286,7 +286,7 @@
                     Cms Client Number
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.cms_client_number" />
+                    <dsp-text v-model="record.cms_client_number"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -294,7 +294,7 @@
                     Cms Matter Number
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.cms_matter_number" />
+                    <dsp-text v-model="record.cms_matter_number"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -302,7 +302,7 @@
                     Assignment Id
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.assignment_id" />
+                    <dsp-text v-model="record.assignment_id"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -310,7 +310,7 @@
                     Step Id
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.step_id" />
+                    <dsp-text v-model="record.step_id"/>
                 </div>
             </div>
         </div>
@@ -321,13 +321,13 @@
 </template>
 
 <script>
-export default {
-    name: "client-show",
-    props: {
-        record: {
-            type: [Boolean, Object],
-            default: false
+    export default {
+        name: "client-show",
+        props: {
+            record: {
+                type: [Boolean, Object],
+                default: false
+            }
         }
-    }
-};
+    };
 </script>

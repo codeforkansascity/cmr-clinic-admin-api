@@ -6,7 +6,7 @@
                     Name
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.name" />
+                    <dsp-text v-model="record.name"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -14,7 +14,7 @@
                     Client Id
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.client_id" />
+                    <dsp-text v-model="record.client_id"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -22,7 +22,7 @@
                     Status Id
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.status_id" />
+                    <dsp-text v-model="record.status_id"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -30,7 +30,7 @@
                     Deleted At
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.deleted_at" />
+                    <dsp-text v-model="record.deleted_at"/>
                 </div>
             </div>
         </div>
@@ -41,13 +41,13 @@
 </template>
 
 <script>
-export default {
-    name: "step-show",
-    props: {
-        record: {
-            type: [Boolean, Object],
-            default: false
+    export default {
+        name: "step-show",
+        props: {
+            record: {
+                type: [Boolean, Object],
+                default: false
+            }
         }
-    }
-};
+    };
 </script>

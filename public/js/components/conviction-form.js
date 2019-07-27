@@ -271,7 +271,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "conviction-form",
@@ -462,7 +461,9 @@ var render = function() {
               { staticClass: "alert alert-danger", attrs: { role: "alert" } },
               [
                 _vm._v(
-                  "\n        " + _vm._s(this.server_message) + "\n        "
+                  "\n            " +
+                    _vm._s(this.server_message) +
+                    "\n            "
                 ),
                 _vm.try_logging_in
                   ? _c("a", { attrs: { href: "/login" } }, [_vm._v("Login")])
@@ -566,7 +567,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("template", { slot: "help" }, [
                     _vm._v(
-                      "\n                    Name must be unique.\n                "
+                      "\n                        Name must be unique.\n                    "
                     )
                   ])
                 ],

@@ -6,7 +6,7 @@
                     Client Id
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.client_id" />
+                    <dsp-text v-model="record.client_id"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -14,7 +14,7 @@
                     Name
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.name" />
+                    <dsp-text v-model="record.name"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -22,7 +22,7 @@
                     Arrest Date
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.arrest_date" />
+                    <dsp-text v-model="record.arrest_date"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -30,7 +30,7 @@
                     Case Number
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.case_number" />
+                    <dsp-text v-model="record.case_number"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -38,7 +38,7 @@
                     Agency
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.agency" />
+                    <dsp-text v-model="record.agency"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -46,7 +46,7 @@
                     Court Name
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.court_name" />
+                    <dsp-text v-model="record.court_name"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -54,7 +54,7 @@
                     Court City County
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.court_city_county" />
+                    <dsp-text v-model="record.court_city_county"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -62,7 +62,7 @@
                     Judge
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.judge" />
+                    <dsp-text v-model="record.judge"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -70,7 +70,7 @@
                     Record Name
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.record_name" />
+                    <dsp-text v-model="record.record_name"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -78,7 +78,7 @@
                     Release Status
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.release_status" />
+                    <dsp-text v-model="record.release_status"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -86,7 +86,7 @@
                     Release Date Text
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.release_date_text" />
+                    <dsp-text v-model="record.release_date_text"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -94,7 +94,7 @@
                     Notes
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.notes" />
+                    <dsp-text v-model="record.notes"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -102,7 +102,7 @@
                     Approximate Date Of Charge
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.approximate_date_of_charge" />
+                    <dsp-text v-model="record.approximate_date_of_charge"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
@@ -110,7 +110,7 @@
                     Release Date
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.release_date" />
+                    <dsp-text v-model="record.release_date"/>
                 </div>
             </div>
         </div>
@@ -121,13 +121,13 @@
 </template>
 
 <script>
-export default {
-    name: "conviction-show",
-    props: {
-        record: {
-            type: [Boolean, Object],
-            default: false
+    export default {
+        name: "conviction-show",
+        props: {
+            record: {
+                type: [Boolean, Object],
+                default: false
+            }
         }
-    }
-};
+    };
 </script>

@@ -416,11 +416,7 @@ var render = function() {
                   },
                   on: { selectedSort: _vm.sortColumn }
                 },
-                [
-                  _vm._v(
-                    "\n                        Notes\n                    "
-                  )
-                ]
+                [_vm._v("\n                    Notes\n                ")]
               ),
               _vm._v(" "),
               _c(
@@ -464,7 +460,7 @@ var render = function() {
                               },
                               [
                                 _vm._v(
-                                  "\n                            Edit\n                        "
+                                  "\n                        Edit\n                    "
                                 )
                               ]
                             )
@@ -519,9 +515,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("td", { staticClass: "grid-alert", attrs: { colspan: "2" } }, [
       _c("div", { staticClass: "alert alert-info", attrs: { role: "alert" } }, [
-        _vm._v(
-          "\n                            Please wait.\n                        "
-        )
+        _vm._v("\n                        Please wait.\n                    ")
       ])
     ])
   },
@@ -535,7 +529,7 @@ var staticRenderFns = [
         { staticClass: "alert alert-warning", attrs: { role: "alert" } },
         [
           _vm._v(
-            "\n                            Error please try again.\n                        "
+            "\n                        Error please try again.\n                    "
           )
         ]
       )
@@ -551,7 +545,7 @@ var staticRenderFns = [
         { staticClass: "alert alert-warning", attrs: { role: "alert" } },
         [
           _vm._v(
-            "\n                            No matching records found.\n                        "
+            "\n                        No matching records found.\n                    "
           )
         ]
       )

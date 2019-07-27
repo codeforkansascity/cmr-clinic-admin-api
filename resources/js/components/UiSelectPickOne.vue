@@ -9,64 +9,65 @@
 
 */
 <template>
-        <select
+    <select
             v-on:input="updateValue($event.target.value)"
             class="grid-filter"
             v-model="initval"
+    >
+        <option v-for="c in optionsList" v-bind:value="c.value">
+            {{ c.text }}
+        </option
         >
-            <option v-for="c in optionsList" v-bind:value="c.value">
-                {{ c.text }}</option
-            >
-        </select>
+    </select>
 </template>
 
 <script>
-export default {
-    name: "ui-select-pick-one",
+    export default {
+        name: "ui-select-pick-one",
 
-    props: {
-        url: [String, Number],
-        selected_id: [String, Number]
-    },
-
-    mounted: function() {
-        this.getOptions();
-        this.initval = this.selected_id;
-    },
-
-    data: function() {
-        return {
-            optionsList: [],
-            initval: null
-        };
-    },
-
-    methods: {
-        updateValue: function(value) {
-            this.$emit("input", value);
+        props: {
+            url: [String, Number],
+            selected_id: [String, Number]
         },
 
-        getOptions: function() {
-            var self = this;
+        mounted: function () {
+            this.getOptions();
+            this.initval = this.selected_id;
+        },
 
-            // Get cycles data from API
-            var url = this.url;
-            $.getJSON(
-                url,
-                function(data) {
-                    // Clear list
-                    self.optionsList = [];
+        data: function () {
+            return {
+                optionsList: [],
+                initval: null
+            };
+        },
 
-                    var keys = Object.keys(data);
-                    for (var i = 0; i < keys.length; i++) {
-                        self.optionsList.push({
-                            text: data[i].name,
-                            value: data[i].id
-                        });
-                    }
-                }.bind(this)
-            );
+        methods: {
+            updateValue: function (value) {
+                this.$emit("input", value);
+            },
+
+            getOptions: function () {
+                var self = this;
+
+                // Get cycles data from API
+                var url = this.url;
+                $.getJSON(
+                    url,
+                    function (data) {
+                        // Clear list
+                        self.optionsList = [];
+
+                        var keys = Object.keys(data);
+                        for (var i = 0; i < keys.length; i++) {
+                            self.optionsList.push({
+                                text: data[i].name,
+                                value: data[i].id
+                            });
+                        }
+                    }.bind(this)
+                );
+            }
         }
-    }
-};
+    };
 </script>

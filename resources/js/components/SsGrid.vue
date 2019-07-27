@@ -1,6 +1,6 @@
 /*
 <pagination
-    :params="{
+        :params="{
         current_page: this.params.Page,
         first_page: 1,
         last_page: this.params.Page,
@@ -8,12 +8,12 @@
         first_row_on_page: this.params.to,
         number_of_rows: this.params.total
     }"
-    CATCH
-    EMIT
-    OF
-    PAGE
-    TO
-    GOTO
+        CATCH
+        EMIT
+        OF
+        PAGE
+        TO
+        GOTO
 ></pagination>
 */
 
@@ -24,9 +24,9 @@
 </template>
 
 <script>
-export default {
-    name: "ss-grid"
-};
+    export default {
+        name: "ss-grid"
+    };
 </script>
 
 <style scoped></style>

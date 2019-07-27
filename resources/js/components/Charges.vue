@@ -3,9 +3,9 @@
         <h1 style="color: green;">CHARGE</h1>
 
         <charge-form v-for="(charge,conviction_index) in records"
-                         :key="charge.id"
-                         csrf_token="csrf_token"
-                         :record="charge">
+                     :key="charge.id"
+                     csrf_token="csrf_token"
+                     :record="charge">
 
         </charge-form>
     </div>
