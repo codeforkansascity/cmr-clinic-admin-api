@@ -69,7 +69,7 @@ var render = function() {
         return _c("case-form", {
           key: conviction.id,
           attrs: {
-            csrf_token: "csrf_token",
+            csrf_token: _vm.csrf_token,
             record: conviction,
             client_id: _vm.client_id
           }

@@ -3,7 +3,7 @@
 
         <charge-form v-for="(charge,conviction_index) in records"
                      :key="charge.id"
-                     csrf_token="csrf_token"
+                     :csrf_token="csrf_token"
                      :record="charge">
 
         </charge-form>
