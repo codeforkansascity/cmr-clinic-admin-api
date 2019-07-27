@@ -261,6 +261,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "conviction-form",
@@ -432,555 +443,578 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "form",
-    {
-      staticClass: "form-horizontal",
-      on: {
-        submit: function($event) {
-          $event.preventDefault()
-          return _vm.handleSubmit($event)
+  return _c("div", [
+    _c(
+      "form",
+      {
+        staticClass: "form-horizontal",
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.handleSubmit($event)
+          }
         }
-      }
-    },
-    [
-      _vm.server_message !== false
-        ? _c(
-            "div",
-            { staticClass: "alert alert-danger", attrs: { role: "alert" } },
-            [
-              _vm._v("\n        " + _vm._s(this.server_message) + "\n        "),
-              _vm.try_logging_in
-                ? _c("a", { attrs: { href: "/login" } }, [_vm._v("Login")])
-                : _vm._e()
-            ]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Id",
-                  "label-for": "id",
-                  errors: _vm.form_errors.id
-                }
-              },
+      },
+      [
+        _vm.server_message !== false
+          ? _c(
+              "div",
+              { staticClass: "alert alert-danger", attrs: { role: "alert" } },
               [
-                _c("fld-input", {
-                  attrs: { name: "id" },
-                  model: {
-                    value: _vm.form_data.id,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "id", $$v)
-                    },
-                    expression: "form_data.id"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Client Id",
-                  "label-for": "client_id",
-                  errors: _vm.form_errors.client_id
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "client_id" },
-                  model: {
-                    value: _vm.form_data.client_id,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "client_id", $$v)
-                    },
-                    expression: "form_data.client_id"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Name",
-                  "label-for": "name",
-                  errors: _vm.form_errors.name,
-                  required: true
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "name", required: "" },
-                  model: {
-                    value: _vm.form_data.name,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "name", $$v)
-                    },
-                    expression: "form_data.name"
-                  }
-                }),
-                _vm._v(" "),
-                _c("template", { slot: "help" }, [
-                  _vm._v(
-                    "\n                    Name must be unique.\n                "
-                  )
-                ])
-              ],
-              2
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Arrest Date",
-                  "label-for": "arrest_date",
-                  errors: _vm.form_errors.arrest_date
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "arrest_date" },
-                  model: {
-                    value: _vm.form_data.arrest_date,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "arrest_date", $$v)
-                    },
-                    expression: "form_data.arrest_date"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Case Number",
-                  "label-for": "case_number",
-                  errors: _vm.form_errors.case_number
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "case_number" },
-                  model: {
-                    value: _vm.form_data.case_number,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "case_number", $$v)
-                    },
-                    expression: "form_data.case_number"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Agency",
-                  "label-for": "agency",
-                  errors: _vm.form_errors.agency
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "agency" },
-                  model: {
-                    value: _vm.form_data.agency,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "agency", $$v)
-                    },
-                    expression: "form_data.agency"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Court Name",
-                  "label-for": "court_name",
-                  errors: _vm.form_errors.court_name
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "court_name" },
-                  model: {
-                    value: _vm.form_data.court_name,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "court_name", $$v)
-                    },
-                    expression: "form_data.court_name"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Court City County",
-                  "label-for": "court_city_county",
-                  errors: _vm.form_errors.court_city_county
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "court_city_county" },
-                  model: {
-                    value: _vm.form_data.court_city_county,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "court_city_county", $$v)
-                    },
-                    expression: "form_data.court_city_county"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Judge",
-                  "label-for": "judge",
-                  errors: _vm.form_errors.judge
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "judge" },
-                  model: {
-                    value: _vm.form_data.judge,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "judge", $$v)
-                    },
-                    expression: "form_data.judge"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Record Name",
-                  "label-for": "record_name",
-                  errors: _vm.form_errors.record_name
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "record_name" },
-                  model: {
-                    value: _vm.form_data.record_name,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "record_name", $$v)
-                    },
-                    expression: "form_data.record_name"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Release Status",
-                  "label-for": "release_status",
-                  errors: _vm.form_errors.release_status
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "release_status" },
-                  model: {
-                    value: _vm.form_data.release_status,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "release_status", $$v)
-                    },
-                    expression: "form_data.release_status"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Release Date Text",
-                  "label-for": "release_date_text",
-                  errors: _vm.form_errors.release_date_text
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "release_date_text" },
-                  model: {
-                    value: _vm.form_data.release_date_text,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "release_date_text", $$v)
-                    },
-                    expression: "form_data.release_date_text"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Notes",
-                  "label-for": "notes",
-                  errors: _vm.form_errors.notes
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "notes" },
-                  model: {
-                    value: _vm.form_data.notes,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "notes", $$v)
-                    },
-                    expression: "form_data.notes"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Approximate Date Of Charge",
-                  "label-for": "approximate_date_of_charge",
-                  errors: _vm.form_errors.approximate_date_of_charge
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "approximate_date_of_charge" },
-                  model: {
-                    value: _vm.form_data.approximate_date_of_charge,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "approximate_date_of_charge", $$v)
-                    },
-                    expression: "form_data.approximate_date_of_charge"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Release Date",
-                  "label-for": "release_date",
-                  errors: _vm.form_errors.release_date
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "release_date" },
-                  model: {
-                    value: _vm.form_data.release_date,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "release_date", $$v)
-                    },
-                    expression: "form_data.release_date"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group mt-4" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-6" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary",
-                attrs: { type: "submit", disabled: _vm.processing }
-              },
-              [
-                this.form_data.id
-                  ? _c("span", [_vm._v("Change")])
-                  : _c("span", [_vm._v("Add")])
+                _vm._v(
+                  "\n        " + _vm._s(this.server_message) + "\n        "
+                ),
+                _vm.try_logging_in
+                  ? _c("a", { attrs: { href: "/login" } }, [_vm._v("Login")])
+                  : _vm._e()
               ]
             )
-          ]),
-          _vm._v(" "),
-          _vm._m(0)
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-md-12" },
+            [
+              _c(
+                "std-form-group",
+                {
+                  attrs: {
+                    label: "Id",
+                    "label-for": "id",
+                    errors: _vm.form_errors.id
+                  }
+                },
+                [
+                  _c("fld-input", {
+                    attrs: { name: "id" },
+                    model: {
+                      value: _vm.form_data.id,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form_data, "id", $$v)
+                      },
+                      expression: "form_data.id"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-md-12" },
+            [
+              _c(
+                "std-form-group",
+                {
+                  attrs: {
+                    label: "Client Id",
+                    "label-for": "client_id",
+                    errors: _vm.form_errors.client_id
+                  }
+                },
+                [
+                  _c("fld-input", {
+                    attrs: { name: "client_id" },
+                    model: {
+                      value: _vm.form_data.client_id,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form_data, "client_id", $$v)
+                      },
+                      expression: "form_data.client_id"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-md-12" },
+            [
+              _c(
+                "std-form-group",
+                {
+                  attrs: {
+                    label: "Name",
+                    "label-for": "name",
+                    errors: _vm.form_errors.name,
+                    required: true
+                  }
+                },
+                [
+                  _c("fld-input", {
+                    attrs: { name: "name", required: "" },
+                    model: {
+                      value: _vm.form_data.name,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form_data, "name", $$v)
+                      },
+                      expression: "form_data.name"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("template", { slot: "help" }, [
+                    _vm._v(
+                      "\n                    Name must be unique.\n                "
+                    )
+                  ])
+                ],
+                2
+              )
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-md-12" },
+            [
+              _c(
+                "std-form-group",
+                {
+                  attrs: {
+                    label: "Arrest Date",
+                    "label-for": "arrest_date",
+                    errors: _vm.form_errors.arrest_date
+                  }
+                },
+                [
+                  _c("fld-input", {
+                    attrs: { name: "arrest_date" },
+                    model: {
+                      value: _vm.form_data.arrest_date,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form_data, "arrest_date", $$v)
+                      },
+                      expression: "form_data.arrest_date"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-md-12" },
+            [
+              _c(
+                "std-form-group",
+                {
+                  attrs: {
+                    label: "Case Number",
+                    "label-for": "case_number",
+                    errors: _vm.form_errors.case_number
+                  }
+                },
+                [
+                  _c("fld-input", {
+                    attrs: { name: "case_number" },
+                    model: {
+                      value: _vm.form_data.case_number,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form_data, "case_number", $$v)
+                      },
+                      expression: "form_data.case_number"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-md-12" },
+            [
+              _c(
+                "std-form-group",
+                {
+                  attrs: {
+                    label: "Agency",
+                    "label-for": "agency",
+                    errors: _vm.form_errors.agency
+                  }
+                },
+                [
+                  _c("fld-input", {
+                    attrs: { name: "agency" },
+                    model: {
+                      value: _vm.form_data.agency,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form_data, "agency", $$v)
+                      },
+                      expression: "form_data.agency"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-md-12" },
+            [
+              _c(
+                "std-form-group",
+                {
+                  attrs: {
+                    label: "Court Name",
+                    "label-for": "court_name",
+                    errors: _vm.form_errors.court_name
+                  }
+                },
+                [
+                  _c("fld-input", {
+                    attrs: { name: "court_name" },
+                    model: {
+                      value: _vm.form_data.court_name,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form_data, "court_name", $$v)
+                      },
+                      expression: "form_data.court_name"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-md-12" },
+            [
+              _c(
+                "std-form-group",
+                {
+                  attrs: {
+                    label: "Court City County",
+                    "label-for": "court_city_county",
+                    errors: _vm.form_errors.court_city_county
+                  }
+                },
+                [
+                  _c("fld-input", {
+                    attrs: { name: "court_city_county" },
+                    model: {
+                      value: _vm.form_data.court_city_county,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form_data, "court_city_county", $$v)
+                      },
+                      expression: "form_data.court_city_county"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-md-12" },
+            [
+              _c(
+                "std-form-group",
+                {
+                  attrs: {
+                    label: "Judge",
+                    "label-for": "judge",
+                    errors: _vm.form_errors.judge
+                  }
+                },
+                [
+                  _c("fld-input", {
+                    attrs: { name: "judge" },
+                    model: {
+                      value: _vm.form_data.judge,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form_data, "judge", $$v)
+                      },
+                      expression: "form_data.judge"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-md-12" },
+            [
+              _c(
+                "std-form-group",
+                {
+                  attrs: {
+                    label: "Record Name",
+                    "label-for": "record_name",
+                    errors: _vm.form_errors.record_name
+                  }
+                },
+                [
+                  _c("fld-input", {
+                    attrs: { name: "record_name" },
+                    model: {
+                      value: _vm.form_data.record_name,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form_data, "record_name", $$v)
+                      },
+                      expression: "form_data.record_name"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-md-12" },
+            [
+              _c(
+                "std-form-group",
+                {
+                  attrs: {
+                    label: "Release Status",
+                    "label-for": "release_status",
+                    errors: _vm.form_errors.release_status
+                  }
+                },
+                [
+                  _c("fld-input", {
+                    attrs: { name: "release_status" },
+                    model: {
+                      value: _vm.form_data.release_status,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form_data, "release_status", $$v)
+                      },
+                      expression: "form_data.release_status"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-md-12" },
+            [
+              _c(
+                "std-form-group",
+                {
+                  attrs: {
+                    label: "Release Date Text",
+                    "label-for": "release_date_text",
+                    errors: _vm.form_errors.release_date_text
+                  }
+                },
+                [
+                  _c("fld-input", {
+                    attrs: { name: "release_date_text" },
+                    model: {
+                      value: _vm.form_data.release_date_text,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form_data, "release_date_text", $$v)
+                      },
+                      expression: "form_data.release_date_text"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-md-12" },
+            [
+              _c(
+                "std-form-group",
+                {
+                  attrs: {
+                    label: "Notes",
+                    "label-for": "notes",
+                    errors: _vm.form_errors.notes
+                  }
+                },
+                [
+                  _c("fld-input", {
+                    attrs: { name: "notes" },
+                    model: {
+                      value: _vm.form_data.notes,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form_data, "notes", $$v)
+                      },
+                      expression: "form_data.notes"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-md-12" },
+            [
+              _c(
+                "std-form-group",
+                {
+                  attrs: {
+                    label: "Approximate Date Of Charge",
+                    "label-for": "approximate_date_of_charge",
+                    errors: _vm.form_errors.approximate_date_of_charge
+                  }
+                },
+                [
+                  _c("fld-input", {
+                    attrs: { name: "approximate_date_of_charge" },
+                    model: {
+                      value: _vm.form_data.approximate_date_of_charge,
+                      callback: function($$v) {
+                        _vm.$set(
+                          _vm.form_data,
+                          "approximate_date_of_charge",
+                          $$v
+                        )
+                      },
+                      expression: "form_data.approximate_date_of_charge"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-md-12" },
+            [
+              _c(
+                "std-form-group",
+                {
+                  attrs: {
+                    label: "Release Date",
+                    "label-for": "release_date",
+                    errors: _vm.form_errors.release_date
+                  }
+                },
+                [
+                  _c("fld-input", {
+                    attrs: { name: "release_date" },
+                    model: {
+                      value: _vm.form_data.release_date,
+                      callback: function($$v) {
+                        _vm.$set(_vm.form_data, "release_date", $$v)
+                      },
+                      expression: "form_data.release_date"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group mt-4" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-6" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "submit", disabled: _vm.processing }
+                },
+                [
+                  this.form_data.id
+                    ? _c("span", [_vm._v("Change Conviction")])
+                    : _c("span", [_vm._v("Add Conviction")])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _vm._m(0)
+          ])
         ])
-      ])
-    ]
-  )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "row" },
+      [
+        _c("charges", {
+          attrs: {
+            records: _vm.record.charge,
+            client_id: _vm.client_id,
+            csrf_token: _vm.csrf_token
+          }
+        })
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -991,7 +1025,7 @@ var staticRenderFns = [
       _c(
         "a",
         { staticClass: "btn btn-default", attrs: { href: "/conviction" } },
-        [_vm._v("Cancel")]
+        [_vm._v("Cancel Conviction")]
       )
     ])
   }

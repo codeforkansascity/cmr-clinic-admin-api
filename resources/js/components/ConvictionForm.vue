@@ -1,4 +1,5 @@
 <template>
+    <div>
     <form @submit.prevent="handleSubmit" class="form-horizontal">
         <div
             v-if="server_message !== false"
@@ -220,6 +221,8 @@
             </div>
         </div>
 
+
+
         <div class="form-group mt-4">
             <div class="row">
                 <div class="col-md-6">
@@ -228,16 +231,24 @@
                         class="btn btn-primary"
                         :disabled="processing"
                     >
-                        <span v-if="this.form_data.id">Change</span>
-                        <span v-else="this.form_data.id">Add</span>
+                        <span v-if="this.form_data.id">Change Conviction</span>
+                        <span v-else="this.form_data.id">Add Conviction</span>
                     </button>
                 </div>
                 <div class="col-md-6 text-md-right mt-2 mt-md-0">
-                    <a href="/conviction" class="btn btn-default">Cancel</a>
+                    <a href="/conviction" class="btn btn-default">Cancel Conviction</a>
                 </div>
             </div>
         </div>
+
+
     </form>
+    <div class="row">
+        <charges :records="record.charge"
+                 :client_id="client_id"
+                 :csrf_token="csrf_token"></charges>
+    </div>
+    </div>
 </template>
 
 <script>

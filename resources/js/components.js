@@ -24,6 +24,10 @@ Vue.component('dsp-text', () => import(/* webpackChunkName:"dsp-text" */ './comp
 Vue.component('search-form-group', () => import(/* webpackChunkName:"search-form-group" */ './components/SearchFormGroup.vue'));
 
 
+
+Vue.component('cases', () => import(/* webpackChunkName:"cases" */ './components/Cases.vue'));
+Vue.component('charges', () => import(/* webpackChunkName:"charges" */ './components/Charges.vue'));
+
 /*
      Application Components
  */

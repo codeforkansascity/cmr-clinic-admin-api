@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/components/" + ({"assignment-Show":"assignment-Show","assignment-grid~charge-grid~client-grid~conviction-grid~status-grid~step-grid":"assignment-grid~charge-grid~client-grid~conviction-grid~status-grid~step-grid","assignment-grid":"assignment-grid","charge-grid":"charge-grid","client-grid":"client-grid","conviction-grid":"conviction-grid","status-grid":"status-grid","step-grid":"step-grid","charge-Show":"charge-Show","client-Show":"client-Show","conviction-Show":"conviction-Show","dsp-boolean":"dsp-boolean","dsp-text":"dsp-text","dsp-textarea":"dsp-textarea","fld-checkbox":"fld-checkbox","fld-input":"fld-input","fld-state":"fld-state","fld-text-area":"fld-text-area","search-form-group":"search-form-group","status-Show":"status-Show","std-form-group":"std-form-group","step-Show":"step-Show","vendors~assignment-form~charge-form~client-form~conviction-form~status-form~step-form":"vendors~assignment-form~charge-form~client-form~conviction-form~status-form~step-form","assignment-form":"assignment-form","charge-form":"charge-form","client-form":"client-form","conviction-form":"conviction-form","status-form":"status-form","step-form":"step-form"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "js/components/" + ({"assignment-Show":"assignment-Show","assignment-grid~charge-grid~client-grid~conviction-grid~status-grid~step-grid":"assignment-grid~charge-grid~client-grid~conviction-grid~status-grid~step-grid","assignment-grid":"assignment-grid","charge-grid":"charge-grid","client-grid":"client-grid","conviction-grid":"conviction-grid","status-grid":"status-grid","step-grid":"step-grid","cases":"cases","charge-Show":"charge-Show","charges":"charges","client-Show":"client-Show","conviction-Show":"conviction-Show","dsp-boolean":"dsp-boolean","dsp-text":"dsp-text","dsp-textarea":"dsp-textarea","fld-checkbox":"fld-checkbox","fld-input":"fld-input","fld-state":"fld-state","fld-text-area":"fld-text-area","search-form-group":"search-form-group","status-Show":"status-Show","std-form-group":"std-form-group","step-Show":"step-Show","vendors~assignment-form~charge-form~client-form~conviction-form~status-form~step-form":"vendors~assignment-form~charge-form~client-form~conviction-form~status-form~step-form","assignment-form":"assignment-form","charge-form":"charge-form","client-form":"client-form","conviction-form":"conviction-form","status-form":"status-form","step-form":"step-form"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -52055,6 +52055,12 @@ Vue.component('dsp-text', function () {
 });
 Vue.component('search-form-group', function () {
   return __webpack_require__.e(/*! import() | search-form-group */ "search-form-group").then(__webpack_require__.bind(null, /*! ./components/SearchFormGroup.vue */ "./resources/js/components/SearchFormGroup.vue"));
+});
+Vue.component('cases', function () {
+  return __webpack_require__.e(/*! import() | cases */ "cases").then(__webpack_require__.bind(null, /*! ./components/Cases.vue */ "./resources/js/components/Cases.vue"));
+});
+Vue.component('charges', function () {
+  return __webpack_require__.e(/*! import() | charges */ "charges").then(__webpack_require__.bind(null, /*! ./components/Charges.vue */ "./resources/js/components/Charges.vue"));
 });
 /*
      Application Components

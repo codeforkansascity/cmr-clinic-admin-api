@@ -35,5 +35,7 @@
     "/js/components/fld-state.js": "/js/components/fld-state.js",
     "/js/components/fld-text-area.js": "/js/components/fld-text-area.js",
     "/js/components/fld-text-editor.js": "/js/components/fld-text-editor.js",
-    "/js/components/search-form-group.js": "/js/components/search-form-group.js"
+    "/js/components/search-form-group.js": "/js/components/search-form-group.js",
+    "/js/components/cases.js": "/js/components/cases.js",
+    "/js/components/charges.js": "/js/components/charges.js"
 }

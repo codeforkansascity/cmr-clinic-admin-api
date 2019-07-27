@@ -953,8 +953,8 @@ var render = function() {
               },
               [
                 this.form_data.id
-                  ? _c("span", [_vm._v("Change")])
-                  : _c("span", [_vm._v("Add")])
+                  ? _c("span", [_vm._v("Change Charge")])
+                  : _c("span", [_vm._v("Add Charge")])
               ]
             )
           ]),
@@ -972,7 +972,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-6 text-md-right mt-2 mt-md-0" }, [
       _c("a", { staticClass: "btn btn-default", attrs: { href: "/charge" } }, [
-        _vm._v("Cancel")
+        _vm._v("Cancel Charge")
       ])
     ])
   }

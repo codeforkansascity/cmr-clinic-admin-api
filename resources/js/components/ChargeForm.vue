@@ -218,12 +218,12 @@
                         class="btn btn-primary"
                         :disabled="processing"
                     >
-                        <span v-if="this.form_data.id">Change</span>
-                        <span v-else="this.form_data.id">Add</span>
+                        <span v-if="this.form_data.id">Change Charge</span>
+                        <span v-else="this.form_data.id">Add Charge</span>
                     </button>
                 </div>
                 <div class="col-md-6 text-md-right mt-2 mt-md-0">
-                    <a href="/charge" class="btn btn-default">Cancel</a>
+                    <a href="/charge" class="btn btn-default">Cancel Charge</a>
                 </div>
             </div>
         </div>

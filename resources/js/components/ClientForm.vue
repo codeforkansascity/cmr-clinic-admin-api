@@ -1,4 +1,5 @@
 <template>
+    <div>
     <form @submit.prevent="handleSubmit" class="form-horizontal">
         <div
             v-if="server_message !== false"
@@ -588,7 +589,15 @@
                 </div>
             </div>
         </div>
+
+
     </form>
+    <div class="row">
+        <cases :records="this.form_data.conviction"
+               :client_id="this.form_data.id"
+               :csrf_token="this.csrf_token"></cases>
+    </div>
+    </div>
 </template>
 
 <script>
