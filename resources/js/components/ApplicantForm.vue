@@ -563,7 +563,7 @@
                         </button>
                     </div>
                     <div class="col-md-6 text-md-right mt-2 mt-md-0">
-                        <a href="/client" class="btn btn-default">Cancel</a>
+                        <a href="/applicant" class="btn btn-default">Cancel</a>
                     </div>
                 </div>
             </div>
@@ -725,10 +725,10 @@
                 let url = "";
                 let amethod = "";
                 if (this.form_data.id) {
-                    url = "/client/" + this.form_data.id;
+                    url = "/applicant/" + this.form_data.id;
                     amethod = "put";
                 } else {
-                    url = "/client";
+                    url = "/applicant";
                     amethod = "post";
                 }
                 await axios({
@@ -738,7 +738,7 @@
                 })
                     .then(res => {
                         if (res.status === 200) {
-                            window.location = "/client";
+                            window.location = "/applicant";
                         } else {
                             this.server_message = res.status;
                         }
@@ -759,7 +759,7 @@
                             } else if (error.response.status === 404) {
                                 // Record not found
                                 this.server_message = "Record not found";
-                                window.location = "/client";
+                                window.location = "/applicant";
                             } else if (error.response.status === 419) {
                                 // Unknown status
                                 this.server_message =

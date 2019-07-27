@@ -8,8 +8,8 @@ use App\Http\Middleware\TrimStrings;
 use App\Client;
 use Illuminate\Http\Request;
 
-use App\Http\Requests\ClientFormRequest;
-use App\Http\Requests\ClientIndexRequest;
+use App\Http\Requests\ApplicantFormRequest;
+use App\Http\Requests\ApplicantIndexRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -18,7 +18,7 @@ use App\Exports\ClientExport;
 use Maatwebsite\Excel\Facades\Excel;
 //use PDF; // TCPDF, not currently in use
 
-class ClientController extends Controller
+class ApplicantController extends Controller
 {
 
     /**
@@ -70,7 +70,7 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(ClientIndexRequest $request)
+    public function index(ApplicantIndexRequest $request)
     {
 
         if (!Auth::user()->can('client index')) {
@@ -122,7 +122,7 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ClientFormRequest $request)
+    public function store(ApplicantFormRequest $request)
     {
 
         $client = new \App\Client;
@@ -210,7 +210,7 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Client $client     * @return \Illuminate\Http\Response
      */
-    public function update(ClientFormRequest $request, $id)
+    public function update(ApplicantFormRequest $request, $id)
     {
 
 //        if (!Auth::user()->can('client update')) {

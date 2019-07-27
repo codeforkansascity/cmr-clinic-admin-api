@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use App\Client;
-use App\Http\Requests\ClientFormRequest;
+use App\Http\Requests\ApplicantFormRequest;
 use App\Conviction;
 
 class ClientController extends Controller
@@ -109,7 +109,7 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ClientFormRequest $request, $id)
+    public function update(ApplicantFormRequest $request, $id)
     {
         $client = Client::with('assignment','assignment.user','step', 'step.status')->findOrFail($id);
         $user = Auth::user();

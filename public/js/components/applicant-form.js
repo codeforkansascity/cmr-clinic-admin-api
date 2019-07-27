@@ -756,10 +756,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 amethod = "";
 
                 if (this.form_data.id) {
-                  url = "/client/" + this.form_data.id;
+                  url = "/applicant/" + this.form_data.id;
                   amethod = "put";
                 } else {
-                  url = "/client";
+                  url = "/applicant";
                   amethod = "post";
                 }
 
@@ -770,7 +770,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   data: this.form_data
                 }).then(function (res) {
                   if (res.status === 200) {
-                    window.location = "/client";
+                    window.location = "/applicant";
                   } else {
                     _this2.server_message = res.status;
                   }
@@ -788,7 +788,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     } else if (error.response.status === 404) {
                       // Record not found
                       _this2.server_message = "Record not found";
-                      window.location = "/client";
+                      window.location = "/applicant";
                     } else if (error.response.status === 419) {
                       // Unknown status
                       _this2.server_message = "Unknown Status, please try to ";
@@ -1783,9 +1783,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-6 text-md-right mt-2 mt-md-0" }, [
-      _c("a", { staticClass: "btn btn-default", attrs: { href: "/client" } }, [
-        _vm._v("Cancel")
-      ])
+      _c(
+        "a",
+        { staticClass: "btn btn-default", attrs: { href: "/applicant" } },
+        [_vm._v("Cancel")]
+      )
     ])
   }
 ]

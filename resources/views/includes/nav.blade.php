@@ -16,7 +16,7 @@
             <ul class="navbar-nav mr-auto">
                 @canany(['organization index'])
                     <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'organizations') echo 'active'; @endphp">
-                        <a class="nav-link" href="{{ route('client.index') }}">Applicants <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="{{ route('applicant.index') }}">Applicants <span class="sr-only">(current)</span></a>
                     </li>
                 @endif
 

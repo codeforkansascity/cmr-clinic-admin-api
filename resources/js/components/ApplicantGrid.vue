@@ -104,7 +104,7 @@
                 <tr v-else v-for="row in this.gridData" :key="row.id">
                     <td data-title="Name">
                         <a
-                                v-bind:href="'/client/' + row.id"
+                                v-bind:href="'/applicant/' + row.id"
                                 v-if="params.CanShow == '1'"
                         >
                             {{ row.name }}
@@ -119,7 +119,7 @@
                             class="text-lg-center text-nowrap"
                     >
                         <a
-                                v-bind:href="'/client/' + row.id + '/edit'"
+                                v-bind:href="'/applicant/' + row.id + '/edit'"
                                 v-if="params.CanEdit"
                                 class="grid-action-item"
                         >
@@ -135,10 +135,10 @@
         <!-- Grid Actions Bottom -->
         <div class="grid-bottom row mb-0 align-items-center">
             <div class="col-lg-4 mb-2">
-                <a href="/client/download" class="btn btn-primary mb-2 mr-2"
+                <a href="/applicant/download" class="btn btn-primary mb-2 mr-2"
                 >Export to Excel</a
                 >
-                <a href="/client/print" class="btn btn-primary mb-2 mr-2"
+                <a href="/applicant/print" class="btn btn-primary mb-2 mr-2"
                 >Print PDF</a
                 >
             </div>
@@ -217,7 +217,7 @@
 
         methods: {
             goToNew: function () {
-                window.location.href = "/client/create";
+                window.location.href = "/applicant/create";
             },
 
             sortColumn: function (obj) {
@@ -276,7 +276,7 @@
                                 } else if (error.response.status === 404) {
                                     // Record not found
                                     this.server_message = "Record not found";
-                                    window.location = "/client";
+                                    window.location = "/applicant";
                                 } else if (error.response.status === 419) {
                                     // Unknown status
                                     this.server_message =
@@ -300,7 +300,7 @@
             },
 
             getDataUrl: function (new_page_number) {
-                var url = "api-client?";
+                var url = "api-applicant?";
                 var queryParams = [];
 
                 queryParams.push("page=" + new_page_number);

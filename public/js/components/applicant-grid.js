@@ -220,7 +220,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     goToNew: function goToNew() {
-      window.location.href = "/client/create";
+      window.location.href = "/applicant/create";
     },
     sortColumn: function sortColumn(obj) {
       this.sortKey = obj.sortField;
@@ -268,7 +268,7 @@ __webpack_require__.r(__webpack_exports__);
             } else if (error.response.status === 404) {
               // Record not found
               _this.server_message = "Record not found";
-              window.location = "/client";
+              window.location = "/applicant";
             } else if (error.response.status === 419) {
               // Unknown status
               _this.server_message = "Unknown Status, please try to ";
@@ -288,7 +288,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     getDataUrl: function getDataUrl(new_page_number) {
-      var url = "api-client?";
+      var url = "api-applicant?";
       var queryParams = [];
       queryParams.push("page=" + new_page_number);
       if (this.isDefined(this.query) && this.query.trim().length > 0) queryParams.push("keyword=" + this.query); //                if (this.isDefined(this.searchType)) queryParams.push('search_type=' + this.searchType);
@@ -480,7 +480,7 @@ var render = function() {
                   return _c("tr", { key: row.id }, [
                     _c("td", { attrs: { "data-title": "Name" } }, [
                       _vm.params.CanShow == "1"
-                        ? _c("a", { attrs: { href: "/client/" + row.id } }, [
+                        ? _c("a", { attrs: { href: "/applicant/" + row.id } }, [
                             _vm._v(
                               "\n                        " +
                                 _vm._s(row.name) +
@@ -516,7 +516,9 @@ var render = function() {
                               "a",
                               {
                                 staticClass: "grid-action-item",
-                                attrs: { href: "/client/" + row.id + "/edit" }
+                                attrs: {
+                                  href: "/applicant/" + row.id + "/edit"
+                                }
                               },
                               [
                                 _vm._v(
@@ -620,7 +622,7 @@ var staticRenderFns = [
         "a",
         {
           staticClass: "btn btn-primary mb-2 mr-2",
-          attrs: { href: "/client/download" }
+          attrs: { href: "/applicant/download" }
         },
         [_vm._v("Export to Excel")]
       ),
@@ -629,7 +631,7 @@ var staticRenderFns = [
         "a",
         {
           staticClass: "btn btn-primary mb-2 mr-2",
-          attrs: { href: "/client/print" }
+          attrs: { href: "/applicant/print" }
         },
         [_vm._v("Print PDF")]
       )

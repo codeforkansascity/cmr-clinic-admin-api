@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ClientIndexRequest;
+use App\Http\Requests\ApplicantIndexRequest;
 
-class ClientApi extends Controller
+class ApplicantApi extends Controller
 {
 
 
@@ -16,7 +16,7 @@ class ClientApi extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(ClientIndexRequest $request)
+    public function index(ApplicantIndexRequest $request)
     {
 
         $page = $request->get('page', '1');                // Pagination looks at the request

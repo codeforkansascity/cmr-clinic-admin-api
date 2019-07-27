@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class ClientRequest extends FormRequest
+class ApplicantFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class ClientRequest extends FormRequest
      */
     public function authorize()
     {
-        if ($this->route('client')) {  // If ID we must be changing an existing record
+        if ($this->route('applicant')) {  // If ID we must be changing an existing record
             return Auth::user()->can('client update');
         } else {  // If not we must be adding one
             return Auth::user()->can('client add');
@@ -30,19 +30,19 @@ class ClientRequest extends FormRequest
     public function rules()
     {
 
-        $id = $this->route('client');
+        $id = $this->route('applicant');
 
         $rules = [
          //  Ignore duplicate email if it is this record
          //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
 
+
             'id' => 'numeric',
-            'name' => 'nullable|string|max:64',
             'phone' => 'nullable|string|max:64',
             'email' => 'nullable|string|max:225',
             'sex' => 'nullable|string|max:64',
             'race' => 'nullable|string|max:64',
-            'dob' => 'nullable|string|max:64',
+            'dob_text' => 'nullable|string|max:64',
             'address_line_1' => 'nullable|string|max:64',
             'address_line_2' => 'nullable|string|max:64',
             'city' => 'nullable|string|max:64',
@@ -50,9 +50,10 @@ class ClientRequest extends FormRequest
             'zip_code' => 'nullable|string|max:64',
             'license_number' => 'nullable|string|max:64',
             'license_issuing_state' => 'nullable|string|max:64',
-            'license_expiration_date' => 'nullable|string|max:64',
+            'license_expiration_date_text' => 'nullable|string|max:64',
             'filing_court' => 'nullable|string|max:64',
             'judicial_circuit_number' => 'nullable|string',
+            'count_name' => 'nullable|string|max:64',
             'judge_name' => 'nullable|string',
             'division_name' => 'nullable|string',
             'petitioner_name' => 'nullable|string',
@@ -67,13 +68,22 @@ class ClientRequest extends FormRequest
             'notes' => 'nullable|string|max:255',
             'external_ref' => 'nullable|string|max:42',
             'any_pending_cases' => 'nullable|string|max:255',
-            'cms_client_number' => 'nullable|string|max:255',
-            'cms_matter_number' => 'nullable|string|max:255',
-            'assignment_id' => 'numeric|nullable',
-
+            'deleted_at' => 'nullable|string',
+            'status_id' => 'nullable|numeric',
+            'dob' => 'nullable|date',
+            'license_expiration_date' => 'nullable|date',
+            'cms_client_number' => 'nullable|string|max:16',
+            'cms_matter_number' => 'nullable|string|max:16',
+            'assignment_id' => 'nullable|numeric',
+            'step_id' => 'nullable|numeric',
 
         ];
 
+                if ($this->route('applicant')) {  // If ID we must be changing an existing record
+                    $rules['name'] = 'required|min:3|nullable|string|max:64|unique:clients,name,' . $id;
+                } else {  // If not we must be adding one
+                    $rules['name'] = 'required|min:3|nullable|string|max:64|unique:clients';
+                }
 
         return $rules;
     }

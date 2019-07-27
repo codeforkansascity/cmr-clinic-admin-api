@@ -23,10 +23,10 @@ Auth::routes(['verify' => true, 'register' => false]);
 Route::group(['middleware' => 'auth'], function () {
 
 
-    Route::get('/api-client', 'ClientApi@index');
-    Route::get('/api-client/options', 'ClientApi@getOptions');
-    Route::get('/client/download', 'ClientController@download');
-    Route::resource('/client', 'ClientController');
+    Route::get('/api-applicant', 'ApplicantApi@index');
+    Route::get('/api-applicant/options', 'ApplicantApi@getOptions');
+    Route::get('/applicant/download', 'ApplicantController@download');
+    Route::resource('/applicant', 'ApplicantController');
 
     Route::get('/home', 'HomeController@index')->name('home');
 
@@ -39,11 +39,11 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-Route::get('/api-client', 'ClientApi@index');
-Route::get('/api-client/options', 'ClientApi@getOptions');
-Route::get('/client/download', 'ClientController@download')->name('client.download');
-Route::get('/client/print', 'ClientController@print')->name('client.print');
-Route::resource('/client', 'ClientController');
+Route::get('/api-applicant', 'ApplicantApi@index');
+Route::get('/api-applicant/options', 'ApplicantApi@getOptions');
+Route::get('/applicant/download', 'ApplicantController@download')->name('applicant.download');
+Route::get('/applicant/print', 'ApplicantController@print')->name('applicant.print');
+Route::resource('/applicant', 'ApplicantController');
 Route::get('/api-status', 'StatusApi@index');
 Route::get('/api-status/options', 'StatusApi@getOptions');
 Route::get('/status/download', 'StatusController@download')->name('status.download');

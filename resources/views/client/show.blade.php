@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@php $nav_path = ['client']; @endphp
+@php $nav_path = ['applicant']; @endphp
 @section('page-title')
 View {{$client->name}}
 @endsection
@@ -9,7 +9,7 @@ View {{$client->name}}
 @section('page-header-breadcrumbs')
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('client.index') }}">Applicants</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('applicant.index') }}">Applicants</a></li>
     <li class="breadcrumb-item active" aria-current="location">View {{$client->name}}</li>
 </ol>
 @endsection
@@ -22,12 +22,12 @@ View {{$client->name}}
             <div class="row mt-4">
                 <div class="col-md-4">
                     @if ($can_edit)
-                        <a href="/client/{{ $client->id }}/edit" class="btn btn-primary">Edit</a>
+                        <a href="/applicant/{{ $client->id }}/edit" class="btn btn-primary">Edit</a>
                     @endif
                 </div>
                 <div class="col-md-4 text-md-center mt-2 mt-md-0">
                     @if ($can_delete)
-                        <form class="form" role="form" method="POST" action="/client/{{ $client->id }}">
+                        <form class="form" role="form" method="POST" action="/applicant/{{ $client->id }}">
                             <input type="hidden" name="_method" value="delete">
                             {{ csrf_field() }}
 
@@ -37,7 +37,7 @@ View {{$client->name}}
                     @endif
                 </div>
                 <div class="col-md-4 text-md-right mt-2 mt-md-0">
-                    <a href="{{ url('/client') }}" class="btn btn-default">Return to List</a>
+                    <a href="{{ url('/applicant') }}" class="btn btn-default">Return to List</a>
                 </div>
             </div>
         </div>
