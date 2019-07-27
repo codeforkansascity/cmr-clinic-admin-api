@@ -4,7 +4,7 @@
 
         <case-form v-for="(conviction,conviction_index) in records"
                    :key="conviction.id"
-                   csrf_token="csrf_token"
+                   :csrf_token="csrf_token"
                    :record="conviction"
                    :client_id="client_id">
         </case-form>

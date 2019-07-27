@@ -203,8 +203,10 @@ class ConvictionController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Conviction $conviction     * @return \Illuminate\Http\Response
      */
-    public function update(ConvictionFormRequest $request, $id)
+    public function update(Request $request, $id)
     {
+
+        info(__METHOD__ . ' start');
 
 //        if (!Auth::user()->can('conviction update')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Case.');
@@ -225,7 +227,7 @@ class ConvictionController extends Controller
         $conviction->fill($request->all());
 
         if ($conviction->isDirty()) {
-
+info(__METHOD__ . ' saving');
             try {
                 $conviction->save();
             } catch (\Exception $e) {

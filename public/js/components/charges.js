@@ -62,7 +62,7 @@ var render = function() {
     _vm._l(_vm.records, function(charge, conviction_index) {
       return _c("charge-form", {
         key: charge.id,
-        attrs: { csrf_token: "csrf_token", record: charge }
+        attrs: { csrf_token: _vm.csrf_token, record: charge }
       })
     }),
     1
