@@ -31,10 +31,10 @@ Vue.component('charges', () => import(/* webpackChunkName:"charges" */ './compon
 /*
      Application Components
  */
-//Vue.component('client-grid',       require('./components/ClientGrid.vue'));    // May need to add .default);
-//Vue.component('client-form',       require('./components/ClientForm.vue'));    // May need to add .default);
-Vue.component('client-grid', () => import(/* webpackChunkName:"client-grid" */ './components/ClientGrid.vue'));
-Vue.component('client-form', () => import(/* webpackChunkName:"client-form" */ './components/ClientForm.vue'));
+//Vue.component('applicant-grid',       require('./components/ApplicantGrid.vue'));    // May need to add .default);
+//Vue.component('applicant-form',       require('./components/ApplicantForm.vue'));    // May need to add .default);
+Vue.component('applicant-grid', () => import(/* webpackChunkName:"applicant-grid" */ './components/ApplicantGrid.vue'));
+Vue.component('applicant-form', () => import(/* webpackChunkName:"applicant-form" */ './components/ApplicantForm.vue'));
 
 //Vue.component('status-grid',       require('./components/StatusGrid.vue'));    // May need to add .default);
 //Vue.component('status-form',       require('./components/StatusForm.vue'));    // May need to add .default);
@@ -45,7 +45,7 @@ Vue.component('status-form', () => import(/* webpackChunkName:"status-form" */ '
 //Vue.component('assignment-form',       require('./components/AssignmentForm.vue'));    // May need to add .default);
 Vue.component('assignment-grid', () => import(/* webpackChunkName:"assignment-grid" */ './components/AssignmentGrid.vue'));
 Vue.component('assignment-form', () => import(/* webpackChunkName:"assignment-form" */ './components/AssignmentForm.vue'));
-Vue.component('client-show', () => import(/* webpackChunkName:"client-Show" */ './components/ClientShow.vue'));
+Vue.component('applicant-show', () => import(/* webpackChunkName:"applicant-Show" */ './components/ApplicantShow.vue'));
 Vue.component('case-grid', () => import(/* webpackChunkName:"case-grid" */ './components/CaseGrid.vue'));
 Vue.component('case-form', () => import(/* webpackChunkName:"case-form" */ './components/CaseForm.vue'));
 Vue.component('case-show', () => import(/* webpackChunkName:"case-Show" */ './components/CaseShow.vue'));

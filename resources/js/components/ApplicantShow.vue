@@ -322,7 +322,7 @@
 
 <script>
     export default {
-        name: "client-show",
+        name: "applicant-show",
         props: {
             record: {
                 type: [Boolean, Object],

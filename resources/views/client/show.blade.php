@@ -15,7 +15,7 @@ View {{$client->name}}
 @endsection
 @section('content')
 
-    <client-show :record='@json($client)'></client-show>
+    <applicant-show :record='@json($client)'></applicant-show>
 
     <div class="row">
         <div class="col-md-6">

@@ -603,7 +603,7 @@
     import axios from "axios";
 
     export default {
-        name: "client-form",
+        name: "applicant-form",
         props: {
             record: {
                 type: [Boolean, Object],

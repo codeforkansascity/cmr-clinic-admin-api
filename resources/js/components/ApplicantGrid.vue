@@ -168,7 +168,7 @@
     import SsGridPaginationLocation from "./SsPaginationLocation";
 
     export default {
-        name: "client-grid",
+        name: "applicant-grid",
         components: {
             SsGridColumnHeader,
             SsGridPaginationLocation,
