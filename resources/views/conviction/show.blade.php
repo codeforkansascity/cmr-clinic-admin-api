@@ -15,7 +15,7 @@ View {{$conviction->name}}
 @endsection
 @section('content')
 
-    <conviction-show :record='@json($conviction)'></conviction-show>
+    <case-show :record='@json($conviction)'></case-show>
 
     <div class="row">
         <div class="col-md-6">

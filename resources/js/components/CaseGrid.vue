@@ -168,7 +168,7 @@
     import SsGridPaginationLocation from "./SsPaginationLocation";
 
     export default {
-        name: "conviction-grid",
+        name: "case-grid",
         components: {
             SsGridColumnHeader,
             SsGridPaginationLocation,

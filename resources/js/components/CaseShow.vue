@@ -122,7 +122,7 @@
 
 <script>
     export default {
-        name: "conviction-show",
+        name: "case-show",
         props: {
             record: {
                 type: [Boolean, Object],

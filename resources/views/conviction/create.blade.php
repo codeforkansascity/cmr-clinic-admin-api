@@ -15,5 +15,5 @@
     </ol>
 @endsection
 @section('content')
-    <conviction-form csrf_token="{{ csrf_token() }}"></conviction-form>
+    <case-form csrf_token="{{ csrf_token() }}"></case-form>
 @endsection

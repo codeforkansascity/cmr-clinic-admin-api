@@ -65,7 +65,7 @@ var render = function() {
       _c("h1", { staticStyle: { color: "red" } }, [_vm._v("Cases")]),
       _vm._v(" "),
       _vm._l(_vm.records, function(conviction, conviction_index) {
-        return _c("conviction-form", {
+        return _c("case-form", {
           key: conviction.id,
           attrs: { csrf_token: "csrf_token", record: conviction }
         })

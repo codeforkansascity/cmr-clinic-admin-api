@@ -2,12 +2,12 @@
     <div>
         <h1 style="color: red;">Cases</h1>
 
-        <conviction-form v-for="(conviction,conviction_index) in records"
+        <case-form v-for="(conviction,conviction_index) in records"
                          :key="conviction.id"
                          csrf_token="csrf_token"
                          :record="conviction">
 
-        </conviction-form>
+        </case-form>
 
 
     </div>

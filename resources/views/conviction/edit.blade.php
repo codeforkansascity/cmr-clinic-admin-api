@@ -15,5 +15,5 @@
     </ol>
 @endsection
 @section('content')
-    <conviction-form csrf_token="{{ csrf_token() }}" :record='@json($conviction)'></conviction-form>
+    <case-form csrf_token="{{ csrf_token() }}" :record='@json($conviction)'></case-form>
 @endsection

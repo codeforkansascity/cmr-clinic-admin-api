@@ -230,12 +230,12 @@
                                 class="btn btn-primary"
                                 :disabled="processing"
                         >
-                            <span v-if="this.form_data.id">Change Conviction</span>
-                            <span v-else="this.form_data.id">Add Conviction</span>
+                            <span v-if="this.form_data.id">Change Case</span>
+                            <span v-else="this.form_data.id">Add Case</span>
                         </button>
                     </div>
                     <div class="col-md-6 text-md-right mt-2 mt-md-0">
-                        <a href="/conviction" class="btn btn-default">Cancel Conviction</a>
+                        <a href="/conviction" class="btn btn-default">Cancel Case</a>
                     </div>
                 </div>
             </div>
@@ -254,7 +254,7 @@
     import axios from "axios";
 
     export default {
-        name: "conviction-form",
+        name: "case-form",
         props: {
             record: {
                 type: [Boolean, Object],

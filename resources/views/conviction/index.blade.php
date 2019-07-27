@@ -10,7 +10,7 @@
     </ol>
 @endsection
 @section('content')
-    <conviction-grid :params="{
+    <case-grid :params="{
             Page: '{{ $page }}',
             Search: '{{ $search }}',
             sortOrder: '{{ $direction }}',
@@ -20,5 +20,5 @@
             CanShow: '{{ $can_show }}',
             CanDelete: '{{ $can_delete }}',
             CanExcel: '{{ $can_excel }}'
-        }"></conviction-grid>
+        }"></case-grid>
 @endsection

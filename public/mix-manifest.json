@@ -38,5 +38,12 @@
     "/img/icons/success.svg": "/img/icons/success.svg",
     "/img/icons/warning.svg": "/img/icons/warning.svg",
     "/img/icons/noun_collapse_2091048_000000.png": "/img/icons/noun_collapse_2091048_000000.png",
-    "/img/icons/noun_expand_1211939_000000.png": "/img/icons/noun_expand_1211939_000000.png"
+    "/img/icons/noun_expand_1211939_000000.png": "/img/icons/noun_expand_1211939_000000.png",
+    "/js/components/vendors~assignment-form~charge-form~client-form~status-form~step-form.js": "/js/components/vendors~assignment-form~charge-form~client-form~status-form~step-form.js",
+    "/js/components/assignment-grid~charge-grid~client-grid~status-grid~step-grid.js": "/js/components/assignment-grid~charge-grid~client-grid~status-grid~step-grid.js",
+    "/js/components/assignment-grid~case-grid~charge-grid~client-grid~status-grid~step-grid.js": "/js/components/assignment-grid~case-grid~charge-grid~client-grid~status-grid~step-grid.js",
+    "/js/components/case-Show.js": "/js/components/case-Show.js",
+    "/js/components/case-form.js": "/js/components/case-form.js",
+    "/js/components/case-grid.js": "/js/components/case-grid.js",
+    "/js/components/vendors~assignment-form~case-form~charge-form~client-form~status-form~step-form.js": "/js/components/vendors~assignment-form~case-form~charge-form~client-form~status-form~step-form.js"
 }
