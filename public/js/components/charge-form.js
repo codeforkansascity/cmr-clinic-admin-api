@@ -195,62 +195,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "charge-form",
@@ -304,7 +248,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       server_message: false,
       try_logging_in: false,
-      processing: false
+      processing: false,
+      isShowing: false
     };
   },
   mounted: function mounted() {
@@ -316,6 +261,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _this.form_data[i] = _this.record[i];
       });
     } else {// this.form_data._method = 'post';
+    }
+  },
+  computed: {
+    dsp_convicted: function dsp_convicted() {
+      var q = this.form_data.convicted;
+      return parseInt(q) ? ' -- Convicted' : '';
+    },
+    dsp_eligible: function dsp_eligible() {
+      var q = this.form_data.eligible;
+      return parseInt(q) ? ', Eligible' : '';
+    },
+    dsp_please_expunge: function dsp_please_expunge() {
+      var q = this.form_data.please_expunge;
+      return parseInt(q) ? ', PleaseExpunge' : '';
     }
   },
   methods: {
@@ -422,548 +381,478 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "form",
-    {
-      staticClass: "form-horizontal",
-      on: {
-        submit: function($event) {
-          $event.preventDefault()
-          return _vm.handleSubmit($event)
+  return _c("div", [
+    _vm.server_message !== false
+      ? _c(
+          "div",
+          { staticClass: "alert alert-danger", attrs: { role: "alert" } },
+          [
+            _vm._v("\n        " + _vm._s(this.server_message) + "\n        "),
+            _vm.try_logging_in
+              ? _c("a", { attrs: { href: "/login" } }, [_vm._v("Login")])
+              : _vm._e()
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "row",
+        staticStyle: {
+          "background-color": "lightgoldenrodyellow",
+          "margin-top": "1em"
         }
-      }
-    },
-    [
-      _vm.server_message !== false
-        ? _c(
-            "div",
-            { staticClass: "alert alert-danger", attrs: { role: "alert" } },
-            [
-              _vm._v("\n        " + _vm._s(this.server_message) + "\n        "),
-              _vm.try_logging_in
-                ? _c("a", { attrs: { href: "/login" } }, [_vm._v("Login")])
-                : _vm._e()
-            ]
+      },
+      [
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("h5", [
+            _vm._v(
+              _vm._s(_vm.form_data.citation) +
+                " " +
+                _vm._s(_vm.form_data.charge) +
+                " "
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-2" }, [
+          _c("h5", [
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm.form_data.conviction_charge_type) +
+                " " +
+                _vm._s(_vm.form_data.conviction_class_type) +
+                "\n                "
+            ),
+            _vm.form_data.notes ? _c("span", [_vm._v(" [Note]")]) : _vm._e()
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-3" }, [
+          _vm._v(
+            "\n            " +
+              _vm._s(_vm.dsp_convicted) +
+              " " +
+              _vm._s(_vm.dsp_eligible) +
+              " " +
+              _vm._s(_vm.dsp_please_expunge) +
+              "\n        "
           )
-        : _vm._e(),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-1" }, [
+          _c("img", {
+            directives: [
               {
-                attrs: {
-                  label: "Id",
-                  "label-for": "id",
-                  errors: _vm.form_errors.id
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "id" },
-                  model: {
-                    value: _vm.form_data.id,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "id", $$v)
-                    },
-                    expression: "form_data.id"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Conviction Id",
-                  "label-for": "conviction_id",
-                  errors: _vm.form_errors.conviction_id
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "conviction_id" },
-                  model: {
-                    value: _vm.form_data.conviction_id,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "conviction_id", $$v)
-                    },
-                    expression: "form_data.conviction_id"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Charge",
-                  "label-for": "charge",
-                  errors: _vm.form_errors.charge
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "charge" },
-                  model: {
-                    value: _vm.form_data.charge,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "charge", $$v)
-                    },
-                    expression: "form_data.charge"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Citation",
-                  "label-for": "citation",
-                  errors: _vm.form_errors.citation
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "citation" },
-                  model: {
-                    value: _vm.form_data.citation,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "citation", $$v)
-                    },
-                    expression: "form_data.citation"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Conviction Class Type",
-                  "label-for": "conviction_class_type",
-                  errors: _vm.form_errors.conviction_class_type
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "conviction_class_type" },
-                  model: {
-                    value: _vm.form_data.conviction_class_type,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "conviction_class_type", $$v)
-                    },
-                    expression: "form_data.conviction_class_type"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Conviction Charge Type",
-                  "label-for": "conviction_charge_type",
-                  errors: _vm.form_errors.conviction_charge_type
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "conviction_charge_type" },
-                  model: {
-                    value: _vm.form_data.conviction_charge_type,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "conviction_charge_type", $$v)
-                    },
-                    expression: "form_data.conviction_charge_type"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Sentence",
-                  "label-for": "sentence",
-                  errors: _vm.form_errors.sentence
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "sentence" },
-                  model: {
-                    value: _vm.form_data.sentence,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "sentence", $$v)
-                    },
-                    expression: "form_data.sentence"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Convicted Text",
-                  "label-for": "convicted_text",
-                  errors: _vm.form_errors.convicted_text
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "convicted_text" },
-                  model: {
-                    value: _vm.form_data.convicted_text,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "convicted_text", $$v)
-                    },
-                    expression: "form_data.convicted_text"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Eligible Text",
-                  "label-for": "eligible_text",
-                  errors: _vm.form_errors.eligible_text
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "eligible_text" },
-                  model: {
-                    value: _vm.form_data.eligible_text,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "eligible_text", $$v)
-                    },
-                    expression: "form_data.eligible_text"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Please Expunge Text",
-                  "label-for": "please_expunge_text",
-                  errors: _vm.form_errors.please_expunge_text
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "please_expunge_text" },
-                  model: {
-                    value: _vm.form_data.please_expunge_text,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "please_expunge_text", $$v)
-                    },
-                    expression: "form_data.please_expunge_text"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "To Print",
-                  "label-for": "to_print",
-                  errors: _vm.form_errors.to_print
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "to_print" },
-                  model: {
-                    value: _vm.form_data.to_print,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "to_print", $$v)
-                    },
-                    expression: "form_data.to_print"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Notes",
-                  "label-for": "notes",
-                  errors: _vm.form_errors.notes
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "notes" },
-                  model: {
-                    value: _vm.form_data.notes,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "notes", $$v)
-                    },
-                    expression: "form_data.notes"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Convicted",
-                  "label-for": "convicted",
-                  errors: _vm.form_errors.convicted
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "convicted" },
-                  model: {
-                    value: _vm.form_data.convicted,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "convicted", $$v)
-                    },
-                    expression: "form_data.convicted"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Eligible",
-                  "label-for": "eligible",
-                  errors: _vm.form_errors.eligible
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "eligible" },
-                  model: {
-                    value: _vm.form_data.eligible,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "eligible", $$v)
-                    },
-                    expression: "form_data.eligible"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-12" },
-          [
-            _c(
-              "std-form-group",
-              {
-                attrs: {
-                  label: "Please Expunge",
-                  "label-for": "please_expunge",
-                  errors: _vm.form_errors.please_expunge
-                }
-              },
-              [
-                _c("fld-input", {
-                  attrs: { name: "please_expunge" },
-                  model: {
-                    value: _vm.form_data.please_expunge,
-                    callback: function($$v) {
-                      _vm.$set(_vm.form_data, "please_expunge", $$v)
-                    },
-                    expression: "form_data.please_expunge"
-                  }
-                })
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group mt-4" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-6" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary",
-                attrs: { type: "submit", disabled: _vm.processing }
-              },
-              [
-                this.form_data.id
-                  ? _c("span", [_vm._v("Change Charge")])
-                  : _c("span", [_vm._v("Add Charge")])
-              ]
-            )
-          ]),
+                name: "show",
+                rawName: "v-show",
+                value: _vm.isShowing,
+                expression: "isShowing"
+              }
+            ],
+            staticClass: "help-button d-print-none",
+            staticStyle: { width: "1.8em", "margin-left": ".55em" },
+            attrs: { src: "/img/icons/noun_collapse_2091048_000000.png" },
+            on: {
+              click: function($event) {
+                _vm.isShowing ^= true
+              }
+            }
+          }),
           _vm._v(" "),
-          _vm._m(0)
-        ])
-      ])
-    ]
-  )
+          _c("img", {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: !_vm.isShowing,
+                expression: "!isShowing"
+              }
+            ],
+            staticClass: "help-button d-print-none",
+            staticStyle: {
+              width: "1.5em",
+              "margin-left": ".55em",
+              "margin-bottom": "1em"
+            },
+            attrs: { src: "/img/icons/noun_expand_1211939_000000.png" },
+            on: {
+              click: function($event) {
+                _vm.isShowing ^= true
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: !_vm.isShowing,
+                expression: "!isShowing"
+              }
+            ],
+            staticClass: "col-md-12",
+            staticStyle: { "padding-left": "4em" }
+          },
+          [
+            _vm._v(
+              "\n            " + _vm._s(_vm.form_data.notes) + "\n        "
+            )
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.isShowing,
+            expression: "isShowing"
+          }
+        ]
+      },
+      [
+        _c(
+          "form",
+          {
+            staticClass: "form-horizontal",
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.handleSubmit($event)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                { staticClass: "col-md-3" },
+                [
+                  _c(
+                    "std-form-group",
+                    {
+                      attrs: {
+                        label: "Convicted",
+                        "label-for": "convicted",
+                        errors: _vm.form_errors.convicted
+                      }
+                    },
+                    [
+                      _c("fld-input", {
+                        attrs: { name: "convicted" },
+                        model: {
+                          value: _vm.form_data.convicted,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form_data, "convicted", $$v)
+                          },
+                          expression: "form_data.convicted"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-md-3" },
+                [
+                  _c(
+                    "std-form-group",
+                    {
+                      attrs: {
+                        label: "Eligible",
+                        "label-for": "eligible",
+                        errors: _vm.form_errors.eligible
+                      }
+                    },
+                    [
+                      _c("fld-input", {
+                        attrs: { name: "eligible" },
+                        model: {
+                          value: _vm.form_data.eligible,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form_data, "eligible", $$v)
+                          },
+                          expression: "form_data.eligible"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-md-3" },
+                [
+                  _c(
+                    "std-form-group",
+                    {
+                      attrs: {
+                        label: "Please Expunge",
+                        "label-for": "please_expunge",
+                        errors: _vm.form_errors.please_expunge
+                      }
+                    },
+                    [
+                      _c("fld-input", {
+                        attrs: { name: "please_expunge" },
+                        model: {
+                          value: _vm.form_data.please_expunge,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form_data, "please_expunge", $$v)
+                          },
+                          expression: "form_data.please_expunge"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                { staticClass: "col-md-2" },
+                [
+                  _c(
+                    "std-form-group",
+                    {
+                      attrs: {
+                        label: "Citation",
+                        "label-for": "citation",
+                        errors: _vm.form_errors.citation
+                      }
+                    },
+                    [
+                      _c("fld-input", {
+                        attrs: { name: "citation" },
+                        model: {
+                          value: _vm.form_data.citation,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form_data, "citation", $$v)
+                          },
+                          expression: "form_data.citation"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-md-10" },
+                [
+                  _c(
+                    "std-form-group",
+                    {
+                      attrs: {
+                        label: "Charge",
+                        "label-for": "charge",
+                        errors: _vm.form_errors.charge
+                      }
+                    },
+                    [
+                      _c("fld-input", {
+                        attrs: { name: "charge" },
+                        model: {
+                          value: _vm.form_data.charge,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form_data, "charge", $$v)
+                          },
+                          expression: "form_data.charge"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                { staticClass: "col-md-2" },
+                [
+                  _c(
+                    "std-form-group",
+                    {
+                      attrs: {
+                        label: "Charge Type",
+                        "label-for": "conviction_charge_type",
+                        errors: _vm.form_errors.conviction_charge_type
+                      }
+                    },
+                    [
+                      _c("fld-input", {
+                        attrs: { name: "conviction_charge_type" },
+                        model: {
+                          value: _vm.form_data.conviction_charge_type,
+                          callback: function($$v) {
+                            _vm.$set(
+                              _vm.form_data,
+                              "conviction_charge_type",
+                              $$v
+                            )
+                          },
+                          expression: "form_data.conviction_charge_type"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-md-2" },
+                [
+                  _c(
+                    "std-form-group",
+                    {
+                      attrs: {
+                        label: "Class",
+                        "label-for": "conviction_class_type",
+                        errors: _vm.form_errors.conviction_class_type
+                      }
+                    },
+                    [
+                      _c("fld-input", {
+                        attrs: { name: "conviction_class_type" },
+                        model: {
+                          value: _vm.form_data.conviction_class_type,
+                          callback: function($$v) {
+                            _vm.$set(
+                              _vm.form_data,
+                              "conviction_class_type",
+                              $$v
+                            )
+                          },
+                          expression: "form_data.conviction_class_type"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-md-8" },
+                [
+                  _c(
+                    "std-form-group",
+                    {
+                      attrs: {
+                        label: "Sentence",
+                        "label-for": "sentence",
+                        errors: _vm.form_errors.sentence
+                      }
+                    },
+                    [
+                      _c("fld-input", {
+                        attrs: { name: "sentence" },
+                        model: {
+                          value: _vm.form_data.sentence,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form_data, "sentence", $$v)
+                          },
+                          expression: "form_data.sentence"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                { staticClass: "col-md-12" },
+                [
+                  _c(
+                    "std-form-group",
+                    {
+                      attrs: {
+                        label: "Notes",
+                        "label-for": "notes",
+                        errors: _vm.form_errors.notes
+                      }
+                    },
+                    [
+                      _c("fld-input", {
+                        attrs: { name: "notes" },
+                        model: {
+                          value: _vm.form_data.notes,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form_data, "notes", $$v)
+                          },
+                          expression: "form_data.notes"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group mt-4" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "submit", disabled: _vm.processing }
+                    },
+                    [
+                      this.form_data.id
+                        ? _c("span", [_vm._v("Change Charge")])
+                        : _c("span", [_vm._v("Add Charge")])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _vm._m(0)
+              ])
+            ])
+          ]
+        )
+      ]
+    )
+  ])
 }
 var staticRenderFns = [
   function() {

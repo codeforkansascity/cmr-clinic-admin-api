@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <h1 style="color: green;">CHARGE</h1>
+    <div style="margin-left: 5em">
 
         <charge-form v-for="(charge,conviction_index) in records"
                      :key="charge.id"
@@ -13,10 +12,10 @@
 
 <script>
     export default {
-        name: "cases",
+        name: "charges",
         props: {
             records: {
-                type: [Boolean, Object],
+                type: [Boolean, Object, Array],
                 default: false
             },
             client_id: {

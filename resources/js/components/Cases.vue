@@ -1,12 +1,12 @@
 <template>
-    <div>
+    <div style="margin-left: 5em">
         <h1 style="color: red;">Cases</h1>
 
         <case-form v-for="(conviction,conviction_index) in records"
-                         :key="conviction.id"
-                         csrf_token="csrf_token"
-                         :record="conviction">
-
+                   :key="conviction.id"
+                   csrf_token="csrf_token"
+                   :record="conviction"
+                   :client_id="client_id">
         </case-form>
 
 
@@ -18,7 +18,7 @@
         name: "cases",
         props: {
             records: {
-                type: [Boolean, Object],
+                type: [Boolean, Object, Array],
                 default: false
             },
             client_id: {

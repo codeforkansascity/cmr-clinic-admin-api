@@ -96,7 +96,7 @@
                                 label-for="phone"
                                 :errors="form_errors.phone"
                         >
-                            <fld-input name="phone" v-model="form_data.phone" v-bind:style="phoneStyle"/>
+                            <fld-input name="phone" v-model="form_data.phone"/>
                         </std-form-group>
                     </div>
                     <div class="col-md-12">

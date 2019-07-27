@@ -1197,7 +1197,6 @@ var render = function() {
                     },
                     [
                       _c("fld-input", {
-                        style: _vm.phoneStyle,
                         attrs: { name: "phone" },
                         model: {
                           value: _vm.form_data.phone,

@@ -28,7 +28,7 @@ __webpack_require__.r(__webpack_exports__);
   name: "cases",
   props: {
     records: {
-      type: [Boolean, Object],
+      type: [Boolean, Object, Array],
       default: false
     },
     client_id: {
@@ -61,13 +61,18 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticStyle: { "margin-left": "5em" } },
     [
       _c("h1", { staticStyle: { color: "red" } }, [_vm._v("Cases")]),
       _vm._v(" "),
       _vm._l(_vm.records, function(conviction, conviction_index) {
         return _c("case-form", {
           key: conviction.id,
-          attrs: { csrf_token: "csrf_token", record: conviction }
+          attrs: {
+            csrf_token: "csrf_token",
+            record: conviction,
+            client_id: _vm.client_id
+          }
         })
       })
     ],

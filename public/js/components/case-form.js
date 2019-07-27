@@ -222,13 +222,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "case-form",
   props: {
     record: {
-      type: [Boolean, Object],
+      type: [Boolean, Object, Array],
       default: false
+    },
+    client_id: {
+      type: [Boolean, Number],
+      default: 0
     },
     csrf_token: {
       type: String,
@@ -420,79 +426,81 @@ var render = function() {
         }
       },
       [
-        _c("div", { staticClass: "col-md-6" }, [
-          _c("h4", [
-            _vm._v(
-              _vm._s(_vm.form_data.name) +
-                ", " +
-                _vm._s(_vm.form_data.arrest_date)
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-3" }, [
-          _c("h4", [
-            _vm._v(
-              " " +
-                _vm._s(_vm.form_data.case_number) +
-                ", " +
-                _vm._s(_vm.form_data.agency)
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-2" }, [
-          _c("h4", [
-            _vm._v(
-              "\n                " +
-                _vm._s(_vm.form_data.release_date) +
-                "\n\n            "
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-1" }, [
-          _c("img", {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.isShowing,
-                expression: "isShowing"
-              }
-            ],
-            staticClass: "help-button d-print-none",
-            staticStyle: { width: "1.8em", "margin-left": ".1em" },
-            attrs: { src: "/img/icons/noun_collapse_2091048_000000.png" },
-            on: {
-              click: function($event) {
-                _vm.isShowing ^= true
-              }
-            }
-          }),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-6" }, [
+            _c("h4", [
+              _vm._v(
+                _vm._s(_vm.form_data.name) +
+                  ", " +
+                  _vm._s(_vm.form_data.arrest_date)
+              )
+            ])
+          ]),
           _vm._v(" "),
-          _c("img", {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: !_vm.isShowing,
-                expression: "!isShowing"
+          _c("div", { staticClass: "col-md-3" }, [
+            _c("h4", [
+              _vm._v(
+                " " +
+                  _vm._s(_vm.form_data.case_number) +
+                  ", " +
+                  _vm._s(_vm.form_data.agency)
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-2" }, [
+            _c("h4", [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(_vm.form_data.release_date) +
+                  "\n\n                "
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-1" }, [
+            _c("img", {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.isShowing,
+                  expression: "isShowing"
+                }
+              ],
+              staticClass: "help-button d-print-none",
+              staticStyle: { width: "1.8em", "margin-left": ".1em" },
+              attrs: { src: "/img/icons/noun_collapse_2091048_000000.png" },
+              on: {
+                click: function($event) {
+                  _vm.isShowing ^= true
+                }
               }
-            ],
-            staticClass: "help-button d-print-none",
-            staticStyle: {
-              width: "1.5em",
-              "margin-bottom": "1em",
-              "margin-left": ".1em"
-            },
-            attrs: { src: "/img/icons/noun_expand_1211939_000000.png" },
-            on: {
-              click: function($event) {
-                _vm.isShowing ^= true
+            }),
+            _vm._v(" "),
+            _c("img", {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: !_vm.isShowing,
+                  expression: "!isShowing"
+                }
+              ],
+              staticClass: "help-button d-print-none",
+              staticStyle: {
+                width: "1.5em",
+                "margin-bottom": "1em",
+                "margin-left": ".1em"
+              },
+              attrs: { src: "/img/icons/noun_expand_1211939_000000.png" },
+              on: {
+                click: function($event) {
+                  _vm.isShowing ^= true
+                }
               }
-            }
-          })
+            })
+          ])
         ]),
         _vm._v(" "),
         _c(
@@ -515,8 +523,6 @@ var render = function() {
             )
           ]
         ),
-        _vm._v(" "),
-        _c("div"),
         _vm._v(" "),
         _c(
           "div",

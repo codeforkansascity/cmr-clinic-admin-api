@@ -11,30 +11,32 @@
         </div>
 
         <form @submit.prevent="handleSubmit" class="form-horizontal">
-            <div class="col-md-6">
-                <h4>{{ form_data.name }}, {{ form_data.arrest_date }}</h4>
-            </div>
-            <div class="col-md-3">
-                <h4> {{ form_data.case_number }}, {{ form_data.agency }}</h4>
-            </div>
-            <div class="col-md-2">
-                <h4>
-                    {{ form_data.release_date }}
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>{{ form_data.name }}, {{ form_data.arrest_date }}</h4>
+                </div>
+                <div class="col-md-3">
+                    <h4> {{ form_data.case_number }}, {{ form_data.agency }}</h4>
+                </div>
+                <div class="col-md-2">
+                    <h4>
+                        {{ form_data.release_date }}
 
-                </h4>
-            </div>
-            <div class="col-md-1">
-                <img v-show="isShowing" style="width: 1.8em; margin-left: .1em" v-on:click="isShowing ^= true"
-                     src="/img/icons/noun_collapse_2091048_000000.png" class="help-button d-print-none">
-                <img v-show="!isShowing" style="width: 1.5em; margin-bottom: 1em;  margin-left: .1em"
-                     v-on:click="isShowing ^= true"
-                     src="/img/icons/noun_expand_1211939_000000.png" class="help-button d-print-none">
+                    </h4>
+                </div>
+                <div class="col-md-1">
+                    <img v-show="isShowing" style="width: 1.8em; margin-left: .1em" v-on:click="isShowing ^= true"
+                         src="/img/icons/noun_collapse_2091048_000000.png" class="help-button d-print-none">
+                    <img v-show="!isShowing" style="width: 1.5em; margin-bottom: 1em;  margin-left: .1em"
+                         v-on:click="isShowing ^= true"
+                         src="/img/icons/noun_expand_1211939_000000.png" class="help-button d-print-none">
+                </div>
             </div>
 
             <div class="col-md-12" v-show="!isShowing" style="padding-left: 4em;">
                 {{ form_data.notes }}
             </div>
-            <div></div>
+
             <div v-show="isShowing">
                 <div class="col-md-6" style="padding-left: 2em;">
 
@@ -208,8 +210,12 @@
         name: "case-form",
         props: {
             record: {
-                type: [Boolean, Object],
+                type: [Boolean, Object, Array],
                 default: false
+            },
+            client_id: {
+                type: [Boolean, Number],
+                default: 0
             },
             csrf_token: {
                 type: String,

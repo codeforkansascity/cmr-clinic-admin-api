@@ -21,12 +21,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "cases",
+  name: "charges",
   props: {
     records: {
-      type: [Boolean, Object],
+      type: [Boolean, Object, Array],
       default: false
     },
     client_id: {
@@ -59,17 +58,14 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    [
-      _c("h1", { staticStyle: { color: "green" } }, [_vm._v("CHARGE")]),
-      _vm._v(" "),
-      _vm._l(_vm.records, function(charge, conviction_index) {
-        return _c("charge-form", {
-          key: charge.id,
-          attrs: { csrf_token: "csrf_token", record: charge }
-        })
+    { staticStyle: { "margin-left": "5em" } },
+    _vm._l(_vm.records, function(charge, conviction_index) {
+      return _c("charge-form", {
+        key: charge.id,
+        attrs: { csrf_token: "csrf_token", record: charge }
       })
-    ],
-    2
+    }),
+    1
   )
 }
 var staticRenderFns = []
