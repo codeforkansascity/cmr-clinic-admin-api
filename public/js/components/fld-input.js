@@ -48,18 +48,18 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     'params': {
       type: Object,
-      default: function _default() {}
+      "default": function _default() {}
     },
     value: {
-      default: null
+      "default": null
     },
     type: {
       type: String,
-      default: 'text'
+      "default": 'text'
     },
     name: {
       type: String,
-      default: ''
+      "default": ''
     }
   }
 });

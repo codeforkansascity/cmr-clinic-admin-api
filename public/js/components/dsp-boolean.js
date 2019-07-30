@@ -29,11 +29,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     trueDisplay: {
       type: [Boolean, Number, String],
-      default: 'X'
+      "default": 'X'
     },
     falseDisplay: {
       type: [Boolean, Number, String],
-      default: ''
+      "default": ''
     }
   },
   computed: {

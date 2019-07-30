@@ -40,14 +40,14 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     'params': {
       type: Object,
-      default: function _default() {}
+      "default": function _default() {}
     },
     value: {
-      default: null
+      "default": null
     },
     name: {
       type: String,
-      default: ''
+      "default": ''
     }
   }
 });

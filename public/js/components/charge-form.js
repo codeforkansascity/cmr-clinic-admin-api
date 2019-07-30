@@ -201,11 +201,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   props: {
     record: {
       type: [Boolean, Object],
-      default: false
+      "default": false
     },
     csrf_token: {
       type: String,
-      default: ""
+      "default": ""
     }
   },
   data: function data() {
@@ -313,7 +313,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   } else {
                     _this2.server_message = res.status;
                   }
-                }).catch(function (error) {
+                })["catch"](function (error) {
                   if (error.response) {
                     if (error.response.status === 422) {
                       // Clear errors out

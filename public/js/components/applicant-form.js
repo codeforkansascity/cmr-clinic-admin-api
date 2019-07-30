@@ -619,18 +619,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "applicant-form",
+  name: 'ApplicantForm',
   props: {
     record: {
       type: [Boolean, Object],
-      default: false
+      "default": false
     },
     csrf_token: {
       type: String,
-      default: ""
+      "default": ''
     }
   },
   data: function data() {
@@ -639,43 +638,43 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         // _method: 'patch',
         _token: this.csrf_token,
         id: 0,
-        name: "",
-        phone: "",
-        email: "",
-        sex: "",
-        race: "",
-        dob_text: "",
-        address_line_1: "",
-        address_line_2: "",
-        city: "",
-        state: "",
-        zip_code: "",
-        license_number: "",
-        license_issuing_state: "",
-        license_expiration_date_text: "",
-        filing_court: "",
-        judicial_circuit_number: "",
-        count_name: "",
-        judge_name: "",
-        division_name: "",
-        petitioner_name: "",
-        division_number: "",
-        city_name_here: "",
-        county_name: "",
-        arresting_county: "",
-        prosecuting_county: "",
-        arresting_municipality: "",
-        other_agencies_name: "",
-        previous_expungements: "",
-        notes: "",
-        external_ref: "",
-        any_pending_cases: "",
-        deleted_at: "",
+        name: '',
+        phone: '',
+        email: '',
+        sex: '',
+        race: '',
+        dob_text: '',
+        address_line_1: '',
+        address_line_2: '',
+        city: '',
+        state: '',
+        zip_code: '',
+        license_number: '',
+        license_issuing_state: '',
+        license_expiration_date_text: '',
+        filing_court: '',
+        judicial_circuit_number: '',
+        count_name: '',
+        judge_name: '',
+        division_name: '',
+        petitioner_name: '',
+        division_number: '',
+        city_name_here: '',
+        county_name: '',
+        arresting_county: '',
+        prosecuting_county: '',
+        arresting_municipality: '',
+        other_agencies_name: '',
+        previous_expungements: '',
+        notes: '',
+        external_ref: '',
+        any_pending_cases: '',
+        deleted_at: '',
         status_id: 0,
         dob: null,
         license_expiration_date: null,
-        cms_client_number: "",
-        cms_matter_number: "",
+        cms_client_number: '',
+        cms_matter_number: '',
         assignment_id: 0,
         step_id: 0
       },
@@ -752,15 +751,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 this.server_message = false;
                 this.processing = true;
-                url = "";
-                amethod = "";
+                url = '';
+                amethod = '';
 
                 if (this.form_data.id) {
-                  url = "/applicant/" + this.form_data.id;
-                  amethod = "put";
+                  url = '/applicant/' + this.form_data.id;
+                  amethod = 'put';
                 } else {
-                  url = "/applicant";
-                  amethod = "post";
+                  url = '/applicant';
+                  amethod = 'post';
                 }
 
                 _context.next = 7;
@@ -770,11 +769,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   data: this.form_data
                 }).then(function (res) {
                   if (res.status === 200) {
-                    window.location = "/applicant";
+                    window.location = '/applicant';
                   } else {
                     _this2.server_message = res.status;
                   }
-                }).catch(function (error) {
+                })["catch"](function (error) {
                   if (error.response) {
                     if (error.response.status === 422) {
                       // Clear errors out
@@ -787,15 +786,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       });
                     } else if (error.response.status === 404) {
                       // Record not found
-                      _this2.server_message = "Record not found";
-                      window.location = "/applicant";
+                      _this2.server_message = 'Record not found';
+                      window.location = '/applicant';
                     } else if (error.response.status === 419) {
                       // Unknown status
-                      _this2.server_message = "Unknown Status, please try to ";
+                      _this2.server_message = 'Unknown Status, please try to ';
                       _this2.try_logging_in = true;
                     } else if (error.response.status === 500) {
                       // Unknown status
-                      _this2.server_message = "Server Error, please try to ";
+                      _this2.server_message = 'Server Error, please try to ';
                       _this2.try_logging_in = true;
                     } else {
                       _this2.server_message = error.response.data.message;
@@ -908,58 +907,63 @@ var render = function() {
     _c("div", { staticClass: "row" }, [
       _c(
         "div",
-        { staticClass: "col-md-11", staticStyle: { "padding-left": "1em" } },
+        {
+          staticClass: "col-md-12",
+          staticStyle: {
+            "padding-left": "1em",
+            display: "flex",
+            "align-items": "center",
+            "justify-content": "space-between"
+          }
+        },
         [
-          _c("h2", [
+          _c("h2", { staticStyle: { display: "inline-block" } }, [
             _vm._v(
-              _vm._s(_vm.form_data.name) +
-                "         " +
-                _vm._s(_vm.form_data.dob) +
-                " "
+              _vm._s(_vm.form_data.name) + "    " + _vm._s(_vm.form_data.dob)
             )
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c("img", {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.isShowing,
+                  expression: "isShowing"
+                }
+              ],
+              staticClass: "help-button d-print-none",
+              staticStyle: { width: "1.8em" },
+              attrs: { src: "/img/icons/noun_collapse_2091048_000000.png" },
+              on: {
+                click: function($event) {
+                  _vm.isShowing ^= true
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("img", {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: !_vm.isShowing,
+                  expression: "!isShowing"
+                }
+              ],
+              staticClass: "help-button d-print-none",
+              staticStyle: { width: "1.5em", "margin-bottom": "1em" },
+              attrs: { src: "/img/icons/noun_expand_1211939_000000.png" },
+              on: {
+                click: function($event) {
+                  _vm.isShowing ^= true
+                }
+              }
+            })
           ])
         ]
-      ),
-      _vm._v(" "),
-      _c("div", [
-        _c("img", {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.isShowing,
-              expression: "isShowing"
-            }
-          ],
-          staticClass: "help-button d-print-none",
-          staticStyle: { width: "1.8em" },
-          attrs: { src: "/img/icons/noun_collapse_2091048_000000.png" },
-          on: {
-            click: function($event) {
-              _vm.isShowing ^= true
-            }
-          }
-        }),
-        _vm._v(" "),
-        _c("img", {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: !_vm.isShowing,
-              expression: "!isShowing"
-            }
-          ],
-          staticClass: "help-button d-print-none",
-          staticStyle: { width: "1.5em", "margin-bottom": "1em" },
-          attrs: { src: "/img/icons/noun_expand_1211939_000000.png" },
-          on: {
-            click: function($event) {
-              _vm.isShowing ^= true
-            }
-          }
-        })
-      ])
+      )
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }),
@@ -1023,10 +1027,10 @@ var render = function() {
                     "std-form-group",
                     {
                       attrs: {
-                        label: "What is your full name?",
-                        "label-for": "name",
                         errors: _vm.form_errors.name,
-                        required: true
+                        required: true,
+                        label: "What is your full name?",
+                        "label-for": "name"
                       }
                     },
                     [
@@ -1061,9 +1065,9 @@ var render = function() {
                     "std-form-group",
                     {
                       attrs: {
+                        errors: _vm.form_errors.sex,
                         label: "Sex",
-                        "label-for": "sex",
-                        errors: _vm.form_errors.sex
+                        "label-for": "sex"
                       }
                     },
                     [
@@ -1092,9 +1096,9 @@ var render = function() {
                     "std-form-group",
                     {
                       attrs: {
+                        errors: _vm.form_errors.race,
                         label: "Race",
-                        "label-for": "race",
-                        errors: _vm.form_errors.race
+                        "label-for": "race"
                       }
                     },
                     [
@@ -1123,9 +1127,9 @@ var render = function() {
                     "std-form-group",
                     {
                       attrs: {
+                        errors: _vm.form_errors.race,
                         label: "Previous Expungements",
-                        "label-for": "previous_expungements",
-                        errors: _vm.form_errors.race
+                        "label-for": "previous_expungements"
                       }
                     },
                     [
@@ -1159,9 +1163,9 @@ var render = function() {
                     "std-form-group",
                     {
                       attrs: {
+                        errors: _vm.form_errors.dob,
                         label: "Date of Birth",
-                        "label-for": "dob",
-                        errors: _vm.form_errors.dob
+                        "label-for": "dob"
                       }
                     },
                     [
@@ -1190,9 +1194,9 @@ var render = function() {
                     "std-form-group",
                     {
                       attrs: {
+                        errors: _vm.form_errors.phone,
                         label: "Phone/Cell",
-                        "label-for": "phone",
-                        errors: _vm.form_errors.phone
+                        "label-for": "phone"
                       }
                     },
                     [
@@ -1221,9 +1225,9 @@ var render = function() {
                     "std-form-group",
                     {
                       attrs: {
+                        errors: _vm.form_errors.email,
                         label: "Email",
-                        "label-for": "email",
-                        errors: _vm.form_errors.email
+                        "label-for": "email"
                       }
                     },
                     [
@@ -1263,9 +1267,9 @@ var render = function() {
                       "std-form-group",
                       {
                         attrs: {
+                          errors: _vm.form_errors.license_number,
                           label: "License Number",
-                          "label-for": "license_number",
-                          errors: _vm.form_errors.license_number
+                          "label-for": "license_number"
                         }
                       },
                       [
@@ -1294,9 +1298,9 @@ var render = function() {
                       "std-form-group",
                       {
                         attrs: {
+                          errors: _vm.form_errors.license_issuing_state,
                           label: "Issuing State",
-                          "label-for": "license_issuing_state",
-                          errors: _vm.form_errors.license_issuing_state
+                          "label-for": "license_issuing_state"
                         }
                       },
                       [
@@ -1329,9 +1333,9 @@ var render = function() {
                       "std-form-group",
                       {
                         attrs: {
+                          errors: _vm.form_errors.license_expiration_date,
                           label: "Expiration Date",
-                          "label-for": "license_expiration_date",
-                          errors: _vm.form_errors.license_expiration_date
+                          "label-for": "license_expiration_date"
                         }
                       },
                       [
@@ -1368,9 +1372,9 @@ var render = function() {
                       "std-form-group",
                       {
                         attrs: {
+                          errors: _vm.form_errors.county_name,
                           label: "County Name",
-                          "label-for": "county_name",
-                          errors: _vm.form_errors.county_name
+                          "label-for": "county_name"
                         }
                       },
                       [
@@ -1399,9 +1403,9 @@ var render = function() {
                       "std-form-group",
                       {
                         attrs: {
+                          errors: _vm.form_errors.filing_court,
                           label: "Filing Court",
-                          "label-for": "filing_court",
-                          errors: _vm.form_errors.filing_court
+                          "label-for": "filing_court"
                         }
                       },
                       [
@@ -1436,9 +1440,9 @@ var render = function() {
                       "std-form-group",
                       {
                         attrs: {
+                          errors: _vm.form_errors.judicial_circuit_number,
                           label: "Judicial Circuit Number",
-                          "label-for": "judicial_circuit_number",
-                          errors: _vm.form_errors.judicial_circuit_number
+                          "label-for": "judicial_circuit_number"
                         }
                       },
                       [
@@ -1481,9 +1485,9 @@ var render = function() {
                       "std-form-group",
                       {
                         attrs: {
+                          errors: _vm.form_errors.address_line_1,
                           label: "Address Line 1",
-                          "label-for": "address_line_1",
-                          errors: _vm.form_errors.address_line_1
+                          "label-for": "address_line_1"
                         }
                       },
                       [
@@ -1512,9 +1516,9 @@ var render = function() {
                       "std-form-group",
                       {
                         attrs: {
+                          errors: _vm.form_errors.address_line_2,
                           label: "Address Line 2",
-                          "label-for": "address_line_2",
-                          errors: _vm.form_errors.address_line_2
+                          "label-for": "address_line_2"
                         }
                       },
                       [
@@ -1543,9 +1547,9 @@ var render = function() {
                       "std-form-group",
                       {
                         attrs: {
+                          errors: _vm.form_errors.city,
                           label: "City",
-                          "label-for": "city",
-                          errors: _vm.form_errors.city
+                          "label-for": "city"
                         }
                       },
                       [
@@ -1574,9 +1578,9 @@ var render = function() {
                       "std-form-group",
                       {
                         attrs: {
+                          errors: _vm.form_errors.state,
                           label: "State",
-                          "label-for": "state",
-                          errors: _vm.form_errors.state
+                          "label-for": "state"
                         }
                       },
                       [
@@ -1605,9 +1609,9 @@ var render = function() {
                       "std-form-group",
                       {
                         attrs: {
+                          errors: _vm.form_errors.zip_code,
                           label: "Zip Code",
-                          "label-for": "zip_code",
-                          errors: _vm.form_errors.zip_code
+                          "label-for": "zip_code"
                         }
                       },
                       [
@@ -1646,9 +1650,9 @@ var render = function() {
                       "std-form-group",
                       {
                         attrs: {
+                          errors: _vm.form_errors.cms_client_number,
                           label: "Cms Client Number",
-                          "label-for": "cms_client_number",
-                          errors: _vm.form_errors.cms_client_number
+                          "label-for": "cms_client_number"
                         }
                       },
                       [
@@ -1677,9 +1681,9 @@ var render = function() {
                       "std-form-group",
                       {
                         attrs: {
+                          errors: _vm.form_errors.cms_matter_number,
                           label: "Cms Matter Number",
-                          "label-for": "cms_matter_number",
-                          errors: _vm.form_errors.cms_matter_number
+                          "label-for": "cms_matter_number"
                         }
                       },
                       [
@@ -1708,9 +1712,9 @@ var render = function() {
                       "std-form-group",
                       {
                         attrs: {
+                          errors: _vm.form_errors.assignment_id,
                           label: "Person Assigned",
-                          "label-for": "assignment_id",
-                          errors: _vm.form_errors.assignment_id
+                          "label-for": "assignment_id"
                         }
                       },
                       [
@@ -1742,7 +1746,7 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-primary",
-                  attrs: { type: "submit", disabled: _vm.processing }
+                  attrs: { disabled: _vm.processing, type: "submit" }
                 },
                 [
                   this.form_data.id
@@ -1765,9 +1769,9 @@ var render = function() {
         [
           _c("cases", {
             attrs: {
-              records: this.form_data.conviction,
               client_id: this.form_data.id,
-              csrf_token: this.csrf_token
+              csrf_token: this.csrf_token,
+              records: this.form_data.conviction
             }
           })
         ],

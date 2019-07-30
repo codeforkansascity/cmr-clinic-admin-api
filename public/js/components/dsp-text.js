@@ -31,7 +31,7 @@ __webpack_require__.r(__webpack_exports__);
   name: 'dsp-text',
   props: {
     value: {
-      default: null
+      "default": null
     }
   }
 });
