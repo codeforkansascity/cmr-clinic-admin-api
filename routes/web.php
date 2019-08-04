@@ -67,5 +67,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/step/print', 'StepController@print')->name('step.print');
     Route::resource('/step', 'StepController');
 
+    Route::group(['prefix' => '/cms'], function () {
+        Route::get('/{cms_matter_number}', 'ClientController@show');
+        Route::get('/{cms_matter_number}/edit', 'ClientController@edit');
+    });
 
 });
