@@ -132,7 +132,7 @@
                                     label-for="license_issuing_state"
                                     :errors="form_errors.license_issuing_state"
                             >
-                                <fld-input
+                                <fld-state
                                         name="license_issuing_state"
                                         v-model="form_data.license_issuing_state"
                                 />
@@ -232,12 +232,13 @@
                             </std-form-group>
                         </div>
                         <div class="col-md-12">
+                            {{ form_data.state }}
                             <std-form-group
                                     label="State"
                                     label-for="state"
                                     :errors="form_errors.state"
                             >
-                                <fld-input name="state" v-model="form_data.state"/>
+                                <fld-state name="state" v-model="form_data.state"/>
                             </std-form-group>
                         </div>
                         <div class="col-md-12">
