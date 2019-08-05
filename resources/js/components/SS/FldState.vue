@@ -19,7 +19,7 @@ Example usage:
             @change="updateValue"
             :name="this.name"
             :id="'field_' + this.name">
-        <option v-for="c in states" v-bind:value="c.abbreviation"> {{ c.abbreviation }}</option>
+        <option v-for="c in states" v-bind:value="c.name"> {{ c.name }}</option>
     </select>
 </template>
 
