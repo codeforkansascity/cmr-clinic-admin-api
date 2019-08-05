@@ -3,11 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\RecordSignature;
 
 class Conviction extends Model
 {
 
+    use SoftDeletes;
     use RecordSignature;
 
     /**
