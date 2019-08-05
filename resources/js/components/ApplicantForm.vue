@@ -49,7 +49,7 @@
                                 label-for="sex"
                                 :errors="form_errors.sex"
                         >
-                            <fld-input name="sex" v-model="form_data.sex"/>
+                            <fld-sex name="sex" v-model="form_data.sex"/>
                         </std-form-group>
                     </div>
 
@@ -61,7 +61,7 @@
                                 label-for="race"
                                 :errors="form_errors.race"
                         >
-                            <fld-input name="race" v-model="form_data.race"/>
+                            <fld-race name="race" v-model="form_data.race"/>
                         </std-form-group>
                     </div>
                     <div class="col-md-12">
@@ -232,7 +232,6 @@
                             </std-form-group>
                         </div>
                         <div class="col-md-12">
-                            {{ form_data.state }}
                             <std-form-group
                                     label="State"
                                     label-for="state"

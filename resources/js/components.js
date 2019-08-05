@@ -16,6 +16,8 @@ Vue.component('fld-input', () => import(/* webpackChunkName:"fld-input" */ './co
 Vue.component('fld-text-area', () => import(/* webpackChunkName:"fld-text-area" */ './components/SS/FldTextArea.vue'));
 Vue.component('fld-checkbox', () => import(/* webpackChunkName:"fld-checkbox" */ './components/SS/FldCheckBox.vue'));
 Vue.component('fld-state', () => import(/* webpackChunkName:"fld-state" */ './components/SS/FldState.vue'));
+Vue.component('fld-sex', () => import(/* webpackChunkName:"fld-sex" */ './components/SS/FldSex.vue'));
+Vue.component('fld-race', () => import(/* webpackChunkName:"fld-race" */ './components/SS/FldRace.vue'));
 
 Vue.component('dsp-boolean', () => import(/* webpackChunkName:"dsp-boolean" */ './components/SS/DspBoolean.vue'));
 Vue.component('dsp-textarea', () => import(/* webpackChunkName:"dsp-textarea" */ './components/SS/DspTextArea.vue'));
