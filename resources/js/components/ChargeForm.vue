@@ -49,7 +49,7 @@
                                 label-for="convicted"
                                 :errors="form_errors.convicted"
                         >
-                            <fld-input name="convicted" v-model="form_data.convicted"/>
+                            <fld-convicted name="convicted" v-model="form_data.convicted"/>
                         </std-form-group>
                     </div>
 
@@ -59,7 +59,7 @@
                                 label-for="eligible"
                                 :errors="form_errors.eligible"
                         >
-                            <fld-input name="eligible" v-model="form_data.eligible"/>
+                            <fld-eligible name="eligible" v-model="form_data.eligible"/>
                         </std-form-group>
                     </div>
 
@@ -69,7 +69,7 @@
                                 label-for="please_expunge"
                                 :errors="form_errors.please_expunge"
                         >
-                            <fld-input
+                            <fld-expunge
                                     name="please_expunge"
                                     v-model="form_data.please_expunge"
                             />
@@ -107,7 +107,7 @@
                                 label-for="conviction_charge_type"
                                 :errors="form_errors.conviction_charge_type"
                         >
-                            <fld-input
+                            <fld-charge-type
                                     name="conviction_charge_type"
                                     v-model="form_data.conviction_charge_type"
                             />
@@ -119,7 +119,7 @@
                                 label-for="conviction_class_type"
                                 :errors="form_errors.conviction_class_type"
                         >
-                            <fld-input
+                            <fld-charge-class
                                     name="conviction_class_type"
                                     v-model="form_data.conviction_class_type"
                             />
