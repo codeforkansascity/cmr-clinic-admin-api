@@ -14,10 +14,10 @@ class AddDeletedAt extends Migration
     public function up()
     {
         Schema::table('convictions', function (Blueprint $table) {
-            $table->unsignedBigInteger('deleted_at')->default(0);
+            $table->unsignedBigInteger('deleted_at')->nullable();
         });
         Schema::table('charges', function (Blueprint $table) {
-            $table->unsignedBigInteger('deleted_at')->default(0);
+            $table->unsignedBigInteger('deleted_at')->nullable();
         });
 
 
