@@ -1,44 +1,44 @@
 <template>
     <div>
         <div
-                v-if="global_error_message"
-                class="alert alert-danger"
-                role="alert"
+            class="alert alert-danger"
+            role="alert"
+            v-if="global_error_message"
         >
             {{ global_error_message }}
         </div>
         <div
-                v-if="server_message !== false"
-                class="alert alert-danger"
-                role="alert"
+            class="alert alert-danger"
+            role="alert"
+            v-if="server_message !== false"
         >
             {{ this.server_message }}
-            <a v-if="try_logging_in" href="/login">Login</a>
+            <a href="/login" v-if="try_logging_in">Login</a>
         </div>
         <!-- Grid Actions Top -->
         <div class="grid-top row mb-0 align-items-center">
             <div class="col-lg-8 mb-2">
                 <form class="form-inline mb-0">
                     <a
-                            href="#"
-                            @click.default="goToNew"
-                            class="btn btn-primary mb-3 mb-sm-2 mr-3"
+                        @click.default="goToNew"
+                        class="btn btn-primary mb-3 mb-sm-2 mr-3"
+                        href="#"
                     >Add</a
                     >
                     <search-form-group
-                            class="mb-0"
-                            :errors="form_errors.keyword"
-                            label="Search"
+                        :errors="form_errors.keyword"
+                        class="mb-0"
+                        label="Search"
                     >
                         <input
-                                name="query"
-                                id="grid-filter-query-copy"
-                                v-model="query"
-                                @keyup="getData(1)"
-                                class="form-control mb-2"
-                                type="text"
-                                placeholder="Name search"
-                                aria-label="Name search"
+                            @keyup="getData(1)"
+                            aria-label="Name search"
+                            class="form-control mb-2"
+                            id="grid-filter-query-copy"
+                            name="query"
+                            placeholder="Name search"
+                            type="text"
+                            v-model="query"
                         />
                     </search-form-group>
                 </form>
@@ -53,51 +53,51 @@
                 <thead>
                 <tr>
                     <ss-grid-column-header
-                            v-on:selectedSort="sortColumn"
-                            v-bind:selectedKey="sortKey"
-                            title="Sort by Name"
-                            :params="{
+                        :params="{
                                 sortField: 'name',
                                 InitialSortOrder: 'asc'
                             }"
+                        title="Sort by Name"
+                        v-bind:selectedKey="sortKey"
+                        v-on:selectedSort="sortColumn"
                     >
                         Name
                     </ss-grid-column-header>
                     <ss-grid-column-header
-                            v-on:selectedSort="sortColumn"
-                            v-bind:selectedKey="sortKey"
-                            title="Sort by Alias"
-                            :params="{
+                        :params="{
                                 sortField: 'alias',
                                 InitialSortOrder: 'asc'
                             }"
+                        title="Sort by Alias"
+                        v-bind:selectedKey="sortKey"
+                        v-on:selectedSort="sortColumn"
                     >
                         Alias
                     </ss-grid-column-header>
                     <ss-grid-column-header
-                            v-on:selectedSort="sortColumn"
-                            v-bind:selectedKey="sortKey"
-                            title="Sort by Sequence"
-                            :params="{
+                        :params="{
                                 sortField: 'sequence',
                                 InitialSortOrder: 'asc'
                             }"
+                        title="Sort by Sequence"
+                        v-bind:selectedKey="sortKey"
+                        v-on:selectedSort="sortColumn"
                     >
                         Sequence
                     </ss-grid-column-header>
-                    <th style="width:20%;" class="text-center">Actions</th>
+                    <th class="text-center" style="width:20%;">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-if="gridState == 'wait'">
-                    <td colspan="4" class="grid-alert">
+                    <td class="grid-alert" colspan="4">
                         <div class="alert alert-info" role="alert">
                             Please wait.
                         </div>
                     </td>
                 </tr>
                 <tr v-if="gridState == 'error'">
-                    <td colspan="4" class="grid-alert">
+                    <td class="grid-alert" colspan="4">
                         <div class="alert alert-warning" role="alert">
                             Error please try again.
                         </div>
@@ -105,18 +105,18 @@
                 </tr>
 
                 <tr v-if="gridState == 'good' && !gridData.length">
-                    <td colspan="4" class="grid-alert">
+                    <td class="grid-alert" colspan="4">
                         <div class="alert alert-warning" role="alert">
                             No matching records found.
                         </div>
                     </td>
                 </tr>
 
-                <tr v-else v-for="row in this.gridData" :key="row.id">
+                <tr :key="row.id" v-else v-for="row in this.gridData">
                     <td data-title="Name">
                         <a
-                                v-bind:href="'/status/' + row.id"
-                                v-if="params.CanShow == '1'"
+                            v-bind:href="'/status/' + row.id"
+                            v-if="params.CanShow == '1'"
                         >
                             {{ row.name }}
                         </a>
@@ -127,13 +127,13 @@
                     <td data-title="Alias">{{ row.alias }}</td>
                     <td data-title="Sequence">{{ row.sequence }}</td>
                     <td
-                            data-title="Actions"
-                            class="text-lg-center text-nowrap"
+                        class="text-lg-center text-nowrap"
+                        data-title="Actions"
                     >
                         <a
-                                v-bind:href="'/status/' + row.id + '/edit'"
-                                v-if="params.CanEdit"
-                                class="grid-action-item"
+                            class="grid-action-item"
+                            v-bind:href="'/status/' + row.id + '/edit'"
+                            v-if="params.CanEdit"
                         >
                             Edit
                         </a>
@@ -147,26 +147,26 @@
         <!-- Grid Actions Bottom -->
         <div class="grid-bottom row mb-0 align-items-center">
             <div class="col-lg-4 mb-2">
-                <a href="/status/download" class="btn btn-primary mb-2 mr-2"
+                <a class="btn btn-primary mb-2 mr-2" href="/status/download"
                 >Export to Excel</a
                 >
-                <a href="/status/print" class="btn btn-primary mb-2 mr-2"
+                <a class="btn btn-primary mb-2 mr-2" href="/status/print"
                 >Print PDF</a
                 >
             </div>
             <ss-grid-pagination
-                    class="col-lg-4 mb-2"
-                    v-bind:current_page="current_page"
-                    v-bind:last_page="last_page"
-                    v-bind:total="total"
-                    v-on:goto-page="getData(...arguments)"
+                class="col-lg-4 mb-2"
+                v-bind:current_page="current_page"
+                v-bind:last_page="last_page"
+                v-bind:total="total"
+                v-on:goto-page="getData(...arguments)"
             >
             </ss-grid-pagination>
             <ss-grid-pagination-location
-                    class="col-lg-4 text-lg-right mb-2"
-                    v-bind:current_page="current_page"
-                    v-bind:last_page="last_page"
-                    v-bind:total="total"
+                class="col-lg-4 text-lg-right mb-2"
+                v-bind:current_page="current_page"
+                v-bind:last_page="last_page"
+                v-bind:total="total"
             >
             </ss-grid-pagination-location>
         </div>
@@ -175,159 +175,156 @@
 </template>
 
 <script>
-    import SsGridColumnHeader from "./SsGridColumnHeader";
-    import SsGridPagination from "./SsGridPagination";
-    import SsGridPaginationLocation from "./SsPaginationLocation";
+  import SsGridColumnHeader from './SsGridColumnHeader';
+  import SsGridPagination from './SsGridPagination';
+  import SsGridPaginationLocation from './SsPaginationLocation';
 
-    export default {
-        name: "status-grid",
-        components: {
-            SsGridColumnHeader,
-            SsGridPaginationLocation,
-            SsGridPagination
+  export default {
+    name: 'status-grid',
+    components: {
+      SsGridColumnHeader,
+      SsGridPaginationLocation,
+      SsGridPagination,
+    },
+    props: {
+      params: {
+        type: Object,
+        default: function() {
         },
-        props: {
-            params: {
-                type: Object,
-                default: function () {
-                }
+      },
+    },
+
+    mounted: function() {
+      this.current_page = !isNaN(parseInt(this.params.Page))
+          ? parseInt(this.params.Page)
+          : 1;
+      this.query = this.params.Search;
+      this.getData(this.current_page);
+    },
+
+    data: function() {
+      return {
+        gridState: 'wait',
+        query: this.params.Search,
+        gridData: [],
+        current_page: 1,
+        last_page: null,
+        total: null,
+
+        sortOrder: this.params.sortOrder,
+        sortKey: this.params.sortKey,
+
+        global_error_message: null,
+
+        form_errors: {
+          page: false,
+          keyword: false,
+          column: false,
+          direction: false,
+        },
+        server_message: false,
+        try_logging_in: false,
+      };
+    },
+
+    methods: {
+      goToNew: function() {
+        window.location.href = '/status/create';
+      },
+
+      sortColumn: function(obj) {
+        this.sortKey = obj.sortField;
+        this.sortOrder = obj.sortOrder;
+        this.getData(1);
+      },
+
+      getData: function(new_page_number) {
+        this.global_error_message = null;
+
+        let getPage;
+
+        getPage =
+            this.getDataUrl(new_page_number) +
+            '&column=' +
+            this.sortKey +
+            '&direction=' +
+            this.sortOrder;
+
+        this.gridData = [];
+        this.gridState = 'wait';
+
+        if (getPage != null) {
+          // We have a filter
+          axios.get(getPage).then(response => {
+            if (response.status === 200) {
+              Object.keys(this.form_errors).forEach(
+                  i => (this.form_errors[i] = false),
+              );
+              this.gridData = response.data.data;
+              this.total = response.data.total;
+              this.current_page = response.data.current_page;
+              this.last_page = response.data.last_page || 1;
+            } else {
+              this.server_message = res.status;
             }
-        },
-
-        mounted: function () {
-            this.current_page = !isNaN(parseInt(this.params.Page))
-                ? parseInt(this.params.Page)
-                : 1;
-            this.query = this.params.Search;
-            this.getData(this.current_page);
-        },
-
-        data: function () {
-            return {
-                gridState: "wait",
-                query: this.params.Search,
-                gridData: [],
-                current_page: 1,
-                last_page: null,
-                total: null,
-
-                sortOrder: this.params.sortOrder,
-                sortKey: this.params.sortKey,
-
-                global_error_message: null,
-
-                form_errors: {
-                    page: false,
-                    keyword: false,
-                    column: false,
-                    direction: false
-                },
-                server_message: false,
-                try_logging_in: false
-            };
-        },
-
-        methods: {
-            goToNew: function () {
-                window.location.href = "/status/create";
-            },
-
-            sortColumn: function (obj) {
-                this.sortKey = obj.sortField;
-                this.sortOrder = obj.sortOrder;
-                this.getData(1);
-            },
-
-            getData: function (new_page_number) {
-                this.global_error_message = null;
-
-                let getPage;
-
-                getPage =
-                    this.getDataUrl(new_page_number) +
-                    "&column=" +
-                    this.sortKey +
-                    "&direction=" +
-                    this.sortOrder;
-
-                this.gridData = [];
-                this.gridState = "wait";
-
-                if (getPage != null) {
-                    // We have a filter
-                    axios
-                        .get(getPage)
-                        .then(response => {
-                            if (response.status === 200) {
-                                Object.keys(this.form_errors).forEach(
-                                    i => (this.form_errors[i] = false)
-                                );
-                                this.gridData = response.data.data;
-                                this.total = response.data.total;
-                                this.current_page = response.data.current_page;
-                                this.last_page = response.data.last_page || 1;
-                            } else {
-                                this.server_message = res.status;
-                            }
-                            this.gridState = "good";
-                        })
-                        .catch(error => {
-                            if (error.response) {
-                                this.gridState = "error";
-                                if (error.response.status === 422) {
-                                    // Clear errors out
-                                    Object.keys(this.form_errors).forEach(
-                                        i => (this.form_errors[i] = false)
-                                    );
-                                    // Set current errors
-                                    Object.keys(error.response.data.errors).forEach(
-                                        i =>
-                                            (this.form_errors[i] =
-                                                error.response.data.errors[i])
-                                    );
-                                } else if (error.response.status === 404) {
-                                    // Record not found
-                                    this.server_message = "Record not found";
-                                    window.location = "/status";
-                                } else if (error.response.status === 419) {
-                                    // Unknown status
-                                    this.server_message =
-                                        "Unknown Status, please try to ";
-                                    this.try_logging_in = true;
-                                } else if (error.response.status === 500) {
-                                    // Unknown status
-                                    this.server_message =
-                                        "Server Error, please try to ";
-                                    this.try_logging_in = true;
-                                } else {
-                                    this.server_message =
-                                        error.response.data.message;
-                                }
-                            } else {
-                                console.log(error.response);
-                                this.server_message = error;
-                            }
-                        });
-                }
-            },
-
-            getDataUrl: function (new_page_number) {
-                var url = "api-status?";
-                var queryParams = [];
-
-                queryParams.push("page=" + new_page_number);
-
-                if (this.isDefined(this.query) && this.query.trim().length > 0)
-                    queryParams.push("keyword=" + this.query);
-
-                //                if (this.isDefined(this.searchType)) queryParams.push('search_type=' + this.searchType);
-                //                if (this.isDefined(this.showFilter)) queryParams.push('show_filter=' + this.showFilter);
-                //                if (this.isDefined(this.contractorSelected)) queryParams.push('contractor_id=' + this.contractorSelected);
-
-                if (queryParams.length > 0) url += queryParams.join("&");
-
-                return url;
+            this.gridState = 'good';
+          }).catch(error => {
+            if (error.response) {
+              this.gridState = 'error';
+              if (error.response.status === 422) {
+                // Clear errors out
+                Object.keys(this.form_errors).forEach(
+                    i => (this.form_errors[i] = false),
+                );
+                // Set current errors
+                Object.keys(error.response.data.errors).forEach(
+                    i =>
+                        (this.form_errors[i] =
+                            error.response.data.errors[i]),
+                );
+              } else if (error.response.status === 404) {
+                // Record not found
+                this.server_message = 'Record not found';
+                window.location = '/status';
+              } else if (error.response.status === 419) {
+                // Unknown status
+                this.server_message =
+                    'Unknown Status, please try to ';
+                this.try_logging_in = true;
+              } else if (error.response.status === 500) {
+                // Unknown status
+                this.server_message =
+                    'Server Error, please try to ';
+                this.try_logging_in = true;
+              } else {
+                this.server_message =
+                    error.response.data.message;
+              }
+            } else {
+              console.log(error.response);
+              this.server_message = error;
             }
+          });
         }
-    };
+      },
+
+      getDataUrl: function(new_page_number) {
+        var url = 'api-status?';
+        var queryParams = [];
+
+        queryParams.push('page=' + new_page_number);
+
+        if (this.isDefined(this.query) && this.query.trim().length > 0)
+          queryParams.push('keyword=' + this.query);
+
+        //                if (this.isDefined(this.searchType)) queryParams.push('search_type=' + this.searchType);
+        //                if (this.isDefined(this.showFilter)) queryParams.push('show_filter=' + this.showFilter);
+        //                if (this.isDefined(this.contractorSelected)) queryParams.push('contractor_id=' + this.contractorSelected);
+
+        if (queryParams.length > 0) url += queryParams.join('&');
+
+        return url;
+      },
+    },
+  };
 </script>
