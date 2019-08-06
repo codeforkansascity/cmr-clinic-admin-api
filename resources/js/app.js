@@ -1,3 +1,10 @@
+import BootstrapVue from 'bootstrap-vue';
+
+// Importing the CSS from bootstrap
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+
+Vue.use(BootstrapVue);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
