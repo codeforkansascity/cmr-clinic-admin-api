@@ -196,7 +196,7 @@
         <div class="row">
             <div class="col-md-12">
                 <charges-list
-                        :records="record.charge"
+                        :charges="record.charge"
                          ></charges-list>
             </div>
         </div>

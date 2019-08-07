@@ -1585,7 +1585,7 @@ var render = function() {
       _c(
         "div",
         { staticClass: "col-md-12" },
-        [_c("charges-list", { attrs: { records: _vm.record.charge } })],
+        [_c("charges-list", { attrs: { charges: _vm.record.charge } })],
         1
       )
     ])
