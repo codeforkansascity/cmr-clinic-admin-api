@@ -195,9 +195,9 @@
         </form>
         <div class="row">
             <div class="col-md-12">
-                <charges :records="record.charge"
-                         :client_id="client_id"
-                         :csrf_token="csrf_token"></charges>
+                <charges-list
+                        :records="record.charge"
+                         ></charges-list>
             </div>
         </div>
     </div>
@@ -205,9 +205,11 @@
 
 <script>
     import axios from "axios";
+    import ChargesList from "./charges/ChargesList";
 
     export default {
         name: "case-form",
+        components: {ChargesList},
         props: {
             record: {
                 type: [Boolean, Object, Array],

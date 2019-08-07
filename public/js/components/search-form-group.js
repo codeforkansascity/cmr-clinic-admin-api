@@ -31,11 +31,11 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     label: {
       type: String,
-      default: ""
+      "default": ""
     },
     errors: {
       type: [Array, Boolean],
-      default: false
+      "default": false
     }
   },
   data: function data() {

@@ -46,21 +46,21 @@ __webpack_require__.r(__webpack_exports__);
       type: String
     },
     modelValue: {
-      default: false
+      "default": false
     },
     // We set `true-value` and `false-value` to the default true and false so
     // we can always use them instead of checking whether or not they are set.
     // Also can use camelCase here, but hyphen-separating the attribute name
     // when using the component will still work
     trueValue: {
-      default: true
+      "default": true
     },
     falseValue: {
-      default: false
+      "default": false
     },
     name: {
       type: String,
-      default: ''
+      "default": ''
     }
   },
   computed: {

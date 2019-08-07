@@ -201,11 +201,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   props: {
     record: {
       type: [Boolean, Object],
-      default: false
+      "default": false
     },
     csrf_token: {
       type: String,
-      default: ""
+      "default": ""
     }
   },
   data: function data() {
@@ -313,7 +313,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   } else {
                     _this2.server_message = res.status;
                   }
-                }).catch(function (error) {
+                })["catch"](function (error) {
                   if (error.response) {
                     if (error.response.status === 422) {
                       // Clear errors out
@@ -548,7 +548,7 @@ var render = function() {
                       }
                     },
                     [
-                      _c("fld-input", {
+                      _c("fld-convicted", {
                         attrs: { name: "convicted" },
                         model: {
                           value: _vm.form_data.convicted,
@@ -579,7 +579,7 @@ var render = function() {
                       }
                     },
                     [
-                      _c("fld-input", {
+                      _c("fld-eligible", {
                         attrs: { name: "eligible" },
                         model: {
                           value: _vm.form_data.eligible,
@@ -610,7 +610,7 @@ var render = function() {
                       }
                     },
                     [
-                      _c("fld-input", {
+                      _c("fld-expunge", {
                         attrs: { name: "please_expunge" },
                         model: {
                           value: _vm.form_data.please_expunge,
@@ -707,7 +707,7 @@ var render = function() {
                       }
                     },
                     [
-                      _c("fld-input", {
+                      _c("fld-charge-type", {
                         attrs: { name: "conviction_charge_type" },
                         model: {
                           value: _vm.form_data.conviction_charge_type,
@@ -742,7 +742,7 @@ var render = function() {
                       }
                     },
                     [
-                      _c("fld-input", {
+                      _c("fld-charge-class", {
                         attrs: { name: "conviction_class_type" },
                         model: {
                           value: _vm.form_data.conviction_class_type,

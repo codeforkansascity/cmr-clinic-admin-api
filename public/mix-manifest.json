@@ -19,8 +19,15 @@
     "/js/components/dsp-boolean.js": "/js/components/dsp-boolean.js",
     "/js/components/dsp-text.js": "/js/components/dsp-text.js",
     "/js/components/dsp-textarea.js": "/js/components/dsp-textarea.js",
+    "/js/components/fld-charge-class.js": "/js/components/fld-charge-class.js",
+    "/js/components/fld-charge-type.js": "/js/components/fld-charge-type.js",
     "/js/components/fld-checkbox.js": "/js/components/fld-checkbox.js",
+    "/js/components/fld-convicted.js": "/js/components/fld-convicted.js",
+    "/js/components/fld-eligible.js": "/js/components/fld-eligible.js",
+    "/js/components/fld-expunge.js": "/js/components/fld-expunge.js",
     "/js/components/fld-input.js": "/js/components/fld-input.js",
+    "/js/components/fld-race.js": "/js/components/fld-race.js",
+    "/js/components/fld-sex.js": "/js/components/fld-sex.js",
     "/js/components/fld-state.js": "/js/components/fld-state.js",
     "/js/components/fld-text-area.js": "/js/components/fld-text-area.js",
     "/js/components/search-form-group.js": "/js/components/search-form-group.js",
@@ -38,6 +45,5 @@
     "/img/icons/noun_expand_1211939_000000.png": "/img/icons/noun_expand_1211939_000000.png",
     "/img/icons/square.svg": "/img/icons/square.svg",
     "/img/icons/success.svg": "/img/icons/success.svg",
-    "/img/icons/warning.svg": "/img/icons/warning.svg",
-    "/js/components/vendors~applicant-form~assignment-form~case-form~status-form~step-form.js": "/js/components/vendors~applicant-form~assignment-form~case-form~status-form~step-form.js"
+    "/img/icons/warning.svg": "/img/icons/warning.svg"
 }

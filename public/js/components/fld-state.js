@@ -43,11 +43,11 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     modelValue: {
       type: String,
-      default: ''
+      "default": ''
     },
     name: {
       type: String,
-      default: ''
+      "default": ''
     }
   },
   data: function data() {
@@ -290,8 +290,8 @@ var render = function() {
       }
     },
     _vm._l(_vm.states, function(c) {
-      return _c("option", { domProps: { value: c.abbreviation } }, [
-        _vm._v(" " + _vm._s(c.abbreviation))
+      return _c("option", { domProps: { value: c.name } }, [
+        _vm._v(" " + _vm._s(c.name))
       ])
     }),
     0
