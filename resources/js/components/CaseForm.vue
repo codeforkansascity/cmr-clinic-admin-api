@@ -196,7 +196,8 @@
         <div class="row">
             <div class="col-md-12">
                 <charges-list
-                        :charges="record.charge"
+                        :charges="charges"
+                        :conviction_id="record.id"
                          ></charges-list>
             </div>
         </div>
@@ -266,6 +267,7 @@
                 try_logging_in: false,
                 processing: false,
                 isShowing: false,
+                charges: []
             };
         },
         mounted() {
@@ -277,6 +279,7 @@
             } else {
                 // this.form_data._method = 'post';
             }
+            this.charges = this.record.charge
         },
         methods: {
             async handleSubmit() {

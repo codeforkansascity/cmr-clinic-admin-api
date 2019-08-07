@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card charge-container">
         <div v-if="view === 'summary'">
             <button @click="setView('details')">See More</button>
             <charge-summary
@@ -43,10 +43,22 @@
             saveCharge(){
                 // TODO axios save charge
             }
-        }
+        },
+        created() {
+            if(this.charge.id == 0) {
+                this.view = 'edit'
+            } else {
+                console.log(this.charge.id)
+            }
+        },
+        computed: {
+        },
     }
 </script>
 
 <style scoped>
-
+    .charge-container {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
 </style>
