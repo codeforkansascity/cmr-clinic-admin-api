@@ -137,12 +137,13 @@
                             </button>
                         </div>
                         <div class="col-md-6 text-md-right mt-2 mt-md-0">
-                            <a href="/charge" class="btn btn-danger">Cancel Charge</a>
+                            <button class="btn btn-danger" @click="deleteCharge">Delete Charge</button>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
+
     </div>
 </template>
 
@@ -269,6 +270,11 @@
                         }
                         this.processing = false;
                     });
+            },
+            deleteCharge() {
+                if(confirm('Do you want to delete record?')) {
+                    // TODO add delete
+                }
             }
         }
     };
