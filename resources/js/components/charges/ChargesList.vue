@@ -22,6 +22,7 @@
                     v-for="(charge, index) in charges"
                     :key="index"
                     :charge="charge"
+                    @remove-charge="removeCharge"
             >
             </charge-container>
             <hr>
@@ -39,7 +40,7 @@
                 type: [Boolean, Object, Array],
                 default: false
             },
-            conviciton_id: {
+            conviction_id: {
                 type: Number,
                 default: 0
             }
@@ -53,7 +54,7 @@
             addCharge() {
                 let new_charge = {
                     id: 0,
-                    conviction_id: this.$attrs.conviction_id,
+                    conviction_id: this.conviction_id,
                     charge: "",
                     citation: "",
                     conviction_class_type: "",
@@ -69,9 +70,16 @@
                     please_expunge: '0'
                 }
                 this.charges.push(new_charge)
+                this.showCharges = true
             },
             toggleCharges() {
                 this.showCharges = !this.showCharges
+            },
+            removeCharge(id) {
+                console.log('remove-charge ' + id)
+                this.charges = this.charges.filter(charge => {
+                    return charge.id !== id
+                })
             }
         },
     }

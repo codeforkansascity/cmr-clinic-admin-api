@@ -137,7 +137,7 @@
                             </button>
                         </div>
                         <div class="col-md-6 text-md-right mt-2 mt-md-0">
-                            <button class="btn btn-danger" @click="deleteCharge">Delete Charge</button>
+                            <button class="btn btn-danger" @click.prevent="deleteCharge">Delete Charge</button>
                         </div>
                     </div>
                 </div>
@@ -272,8 +272,17 @@
                     });
             },
             deleteCharge() {
+                let $this = this
                 if(confirm('Do you want to delete record?')) {
-                    // TODO add delete
+                    axios.delete(`/charge/${this.charge.id}`)
+                    .then(response => {
+                        console.log(response)
+                        // send delete event to Charges List
+                        this.$parent.$emit('remove-charge', $this.charge.id)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
                 }
             }
         }

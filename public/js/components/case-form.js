@@ -778,6 +778,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "charge-edit",
@@ -920,7 +921,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return handleSubmit;
-    }()
+    }(),
+    deleteCharge: function deleteCharge() {
+      var _this2 = this;
+
+      var $this = this;
+
+      if (confirm('Do you want to delete record?')) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]("/charge/".concat(this.charge.id)).then(function (response) {
+          console.log(response); // send delete event to Charges List
+
+          _this2.$parent.$emit('remove-charge', $this.charge.id);
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+    }
   }
 });
 
@@ -1008,6 +1024,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "charges-list",
@@ -1019,16 +1049,21 @@ __webpack_require__.r(__webpack_exports__);
       type: [Boolean, Object, Array],
       "default": false
     },
-    conviciton_id: {
+    conviction_id: {
       type: Number,
       "default": 0
     }
+  },
+  data: function data() {
+    return {
+      showCharges: false
+    };
   },
   methods: {
     addCharge: function addCharge() {
       var new_charge = {
         id: 0,
-        conviction_id: this.$attrs.conviction_id,
+        conviction_id: this.conviction_id,
         charge: "",
         citation: "",
         conviction_class_type: "",
@@ -1044,6 +1079,16 @@ __webpack_require__.r(__webpack_exports__);
         please_expunge: '0'
       };
       this.charges.push(new_charge);
+      this.showCharges = true;
+    },
+    toggleCharges: function toggleCharges() {
+      this.showCharges = !this.showCharges;
+    },
+    removeCharge: function removeCharge(id) {
+      console.log('remove-charge ' + id);
+      this.charges = this.charges.filter(function (charge) {
+        return charge.id !== id;
+      });
     }
   }
 });
@@ -1081,7 +1126,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.pull-right[data-v-1e68eb12] {\n    margin: auto;\n    float: right;\n}\n", ""]);
+exports.push([module.i, "\n.pull-right[data-v-1e68eb12] {\n    margin: auto;\n    float: right;\n}\n.pad-30[data-v-1e68eb12] {\n    padding-bottom: 30px;\n}\n", ""]);
 
 // exports
 
@@ -2553,7 +2598,25 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _vm._m(0)
+              _c(
+                "div",
+                { staticClass: "col-md-6 text-md-right mt-2 mt-md-0" },
+                [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.deleteCharge($event)
+                        }
+                      }
+                    },
+                    [_vm._v("Delete Charge")]
+                  )
+                ]
+              )
             ])
           ])
         ]
@@ -2561,18 +2624,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6 text-md-right mt-2 mt-md-0" }, [
-      _c("a", { staticClass: "btn btn-danger", attrs: { href: "/charge" } }, [
-        _vm._v("Cancel Charge")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -2667,32 +2719,70 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-12" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary btn-sm float-right",
-              on: { click: _vm.addCharge }
-            },
-            [_vm._v("New Charge")]
-          )
+  return _c("div", [
+    !_vm.showCharges && _vm.charges.length > 0
+      ? _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12 pad-30" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-dark btn-sm float-right",
+                on: { click: _vm.toggleCharges }
+              },
+              [_vm._v("Show " + _vm._s(_vm.charges.length) + " Charges")]
+            )
+          ])
         ])
-      ]),
-      _vm._v(" "),
-      _vm._l(_vm.charges, function(charge, index) {
-        return _c("charge-container", { key: index, attrs: { charge: charge } })
-      }),
-      _vm._v(" "),
-      _c("hr")
-    ],
-    2
-  )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.showCharges || _vm.charges.length === 0
+      ? _c(
+          "div",
+          [
+            _c("hr"),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary btn-sm float-right",
+                    on: { click: _vm.addCharge }
+                  },
+                  [_vm._v("\n                    New Charge\n                ")]
+                ),
+                _vm._v(" "),
+                _vm.charges.length > 0
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-dark btn-sm float-right",
+                        on: { click: _vm.toggleCharges }
+                      },
+                      [
+                        _vm._v(
+                          "\n                    Hide Charges\n                "
+                        )
+                      ]
+                    )
+                  : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.charges, function(charge, index) {
+              return _c("charge-container", {
+                key: index,
+                attrs: { charge: charge },
+                on: { "remove-charge": _vm.removeCharge }
+              })
+            }),
+            _vm._v(" "),
+            _c("hr")
+          ],
+          2
+        )
+      : _vm._e()
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

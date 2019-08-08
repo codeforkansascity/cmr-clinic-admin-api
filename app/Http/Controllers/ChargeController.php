@@ -251,41 +251,41 @@ class ChargeController extends Controller
      *
      * @param  \App\Charge $charge     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Charge $charge)
     {
 
-        if (!Auth::user()->can('charge delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a Charges.');
-            if (Auth::user()->can('charge index')) {
-                 return Redirect::route('charge.index');
-            } else {
-                return Redirect::route('home');
-            }
-        }
+//        if (!Auth::user()->can('charge delete')) {
+//            \Session::flash('flash_error_message', 'You do not have access to remove a Charges.');
+//            if (Auth::user()->can('charge index')) {
+//                 return Redirect::route('charge.index');
+//            } else {
+//                return Redirect::route('home');
+//            }
+//        }
 
-        $charge = $this->sanitizeAndFind($id);
 
         if ( $charge  && $charge->canDelete()) {
 
             try {
                 $charge->delete();
             } catch (\Exception $e) {
-                return response()->json([
-                    'message' => 'Unable to process request.'
-                ], 400);
+                return $e;
             }
 
             \Session::flash('flash_success_message', 'Invitation for ' . $charge->name . ' was removed.');
+            // send success response
+            return response()->json(['success' => 'Record Deleted'], 200);
+
         } else {
             \Session::flash('flash_error_message', 'Unable to find Invite to delete.');
 
         }
 
-        if (Auth::user()->can('charge index')) {
-             return Redirect::route('charge.index');
-        } else {
-            return Redirect::route('home');
-        }
+//        if (Auth::user()->can('charge index')) {
+//             return Redirect::route('charge.index');
+//        } else {
+//            return Redirect::route('home');
+//        }
 
 
     }
