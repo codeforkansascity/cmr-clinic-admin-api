@@ -14,13 +14,14 @@
             <form @submit.prevent="handleSubmit" class="form-horizontal">
 
                 <div class="row">
+
                     <div class="col-md-3">
                         <std-form-group
                                 label="Convicted"
                                 label-for="convicted"
                                 :errors="form_errors.convicted"
                         >
-                            <fld-convicted name="convicted" v-model="form_data.convicted"/>
+                            <fld-convicted name="convicted" v-model="charge.convicted"/>
                         </std-form-group>
                     </div>
 
@@ -30,7 +31,7 @@
                                 label-for="eligible"
                                 :errors="form_errors.eligible"
                         >
-                            <fld-eligible name="eligible" v-model="form_data.eligible"/>
+                            <fld-eligible name="eligible" v-model="charge.eligible"/>
                         </std-form-group>
                     </div>
 
@@ -42,7 +43,7 @@
                         >
                             <fld-expunge
                                     name="please_expunge"
-                                    v-model="form_data.please_expunge"
+                                    v-model="charge.please_expunge"
                             />
                         </std-form-group>
                     </div>
@@ -55,7 +56,7 @@
                                 label-for="citation"
                                 :errors="form_errors.citation"
                         >
-                            <fld-input name="citation" v-model="form_data.citation"/>
+                            <fld-input ref="newCharge" name="citation" v-model="charge.citation"/>
                         </std-form-group>
                     </div>
 
@@ -65,7 +66,7 @@
                                 label-for="charge"
                                 :errors="form_errors.charge"
                         >
-                            <fld-input name="charge" v-model="form_data.charge"/>
+                            <fld-input name="charge" v-model="charge.charge"/>
                         </std-form-group>
                     </div>
                 </div>
@@ -80,7 +81,7 @@
                         >
                             <fld-charge-type
                                     name="conviction_charge_type"
-                                    v-model="form_data.conviction_charge_type"
+                                    v-model="charge.conviction_charge_type"
                             />
                         </std-form-group>
                     </div>
@@ -92,7 +93,7 @@
                         >
                             <fld-charge-class
                                     name="conviction_class_type"
-                                    v-model="form_data.conviction_class_type"
+                                    v-model="charge.conviction_class_type"
                             />
                         </std-form-group>
 
@@ -103,7 +104,7 @@
                                 label-for="sentence"
                                 :errors="form_errors.sentence"
                         >
-                            <fld-input name="sentence" v-model="form_data.sentence"/>
+                            <fld-input name="sentence" v-model="charge.sentence"/>
                         </std-form-group>
                     </div>
 
@@ -117,7 +118,7 @@
                                 label-for="notes"
                                 :errors="form_errors.notes"
                         >
-                            <fld-input name="notes" v-model="form_data.notes"/>
+                            <fld-input name="notes" v-model="charge.notes"/>
                         </std-form-group>
                     </div>
                 </div>
@@ -131,12 +132,12 @@
                                     class="btn btn-primary"
                                     :disabled="processing"
                             >
-                                <span v-if="this.form_data.id">Change Charge</span>
-                                <span v-else="this.form_data.id">Add Charge</span>
+                                <span v-if="this.charge.id">Change Charge</span>
+                                <span v-else="this.charge.id">Add Charge</span>
                             </button>
                         </div>
                         <div class="col-md-6 text-md-right mt-2 mt-md-0">
-                            <a href="/charge" class="btn btn-default">Cancel Charge</a>
+                            <a href="/charge" class="btn btn-danger">Cancel Charge</a>
                         </div>
                     </div>
                 </div>
@@ -151,36 +152,13 @@
     export default {
         name: "charge-edit",
         props: {
-            record: {
+            charge: {
                 type: [Boolean, Object],
                 default: false
-            },
-            csrf_token: {
-                type: String,
-                default: ""
             }
         },
         data() {
             return {
-                form_data: {
-                    // _method: 'patch',
-                    _token: this.csrf_token,
-                    id: 0,
-                    conviction_id: 0,
-                    charge: "",
-                    citation: "",
-                    conviction_class_type: "",
-                    conviction_charge_type: "",
-                    sentence: "",
-                    convicted_text: "",
-                    eligible_text: "",
-                    please_expunge_text: "",
-                    to_print: "",
-                    notes: "",
-                    convicted: 0,
-                    eligible: 0,
-                    please_expunge: 0
-                },
                 form_errors: {
                     id: false,
                     conviction_id: false,
@@ -205,38 +183,34 @@
             };
         },
         mounted() {
-            if (this.record !== false) {
-                // this.form_data._method = 'patch';
-                Object.keys(this.record).forEach(
-                    i => (this.form_data[i] = this.record[i])
-                );
-            } else {
-                // this.form_data._method = 'post';
+            if(this.charge.id === 0) {
+                this.$refs.newCharge.$refs.input.focus()
             }
         },
         computed: {
 
             dsp_convicted() {
-                let q = this.form_data.convicted;
+                let q = this.charge.convicted;
                 return parseInt(q) ? ' -- Convicted' : '';
             },
             dsp_eligible() {
-                let q = this.form_data.eligible;
+                let q = this.charge.eligible;
                 return parseInt(q) ? ', Eligible' : '';
             },
             dsp_please_expunge() {
-                let q = this.form_data.please_expunge;
+                let q = this.charge.please_expunge;
                 return parseInt(q) ? ', PleaseExpunge' : '';
             },
         },
         methods: {
             async handleSubmit() {
+                let $this = this
                 this.server_message = false;
                 this.processing = true;
                 let url = "";
                 let amethod = "";
-                if (this.form_data.id) {
-                    url = "/charge/" + this.form_data.id;
+                if (this.charge.id) {
+                    url = "/charge/" + this.charge.id;
                     amethod = "put";
                 } else {
                     url = "/charge";
@@ -245,11 +219,16 @@
                 await axios({
                     method: amethod,
                     url: url,
-                    data: this.form_data
+                    data: this.charge
                 })
                     .then(res => {
                         if (res.status === 200) {
-                            window.location = "/charge";
+                            // if saved set the get the id back and set to instance
+                            if(res.data.charge) {
+                                $this.id = res.data.charge.id
+                            }
+
+                            $this.processing = false
                         } else {
                             this.server_message = res.status;
                         }

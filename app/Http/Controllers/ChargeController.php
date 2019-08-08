@@ -125,20 +125,22 @@ class ChargeController extends Controller
     public function store(ChargeFormRequest $request)
     {
 
-        $charge = new \App\Charge;
 
-        try {
-            $charge->add($request->validated());
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Unable to process request'
-            ], 400);
-        }
+        $charge = Charge::create($request->all());
+//
+//        try {
+//            $saved = $charge->add($request->validated());
+//        } catch (\Exception $e) {
+//            return response()->json([
+//                'message' => 'Unable to process request'
+//            ], 400);
+//        }
 
-        \Session::flash('flash_success_message', 'Vc Vendor ' . $charge->name . ' was added');
+        \Session::flash('flash_success_message', 'Charge ' . $charge->name . ' was added');
 
         return response()->json([
-            'message' => 'Added record'
+            'message' => 'Added record',
+            'charge' => $charge
         ], 200);
 
     }

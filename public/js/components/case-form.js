@@ -429,6 +429,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -448,15 +457,11 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     setView: function setView(view) {
       this.view = view;
-    },
-    saveCharge: function saveCharge() {// TODO axios save charge
     }
   },
   created: function created() {
     if (this.charge.id == 0) {
       this.view = 'edit';
-    } else {
-      console.log(this.charge.id);
     }
   },
   computed: {}
@@ -772,40 +777,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "charge-edit",
   props: {
-    record: {
+    charge: {
       type: [Boolean, Object],
       "default": false
-    },
-    csrf_token: {
-      type: String,
-      "default": ""
     }
   },
   data: function data() {
     return {
-      form_data: {
-        // _method: 'patch',
-        _token: this.csrf_token,
-        id: 0,
-        conviction_id: 0,
-        charge: "",
-        citation: "",
-        conviction_class_type: "",
-        conviction_charge_type: "",
-        sentence: "",
-        convicted_text: "",
-        eligible_text: "",
-        please_expunge_text: "",
-        to_print: "",
-        notes: "",
-        convicted: 0,
-        eligible: 0,
-        please_expunge: 0
-      },
       form_errors: {
         id: false,
         conviction_id: false,
@@ -830,27 +813,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   mounted: function mounted() {
-    var _this = this;
-
-    if (this.record !== false) {
-      // this.form_data._method = 'patch';
-      Object.keys(this.record).forEach(function (i) {
-        return _this.form_data[i] = _this.record[i];
-      });
-    } else {// this.form_data._method = 'post';
+    if (this.charge.id === 0) {
+      this.$refs.newCharge.$refs.input.focus();
     }
   },
   computed: {
     dsp_convicted: function dsp_convicted() {
-      var q = this.form_data.convicted;
+      var q = this.charge.convicted;
       return parseInt(q) ? ' -- Convicted' : '';
     },
     dsp_eligible: function dsp_eligible() {
-      var q = this.form_data.eligible;
+      var q = this.charge.eligible;
       return parseInt(q) ? ', Eligible' : '';
     },
     dsp_please_expunge: function dsp_please_expunge() {
-      var q = this.form_data.please_expunge;
+      var q = this.charge.please_expunge;
       return parseInt(q) ? ', PleaseExpunge' : '';
     }
   },
@@ -859,72 +836,78 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _handleSubmit = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var _this2 = this;
+        var _this = this;
 
-        var url, amethod;
+        var $this, url, amethod;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                $this = this;
                 this.server_message = false;
                 this.processing = true;
                 url = "";
                 amethod = "";
 
-                if (this.form_data.id) {
-                  url = "/charge/" + this.form_data.id;
+                if (this.charge.id) {
+                  url = "/charge/" + this.charge.id;
                   amethod = "put";
                 } else {
                   url = "/charge";
                   amethod = "post";
                 }
 
-                _context.next = 7;
+                _context.next = 8;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default()({
                   method: amethod,
                   url: url,
-                  data: this.form_data
+                  data: this.charge
                 }).then(function (res) {
                   if (res.status === 200) {
-                    window.location = "/charge";
+                    // if saved set the get the id back and set to instance
+                    if (res.data.charge) {
+                      $this.id = res.data.charge.id;
+                    }
+
+                    $this.processing = false;
                   } else {
-                    _this2.server_message = res.status;
+                    _this.server_message = res.status;
                   }
                 })["catch"](function (error) {
                   if (error.response) {
                     if (error.response.status === 422) {
                       // Clear errors out
-                      Object.keys(_this2.form_errors).forEach(function (i) {
-                        return _this2.form_errors[i] = false;
+                      Object.keys(_this.form_errors).forEach(function (i) {
+                        return _this.form_errors[i] = false;
                       }); // Set current errors
 
                       Object.keys(error.response.data.errors).forEach(function (i) {
-                        return _this2.form_errors[i] = error.response.data.errors[i];
+                        return _this.form_errors[i] = error.response.data.errors[i];
                       });
                     } else if (error.response.status === 404) {
                       // Record not found
-                      _this2.server_message = "Record not found";
+                      _this.server_message = "Record not found";
                       window.location = "/charge";
                     } else if (error.response.status === 419) {
                       // Unknown status
-                      _this2.server_message = "Unknown Status, please try to ";
-                      _this2.try_logging_in = true;
+                      _this.server_message = "Unknown Status, please try to ";
+                      _this.try_logging_in = true;
                     } else if (error.response.status === 500) {
                       // Unknown status
-                      _this2.server_message = "Server Error, please try to ";
-                      _this2.try_logging_in = true;
+                      _this.server_message = "Server Error, please try to ";
+                      _this.try_logging_in = true;
                     } else {
-                      _this2.server_message = error.response.data.message;
+                      _this.server_message = error.response.data.message;
                     }
                   } else {
                     console.log(error.response);
-                    _this2.server_message = error;
+                    _this.server_message = error;
                   }
 
-                  _this2.processing = false;
+                  _this.processing = false;
                 });
 
-              case 7:
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -1022,6 +1005,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "charges-list",
@@ -1042,7 +1028,7 @@ __webpack_require__.r(__webpack_exports__);
     addCharge: function addCharge() {
       var new_charge = {
         id: 0,
-        conviction_id: this.conviction_id,
+        conviction_id: this.$attrs.conviction_id,
         charge: "",
         citation: "",
         conviction_class_type: "",
@@ -1053,11 +1039,11 @@ __webpack_require__.r(__webpack_exports__);
         please_expunge_text: "",
         to_print: "",
         notes: "",
-        convicted: 0,
-        eligible: 0,
-        please_expunge: 0
+        convicted: '0',
+        eligible: '0',
+        please_expunge: '0'
       };
-      this.charges.unshift(new_charge);
+      this.charges.push(new_charge);
     }
   }
 });
@@ -1076,7 +1062,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.charge-container[data-v-0adc017c] {\n    margin-top: 15px;\n    margin-bottom: 15px;\n}\n", ""]);
+exports.push([module.i, "\n.charge-container[data-v-0adc017c] {\n    padding: 15px 5px 15px 5px;\n    margin-top: 15px;\n    margin-bottom: 15px;\n}\n", ""]);
 
 // exports
 
@@ -1779,13 +1765,14 @@ var render = function() {
             _c(
               "button",
               {
+                staticClass: "btn btn-dark",
                 on: {
                   click: function($event) {
                     return _vm.setView("details")
                   }
                 }
               },
-              [_vm._v("See More")]
+              [_vm._v("Show Details")]
             ),
             _vm._v(" "),
             _c("charge-summary", { attrs: { charge: _vm.charge } })
@@ -1798,17 +1785,33 @@ var render = function() {
       ? _c(
           "div",
           [
-            _c(
-              "button",
-              {
-                on: {
-                  click: function($event) {
-                    return _vm.setView("edit")
+            _c("div", { staticClass: "col-md-12" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-dark",
+                  on: {
+                    click: function($event) {
+                      return _vm.setView("edit")
+                    }
                   }
-                }
-              },
-              [_vm._v("Edit")]
-            ),
+                },
+                [_vm._v("Edit")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-dark float-right",
+                  on: {
+                    click: function($event) {
+                      return _vm.setView("summary")
+                    }
+                  }
+                },
+                [_vm._v("Hide Details")]
+              )
+            ]),
             _vm._v(" "),
             _c("charge-details", { attrs: { charge: _vm.charge } })
           ],
@@ -1820,9 +1823,26 @@ var render = function() {
       ? _c(
           "div",
           [
-            _c("charge-edit", { attrs: { charge: _vm.charge } }),
+            _vm.charge.id != 0
+              ? _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-12" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-dark float-right",
+                        on: {
+                          click: function($event) {
+                            return _vm.setView("summary")
+                          }
+                        }
+                      },
+                      [_vm._v("Hide Details")]
+                    )
+                  ])
+                ])
+              : _vm._e(),
             _vm._v(" "),
-            _c("button", { on: { click: _vm.saveCharge } }, [_vm._v("Save")])
+            _c("charge-edit", { attrs: { charge: _vm.charge } })
           ],
           1
         )
@@ -2246,11 +2266,11 @@ var render = function() {
                     _c("fld-convicted", {
                       attrs: { name: "convicted" },
                       model: {
-                        value: _vm.form_data.convicted,
+                        value: _vm.charge.convicted,
                         callback: function($$v) {
-                          _vm.$set(_vm.form_data, "convicted", $$v)
+                          _vm.$set(_vm.charge, "convicted", $$v)
                         },
-                        expression: "form_data.convicted"
+                        expression: "charge.convicted"
                       }
                     })
                   ],
@@ -2277,11 +2297,11 @@ var render = function() {
                     _c("fld-eligible", {
                       attrs: { name: "eligible" },
                       model: {
-                        value: _vm.form_data.eligible,
+                        value: _vm.charge.eligible,
                         callback: function($$v) {
-                          _vm.$set(_vm.form_data, "eligible", $$v)
+                          _vm.$set(_vm.charge, "eligible", $$v)
                         },
-                        expression: "form_data.eligible"
+                        expression: "charge.eligible"
                       }
                     })
                   ],
@@ -2308,11 +2328,11 @@ var render = function() {
                     _c("fld-expunge", {
                       attrs: { name: "please_expunge" },
                       model: {
-                        value: _vm.form_data.please_expunge,
+                        value: _vm.charge.please_expunge,
                         callback: function($$v) {
-                          _vm.$set(_vm.form_data, "please_expunge", $$v)
+                          _vm.$set(_vm.charge, "please_expunge", $$v)
                         },
-                        expression: "form_data.please_expunge"
+                        expression: "charge.please_expunge"
                       }
                     })
                   ],
@@ -2339,13 +2359,14 @@ var render = function() {
                   },
                   [
                     _c("fld-input", {
+                      ref: "newCharge",
                       attrs: { name: "citation" },
                       model: {
-                        value: _vm.form_data.citation,
+                        value: _vm.charge.citation,
                         callback: function($$v) {
-                          _vm.$set(_vm.form_data, "citation", $$v)
+                          _vm.$set(_vm.charge, "citation", $$v)
                         },
-                        expression: "form_data.citation"
+                        expression: "charge.citation"
                       }
                     })
                   ],
@@ -2372,11 +2393,11 @@ var render = function() {
                     _c("fld-input", {
                       attrs: { name: "charge" },
                       model: {
-                        value: _vm.form_data.charge,
+                        value: _vm.charge.charge,
                         callback: function($$v) {
-                          _vm.$set(_vm.form_data, "charge", $$v)
+                          _vm.$set(_vm.charge, "charge", $$v)
                         },
-                        expression: "form_data.charge"
+                        expression: "charge.charge"
                       }
                     })
                   ],
@@ -2405,11 +2426,11 @@ var render = function() {
                     _c("fld-charge-type", {
                       attrs: { name: "conviction_charge_type" },
                       model: {
-                        value: _vm.form_data.conviction_charge_type,
+                        value: _vm.charge.conviction_charge_type,
                         callback: function($$v) {
-                          _vm.$set(_vm.form_data, "conviction_charge_type", $$v)
+                          _vm.$set(_vm.charge, "conviction_charge_type", $$v)
                         },
-                        expression: "form_data.conviction_charge_type"
+                        expression: "charge.conviction_charge_type"
                       }
                     })
                   ],
@@ -2436,11 +2457,11 @@ var render = function() {
                     _c("fld-charge-class", {
                       attrs: { name: "conviction_class_type" },
                       model: {
-                        value: _vm.form_data.conviction_class_type,
+                        value: _vm.charge.conviction_class_type,
                         callback: function($$v) {
-                          _vm.$set(_vm.form_data, "conviction_class_type", $$v)
+                          _vm.$set(_vm.charge, "conviction_class_type", $$v)
                         },
-                        expression: "form_data.conviction_class_type"
+                        expression: "charge.conviction_class_type"
                       }
                     })
                   ],
@@ -2467,11 +2488,11 @@ var render = function() {
                     _c("fld-input", {
                       attrs: { name: "sentence" },
                       model: {
-                        value: _vm.form_data.sentence,
+                        value: _vm.charge.sentence,
                         callback: function($$v) {
-                          _vm.$set(_vm.form_data, "sentence", $$v)
+                          _vm.$set(_vm.charge, "sentence", $$v)
                         },
-                        expression: "form_data.sentence"
+                        expression: "charge.sentence"
                       }
                     })
                   ],
@@ -2500,11 +2521,11 @@ var render = function() {
                     _c("fld-input", {
                       attrs: { name: "notes" },
                       model: {
-                        value: _vm.form_data.notes,
+                        value: _vm.charge.notes,
                         callback: function($$v) {
-                          _vm.$set(_vm.form_data, "notes", $$v)
+                          _vm.$set(_vm.charge, "notes", $$v)
                         },
-                        expression: "form_data.notes"
+                        expression: "charge.notes"
                       }
                     })
                   ],
@@ -2525,7 +2546,7 @@ var render = function() {
                     attrs: { type: "submit", disabled: _vm.processing }
                   },
                   [
-                    this.form_data.id
+                    this.charge.id
                       ? _c("span", [_vm._v("Change Charge")])
                       : _c("span", [_vm._v("Add Charge")])
                   ]
@@ -2546,7 +2567,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-6 text-md-right mt-2 mt-md-0" }, [
-      _c("a", { staticClass: "btn btn-default", attrs: { href: "/charge" } }, [
+      _c("a", { staticClass: "btn btn-danger", attrs: { href: "/charge" } }, [
         _vm._v("Cancel Charge")
       ])
     ])
@@ -2648,26 +2669,27 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticStyle: { "margin-left": "5em" } },
     [
-      _c("h3", [_vm._v("Charges")]),
+      _c("hr"),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "float-right" }, [
+        _c("div", { staticClass: "col-md-12" }, [
           _c(
             "button",
             {
               staticClass: "btn btn-primary btn-sm float-right",
               on: { click: _vm.addCharge }
             },
-            [_vm._v("+ Charge")]
+            [_vm._v("New Charge")]
           )
         ])
       ]),
       _vm._v(" "),
       _vm._l(_vm.charges, function(charge, index) {
         return _c("charge-container", { key: index, attrs: { charge: charge } })
-      })
+      }),
+      _vm._v(" "),
+      _c("hr")
     ],
     2
   )

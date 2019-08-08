@@ -1,22 +1,31 @@
 <template>
     <div class="card charge-container">
         <div v-if="view === 'summary'">
-            <button @click="setView('details')">See More</button>
+            <button class="btn btn-dark" @click="setView('details')">Show Details</button>
             <charge-summary
                 :charge="charge"
             ></charge-summary>
         </div>
         <div v-if="view === 'details'">
-            <button @click="setView('edit')">Edit</button>
+            <div class="col-md-12">
+                <button class="btn btn-dark" @click="setView('edit')">Edit</button>
+                <button class="btn btn-dark float-right" @click="setView('summary')">Hide Details</button>
+            </div>
+
             <charge-details
                 :charge="charge"
             ></charge-details>
         </div>
         <div v-if="view === 'edit'">
+            <div class="row" v-if="charge.id != 0">
+                <div class="col-md-12">
+                    <button class="btn btn-dark float-right" @click="setView('summary')">Hide Details</button>
+                </div>
+            </div>
+
             <charge-edit
                 :charge="charge"
             ></charge-edit>
-            <button @click="saveCharge">Save</button>
         </div>
     </div>
 </template>
@@ -40,15 +49,10 @@
             setView(view) {
                 this.view = view
             },
-            saveCharge(){
-                // TODO axios save charge
-            }
         },
         created() {
             if(this.charge.id == 0) {
                 this.view = 'edit'
-            } else {
-                console.log(this.charge.id)
             }
         },
         computed: {
@@ -58,6 +62,7 @@
 
 <style scoped>
     .charge-container {
+        padding: 15px 5px 15px 5px;
         margin-top: 15px;
         margin-bottom: 15px;
     }

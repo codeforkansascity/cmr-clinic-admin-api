@@ -1,15 +1,18 @@
 <template>
-    <div style="margin-left: 5em">
-        <h3>Charges</h3>
+    <div>
+        <hr>
         <div class="row">
-            <div class="float-right">
-                <button class="btn btn-primary btn-sm float-right" @click="addCharge">+ Charge</button>
+            <div class="col-md-12">
+                <button class="btn btn-primary btn-sm float-right" @click="addCharge">New Charge</button>
             </div>
         </div>
-        <charge-container v-for="(charge, index) in charges"
-                     :key="index"
-                     :charge="charge">
+        <charge-container
+                v-for="(charge, index) in charges"
+                :key="index"
+                :charge="charge"
+        >
         </charge-container>
+        <hr>
     </div>
 </template>
 
@@ -32,7 +35,7 @@
             addCharge() {
                 let new_charge = {
                     id: 0,
-                    conviction_id: this.conviction_id,
+                    conviction_id: this.$attrs.conviction_id,
                     charge: "",
                     citation: "",
                     conviction_class_type: "",
@@ -43,12 +46,12 @@
                     please_expunge_text: "",
                     to_print: "",
                     notes: "",
-                    convicted: 0,
-                    eligible: 0,
-                    please_expunge: 0
+                    convicted: '0',
+                    eligible: '0',
+                    please_expunge: '0'
                 }
-                this.charges.unshift(new_charge)
-            }
+                this.charges.push(new_charge)
+            },
         },
     }
 </script>
