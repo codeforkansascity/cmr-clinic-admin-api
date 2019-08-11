@@ -366,271 +366,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "applicant-form",
   props: {
     record: {
       type: [Boolean, Object],
-      default: false
+      "default": false
     },
     csrf_token: {
       type: String,
-      default: ""
+      "default": ""
     }
   },
   data: function data() {
@@ -774,7 +520,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   } else {
                     _this2.server_message = res.status;
                   }
-                }).catch(function (error) {
+                })["catch"](function (error) {
                   if (error.response) {
                     if (error.response.status === 422) {
                       // Clear errors out
@@ -1067,7 +813,7 @@ var render = function() {
                       }
                     },
                     [
-                      _c("fld-input", {
+                      _c("fld-sex", {
                         attrs: { name: "sex" },
                         model: {
                           value: _vm.form_data.sex,
@@ -1098,7 +844,7 @@ var render = function() {
                       }
                     },
                     [
-                      _c("fld-input", {
+                      _c("fld-race", {
                         attrs: { name: "race" },
                         model: {
                           value: _vm.form_data.race,
@@ -1300,7 +1046,7 @@ var render = function() {
                         }
                       },
                       [
-                        _c("fld-input", {
+                        _c("fld-state", {
                           attrs: { name: "license_issuing_state" },
                           model: {
                             value: _vm.form_data.license_issuing_state,
@@ -1580,7 +1326,7 @@ var render = function() {
                         }
                       },
                       [
-                        _c("fld-input", {
+                        _c("fld-state", {
                           attrs: { name: "state" },
                           model: {
                             value: _vm.form_data.state,

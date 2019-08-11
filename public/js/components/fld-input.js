@@ -43,23 +43,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'fld-input',
   props: {
     'params': {
       type: Object,
-      default: function _default() {}
+      "default": function _default() {}
     },
     value: {
-      default: null
+      "default": null
     },
     type: {
       type: String,
-      default: 'text'
+      "default": 'text'
     },
     name: {
       type: String,
-      default: ''
+      "default": ''
     }
   }
 });
@@ -82,6 +83,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("input", {
+    ref: "input",
     staticClass: "form-control",
     attrs: { type: this.type, name: this.name, id: "field_" + this.name },
     domProps: { value: _vm.value },

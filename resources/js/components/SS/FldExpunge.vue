@@ -32,7 +32,7 @@ Example usage:
         },
         props: {
             modelValue: {
-                type: String,
+                type: [Number, String],
                 default: ''
             },
             name: {

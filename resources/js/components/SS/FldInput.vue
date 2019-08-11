@@ -24,6 +24,7 @@ Example usage:
     <input
             :type="this.type"
             :name="this.name"
+            ref="input"
             :id="'field_' + this.name"
             class="form-control"
             v-bind:value="value"

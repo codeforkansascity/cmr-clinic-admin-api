@@ -26,15 +26,15 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     records: {
       type: [Boolean, Object, Array],
-      default: false
+      "default": false
     },
     client_id: {
       type: [Boolean, Number],
-      default: 0
+      "default": 0
     },
     csrf_token: {
       type: String,
-      default: ""
+      "default": ""
     }
   }
 });
