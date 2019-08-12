@@ -30,7 +30,7 @@ __webpack_require__.r(__webpack_exports__);
   name: 'dsp-textarea',
   props: {
     value: {
-      "default": null
+      default: null
     }
   }
 });

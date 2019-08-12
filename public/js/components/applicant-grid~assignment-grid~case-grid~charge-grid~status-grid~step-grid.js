@@ -28,7 +28,7 @@ __webpack_require__.r(__webpack_exports__);
   name: "ss-grid-column-header",
   props: {
     params: {
-      "default": function _default() {}
+      default: function _default() {}
     },
     selectedKey: [String, Number, Boolean],
     title: [String, Number]

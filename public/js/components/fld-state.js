@@ -43,11 +43,11 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     modelValue: {
       type: String,
-      "default": ''
+      default: ''
     },
     name: {
       type: String,
-      "default": ''
+      default: ''
     }
   },
   data: function data() {

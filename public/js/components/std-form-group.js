@@ -40,23 +40,23 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     label: {
       type: String,
-      "default": ""
+      default: ""
     },
     labelFor: {
       type: String,
-      "default": ""
+      default: ""
     },
     errors: {
       type: [Array, Boolean],
-      "default": false
+      default: false
     },
     required: {
       type: Boolean,
-      "default": false
+      default: false
     },
     display: {
       type: String,
-      "default": "standard"
+      default: "standard"
     }
   },
   data: function data() {
@@ -123,11 +123,11 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     label: {
       type: String,
-      "default": ""
+      default: ""
     },
     errors: {
       type: [Array, Boolean],
-      "default": false
+      default: false
     }
   },
   data: function data() {

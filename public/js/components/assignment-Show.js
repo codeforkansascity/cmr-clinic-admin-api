@@ -56,7 +56,7 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     record: {
       type: [Boolean, Object],
-      "default": false
+      default: false
     }
   }
 });

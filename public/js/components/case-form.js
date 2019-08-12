@@ -236,15 +236,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   props: {
     record: {
       type: [Boolean, Object, Array],
-      "default": false
+      default: false
     },
     client_id: {
       type: [Boolean, Number],
-      "default": 0
+      default: 0
     },
     csrf_token: {
       type: String,
-      "default": ""
+      default: ""
     }
   },
   data: function data() {
@@ -341,7 +341,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   } else {
                     _this2.server_message = res.status;
                   }
-                })["catch"](function (error) {
+                }).catch(function (error) {
                   if (error.response) {
                     if (error.response.status === 422) {
                       // Clear errors out
@@ -785,7 +785,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   props: {
     charge: {
       type: [Boolean, Object],
-      "default": false
+      default: false
     }
   },
   data: function data() {
@@ -874,7 +874,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   } else {
                     _this.server_message = res.status;
                   }
-                })["catch"](function (error) {
+                }).catch(function (error) {
                   if (error.response) {
                     if (error.response.status === 422) {
                       // Clear errors out
@@ -928,11 +928,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var $this = this;
 
       if (confirm('Do you want to delete record?')) {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]("/charge/".concat(this.charge.id)).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.delete("/charge/".concat(this.charge.id)).then(function (response) {
           console.log(response); // send delete event to Charges List
 
           _this2.$parent.$emit('remove-charge', $this.charge.id);
-        })["catch"](function (error) {
+        }).catch(function (error) {
           console.log(error);
         });
       }
@@ -1047,11 +1047,11 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     charges: {
       type: [Boolean, Object, Array],
-      "default": false
+      default: false
     },
     conviction_id: {
       type: Number,
-      "default": 0
+      default: 0
     }
   },
   data: function data() {

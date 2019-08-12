@@ -167,7 +167,7 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     params: {
       type: Object,
-      "default": function _default() {}
+      default: function _default() {}
     }
   },
   mounted: function mounted() {
@@ -230,7 +230,7 @@ __webpack_require__.r(__webpack_exports__);
           }
 
           _this.gridState = "good";
-        })["catch"](function (error) {
+        }).catch(function (error) {
           if (error.response) {
             _this.gridState = "error";
 
