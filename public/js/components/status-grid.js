@@ -192,7 +192,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "status-grid",
+  name: 'status-grid',
   components: {
     SsGridColumnHeader: _SsGridColumnHeader__WEBPACK_IMPORTED_MODULE_0__["default"],
     SsGridPaginationLocation: _SsPaginationLocation__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -211,7 +211,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      gridState: "wait",
+      gridState: 'wait',
       query: this.params.Search,
       gridData: [],
       current_page: 1,
@@ -232,7 +232,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     goToNew: function goToNew() {
-      window.location.href = "/status/create";
+      window.location.href = '/status/create';
     },
     sortColumn: function sortColumn(obj) {
       this.sortKey = obj.sortField;
@@ -244,9 +244,9 @@ __webpack_require__.r(__webpack_exports__);
 
       this.global_error_message = null;
       var getPage;
-      getPage = this.getDataUrl(new_page_number) + "&column=" + this.sortKey + "&direction=" + this.sortOrder;
+      getPage = this.getDataUrl(new_page_number) + '&column=' + this.sortKey + '&direction=' + this.sortOrder;
       this.gridData = [];
-      this.gridState = "wait";
+      this.gridState = 'wait';
 
       if (getPage != null) {
         // We have a filter
@@ -263,10 +263,10 @@ __webpack_require__.r(__webpack_exports__);
             _this.server_message = res.status;
           }
 
-          _this.gridState = "good";
+          _this.gridState = 'good';
         })["catch"](function (error) {
           if (error.response) {
-            _this.gridState = "error";
+            _this.gridState = 'error';
 
             if (error.response.status === 422) {
               // Clear errors out
@@ -279,15 +279,15 @@ __webpack_require__.r(__webpack_exports__);
               });
             } else if (error.response.status === 404) {
               // Record not found
-              _this.server_message = "Record not found";
-              window.location = "/status";
+              _this.server_message = 'Record not found';
+              window.location = '/status';
             } else if (error.response.status === 419) {
               // Unknown status
-              _this.server_message = "Unknown Status, please try to ";
+              _this.server_message = 'Unknown Status, please try to ';
               _this.try_logging_in = true;
             } else if (error.response.status === 500) {
               // Unknown status
-              _this.server_message = "Server Error, please try to ";
+              _this.server_message = 'Server Error, please try to ';
               _this.try_logging_in = true;
             } else {
               _this.server_message = error.response.data.message;
@@ -300,14 +300,14 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     getDataUrl: function getDataUrl(new_page_number) {
-      var url = "api-status?";
+      var url = 'api-status?';
       var queryParams = [];
-      queryParams.push("page=" + new_page_number);
-      if (this.isDefined(this.query) && this.query.trim().length > 0) queryParams.push("keyword=" + this.query); //                if (this.isDefined(this.searchType)) queryParams.push('search_type=' + this.searchType);
+      queryParams.push('page=' + new_page_number);
+      if (this.isDefined(this.query) && this.query.trim().length > 0) queryParams.push('keyword=' + this.query); //                if (this.isDefined(this.searchType)) queryParams.push('search_type=' + this.searchType);
       //                if (this.isDefined(this.showFilter)) queryParams.push('show_filter=' + this.showFilter);
       //                if (this.isDefined(this.contractorSelected)) queryParams.push('contractor_id=' + this.contractorSelected);
 
-      if (queryParams.length > 0) url += queryParams.join("&");
+      if (queryParams.length > 0) url += queryParams.join('&');
       return url;
     }
   }
@@ -402,11 +402,11 @@ var render = function() {
                   ],
                   staticClass: "form-control mb-2",
                   attrs: {
-                    name: "query",
+                    "aria-label": "Name search",
                     id: "grid-filter-query-copy",
-                    type: "text",
+                    name: "query",
                     placeholder: "Name search",
-                    "aria-label": "Name search"
+                    type: "text"
                   },
                   domProps: { value: _vm.query },
                   on: {
@@ -441,12 +441,12 @@ var render = function() {
                 "ss-grid-column-header",
                 {
                   attrs: {
-                    selectedKey: _vm.sortKey,
-                    title: "Sort by Name",
                     params: {
                       sortField: "name",
                       InitialSortOrder: "asc"
-                    }
+                    },
+                    title: "Sort by Name",
+                    selectedKey: _vm.sortKey
                   },
                   on: { selectedSort: _vm.sortColumn }
                 },
@@ -457,12 +457,12 @@ var render = function() {
                 "ss-grid-column-header",
                 {
                   attrs: {
-                    selectedKey: _vm.sortKey,
-                    title: "Sort by Alias",
                     params: {
                       sortField: "alias",
                       InitialSortOrder: "asc"
-                    }
+                    },
+                    title: "Sort by Alias",
+                    selectedKey: _vm.sortKey
                   },
                   on: { selectedSort: _vm.sortColumn }
                 },
@@ -473,12 +473,12 @@ var render = function() {
                 "ss-grid-column-header",
                 {
                   attrs: {
-                    selectedKey: _vm.sortKey,
-                    title: "Sort by Sequence",
                     params: {
                       sortField: "sequence",
                       InitialSortOrder: "asc"
-                    }
+                    },
+                    title: "Sort by Sequence",
+                    selectedKey: _vm.sortKey
                   },
                   on: { selectedSort: _vm.sortColumn }
                 },

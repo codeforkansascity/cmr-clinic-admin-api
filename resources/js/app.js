@@ -4,7 +4,6 @@ import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
-Vue.use(BootstrapVue);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -15,6 +14,7 @@ Vue.use(BootstrapVue);
 require('./bootstrap');
 
 window.Vue = require('vue');
+Vue.use(BootstrapVue);
 
 /**
  * The following block of code may be used to automatically register your
