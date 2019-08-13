@@ -149,6 +149,7 @@
 
 <script>
     import axios from "axios";
+    import { bus } from '../../app.js'
 
     export default {
         name: "charge-edit",
@@ -278,7 +279,8 @@
                     .then(response => {
                         console.log(response)
                         // send delete event to Charges List
-                        this.$parent.$emit('remove-charge', $this.charge.id)
+                        //this.$parent.$emit('remove-charge', $this.charge.id)
+                        bus.$emit('remove-charge', $this.charge.id)
                     })
                     .catch(error => {
                         console.log(error)

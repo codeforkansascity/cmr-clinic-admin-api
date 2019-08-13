@@ -22,7 +22,6 @@
                     v-for="(charge, index) in charges"
                     :key="index"
                     :charge="charge"
-                    @remove-charge="removeCharge"
             >
             </charge-container>
             <hr>
@@ -32,6 +31,8 @@
 
 <script>
     import ChargeContainer from "./ChargeContainer";
+    import { bus } from '../../app.js'
+
     export default {
         name: "charges-list",
         components: {ChargeContainer},
@@ -44,6 +45,12 @@
                 type: Number,
                 default: 0
             }
+        },
+        created() {
+            bus.$on('charge-deleted', (id) => {
+                this.removeCharge(id)
+            })
+
         },
         data() {
             return {

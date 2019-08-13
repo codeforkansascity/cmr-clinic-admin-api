@@ -624,6 +624,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../app.js */ "./resources/js/app.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -780,6 +781,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "charge-edit",
   props: {
@@ -923,15 +925,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return handleSubmit;
     }(),
     deleteCharge: function deleteCharge() {
-      var _this2 = this;
-
       var $this = this;
 
       if (confirm('Do you want to delete record?')) {
         axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]("/charge/".concat(this.charge.id)).then(function (response) {
           console.log(response); // send delete event to Charges List
+          //this.$parent.$emit('remove-charge', $this.charge.id)
 
-          _this2.$parent.$emit('remove-charge', $this.charge.id);
+          _app_js__WEBPACK_IMPORTED_MODULE_2__["bus"].$emit('remove-charge', $this.charge.id);
         })["catch"](function (error) {
           console.log(error);
         });
@@ -1006,7 +1007,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ChargeContainer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChargeContainer */ "./resources/js/components/charges/ChargeContainer.vue");
-//
+/* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../app.js */ "./resources/js/app.js");
 //
 //
 //
@@ -1039,6 +1040,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "charges-list",
   components: {
@@ -1053,6 +1055,13 @@ __webpack_require__.r(__webpack_exports__);
       type: Number,
       "default": 0
     }
+  },
+  created: function created() {
+    var _this = this;
+
+    _app_js__WEBPACK_IMPORTED_MODULE_1__["bus"].$on('charge-deleted', function (id) {
+      _this.removeCharge(id);
+    });
   },
   data: function data() {
     return {
@@ -2772,8 +2781,7 @@ var render = function() {
             _vm._l(_vm.charges, function(charge, index) {
               return _c("charge-container", {
                 key: index,
-                attrs: { charge: charge },
-                on: { "remove-charge": _vm.removeCharge }
+                attrs: { charge: charge }
               })
             }),
             _vm._v(" "),
