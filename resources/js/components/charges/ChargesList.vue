@@ -1,15 +1,12 @@
 <template>
     <div>
-        <div class="row" v-if="!showCharges && charges.length > 0">
+        <div class="row" v-if="charges.length > 0">
             <div class="col-md-12 pad-30">
-                <img    v-if="showCharges"
-                        height="30"
-                        src="/img/icons/noun_Chevron double Up_2648915.png"
-                        @click="toggleCharges"/>
-                <img    v-if="!showCharges"
-                        height="30"
-                        src="/img/icons/noun_Chevron double down_2648933.png"
-                        @click="toggleCharges"/>
+                <content-toggle
+                        class="pull-right"
+                    :show="showCharges"
+                    @click="toggleCharges"
+                    ></content-toggle>
             </div>
         </div>
         <div v-if="showCharges || charges.length === 0">
@@ -38,10 +35,13 @@
 
 <script>
     import ChargeContainer from "./ChargeContainer";
+    import ContentToggle from "../controls/ContentToggle";
 
     export default {
         name: "charges-list",
-        components: {ChargeContainer},
+        components: {
+            ContentToggle,
+            ChargeContainer},
         props: {
             charges: {
                 type: [Boolean, Object, Array],
