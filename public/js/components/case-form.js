@@ -622,9 +622,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../app.js */ "./resources/js/app.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -780,8 +777,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "charge-edit",
   props: {
@@ -861,7 +856,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 _context.next = 8;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default()({
+                return axios({
                   method: amethod,
                   url: url,
                   data: this.charge
@@ -925,14 +920,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return handleSubmit;
     }(),
     deleteCharge: function deleteCharge() {
+      var _this2 = this;
+
       var $this = this;
 
       if (confirm('Do you want to delete record?')) {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]("/charge/".concat(this.charge.id)).then(function (response) {
+        axios["delete"]("/charge/".concat(this.charge.id)).then(function (response) {
           console.log(response); // send delete event to Charges List
           //this.$parent.$emit('remove-charge', $this.charge.id)
 
-          _app_js__WEBPACK_IMPORTED_MODULE_2__["bus"].$emit('remove-charge', $this.charge.id);
+          _this2.$bus.$emit('remove-charge', $this.charge.id);
         })["catch"](function (error) {
           console.log(error);
         });
@@ -1007,7 +1004,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ChargeContainer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChargeContainer */ "./resources/js/components/charges/ChargeContainer.vue");
-/* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../app.js */ "./resources/js/app.js");
 //
 //
 //
@@ -1039,7 +1035,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "charges-list",
@@ -1059,7 +1061,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    _app_js__WEBPACK_IMPORTED_MODULE_1__["bus"].$on('charge-deleted', function (id) {
+    this.$bus.$on('charge-deleted', function (id) {
       _this.removeCharge(id);
     });
   },
@@ -2732,14 +2734,25 @@ var render = function() {
     !_vm.showCharges && _vm.charges.length > 0
       ? _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12 pad-30" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-dark btn-sm float-right",
-                on: { click: _vm.toggleCharges }
-              },
-              [_vm._v("Show " + _vm._s(_vm.charges.length) + " Charges")]
-            )
+            _vm.showCharges
+              ? _c("img", {
+                  attrs: {
+                    height: "30",
+                    src: "/img/icons/noun_Chevron double Up_2648915.png"
+                  },
+                  on: { click: _vm.toggleCharges }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            !_vm.showCharges
+              ? _c("img", {
+                  attrs: {
+                    height: "30",
+                    src: "/img/icons/noun_Chevron double down_2648933.png"
+                  },
+                  on: { click: _vm.toggleCharges }
+                })
+              : _vm._e()
           ])
         ])
       : _vm._e(),

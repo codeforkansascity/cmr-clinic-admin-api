@@ -2,7 +2,14 @@
     <div>
         <div class="row" v-if="!showCharges && charges.length > 0">
             <div class="col-md-12 pad-30">
-                <button class="btn btn-dark btn-sm float-right" @click="toggleCharges">Show {{charges.length}} Charges</button>
+                <img    v-if="showCharges"
+                        height="30"
+                        src="/img/icons/noun_Chevron double Up_2648915.png"
+                        @click="toggleCharges"/>
+                <img    v-if="!showCharges"
+                        height="30"
+                        src="/img/icons/noun_Chevron double down_2648933.png"
+                        @click="toggleCharges"/>
             </div>
         </div>
         <div v-if="showCharges || charges.length === 0">
@@ -31,7 +38,6 @@
 
 <script>
     import ChargeContainer from "./ChargeContainer";
-    import { bus } from '../../app.js'
 
     export default {
         name: "charges-list",
@@ -47,7 +53,7 @@
             }
         },
         created() {
-            bus.$on('charge-deleted', (id) => {
+            this.$bus.$on('charge-deleted', (id) => {
                 this.removeCharge(id)
             })
 
