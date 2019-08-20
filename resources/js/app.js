@@ -8,6 +8,17 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+
+/**
+ *    Global Event Bus
+ *      -- Usage --
+ *
+ * Registering an event from a component
+ * this.$bus.$emit('event-name', value)
+ *
+ * Registering Listener
+ * this.$bus.$on('event-name', (value) => { // Your code here })
+*/
 Vue.prototype.$bus = new Vue();
 
 
