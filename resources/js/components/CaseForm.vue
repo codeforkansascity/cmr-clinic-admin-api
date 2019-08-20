@@ -195,9 +195,10 @@
         </form>
         <div class="row">
             <div class="col-md-12">
-                <charges :records="record.charge"
-                         :client_id="client_id"
-                         :csrf_token="csrf_token"></charges>
+                <charges-list
+                        :charges="charges"
+                        :conviction_id="record.id"
+                         ></charges-list>
             </div>
         </div>
     </div>
@@ -205,9 +206,11 @@
 
 <script>
     import axios from "axios";
+    import ChargesList from "./charges/ChargesList";
 
     export default {
         name: "case-form",
+        components: {ChargesList},
         props: {
             record: {
                 type: [Boolean, Object, Array],
@@ -264,6 +267,7 @@
                 try_logging_in: false,
                 processing: false,
                 isShowing: false,
+                charges: []
             };
         },
         mounted() {
@@ -275,6 +279,7 @@
             } else {
                 // this.form_data._method = 'post';
             }
+            this.charges = this.record.charge
         },
         methods: {
             async handleSubmit() {

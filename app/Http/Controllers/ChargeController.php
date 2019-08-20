@@ -125,20 +125,24 @@ class ChargeController extends Controller
     public function store(ChargeFormRequest $request)
     {
 
-        $charge = new \App\Charge;
 
-        try {
-            $charge->add($request->validated());
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Unable to process request'
-            ], 400);
-        }
+        $charge = Charge::create($request->all());
 
-        \Session::flash('flash_success_message', 'Vc Vendor ' . $charge->name . ' was added');
+//          We need to see the real error
+//        try {
+        /// this was not returning the id
+//            $saved = $charge->add($request->validated());
+//        } catch (\Exception $e) {
+//            return response()->json([
+//                'message' => 'Unable to process request'
+//            ], 400);
+//        }
+
+        \Session::flash('flash_success_message', 'Charge ' . $charge->name . ' was added');
 
         return response()->json([
-            'message' => 'Added record'
+            'message' => 'Added record',
+            'charge' => $charge
         ], 200);
 
     }
@@ -249,41 +253,41 @@ class ChargeController extends Controller
      *
      * @param  \App\Charge $charge     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Charge $charge)
     {
 
-        if (!Auth::user()->can('charge delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a Charges.');
-            if (Auth::user()->can('charge index')) {
-                 return Redirect::route('charge.index');
-            } else {
-                return Redirect::route('home');
-            }
-        }
+//        if (!Auth::user()->can('charge delete')) {
+//            \Session::flash('flash_error_message', 'You do not have access to remove a Charges.');
+//            if (Auth::user()->can('charge index')) {
+//                 return Redirect::route('charge.index');
+//            } else {
+//                return Redirect::route('home');
+//            }
+//        }
 
-        $charge = $this->sanitizeAndFind($id);
 
         if ( $charge  && $charge->canDelete()) {
 
             try {
                 $charge->delete();
             } catch (\Exception $e) {
-                return response()->json([
-                    'message' => 'Unable to process request.'
-                ], 400);
+                return $e;
             }
 
             \Session::flash('flash_success_message', 'Invitation for ' . $charge->name . ' was removed.');
+            // send success response
+            return response()->json(['success' => 'Record Deleted'], 200);
+
         } else {
             \Session::flash('flash_error_message', 'Unable to find Invite to delete.');
 
         }
 
-        if (Auth::user()->can('charge index')) {
-             return Redirect::route('charge.index');
-        } else {
-            return Redirect::route('home');
-        }
+//        if (Auth::user()->can('charge index')) {
+//             return Redirect::route('charge.index');
+//        } else {
+//            return Redirect::route('home');
+//        }
 
 
     }

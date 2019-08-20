@@ -32,7 +32,7 @@ Example usage:
         },
         props: {
             modelValue: {
-                type: String,
+                type: [Number, String],
                 default: ''
             },
             name: {
@@ -50,7 +50,7 @@ Example usage:
                     },
                     {
                         value: 0,
-                        text: 'NOT Covicted'
+                        text: 'NOT Convicted'
                     }, {
                         value: 1,
                         text: 'Convicted'
