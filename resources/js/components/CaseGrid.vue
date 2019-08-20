@@ -23,8 +23,7 @@
                             href="#"
                             @click.default="goToNew"
                             class="btn btn-primary mb-3 mb-sm-2 mr-3"
-                    >Add</a
-                    >
+                    >Add</a>
                     <search-form-group
                             class="mb-0"
                             :errors="form_errors.keyword"

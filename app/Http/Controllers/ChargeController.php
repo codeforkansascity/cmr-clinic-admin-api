@@ -127,8 +127,10 @@ class ChargeController extends Controller
 
 
         $charge = Charge::create($request->all());
-//
+
+//          We need to see the real error
 //        try {
+        /// this was not returning the id
 //            $saved = $charge->add($request->validated());
 //        } catch (\Exception $e) {
 //            return response()->json([

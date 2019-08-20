@@ -1,30 +1,31 @@
 <template>
     <div>
-        <div class="row" v-if="!showCharges && charges.length > 0">
+        <div class="row" v-if="charges.length > 0">
             <div class="col-md-12 pad-30">
-                <button class="btn btn-dark btn-sm float-right" @click="toggleCharges">Show {{charges.length}} Charges</button>
+                <content-toggle
+                        class="pull-right"
+                    :show="showCharges"
+                    @click="toggleCharges"
+                    ></content-toggle>
             </div>
         </div>
         <div v-if="showCharges || charges.length === 0">
             <hr>
-            <div class="row">
-                <div class="col-md-12">
-                    <button class="btn btn-primary btn-sm float-right" @click="addCharge">
-                        New Charge
-                    </button>
-                    <button v-if="charges.length > 0"
-                            class="btn btn-dark btn-sm float-right" @click="toggleCharges">
-                        Hide Charges
-                    </button>
-                </div>
-            </div>
+
             <charge-container
                     v-for="(charge, index) in charges"
                     :key="index"
                     :charge="charge"
-                    @remove-charge="removeCharge"
             >
             </charge-container>
+
+            <div class="row">
+                <div class="col-md-12 pb-5 pt-3">
+                    <button class="btn btn-primary btn-sm float-right" @click="addCharge">
+                        {{charges.length > 0? 'New Charge': 'Create Charge'}}
+                    </button>
+                </div>
+            </div>
             <hr>
         </div>
     </div>
@@ -32,9 +33,13 @@
 
 <script>
     import ChargeContainer from "./ChargeContainer";
+    import ContentToggle from "../controls/ContentToggle";
+
     export default {
         name: "charges-list",
-        components: {ChargeContainer},
+        components: {
+            ContentToggle,
+            ChargeContainer},
         props: {
             charges: {
                 type: [Boolean, Object, Array],
@@ -44,6 +49,12 @@
                 type: Number,
                 default: 0
             }
+        },
+        created() {
+            this.$bus.$on('charge-deleted', (id) => {
+                this.removeCharge(id)
+            })
+
         },
         data() {
             return {
