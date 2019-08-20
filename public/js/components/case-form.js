@@ -438,6 +438,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -1038,8 +1042,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1141,13 +1143,15 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    this.trueIcon = this.icons[this.icon][true];
-    this.falseIcon = this.icons[this.icon][false];
+    this.trueIcon = this.icons[this.icon][1];
+    this.falseIcon = this.icons[this.icon][0];
   },
   data: function data() {
     return {
       icons: {
-        chevron: ["/img/icons/noun_Chevron double down_2648933.png", "/img/icons/noun_Chevron double Up_2648915.png"]
+        double_chevron: ["/img/icons/noun_Chevron double down_2648933.png", "/img/icons/noun_Chevron double Up_2648915.png"],
+        chevron: ["/img/icons/noun_chevron_2768142.png", "/img/icons/noun_chevron_2768158.png"],
+        pencil: ["resources/img/icons/noun_Pencil_2768160.png", ""]
       },
       trueIcon: null,
       falseIcon: null
@@ -1898,18 +1902,17 @@ var render = function() {
           "div",
           [
             _c("div", { staticClass: "col-md-12" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-dark",
-                  on: {
-                    click: function($event) {
-                      return _vm.setView("edit")
-                    }
-                  }
+              _c("img", {
+                attrs: {
+                  height: "25",
+                  src: "/img/icons/noun_Pencil_2768160.png"
                 },
-                [_vm._v("Edit")]
-              ),
+                on: {
+                  click: function($event) {
+                    return _vm.setView("edit")
+                  }
+                }
+              }),
               _vm._v(" "),
               _c(
                 "button",
@@ -2810,40 +2813,35 @@ var render = function() {
           [
             _c("hr"),
             _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-12" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary btn-sm float-right",
-                    on: { click: _vm.addCharge }
-                  },
-                  [_vm._v("\n                    New Charge\n                ")]
-                ),
-                _vm._v(" "),
-                _vm.charges.length > 0
-                  ? _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-dark btn-sm float-right",
-                        on: { click: _vm.toggleCharges }
-                      },
-                      [
-                        _vm._v(
-                          "\n                    Hide Charges\n                "
-                        )
-                      ]
-                    )
-                  : _vm._e()
-              ])
-            ]),
-            _vm._v(" "),
             _vm._l(_vm.charges, function(charge, index) {
               return _c("charge-container", {
                 key: index,
                 attrs: { charge: charge }
               })
             }),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12 pb-5 pt-3" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary btn-sm float-right",
+                    on: { click: _vm.addCharge }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(
+                          _vm.charges.length > 0
+                            ? "New Charge"
+                            : "Create Charge"
+                        ) +
+                        "\n                "
+                    )
+                  ]
+                )
+              ])
+            ]),
             _vm._v(" "),
             _c("hr")
           ],
@@ -2877,20 +2875,14 @@ var render = function() {
   return _c("div", [
     _vm.show
       ? _c("img", {
-          attrs: {
-            height: "30",
-            src: "/img/icons/noun_Chevron double Up_2648915.png"
-          },
+          attrs: { height: "30", src: _vm.trueIcon },
           on: { click: _vm.toggle }
         })
       : _vm._e(),
     _vm._v(" "),
     !_vm.show
       ? _c("img", {
-          attrs: {
-            height: "30",
-            src: "/img/icons/noun_Chevron double down_2648933.png"
-          },
+          attrs: { height: "30", src: _vm.falseIcon },
           on: { click: _vm.toggle }
         })
       : _vm._e()

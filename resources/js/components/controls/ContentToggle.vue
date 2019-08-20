@@ -2,11 +2,11 @@
     <div>
         <img    v-if="show"
                 height="30"
-                src="/img/icons/noun_Chevron double Up_2648915.png"
+                :src="trueIcon"
                 @click="toggle"/>
         <img    v-if="!show"
                 height="30"
-                src="/img/icons/noun_Chevron double down_2648933.png"
+                :src="falseIcon"
                 @click="toggle"/>
     </div>
 </template>
@@ -26,16 +26,25 @@
 
         },
         created() {
-            this.trueIcon = this.icons[this.icon][true]
-            this.falseIcon = this.icons[this.icon][false]
+            this.trueIcon = this.icons[this.icon][1]
+            this.falseIcon = this.icons[this.icon][0]
         },
         data() {
           return {
               icons: {
-                  chevron: [
+                  double_chevron: [
                       "/img/icons/noun_Chevron double down_2648933.png",
                       "/img/icons/noun_Chevron double Up_2648915.png"
+                  ],
+                  chevron: [
+                      "/img/icons/noun_chevron_2768142.png",
+                      "/img/icons/noun_chevron_2768158.png"
+                  ],
+                  pencil: [
+                      "resources/img/icons/noun_Pencil_2768160.png",
+                      ""
                   ]
+
 
               },
               trueIcon: null,

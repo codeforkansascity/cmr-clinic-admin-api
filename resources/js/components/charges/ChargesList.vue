@@ -11,23 +11,21 @@
         </div>
         <div v-if="showCharges || charges.length === 0">
             <hr>
-            <div class="row">
-                <div class="col-md-12">
-                    <button class="btn btn-primary btn-sm float-right" @click="addCharge">
-                        New Charge
-                    </button>
-                    <button v-if="charges.length > 0"
-                            class="btn btn-dark btn-sm float-right" @click="toggleCharges">
-                        Hide Charges
-                    </button>
-                </div>
-            </div>
+
             <charge-container
                     v-for="(charge, index) in charges"
                     :key="index"
                     :charge="charge"
             >
             </charge-container>
+
+            <div class="row">
+                <div class="col-md-12 pb-5 pt-3">
+                    <button class="btn btn-primary btn-sm float-right" @click="addCharge">
+                        {{charges.length > 0? 'New Charge': 'Create Charge'}}
+                    </button>
+                </div>
+            </div>
             <hr>
         </div>
     </div>

@@ -8,7 +8,11 @@
         </div>
         <div v-if="view === 'details'">
             <div class="col-md-12">
-                <button class="btn btn-dark" @click="setView('edit')">Edit</button>
+                <img height="25"
+                    src="/img/icons/noun_Pencil_2768160.png"
+                    @click="setView('edit')"/>
+                <!--<button class="btn btn-dark" @click="setView('edit')">Edit</button>-->
+
                 <button class="btn btn-dark float-right" @click="setView('summary')">Hide Details</button>
             </div>
 
