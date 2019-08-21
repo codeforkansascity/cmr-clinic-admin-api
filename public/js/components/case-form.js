@@ -406,6 +406,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ChargeDetails__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChargeDetails */ "./resources/js/components/charges/ChargeDetails.vue");
 /* harmony import */ var _ChargeSummary__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ChargeSummary */ "./resources/js/components/charges/ChargeSummary.vue");
 /* harmony import */ var _ChargeEdit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ChargeEdit */ "./resources/js/components/charges/ChargeEdit.vue");
+/* harmony import */ var _controls_PencilControl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../controls/PencilControl */ "./resources/js/components/controls/PencilControl.vue");
+/* harmony import */ var _controls_ChevronToggle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../controls/ChevronToggle */ "./resources/js/components/controls/ChevronToggle.vue");
+/* harmony import */ var _controls_DeleteControl__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../controls/DeleteControl */ "./resources/js/components/controls/DeleteControl.vue");
 //
 //
 //
@@ -442,15 +445,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ChargeContainer",
   components: {
+    DeleteControl: _controls_DeleteControl__WEBPACK_IMPORTED_MODULE_5__["default"],
     ChargeEdit: _ChargeEdit__WEBPACK_IMPORTED_MODULE_2__["default"],
     ChargeSummary: _ChargeSummary__WEBPACK_IMPORTED_MODULE_1__["default"],
-    ChargeDetails: _ChargeDetails__WEBPACK_IMPORTED_MODULE_0__["default"]
+    ChargeDetails: _ChargeDetails__WEBPACK_IMPORTED_MODULE_0__["default"],
+    PencilControl: _controls_PencilControl__WEBPACK_IMPORTED_MODULE_3__["default"],
+    ChevronToggle: _controls_ChevronToggle__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   props: ['charge'],
   data: function data() {
@@ -464,9 +490,15 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
+    var _this = this;
+
     if (this.charge.id == 0) {
       this.view = 'edit';
     }
+
+    this.$bus.$on('minimize-charge', function () {
+      _this.setView('detail');
+    });
   },
   computed: {}
 });
@@ -781,6 +813,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "charge-edit",
   props: {
@@ -811,12 +845,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       server_message: false,
       try_logging_in: false,
       processing: false,
-      isShowing: false
+      isShowing: false,
+      backup_copy: {}
     };
   },
   mounted: function mounted() {
     if (this.charge.id === 0) {
       this.$refs.newCharge.$refs.input.focus();
+    }
+  },
+  created: function created() {
+    /// make back up copy
+    for (var index in this.charge) {
+      this.backup_copy[index] = this.charge[index];
     }
   },
   computed: {
@@ -868,10 +909,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (res.status === 200) {
                     // if saved set the get the id back and set to instance
                     if (res.data.charge) {
-                      $this.id = res.data.charge.id;
+                      /// set id in case this is a new entry
+                      $this.charge.id = res.data.charge.id; /// recopy the new charge to our backup
+
+                      for (var index in $this.charge) {
+                        $this.backup_copy[index] = $this.charge[index];
+                      }
                     }
 
-                    $this.processing = false;
+                    $this.processing = false; //$this.$bus.$emit('minimize-charge')
                   } else {
                     _this.server_message = res.status;
                   }
@@ -930,13 +976,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (confirm('Do you want to delete record?')) {
         axios["delete"]("/charge/".concat(this.charge.id)).then(function (response) {
+          F;
           console.log(response); // send delete event to Charges List
-          //this.$parent.$emit('remove-charge', $this.charge.id)
 
           _this2.$bus.$emit('remove-charge', $this.charge.id);
         })["catch"](function (error) {
           console.log(error);
         });
+      }
+    },
+    cancel: function cancel() {
+      console.log('cancel');
+
+      if (this.charge.id === 0) {
+        this.deleteCharge();
+      } else {
+        for (var index in this.backup_copy) {
+          this.charge[index] = this.backup_copy[index];
+        }
       }
     }
   }
@@ -1008,7 +1065,8 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ChargeContainer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChargeContainer */ "./resources/js/components/charges/ChargeContainer.vue");
-/* harmony import */ var _controls_ContentToggle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../controls/ContentToggle */ "./resources/js/components/controls/ContentToggle.vue");
+/* harmony import */ var _controls_DoubleChevronToggle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../controls/DoubleChevronToggle */ "./resources/js/components/controls/DoubleChevronToggle.vue");
+//
 //
 //
 //
@@ -1047,7 +1105,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "charges-list",
   components: {
-    ContentToggle: _controls_ContentToggle__WEBPACK_IMPORTED_MODULE_1__["default"],
+    DoubleChevronToggle: _controls_DoubleChevronToggle__WEBPACK_IMPORTED_MODULE_1__["default"],
     ChargeContainer: _ChargeContainer__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   props: {
@@ -1108,9 +1166,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/ContentToggle.vue?vue&type=script&lang=js&":
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/ChevronToggle.vue?vue&type=script&lang=js&":
 /*!*********************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/controls/ContentToggle.vue?vue&type=script&lang=js& ***!
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/controls/ChevronToggle.vue?vue&type=script&lang=js& ***!
   \*********************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -1130,31 +1188,172 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "content-toggle",
+  name: "chevron-toggle",
   props: {
     show: {
       type: Boolean,
       "default": false
     },
-    icon: {
-      type: String,
-      "default": 'chevron'
+    tooltip: {
+      type: String | Boolean,
+      "default": false
+    },
+    height: {
+      type: Number,
+      "default": 30
     }
   },
-  created: function created() {
-    this.trueIcon = this.icons[this.icon][1];
-    this.falseIcon = this.icons[this.icon][0];
-  },
+  created: function created() {},
   data: function data() {
     return {
-      icons: {
-        double_chevron: ["/img/icons/noun_Chevron double down_2648933.png", "/img/icons/noun_Chevron double Up_2648915.png"],
-        chevron: ["/img/icons/noun_chevron_2768142.png", "/img/icons/noun_chevron_2768158.png"],
-        pencil: ["resources/img/icons/noun_Pencil_2768160.png", ""]
-      },
-      trueIcon: null,
-      falseIcon: null
+      trueIcon: "/img/icons/noun_chevron_2768158.png",
+      falseIcon: "/img/icons/noun_chevron_2768142.png"
+    };
+  },
+  methods: {
+    toggle: function toggle() {
+      this.$emit('click');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/DeleteControl.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/controls/DeleteControl.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "delete-control",
+  props: {
+    tooltip: {
+      type: String,
+      "default": 'Delete'
+    },
+    height: {
+      type: Number | String,
+      "default": 25
+    }
+  },
+  created: function created() {},
+  data: function data() {
+    return {
+      icon: "/img/icons/noun_Delete_2768150.png"
+    };
+  },
+  methods: {
+    toggle: function toggle() {
+      this.$emit('click');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/DoubleChevronToggle.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/controls/DoubleChevronToggle.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "double-chevron-toggle",
+  props: {
+    show: {
+      type: Boolean,
+      "default": false
+    },
+    tooltip: {
+      type: String | Boolean,
+      "default": false
+    },
+    height: {
+      type: Number,
+      "default": 30
+    }
+  },
+  created: function created() {},
+  data: function data() {
+    return {
+      trueIcon: "/img/icons/noun_Chevron double Up_2648915.png",
+      falseIcon: "/img/icons/noun_Chevron double down_2648933.png"
+    };
+  },
+  methods: {
+    toggle: function toggle() {
+      this.$emit('click');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/PencilControl.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/controls/PencilControl.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "pencil-control",
+  props: {
+    tooltip: {
+      type: String,
+      "default": 'Collapse or expand nodes'
+    },
+    height: {
+      type: Number | String,
+      "default": 30
+    }
+  },
+  created: function created() {},
+  data: function data() {
+    return {
+      icon: "/img/icons/noun_Pencil_2768160.png"
     };
   },
   methods: {
@@ -1878,18 +2077,24 @@ var render = function() {
       ? _c(
           "div",
           [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-dark",
-                on: {
-                  click: function($event) {
-                    return _vm.setView("details")
-                  }
-                }
-              },
-              [_vm._v("Show Details")]
-            ),
+            _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                { staticClass: "col-md-12" },
+                [
+                  _c("chevron-toggle", {
+                    staticClass: "float-right",
+                    attrs: { show: false },
+                    on: {
+                      click: function($event) {
+                        return _vm.setView("details")
+                      }
+                    }
+                  })
+                ],
+                1
+              )
+            ]),
             _vm._v(" "),
             _c("charge-summary", { attrs: { charge: _vm.charge } })
           ],
@@ -1901,30 +2106,33 @@ var render = function() {
       ? _c(
           "div",
           [
-            _c("div", { staticClass: "col-md-12" }, [
-              _c("img", {
-                attrs: {
-                  height: "25",
-                  src: "/img/icons/noun_Pencil_2768160.png"
-                },
-                on: {
-                  click: function($event) {
-                    return _vm.setView("edit")
-                  }
-                }
-              }),
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-11" }),
               _vm._v(" "),
               _c(
-                "button",
-                {
-                  staticClass: "btn btn-dark float-right",
-                  on: {
-                    click: function($event) {
-                      return _vm.setView("summary")
+                "div",
+                { staticClass: "col-md-1" },
+                [
+                  _c("chevron-toggle", {
+                    staticClass: "float-right",
+                    attrs: { show: true },
+                    on: {
+                      click: function($event) {
+                        return _vm.setView("summary")
+                      }
                     }
-                  }
-                },
-                [_vm._v("Hide Details")]
+                  }),
+                  _vm._v(" "),
+                  _c("pencil-control", {
+                    attrs: { height: "25" },
+                    on: {
+                      click: function($event) {
+                        return _vm.setView("edit")
+                      }
+                    }
+                  })
+                ],
+                1
               )
             ]),
             _vm._v(" "),
@@ -1940,20 +2148,22 @@ var render = function() {
           [
             _vm.charge.id != 0
               ? _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-md-12" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-dark float-right",
+                  _c(
+                    "div",
+                    { staticClass: "col-md-12" },
+                    [
+                      _c("delete-control", {
+                        staticClass: "float-right",
+                        attrs: { height: "30" },
                         on: {
                           click: function($event) {
                             return _vm.setView("summary")
                           }
                         }
-                      },
-                      [_vm._v("Hide Details")]
-                    )
-                  ])
+                      })
+                    ],
+                    1
+                  )
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -2653,7 +2863,39 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "form-group mt-4" }, [
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-6" }, [
+              _c("div", { staticClass: "col-md-4 text-md-left mt-2 mt-md-0" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.cancel($event)
+                      }
+                    }
+                  },
+                  [_vm._v("Cancel")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-4 text-center mt-2 mt-md-0" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger",
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.deleteCharge($event)
+                      }
+                    }
+                  },
+                  [_vm._v("Delete Charge")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-4 text-md-right" }, [
                 _c(
                   "button",
                   {
@@ -2661,32 +2903,12 @@ var render = function() {
                     attrs: { type: "submit", disabled: _vm.processing }
                   },
                   [
-                    this.charge.id
-                      ? _c("span", [_vm._v("Change Charge")])
-                      : _c("span", [_vm._v("Add Charge")])
+                    _vm._v(
+                      "\n                            Save\n                        "
+                    )
                   ]
                 )
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "col-md-6 text-md-right mt-2 mt-md-0" },
-                [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-danger",
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          return _vm.deleteCharge($event)
-                        }
-                      }
-                    },
-                    [_vm._v("Delete Charge")]
-                  )
-                ]
-              )
+              ])
             ])
           ])
         ]
@@ -2796,7 +3018,7 @@ var render = function() {
             "div",
             { staticClass: "col-md-12 pad-30" },
             [
-              _c("content-toggle", {
+              _c("double-chevron-toggle", {
                 staticClass: "pull-right",
                 attrs: { show: _vm.showCharges },
                 on: { click: _vm.toggleCharges }
@@ -2857,10 +3079,79 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/ContentToggle.vue?vue&type=template&id=12c3d902&scoped=true&":
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/ChevronToggle.vue?vue&type=template&id=0da2a2c1&scoped=true&":
 /*!*************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/controls/ContentToggle.vue?vue&type=template&id=12c3d902&scoped=true& ***!
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/controls/ChevronToggle.vue?vue&type=template&id=0da2a2c1&scoped=true& ***!
   \*************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", [
+      _vm.show
+        ? _c("img", {
+            attrs: { height: _vm.height, src: _vm.trueIcon },
+            on: { click: _vm.toggle }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.show
+        ? _c("img", {
+            attrs: { height: _vm.height, src: _vm.falseIcon },
+            on: { click: _vm.toggle }
+          })
+        : _vm._e()
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/DeleteControl.vue?vue&type=template&id=7dd77d04&scoped=true&":
+/*!*************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/controls/DeleteControl.vue?vue&type=template&id=7dd77d04&scoped=true& ***!
+  \*************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("img", {
+      attrs: { height: _vm.height, src: _vm.icon },
+      on: { click: _vm.toggle }
+    })
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/DoubleChevronToggle.vue?vue&type=template&id=d4736120&scoped=true&":
+/*!*******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/controls/DoubleChevronToggle.vue?vue&type=template&id=d4736120&scoped=true& ***!
+  \*******************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2875,17 +3166,46 @@ var render = function() {
   return _c("div", [
     _vm.show
       ? _c("img", {
-          attrs: { height: "30", src: _vm.trueIcon },
+          attrs: { height: _vm.height, src: _vm.trueIcon },
           on: { click: _vm.toggle }
         })
       : _vm._e(),
     _vm._v(" "),
     !_vm.show
       ? _c("img", {
-          attrs: { height: "30", src: _vm.falseIcon },
+          attrs: { height: _vm.height, src: _vm.falseIcon },
           on: { click: _vm.toggle }
         })
       : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/PencilControl.vue?vue&type=template&id=2c036462&scoped=true&":
+/*!*************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/controls/PencilControl.vue?vue&type=template&id=2c036462&scoped=true& ***!
+  \*************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("img", {
+      attrs: { height: _vm.height, src: _vm.icon },
+      on: { click: _vm.toggle }
+    })
   ])
 }
 var staticRenderFns = []
@@ -3345,17 +3665,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/controls/ContentToggle.vue":
+/***/ "./resources/js/components/controls/ChevronToggle.vue":
 /*!************************************************************!*\
-  !*** ./resources/js/components/controls/ContentToggle.vue ***!
+  !*** ./resources/js/components/controls/ChevronToggle.vue ***!
   \************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ContentToggle_vue_vue_type_template_id_12c3d902_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ContentToggle.vue?vue&type=template&id=12c3d902&scoped=true& */ "./resources/js/components/controls/ContentToggle.vue?vue&type=template&id=12c3d902&scoped=true&");
-/* harmony import */ var _ContentToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContentToggle.vue?vue&type=script&lang=js& */ "./resources/js/components/controls/ContentToggle.vue?vue&type=script&lang=js&");
+/* harmony import */ var _ChevronToggle_vue_vue_type_template_id_0da2a2c1_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChevronToggle.vue?vue&type=template&id=0da2a2c1&scoped=true& */ "./resources/js/components/controls/ChevronToggle.vue?vue&type=template&id=0da2a2c1&scoped=true&");
+/* harmony import */ var _ChevronToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ChevronToggle.vue?vue&type=script&lang=js& */ "./resources/js/components/controls/ChevronToggle.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -3365,50 +3685,257 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ContentToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ContentToggle_vue_vue_type_template_id_12c3d902_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ContentToggle_vue_vue_type_template_id_12c3d902_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _ChevronToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ChevronToggle_vue_vue_type_template_id_0da2a2c1_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ChevronToggle_vue_vue_type_template_id_0da2a2c1_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  "12c3d902",
+  "0da2a2c1",
   null
   
 )
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/controls/ContentToggle.vue"
+component.options.__file = "resources/js/components/controls/ChevronToggle.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/controls/ContentToggle.vue?vue&type=script&lang=js&":
+/***/ "./resources/js/components/controls/ChevronToggle.vue?vue&type=script&lang=js&":
 /*!*************************************************************************************!*\
-  !*** ./resources/js/components/controls/ContentToggle.vue?vue&type=script&lang=js& ***!
+  !*** ./resources/js/components/controls/ChevronToggle.vue?vue&type=script&lang=js& ***!
   \*************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ContentToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ContentToggle.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/ContentToggle.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ContentToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ChevronToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ChevronToggle.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/ChevronToggle.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ChevronToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/controls/ContentToggle.vue?vue&type=template&id=12c3d902&scoped=true&":
+/***/ "./resources/js/components/controls/ChevronToggle.vue?vue&type=template&id=0da2a2c1&scoped=true&":
 /*!*******************************************************************************************************!*\
-  !*** ./resources/js/components/controls/ContentToggle.vue?vue&type=template&id=12c3d902&scoped=true& ***!
+  !*** ./resources/js/components/controls/ChevronToggle.vue?vue&type=template&id=0da2a2c1&scoped=true& ***!
   \*******************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContentToggle_vue_vue_type_template_id_12c3d902_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ContentToggle.vue?vue&type=template&id=12c3d902&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/ContentToggle.vue?vue&type=template&id=12c3d902&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContentToggle_vue_vue_type_template_id_12c3d902_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChevronToggle_vue_vue_type_template_id_0da2a2c1_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ChevronToggle.vue?vue&type=template&id=0da2a2c1&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/ChevronToggle.vue?vue&type=template&id=0da2a2c1&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChevronToggle_vue_vue_type_template_id_0da2a2c1_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContentToggle_vue_vue_type_template_id_12c3d902_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChevronToggle_vue_vue_type_template_id_0da2a2c1_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/controls/DeleteControl.vue":
+/*!************************************************************!*\
+  !*** ./resources/js/components/controls/DeleteControl.vue ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DeleteControl_vue_vue_type_template_id_7dd77d04_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DeleteControl.vue?vue&type=template&id=7dd77d04&scoped=true& */ "./resources/js/components/controls/DeleteControl.vue?vue&type=template&id=7dd77d04&scoped=true&");
+/* harmony import */ var _DeleteControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DeleteControl.vue?vue&type=script&lang=js& */ "./resources/js/components/controls/DeleteControl.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _DeleteControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DeleteControl_vue_vue_type_template_id_7dd77d04_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _DeleteControl_vue_vue_type_template_id_7dd77d04_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "7dd77d04",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/controls/DeleteControl.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/controls/DeleteControl.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/controls/DeleteControl.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteControl.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/DeleteControl.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/controls/DeleteControl.vue?vue&type=template&id=7dd77d04&scoped=true&":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/components/controls/DeleteControl.vue?vue&type=template&id=7dd77d04&scoped=true& ***!
+  \*******************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteControl_vue_vue_type_template_id_7dd77d04_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteControl.vue?vue&type=template&id=7dd77d04&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/DeleteControl.vue?vue&type=template&id=7dd77d04&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteControl_vue_vue_type_template_id_7dd77d04_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteControl_vue_vue_type_template_id_7dd77d04_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/controls/DoubleChevronToggle.vue":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/controls/DoubleChevronToggle.vue ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DoubleChevronToggle_vue_vue_type_template_id_d4736120_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DoubleChevronToggle.vue?vue&type=template&id=d4736120&scoped=true& */ "./resources/js/components/controls/DoubleChevronToggle.vue?vue&type=template&id=d4736120&scoped=true&");
+/* harmony import */ var _DoubleChevronToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DoubleChevronToggle.vue?vue&type=script&lang=js& */ "./resources/js/components/controls/DoubleChevronToggle.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _DoubleChevronToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DoubleChevronToggle_vue_vue_type_template_id_d4736120_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _DoubleChevronToggle_vue_vue_type_template_id_d4736120_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "d4736120",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/controls/DoubleChevronToggle.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/controls/DoubleChevronToggle.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/controls/DoubleChevronToggle.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DoubleChevronToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./DoubleChevronToggle.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/DoubleChevronToggle.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DoubleChevronToggle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/controls/DoubleChevronToggle.vue?vue&type=template&id=d4736120&scoped=true&":
+/*!*************************************************************************************************************!*\
+  !*** ./resources/js/components/controls/DoubleChevronToggle.vue?vue&type=template&id=d4736120&scoped=true& ***!
+  \*************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DoubleChevronToggle_vue_vue_type_template_id_d4736120_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./DoubleChevronToggle.vue?vue&type=template&id=d4736120&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/DoubleChevronToggle.vue?vue&type=template&id=d4736120&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DoubleChevronToggle_vue_vue_type_template_id_d4736120_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DoubleChevronToggle_vue_vue_type_template_id_d4736120_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/controls/PencilControl.vue":
+/*!************************************************************!*\
+  !*** ./resources/js/components/controls/PencilControl.vue ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PencilControl_vue_vue_type_template_id_2c036462_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PencilControl.vue?vue&type=template&id=2c036462&scoped=true& */ "./resources/js/components/controls/PencilControl.vue?vue&type=template&id=2c036462&scoped=true&");
+/* harmony import */ var _PencilControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PencilControl.vue?vue&type=script&lang=js& */ "./resources/js/components/controls/PencilControl.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _PencilControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PencilControl_vue_vue_type_template_id_2c036462_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PencilControl_vue_vue_type_template_id_2c036462_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "2c036462",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/controls/PencilControl.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/controls/PencilControl.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/controls/PencilControl.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PencilControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./PencilControl.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/PencilControl.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PencilControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/controls/PencilControl.vue?vue&type=template&id=2c036462&scoped=true&":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/components/controls/PencilControl.vue?vue&type=template&id=2c036462&scoped=true& ***!
+  \*******************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PencilControl_vue_vue_type_template_id_2c036462_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./PencilControl.vue?vue&type=template&id=2c036462&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/controls/PencilControl.vue?vue&type=template&id=2c036462&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PencilControl_vue_vue_type_template_id_2c036462_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PencilControl_vue_vue_type_template_id_2c036462_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

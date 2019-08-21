@@ -17,6 +17,7 @@ window.Vue = require('vue');
  * this.$bus.$emit('event-name', value)
  *
  * Registering Listener
+ *
  * this.$bus.$on('event-name', (value) => { // Your code here })
 */
 Vue.prototype.$bus = new Vue();

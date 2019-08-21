@@ -2,11 +2,12 @@
     <div>
         <div class="row" v-if="charges.length > 0">
             <div class="col-md-12 pad-30">
-                <content-toggle
+                <double-chevron-toggle
                         class="pull-right"
-                    :show="showCharges"
-                    @click="toggleCharges"
-                    ></content-toggle>
+                        :show="showCharges"
+                        @click="toggleCharges"
+                >
+                </double-chevron-toggle>
             </div>
         </div>
         <div v-if="showCharges || charges.length === 0">
@@ -33,12 +34,12 @@
 
 <script>
     import ChargeContainer from "./ChargeContainer";
-    import ContentToggle from "../controls/ContentToggle";
+    import DoubleChevronToggle from "../controls/DoubleChevronToggle";
 
     export default {
         name: "charges-list",
         components: {
-            ContentToggle,
+            DoubleChevronToggle,
             ChargeContainer},
         props: {
             charges: {

@@ -52107,6 +52107,18 @@ module.exports = function(module) {
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/**
+ *    Global Event Bus
+ *      -- Usage --
+ *
+ * Registering an event from a component
+ * this.$bus.$emit('event-name', value)
+ *
+ * Registering Listener
+ *
+ * this.$bus.$on('event-name', (value) => { // Your code here })
+*/
+
 Vue.prototype.$bus = new Vue();
 /**
  * The following block of code may be used to automatically register your
