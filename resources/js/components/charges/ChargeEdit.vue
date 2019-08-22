@@ -118,7 +118,21 @@
                                 label-for="notes"
                                 :errors="form_errors.notes"
                         >
-                            <fld-input name="notes" v-model="charge.notes"/>
+                            <fld-text-area name="notes" v-model="charge.notes" rows="5"/>
+                        </std-form-group>
+                    </div>
+                    <div class="col-md-12">
+                        <std-form-group
+                                label="Reason for Change"
+                                label-for="reason_for_change"
+                                :errors="form_errors.reason_for_change"
+                        >
+                            <fld-text-area
+                                    name="reason_for_change"
+                                    v-model="charge.reason_for_change"
+                                    required
+                                    rows="5"
+                            />
                         </std-form-group>
                     </div>
                 </div>
@@ -129,7 +143,7 @@
                         <div class="col-md-4 text-md-left mt-2 mt-md-0">
                             <button class="btn btn-secondary" @click.prevent="cancel">Cancel</button>
                         </div>
-                        <div class="col-md-4 text-center mt-2 mt-md-0">
+                        <div class="col-md-4 text-center mt-2 mt-md-0" v-if="charge.id > 0">
                             <button class="btn btn-danger" @click.prevent="deleteCharge">Delete Charge</button>
                         </div>
                         <div class="col-md-4 text-md-right">
@@ -243,7 +257,7 @@
                             }
 
                             $this.processing = false
-                            //$this.$bus.$emit('minimize-charge')
+                            $this.$bus.$emit('minimize-charge', $this.charge.id)
                         } else {
                             this.server_message = res.status;
                         }
@@ -292,7 +306,7 @@
                     .then(response => {F
                         console.log(response)
                         // send delete event to Charges List
-                        this.$bus.$emit('remove-charge', $this.charge.id)
+                        this.$bus.$emit('charge-deleted', this.charge.id, this.charge.conviction_id)
                     })
                     .catch(error => {
                         console.log(error)
@@ -302,7 +316,7 @@
             cancel() {
                 console.log('cancel')
                 if(this.charge.id === 0) {
-                    this.deleteCharge()
+                    this.$bus.$emit('charge-deleted', this.charge.id, this.charge.conviction_id)
                 } else {
                     for(let index in this.backup_copy) {
                         this.charge[index] = this.backup_copy[index]

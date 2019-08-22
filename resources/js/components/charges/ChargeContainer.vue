@@ -86,8 +86,8 @@
             if(this.charge.id == 0) {
                 this.view = 'edit'
             }
-            this.$bus.$on('minimize-charge', () => {
-                this.setView('detail')
+            this.$bus.$on('minimize-charge', (id) => {
+                if(id === this.charge.id) this.setView('summary')
             })
         },
         computed: {

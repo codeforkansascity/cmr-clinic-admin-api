@@ -496,8 +496,8 @@ __webpack_require__.r(__webpack_exports__);
       this.view = 'edit';
     }
 
-    this.$bus.$on('minimize-charge', function () {
-      _this.setView('detail');
+    this.$bus.$on('minimize-charge', function (id) {
+      if (id === _this.charge.id) _this.setView('summary');
     });
   },
   computed: {}
@@ -815,6 +815,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "charge-edit",
   props: {
@@ -917,7 +931,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       }
                     }
 
-                    $this.processing = false; //$this.$bus.$emit('minimize-charge')
+                    $this.processing = false;
+                    $this.$bus.$emit('minimize-charge', $this.charge.id);
                   } else {
                     _this.server_message = res.status;
                   }
@@ -979,7 +994,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           F;
           console.log(response); // send delete event to Charges List
 
-          _this2.$bus.$emit('remove-charge', $this.charge.id);
+          _this2.$bus.$emit('charge-deleted', _this2.charge.id, _this2.charge.conviction_id);
         })["catch"](function (error) {
           console.log(error);
         });
@@ -989,7 +1004,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       console.log('cancel');
 
       if (this.charge.id === 0) {
-        this.deleteCharge();
+        this.$bus.$emit('charge-deleted', this.charge.id, this.charge.conviction_id);
       } else {
         for (var index in this.backup_copy) {
           this.charge[index] = this.backup_copy[index];
@@ -1121,8 +1136,10 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    this.$bus.$on('charge-deleted', function (id) {
-      _this.removeCharge(id);
+    this.$bus.$on('charge-deleted', function (charge_id, conviction_id) {
+      if (conviction_id === _this.conviction_id) {
+        _this.removeCharge(charge_id);
+      }
     });
   },
   data: function data() {
@@ -1157,9 +1174,16 @@ __webpack_require__.r(__webpack_exports__);
     },
     removeCharge: function removeCharge(id) {
       console.log('remove-charge ' + id);
-      this.charges = this.charges.filter(function (charge) {
-        return charge.id !== id;
-      });
+
+      for (var i in this.charges) {
+        if (this.charges[i].id === id) {
+          this.charges.splice(id, 1);
+        }
+      } // we get a warning if we try to use filter
+      // this.charges = this.charges.filter(charge => {
+      //     return charge.id !== id
+      // })
+
     }
   }
 });
@@ -2843,14 +2867,49 @@ var render = function() {
                     }
                   },
                   [
-                    _c("fld-input", {
-                      attrs: { name: "notes" },
+                    _c("fld-text-area", {
+                      attrs: { name: "notes", rows: "5" },
                       model: {
                         value: _vm.charge.notes,
                         callback: function($$v) {
                           _vm.$set(_vm.charge, "notes", $$v)
                         },
                         expression: "charge.notes"
+                      }
+                    })
+                  ],
+                  1
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "col-md-12" },
+              [
+                _c(
+                  "std-form-group",
+                  {
+                    attrs: {
+                      label: "Reason for Change",
+                      "label-for": "reason_for_change",
+                      errors: _vm.form_errors.reason_for_change
+                    }
+                  },
+                  [
+                    _c("fld-text-area", {
+                      attrs: {
+                        name: "reason_for_change",
+                        required: "",
+                        rows: "5"
+                      },
+                      model: {
+                        value: _vm.charge.reason_for_change,
+                        callback: function($$v) {
+                          _vm.$set(_vm.charge, "reason_for_change", $$v)
+                        },
+                        expression: "charge.reason_for_change"
                       }
                     })
                   ],
@@ -2879,21 +2938,27 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "col-md-4 text-center mt-2 mt-md-0" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-danger",
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.deleteCharge($event)
-                      }
-                    }
-                  },
-                  [_vm._v("Delete Charge")]
-                )
-              ]),
+              _vm.charge.id > 0
+                ? _c(
+                    "div",
+                    { staticClass: "col-md-4 text-center mt-2 mt-md-0" },
+                    [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.deleteCharge($event)
+                            }
+                          }
+                        },
+                        [_vm._v("Delete Charge")]
+                      )
+                    ]
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-4 text-md-right" }, [
                 _c(
