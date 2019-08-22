@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 
-
 use App\Http\Middleware\TrimStrings;
 use App\Charge;
 use Illuminate\Http\Request;
@@ -16,6 +15,7 @@ use Illuminate\Support\Facades\Session;
 
 use App\Exports\ChargeExport;
 use Maatwebsite\Excel\Facades\Excel;
+
 //use PDF; // TCPDF, not currently in use
 
 class ChargeController extends Controller
@@ -26,43 +26,40 @@ class ChargeController extends Controller
      *
      * Vue component example.
      *
-        <ui-select-pick-one
-            url="/api-charge/options"
-            v-model="chargeSelected"
-            :selected_id=chargeSelected">
-        </ui-select-pick-one>
+     * <ui-select-pick-one
+     * url="/api-charge/options"
+     * v-model="chargeSelected"
+     * :selected_id=chargeSelected">
+     * </ui-select-pick-one>
      *
      *
      * Blade component example.
      *
      *   In Controler
      *
-             $charge_options = \App\Charge::getOptions();
-
-
+     * $charge_options = \App\Charge::getOptions();
      *
      *   In View
-
-            @component('../components/select-pick-one', [
-                'fld' => 'charge_id',
-                'selected_id' => $RECORD->charge_id,
-                'first_option' => 'Select a Charges',
-                'options' => $charge_options
-            ])
-            @endcomponent
+     *
+     * @component('../components/select-pick-one', [
+     * 'fld' => 'charge_id',
+     * 'selected_id' => $RECORD->charge_id,
+     * 'first_option' => 'Select a Charges',
+     * 'options' => $charge_options
+     * ])
+     * @endcomponent
      *
      * Permissions
      *
-
-             Permission::create(['name' => 'charge index']);
-             Permission::create(['name' => 'charge add']);
-             Permission::create(['name' => 'charge update']);
-             Permission::create(['name' => 'charge view']);
-             Permission::create(['name' => 'charge destroy']);
-             Permission::create(['name' => 'charge export-pdf']);
-             Permission::create(['name' => 'charge export-excel']);
-
-    */
+     *
+     * Permission::create(['name' => 'charge index']);
+     * Permission::create(['name' => 'charge add']);
+     * Permission::create(['name' => 'charge update']);
+     * Permission::create(['name' => 'charge view']);
+     * Permission::create(['name' => 'charge destroy']);
+     * Permission::create(['name' => 'charge export-pdf']);
+     * Permission::create(['name' => 'charge export-excel']);
+     */
 
 
     /**
@@ -100,8 +97,8 @@ class ChargeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-	public function create()
-	{
+    public function create()
+    {
 
         if (!Auth::user()->can('charge add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Charges.');
@@ -112,8 +109,8 @@ class ChargeController extends Controller
             }
         }
 
-	    return view('charge.create');
-	}
+        return view('charge.create');
+    }
 
 
     /**
@@ -124,7 +121,6 @@ class ChargeController extends Controller
      */
     public function store(ChargeFormRequest $request)
     {
-
 
         $charge = Charge::create($request->all());
 
@@ -168,7 +164,7 @@ class ChargeController extends Controller
         if ($charge = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('charge edit');
             $can_delete = Auth::user()->can('charge delete');
-            return view('charge.show', compact('charge','can_edit', 'can_delete'));
+            return view('charge.show', compact('charge', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Charges to display.');
             return Redirect::route('charge.index');
@@ -205,7 +201,7 @@ class ChargeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Charge $charge     * @return \Illuminate\Http\Response
+     * @param  \App\Charge $charge * @return \Illuminate\Http\Response
      */
     public function update(ChargeFormRequest $request, $id)
     {
@@ -220,13 +216,16 @@ class ChargeController extends Controller
 //        }
 
         if (!$charge = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Charges to edit');
+            //     \Session::flash('flash_error_message', 'Unable to find Charges to edit');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
         }
 
-        $charge->fill($request->all());
+        /// save history
+        $charge->saveHistory($request);
+
+        $charge->update($request->all());
 
         if ($charge->isDirty()) {
 
@@ -251,7 +250,7 @@ class ChargeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Charge $charge     * @return \Illuminate\Http\Response
+     * @param  \App\Charge $charge * @return \Illuminate\Http\Response
      */
     public function destroy(Charge $charge)
     {
@@ -266,7 +265,7 @@ class ChargeController extends Controller
 //        }
 
 
-        if ( $charge  && $charge->canDelete()) {
+        if ($charge && $charge->canDelete()) {
 
             try {
                 $charge->delete();
@@ -339,8 +338,8 @@ class ChargeController extends Controller
     }
 
 
-        public function print()
-{
+    public function print()
+    {
         if (!Auth::user()->can('charge export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Charges');
             if (Auth::user()->can('charge index')) {
@@ -366,7 +365,7 @@ class ChargeController extends Controller
         $data = $dataQuery->get();
 
         // Pass it to the view for html formatting:
-        $printHtml = view('charge.print', compact( 'data' ) );
+        $printHtml = view('charge.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
         $pdf = \App::make('dompdf.wrapper');

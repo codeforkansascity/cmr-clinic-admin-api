@@ -74,6 +74,7 @@ class Client extends Model
     {
         return $this->hasOne('App\Assignment', 'id', 'assignment_id');
     }
+
     public function step()
     {
         return $this->hasOne('App\Step', 'id', 'step_id');
@@ -83,6 +84,11 @@ class Client extends Model
     {
         return $this->hasMany('App\Conviction');
 
+    }
+
+    public function histories()
+    {
+        return $this->morphMany(History::class, 'historyable');
     }
 
     public function add($attributes)
