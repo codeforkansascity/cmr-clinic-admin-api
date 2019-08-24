@@ -223,7 +223,8 @@ class ChargeController extends Controller
         }
 
         /// save history
-        $charge->saveHistory($request);
+        /// This was moved to ChargeObserver
+        //$charge->saveHistory($request);
 
         $charge->update($request->all());
 
