@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Charge;
 use Illuminate\Http\Request;
-use function foo\func;
 
 class HistoryController extends Controller
 {
