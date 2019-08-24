@@ -12,6 +12,11 @@ class History extends Model
         'new' => 'json'
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function historyable()
     {
         return $this->morphTo('historyable');
