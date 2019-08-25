@@ -118,7 +118,21 @@
                                 label-for="notes"
                                 :errors="form_errors.notes"
                         >
-                            <fld-input name="notes" v-model="charge.notes"/>
+                            <fld-text-area name="notes" v-model="charge.notes" rows="5"/>
+                        </std-form-group>
+                    </div>
+                    <div class="col-md-12">
+                        <std-form-group
+                                label="Reason for Change"
+                                label-for="reason_for_change"
+                                :errors="form_errors.reason_for_change"
+                        >
+                            <fld-text-area
+                                    name="reason_for_change"
+                                    v-model="charge.reason_for_change"
+                                    required
+                                    rows="5"
+                            />
                         </std-form-group>
                     </div>
                 </div>
@@ -126,18 +140,20 @@
 
                 <div class="form-group mt-4">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4 text-md-left mt-2 mt-md-0">
+                            <button class="btn btn-secondary" @click.prevent="cancel">Cancel</button>
+                        </div>
+                        <div class="col-md-4 text-center mt-2 mt-md-0" v-if="charge.id > 0">
+                            <button class="btn btn-danger" @click.prevent="deleteCharge">Delete Charge</button>
+                        </div>
+                        <div class="col-md-4 text-md-right">
                             <button
                                     type="submit"
                                     class="btn btn-primary"
                                     :disabled="processing"
                             >
-                                <span v-if="this.charge.id">Change Charge</span>
-                                <span v-else="this.charge.id">Add Charge</span>
+                                Save
                             </button>
-                        </div>
-                        <div class="col-md-6 text-md-right mt-2 mt-md-0">
-                            <button class="btn btn-danger" @click.prevent="deleteCharge">Delete Charge</button>
                         </div>
                     </div>
                 </div>
@@ -180,11 +196,18 @@
                 try_logging_in: false,
                 processing: false,
                 isShowing: false,
+                backup_copy: {}
             };
         },
         mounted() {
             if(this.charge.id === 0) {
                 this.$refs.newCharge.$refs.input.focus()
+            }
+        },
+        created() {
+            /// make back up copy
+            for(let index in this.charge) {
+                this.backup_copy[index] = this.charge[index]
             }
         },
         computed: {
@@ -225,10 +248,16 @@
                         if (res.status === 200) {
                             // if saved set the get the id back and set to instance
                             if(res.data.charge) {
-                                $this.id = res.data.charge.id
+                                /// set id in case this is a new entry
+                                $this.charge.id = res.data.charge.id
+                                /// recopy the new charge to our backup
+                                for(let index in $this.charge) {
+                                    $this.backup_copy[index] = $this.charge[index]
+                                }
                             }
 
                             $this.processing = false
+                            $this.$bus.$emit('minimize-charge', $this.charge.id)
                         } else {
                             this.server_message = res.status;
                         }
@@ -274,15 +303,24 @@
                 let $this = this
                 if(confirm('Do you want to delete record?')) {
                     axios.delete(`/charge/${this.charge.id}`)
-                    .then(response => {
+                    .then(response => {F
                         console.log(response)
                         // send delete event to Charges List
-                        //this.$parent.$emit('remove-charge', $this.charge.id)
-                        this.$bus.$emit('remove-charge', $this.charge.id)
+                        this.$bus.$emit('charge-deleted', this.charge.id, this.charge.conviction_id)
                     })
                     .catch(error => {
                         console.log(error)
                     })
+                }
+            },
+            cancel() {
+                console.log('cancel')
+                if(this.charge.id === 0) {
+                    this.$bus.$emit('charge-deleted', this.charge.id, this.charge.conviction_id)
+                } else {
+                    for(let index in this.backup_copy) {
+                        this.charge[index] = this.backup_copy[index]
+                    }
                 }
             }
         }

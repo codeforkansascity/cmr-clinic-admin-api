@@ -1,13 +1,15 @@
 <template>
     <div>
+        <div>
         <img    v-if="show"
-                height="30"
+                :height="height"
                 :src="trueIcon"
                 @click="toggle"/>
         <img    v-if="!show"
-                height="30"
+                :height="height"
                 :src="falseIcon"
                 @click="toggle"/>
+        </div>
     </div>
 </template>
 
@@ -19,20 +21,24 @@
                 type: Boolean,
                 default: false,
             },
+            tooltip: {
+                type: String | Boolean,
+                default: false
+            },
+            height: {
+                type: Number,
+                default: 30
+            },
 
         },
         created() {
-            this.trueIcon = this.icons[1]
-            this.falseIcon = this.icons[0]
+
         },
         data() {
             return {
-                icons:  [
-                    "/img/icons/noun_chevron_2768142.png",
-                    "/img/icons/noun_chevron_2768158.png"
-                ],
-                trueIcon: null,
-                falseIcon: null
+
+                trueIcon: "/img/icons/noun_chevron_2768158.png",
+                falseIcon: "/img/icons/noun_chevron_2768142.png",
             }
         },
         methods: {
