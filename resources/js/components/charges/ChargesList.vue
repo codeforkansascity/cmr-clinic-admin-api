@@ -2,11 +2,12 @@
     <div>
         <div class="row" v-if="charges.length > 0">
             <div class="col-md-12 pad-30">
-                <content-toggle
+                <double-chevron-toggle
                         class="pull-right"
-                    :show="showCharges"
-                    @click="toggleCharges"
-                    ></content-toggle>
+                        :show="showCharges"
+                        @click="toggleCharges"
+                >
+                </double-chevron-toggle>
             </div>
         </div>
         <div v-if="showCharges || charges.length === 0">
@@ -33,12 +34,12 @@
 
 <script>
     import ChargeContainer from "./ChargeContainer";
-    import ContentToggle from "../controls/ContentToggle";
+    import DoubleChevronToggle from "../controls/DoubleChevronToggle";
 
     export default {
         name: "charges-list",
         components: {
-            ContentToggle,
+            DoubleChevronToggle,
             ChargeContainer},
         props: {
             charges: {
@@ -51,8 +52,10 @@
             }
         },
         created() {
-            this.$bus.$on('charge-deleted', (id) => {
-                this.removeCharge(id)
+            this.$bus.$on('charge-deleted', (charge_id, conviction_id) => {
+                if(conviction_id === this.conviction_id){
+                    this.removeCharge(charge_id)
+                }
             })
 
         },
@@ -88,9 +91,16 @@
             },
             removeCharge(id) {
                 console.log('remove-charge ' + id)
-                this.charges = this.charges.filter(charge => {
-                    return charge.id !== id
-                })
+
+                for(let i in this.charges) {
+                    if(this.charges[i].id === id) {
+                        this.charges.splice(id, 1)
+                    }
+                }
+                // we get a warning if we try to use filter
+                // this.charges = this.charges.filter(charge => {
+                //     return charge.id !== id
+                // })
             }
         },
     }
