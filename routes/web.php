@@ -72,4 +72,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{cms_matter_number}/edit', 'ClientController@edit');
     });
 
+    Route::group(['prefix' => 'history'], function () {
+        Route::get('charge/{charge}', 'HistoryController@charge');
+    });
+
 });

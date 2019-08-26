@@ -42,6 +42,11 @@ class Conviction extends Model
         return $this->hasMany('App\Charge');
     }
 
+    public function histories()
+    {
+        return $this->morphMany(History::class, 'historyable');
+    }
+
     public function add($attributes)
     {
 
