@@ -250,10 +250,12 @@
                             if(res.data.charge) {
                                 /// set id in case this is a new entry
                                 $this.charge.id = res.data.charge.id
-                                /// recopy the new charge to our backup
-                                for(let index in $this.charge) {
-                                    $this.backup_copy[index] = $this.charge[index]
-                                }
+                            }
+                            /// reset reason for change
+                            $this.charge.reason_for_change = ''
+                            /// recopy the new charge to our backup
+                            for(let index in $this.charge) {
+                                $this.backup_copy[index] = $this.charge[index]
                             }
 
                             $this.processing = false
