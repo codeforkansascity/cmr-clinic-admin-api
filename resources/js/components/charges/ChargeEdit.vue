@@ -259,7 +259,7 @@
                             }
 
                             $this.processing = false
-                            $this.$bus.$emit('minimize-charge', $this.charge.id)
+                            $this.$bus.$emit('minimize-charge:'+$this.charge.id)
                         } else {
                             this.server_message = res.status;
                         }
