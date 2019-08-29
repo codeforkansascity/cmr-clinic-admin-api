@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 use App\Charge;
+use App\Client;
+use App\Conviction;
 use App\Observers\ChargeObserver;
+use App\Observers\ClientObserver;
+use App\Observers\ConvictionObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -32,5 +36,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         Charge::observe(ChargeObserver::class);
+        Client::observe(ClientObserver::class);
+        Conviction::observe(ConvictionObserver::class);
     }
 }

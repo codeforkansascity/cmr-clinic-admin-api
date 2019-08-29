@@ -74,6 +74,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'history'], function () {
         Route::get('charge/{charge}', 'HistoryController@charge');
+        Route::get('conviction/{conviction}', 'HistoryController@conviction');
+        Route::get('applicant/{client}', 'HistoryController@client');
     });
 
 });

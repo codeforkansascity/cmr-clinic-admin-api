@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\RecordSignature;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
 
 class Charge extends Model
 {
@@ -196,14 +197,27 @@ class Charge extends Model
 
     }
 
-    public function saveHistory($request)
+    public function saveHistory($request, $action = 'updated')
     {
-        return $this->histories()->create([
-            'old' => $this->only($this->fillable),
-            'new' => $request->only($this->fillable),
+        $data = [
             'user_id' => auth()->user()->id,
             'reason_for_change' => $request->reason_for_change ?? null,
-        ]);
+            'action' => $action
+        ];
+
+        /*
+         * We only save the values listed in fillable for old and new
+         */
+        /// if not created add old values
+        if ($action !== 'created') {
+            $data['old'] = collect($this->getOriginal())->only($this->fillable);
+        }
+        /// if not deleted add new values
+        if ($action !== 'deleted') {
+            $data['new'] = $request->only($this->fillable);
+        }
+
+        return $this->histories()->create($data);
     }
 
 }
