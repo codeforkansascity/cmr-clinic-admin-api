@@ -259,7 +259,7 @@
                             }
 
                             $this.processing = false
-                            $this.$bus.$emit('minimize-charge:'+$this.charge.id)
+                            $this.$bus.$emit('minimize-charge:charge:'+$this.charge.id)
                         } else {
                             this.server_message = res.status;
                         }
@@ -305,10 +305,10 @@
                 let $this = this
                 if(confirm('Do you want to delete record?')) {
                     axios.delete(`/charge/${this.charge.id}`)
-                    .then(response => {F
+                    .then(response => {
                         console.log(response)
                         // send delete event to Charges List
-                        this.$bus.$emit('charge-deleted', this.charge.id, this.charge.conviction_id)
+                        this.$bus.$emit('charge-deleted:conviction:'+this.charge.conviction_id, this.charge.id)
                     })
                     .catch(error => {
                         console.log(error)
