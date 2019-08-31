@@ -1,6 +1,5 @@
 <template>
-    <div style="margin-left: 5em">
-        <h1 style="color: red;">Cases</h1>
+    <div style="margin-top: 2em">
 
         <case-form v-for="(conviction,conviction_index) in records"
                    :key="conviction.id"

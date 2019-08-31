@@ -13,7 +13,7 @@
                 <h2>{{ form_data.name }} &nbsp; &nbsp; &nbsp; &nbsp; {{
                     form_data.dob }} </h2>
             </div>
-            <div>
+            <div class="col-md-1 text-right">
                 <img v-show="isShowing" style="width: 2.8em" v-on:click="isShowing ^= true"
                      src="/img/icons/noun_chevron_2768158.png" class="help-button d-print-none">
                 <img v-show="!isShowing" style="width: 2.8em; margin-bottom: 1em" v-on:click="isShowing ^= true"
