@@ -77,3 +77,14 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
 });
+
+Route::get('/api-statute', 'StatuteApi@index');
+Route::get('/api-statute/options', 'StatuteApi@getOptions');
+Route::get('/statute/download', 'StatuteController@download')->name('statute.download');
+Route::get('/statute/print', 'StatuteController@print')->name('statute.print');
+Route::resource('/statute', 'StatuteController');
+Route::get('/api-comment', 'CommentApi@index');
+Route::get('/api-comment/options', 'CommentApi@getOptions');
+Route::get('/comment/download', 'CommentController@download')->name('comment.download');
+Route::get('/comment/print', 'CommentController@print')->name('comment.print');
+Route::resource('/comment', 'CommentController');
