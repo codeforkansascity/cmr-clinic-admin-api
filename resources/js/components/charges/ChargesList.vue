@@ -1,16 +1,6 @@
 <template>
     <div>
-        <div class="row" v-if="charges.length > 0">
-            <div class="col-md-12 pad-30">
-                <double-chevron-toggle
-                        class="pull-right"
-                        :show="showCharges"
-                        @click="toggleCharges"
-                >
-                </double-chevron-toggle>
-            </div>
-        </div>
-        <div v-if="showCharges || charges.length === 0">
+        <div>
             <hr>
 
             <charge-container
