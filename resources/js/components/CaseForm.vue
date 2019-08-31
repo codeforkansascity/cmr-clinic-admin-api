@@ -24,12 +24,11 @@
 
                     </h4>
                 </div>
-                <div class="col-md-1">
-                    <img v-show="isShowing" style="width: 1.8em; margin-left: .1em" v-on:click="isShowing ^= true"
-                         src="/img/icons/noun_collapse_2091048_000000.png" class="help-button d-print-none">
-                    <img v-show="!isShowing" style="width: 1.5em; margin-bottom: 1em;  margin-left: .1em"
-                         v-on:click="isShowing ^= true"
-                         src="/img/icons/noun_expand_1211939_000000.png" class="help-button d-print-none">
+                <div>
+                    <img v-show="isShowing" style="width: 2.8em" v-on:click="isShowing ^= true"
+                         src="/img/icons/noun_chevron_2768158.png" class="help-button d-print-none">
+                    <img v-show="!isShowing" style="width: 2.8em; margin-bottom: 1em" v-on:click="isShowing ^= true"
+                         src="/img/icons/noun_chevron_2768142.png" class="help-button d-print-none">
                 </div>
             </div>
 
