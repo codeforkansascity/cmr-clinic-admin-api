@@ -8,6 +8,14 @@ use App\Traits\RecordSignature;
 
 class Statute extends Model
 {
+    CONST INELIGIBLE = 'ineligible';
+    CONST ELIGIBLE = 'eligible';
+    CONST POSSIBLY = 'possibly';
+    const ELIGIBLITY_STATUSES = [
+        self::ELIGIBLE,
+        self::INELIGIBLE,
+        self::POSSIBLY,
+    ];
 
     use SoftDeletes;
     use RecordSignature;
@@ -83,111 +91,32 @@ class Statute extends Model
 
 
     /**
-     * Create base query to be used by Grid, Download, and PDF
-     *
-     * NOTE: to override the select you must supply all fields, ie you cannot add to the
-     *       fields being selected.
-     *
-     * @param $column
-     * @param $direction
-     * @param string $keyword
-     * @param string|array $columns
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-
-    static function buildBaseGridQuery(
-        $column,
-        $direction,
-        $keyword = '',
-        $columns = '*')
+    public function comments()
     {
-        // Map sort direction from 1/-1 integer to asc/desc sql keyword
-        switch ($direction) {
-            case '1':
-                $direction = 'desc';
-                break;
-            case '-1':
-                $direction = 'asc';
-                break;
-            default:
-                $direction = 'asc';
-                break;
-        }
-
-        $query = Statute::select($columns)
-        ->orderBy($column, $direction);
-
-        if ($keyword) {
-            $query->where('name', 'like', '%' . $keyword . '%');
-        }
-        return $query;
+        return $this->morphMany(Comment::class, 'comments');
     }
-
-        /**
-         * Get export/Excel/download data query to send to Excel download library
-         *
-         * @param $per_page
-         * @param $column
-         * @param $direction
-         * @param string $keyword
-         * @return mixed
-         */
-
-    static function exportDataQuery(
-        $column,
-        $direction,
-        $keyword = '',
-        $columns = '*')
-    {
-
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
-
-        return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
-
-    }
-
-        static function pdfDataQuery(
-            $column,
-            $direction,
-            $keyword = '',
-            $columns = '*')
-        {
-
-            info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
-
-            return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
-
-        }
-
 
     /**
-     * Get "options" for HTML select tag
-     *
-     * If flat return an array.
-     * Otherwise, return an array of records.  Helps keep in proper order durring ajax calls to Chrome
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    static public function getOptions($flat = false)
+    public function histories()
     {
+        return $this->morphMany(History::class, 'historyable');
+    }
 
-        $thisModel = new static;
-
-        $records = $thisModel::select('id',
-            'name')
-            ->orderBy('name')
-            ->get();
-
-        if (!$flat) {
-            return $records;
-        } else {
-            $data = [];
-
-            foreach ($records AS $rec) {
-                $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
-            }
-
-            return $data;
-        }
-
+    /**
+     * @param $request
+     */
+    public function saveHistory($request)
+    {
+        $this->histories()->save([
+            'old' => collect($this->getOriginal())->only($this->fillable),
+            'new' => $request->only($this->fillable),
+            'user_id' => auth()->user()->id,
+            'reason_for_change' => $request->reason_for_change ?? null,
+        ]);
     }
 
 }
