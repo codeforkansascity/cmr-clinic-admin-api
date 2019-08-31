@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Charge;
 use App\Observers\ChargeObserver;
+use App\Observers\StatuteObserver;
+use App\Statute;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -32,5 +34,6 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         Charge::observe(ChargeObserver::class);
+        Statute::observe(StatuteObserver::class);
     }
 }
