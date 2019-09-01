@@ -1,52 +1,40 @@
 <template>
-    <div class="card charge-container">
+    <div class=" charge-container">
         <div v-if="view === 'summary'">
-            <div class="row">
-                <div class="col-md-12">
-                    <chevron-toggle class="float-right"
-                                    :show="false"
-                                    @click="setView('details')"
-                    ></chevron-toggle>
-                </div>
-            </div>
-
             <!--<button class="btn btn-dark" @click="setView('details')">Show Details</button>-->
             <charge-summary
-                :charge="charge"
-            ></charge-summary>
+                    :charge="charge"
+            >
+                <chevron-toggle class="float-right"
+                                :show="false"
+                                @click="setView('details')"
+                ></chevron-toggle>
+            </charge-summary>
         </div>
         <div v-if="view === 'details'">
-            <div class="row">
-                <div class="col-md-11"></div>
-                <div class="col-md-1">
-                    <chevron-toggle class="float-right"
-                                    :show="true"
-                                    @click="setView('summary')"
-                    ></chevron-toggle>
-                    <pencil-control
-                                    height="25"
-                                    @click="setView('edit')">
-                    </pencil-control>
-                </div>
-            </div>
-
             <charge-details
                     :charge="charge"
-            ></charge-details>
+            >
+                <chevron-toggle class="float-right"
+                                :show="true"
+                                @click="setView('summary')"
+                ></chevron-toggle>
+                <pencil-control
+                        height="25"
+                        @click="setView('edit')">
+                </pencil-control>
+
+            </charge-details>
         </div>
         <div v-if="view === 'edit'">
-            <div class="row" v-if="charge.id != 0">
-                <div class="col-md-12">
-                    <delete-control class="float-right"
-                                    height="30"
-                                    @click="setView('summary')">
-                    </delete-control>
-                </div>
-            </div>
-
             <charge-edit
-                :charge="charge"
-            ></charge-edit>
+                    :charge="charge"
+            >
+                <delete-control class="float-right"
+                                height="30"
+                                @click="setView('summary')">
+                </delete-control>
+            </charge-edit>
         </div>
     </div>
 </template>
@@ -83,22 +71,21 @@
             },
         },
         created() {
-            if(this.charge.id == 0) {
+            if (this.charge.id == 0) {
                 this.view = 'edit'
             }
             this.$bus.$on('minimize-charge', (id) => {
-                if(id === this.charge.id) this.setView('summary')
+                if (id === this.charge.id) this.setView('summary')
             })
         },
-        computed: {
-        },
+        computed: {},
     }
 </script>
 
 <style scoped>
     .charge-container {
-        padding: 15px 5px 15px 5px;
-        margin-top: 15px;
-        margin-bottom: 15px;
+        /*padding: 15px 5px 15px 5px;*/
+        /*margin-top: 15px;*/
+        /*margin-bottom: 15px;*/
     }
 </style>
