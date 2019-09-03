@@ -318,9 +318,9 @@
         </form>
         <div class="row">
             <div class="col-md-12">
-                <cases :records="this.form_data.conviction"
+                <cases-list :cases="this.form_data.conviction"
                        :client_id="this.form_data.id"
-                       :csrf_token="this.csrf_token"></cases>
+                       :csrf_token="this.csrf_token"></cases-list>
             </div>
         </div>
     </div>
@@ -347,9 +347,13 @@
 
 <script>
     import axios from "axios";
+    import CasesList from "./cases/CasesList";
 
     export default {
         name: "applicant-form",
+        components: {
+            CasesList
+        },
         props: {
             record: {
                 type: [Boolean, Object],

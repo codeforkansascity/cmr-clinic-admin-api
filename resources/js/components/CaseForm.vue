@@ -233,7 +233,7 @@
             },
             case_count: {
                 type: [Boolean, Number],
-                default: 0
+                default: 1
             },
             csrf_token: {
                 type: String,

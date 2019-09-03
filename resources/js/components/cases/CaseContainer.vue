@@ -2,52 +2,62 @@
     <div class=" charge-container">
         <div v-if="view === 'summary'">
             <!--<button class="btn btn-dark" @click="setView('details')">Show Details</button>-->
-            <charge-summary :charge="charge">
+            <case-summary :record="record">
                 <chevron-toggle class="float-right"
                                 :show="false"
                                 @click="setView('details')"/>
-            </charge-summary>
+            </case-summary>
         </div>
         <div v-if="view === 'details'">
-            <charge-details  :charge="charge" >
+            <case-details  :record="record" >
                 <chevron-toggle class="float-right"
                                 :show="true"
                                 @click="setView('summary')"/>
                 <pencil-control
                         height="25"
                         @click="setView('edit')"/>
-            </charge-details>
+            </case-details>
         </div>
         <div v-if="view === 'edit'">
-            <charge-edit :charge="charge">
+            <case-edit :record="record">
                 <delete-control class="float-right"
                                 height="30"
                                 @click="setView('summary')"/>
-            </charge-edit>
+            </case-edit>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <charges-list
+                        :charges="record.charge"
+                        :conviction_id="record.id"
+                ></charges-list>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-    import ChargeDetails from "./ChargeDetails";
-    import ChargeSummary from "./ChargeSummary";
-    import ChargeEdit from "./ChargeEdit";
+    import CaseDetails from "./CaseDetails";
+    import CaseSummary from "./CaseSummary";
+    import CaseEdit from "./CaseEdit";
     import PencilControl from "../controls/PencilControl";
     import ChevronToggle from "../controls/ChevronToggle";
     import DeleteControl from "../controls/DeleteControl";
+    import ChargesList from "../charges/ChargesList";
 
     export default {
-        name: "ChargeContainer",
+        name: "CaseContainer",
         components: {
             DeleteControl,
-            ChargeEdit,
-            ChargeSummary,
-            ChargeDetails,
+            CaseEdit,
+            CaseSummary,
+            CaseDetails,
             PencilControl,
-            ChevronToggle
+            ChevronToggle,
+            ChargesList
         },
         props: [
-            'charge'
+            'record'
         ],
         data() {
             return {
@@ -60,11 +70,11 @@
             },
         },
         created() {
-            if (this.charge.id == 0) {
+            if (this.record.id == 0) {
                 this.view = 'edit'
             }
-            this.$bus.$on('minimize-charge', (id) => {
-                if (id === this.charge.id) this.setView('summary')
+            this.$bus.$on('minimize-case', (id) => {
+                if (id === this.record.id) this.setView('summary')
             })
         },
         computed: {},
