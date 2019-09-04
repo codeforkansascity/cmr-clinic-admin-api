@@ -33,6 +33,14 @@ class Comment extends Model
         'updated_at',
     ];
 
+    public function user() {
+	return $this->belongsTo(User::class);
+    }
+
+    public function commentable() {
+        return $this->morphTo('commentable');
+    }
+
     public function add($attributes)
     {
 
