@@ -2,7 +2,7 @@
     <div class="row">
 
         <div class="col-md-11">
-            <h4>{{ record.name }} &nbsp; &nbsp; &nbsp; &nbsp; {{ record.dob }}</h4>
+            <h4>{{ record.name }}  &nbsp; {{  moment(String(record.dob)).format('MM/DD/YYYY')}}</h4>
         </div>
 
         <div class="col-md-1">

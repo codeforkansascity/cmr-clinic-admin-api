@@ -56,6 +56,10 @@ require('./components');
 
 require('./cmr-mixins');
 
+import moment from 'moment'
+
+Vue.prototype.moment = moment
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

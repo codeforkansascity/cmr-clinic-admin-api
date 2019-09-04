@@ -61,7 +61,7 @@
                     Dob Text
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.dob_text"/>
+                    <dsp-date v-model="record.dob"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
