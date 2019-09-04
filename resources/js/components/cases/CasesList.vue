@@ -28,7 +28,7 @@
     import DoubleChevronToggle from "../controls/DoubleChevronToggle";
 
     export default {
-        name: "cases-list",
+        name: "CaseList",
         components: {
             DoubleChevronToggle,
             CaseContainer

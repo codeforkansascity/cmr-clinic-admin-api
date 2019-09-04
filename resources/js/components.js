@@ -47,6 +47,8 @@ Vue.component('charges', () => import(/* webpackChunkName:"charges" */ './compon
 //Vue.component('applicant-form',       require('./components/ApplicantForm.vue'));    // May need to add .default);
 Vue.component('applicant-grid', () => import(/* webpackChunkName:"applicant-grid" */ './components/ApplicantGrid.vue'));
 Vue.component('applicant-form', () => import(/* webpackChunkName:"applicant-form" */ './components/ApplicantForm.vue'));
+Vue.component('applicant-container', () => import(/* webpackChunkName:"applicant-container" */ './components/applicants/ApplicantContainer'));
+
 
 //Vue.component('status-grid',       require('./components/StatusGrid.vue'));    // May need to add .default);
 //Vue.component('status-form',       require('./components/StatusForm.vue'));    // May need to add .default);
