@@ -13,111 +13,126 @@
         <div>
             <form @submit.prevent="handleSubmit" class="form-horizontal">
 
-                <div class="row">
 
-                    <div class="col-md-3">
+                <div class="col-md-6" style="padding-left: 2em;">
+                    <div class="col-md-12">
                         <std-form-group
-                                label="Convicted"
-                                label-for="convicted"
-                                :errors="form_errors.convicted"
+                                label="What Applicant calls this (or your abreviation)?"
+                                label-for="name"
+                                :errors="form_errors.name"
+                                :required="true"
                         >
-                            <fld-convicted name="convicted" v-model="charge.convicted"/>
+                            <fld-input name="name" v-model="record.name" required/>
+                            <template slot="help">
+                                When speaking with the expungie, how they refer to this. "Car 2005".
+                                Until someone meets with the expungie, a short but meaningful description.
+                            </template>
                         </std-form-group>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-12">
                         <std-form-group
-                                label="Eligible"
-                                label-for="eligible"
-                                :errors="form_errors.eligible"
+                                label="Approx. date of arrest per Applicant?"
+                                label-for="arrest_date"
+                                :errors="form_errors.arrest_date"
+                                :required="true"
                         >
-                            <fld-eligible name="eligible" v-model="charge.eligible"/>
+                            <fld-input name="arrest_date" v-model="record.arrest_date"/>
+                            <template slot="help">
+                                Any format is ok, even just a year.
+                            </template>
+                        </std-form-group>
+                    </div>
+                    <div class="col-md-12">
+                        <std-form-group
+                                label="What was the case number?"
+                                label-for="case_number"
+                                :errors="form_errors.case_number"
+                                :required="true"
+                        >
+                            <fld-input name="case_number" v-model="record.case_number"/>
                         </std-form-group>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-12">
                         <std-form-group
-                                label="Please Expunge"
-                                label-for="please_expunge"
-                                :errors="form_errors.please_expunge"
+                                label="Was the court a Missouri circuit (county) court or a municipal (city) court?"
+                                label-for="agency"
+                                :errors="form_errors.agency"
+                                :required="true"
                         >
-                            <fld-expunge
-                                    name="please_expunge"
-                                    v-model="charge.please_expunge"
-                            />
+                            <fld-input name="agency" v-model="record.agency"/>
                         </std-form-group>
                     </div>
 
-                    <div class="col-md-2">
-
-                    </div>
-
-                    <div class="col-md-1">
-                        <slot></slot>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-12">
                         <std-form-group
-                                label="Citation"
-                                label-for="citation"
-                                :errors="form_errors.citation"
+                                label="What was the name of the County or City?"
+                                label-for="court_city_county"
+                                :errors="form_errors.court_city_county"
+                                :required="true"
                         >
-                            <fld-input ref="newCharge" name="citation" v-model="charge.citation"/>
-                        </std-form-group>
-                    </div>
-
-                    <div class="col-md-10">
-                        <std-form-group
-                                label="Charge"
-                                label-for="charge"
-                                :errors="form_errors.charge"
-                        >
-                            <fld-input name="charge" v-model="charge.charge"/>
+                            <fld-input name="court_city_county" v-model="record.court_city_county"/>
                         </std-form-group>
                     </div>
                 </div>
+                <div class="col-md-6">
 
-
-                <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-12">
                         <std-form-group
-                                label="Charge Type"
-                                label-for="conviction_charge_type"
-                                :errors="form_errors.conviction_charge_type"
+                                label="What was your name as it appeared on the court’s records?"
+                                label-for="record_name"
+                                :errors="form_errors.record_name"
+                                :required="true"
                         >
-                            <fld-charge-type
-                                    name="conviction_charge_type"
-                                    v-model="charge.conviction_charge_type"
-                            />
-                        </std-form-group>
-                    </div>
-                    <div class="col-md-2">
-                        <std-form-group
-                                label="Class"
-                                label-for="conviction_class_type"
-                                :errors="form_errors.conviction_class_type"
-                        >
-                            <fld-charge-class
-                                    name="conviction_class_type"
-                                    v-model="charge.conviction_class_type"
-                            />
-                        </std-form-group>
-
-                    </div>
-                    <div class="col-md-8">
-                        <std-form-group
-                                label="Sentence"
-                                label-for="sentence"
-                                :errors="form_errors.sentence"
-                        >
-                            <fld-input name="sentence" v-model="charge.sentence"/>
+                            <fld-input name="record_name" v-model="record.record_name"/>
                         </std-form-group>
                     </div>
 
+                    <div class="col-md-12">
+                        <std-form-group
+                                label="Release Status (not required)"
+                                label-for="release_status"
+                                :errors="form_errors.release_status"
+                                :required="true"
+                        >
+                            <fld-input name="release_status" v-model="record.release_status"/>
+                        </std-form-group>
+                    </div>
+                    <div class="col-md-12">
+                        <std-form-group
+                                label="Date of Charge (Approximate) - any format"
+                                label-for="approximate_date_of_charge"
+                                :errors="form_errors.approximate_date_of_charge"
+                                :required="true"
+                        >
+                            <fld-input name="approximate_date_of_charge"
+                                       v-model="record.approximate_date_of_charge"/>
+                        </std-form-group>
+                    </div>
+                    <div class="col-md-12">
+                        <std-form-group
+                                label="Release Date"
+                                label-for="release_date"
+                                :errors="form_errors.release_date"
+                                :required="true"
+                        >
+                            <fld-input name="release_date" v-model="record.release_date"/>
+                        </std-form-group>
+                    </div>
+                    <div class="col-md-12">
+                        <std-form-group
+                                label="What was the name of the Judge?"
+                                label-for="judge"
+                                :errors="form_errors.judge"
+                                :required="true"
+                        >
+                            <fld-input name="judge" v-model="record.judge"/>
+                        </std-form-group>
+                    </div>
 
                 </div>
+
 
                 <div class="row">
                     <div class="col-md-12">
@@ -126,32 +141,17 @@
                                 label-for="notes"
                                 :errors="form_errors.notes"
                         >
-                            <fld-text-area name="notes" v-model="charge.notes" rows="5"/>
-                        </std-form-group>
-                    </div>
-                    <div class="col-md-12">
-                        <std-form-group
-                                label="Reason for Change"
-                                label-for="reason_for_change"
-                                :errors="form_errors.reason_for_change"
-                        >
-                            <fld-text-area
-                                    name="reason_for_change"
-                                    v-model="charge.reason_for_change"
-                                    required
-                                    rows="5"
-                            />
+                            <fld-text-area name="notes" v-model="record.notes"/>
                         </std-form-group>
                     </div>
                 </div>
-
 
                 <div class="form-group mt-4">
                     <div class="row">
                         <div class="col-md-4 text-md-left mt-2 mt-md-0">
                             <button class="btn btn-secondary" @click.prevent="cancel">Cancel</button>
                         </div>
-                        <div class="col-md-4 text-center mt-2 mt-md-0" v-if="charge.id > 0">
+                        <div class="col-md-4 text-center mt-2 mt-md-0" v-if="record.id > 0">
                             <button class="btn btn-danger" @click.prevent="deleteCharge">Delete Charge</button>
                         </div>
                         <div class="col-md-4 text-md-right">
@@ -174,9 +174,9 @@
 <script>
 
     export default {
-        name: "charge-edit",
+        name: "CaseEdit",
         props: {
-            charge: {
+            record: {
                 type: [Boolean, Object],
                 default: false
             }
@@ -185,20 +185,20 @@
             return {
                 form_errors: {
                     id: false,
-                    conviction_id: false,
-                    charge: false,
-                    citation: false,
-                    conviction_class_type: false,
-                    conviction_charge_type: false,
-                    sentence: false,
-                    convicted_text: false,
-                    eligible_text: false,
-                    please_expunge_text: false,
-                    to_print: false,
+                    client_id: false,
+                    name: false,
+                    arrest_date: false,
+                    case_number: false,
+                    agency: false,
+                    court_name: false,
+                    court_city_county: false,
+                    judge: false,
+                    record_name: false,
+                    release_status: false,
+                    release_date_text: false,
                     notes: false,
-                    convicted: false,
-                    eligible: false,
-                    please_expunge: false
+                    approximate_date_of_charge: false,
+                    release_date: false
                 },
                 server_message: false,
                 try_logging_in: false,
@@ -208,31 +208,17 @@
             };
         },
         mounted() {
-            if (this.charge.id === 0) {
+            if (this.record.id === 0) {
                 this.$refs.newCharge.$refs.input.focus()
             }
         },
         created() {
             /// make back up copy
-            for (let index in this.charge) {
-                this.backup_copy[index] = this.charge[index]
+            for (let index in this.record) {
+                this.backup_copy[index] = this.record[index]
             }
         },
-        computed: {
 
-            dsp_convicted() {
-                let q = this.charge.convicted;
-                return parseInt(q) ? ' -- Convicted' : '';
-            },
-            dsp_eligible() {
-                let q = this.charge.eligible;
-                return parseInt(q) ? ', Eligible' : '';
-            },
-            dsp_please_expunge() {
-                let q = this.charge.please_expunge;
-                return parseInt(q) ? ', PleaseExpunge' : '';
-            },
-        },
         methods: {
             async handleSubmit() {
                 let $this = this
@@ -240,32 +226,32 @@
                 this.processing = true;
                 let url = "";
                 let amethod = "";
-                if (this.charge.id) {
-                    url = "/charge/" + this.charge.id;
+                if (this.record.id) {
+                    url = "/conviction/" + this.record.id;
                     amethod = "put";
                 } else {
-                    url = "/charge";
+                    url = "/conviction";
                     amethod = "post";
                 }
                 await axios({
                     method: amethod,
                     url: url,
-                    data: this.charge
+                    data: this.record
                 })
                     .then(res => {
                         if (res.status === 200) {
                             // if saved set the get the id back and set to instance
-                            if (res.data.charge) {
+                            if (res.data.record) {
                                 /// set id in case this is a new entry
-                                $this.charge.id = res.data.charge.id
-                                /// recopy the new charge to our backup
-                                for (let index in $this.charge) {
-                                    $this.backup_copy[index] = $this.charge[index]
+                                $this.record.id = res.data.record.id
+                                /// recopy the new record to our backup
+                                for (let index in $this.record) {
+                                    $this.backup_copy[index] = $this.record[index]
                                 }
                             }
 
                             $this.processing = false
-                            $this.$bus.$emit('minimize-charge', $this.charge.id)
+                            $this.$bus.$emit('minimize-case', $this.record.id)
                         } else {
                             this.server_message = res.status;
                         }
@@ -286,7 +272,7 @@
                             } else if (error.response.status === 404) {
                                 // Record not found
                                 this.server_message = "Record not found";
-                                window.location = "/charge";
+                                window.location = "/appliants";
                             } else if (error.response.status === 419) {
                                 // Unknown status
                                 this.server_message =
@@ -310,12 +296,12 @@
             deleteCharge() {
                 let $this = this
                 if (confirm('Do you want to delete record?')) {
-                    axios.delete(`/charge/${this.charge.id}`)
+                    axios.delete(`/conviction/${this.record.id}`)
                         .then(response => {
                             F
                             console.log(response)
                             // send delete event to Charges List
-                            this.$bus.$emit('charge-deleted', this.charge.id, this.charge.conviction_id)
+                            this.$bus.$emit('case-deleted', this.record.id)
                         })
                         .catch(error => {
                             console.log(error)
@@ -324,11 +310,11 @@
             },
             cancel() {
                 console.log('cancel')
-                if (this.charge.id === 0) {
-                    this.$bus.$emit('charge-deleted', this.charge.id, this.charge.conviction_id)
+                if (this.record.id === 0) {
+                    this.$bus.$emit('record-deleted', this.record.id)
                 } else {
                     for (let index in this.backup_copy) {
-                        this.charge[index] = this.backup_copy[index]
+                        this.record[index] = this.backup_copy[index]
                     }
                 }
             }

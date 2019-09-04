@@ -12,6 +12,15 @@ class Statute extends Model
     use SoftDeletes;
     use RecordSignature;
 
+     CONST INELIGIBLE = 'ineligible';
+     CONST ELIGIBLE = 'eligible';
+     CONST POSSIBLY = 'possibly';
+     const ELIGIBLITY_STATUSES = [
+         self::ELIGIBLE,
+         self::INELIGIBLE,
+         self::POSSIBLY,
+     ];
+
     /**
      * fillable - attributes that can be mass-assigned
      */
@@ -32,7 +41,25 @@ class Statute extends Model
         'created_at',
         'updated_at',
     ];
+    public function comments() {
+        return $this->morphMany(Comment::class, 'comments');
+    }
 
+     /**
+      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+      */
+     public function histories() {
+        return $this->morphMany(History::class, 'historyable');
+     }
+
+      public function saveHistory($request) {
+         $this->histories()->save([
+             'old' => collect($this->getOriginal())->only($this->fillable),
+             'new' => $request->only($this->fillable),
+             'user_id' => auth()->user()->id,
+             'reason_for_change' => $request->reason_for_change ?? null,
+         ]);
+      }
     public function add($attributes)
     {
 
