@@ -7,6 +7,7 @@
                     v-for="(record, index) in cases"
                     :key="index"
                     :record="record"
+                    :case_count="index+1"
             >
             </case-container>
 
@@ -30,7 +31,8 @@
         name: "cases-list",
         components: {
             DoubleChevronToggle,
-            CaseContainer},
+            CaseContainer
+        },
         props: {
             cases: {
                 type: [Boolean, Object, Array],
@@ -43,7 +45,7 @@
         },
         created() {
             this.$bus.$on('case-deleted', (case_id, conviction_id) => {
-                if(conviction_id === this.conviction_id){
+                if (conviction_id === this.conviction_id) {
                     this.removeCase(case_id)
                 }
             })
@@ -82,8 +84,8 @@
             removeCase(id) {
                 console.log('remove-case ' + id)
 
-                for(let i in this.cases) {
-                    if(this.cases[i].id === id) {
+                for (let i in this.cases) {
+                    if (this.cases[i].id === id) {
                         this.cases.splice(id, 1)
                     }
                 }
@@ -101,6 +103,7 @@
         margin: auto;
         float: right;
     }
+
     .pad-30 {
         padding-bottom: 30px;
     }

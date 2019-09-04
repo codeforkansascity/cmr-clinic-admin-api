@@ -1,6 +1,6 @@
 <template>
     <div style="margin-bottom: 1em">
-        <div class="row" >
+        <div class="row">
 
             <div class="col-md-6">
                 <h4>{{ record.name }}, {{ record.arrest_date }}</h4>
