@@ -34,6 +34,10 @@ Vue.component('dsp-textarea', () => import(/* webpackChunkName:"dsp-textarea" */
 Vue.component('dsp-text', () => import(/* webpackChunkName:"dsp-text" */ './components/SS/DspText.vue'));
 Vue.component('dsp-date', () => import(/* webpackChunkName:"dsp-date" */ './components/SS/DspDate.vue'));
 
+
+Vue.component('tr-view', () => import(/* webpackChunkName:"tr-view" */ './components/SS/TrView.vue'));
+
+
 Vue.component('search-form-group', () => import(/* webpackChunkName:"search-form-group" */ './components/SearchFormGroup.vue'));
 
 
