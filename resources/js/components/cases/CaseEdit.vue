@@ -146,6 +146,21 @@
                     </div>
                 </div>
 
+                <div class="col-md-12">
+                    <std-form-group
+                            label="Reason for Change"
+                            label-for="reason_for_change"
+                            :errors="form_errors.reason_for_change"
+                    >
+                        <fld-text-area
+                                name="reason_for_change"
+                                v-model="record.reason_for_change"
+                                required
+                                rows="5"
+                        />
+                    </std-form-group>
+                </div>
+
                 <div class="form-group mt-4">
                     <div class="row">
                         <div class="col-md-4 text-md-left mt-2 mt-md-0">
@@ -198,7 +213,8 @@
                     release_date_text: false,
                     notes: false,
                     approximate_date_of_charge: false,
-                    release_date: false
+                    release_date: false,
+                    reason_for_change: false
                 },
                 server_message: false,
                 try_logging_in: false,
