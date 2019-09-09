@@ -72,7 +72,12 @@
                                     label-for="dob"
                                     :errors="form_errors.dob"
                             >
-                                <fld-input name="dob" v-model="record.dob"/>
+                                <!--<fld-date name="dob" v-model="record.dob"/>-->
+
+                                <flat-pickr
+                                            v-model="record.dob"
+                                            :config="config"
+                                            style="width: 10em"/>
                             </std-form-group>
                         </div>
                         <div class="col-md-12">
@@ -129,10 +134,14 @@
                                         label-for="license_expiration_date"
                                         :errors="form_errors.license_expiration_date"
                                 >
-                                    <fld-input
-                                            name="license_expiration_date"
+                                    <!--<fld-date-->
+                                            <!--name="license_expiration_date"-->
+                                            <!--v-model="record.license_expiration_date"-->
+                                    <!--/>-->
+                                    <flat-pickr
                                             v-model="record.license_expiration_date"
-                                    />
+                                            :config="config"
+                                            style="width: 10em"/>
                                 </std-form-group>
                             </div>
                         </fieldset>
@@ -306,9 +315,13 @@
 </template>
 
 <script>
-
+    import flatPickr from 'vue-flatpickr-component';
+    import 'flatpickr/dist/flatpickr.css';
     export default {
         name: "ApplicantEdit",
+        components: {
+            flatPickr
+        },
         props: {
             record: {
                 type: [Boolean, Object],
@@ -317,6 +330,17 @@
             csrf_token: {
                 type: String,
                 default: ""
+            },
+            config: {
+                type: Object,
+                default: function () {
+                    return {
+                        altInput: true,
+                        altFormat: "m/d/Y",
+                        dateFormat: "Y-m-d",
+                        allowInput: true,
+                    }
+                },
             }
         },
         data() {

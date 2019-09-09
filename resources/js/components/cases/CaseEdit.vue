@@ -117,7 +117,10 @@
                                 :errors="form_errors.release_date"
                                 :required="true"
                         >
-                            <fld-input name="release_date" v-model="record.release_date"/>
+                            <flat-pickr
+                                    v-model="record.release_date"
+                                    :config="config"
+                                    style="width: 10em"/>
                         </std-form-group>
                     </div>
                     <div class="col-md-12">
@@ -187,13 +190,28 @@
 </template>
 
 <script>
-
+    import flatPickr from 'vue-flatpickr-component';
+    import 'flatpickr/dist/flatpickr.css';
     export default {
         name: "CaseEdit",
+        components: {
+            flatPickr
+        },
         props: {
             record: {
                 type: [Boolean, Object],
                 default: false
+            },
+            config: {
+                type: Object,
+                default: function () {
+                    return {
+                        altInput: true,
+                        altFormat: "m/d/Y",
+                        dateFormat: "Y-m-d",
+                        allowInput: true,
+                    }
+                },
             }
         },
         data() {
