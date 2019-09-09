@@ -88,3 +88,5 @@ Route::get('/api-comment/options', 'CommentApi@getOptions');
 Route::get('/comment/download', 'CommentController@download')->name('comment.download');
 Route::get('/comment/print', 'CommentController@print')->name('comment.print');
 Route::resource('/comment', 'CommentController');
+
+Route::get('/api-statutes-eligibility/options', 'StatutesEligibilityApi@getOptions');
