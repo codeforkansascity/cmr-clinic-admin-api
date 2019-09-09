@@ -146,6 +146,7 @@ class Statute extends Model
 
         if ($keyword) {
             $query->where('name', 'like', '%' . $keyword . '%');
+            $query->orWhere('number', 'like', '%' . $keyword . '%');
         }
         return $query;
     }

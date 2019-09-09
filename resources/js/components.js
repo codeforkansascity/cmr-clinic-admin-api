@@ -13,6 +13,14 @@ Vue.component('ui-select-pick-one', require('./components/UiSelectPickOne.vue'))
 
 Vue.component('std-form-group', () => import(/* webpackChunkName:"std-form-group" */ './components/SS/StdFormGroup.vue'));
 Vue.component('fld-input', () => import(/* webpackChunkName:"fld-input" */ './components/SS/FldInput.vue'));
+
+// CKEditor
+import CKEditor from '@ckeditor/ckeditor5-vue';
+
+Vue.use(CKEditor);
+
+Vue.component('fld-text-editor', () => import(/* webpackChunkName:"fld-text-editor" */ './components/SS/FldTextEditor.vue'));
+
 Vue.component('fld-text-area', () => import(/* webpackChunkName:"fld-text-area" */ './components/SS/FldTextArea.vue'));
 Vue.component('fld-checkbox', () => import(/* webpackChunkName:"fld-checkbox" */ './components/SS/FldCheckBox.vue'));
 Vue.component('fld-state', () => import(/* webpackChunkName:"fld-state" */ './components/SS/FldState.vue'));
@@ -32,6 +40,11 @@ Vue.component('fld-expunge', () => import(/* webpackChunkName:"fld-expunge" */ '
 Vue.component('dsp-boolean', () => import(/* webpackChunkName:"dsp-boolean" */ './components/SS/DspBoolean.vue'));
 Vue.component('dsp-textarea', () => import(/* webpackChunkName:"dsp-textarea" */ './components/SS/DspTextArea.vue'));
 Vue.component('dsp-text', () => import(/* webpackChunkName:"dsp-text" */ './components/SS/DspText.vue'));
+Vue.component('dsp-date', () => import(/* webpackChunkName:"dsp-date" */ './components/SS/DspDate.vue'));
+
+
+Vue.component('tr-view', () => import(/* webpackChunkName:"tr-view" */ './components/SS/TrView.vue'));
+
 
 Vue.component('search-form-group', () => import(/* webpackChunkName:"search-form-group" */ './components/SearchFormGroup.vue'));
 
@@ -47,6 +60,8 @@ Vue.component('charges', () => import(/* webpackChunkName:"charges" */ './compon
 //Vue.component('applicant-form',       require('./components/ApplicantForm.vue'));    // May need to add .default);
 Vue.component('applicant-grid', () => import(/* webpackChunkName:"applicant-grid" */ './components/ApplicantGrid.vue'));
 Vue.component('applicant-form', () => import(/* webpackChunkName:"applicant-form" */ './components/ApplicantForm.vue'));
+Vue.component('applicant-container', () => import(/* webpackChunkName:"applicant-container" */ './components/applicants/ApplicantContainer'));
+
 
 //Vue.component('status-grid',       require('./components/StatusGrid.vue'));    // May need to add .default);
 //Vue.component('status-form',       require('./components/StatusForm.vue'));    // May need to add .default);
@@ -86,3 +101,5 @@ Vue.component('statute-show', () => import(/* webpackChunkName:"statute-Show" */
 Vue.component('comment-grid', () => import(/* webpackChunkName:"comment-grid" */ './components/CommentGrid.vue'));
 Vue.component('comment-form', () => import(/* webpackChunkName:"comment-form" */ './components/CommentForm.vue'));
 Vue.component('comment-show', () => import(/* webpackChunkName:"comment-Show" */ './components/CommentShow.vue'));
+
+

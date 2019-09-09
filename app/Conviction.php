@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\RecordSignature;
+use Illuminate\Notifications\Notifiable;
 
 class Conviction extends Model
 {
@@ -66,6 +67,16 @@ class Conviction extends Model
     public function canDelete()
     {
         return true;
+    }
+
+    public function saveHistory($request)
+    {
+        return $this->histories()->create([
+            'old' => $this->only($this->fillable),
+            'new' => $request->only($this->fillable),
+            'user_id' => auth()->user()->id,
+            'reason_for_change' => $request->reason_for_change ?? null,
+        ]);
     }
 
 

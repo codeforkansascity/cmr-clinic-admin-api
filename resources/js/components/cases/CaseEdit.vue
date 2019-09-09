@@ -117,7 +117,10 @@
                                 :errors="form_errors.release_date"
                                 :required="true"
                         >
-                            <fld-input name="release_date" v-model="record.release_date"/>
+                            <flat-pickr
+                                    v-model="record.release_date"
+                                    :config="config"
+                                    style="width: 10em"/>
                         </std-form-group>
                     </div>
                     <div class="col-md-12">
@@ -146,6 +149,21 @@
                     </div>
                 </div>
 
+                <div class="col-md-12">
+                    <std-form-group
+                            label="Reason for Change"
+                            label-for="reason_for_change"
+                            :errors="form_errors.reason_for_change"
+                    >
+                        <fld-text-area
+                                name="reason_for_change"
+                                v-model="record.reason_for_change"
+                                required
+                                rows="5"
+                        />
+                    </std-form-group>
+                </div>
+
                 <div class="form-group mt-4">
                     <div class="row">
                         <div class="col-md-4 text-md-left mt-2 mt-md-0">
@@ -172,13 +190,28 @@
 </template>
 
 <script>
-
+    import flatPickr from 'vue-flatpickr-component';
+    import 'flatpickr/dist/flatpickr.css';
     export default {
         name: "CaseEdit",
+        components: {
+            flatPickr
+        },
         props: {
             record: {
                 type: [Boolean, Object],
                 default: false
+            },
+            config: {
+                type: Object,
+                default: function () {
+                    return {
+                        altInput: true,
+                        altFormat: "m/d/Y",
+                        dateFormat: "Y-m-d",
+                        allowInput: true,
+                    }
+                },
             }
         },
         data() {
@@ -198,7 +231,8 @@
                     release_date_text: false,
                     notes: false,
                     approximate_date_of_charge: false,
-                    release_date: false
+                    release_date: false,
+                    reason_for_change: false
                 },
                 server_message: false,
                 try_logging_in: false,

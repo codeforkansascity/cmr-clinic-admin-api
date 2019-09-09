@@ -84,7 +84,18 @@
         ],
         data() {
             return {}
-        }
+        },
+        computed: {
+            is_convicted() {
+                return parseInt(this.charge.convicted) ? ' -- Convicted' : '';
+            },
+            is_eligible() {
+                return parseInt(this.charge.eligible) ? ', Eligible' : '';
+            },
+            is_please_expunge() {
+                return parseInt(this.charge.please_expunge) ? ', PleaseExpunge' : '';
+            },
+        },
     }
 </script>
 

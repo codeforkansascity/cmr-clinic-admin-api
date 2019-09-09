@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-2">
                 <h4>
-                    {{ record.release_date }}
+                    {{ moment(String(record.release_date)).format('MM/DD/YYYY')  }}
 
                 </h4>
             </div>
@@ -23,87 +23,42 @@
                 {{ record.notes }}
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-6" style="padding-left: 1em;">
+                <table class="table  table-sm">
+
+                    <tr is="tr-view" v-model="record.case_number">Case Number</tr>
+                    <tr is="tr-view" v-model="record.court_name">Court</tr>
+                    <tr is="tr-view" v-model="record.judge">Judge</tr>
+                    <tr is="tr-view" v-model="record.approximate_date_of_charge">Approx charte date</tr>
+                    <tr is="tr-view" v-model="record.release_status">Relase Status</tr>
+                    <tr is="tr-view" v-model="moment(String(record.release_date)).format('MM/DD/YYYY')">Release Date</tr>
+
+
+                </table>
+            </div>
+            <div class="col-md-6" style="padding-left: 1em;">
+                <table class="table  table-sm">
+                    <tr is="tr-view" v-model="record.name">Name</tr>
+                    <tr is="tr-view" v-model="record.arrest_date">Arrest date per applicant</tr>
+                    <tr is="tr-view" v-model="record.record_name">Client's Name<br>as appeares in court records</tr>
+
+                </table>
+            </div>
+            <hr>
+            <div class="col-md-6" style="padding-left: 1em;">
+                <h4>Extra stuff</h4>
+                <table class="table  table-sm">
+                    <tr is="tr-view" v-model="record.agency">Agency</tr>
+                    <tr is="tr-view" v-model="record.court_city_county">Court City County</tr>
+                    <tr is="tr-view" v-model="record.record_name">Client's Name<br>as appeares in court records</tr>
+
+                </table>
+            </div>
+        </div>
         <div class="col-md-6">
-            <div class="form-group row mb-2 mb-md-0 text-only">
-                <label class="col-md-4 col-form-label text-md-right">
-                    Client Id
-                </label>
-                <div class="col-md-8">
-                    <dsp-text v-model="record.client_id"/>
-                </div>
-            </div>
-            <div class="form-group row mb-2 mb-md-0 text-only">
-                <label class="col-md-4 col-form-label text-md-right">
-                    Name
-                </label>
-                <div class="col-md-8">
-                    <dsp-text v-model="record.name"/>
-                </div>
-            </div>
-            <div class="form-group row mb-2 mb-md-0 text-only">
-                <label class="col-md-4 col-form-label text-md-right">
-                    Arrest Date
-                </label>
-                <div class="col-md-8">
-                    <dsp-text v-model="record.arrest_date"/>
-                </div>
-            </div>
-            <div class="form-group row mb-2 mb-md-0 text-only">
-                <label class="col-md-4 col-form-label text-md-right">
-                    Case Number
-                </label>
-                <div class="col-md-8">
-                    <dsp-text v-model="record.case_number"/>
-                </div>
-            </div>
-            <div class="form-group row mb-2 mb-md-0 text-only">
-                <label class="col-md-4 col-form-label text-md-right">
-                    Agency
-                </label>
-                <div class="col-md-8">
-                    <dsp-text v-model="record.agency"/>
-                </div>
-            </div>
-            <div class="form-group row mb-2 mb-md-0 text-only">
-                <label class="col-md-4 col-form-label text-md-right">
-                    Court Name
-                </label>
-                <div class="col-md-8">
-                    <dsp-text v-model="record.court_name"/>
-                </div>
-            </div>
-            <div class="form-group row mb-2 mb-md-0 text-only">
-                <label class="col-md-4 col-form-label text-md-right">
-                    Court City County
-                </label>
-                <div class="col-md-8">
-                    <dsp-text v-model="record.court_city_county"/>
-                </div>
-            </div>
-            <div class="form-group row mb-2 mb-md-0 text-only">
-                <label class="col-md-4 col-form-label text-md-right">
-                    Judge
-                </label>
-                <div class="col-md-8">
-                    <dsp-text v-model="record.judge"/>
-                </div>
-            </div>
-            <div class="form-group row mb-2 mb-md-0 text-only">
-                <label class="col-md-4 col-form-label text-md-right">
-                    Record Name
-                </label>
-                <div class="col-md-8">
-                    <dsp-text v-model="record.record_name"/>
-                </div>
-            </div>
-            <div class="form-group row mb-2 mb-md-0 text-only">
-                <label class="col-md-4 col-form-label text-md-right">
-                    Release Status
-                </label>
-                <div class="col-md-8">
-                    <dsp-text v-model="record.release_status"/>
-                </div>
-            </div>
+
+
             <div class="form-group row mb-2 mb-md-0 text-only">
                 <label class="col-md-4 col-form-label text-md-right">
                     Release Date Text
@@ -120,22 +75,8 @@
                     <dsp-text v-model="record.notes"/>
                 </div>
             </div>
-            <div class="form-group row mb-2 mb-md-0 text-only">
-                <label class="col-md-4 col-form-label text-md-right">
-                    Approximate Date Of Charge
-                </label>
-                <div class="col-md-8">
-                    <dsp-text v-model="record.approximate_date_of_charge"/>
-                </div>
-            </div>
-            <div class="form-group row mb-2 mb-md-0 text-only">
-                <label class="col-md-4 col-form-label text-md-right">
-                    Release Date
-                </label>
-                <div class="col-md-8">
-                    <dsp-text v-model="record.release_date"/>
-                </div>
-            </div>
+
+
         </div>
     </div>
 </template>
