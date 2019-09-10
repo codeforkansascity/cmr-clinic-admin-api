@@ -175,9 +175,9 @@
 </template>
 
 <script>
-    import SsGridColumnHeader from "./SsGridColumnHeader";
-    import SsGridPagination from "./SsGridPagination";
-    import SsGridPaginationLocation from "./SsPaginationLocation";
+    import SsGridColumnHeader from "./SS/SsGridColumnHeader";
+    import SsGridPagination from "./SS/SsGridPagination";
+    import SsGridPaginationLocation from "./SS/SsPaginationLocation";
 
     export default {
         name: "step-grid",

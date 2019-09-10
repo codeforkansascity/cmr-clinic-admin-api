@@ -193,10 +193,10 @@
 </template>
 
 <script>
-    import SsGridColumnHeader from "../SsGridColumnHeader";
-    import SsGridPagination from "../SsGridPagination";
-    import SsGridPaginationLocation from "../SsPaginationLocation";
-    import UiSelectPickOne from "../UiSelectPickOne";
+    import SsGridColumnHeader from "../SS/SsGridColumnHeader";
+    import SsGridPagination from "../SS/SsGridPagination";
+    import SsGridPaginationLocation from "../SS/SsPaginationLocation";
+    import UiSelectPickOne from "../SS/UiSelectPickOne";
 
     export default {
         name: "statute-grid",

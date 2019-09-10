@@ -8,8 +8,8 @@ Vue.component('std-form-group', () => import(/* webpackChunkName:"std-form-group
 /*
      UI
  */
-Vue.component('ui-field-view', require('./components/UiFieldView.vue'));
-Vue.component('ui-select-pick-one', require('./components/UiSelectPickOne.vue'));
+Vue.component('ui-field-view', require('./components/SS/UiFieldView.vue'));
+Vue.component('ui-select-pick-one', require('./components/SS/UiSelectPickOne.vue'));
 
 Vue.component('std-form-group', () => import(/* webpackChunkName:"std-form-group" */ './components/SS/StdFormGroup.vue'));
 Vue.component('fld-input', () => import(/* webpackChunkName:"fld-input" */ './components/SS/FldInput.vue'));
@@ -40,7 +40,7 @@ Vue.component('dsp-date', () => import(/* webpackChunkName:"dsp-date" */ './comp
 
 Vue.component('tr-view', () => import(/* webpackChunkName:"tr-view" */ './components/SS/TrView.vue'));
 
-Vue.component('search-form-group', () => import(/* webpackChunkName:"search-form-group" */ './components/SearchFormGroup.vue'));
+Vue.component('search-form-group', () => import(/* webpackChunkName:"search-form-group" */ './components/SS/SearchFormGroup.vue'));
 
 
 /*

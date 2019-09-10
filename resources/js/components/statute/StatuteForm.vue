@@ -98,7 +98,7 @@
 
 <script>
     import axios from "axios";
-    import UiSelectPickOne from "../UiSelectPickOne";
+    import UiSelectPickOne from "../SS/UiSelectPickOne";
 
     export default {
         name: "statute-form",
