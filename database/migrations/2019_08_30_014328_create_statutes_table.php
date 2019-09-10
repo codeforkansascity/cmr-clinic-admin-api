@@ -18,8 +18,8 @@ class CreateStatutesTable extends Migration
             $table->string('number');
             $table->string('name', 500);
             $table->text('note')->nullable();
-            $table->string('eligible')->nullable();
-            $table->index(['eligible']);
+            $table->integer('statutes_eligibility_id')->default(0)->nullable();
+            $table->index(['statutes_eligibility_id']);
             $table->timestamps();
             $table->integer('created_by')->default(0)->nullable();
             $table->integer('modified_by')->default(0)->nullable();

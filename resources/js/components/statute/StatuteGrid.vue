@@ -51,8 +51,8 @@
                     >
                         <ui-select-pick-one
                                 url="/api-statutes-eligibility/options"
-                                v-model="statutes_eligibilitySelected"
-                                :selected_id="statutes_eligibilitySelected"
+                                v-model="eligibilitySelected"
+                                :selected_id="eligibilitySelected"
                                 name="statutes_eligibility"
                                 blank_text="All"
                                 blank_value="0"
@@ -193,10 +193,10 @@
 </template>
 
 <script>
-    import SsGridColumnHeader from "./SsGridColumnHeader";
-    import SsGridPagination from "./SsGridPagination";
-    import SsGridPaginationLocation from "./SsPaginationLocation";
-    import UiSelectPickOne from "./UiSelectPickOne";
+    import SsGridColumnHeader from "../SsGridColumnHeader";
+    import SsGridPagination from "../SsGridPagination";
+    import SsGridPaginationLocation from "../SsPaginationLocation";
+    import UiSelectPickOne from "../UiSelectPickOne";
 
     export default {
         name: "statute-grid",
@@ -242,10 +242,15 @@
                     column: false,
                     direction: false
                 },
-                statutes_eligibilitySelected: 0,
+                eligibilitySelected: 0,
                 server_message: false,
                 try_logging_in: false
             };
+        },
+        watch: {
+            eligibilitySelected: function (val) {
+                this.getData(1);
+            },
         },
 
         methods: {
@@ -343,7 +348,7 @@
 
                 //                if (this.isDefined(this.searchType)) queryParams.push('search_type=' + this.searchType);
                 //                if (this.isDefined(this.showFilter)) queryParams.push('show_filter=' + this.showFilter);
-                //                if (this.isDefined(this.contractorSelected)) queryParams.push('contractor_id=' + this.contractorSelected);
+                if (this.isDefined(this.eligibilitySelected)) queryParams.push('eligibility_id=' + this.eligibilitySelected);
 
                 if (queryParams.length > 0) url += queryParams.join("&");
 
