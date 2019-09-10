@@ -23,22 +23,18 @@ class CreateStatutesEligibilities extends Migration
             $table->softDeletes();
         });
 
-        Schema::table('statutes', function (Blueprint $table) {
-            $table->integer('statutes_eligibility_id')->default(0)->nullable();
-        });
-
         $status = \App\StatutesEligibility::create([
-            'id' => 1,
-            'name' => 'Eligable',
+            'id' => \App\Statute::ELIGIBLE,
+            'name' => 'Eligible',
             'sequence' => 10,
         ]);
         $status = \App\StatutesEligibility::create([
-            'id' => 2,
-            'name' => 'Ineligable',
+            'id' => \App\Statute::INELIGIBLE,
+            'name' => 'Ineligible',
             'sequence' => 20,
         ]);
         $status = \App\StatutesEligibility::create([
-            'id' => 3,
+            'id' => \App\Statute::POSSIBLY,
             'name' => 'Possibly Eligable',
             'sequence' => 30,
         ]);

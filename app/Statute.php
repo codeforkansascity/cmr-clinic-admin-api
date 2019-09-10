@@ -12,26 +12,27 @@ class Statute extends Model
     use SoftDeletes;
     use RecordSignature;
 
-     CONST INELIGIBLE = 'ineligible';
-     CONST ELIGIBLE = 'eligible';
-     CONST POSSIBLY = 'possibly';
-     const ELIGIBLITY_STATUSES = [
-         self::ELIGIBLE,
-         self::INELIGIBLE,
-         self::POSSIBLY,
-     ];
+
+    CONST ELIGIBLE = '1';
+    CONST INELIGIBLE = '2';
+    CONST POSSIBLY = '3';
+    const ELIGIBLITY_STATUSES = [
+        self::ELIGIBLE,
+        self::INELIGIBLE,
+        self::POSSIBLY,
+    ];
 
     /**
      * fillable - attributes that can be mass-assigned
      */
     protected $fillable = [
-            'id',
-            'number',
-            'name',
-            'note',
-            'eligible',
-            'deleted_at',
-        ];
+        'id',
+        'number',
+        'name',
+        'note',
+        'statutes_eligibility_id',
+        'deleted_at',
+    ];
 
     protected $hidden = [
         'active',
@@ -41,25 +42,30 @@ class Statute extends Model
         'created_at',
         'updated_at',
     ];
-    public function comments() {
+
+    public function comments()
+    {
         return $this->morphMany(Comment::class, 'comments');
     }
 
-     /**
-      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-      */
-     public function histories() {
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function histories()
+    {
         return $this->morphMany(History::class, 'historyable');
-     }
+    }
 
-      public function saveHistory($request) {
-         $this->histories()->save([
-             'old' => collect($this->getOriginal())->only($this->fillable),
-             'new' => $request->only($this->fillable),
-             'user_id' => auth()->user()->id,
-             'reason_for_change' => $request->reason_for_change ?? null,
-         ]);
-      }
+    public function saveHistory($request)
+    {
+        $this->histories()->create([
+            'old' => collect($this->getOriginal())->only($this->fillable),
+            'new' => $request->only($this->fillable),
+            'user_id' => auth()->user()->id,
+            'reason_for_change' => $request->reason_for_change ?? null,
+        ]);
+    }
+
     public function add($attributes)
     {
 
@@ -95,18 +101,17 @@ class Statute extends Model
         $per_page,
         $column,
         $direction,
-        $keyword = '')
+        $keyword = '',
+        $eligibility_id = 0)
     {
-        return self::buildBaseGridQuery($column, $direction, $keyword,
-            [ 'id',
-                    'number',
-                    'name',
-                    'eligible',
+        return self::buildBaseGridQuery($column, $direction, $keyword, $eligibility_id,
+            ['statutes.id as id',
+                'statutes.number as number',
+                'statutes.name as name',
+                'statutes_eligibilities.name AS eligible',
             ])
-        ->paginate($per_page);
+            ->paginate($per_page);
     }
-
-
 
 
     /**
@@ -126,6 +131,7 @@ class Statute extends Model
         $column,
         $direction,
         $keyword = '',
+        $eligibility_id = 0,
         $columns = '*')
     {
         // Map sort direction from 1/-1 integer to asc/desc sql keyword
@@ -141,51 +147,64 @@ class Statute extends Model
                 break;
         }
 
+        if ($column == 'eligible') {
+            $column = 'statutes_eligibilities.name';
+        }
+
         $query = Statute::select($columns)
-        ->orderBy($column, $direction);
+            ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('name', 'like', '%' . $keyword . '%');
-            $query->orWhere('number', 'like', '%' . $keyword . '%');
+            $query->where('statutes.name', 'like', '%' . $keyword . '%');
+            $query->orWhere('statutes.number', 'like', '%' . $keyword . '%');
         }
+
+        if ($eligibility_id) {
+            $query->where('statutes.statutes_eligibility_id', $eligibility_id);
+        }
+
+        $query->leftJoin('statutes_eligibilities', 'statutes.statutes_eligibility_id', '=', 'statutes_eligibilities.id');
         return $query;
     }
 
-        /**
-         * Get export/Excel/download data query to send to Excel download library
-         *
-         * @param $per_page
-         * @param $column
-         * @param $direction
-         * @param string $keyword
-         * @return mixed
-         */
+    /**
+     * Get export/Excel/download data query to send to Excel download library
+     *
+     * @param $per_page
+     * @param $column
+     * @param $direction
+     * @param string $keyword
+     * @return mixed
+     */
 
     static function exportDataQuery(
         $column,
         $direction,
         $keyword = '',
+        $eligibility_id = 0,
+        $columns = '*'
+    )
+    {
+
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+
+        return self::buildBaseGridQuery($column, $direction, $keyword, $eligibility_id, $columns);
+
+    }
+
+    static function pdfDataQuery(
+        $column,
+        $direction,
+        $keyword = '',
+        $eligibility_id = 0,
         $columns = '*')
     {
 
         info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
-        return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
+        return self::buildBaseGridQuery($column, $direction, $keyword, $eligibility_id, $columns);
 
     }
-
-        static function pdfDataQuery(
-            $column,
-            $direction,
-            $keyword = '',
-            $columns = '*')
-        {
-
-            info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
-
-            return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
-
-        }
 
 
     /**
