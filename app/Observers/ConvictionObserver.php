@@ -2,61 +2,67 @@
 
 namespace App\Observers;
 
-use App\Charge;
+use App\Conviction;
 
 class ConvictionObserver
 {
+    protected $request;
+    public function __construct()
+    {
+        $this->request = request();
+    }
+
     /**
-     * Handle the charge "created" event.
+     * Handle the conviction "created" event.
      *
-     * @param  \App\Conviction  $charge
+     * @param  \App\Conviction  $conviction
      * @return void
      */
-    public function created(Conviction $charge)
+    public function created(Conviction $conviction)
+    {
+        $conviction->saveHistory($this->request, __FUNCTION__);
+    }
+
+    /**
+     * Handle the conviction "updated" event.
+     *
+     * @param  \App\Conviction  $conviction
+     * @return void
+     */
+    public function updated(Conviction $conviction)
+    {
+        $conviction->saveHistory($this->request, __FUNCTION__);
+    }
+
+    /**
+     * Handle the conviction "deleted" event.
+     *
+     * @param  \App\Conviction  $conviction
+     * @return void
+     */
+    public function deleted(Conviction $conviction)
+    {
+        $conviction->saveHistory($this->request, __FUNCTION__);
+    }
+
+    /**
+     * Handle the conviction "restored" event.
+     *
+     * @param  \App\Conviction  $conviction
+     * @return void
+     */
+    public function restored(Conviction $conviction)
     {
         //
     }
 
     /**
-     * Handle the charge "updated" event.
+     * Handle the conviction "force deleted" event.
      *
-     * @param  \App\Conviction  $charge
+     * @param  \App\Conviction  $conviction
      * @return void
      */
-    public function updated(Conviction $charge)
-    {
-        $charge->saveHistory(request());
-    }
-
-    /**
-     * Handle the charge "deleted" event.
-     *
-     * @param  \App\Conviction  $charge
-     * @return void
-     */
-    public function deleted(Conviction $charge)
-    {
-        //
-    }
-
-    /**
-     * Handle the charge "restored" event.
-     *
-     * @param  \App\Conviction  $charge
-     * @return void
-     */
-    public function restored(Conviction $charge)
-    {
-        //
-    }
-
-    /**
-     * Handle the charge "force deleted" event.
-     *
-     * @param  \App\Conviction  $charge
-     * @return void
-     */
-    public function forceDeleted(Conviction $charge)
+    public function forceDeleted(Conviction $conviction)
     {
         //
     }

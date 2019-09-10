@@ -42,10 +42,8 @@
             }
         },
         created() {
-            this.$bus.$on('charge-deleted', (charge_id, conviction_id) => {
-                if(conviction_id === this.conviction_id){
-                    this.removeCharge(charge_id)
-                }
+            this.$bus.$on('charge-deleted:conviction:'+this.conviction_id, (charge_id) => {
+                this.removeCharge(charge_id)
             })
 
         },
@@ -82,15 +80,16 @@
             removeCharge(id) {
                 console.log('remove-charge ' + id)
 
-                for(let i in this.charges) {
-                    if(this.charges[i].id === id) {
-                        this.charges.splice(id, 1)
-                    }
-                }
+                // for(let i in this.charges) {
+                //     if(this.charges[i].id === id) {
+                //         console.log('deleted '+i)
+                //         this.charges.splice(id, 1)
+                //     }
+                // }
                 // we get a warning if we try to use filter
-                // this.charges = this.charges.filter(charge => {
-                //     return charge.id !== id
-                // })
+                this.charges = this.charges.filter(charge => {
+                    return charge.id !== id
+                })
             }
         },
     }

@@ -21,6 +21,9 @@ class CreateStatutesTable extends Migration
             $table->string('eligible')->nullable();
             $table->index(['eligible']);
             $table->timestamps();
+            $table->integer('created_by')->default(0)->nullable();
+            $table->integer('modified_by')->default(0)->nullable();
+            $table->integer('purged_by')->default(0)->nullable();
             $table->softDeletes();
         });
     }

@@ -16,7 +16,7 @@ class ClientTableSeeder extends Seeder
 
 
         $faker = Faker::create();
-
+print "XXXXX\n";
         $client = \App\Client::create([
             'id' => '2',
             'name' => 'Teresa Lee Kuvalis',
@@ -54,6 +54,8 @@ class ClientTableSeeder extends Seeder
             'notes' => 'Check on parole release date.  If 2011 (per client), ready for expungement.  If 2013 (per records), wait 1 year on felony traficking. Assault on LEO not eligible',
 
         ]);
+
+        print "XXXXX\n";
 
         dump('creating convictions for '.$client->name);
         $convictions = [

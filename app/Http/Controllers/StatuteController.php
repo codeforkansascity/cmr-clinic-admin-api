@@ -132,7 +132,7 @@ class StatuteController extends Controller
             $statute->add($request->validated());
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Unable to process request'
+                'message' => 'Unable to process request' . $e->getMessage()
             ], 400);
         }
 
@@ -231,7 +231,7 @@ class StatuteController extends Controller
                 $statute->save();
             } catch (\Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request'
+                    'message' => 'Unable to process request' . $e->getMessage()
                 ], 400);
             }
 
