@@ -163,9 +163,9 @@
 </template>
 
 <script>
-    import SsGridColumnHeader from "./SsGridColumnHeader";
-    import SsGridPagination from "./SsGridPagination";
-    import SsGridPaginationLocation from "./SsPaginationLocation";
+    import SsGridColumnHeader from "../SsGridColumnHeader";
+    import SsGridPagination from "../SsGridPagination";
+    import SsGridPaginationLocation from "../SsPaginationLocation";
 
     export default {
         name: "applicant-grid",
