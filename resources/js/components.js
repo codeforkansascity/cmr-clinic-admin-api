@@ -55,32 +55,32 @@ Vue.component('applicant-container', () => import(/* webpackChunkName:"applicant
 
 //Vue.component('status-grid',       require('./components/StatusGrid.vue'));    // May need to add .default);
 //Vue.component('status-form',       require('./components/StatusForm.vue'));    // May need to add .default);
-Vue.component('status-grid', () => import(/* webpackChunkName:"status-grid" */ './components/StatusGrid.vue'));
-Vue.component('status-form', () => import(/* webpackChunkName:"status-form" */ './components/StatusForm.vue'));
-Vue.component('status-show', () => import(/* webpackChunkName:"status-Show" */ './components/StatusShow.vue'));
+Vue.component('status-grid', () => import(/* webpackChunkName:"status-grid" */ './components/statuses/StatusGrid.vue'));
+Vue.component('status-form', () => import(/* webpackChunkName:"status-form" */ './components/statuses/StatusForm.vue'));
+Vue.component('status-show', () => import(/* webpackChunkName:"status-Show" */ './components/statuses/StatusShow.vue'));
 
 //Vue.component('assignment-grid',       require('./components/AssignmentGrid.vue'));    // May need to add .default);
 //Vue.component('assignment-form',       require('./components/AssignmentForm.vue'));    // May need to add .default);
-Vue.component('assignment-grid', () => import(/* webpackChunkName:"assignment-grid" */ './components/AssignmentGrid.vue'));
-Vue.component('assignment-form', () => import(/* webpackChunkName:"assignment-form" */ './components/AssignmentForm.vue'));
-Vue.component('assignment-show', () => import(/* webpackChunkName:"assignment-Show" */ './components/AssignmentShow.vue'));
+Vue.component('assignment-grid', () => import(/* webpackChunkName:"assignment-grid" */ './components/assignments/AssignmentGrid.vue'));
+Vue.component('assignment-form', () => import(/* webpackChunkName:"assignment-form" */ './components/assignments/AssignmentForm.vue'));
+Vue.component('assignment-show', () => import(/* webpackChunkName:"assignment-Show" */ './components/assignments/AssignmentShow.vue'));
 
 //Vue.component('step-grid',       require('./components/StepGrid.vue'));    // May need to add .default);
 //Vue.component('step-form',       require('./components/StepForm.vue'));    // May need to add .default);
-Vue.component('step-grid', () => import(/* webpackChunkName:"step-grid" */ './components/StepGrid.vue'));
-Vue.component('step-form', () => import(/* webpackChunkName:"step-form" */ './components/StepForm.vue'));
-Vue.component('step-show', () => import(/* webpackChunkName:"step-Show" */ './components/StepShow.vue'));
+Vue.component('step-grid', () => import(/* webpackChunkName:"step-grid" */ './components/steps/StepGrid.vue'));
+Vue.component('step-form', () => import(/* webpackChunkName:"step-form" */ './components/steps/StepForm.vue'));
+Vue.component('step-show', () => import(/* webpackChunkName:"step-Show" */ './components/steps/StepShow.vue'));
 
 //Vue.component('statute-grid',       require('./components/StatuteGrid.vue'));    // May need to add .default);
 //Vue.component('statute-form',       require('./components/StatuteForm.vue'));    // May need to add .default);
-Vue.component('statute-grid', () => import(/* webpackChunkName:"statute-grid" */ './components/statute/StatuteGrid.vue'));
-Vue.component('statute-form', () => import(/* webpackChunkName:"statute-form" */ './components/statute/StatuteForm.vue'));
-Vue.component('statute-show', () => import(/* webpackChunkName:"statute-Show" */ './components/statute/StatuteShow.vue'));
+Vue.component('statute-grid', () => import(/* webpackChunkName:"statute-grid" */ './components/statutes/StatuteGrid.vue'));
+Vue.component('statute-form', () => import(/* webpackChunkName:"statute-form" */ './components/statutes/StatuteForm.vue'));
+Vue.component('statute-show', () => import(/* webpackChunkName:"statute-Show" */ './components/statutes/StatuteShow.vue'));
 
 //Vue.component('comment-grid',       require('./components/CommentGrid.vue'));    // May need to add .default);
 //Vue.component('comment-form',       require('./components/CommentForm.vue'));    // May need to add .default);
-Vue.component('comment-grid', () => import(/* webpackChunkName:"comment-grid" */ './components/CommentGrid.vue'));
-Vue.component('comment-form', () => import(/* webpackChunkName:"comment-form" */ './components/CommentForm.vue'));
-Vue.component('comment-show', () => import(/* webpackChunkName:"comment-Show" */ './components/CommentShow.vue'));
+Vue.component('comment-grid', () => import(/* webpackChunkName:"comment-grid" */ './components/comments/CommentGrid.vue'));
+Vue.component('comment-form', () => import(/* webpackChunkName:"comment-form" */ './components/comments/CommentForm.vue'));
+Vue.component('comment-show', () => import(/* webpackChunkName:"comment-Show" */ './components/comments/CommentShow.vue'));
 
 

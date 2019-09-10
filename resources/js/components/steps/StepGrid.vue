@@ -66,24 +66,24 @@
                     <ss-grid-column-header
                             v-on:selectedSort="sortColumn"
                             v-bind:selectedKey="sortKey"
-                            title="Sort by Alias"
+                            title="Sort by Client Id"
                             :params="{
-                                sortField: 'alias',
+                                sortField: 'client_id',
                                 InitialSortOrder: 'asc'
                             }"
                     >
-                        Alias
+                        Client Id
                     </ss-grid-column-header>
                     <ss-grid-column-header
                             v-on:selectedSort="sortColumn"
                             v-bind:selectedKey="sortKey"
-                            title="Sort by Sequence"
+                            title="Sort by Status Id"
                             :params="{
-                                sortField: 'sequence',
+                                sortField: 'status_id',
                                 InitialSortOrder: 'asc'
                             }"
                     >
-                        Sequence
+                        Status Id
                     </ss-grid-column-header>
                     <th style="width:20%;" class="text-center">Actions</th>
                 </tr>
@@ -115,7 +115,7 @@
                 <tr v-else v-for="row in this.gridData" :key="row.id">
                     <td data-title="Name">
                         <a
-                                v-bind:href="'/status/' + row.id"
+                                v-bind:href="'/step/' + row.id"
                                 v-if="params.CanShow == '1'"
                         >
                             {{ row.name }}
@@ -124,14 +124,14 @@
                                 {{ row.name }}
                             </span>
                     </td>
-                    <td data-title="Alias">{{ row.alias }}</td>
-                    <td data-title="Sequence">{{ row.sequence }}</td>
+                    <td data-title="Client Id">{{ row.client_id }}</td>
+                    <td data-title="Status Id">{{ row.status_id }}</td>
                     <td
                             data-title="Actions"
                             class="text-lg-center text-nowrap"
                     >
                         <a
-                                v-bind:href="'/status/' + row.id + '/edit'"
+                                v-bind:href="'/step/' + row.id + '/edit'"
                                 v-if="params.CanEdit"
                                 class="grid-action-item"
                         >
@@ -147,10 +147,10 @@
         <!-- Grid Actions Bottom -->
         <div class="grid-bottom row mb-0 align-items-center">
             <div class="col-lg-4 mb-2">
-                <a href="/status/download" class="btn btn-primary mb-2 mr-2"
+                <a href="/step/download" class="btn btn-primary mb-2 mr-2"
                 >Export to Excel</a
                 >
-                <a href="/status/print" class="btn btn-primary mb-2 mr-2"
+                <a href="/step/print" class="btn btn-primary mb-2 mr-2"
                 >Print PDF</a
                 >
             </div>
@@ -175,12 +175,12 @@
 </template>
 
 <script>
-    import SsGridColumnHeader from "./SS/SsGridColumnHeader";
-    import SsGridPagination from "./SS/SsGridPagination";
-    import SsGridPaginationLocation from "./SS/SsPaginationLocation";
+    import SsGridColumnHeader from "../SS/SsGridColumnHeader";
+    import SsGridPagination from "../SS/SsGridPagination";
+    import SsGridPaginationLocation from "../SS/SsPaginationLocation";
 
     export default {
-        name: "status-grid",
+        name: "step-grid",
         components: {
             SsGridColumnHeader,
             SsGridPaginationLocation,
@@ -229,7 +229,7 @@
 
         methods: {
             goToNew: function () {
-                window.location.href = "/status/create";
+                window.location.href = "/step/create";
             },
 
             sortColumn: function (obj) {
@@ -288,7 +288,7 @@
                                 } else if (error.response.status === 404) {
                                     // Record not found
                                     this.server_message = "Record not found";
-                                    window.location = "/status";
+                                    window.location = "/step";
                                 } else if (error.response.status === 419) {
                                     // Unknown status
                                     this.server_message =
@@ -312,7 +312,7 @@
             },
 
             getDataUrl: function (new_page_number) {
-                var url = "api-status?";
+                var url = "api-step?";
                 var queryParams = [];
 
                 queryParams.push("page=" + new_page_number);

@@ -77,13 +77,13 @@
                     <ss-grid-column-header
                             v-on:selectedSort="sortColumn"
                             v-bind:selectedKey="sortKey"
-                            title="Sort by Status Id"
+                            title="Sort by User Id"
                             :params="{
-                                sortField: 'status_id',
+                                sortField: 'user_id',
                                 InitialSortOrder: 'asc'
                             }"
                     >
-                        Status Id
+                        User Id
                     </ss-grid-column-header>
                     <th style="width:20%;" class="text-center">Actions</th>
                 </tr>
@@ -115,7 +115,7 @@
                 <tr v-else v-for="row in this.gridData" :key="row.id">
                     <td data-title="Name">
                         <a
-                                v-bind:href="'/step/' + row.id"
+                                v-bind:href="'/assignment/' + row.id"
                                 v-if="params.CanShow == '1'"
                         >
                             {{ row.name }}
@@ -125,13 +125,13 @@
                             </span>
                     </td>
                     <td data-title="Client Id">{{ row.client_id }}</td>
-                    <td data-title="Status Id">{{ row.status_id }}</td>
+                    <td data-title="User Id">{{ row.user_id }}</td>
                     <td
                             data-title="Actions"
                             class="text-lg-center text-nowrap"
                     >
                         <a
-                                v-bind:href="'/step/' + row.id + '/edit'"
+                                v-bind:href="'/assignment/' + row.id + '/edit'"
                                 v-if="params.CanEdit"
                                 class="grid-action-item"
                         >
@@ -147,10 +147,10 @@
         <!-- Grid Actions Bottom -->
         <div class="grid-bottom row mb-0 align-items-center">
             <div class="col-lg-4 mb-2">
-                <a href="/step/download" class="btn btn-primary mb-2 mr-2"
+                <a href="/assignment/download" class="btn btn-primary mb-2 mr-2"
                 >Export to Excel</a
                 >
-                <a href="/step/print" class="btn btn-primary mb-2 mr-2"
+                <a href="/assignment/print" class="btn btn-primary mb-2 mr-2"
                 >Print PDF</a
                 >
             </div>
@@ -175,12 +175,12 @@
 </template>
 
 <script>
-    import SsGridColumnHeader from "./SS/SsGridColumnHeader";
-    import SsGridPagination from "./SS/SsGridPagination";
-    import SsGridPaginationLocation from "./SS/SsPaginationLocation";
+    import SsGridColumnHeader from "../SS/SsGridColumnHeader";
+    import SsGridPagination from "../SS/SsGridPagination";
+    import SsGridPaginationLocation from "../SS/SsPaginationLocation";
 
     export default {
-        name: "step-grid",
+        name: "assignment-grid",
         components: {
             SsGridColumnHeader,
             SsGridPaginationLocation,
@@ -229,7 +229,7 @@
 
         methods: {
             goToNew: function () {
-                window.location.href = "/step/create";
+                window.location.href = "/assignment/create";
             },
 
             sortColumn: function (obj) {
@@ -288,7 +288,7 @@
                                 } else if (error.response.status === 404) {
                                     // Record not found
                                     this.server_message = "Record not found";
-                                    window.location = "/step";
+                                    window.location = "/assignment";
                                 } else if (error.response.status === 419) {
                                     // Unknown status
                                     this.server_message =
@@ -312,7 +312,7 @@
             },
 
             getDataUrl: function (new_page_number) {
-                var url = "api-step?";
+                var url = "api-assignment?";
                 var queryParams = [];
 
                 queryParams.push("page=" + new_page_number);
