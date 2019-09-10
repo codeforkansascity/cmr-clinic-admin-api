@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@php $nav_path = ['client']; @endphp
+@php $nav_path = ['applicant']; @endphp
 @section('page-title')
     Edit {{$client->name}}
 @endsection
@@ -10,10 +10,11 @@
 @section('page-header-breadcrumbs')
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('client.index') }}">Applicants</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('applicant.index') }}">Applicants</a></li>
         <li class="breadcrumb-item active" aria-current="location">Edit {{$client->name}}</li>
     </ol>
 @endsection
 @section('content')
-    <client-form csrf_token="{{ csrf_token() }}" :record='{!! json_encode($client,JSON_HEX_APOS) !!}'></client-form>
+    <h1>New</h1>
+    <applicant-container csrf_token="{{ csrf_token() }}" :record='@json($client)'></applicant-container>
 @endsection

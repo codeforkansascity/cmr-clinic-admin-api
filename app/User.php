@@ -40,7 +40,6 @@ class User extends Authenticatable
     ];
 
 
-
     /**
      * Get "options" for HTML select tag
      *

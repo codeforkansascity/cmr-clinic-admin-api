@@ -12,4 +12,4 @@ php artisan migrate --env=testing
 php artisan db:seed --env=testing
 
 
-vendor/bin/phpunit
+#vendor/bin/phpunit

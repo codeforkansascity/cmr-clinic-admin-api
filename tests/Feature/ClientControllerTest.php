@@ -380,10 +380,8 @@ class ClientControllerTest extends TestCase
 
         $data = [
             'id' => "",
-            'full_name' => "",
-            'phone' => "",
-            'filing_court' => "",
-            'status' => "",
+            'name' => "",
+            'notes' => "",
         ];
 
         $totalNumberOfClientsBefore = Client::count();
@@ -410,10 +408,8 @@ class ClientControllerTest extends TestCase
 
         $data = [
             'id' => "",
-            'full_name' => "a",
-            'phone' => "a",
-            'filing_court' => "a",
-            'status' => "a",
+            'name' => "a",
+            'notes' => "a",
         ];
 
         $totalNumberOfClientsBefore = Client::count();
@@ -442,10 +438,8 @@ class ClientControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         $data = [
-          'full_name' => "",
-          'phone' => "",
-          'filing_court' => "",
-          'status' => "",
+          'name' => $faker->name,
+          'notes' => "",
         ];
 
         info('--  Client  --');
@@ -468,16 +462,10 @@ class ClientControllerTest extends TestCase
         $lastInsertedInTheDB = Client::orderBy('id', 'desc')->first();
 
 
-        $this->assertEquals($lastInsertedInTheDB->full_name, $data['full_name'], "the full_name of the saved client is different from the input data");
+        $this->assertEquals($lastInsertedInTheDB->name, $data['name'], "the name of the saved client is different from the input data");
 
 
-        $this->assertEquals($lastInsertedInTheDB->phone, $data['phone'], "the phone of the saved client is different from the input data");
-
-
-        $this->assertEquals($lastInsertedInTheDB->filing_court, $data['filing_court'], "the filing_court of the saved client is different from the input data");
-
-
-        $this->assertEquals($lastInsertedInTheDB->status, $data['status'], "the status of the saved client is different from the input data");
+        $this->assertEquals($lastInsertedInTheDB->notes, $data['notes'], "the notes of the saved client is different from the input data");
 
 
     }
@@ -501,10 +489,8 @@ class ClientControllerTest extends TestCase
         $client = Client::get()->random();
         $data = [
             'id' => "",
-            'full_name' => "",
-            'phone' => "",
-            'filing_court' => "",
-            'status' => "",
+            'name' => $client->name,
+            'notes' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('client.store'), $data);
@@ -568,10 +554,8 @@ class ClientControllerTest extends TestCase
         // Create one that we can duplicate the name for, at this point we only have one client record
         $client_dup = [
 
-            'full_name' => "",
-            'phone' => "",
-            'filing_court' => "",
-            'status' => "",
+            'name' => $faker->name,
+            'notes' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('client.store'), $client_dup);

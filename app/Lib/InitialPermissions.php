@@ -10,15 +10,25 @@ namespace App\Lib;
 
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Exceptions\RoleDoesNotExist;
 
 
 class InitialPermissions
 {
     function __construct() {
 
+
+        info(__METHOD__ . 'START');
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        Role::create(['name' => 'super-admin']);
+
+        try {
+            $role = Role::findByName('super-admin');
+        } catch (RoleDoesNotExist $e) {
+            $role = Role::create(['name' => 'super-admin']);
+        }
+
+
 
 
 
@@ -59,6 +69,14 @@ class InitialPermissions
         Permission::findOrCreate( 'charge export-pdf');
         Permission::findOrCreate( 'charge export-excel');
 
+        Permission::findOrCreate('step index');
+        Permission::findOrCreate('step add');
+        Permission::findOrCreate('step update');
+        Permission::findOrCreate('step view');
+        Permission::findOrCreate('step destroy');
+        Permission::findOrCreate('step export-pdf');
+        Permission::findOrCreate('step export-excel');
+
         Permission::findOrCreate('status index');
         Permission::findOrCreate('status add');
         Permission::findOrCreate('status update');
@@ -76,16 +94,32 @@ class InitialPermissions
         Permission::findOrCreate( 'assignment export-excel');
 
 
-        $role = Role::create(['name' => 'cant']);
+        try {
+            $role = Role::findByName('cant');
+        } catch (RoleDoesNotExist $e) {
+            $role = Role::create(['name' => 'cant']);
+        }
+
         $role->givePermissionTo(['always fail']);
 
-        $role = Role::create(['name' => 'only index']);                 // For Testing
+
+        try {
+            $role = Role::findByName('only index');
+        } catch (RoleDoesNotExist $e) {
+            $role = Role::create(['name' => 'only index']);
+        }
+
         $role->givePermissionTo(['client index']);
         $role->givePermissionTo(['conviction index']);
         $role->givePermissionTo(['charge index']);
         $role->givePermissionTo(['status index']);
 
-        $role = Role::create(['name' => 'cmr-admin']);
+        try {
+            $role = Role::findByName('cmr-admin');
+        } catch (RoleDoesNotExist $e) {
+            $role = Role::create(['name' => 'cmr-admin']);
+        }
+
         $role->givePermissionTo([
             'user index',
             'user add',
@@ -127,6 +161,14 @@ class InitialPermissions
             'status export-pdf',
             'status export-excel',
 
+            'step index',
+            'step add',
+            'step update',
+            'step view',
+            'step destroy',
+            'step export-pdf',
+            'step export-excel',
+
             'assignment index',
             'assignment add',
             'assignment update',
@@ -137,9 +179,11 @@ class InitialPermissions
 
         ]);
 
-
-
-        $role = Role::create(['name' => 'read-only']);
+        try {
+            $role = Role::findByName('read-only');
+        } catch (RoleDoesNotExist $e) {
+            $role = Role::create(['name' => 'read-only']);
+        }
 
         $role->givePermissionTo([
 
@@ -158,9 +202,15 @@ class InitialPermissions
             'status index',
             'status view',
 
+            'step index',
+            'step view',
+
             'assignment index',
             'assignment view',
         ]);
+
+
+        info(__METHOD__ . 'END');
 
     }
 }

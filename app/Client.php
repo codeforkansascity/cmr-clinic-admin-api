@@ -2,13 +2,16 @@
 
 namespace App;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\RecordSignature;
 
 class Client extends Model
 {
 
     use SoftDeletes;
+    use RecordSignature;
 
     /**
      * fillable - attributes that can be mass-assigned
@@ -20,7 +23,7 @@ class Client extends Model
             'email',
             'sex',
             'race',
-            'dob',
+            'dob_text',
             'address_line_1',
             'address_line_2',
             'city',
@@ -28,7 +31,7 @@ class Client extends Model
             'zip_code',
             'license_number',
             'license_issuing_state',
-            'license_expiration_date',
+            'license_expiration_date_text',
             'filing_court',
             'judicial_circuit_number',
             'count_name',
@@ -46,9 +49,14 @@ class Client extends Model
             'notes',
             'external_ref',
             'any_pending_cases',
+            'deleted_at',
+            'status_id',
+            'dob',
+            'license_expiration_date',
             'cms_client_number',
             'cms_matter_number',
             'assignment_id',
+            'step_id',
         ];
 
     protected $hidden = [
@@ -60,9 +68,27 @@ class Client extends Model
         'updated_at',
     ];
 
+
+
     public function assignment()
     {
         return $this->hasOne('App\Assignment', 'id', 'assignment_id');
+    }
+
+    public function step()
+    {
+        return $this->hasOne('App\Step', 'id', 'step_id');
+    }
+
+    public function conviction()
+    {
+        return $this->hasMany('App\Conviction');
+
+    }
+
+    public function histories()
+    {
+        return $this->morphMany(History::class, 'historyable');
     }
 
     public function add($attributes)
@@ -94,6 +120,8 @@ class Client extends Model
      * @param $column
      * @param $direction
      * @param string $keyword
+     * @param $filter_assigned
+     * @param $status_filter
      * @return mixed
      */
     static function indexData(
@@ -101,17 +129,31 @@ class Client extends Model
         $column,
         $direction,
         $keyword = '',
-        $filter_assigned = -1)
+        $filter_assigned = -1,
+        $status_filter = -1)
     {
-        return self::buildBaseGridQuery($column, $direction, $keyword, $filter_assigned,
-            [ 'clients.id',
-                    'clients.name',
-                    'clients.dob',
-                    'clients.notes',
-                    'clients.cms_client_number',
-                    'users.name AS assigned_to'
+        \DB::connection()->enableQueryLog();
+
+        $ret =  self::buildBaseGridQuery($column, $direction, $keyword, $filter_assigned, $status_filter,
+            [   'clients.id',
+                'clients.name',
+                'clients.dob',
+                'clients.notes',
+                'clients.cms_client_number',
+                'users.name AS assigned_to',
+                'statuses.name AS status_name'
             ])
         ->paginate($per_page);
+
+
+        $query = \DB::getQueryLog();
+        $lastQuery = end($query);
+
+        info(print_r($lastQuery,true));
+
+
+
+        return $ret;
     }
 
 
@@ -135,6 +177,7 @@ class Client extends Model
         $direction,
         $keyword = '',
         $assigned_filter = -1,
+        $status_filter = -1,
         $columns = '*')
     {
         // Map sort direction from 1/-1 integer to asc/desc sql keyword
@@ -152,7 +195,9 @@ class Client extends Model
 
         $query = Client::select($columns)
             ->leftJoin('users', 'clients.assignment_id', 'users.id')
-        ->orderBy($column, $direction);
+            ->leftJoin('steps', 'clients.step_id', 'steps.id')
+            ->leftJoin('statuses', 'steps.status_id', 'statuses.id')
+            ->orderBy($column, $direction);
 
         if ($keyword) {
             $query->where('clients.name', 'like', '%' . $keyword . '%');
@@ -166,6 +211,19 @@ class Client extends Model
                 break;
             default:
                 $query->where('clients.assignment_id', intval($assigned_filter));
+                break;
+
+        }
+
+        info("\$status_filter=|$status_filter|");
+        switch ($status_filter) {
+            case -1:
+                break;
+            case 0:
+                $query->where('clients.step_id', 0);
+                break;
+            default:
+                $query->where('steps.status_id', intval($status_filter));
                 break;
 
         }
@@ -238,6 +296,29 @@ class Client extends Model
             return $data;
         }
 
+    }
+
+    public function saveHistory($request, $action = 'updated')
+    {
+        $data = [
+            'user_id' => auth()->user()->id ??  1,
+            'reason_for_change' => $request->reason_for_change ?? null,
+            'action' => $action
+        ];
+
+        /*
+         * We only save the values listed in fillable for old and new
+         */
+        /// if not created add old values
+        if ($action !== 'created') {
+            $data['old'] = collect($this->getOriginal())->only($this->fillable);
+        }
+        /// if not deleted add new values
+        if ($action !== 'deleted') {
+            $data['new'] = $request->only($this->fillable);
+        }
+
+        return $this->histories()->create($data);
     }
 
 }

@@ -27,11 +27,9 @@ class StatusController extends Controller
      * Vue component example.
      *
         <ui-select-pick-one
-            label="My Label"
             url="/api-status/options"
-            class="form-group"
             v-model="statusSelected"
-            v-on:input="getData">
+            :selected_id=statusSelected">
         </ui-select-pick-one>
      *
      *
@@ -76,7 +74,7 @@ class StatusController extends Controller
     {
 
         if (!Auth::user()->can('status index')) {
-            \Session::flash('flash_error_message', 'You do not have access to Statusess.');
+            \Session::flash('flash_error_message', 'You do not have access to Statuss.');
             return Redirect::route('home');
         }
 
@@ -106,7 +104,7 @@ class StatusController extends Controller
 	{
 
         if (!Auth::user()->can('status add')) {  // TODO: add -> create
-            \Session::flash('flash_error_message', 'You do not have access to add a Statuses.');
+            \Session::flash('flash_error_message', 'You do not have access to add a Status.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('status.index');
             } else {
@@ -155,7 +153,7 @@ class StatusController extends Controller
     {
 
         if (!Auth::user()->can('status view')) {
-            \Session::flash('flash_error_message', 'You do not have access to view a Statuses.');
+            \Session::flash('flash_error_message', 'You do not have access to view a Status.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('status.index');
             } else {
@@ -168,7 +166,7 @@ class StatusController extends Controller
             $can_delete = Auth::user()->can('status delete');
             return view('status.show', compact('status','can_edit', 'can_delete'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Statuses to display.');
+            \Session::flash('flash_error_message', 'Unable to find Status to display.');
             return Redirect::route('status.index');
         }
     }
@@ -182,7 +180,7 @@ class StatusController extends Controller
     public function edit($id)
     {
         if (!Auth::user()->can('status edit')) {
-            \Session::flash('flash_error_message', 'You do not have access to edit a Statuses.');
+            \Session::flash('flash_error_message', 'You do not have access to edit a Status.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('status.index');
             } else {
@@ -193,7 +191,7 @@ class StatusController extends Controller
         if ($status = $this->sanitizeAndFind($id)) {
             return view('status.edit', compact('status'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Statuses to edit.');
+            \Session::flash('flash_error_message', 'Unable to find Status to edit.');
             return Redirect::route('status.index');
         }
 
@@ -209,7 +207,7 @@ class StatusController extends Controller
     {
 
 //        if (!Auth::user()->can('status update')) {
-//            \Session::flash('flash_error_message', 'You do not have access to update a Statuses.');
+//            \Session::flash('flash_error_message', 'You do not have access to update a Status.');
 //            if (!Auth::user()->can('status index')) {
 //                return Redirect::route('status.index');
 //            } else {
@@ -218,7 +216,7 @@ class StatusController extends Controller
 //        }
 
         if (!$status = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Statuses to edit');
+       //     \Session::flash('flash_error_message', 'Unable to find Status to edit');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
@@ -236,7 +234,7 @@ class StatusController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Statuses ' . $status->name . ' was changed');
+            \Session::flash('flash_success_message', 'Status ' . $status->name . ' was changed');
         } else {
             \Session::flash('flash_info_message', 'No changes were made');
         }
@@ -255,7 +253,7 @@ class StatusController extends Controller
     {
 
         if (!Auth::user()->can('status delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a Statuses.');
+            \Session::flash('flash_error_message', 'You do not have access to remove a Status.');
             if (Auth::user()->can('status index')) {
                  return Redirect::route('status.index');
             } else {
@@ -306,7 +304,7 @@ class StatusController extends Controller
     {
 
         if (!Auth::user()->can('status excel')) {
-            \Session::flash('flash_error_message', 'You do not have access to download Statuses.');
+            \Session::flash('flash_error_message', 'You do not have access to download Status.');
             if (Auth::user()->can('status index')) {
                 return Redirect::route('status.index');
             } else {
@@ -340,7 +338,7 @@ class StatusController extends Controller
         public function print()
 {
         if (!Auth::user()->can('status export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print Statuses');
+            \Session::flash('flash_error_message', 'You do not have access to print Status');
             if (Auth::user()->can('status index')) {
                 return Redirect::route('status.index');
             } else {
@@ -359,6 +357,7 @@ class StatusController extends Controller
         // Get query data
         $columns = [
             'name',
+            'alias',
             'sequence',
         ];
         $dataQuery = Status::pdfDataQuery($column, $direction, $search, $columns);

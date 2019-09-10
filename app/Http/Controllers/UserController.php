@@ -41,10 +41,10 @@ class UserController extends Controller
             ], 403);
         }
 
-        $data =  User::getAssigneeOptions();
+        $data =  User::getAssigneeOptions()->toArray();
 
-        $data = [ (object)['id' => '-1', 'name' => 'All Assigned'], (object)['id' => '0', 'name' => 'Unassigned'] ] + $data->toArray();
-
+        array_unshift($data, ['id' => '-1', 'name' => 'All Assigned']);
+        array_unshift($data, ['id' => '0', 'name' => 'Unassigned'] );
         return $data;
     }
 

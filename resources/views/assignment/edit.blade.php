@@ -15,5 +15,5 @@
     </ol>
 @endsection
 @section('content')
-    <assignment-form csrf_token="{{ csrf_token() }}" :record='{!! json_encode($assignment,JSON_HEX_APOS) !!}'></assignment-form>
+    <assignment-form csrf_token="{{ csrf_token() }}" :record='@json($assignment)'></assignment-form>
 @endsection

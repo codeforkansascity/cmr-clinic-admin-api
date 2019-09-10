@@ -10,7 +10,7 @@
     </ol>
 @endsection
 @section('content')
-    <client-grid :params="{
+    <applicant-grid :params="{
             Page: '{{ $page }}',
             Search: '{{ $search }}',
             sortOrder: '{{ $direction }}',
@@ -20,5 +20,5 @@
             CanShow: '{{ $can_show }}',
             CanDelete: '{{ $can_delete }}',
             CanExcel: '{{ $can_excel }}'
-        }"></client-grid>
+        }"></applicant-grid>
 @endsection

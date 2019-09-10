@@ -1,63 +1,76 @@
 <template>
     <form @submit.prevent="handleSubmit" class="form-horizontal">
         <div
-            v-if="server_message !== false"
-            class="alert alert-danger"
-            role="alert"
+                v-if="server_message !== false"
+                class="alert alert-danger"
+                role="alert"
         >
             {{ this.server_message }}
             <a v-if="try_logging_in" href="/login">Login</a>
         </div>
+
         <div class="row">
-            <div class="col-md-9">
-                <std-form-group label="Name" :errors="form_errors.name">
-                    <input
-                        type="text"
-                        class="form-control"
-                        name="name"
-                        v-model="form_data.name"
-                    />
-                </std-form-group>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <std-form-group
-                    label="Client Id"
-                    :errors="form_errors.client_id"
+                        label="Id"
+                        label-for="id"
+                        :errors="form_errors.id"
                 >
-                    <input
-                        type="text"
-                        class="form-control"
-                        name="client_id"
-                        v-model="form_data.client_id"
-                    />
+                    <fld-input name="id" v-model="form_data.id"/>
                 </std-form-group>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-md-9">
-                <std-form-group label="User Id" :errors="form_errors.user_id">
-                    <input
-                        type="text"
-                        class="form-control"
-                        name="user_id"
-                        v-model="form_data.user_id"
-                    />
-                </std-form-group>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <std-form-group
-                    label="Deleted At"
-                    :errors="form_errors.deleted_at"
+                        label="Name"
+                        label-for="name"
+                        :errors="form_errors.name"
+                        :required="true"
                 >
-                    <input
-                        type="text"
-                        class="form-control"
-                        name="deleted_at"
-                        v-model="form_data.deleted_at"
+                    <fld-input name="name" v-model="form_data.name" required/>
+                    <template slot="help">
+                        Name must be unique.
+                    </template>
+                </std-form-group>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <std-form-group
+                        label="Client Id"
+                        label-for="client_id"
+                        :errors="form_errors.client_id"
+                >
+                    <fld-input name="client_id" v-model="form_data.client_id"/>
+                </std-form-group>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <std-form-group
+                        label="User Id"
+                        label-for="user_id"
+                        :errors="form_errors.user_id"
+                >
+                    <fld-input name="user_id" v-model="form_data.user_id"/>
+                </std-form-group>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <std-form-group
+                        label="Deleted At"
+                        label-for="deleted_at"
+                        :errors="form_errors.deleted_at"
+                >
+                    <fld-input
+                            name="deleted_at"
+                            v-model="form_data.deleted_at"
                     />
                 </std-form-group>
             </div>
@@ -67,9 +80,9 @@
             <div class="row">
                 <div class="col-md-6">
                     <button
-                        type="submit"
-                        class="btn btn-primary"
-                        :disabled="processing"
+                            type="submit"
+                            class="btn btn-primary"
+                            :disabled="processing"
                     >
                         <span v-if="this.form_data.id">Change</span>
                         <span v-else="this.form_data.id">Add</span>
@@ -84,115 +97,115 @@
 </template>
 
 <script>
-import axios from "axios";
+    import axios from "axios";
 
-export default {
-    name: "assignment-form",
-    props: {
-        record: {
-            type: [Boolean, Object],
-            default: false
-        },
-        csrf_token: {
-            type: String,
-            default: ""
-        }
-    },
-    data() {
-        return {
-            form_data: {
-                // _method: 'patch',
-                _token: this.csrf_token,
-                id: 0,
-                name: "",
-                client_id: 0,
-                user_id: 0,
-                deleted_at: ""
+    export default {
+        name: "assignment-form",
+        props: {
+            record: {
+                type: [Boolean, Object],
+                default: false
             },
-            form_errors: {
-                id: false,
-                name: false,
-                client_id: false,
-                user_id: false,
-                deleted_at: false
-            },
-            server_message: false,
-            try_logging_in: false,
-            processing: false
-        };
-    },
-    mounted() {
-        if (this.record !== false) {
-            // this.form_data._method = 'patch';
-            Object.keys(this.record).forEach(
-                i => (this.form_data[i] = this.record[i])
-            );
-        } else {
-            // this.form_data._method = 'post';
-        }
-    },
-    methods: {
-        async handleSubmit() {
-            this.server_message = false;
-            this.processing = true;
-            let url = "";
-            let amethod = "";
-            if (this.form_data.id) {
-                url = "/assignment/" + this.form_data.id;
-                amethod = "put";
-            } else {
-                url = "/assignment";
-                amethod = "post";
+            csrf_token: {
+                type: String,
+                default: ""
             }
-            await axios({
-                method: amethod,
-                url: url,
-                data: this.form_data
-            })
-                .then(res => {
-                    if (res.status === 200) {
-                        window.location = "/assignment";
-                    } else {
-                        this.server_message = res.status;
-                    }
+        },
+        data() {
+            return {
+                form_data: {
+                    // _method: 'patch',
+                    _token: this.csrf_token,
+                    id: 0,
+                    name: "",
+                    client_id: 0,
+                    user_id: 0,
+                    deleted_at: ""
+                },
+                form_errors: {
+                    id: false,
+                    name: false,
+                    client_id: false,
+                    user_id: false,
+                    deleted_at: false
+                },
+                server_message: false,
+                try_logging_in: false,
+                processing: false
+            };
+        },
+        mounted() {
+            if (this.record !== false) {
+                // this.form_data._method = 'patch';
+                Object.keys(this.record).forEach(
+                    i => (this.form_data[i] = this.record[i])
+                );
+            } else {
+                // this.form_data._method = 'post';
+            }
+        },
+        methods: {
+            async handleSubmit() {
+                this.server_message = false;
+                this.processing = true;
+                let url = "";
+                let amethod = "";
+                if (this.form_data.id) {
+                    url = "/assignment/" + this.form_data.id;
+                    amethod = "put";
+                } else {
+                    url = "/assignment";
+                    amethod = "post";
+                }
+                await axios({
+                    method: amethod,
+                    url: url,
+                    data: this.form_data
                 })
-                .catch(error => {
-                    if (error.response) {
-                        if (error.response.status === 422) {
-                            // Clear errors out
-                            Object.keys(this.form_errors).forEach(
-                                i => (this.form_errors[i] = false)
-                            );
-                            // Set current errors
-                            Object.keys(error.response.data.errors).forEach(
-                                i =>
-                                    (this.form_errors[i] =
-                                        error.response.data.errors[i])
-                            );
-                        } else if (error.response.status === 404) {
-                            // Record not found
-                            this.server_message = "Record not found";
+                    .then(res => {
+                        if (res.status === 200) {
                             window.location = "/assignment";
-                        } else if (error.response.status === 419) {
-                            // Unknown status
-                            this.server_message =
-                                "Unknown Status, please try to ";
-                            this.try_logging_in = true;
-                        } else if (error.response.status === 500) {
-                            // Unknown status
-                            this.server_message =
-                                "Server Error, please try to ";
-                            this.try_logging_in = true;
                         } else {
-                            this.server_message = error.response.data.message;
+                            this.server_message = res.status;
                         }
-                    } else {
-                        console.log(error.response);
-                        this.server_message = error;
-                    }
-                    this.processing = false;
-                });
+                    })
+                    .catch(error => {
+                        if (error.response) {
+                            if (error.response.status === 422) {
+                                // Clear errors out
+                                Object.keys(this.form_errors).forEach(
+                                    i => (this.form_errors[i] = false)
+                                );
+                                // Set current errors
+                                Object.keys(error.response.data.errors).forEach(
+                                    i =>
+                                        (this.form_errors[i] =
+                                            error.response.data.errors[i])
+                                );
+                            } else if (error.response.status === 404) {
+                                // Record not found
+                                this.server_message = "Record not found";
+                                window.location = "/assignment";
+                            } else if (error.response.status === 419) {
+                                // Unknown status
+                                this.server_message =
+                                    "Unknown Status, please try to ";
+                                this.try_logging_in = true;
+                            } else if (error.response.status === 500) {
+                                // Unknown status
+                                this.server_message =
+                                    "Server Error, please try to ";
+                                this.try_logging_in = true;
+                            } else {
+                                this.server_message = error.response.data.message;
+                            }
+                        } else {
+                            console.log(error.response);
+                            this.server_message = error;
+                        }
+                        this.processing = false;
+                    });
+            }
         }
-    }
-};
+    };
 </script>

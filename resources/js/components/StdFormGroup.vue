@@ -1,7 +1,8 @@
 <template>
     <div class="form-group" v-bind:class="{ 'has-error': this.errors }">
         <label class="control-label">{{ label }}
-            <img src="/img/icons/help.svg" style="margin-left:20px; width:1.5em; height: 1.5em;" v-if="this.$slots.help !== undefined"
+            <img src="/img/icons/help.svg" style="margin-left:20px; width:1.5em; height: 1.5em;"
+                 v-if="this.$slots.help !== undefined"
                  v-on:click="showHelp = !showHelp"/>
             <transition name="slide-fade">
                 <div style="margin-left: 3em; margin-right: 2em; margin-bottom: .5em; margin-top: .5em;"
@@ -21,23 +22,23 @@
 </template>
 
 <script>
-export default {
-    name: "std-form-group",
-    props: {
-        label: {
-            type: String,
-            default: ""
+    export default {
+        name: "std-form-group",
+        props: {
+            label: {
+                type: String,
+                default: ""
+            },
+            errors: {
+                type: [Array, Boolean],
+                default: false
+            }
         },
-        errors: {
-            type: [Array, Boolean],
-            default: false
+        data() {
+            return {
+                has_errors: false,
+                showHelp: false,
+            };
         }
-    },
-    data() {
-        return {
-            has_errors: false,
-            showHelp: false,
-        };
-    }
-};
+    };
 </script>
