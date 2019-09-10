@@ -67,6 +67,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/step/print', 'StepController@print')->name('step.print');
     Route::resource('/step', 'StepController');
 
+    Route::get('/api-statute', 'StatuteApi@index');
+    Route::get('/api-statute/options', 'StatuteApi@getOptions');
+    Route::get('/statute/download', 'StatuteController@download')->name('statute.download');
+    Route::get('/statute/print', 'StatuteController@print')->name('statute.print');
+    Route::resource('/statute', 'StatuteController');
+
+    Route::get('/api-comment', 'CommentApi@index');
+    Route::get('/api-comment/options', 'CommentApi@getOptions');
+    Route::get('/comment/download', 'CommentController@download')->name('comment.download');
+    Route::get('/comment/print', 'CommentController@print')->name('comment.print');
+    Route::resource('/comment', 'CommentController');
+
+    Route::get('/api-statutes-eligibility/options', 'StatutesEligibilityApi@getOptions');
+
     Route::group(['prefix' => '/cms'], function () {
         Route::get('/{cms_matter_number}', 'ClientController@show');
         Route::get('/{cms_matter_number}/edit', 'ClientController@edit');
@@ -74,17 +88,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'history'], function () {
         Route::get('charge/{charge}', 'HistoryController@charge');
+        Route::get('conviction/{conviction}', 'HistoryController@conviction');
+        Route::get('applicant/{client}', 'HistoryController@client');
     });
+
+
 
 });
 
-Route::get('/api-statute', 'StatuteApi@index');
-Route::get('/api-statute/options', 'StatuteApi@getOptions');
-Route::get('/statute/download', 'StatuteController@download')->name('statute.download');
-Route::get('/statute/print', 'StatuteController@print')->name('statute.print');
-Route::resource('/statute', 'StatuteController');
-Route::get('/api-comment', 'CommentApi@index');
-Route::get('/api-comment/options', 'CommentApi@getOptions');
-Route::get('/comment/download', 'CommentController@download')->name('comment.download');
-Route::get('/comment/print', 'CommentController@print')->name('comment.print');
-Route::resource('/comment', 'CommentController');
+

@@ -47,6 +47,14 @@
                             />
                         </std-form-group>
                     </div>
+
+                    <div class="col-md-2">
+
+                    </div>
+
+                    <div class="col-md-1">
+                        <slot></slot>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -200,13 +208,13 @@
             };
         },
         mounted() {
-            if(this.charge.id === 0) {
+            if (this.charge.id === 0) {
                 this.$refs.newCharge.$refs.input.focus()
             }
         },
         created() {
             /// make back up copy
-            for(let index in this.charge) {
+            for (let index in this.charge) {
                 this.backup_copy[index] = this.charge[index]
             }
         },
@@ -247,17 +255,19 @@
                     .then(res => {
                         if (res.status === 200) {
                             // if saved set the get the id back and set to instance
-                            if(res.data.charge) {
+                            if (res.data.charge) {
                                 /// set id in case this is a new entry
                                 $this.charge.id = res.data.charge.id
-                                /// recopy the new charge to our backup
-                                for(let index in $this.charge) {
-                                    $this.backup_copy[index] = $this.charge[index]
-                                }
+                            }
+                            /// reset reason for change
+                            $this.charge.reason_for_change = ''
+                            /// recopy the new charge to our backup
+                            for(let index in $this.charge) {
+                                $this.backup_copy[index] = $this.charge[index]
                             }
 
                             $this.processing = false
-                            $this.$bus.$emit('minimize-charge', $this.charge.id)
+                            $this.$bus.$emit('minimize-charge:charge:'+$this.charge.id)
                         } else {
                             this.server_message = res.status;
                         }
@@ -301,12 +311,12 @@
             },
             deleteCharge() {
                 let $this = this
-                if(confirm('Do you want to delete record?')) {
+                if (confirm('Do you want to delete record?')) {
                     axios.delete(`/charge/${this.charge.id}`)
-                    .then(response => {F
+                    .then(response => {
                         console.log(response)
                         // send delete event to Charges List
-                        this.$bus.$emit('charge-deleted', this.charge.id, this.charge.conviction_id)
+                        this.$bus.$emit('charge-deleted:conviction:'+this.charge.conviction_id, this.charge.id)
                     })
                     .catch(error => {
                         console.log(error)
@@ -315,10 +325,10 @@
             },
             cancel() {
                 console.log('cancel')
-                if(this.charge.id === 0) {
+                if (this.charge.id === 0) {
                     this.$bus.$emit('charge-deleted', this.charge.id, this.charge.conviction_id)
                 } else {
-                    for(let index in this.backup_copy) {
+                    for (let index in this.backup_copy) {
                         this.charge[index] = this.backup_copy[index]
                     }
                 }

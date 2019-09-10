@@ -24,6 +24,7 @@ class StatuteApi extends Controller
         $column = $request->get('column', 'Name');
         $direction = $request->get('direction', '-1');
         $keyword = $request->get('keyword', '');
+        $eligibility_id = $request->get('eligibility_id', '');
 
         // Save the search parameters so we can remember when we go back to the index
         //   The page is being done by Laravel
@@ -31,13 +32,14 @@ class StatuteApi extends Controller
             'statute_page' => $page,
             'statute_column' => $column,
             'statute_direction' => $direction,
-            'statute_keyword' => $keyword
+            'statute_keyword' => $keyword,
+            'eligibility_id' => $eligibility_id
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
         $column = $column ? mb_strtolower($column) : 'name';
 
-        return Statute::indexData(10, $column, $direction, $keyword);
+        return Statute::indexData(10, $column, $direction, $keyword, $eligibility_id);
     }
 
     /**

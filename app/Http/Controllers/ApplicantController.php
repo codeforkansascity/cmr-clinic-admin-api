@@ -193,9 +193,6 @@ class ApplicantController extends Controller
         }
 
         if ($client = $this->sanitizeAndFind($id)) {
-
-            dump($client->toArray());
-
             return view('client.edit', compact('client'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Applicants to edit.');

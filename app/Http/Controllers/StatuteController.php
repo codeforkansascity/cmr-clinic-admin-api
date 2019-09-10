@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 
-
 use App\Http\Middleware\TrimStrings;
 use App\Statute;
 use Illuminate\Http\Request;
@@ -16,6 +15,7 @@ use Illuminate\Support\Facades\Session;
 
 use App\Exports\StatuteExport;
 use Maatwebsite\Excel\Facades\Excel;
+
 //use PDF; // TCPDF, not currently in use
 
 class StatuteController extends Controller
@@ -26,44 +26,41 @@ class StatuteController extends Controller
      *
      * Vue component example.
      *
-        <ui-select-pick-one
-            url="/api-statute/options"
-            v-model="statuteSelected"
-            :selected_id=statuteSelected"
-            name="statute">
-        </ui-select-pick-one>
+     * <ui-select-pick-one
+     * url="/api-statute/options"
+     * v-model="statuteSelected"
+     * :selected_id=statuteSelected"
+     * name="statute">
+     * </ui-select-pick-one>
      *
      *
      * Blade component example.
      *
      *   In Controler
      *
-             $statute_options = \App\Statute::getOptions();
-
-
+     * $statute_options = \App\Statute::getOptions();
      *
      *   In View
-
-            @component('../components/select-pick-one', [
-                'fld' => 'statute_id',
-                'selected_id' => $RECORD->statute_id,
-                'first_option' => 'Select a Statutes',
-                'options' => $statute_options
-            ])
-            @endcomponent
+     *
+     * @component('../components/select-pick-one', [
+     * 'fld' => 'statute_id',
+     * 'selected_id' => $RECORD->statute_id,
+     * 'first_option' => 'Select a Statutes',
+     * 'options' => $statute_options
+     * ])
+     * @endcomponent
      *
      * Permissions
      *
-
-             Permission::create(['name' => 'statute index']);
-             Permission::create(['name' => 'statute add']);
-             Permission::create(['name' => 'statute update']);
-             Permission::create(['name' => 'statute view']);
-             Permission::create(['name' => 'statute destroy']);
-             Permission::create(['name' => 'statute export-pdf']);
-             Permission::create(['name' => 'statute export-excel']);
-
-    */
+     *
+     * Permission::create(['name' => 'statute index']);
+     * Permission::create(['name' => 'statute add']);
+     * Permission::create(['name' => 'statute update']);
+     * Permission::create(['name' => 'statute view']);
+     * Permission::create(['name' => 'statute destroy']);
+     * Permission::create(['name' => 'statute export-pdf']);
+     * Permission::create(['name' => 'statute export-excel']);
+     */
 
 
     /**
@@ -101,8 +98,8 @@ class StatuteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-	public function create()
-	{
+    public function create()
+    {
 
         if (!Auth::user()->can('statute add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Statutes.');
@@ -113,8 +110,8 @@ class StatuteController extends Controller
             }
         }
 
-	    return view('statute.create');
-	}
+        return view('statute.create');
+    }
 
 
     /**
@@ -132,7 +129,7 @@ class StatuteController extends Controller
             $statute->add($request->validated());
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Unable to process request'
+                'message' => 'Unable to process request' . $e->getMessage()
             ], 400);
         }
 
@@ -165,7 +162,7 @@ class StatuteController extends Controller
         if ($statute = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('statute edit');
             $can_delete = Auth::user()->can('statute delete');
-            return view('statute.show', compact('statute','can_edit', 'can_delete'));
+            return view('statute.show', compact('statute', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Statutes to display.');
             return Redirect::route('statute.index');
@@ -202,7 +199,7 @@ class StatuteController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Statute $statute     * @return \Illuminate\Http\Response
+     * @param  \App\Statute $statute * @return \Illuminate\Http\Response
      */
     public function update(StatuteFormRequest $request, $id)
     {
@@ -217,7 +214,7 @@ class StatuteController extends Controller
 //        }
 
         if (!$statute = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Statutes to edit');
+            //     \Session::flash('flash_error_message', 'Unable to find Statutes to edit');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
@@ -231,7 +228,7 @@ class StatuteController extends Controller
                 $statute->save();
             } catch (\Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request'
+                    'message' => 'Unable to process request' . $e->getMessage()
                 ], 400);
             }
 
@@ -248,7 +245,7 @@ class StatuteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Statute $statute     * @return \Illuminate\Http\Response
+     * @param  \App\Statute $statute * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -256,7 +253,7 @@ class StatuteController extends Controller
         if (!Auth::user()->can('statute delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Statutes.');
             if (Auth::user()->can('statute index')) {
-                 return Redirect::route('statute.index');
+                return Redirect::route('statute.index');
             } else {
                 return Redirect::route('home');
             }
@@ -264,7 +261,7 @@ class StatuteController extends Controller
 
         $statute = $this->sanitizeAndFind($id);
 
-        if ( $statute  && $statute->canDelete()) {
+        if ($statute && $statute->canDelete()) {
 
             try {
                 $statute->delete();
@@ -281,7 +278,7 @@ class StatuteController extends Controller
         }
 
         if (Auth::user()->can('statute index')) {
-             return Redirect::route('statute.index');
+            return Redirect::route('statute.index');
         } else {
             return Redirect::route('home');
         }
@@ -317,6 +314,7 @@ class StatuteController extends Controller
         $search = session('statute_keyword', '');
         $column = session('statute_column', 'name');
         $direction = session('statute_direction', '-1');
+        $eligibility_id = session('eligibility_id', '0');
 
         $column = $column ? $column : 'name';
 
@@ -324,7 +322,11 @@ class StatuteController extends Controller
 
         info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
-        $dataQuery = Statute::exportDataQuery($column, $direction, $search);
+        $dataQuery = Statute::exportDataQuery($column, $direction, $search, $eligibility_id, ['statutes.id as id',
+            'statutes.number as number',
+            'statutes.name as name',
+            'statutes_eligibilities.name AS eligible',
+        ]);
         //dump($data->toArray());
         //if ($data->count() > 0) {
 
@@ -336,8 +338,8 @@ class StatuteController extends Controller
     }
 
 
-        public function print()
-{
+    public function print()
+    {
         if (!Auth::user()->can('statute export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Statutes');
             if (Auth::user()->can('statute index')) {
@@ -351,21 +353,22 @@ class StatuteController extends Controller
         $search = session('statute_keyword', '');
         $column = session('statute_column', 'name');
         $direction = session('statute_direction', '-1');
+        $eligibility_id = session('eligibility_id', '0');
         $column = $column ? $column : 'name';
 
         info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
         // Get query data
-        $columns = [
-            'number',
-            'name',
-            'eligible',
+        $columns = ['statutes.id as id',
+            'statutes.number as number',
+            'statutes.name as name',
+            'statutes_eligibilities.name AS eligible',
         ];
-        $dataQuery = Statute::pdfDataQuery($column, $direction, $search, $columns);
+        $dataQuery = Statute::pdfDataQuery($column, $direction, $search, $eligibility_id, $columns);
         $data = $dataQuery->get();
 
         // Pass it to the view for html formatting:
-        $printHtml = view('statute.print', compact( 'data' ) );
+        $printHtml = view('statute.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
         $pdf = \App::make('dompdf.wrapper');

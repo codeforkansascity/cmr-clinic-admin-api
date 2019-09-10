@@ -3,46 +3,53 @@
 namespace App\Observers;
 
 use App\Charge;
+use Illuminate\Support\Facades\Log;
 
 class ChargeObserver
 {
+    protected $request;
+    public function __construct()
+    {
+        $this->request = request();
+    }
+
     /**
      * Handle the charge "created" event.
      *
-     * @param  \App\Charge  $charge
+     * @param  Charge  $charge
      * @return void
      */
     public function created(Charge $charge)
     {
-        //
+        $charge->saveHistory($this->request, __FUNCTION__);
     }
 
     /**
      * Handle the charge "updated" event.
      *
-     * @param  \App\Charge  $charge
+     * @param  Charge  $charge
      * @return void
      */
     public function updated(Charge $charge)
     {
-        $charge->saveHistory(request());
+        $charge->saveHistory($this->request, __FUNCTION__);
     }
 
     /**
      * Handle the charge "deleted" event.
      *
-     * @param  \App\Charge  $charge
+     * @param  Charge  $charge
      * @return void
      */
     public function deleted(Charge $charge)
     {
-        //
+        $charge->saveHistory($this->request, __FUNCTION__);
     }
 
     /**
      * Handle the charge "restored" event.
      *
-     * @param  \App\Charge  $charge
+     * @param  Charge  $charge
      * @return void
      */
     public function restored(Charge $charge)
@@ -53,7 +60,7 @@ class ChargeObserver
     /**
      * Handle the charge "force deleted" event.
      *
-     * @param  \App\Charge  $charge
+     * @param  Charge  $charge
      * @return void
      */
     public function forceDeleted(Charge $charge)

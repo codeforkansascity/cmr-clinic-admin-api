@@ -8,29 +8,31 @@ use App\Traits\RecordSignature;
 
 class Statute extends Model
 {
-    CONST INELIGIBLE = 'ineligible';
-    CONST ELIGIBLE = 'eligible';
-    CONST POSSIBLY = 'possibly';
+
+    use SoftDeletes;
+    use RecordSignature;
+
+
+    CONST ELIGIBLE = '1';
+    CONST INELIGIBLE = '2';
+    CONST POSSIBLY = '3';
     const ELIGIBLITY_STATUSES = [
         self::ELIGIBLE,
         self::INELIGIBLE,
         self::POSSIBLY,
     ];
 
-    use SoftDeletes;
-    use RecordSignature;
-
     /**
      * fillable - attributes that can be mass-assigned
      */
     protected $fillable = [
-            'id',
-            'number',
-            'name',
-            'note',
-            'eligible',
-            'deleted_at',
-        ];
+        'id',
+        'number',
+        'name',
+        'note',
+        'statutes_eligibility_id',
+        'deleted_at',
+    ];
 
     protected $hidden = [
         'active',
@@ -40,6 +42,29 @@ class Statute extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'comments');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function histories()
+    {
+        return $this->morphMany(History::class, 'historyable');
+    }
+
+    public function saveHistory($request)
+    {
+        $this->histories()->create([
+            'old' => collect($this->getOriginal())->only($this->fillable),
+            'new' => $request->only($this->fillable),
+            'user_id' => auth()->user()->id,
+            'reason_for_change' => $request->reason_for_change ?? null,
+        ]);
+    }
 
     public function add($attributes)
     {
@@ -76,47 +101,140 @@ class Statute extends Model
         $per_page,
         $column,
         $direction,
-        $keyword = '')
+        $keyword = '',
+        $eligibility_id = 0)
     {
-        return self::buildBaseGridQuery($column, $direction, $keyword,
-            [ 'id',
-                    'number',
-                    'name',
-                    'eligible',
+        return self::buildBaseGridQuery($column, $direction, $keyword, $eligibility_id,
+            ['statutes.id as id',
+                'statutes.number as number',
+                'statutes.name as name',
+                'statutes_eligibilities.name AS eligible',
             ])
-        ->paginate($per_page);
+            ->paginate($per_page);
     }
 
 
-
-
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * Create base query to be used by Grid, Download, and PDF
+     *
+     * NOTE: to override the select you must supply all fields, ie you cannot add to the
+     *       fields being selected.
+     *
+     * @param $column
+     * @param $direction
+     * @param string $keyword
+     * @param string|array $columns
+     * @return mixed
      */
-    public function comments()
+
+    static function buildBaseGridQuery(
+        $column,
+        $direction,
+        $keyword = '',
+        $eligibility_id = 0,
+        $columns = '*')
     {
-        return $this->morphMany(Comment::class, 'comments');
+        // Map sort direction from 1/-1 integer to asc/desc sql keyword
+        switch ($direction) {
+            case '1':
+                $direction = 'desc';
+                break;
+            case '-1':
+                $direction = 'asc';
+                break;
+            default:
+                $direction = 'asc';
+                break;
+        }
+
+        if ($column == 'eligible') {
+            $column = 'statutes_eligibilities.name';
+        }
+
+        $query = Statute::select($columns)
+            ->orderBy($column, $direction);
+
+        if ($keyword) {
+            $query->where('statutes.name', 'like', '%' . $keyword . '%');
+            $query->orWhere('statutes.number', 'like', '%' . $keyword . '%');
+        }
+
+        if ($eligibility_id) {
+            $query->where('statutes.statutes_eligibility_id', $eligibility_id);
+        }
+
+        $query->leftJoin('statutes_eligibilities', 'statutes.statutes_eligibility_id', '=', 'statutes_eligibilities.id');
+        return $query;
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * Get export/Excel/download data query to send to Excel download library
+     *
+     * @param $per_page
+     * @param $column
+     * @param $direction
+     * @param string $keyword
+     * @return mixed
      */
-    public function histories()
+
+    static function exportDataQuery(
+        $column,
+        $direction,
+        $keyword = '',
+        $eligibility_id = 0,
+        $columns = '*'
+    )
     {
-        return $this->morphMany(History::class, 'historyable');
+
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+
+        return self::buildBaseGridQuery($column, $direction, $keyword, $eligibility_id, $columns);
+
     }
 
-    /**
-     * @param $request
-     */
-    public function saveHistory($request)
+    static function pdfDataQuery(
+        $column,
+        $direction,
+        $keyword = '',
+        $eligibility_id = 0,
+        $columns = '*')
     {
-        $this->histories()->save([
-            'old' => collect($this->getOriginal())->only($this->fillable),
-            'new' => $request->only($this->fillable),
-            'user_id' => auth()->user()->id,
-            'reason_for_change' => $request->reason_for_change ?? null,
-        ]);
+
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+
+        return self::buildBaseGridQuery($column, $direction, $keyword, $eligibility_id, $columns);
+
+    }
+
+
+    /**
+     * Get "options" for HTML select tag
+     *
+     * If flat return an array.
+     * Otherwise, return an array of records.  Helps keep in proper order durring ajax calls to Chrome
+     */
+    static public function getOptions($flat = false)
+    {
+
+        $thisModel = new static;
+
+        $records = $thisModel::select('id',
+            'name')
+            ->orderBy('name')
+            ->get();
+
+        if (!$flat) {
+            return $records;
+        } else {
+            $data = [];
+
+            foreach ($records AS $rec) {
+                $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
+            }
+
+            return $data;
+        }
+
     }
 
 }

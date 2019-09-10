@@ -22,7 +22,7 @@
                     Note
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.note" />
+                    <dsp-textarea v-model="record.note" />
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">

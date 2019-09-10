@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\MakeFirstUser',
         'App\Console\Commands\SetInitialPermissions',
         'App\Console\Commands\SetYesNoCommand',
+        'App\Console\Commands\LoadStatutesFromScott',
     ];
 
     /**

@@ -1,18 +1,21 @@
 <template>
-    <div class="row" style="background-color: lightgoldenrodyellow; margin-top: 1em; ">
+    <div class="row">
 
-        <div class="col-md-6">
+        <div class="col-md-7">
             <h5>{{ charge.citation }} {{ charge.charge }} </h5>
         </div>
         <div class="col-md-2">
             <h5>
                 {{ charge.conviction_charge_type }} {{ charge.conviction_class_type }}
-                <span v-if="charge.notes"> [Note]</span>
             </h5>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
             {{ is_convicted }} {{ is_eligible}} {{ is_please_expunge }}
+        </div>
+
+        <div class="col-md-1">
+            <slot></slot>
         </div>
 
         <div class="col-md-12" style="padding-left: 4em;">

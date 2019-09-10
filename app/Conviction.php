@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\RecordSignature;
+use Illuminate\Notifications\Notifiable;
 
 class Conviction extends Model
 {
@@ -67,6 +68,8 @@ class Conviction extends Model
     {
         return true;
     }
+
+
 
 
     /**
@@ -201,4 +204,37 @@ class Conviction extends Model
 
     }
 
+    public function saveHistory($request, $action = 'updated')
+    {
+        $data = [
+            'user_id' => auth()->user()->id ?? 1,
+            'reason_for_change' => $request->reason_for_change ?? null,
+            'action' => $action
+        ];
+
+        /*
+         * We only save the values listed in fillable for old and new
+         */
+        /// if not created add old values
+        if ($action !== 'created') {
+            $data['old'] = collect($this->getOriginal())->only($this->fillable);
+        }
+        /// if not deleted add new values
+        if ($action !== 'deleted') {
+            $data['new'] = $request->only($this->fillable);
+        }
+
+        return $this->histories()->create($data);
+    }
+
+//
+//    public function saveHistory($request)
+//    {
+//        return $this->histories()->create([
+//            'old' => $this->only($this->fillable),
+//            'new' => $request->only($this->fillable),
+//            'user_id' => auth()->user()->id,
+//            'reason_for_change' => $request->reason_for_change ?? null,
+//        ]);
+//    }
 }

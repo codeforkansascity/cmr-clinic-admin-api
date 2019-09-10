@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\RecordSignature;
 
-class Comment extends Model
+class StatutesEligibility extends Model
 {
 
     use SoftDeletes;
@@ -17,10 +17,8 @@ class Comment extends Model
      */
     protected $fillable = [
             'id',
-            'user_id',
-            'body',
-            'commentable_type',
-            'commentable_id',
+            'name',
+            'sequence',
             'deleted_at',
         ];
 
@@ -32,14 +30,6 @@ class Comment extends Model
         'created_at',
         'updated_at',
     ];
-
-    public function user() {
-	return $this->belongsTo(User::class);
-    }
-
-    public function commentable() {
-        return $this->morphTo('commentable');
-    }
 
     public function add($attributes)
     {
@@ -63,13 +53,35 @@ class Comment extends Model
     }
 
 
-    public function user()
+
+    /**
+     * Get "options" for HTML select tag
+     *
+     * If flat return an array.
+     * Otherwise, return an array of records.  Helps keep in proper order durring ajax calls to Chrome
+     */
+    static public function getOptions($flat = false)
     {
-        return $this->belongsTo(User::class);
+
+        $thisModel = new static;
+
+        $records = $thisModel::select('id',
+            'name')
+            ->orderBy('name')
+            ->get();
+
+        if (!$flat) {
+            return $records;
+        } else {
+            $data = [];
+
+            foreach ($records AS $rec) {
+                $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
+            }
+
+            return $data;
+        }
+
     }
 
-    public function commentable()
-    {
-        return $this->morphTo('commentable');
-    }
 }
