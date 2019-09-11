@@ -15,5 +15,5 @@
     </ol>
 @endsection
 @section('content')
-    <applicant-form csrf_token="{{ csrf_token() }}"></applicant-form>
+    <applicant-container csrf_token="{{ csrf_token() }}"></applicant-container>
 @endsection
