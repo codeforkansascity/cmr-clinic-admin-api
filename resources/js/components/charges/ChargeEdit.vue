@@ -327,6 +327,7 @@
                 } else {
                     for (let index in this.backup_copy) {
                         this.charge[index] = this.backup_copy[index]
+                        this.charge.reason_for_change = ''
                     }
                 }
             },
