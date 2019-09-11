@@ -108,6 +108,7 @@ class Statute extends Model
             ['statutes.id as id',
                 'statutes.number as number',
                 'statutes.name as name',
+                'statutes.note as note',
                 'statutes_eligibilities.name AS eligible',
             ])
             ->paginate($per_page);

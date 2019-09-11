@@ -142,6 +142,10 @@
                         <span v-if="params.CanShow != '1'">
                                 {{ row.name }}
                             </span>
+
+                        <div v-if="row.note != ''" style="height: 3em; overflow: hidden; margin-left: 3em;">
+                            <dsp-textarea v-model="row.note" />
+                        </div>
                     </td>
                     <td data-title="Eligible">{{ row.eligible }}</td>
                     <td
