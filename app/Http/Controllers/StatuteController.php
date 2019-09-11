@@ -406,4 +406,9 @@ class StatuteController extends Controller
         */
     }
 
+
+    public function all()
+    {
+        return Statute::get(['id', 'number', 'name']);
+    }
 }
