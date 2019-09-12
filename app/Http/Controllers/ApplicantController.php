@@ -106,7 +106,7 @@ class ApplicantController extends Controller
         if (!Auth::user()->can('client add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Applicants.');
             if (Auth::user()->can('vc_vendor index')) {
-                return Redirect::route('client.index');
+                return Redirect::route('applicant.index');
             } else {
                 return Redirect::route('home');
             }
@@ -155,7 +155,7 @@ class ApplicantController extends Controller
         if (!Auth::user()->can('client view')) {
             \Session::flash('flash_error_message', 'You do not have access to view a Applicants.');
             if (Auth::user()->can('vc_vendor index')) {
-                return Redirect::route('client.index');
+                return Redirect::route('applicant.index');
             } else {
                 return Redirect::route('home');
             }
@@ -171,7 +171,7 @@ class ApplicantController extends Controller
             return view('client.show', compact('client','can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Applicants to display.');
-            return Redirect::route('client.index');
+            return Redirect::route('applicant.index');
         }
     }
 
@@ -186,7 +186,7 @@ class ApplicantController extends Controller
         if (!Auth::user()->can('client edit')) {
             \Session::flash('flash_error_message', 'You do not have access to edit a Applicants.');
             if (Auth::user()->can('vc_vendor index')) {
-                return Redirect::route('client.index');
+                return Redirect::route('applicant.index');
             } else {
                 return Redirect::route('home');
             }
@@ -196,7 +196,7 @@ class ApplicantController extends Controller
             return view('client.edit', compact('client'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Applicants to edit.');
-            return Redirect::route('client.index');
+            return Redirect::route('applicant.index');
         }
 
     }
@@ -213,7 +213,7 @@ class ApplicantController extends Controller
 //        if (!Auth::user()->can('client update')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Applicants.');
 //            if (!Auth::user()->can('client index')) {
-//                return Redirect::route('client.index');
+//                return Redirect::route('applicant.index');
 //            } else {
 //                return Redirect::route('home');
 //            }
@@ -259,7 +259,7 @@ class ApplicantController extends Controller
         if (!Auth::user()->can('client delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Applicants.');
             if (Auth::user()->can('client index')) {
-                 return Redirect::route('client.index');
+                 return Redirect::route('applicant.index');
             } else {
                 return Redirect::route('home');
             }
@@ -283,8 +283,11 @@ class ApplicantController extends Controller
 
         }
 
+        return response()->json('Success', 200);
+        // TODO we cannot send a redirect from an ajax request
+        // we should either use a form to submit the delete request or have the front end redirect if successful
         if (Auth::user()->can('client index')) {
-             return Redirect::route('client.index');
+             return Redirect::route('applicant.index');
         } else {
             return Redirect::route('home');
         }
@@ -312,7 +315,7 @@ class ApplicantController extends Controller
         if (!Auth::user()->can('client excel')) {
             \Session::flash('flash_error_message', 'You do not have access to download Applicants.');
             if (Auth::user()->can('client index')) {
-                return Redirect::route('client.index');
+                return Redirect::route('applicant.index');
             } else {
                 return Redirect::route('home');
             }
@@ -346,7 +349,7 @@ class ApplicantController extends Controller
         if (!Auth::user()->can('client export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Applicants');
             if (Auth::user()->can('client index')) {
-                return Redirect::route('client.index');
+                return Redirect::route('applicant.index');
             } else {
                 return Redirect::route('home');
             }

@@ -34,7 +34,7 @@
             CaseContainer
         },
         props: {
-            cases: {
+            data: {
                 type: [Boolean, Object, Array],
                 default: false
             },
@@ -44,16 +44,16 @@
             }
         },
         created() {
-            this.$bus.$on('case-deleted', (case_id, conviction_id) => {
-                if (conviction_id === this.conviction_id) {
-                    this.removeCase(case_id)
-                }
+            this.$bus.$on('case-deleted', (case_id) => {
+                this.removeCase(case_id)
             })
+            this.cases = this.data
 
         },
         data() {
             return {
-                showCases: false
+                showCases: false,
+                cases: {}
             }
         },
         methods: {
@@ -84,15 +84,9 @@
             removeCase(id) {
                 console.log('remove-case ' + id)
 
-                for (let i in this.cases) {
-                    if (this.cases[i].id === id) {
-                        this.cases.splice(id, 1)
-                    }
-                }
-                // we get a warning if we try to use filter
-                // this.cases = this.cases.filter(case => {
-                //     return case.id !== id
-                // })
+                this.cases = this.cases.filter(c => {
+                    return c.id !== id
+                })
             }
         },
     }

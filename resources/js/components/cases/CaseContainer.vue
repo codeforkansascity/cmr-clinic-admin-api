@@ -38,7 +38,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <charges-list
-                                    :charges="record.charge"
+                                    :data="record.charge"
                                     :conviction_id="record.id"
                             ></charges-list>
                         </div>
@@ -82,13 +82,15 @@
         },
         data() {
             return {
-                view: 'summary'
+                view: 'summary',
+                charges: {}
             }
         },
         methods: {
             setView(view) {
                 this.view = view
             },
+
         },
         created() {
             if (this.record.id == 0) {
@@ -98,6 +100,10 @@
                 if (id === this.record.id) this.setView('summary')
             })
         },
+        mounted() {
+            this.charges = this.record.charge
+        },
+
         computed: {},
     }
 </script>

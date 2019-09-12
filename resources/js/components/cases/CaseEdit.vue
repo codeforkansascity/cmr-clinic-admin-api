@@ -242,11 +242,9 @@
             };
         },
         mounted() {
-            if (this.record.id === 0) {
-                this.$refs.newCharge.$refs.input.focus()
-            }
         },
         created() {
+
             /// make back up copy
             for (let index in this.record) {
                 this.backup_copy[index] = this.record[index]
@@ -332,7 +330,6 @@
                 if (confirm('Do you want to delete record?')) {
                     axios.delete(`/conviction/${this.record.id}`)
                         .then(response => {
-                            F
                             console.log(response)
                             // send delete event to Charges List
                             this.$bus.$emit('case-deleted', this.record.id)
@@ -345,10 +342,11 @@
             cancel() {
                 console.log('cancel')
                 if (this.record.id === 0) {
-                    this.$bus.$emit('record-deleted', this.record.id)
+                    this.$bus.$emit('case-deleted', this.record.id)
                 } else {
                     for (let index in this.backup_copy) {
                         this.record[index] = this.backup_copy[index]
+                        this.record.reason_for_change = ''
                     }
                 }
             }

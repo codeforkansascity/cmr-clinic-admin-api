@@ -295,7 +295,7 @@
                             <button class="btn btn-secondary" @click.prevent="cancel">Cancel</button>
                         </div>
                         <div class="col-md-4 text-center mt-2 mt-md-0" v-if="record.id > 0">
-                            <button class="btn btn-danger" @click.prevent="deleteCharge">Delete Charge</button>
+                            <button class="btn btn-danger" @click.prevent="deleteRecord">Delete</button>
                         </div>
                         <div class="col-md-4 text-md-right">
                             <button
@@ -325,7 +325,7 @@
         props: {
             record: {
                 type: [Boolean, Object],
-                default: false
+                default: () => {}
             },
             csrf_token: {
                 type: String,
@@ -395,9 +395,7 @@
             };
         },
         mounted() {
-            if (this.record.id === 0) {
-                this.$refs.newCharge.$refs.input.focus()
-            }
+
         },
         created() {
             /// make back up copy
@@ -480,14 +478,14 @@
                         this.processing = false;
                     });
             },
-            deleteCharge() {
+            deleteRecord() {
                 let $this = this
                 if (confirm('Do you want to delete record?')) {
                     axios.delete(`/applicant/${this.record.id}`)
                         .then(response => {
                             console.log(response)
                             // send delete event to Charges List
-                            this.$bus.$emit('applicant-deleted', this.record.id)
+                            location.href = '/applicant'
                         })
                         .catch(error => {
                             console.log(error)
@@ -497,7 +495,7 @@
             cancel() {
                 console.log('cancel')
                 if (this.record.id === 0) {
-                    this.$bus.$emit('record-deleted', this.record.id)
+                    location.href = '/applicant'
                 } else {
                     for (let index in this.backup_copy) {
                         this.record[index] = this.backup_copy[index]
