@@ -66,27 +66,38 @@
                     <ss-grid-column-header
                             v-on:selectedSort="sortColumn"
                             v-bind:selectedKey="sortKey"
-                            title="Sort by Notes"
+                            title="Sort by Alias"
                             :params="{
-                                sortField: 'notes',
+                                sortField: 'alias',
                                 InitialSortOrder: 'asc'
                             }"
                     >
-                        Notes
+                        Alias
+                    </ss-grid-column-header>
+                    <ss-grid-column-header
+                            v-on:selectedSort="sortColumn"
+                            v-bind:selectedKey="sortKey"
+                            title="Sort by Sequence"
+                            :params="{
+                                sortField: 'sequence',
+                                InitialSortOrder: 'asc'
+                            }"
+                    >
+                        Sequence
                     </ss-grid-column-header>
                     <th style="width:20%;" class="text-center">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-if="gridState == 'wait'">
-                    <td colspan="3" class="grid-alert">
+                    <td colspan="4" class="grid-alert">
                         <div class="alert alert-info" role="alert">
                             Please wait.
                         </div>
                     </td>
                 </tr>
                 <tr v-if="gridState == 'error'">
-                    <td colspan="3" class="grid-alert">
+                    <td colspan="4" class="grid-alert">
                         <div class="alert alert-warning" role="alert">
                             Error please try again.
                         </div>
@@ -94,7 +105,7 @@
                 </tr>
 
                 <tr v-if="gridState == 'good' && !gridData.length">
-                    <td colspan="3" class="grid-alert">
+                    <td colspan="4" class="grid-alert">
                         <div class="alert alert-warning" role="alert">
                             No matching records found.
                         </div>
@@ -104,7 +115,7 @@
                 <tr v-else v-for="row in this.gridData" :key="row.id">
                     <td data-title="Name">
                         <a
-                                v-bind:href="'/applicant/' + row.id"
+                                v-bind:href="'/status/' + row.id"
                                 v-if="params.CanShow == '1'"
                         >
                             {{ row.name }}
@@ -113,13 +124,14 @@
                                 {{ row.name }}
                             </span>
                     </td>
-                    <td data-title="Notes">{{ row.notes }}</td>
+                    <td data-title="Alias">{{ row.alias }}</td>
+                    <td data-title="Sequence">{{ row.sequence }}</td>
                     <td
                             data-title="Actions"
                             class="text-lg-center text-nowrap"
                     >
                         <a
-                                v-bind:href="'/applicant/' + row.id + '/edit'"
+                                v-bind:href="'/status/' + row.id + '/edit'"
                                 v-if="params.CanEdit"
                                 class="grid-action-item"
                         >
@@ -135,10 +147,10 @@
         <!-- Grid Actions Bottom -->
         <div class="grid-bottom row mb-0 align-items-center">
             <div class="col-lg-4 mb-2">
-                <a href="/applicant/download" class="btn btn-primary mb-2 mr-2"
+                <a href="/status/download" class="btn btn-primary mb-2 mr-2"
                 >Export to Excel</a
                 >
-                <a href="/applicant/print" class="btn btn-primary mb-2 mr-2"
+                <a href="/status/print" class="btn btn-primary mb-2 mr-2"
                 >Print PDF</a
                 >
             </div>
@@ -163,12 +175,12 @@
 </template>
 
 <script>
-    import SsGridColumnHeader from "./SsGridColumnHeader";
-    import SsGridPagination from "./SsGridPagination";
-    import SsGridPaginationLocation from "./SsPaginationLocation";
+    import SsGridColumnHeader from "../SS/SsGridColumnHeader";
+    import SsGridPagination from "../SS/SsGridPagination";
+    import SsGridPaginationLocation from "../SS/SsPaginationLocation";
 
     export default {
-        name: "applicant-grid",
+        name: "status-grid",
         components: {
             SsGridColumnHeader,
             SsGridPaginationLocation,
@@ -217,7 +229,7 @@
 
         methods: {
             goToNew: function () {
-                window.location.href = "/applicant/create";
+                window.location.href = "/status/create";
             },
 
             sortColumn: function (obj) {
@@ -276,7 +288,7 @@
                                 } else if (error.response.status === 404) {
                                     // Record not found
                                     this.server_message = "Record not found";
-                                    window.location = "/applicant";
+                                    window.location = "/status";
                                 } else if (error.response.status === 419) {
                                     // Unknown status
                                     this.server_message =
@@ -300,7 +312,7 @@
             },
 
             getDataUrl: function (new_page_number) {
-                var url = "api-applicant?";
+                var url = "api-status?";
                 var queryParams = [];
 
                 queryParams.push("page=" + new_page_number);

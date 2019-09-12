@@ -29,13 +29,11 @@ class StatuteExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'number',
-                        'name',
-                        'note',
-                        'eligible',
-                        'deleted_at',
-                    ];
+            'number',
+            'name',
+            'note',
+            'eligible'
+        ];
     }
 
     // Map/format each field that's being exported
@@ -44,13 +42,10 @@ class StatuteExport implements FromQuery, WithHeadings, WithMapping
     public function map($statute): array
     {
         return [
-
-                        $statute->id,
-                        $statute->number,
-                        $statute->name,
-                        $statute->note,
-                        $statute->eligible,
-                        $statute->deleted_at,
-                    ];
+            $statute->number,
+            $statute->name,
+            $statute->note,
+            $statute->eligible,
+        ];
     }
 }

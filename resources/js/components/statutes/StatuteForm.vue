@@ -59,8 +59,19 @@
                         label="Eligible"
                         label-for="eligible"
                         :errors="form_errors.eligible"
+                        :required="true"
                 >
-                    <fld-input name="eligible" v-model="form_data.eligible"/>
+
+                    <ui-select-pick-one
+                            url="/api-statutes-eligibility/options"
+                            v-model="form_data.statutes_eligibility_id"
+                            :selected_id="form_data.statutes_eligibility_id"
+                            name="statutes_eligibility"
+                            blank_value="0"
+                            additional_classes="mb-2 grid-filter"
+                            styleAttr="max-width: 175px;"
+                            required/>
+
                 </std-form-group>
             </div>
         </div>
@@ -87,9 +98,13 @@
 
 <script>
     import axios from "axios";
+    import UiSelectPickOne from "../SS/UiSelectPickOne";
 
     export default {
         name: "statute-form",
+        components: {
+            UiSelectPickOne
+        },
         props: {
             record: {
                 type: [Boolean, Object],
@@ -109,7 +124,7 @@
                     number: "",
                     name: "",
                     note: "",
-                    eligible: "",
+                    statutes_eligibility_id: "",
                     deleted_at: ""
                 },
                 form_errors: {
@@ -117,7 +132,7 @@
                     number: false,
                     name: false,
                     note: false,
-                    eligible: false,
+                    statutes_eligibility_id: false,
                     deleted_at: false
                 },
                 server_message: false,

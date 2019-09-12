@@ -32,7 +32,7 @@
             DoubleChevronToggle,
             ChargeContainer},
         props: {
-            charges: {
+            data: {
                 type: [Boolean, Object, Array],
                 default: false
             },
@@ -42,6 +42,7 @@
             }
         },
         created() {
+            this.charges = this.data
             this.$bus.$on('charge-deleted:conviction:'+this.conviction_id, (charge_id) => {
                 this.removeCharge(charge_id)
             })
@@ -49,7 +50,8 @@
         },
         data() {
             return {
-                showCharges: false
+                showCharges: false,
+                charges: {}
             }
         },
         methods: {

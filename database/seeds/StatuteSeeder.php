@@ -22,7 +22,7 @@ class StatuteSeeder extends Seeder
        $ineligibles = (new \App\Lib\ParseCrimes)($ineligible_file);
 
        $eligibles = array_map(function($e) {
-           $e['eligible'] = \App\Statute::ELIGIBLE;
+           $e['statutes_eligibility_id'] = \App\Statute::ELIGIBLE;
            $e['created_at'] = now();
            $e['updated_at'] = now();
            return $e;
@@ -30,7 +30,7 @@ class StatuteSeeder extends Seeder
        \App\Statute::insert($eligibles);
 
        $ineligibles = array_map(function($i) {
-           $i['eligible'] = \App\Statute::INELIGIBLE;
+           $i['statutes_eligibility_id'] = \App\Statute::INELIGIBLE;
            $i['created_at'] = now();
            $i['updated_at'] = now();
            return $i;

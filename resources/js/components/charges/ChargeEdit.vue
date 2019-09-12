@@ -12,7 +12,7 @@
 
         <div>
             <form @submit.prevent="handleSubmit" class="form-horizontal">
-
+                <input type="hidden" ref="newCharge">
                 <div class="row">
 
                     <div class="col-md-3">
@@ -64,7 +64,7 @@
                                 label-for="citation"
                                 :errors="form_errors.citation"
                         >
-                            <fld-input ref="newCharge" name="citation" v-model="charge.citation"/>
+                            <fld-input name="citation" v-model="charge.citation"/>
                         </std-form-group>
                     </div>
 
@@ -208,11 +208,9 @@
             };
         },
         mounted() {
-            if (this.charge.id === 0) {
-                this.$refs.newCharge.$refs.input.focus()
-            }
         },
         created() {
+
             /// make back up copy
             for (let index in this.charge) {
                 this.backup_copy[index] = this.charge[index]
@@ -314,9 +312,8 @@
                 if (confirm('Do you want to delete record?')) {
                     axios.delete(`/charge/${this.charge.id}`)
                     .then(response => {
-                        console.log(response)
                         // send delete event to Charges List
-                        this.$bus.$emit('charge-deleted:conviction:'+this.charge.conviction_id, this.charge.id)
+                        this.$bus.$emit('charge-deleted:conviction:'+$this.charge.conviction_id, $this.charge.id)
                     })
                     .catch(error => {
                         console.log(error)
@@ -326,13 +323,15 @@
             cancel() {
                 console.log('cancel')
                 if (this.charge.id === 0) {
-                    this.$bus.$emit('charge-deleted', this.charge.id, this.charge.conviction_id)
+                    this.$bus.$emit('charge-deleted:conviction:'+this.charge.conviction_id, this.charge.id)
                 } else {
                     for (let index in this.backup_copy) {
                         this.charge[index] = this.backup_copy[index]
+                        this.charge.reason_for_change = ''
                     }
                 }
-            }
+            },
+
         }
     };
 </script>
