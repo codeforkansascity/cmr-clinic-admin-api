@@ -15,7 +15,7 @@ Example usage:
 <template>
     <select
             class="form-control"
-            v-model="selected"
+            v-model="modelValue"
             @change="updateValue"
             :name="this.name"
             :id="'field_' + this.name">
@@ -42,7 +42,6 @@ Example usage:
         },
         data() {
             return {
-                selected: '',
                 sexs: [
                     {
                         "name": "Please indicate your sex",
@@ -70,7 +69,6 @@ Example usage:
 
         mounted: function () {
 
-            this.selected = this.modelValue;
         },
 
         methods: {

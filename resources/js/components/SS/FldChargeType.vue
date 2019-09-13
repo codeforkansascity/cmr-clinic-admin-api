@@ -15,11 +15,15 @@ Example usage:
 <template>
     <select
             class="form-control"
-            v-model="selected"
+            :value="modelValue"
             @change="updateValue"
             :name="this.name"
             :id="'field_' + this.name">
-        <option v-for="c in charge_types" v-bind:value="c.abbreviation"> {{ c.name }}</option>
+        <option v-for="c in charge_types"
+                v-bind:value="c.abbreviation"
+                :selected="c.abbreviation === modelValue"
+                :key="c.abbreviation"
+        > {{ c.name }}</option>
     </select>
 </template>
 
@@ -42,7 +46,6 @@ Example usage:
         },
         data() {
             return {
-                selected: '',
                 charge_types: [
                     {
                         "name": "Felony",

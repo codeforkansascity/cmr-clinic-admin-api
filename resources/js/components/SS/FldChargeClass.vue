@@ -14,12 +14,16 @@ Example usage:
 
 <template>
     <select
-            class="form-control"
-            v-model="selected"
-            @change="updateValue"
-            :name="this.name"
-            :id="'field_' + this.name">
-        <option v-for="c in charge_classs" v-bind:value="c.abbreviation"> {{ c.name }}</option>
+        class="form-control"
+        :value="modelValue"
+        @change="updateValue"
+        :name="this.name"
+        :id="'field_' + this.name">
+        <option v-for="c in charge_classes"
+                v-bind:value="c.abbreviation"
+                :selected="c.abbreviation === modelValue"
+                :key="c.abbreviation"
+        > {{ c.name }}</option>
     </select>
 </template>
 
@@ -40,10 +44,9 @@ Example usage:
                 default: ''
             }
         },
-        data() {
-            return {
-                selected: '',
-                charge_classs: [
+        data() {            return {
+
+                charge_classes: [
                     {
                         "name": "No Class",
                         "abbreviation": ""
@@ -75,7 +78,6 @@ Example usage:
 
         mounted: function () {
 
-            this.selected = this.modelValue;
         },
 
         methods: {

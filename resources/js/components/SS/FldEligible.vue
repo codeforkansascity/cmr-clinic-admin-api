@@ -13,13 +13,17 @@ Example usage:
 */
 
 <template>
+
     <select
-            class="form-control"
-            v-model="selected"
-            @change="updateValue"
-            :name="this.name"
-            :id="'field_' + this.name">
-        <option v-for="c in eligibles" v-bind:value="c.value"> {{ c.text }}</option>
+        class="form-control"
+        :value="modelValue"
+        @change="updateValue"
+        :name="this.name"
+        :id="'field_' + this.name">
+        <option v-for="c in eligibles"
+                v-bind:value="c.value"
+                :key="c.value"
+        > {{ c.text }}</option>
     </select>
 </template>
 
