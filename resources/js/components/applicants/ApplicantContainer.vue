@@ -128,6 +128,8 @@
             },
         },
         created() {
+            /// this fixes reactivity but not sure why
+            this.record = Object.assign({}, this.record, this.record)
             if (this.record.id === 0) {
                 this.view = 'edit'
             }

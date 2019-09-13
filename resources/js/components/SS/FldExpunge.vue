@@ -15,12 +15,13 @@ Example usage:
 <template>
     <select
             class="form-control"
-            v-model="selected"
+            v-model="modelValue"
             @change="updateValue"
             :name="this.name"
             :id="'field_' + this.name">
         <option v-for="c in please_expunges" v-bind:value="c.value"> {{ c.text }}</option>
     </select>
+
 </template>
 
 <script>
@@ -42,7 +43,7 @@ Example usage:
         },
         data() {
             return {
-                selected: '',
+
                 please_expunges: [
                     {
                         value: null,
@@ -61,7 +62,6 @@ Example usage:
 
         mounted: function () {
 
-            this.selected = this.modelValue;
         },
 
         methods: {
