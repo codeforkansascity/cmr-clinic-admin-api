@@ -7,9 +7,10 @@ php artisan clear-compiled
 php artisan cache:clear
 php artisan config:clear;
 
-php artisan migrate:reset --env=testing
-php artisan migrate --env=testing
-php artisan db:seed --env=testing
+#php artisan migrate:reset --env=testing
+php artisan migrate:reset 
+php artisan migrate 
+php artisan db:seed 
 
 
 #vendor/bin/phpunit
