@@ -64,7 +64,21 @@
                                 label-for="citation"
                                 :errors="form_errors.citation"
                         >
-                            <fld-input name="citation" v-model="charge.citation"/>
+<!--                            <fld-input name="citation" v-model="charge.citation"/>-->
+                            <autocomplete
+                                url="/statutes/all"
+                                create
+                                v-model="charge.citation"
+                                valueField="number"
+                                displayField="name"
+                                @selected="statuteSelected"
+                            ></autocomplete>
+<!--                            <select-or-new-->
+<!--                                v-model="charge.citation"-->
+<!--                                valueField="number"-->
+<!--                                returnField="name"-->
+<!--                                @selected="(v) => {charge.charge = v}"-->
+<!--                            ></select-or-new>-->
                         </std-form-group>
                     </div>
 
@@ -77,6 +91,7 @@
                             <fld-input name="charge" v-model="charge.charge"/>
                         </std-form-group>
                     </div>
+
                 </div>
 
 
@@ -204,10 +219,12 @@
                 try_logging_in: false,
                 processing: false,
                 isShowing: false,
-                backup_copy: {}
+                backup_copy: {},
+                statutes: [],
             };
         },
         mounted() {
+            this.getStatutes()
         },
         created() {
 
@@ -331,7 +348,20 @@
                     }
                 }
             },
-
+            getStatutes() {
+                axios.get('/statutes/all')
+                    .then(res => {
+                        if(res.data) {
+                            this.statutes = res.data
+                            // this.statute_numbers = this.statutes.map(s => s.number)
+                        }
+                    })
+                    .catch(e => {console.error(e)})
+            },
+            statuteSelected(statute) {
+                this.charge.charge = statute.name;
+                this.charge.eligible = statute.statutes_eligibility_id
+            }
         }
     };
 </script>

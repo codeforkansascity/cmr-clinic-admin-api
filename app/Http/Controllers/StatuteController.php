@@ -406,4 +406,15 @@ class StatuteController extends Controller
         */
     }
 
+
+    public function all(Request $request)
+    {
+
+        $statutes =  Statute::query();
+        if($request->q) {
+            $statutes = $statutes->where('number', 'like', $request->q.'%')
+                ->limit(20);
+        }
+        return $statutes->get();
+    }
 }

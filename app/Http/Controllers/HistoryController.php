@@ -6,6 +6,7 @@ use App\Charge;
 use App\Client;
 use App\Conviction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HistoryController extends Controller
 {
@@ -34,7 +35,8 @@ class HistoryController extends Controller
     public function client(Client $client)
     {
         /// return client, cases, charges and histories with everything
-        return $client->load([
+        DB::enableQueryLog();
+        $history = $client->load([
             'conviction' => function ($q) {
                 $q->with([
                     'histories' => function ($q) {
@@ -48,5 +50,7 @@ class HistoryController extends Controller
                 ]);
             }
         ]);
+
+        return [$history, DB::getQueryLog()];
     }
 }
