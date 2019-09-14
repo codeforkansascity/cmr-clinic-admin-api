@@ -43,7 +43,6 @@ Vue.component('tr-view', () => import(/* webpackChunkName:"tr-view" */ './compon
 Vue.component('search-form-group', () => import(/* webpackChunkName:"search-form-group" */ './components/SS/SearchFormGroup.vue'));
 
 Vue.component('autocomplete', () => import(/* webpackChunkName:"autocomplete" */ './components/SS/AutoComplete.vue'));
-Vue.component('statute-selection', () => import(/* webpackChunkName:"autocomplete" */ './components/SS/StatuteSelection.vue'));
 
 /*
      Application Components

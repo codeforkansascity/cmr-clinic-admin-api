@@ -57,36 +57,42 @@
                     </div>
                 </div>
 
-<!--                <div class="row">-->
-<!--                    <div class="col-md-2">-->
-<!--                        <std-form-group-->
-<!--                                label="Citation"-->
-<!--                                label-for="citation"-->
-<!--                                :errors="form_errors.citation"-->
-<!--                        >-->
-<!--&lt;!&ndash;                            <fld-input name="citation" v-model="charge.citation"/>&ndash;&gt;-->
-<!--                            <autocomplete-->
+                <div class="row">
+                    <div class="col-md-2">
+                        <std-form-group
+                                label="Citation"
+                                label-for="citation"
+                                :errors="form_errors.citation"
+                        >
+<!--                            <fld-input name="citation" v-model="charge.citation"/>-->
+                            <autocomplete
+                                url="/statutes/all"
+                                create
+                                v-model="charge.citation"
+                                valueField="number"
+                                displayField="name"
+                                @selected="statuteSelected"
+                            ></autocomplete>
+<!--                            <select-or-new-->
 <!--                                v-model="charge.citation"-->
-<!--                                :items="['111','211','311']"-->
-<!--                            ></autocomplete>-->
-<!--                        </std-form-group>-->
-<!--                    </div>-->
+<!--                                valueField="number"-->
+<!--                                returnField="name"-->
+<!--                                @selected="(v) => {charge.charge = v}"-->
+<!--                            ></select-or-new>-->
+                        </std-form-group>
+                    </div>
 
-<!--                    <div class="col-md-10">-->
-<!--                        <std-form-group-->
-<!--                                label="Charge"-->
-<!--                                label-for="charge"-->
-<!--                                :errors="form_errors.charge"-->
-<!--                        >-->
-<!--                            <fld-input name="charge" v-model="charge.charge"/>-->
-<!--                        </std-form-group>-->
-<!--                    </div>-->
-                    <statute-selection
-                        :citation="charge.citation"
-                        :charge="charge.charge"
-                        :errors="form_errors"
-                    ></statute-selection>
-<!--                </div>-->
+                    <div class="col-md-10">
+                        <std-form-group
+                                label="Charge"
+                                label-for="charge"
+                                :errors="form_errors.charge"
+                        >
+                            <fld-input name="charge" v-model="charge.charge"/>
+                        </std-form-group>
+                    </div>
+
+                </div>
 
 
                 <div class="row">
@@ -213,10 +219,12 @@
                 try_logging_in: false,
                 processing: false,
                 isShowing: false,
-                backup_copy: {}
+                backup_copy: {},
+                statutes: [],
             };
         },
         mounted() {
+            this.getStatutes()
         },
         created() {
 
@@ -339,7 +347,20 @@
                     }
                 }
             },
-
+            getStatutes() {
+                axios.get('/statutes/all')
+                    .then(res => {
+                        if(res.data) {
+                            this.statutes = res.data
+                            // this.statute_numbers = this.statutes.map(s => s.number)
+                        }
+                    })
+                    .catch(e => {console.error(e)})
+            },
+            statuteSelected(statute) {
+                this.charge.charge = statute.name;
+                this.charge.eligible = statute.statutes_eligibility_id
+            }
         }
     };
 </script>
