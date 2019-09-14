@@ -46,14 +46,16 @@ class ParseCrimes
         $content = strip_tags($content);
 
         $content = explode("\n", $content);
-
         $content = array_filter($content, function ($row) {
             /// try to determine if a line contains a description and citation number without extra trailing data
             /// descriptions with multiple lines will be cut off
             ///  but there is no good way to determine if they are multiline
-            $isStatute = (preg_match('/[A-z]+ \d{3}\.*\d{0,3}/', $row) && !preg_match('/\d{3}\.\d{3}[.]+ [\w\d]*/', $row) );
+            $row = trim($row);
+            $row = preg_replace('/\s{2,}/', ' ', $row);
+            $isStatute = (preg_match('/[\dA-z\.]+\s+\d{3}\.?\d{0,3}/', $row) && !preg_match('/\d{3}\.\d{3}[.]+ [\w\d]*/', $row) );
             return $isStatute;
         });
+
 
         return $this->crimes = array_map(function($row) {
             /// attempt to match citation number

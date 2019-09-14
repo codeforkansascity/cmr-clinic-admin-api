@@ -125,20 +125,22 @@ class ConvictionController extends Controller
     public function store(ConvictionFormRequest $request)
     {
 
-        $conviction = new \App\Conviction;
-
-        try {
-            $conviction->add($request->validated());
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Unable to process request'
-            ], 400);
-        }
+        $conviction = Conviction::create($request->all());
+        /// We need to return the id to the front end
+        ///
+//        try {
+//            $conviction->add($request->validated());
+//        } catch (\Exception $e) {
+//            return response()->json([
+//                'message' => 'Unable to process request '.$e->getMessage()
+//            ], 400);
+//        }
 
         \Session::flash('flash_success_message', 'Vc Vendor ' . $conviction->name . ' was added');
 
         return response()->json([
-            'message' => 'Added record'
+            'message' => 'Added record',
+            'record' => $conviction
         ], 200);
 
     }
@@ -254,6 +256,7 @@ info(__METHOD__ . ' saving');
     public function destroy($id)
     {
 
+        // TODO change this to return error response
         if (!Auth::user()->can('conviction delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Case.');
             if (Auth::user()->can('conviction index')) {
@@ -281,6 +284,9 @@ info(__METHOD__ . ' saving');
 
         }
 
+        return response()->json('Success', 200);
+        // TODO we cannot send a redirect from an ajax request
+        // we should either use a form to submit the delete request or have the front end redirect if successful
         if (Auth::user()->can('conviction index')) {
              return Redirect::route('conviction.index');
         } else {
