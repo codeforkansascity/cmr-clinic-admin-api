@@ -227,12 +227,12 @@ create: if the create option is used this will return the value of the input fie
     }
     .search-result:hover {
         color: white;
-        background: #4dc0b5;
+        background: var(--primary, #4dc0b5);
 
     }
     .selected-result {
         color: white;
-        background: #4dc0b5;
+        background: var(--primary, #4dc0b5);
     }
 
     /* The container <div> - needed to position the dropdown content */
