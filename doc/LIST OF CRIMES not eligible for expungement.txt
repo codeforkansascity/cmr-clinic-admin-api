@@ -1,0 +1,71 @@
+Fraudulent insurance act.								375.997
+Trespassing on a railroad.								389.653
+Arrest for violation of order 								455.08
+Hate Crimes										557.035
+Tampering with a judicial officer							565.084
+Endangering a Corrections employee  						565.085
+Endangering a mental health employee, visitor or other 				565.086
+Cross burning 										565.095
+Kidnapping 2nd 									565.120
+Kidnapping 3rd degree 								565.130
+Child abduction 									565.156  
+Sexual misconduct in the 1st degree							566.093
+Sex with an animal  									566.111  
+Incest											568
+Abandonment of a child in the 1st degree. 						568.030  
+Abandonment of a child in the 2nd degree.						568.032  
+Endangering of the welfare of a child in 1st degree.					568.045  
+Abuse or neglect of a child 								568.060
+Genital mutilation of a female child  							568.065
+Child use in sexual performance  							568.080
+Promoting sexual performance by a child  						568.090
+Trafficking in children  								568.175
+Robbery in the 2nd degree  								569.030
+Pharmacy robbery in the 2nd degree  						565.035
+Arson in the 1st degree and in the 2nd degree					569.040 
+Knowingly burning or exploding							569.055
+Reckless burning or exploding							569.60
+Negligent burning or exploding 							569.065
+Water Contamination									569.072
+Property damage in the 1st degree							569.100
+Robbery in the 2nd degree								570.025
+Stealing										570.030
+Forgery										570.090
+Possession of forgery instrument							570.10
+Fraudulent use of a credit or debit device						570.130
+Defrauding security creditors								570.180
+Trafficking in stolen identities. Possession of documents 				570.224
+Identity theft										570.223
+Mortgage fraud									570.310	
+Weapon offenses that are not eligible for expungement
+Possession, manufacture, transport, repair or sale of certain weapons is a crime	571.020
+Unlawful use of weapons (See Ellen)								571.030
+Unlawful transfer of weapons								571.060
+Fraudulent purchase of a firearm							571.063
+Possession of a firearm, unlawful for certain persons				571.070
+Unlawful possession of an explosive device						571.072
+Use or possession of a metal penetrating bullet during commission of a crime 	571.150
+Promoting Civil discord, disorder in the 1st degree					574.070
+Money laundering									574.105
+Making a terrorist threat								574.115
+Making a terrorist threat in the 2nd degree						574.120
+Agro-terrorism										574.130
+Tampering with a judicial officer							575.095
+Perjury 										575.040
+Disarming a peace officer or correctional officer					575.153
+Endangering a corrections employee							575.155
+Endangering a mental health employee						575.157
+Aiding a sexual offender								575.159
+Escape from commitment, detention or conditional release				575.195
+Escape or attempted escape from a custody facility					575.200
+Escape or attempted escape from confinement					575.210
+Failure to return to confinement							575.220
+Aiding escape of a prisoner								575.230
+Permitting escape									575.240
+Assault on a police animal								575.353
+Water Contamination 									577.078
+Bus hijacking										577.703
+Planting a bomb or explosive in or near a bus terminal				577.076
+
+       
+
