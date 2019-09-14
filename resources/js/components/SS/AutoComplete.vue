@@ -28,18 +28,17 @@ create: if the create option is used this will return the value of the input fie
         <input class="form-control" :aria-expanded="openResult"
                id="dropdownMenu2" data-toggle="dropdown"
                type="text" :value="value" @input="updateValue($event.target.value)"
-               @keydown.enter = 'enter'
+               @keydown.enter.prevent = 'enter'
                @keydown.down = 'down'
                @keydown.up = 'up'
         >
         <ul class="dropdown-menu search-box" aria-labelledby="dropdownMenu2">
             <li v-for="(result, index) in matches"
-                v-bind:class="{'active': isActive(index)}"
+                v-bind:class="{'active': isActive(index), 'selected-result': current === index}"
                 class="search-result w-100"
                 @click="resultClick(index)"
             >
                 <span class="form-control-label search-label"
-                    :class="{'selected-result': current === index}"
                       v-html="getListing(result)"
                 >
                 </span>
@@ -137,7 +136,10 @@ create: if the create option is used this will return the value of the input fie
 
             // When enter pressed on the input
             enter () {
-                this.$emit('input', this.getValue(this.matches[this.current]))
+                let i = this.current
+                this.$emit('selected', this.matches[i])
+                this.updateValue(this.getValue(this.matches[i]))
+
                 this.open = false
             },
 
@@ -199,7 +201,6 @@ create: if the create option is used this will return the value of the input fie
                 axios.get(this.url)
                     .then(res => {
                         if(res.data) {
-                            console.log(res.data)
                             $this.data = res.data
                         }
                     })
@@ -217,7 +218,6 @@ create: if the create option is used this will return the value of the input fie
         white-space: nowrap;
         padding-bottom: 3px;
         padding-left: 5px;
-        max-width: 400px;
     }
     .search-result:hover {
         color: white;
