@@ -25,14 +25,14 @@ create: if the create option is used this will return the value of the input fie
 
 <template>
     <div class="dropdown" style="position: relative;">
-        <input class="form-control" :aria-expanded="openResult"
-               id="dropdownMenu2" data-toggle="dropdown"
-               type="text" :value="value" @input="updateValue($event.target.value)"
+        <input class="form-control"
+               type="text"
+               :value="value" @input="updateValue($event.target.value)"
                @keydown.enter.prevent = 'enter'
                @keydown.down = 'down'
                @keydown.up = 'up'
         >
-        <ul class="dropdown-menu search-box" aria-labelledby="dropdownMenu2">
+        <ul class="search-box dropdown-content" v-if="open">
             <li v-for="(result, index) in matches"
                 v-bind:class="{'active': isActive(index), 'selected-result': current === index}"
                 class="search-result w-100"
@@ -87,7 +87,7 @@ create: if the create option is used this will return the value of the input fie
                 required: false
             },
             create: {
-                type: Boolean,
+                type: Boolean|Function,
                 required: false
             }
 
@@ -206,6 +206,10 @@ create: if the create option is used this will return the value of the input fie
                     })
                     .catch(e => {console.error(e)})
             },
+            toggleShow()
+            {
+                this.open = !this.open
+            }
 
         }
 
@@ -213,6 +217,8 @@ create: if the create option is used this will return the value of the input fie
 </script>
 
 <style scoped>
+
+    ul, li {list-style-type: none;}
 
     .search-result {
         white-space: nowrap;
@@ -228,4 +234,25 @@ create: if the create option is used this will return the value of the input fie
         color: white;
         background: #4dc0b5;
     }
+
+    /* The container <div> - needed to position the dropdown content */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+        padding-left: 0;
+        position: absolute;
+        background-color: white;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+
+    /* Change color of dropdown links on hover */
+    .dropdown-content a:hover {background-color: #ddd}
+
 </style>
