@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
         $user = \App\User::create([
             'email' => 'paulb@savagesoft.com',
             'name' => 'Paul Barham',
-            'password' => bcrypt(env('TEST_USER_PASSWORD', $faker->unique()->safeEmail))
+            'password' => bcrypt(env('TEST_USER_PASSWORD', 'secret'))
         ]);
         $user->assignRole('super-admin');
 

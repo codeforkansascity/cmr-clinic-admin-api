@@ -93,7 +93,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
 
-
+    Route::get('statutes/all', 'StatuteController@all');
 });
 
 
