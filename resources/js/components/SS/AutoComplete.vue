@@ -1,3 +1,28 @@
+/*
+Example usage;
+<autocomplete
+    url="/statutes/all"
+    create
+    v-model="charge.citation"
+    valueField="number"
+    displayField="name"
+    @selected="statuteSelected"
+></autocomplete>
+
+Props:
+list: an array can be used for data if this is used the url field will be ignored
+url: string of the url to get the data from this is used once when loaded to get the entire list
+create: Optional this option allows the create button to appear if the data doesn't exist in the list
+valueField: Optional if the data is not a string this field is needed to determine the value field
+displayField: Optional if an additional field is used for displaying a list
+displayLimit: this will limit the number of character shown for the display field on the drop down list default is 50
+
+Events:
+input: when input is changed the value is returned to keep in sync with parent
+selected: this is fired when an item is selected from the list and will return the entire object
+create: if the create option is used this will return the value of the input field
+*/
+
 <template>
     <div class="dropdown" style="position: relative;">
         <input class="form-control" :aria-expanded="openResult"
