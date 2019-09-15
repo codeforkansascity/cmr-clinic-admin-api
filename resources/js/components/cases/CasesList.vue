@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h1>inside case list</h1>
         <div>
             <hr>
 
@@ -38,9 +39,9 @@
                 type: [Boolean, Object, Array],
                 default: false
             },
-            conviction_id: {
+            client_id: {
                 type: Number,
-                default: 0
+                default: 22
             }
         },
         created() {
@@ -60,7 +61,7 @@
             addCase() {
                 let new_case = {
                     id: 0,
-                    client_id: 0,
+                    client_id: this.client_id,
                     name: "",
                     arrest_date: "",
                     case_number: "",
