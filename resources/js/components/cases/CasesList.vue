@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h1>inside case list</h1>
         <div>
             <hr>
 
