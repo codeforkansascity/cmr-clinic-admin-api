@@ -93,12 +93,27 @@
 <script>
     export default {
         name: "ApplicantDetails",
-        props: [
-            'record'
-        ],
+        model: {
+            prop: 'modelValue',  // Rename v-model's input value to modelValue
+                                 // We will use the default 'input' event for v-model
+        },
+        props: {
+            modelValue: {        // Need to define the v-model input value prop
+                type: Object,
+            },
+        },
         data() {
-            return {}
-        }
+            return {
+                record: {
+
+                }
+            }
+        },
+        mounted: function () {
+            Object.keys(this.modelValue).forEach(i =>
+                this.$set(this.record, i, this.modelValue[i])
+            );
+        },
     }
 </script>
 

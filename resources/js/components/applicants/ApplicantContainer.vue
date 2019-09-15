@@ -6,14 +6,14 @@
                 <div class=" charge-container">
                     <div v-if="view === 'summary'">
                         <!--<button class="btn btn-dark" @click="setView('details')">Show Details</button>-->
-                        <applicant-summary :record="record">
+                        <applicant-summary v-model="record">
                             <chevron-toggle class="float-right"
                                             :show="false"
                                             @click="setView('details')"/>
                         </applicant-summary>
                     </div>
                     <div v-if="view === 'details'">
-                        <applicant-details :record="record">
+                        <applicant-details v-model="record">
                             <chevron-toggle class="float-right"
                                             :show="true"
                                             @click="setView('summary')"/>
@@ -23,7 +23,7 @@
                         </applicant-details>
                     </div>
                     <div v-if="view === 'edit'">
-                        <applicant-edit :record="record">
+                        <applicant-edit v-model="record">
                             <delete-control class="float-right"
                                             height="30"
                                             @click="setView('summary')"/>
@@ -31,6 +31,7 @@
                     </div>
                     <div class="row" v-if="record.id !== 0">
                         <div class="col-md-12">
+                            <!--For now we will keep this one passed as a propery-->
                             <cases-list :data="this.record.conviction"
                                         :client_id="this.record.id"></cases-list>
                         </div>
@@ -129,7 +130,7 @@
         },
         created() {
             /// this fixes reactivity but not sure why
-            this.record = Object.assign({}, this.record, this.record)
+            //this.record = Object.assign({}, this.record, this.record)
             if (this.record.id === 0) {
                 this.view = 'edit'
             }

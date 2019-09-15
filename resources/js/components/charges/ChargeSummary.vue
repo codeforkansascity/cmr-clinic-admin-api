@@ -2,11 +2,11 @@
     <div class="row">
 
         <div class="col-md-7">
-            <h5>{{ charge.citation }} {{ charge.charge }} </h5>
+            <h5>{{ record.citation }} {{ record.charge }} </h5>
         </div>
         <div class="col-md-2">
             <h5>
-                {{ charge.conviction_charge_type }} {{ charge.conviction_class_type }}
+                {{ record.conviction_charge_type }} {{ record.conviction_class_type }}
             </h5>
         </div>
 
@@ -19,7 +19,7 @@
         </div>
 
         <div class="col-md-12" style="padding-left: 4em;">
-            {{ charge.notes }}
+            {{ record.notes }}
         </div>
 
     </div>
@@ -28,19 +28,39 @@
 <script>
     export default {
         name: "ChargeSummary",
-        props: ['charge'],
+        model: {
+            prop: 'modelValue',  // Rename v-model's input value to modelValue
+                                 // We will use the default 'input' event for v-model
+        },
+        props: {
+            modelValue: {        // Need to define the v-model input value prop
+                type: Object,
+            },
+        },
+        data() {
+            return {
+                record: {
+
+                }
+            }
+        },
+        mounted: function () {
+            Object.keys(this.modelValue).forEach(i =>
+                this.$set(this.record, i, this.modelValue[i])
+            );
+        },
         computed: {
 
             is_convicted() {
-                let q = this.charge.convicted;
+                let q = this.record.convicted;
                 return parseInt(q) ? ' -- Convicted' : '';
             },
             is_eligible() {
-                let q = this.charge.eligible;
+                let q = this.record.eligible;
                 return parseInt(q) ? ', Eligible' : '';
             },
             is_please_expunge() {
-                let q = this.charge.please_expunge;
+                let q = this.record.please_expunge;
                 return parseInt(q) ? ', PleaseExpunge' : '';
             },
         },

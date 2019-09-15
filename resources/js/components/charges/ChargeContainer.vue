@@ -2,14 +2,14 @@
     <div class=" charge-container">
         <div v-if="view === 'summary'">
             <!--<button class="btn btn-dark" @click="setView('details')">Show Details</button>-->
-            <charge-summary :charge="charge">
+            <charge-summary v-model="record">
                 <chevron-toggle class="float-right"
                                 :show="false"
                                 @click="setView('details')"/>
             </charge-summary>
         </div>
         <div v-if="view === 'details'">
-            <charge-details  :charge="charge" >
+            <charge-details  v-model="record" >
                 <chevron-toggle class="float-right"
                                 :show="true"
                                 @click="setView('summary')"/>
@@ -19,7 +19,7 @@
             </charge-details>
         </div>
         <div v-if="view === 'edit'">
-            <charge-edit :charge="charge">
+            <charge-edit v-model="record">
                 <delete-control class="float-right"
                                 height="30"
                                 @click="setView('summary')"/>
@@ -46,11 +46,15 @@
             PencilControl,
             ChevronToggle
         },
-        props: [
-            'charge'
-        ],
+        props: {
+            data: {
+                type: [Boolean, Object, Array],
+                default: false
+            },
+        },
         data() {
             return {
+                record: {},
                 view: 'summary'
             }
         },
@@ -60,12 +64,18 @@
             },
         },
         created() {
-            if (this.charge.id == 0) {
+            Object.keys(this.data).forEach(i =>
+                this.$set(this.record, i, this.data[i])
+            );
+            if (this.record.id == 0) {
                 this.view = 'edit'
             }
-            this.$bus.$on('minimize-charge:charge:'+this.charge.id, () => {
+            this.$bus.$on('minimize-charge:charge:'+this.record.id, () => {
                 this.setView('summary')
             })
+        },
+        mounted() {
+
         },
         computed: {},
     }

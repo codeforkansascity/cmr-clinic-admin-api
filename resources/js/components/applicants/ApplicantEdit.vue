@@ -322,10 +322,13 @@
         components: {
             flatPickr
         },
+        model: {
+            prop: 'modelValue',  // Rename v-model's input value to modelValue
+                                 // We will use the default 'input' event for v-model
+        },
         props: {
-            record: {
-                type: [Boolean, Object],
-                default: () => {}
+            modelValue: {        // Need to define the v-model input value prop
+                type: Object,
             },
             csrf_token: {
                 type: String,
@@ -345,6 +348,7 @@
         },
         data() {
             return {
+                record: {},         // We will store v-model's input here to be reactive
                 form_errors: {
                     id: false,
                     name: false,
@@ -395,7 +399,10 @@
             };
         },
         mounted() {
-
+            // Copy v-model's input into a reactive store
+            Object.keys(this.modelValue).forEach(i =>
+                this.$set(this.record, i, this.modelValue[i])
+            );
         },
         created() {
             /// make back up copy
@@ -433,9 +440,11 @@
                                 for (let index in $this.record) {
                                     $this.backup_copy[index] = $this.record[index]
                                 }
+
                             }
 
-                            $this.processing = false
+                            $this.processing = false;
+                            this.$emit('input', this.record);      // emit the changed record to v-model
                             $this.$bus.$emit('minimize-applicant', $this.record.id)
                         } else {
                             this.server_message = res.status;

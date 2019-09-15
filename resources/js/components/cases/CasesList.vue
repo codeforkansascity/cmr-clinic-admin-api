@@ -41,7 +41,7 @@
             },
             client_id: {
                 type: Number,
-                default: 22
+                default: 0
             }
         },
         created() {

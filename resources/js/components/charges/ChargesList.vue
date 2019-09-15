@@ -4,9 +4,9 @@
             <hr>
 
             <charge-container
-                    v-for="(charge, index) in charges"
+                    v-for="(record, index) in charges"
                     :key="index"
-                    :charge="charge"
+                    :data="record"
             >
             </charge-container>
 
