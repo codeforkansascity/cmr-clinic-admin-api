@@ -64,21 +64,21 @@
                                 label-for="citation"
                                 :errors="form_errors.citation"
                         >
-<!--                            <fld-input name="citation" v-model="record.citation"/>-->
+                            <!--                            <fld-input name="citation" v-model="record.citation"/>-->
                             <autocomplete
-                                url="/statutes/all"
-                                create
-                                v-model="record.citation"
-                                valueField="number"
-                                displayField="name"
-                                @selected="statuteSelected"
+                                    url="/statutes/all"
+                                    create
+                                    v-model="record.citation"
+                                    valueField="number"
+                                    displayField="name"
+                                    @selected="statuteSelected"
                             ></autocomplete>
-<!--                            <select-or-new-->
-<!--                                v-model="record.citation"-->
-<!--                                valueField="number"-->
-<!--                                returnField="name"-->
-<!--                                @selected="(v) => {record.charge = v}"-->
-<!--                            ></select-or-new>-->
+                            <!--                            <select-or-new-->
+                            <!--                                v-model="record.citation"-->
+                            <!--                                valueField="number"-->
+                            <!--                                returnField="name"-->
+                            <!--                                @selected="(v) => {record.charge = v}"-->
+                            <!--                            ></select-or-new>-->
                         </std-form-group>
                     </div>
 
@@ -202,7 +202,6 @@
         data() {
             return {
                 record: {},         // We will store v-model's input here to be reactive
-
                 form_errors: {
                     id: false,
                     conviction_id: false,
@@ -243,21 +242,7 @@
                 this.backup_copy[index] = this.charge[index]
             }
         },
-        computed: {
 
-            dsp_convicted() {
-                let q = this.record.convicted;
-                return parseInt(q) ? ' -- Convicted' : '';
-            },
-            dsp_eligible() {
-                let q = this.record.eligible;
-                return parseInt(q) ? ', Eligible' : '';
-            },
-            dsp_please_expunge() {
-                let q = this.record.please_expunge;
-                return parseInt(q) ? ', PleaseExpunge' : '';
-            },
-        },
         methods: {
             async handleSubmit() {
                 let $this = this
@@ -287,13 +272,13 @@
                             /// reset reason for change
                             $this.record.reason_for_change = ''
                             /// recopy the new charge to our backup
-                            for(let index in $this.charge) {
+                            for (let index in $this.charge) {
                                 $this.backup_copy[index] = $this.charge[index]
                             }
 
                             $this.processing = false;
-                            this.$emit('input', this.record);      // emit the changed record to v-model
-                            $this.$bus.$emit('minimize-charge:charge:'+$this.record.id)
+                            this.$emit('input', $this.record);      // emit the changed record to v-model
+                            $this.$bus.$emit('minimize-charge', $this.record.id)
                         } else {
                             this.server_message = res.status;
                         }
@@ -339,19 +324,19 @@
                 let $this = this
                 if (confirm('Do you want to delete record?')) {
                     axios.delete(`/charge/${this.record.id}`)
-                    .then(response => {
-                        // send delete event to Charges List
-                        this.$bus.$emit('charge-deleted:conviction:'+$this.record.conviction_id, $this.record.id)
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
+                        .then(response => {
+                            // send delete event to Charges List
+                            this.$bus.$emit('charge-deleted:conviction:' + $this.record.conviction_id, $this.record.id)
+                        })
+                        .catch(error => {
+                            console.log(error)
+                        })
                 }
             },
             cancel() {
                 console.log('cancel')
                 if (this.record.id === 0) {
-                    this.$bus.$emit('charge-deleted:conviction:'+this.record.conviction_id, this.record.id)
+                    this.$bus.$emit('charge-deleted:conviction:' + this.record.conviction_id, this.record.id)
                 } else {
                     for (let index in this.backup_copy) {
                         this.record[index] = this.backup_copy[index]
@@ -362,12 +347,14 @@
             getStatutes() {
                 axios.get('/statutes/all')
                     .then(res => {
-                        if(res.data) {
+                        if (res.data) {
                             this.statutes = res.data
                             // this.statute_numbers = this.statutes.map(s => s.number)
                         }
                     })
-                    .catch(e => {console.error(e)})
+                    .catch(e => {
+                        console.error(e)
+                    })
             },
             statuteSelected(statute) {
                 this.record.charge = statute.name;

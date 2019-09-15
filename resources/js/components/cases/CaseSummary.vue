@@ -39,12 +39,10 @@
         },
         data() {
             return {
-                record: {
-
-                }
+                record: {}
             }
         },
-        mounted: function () {
+        created: function () {
             Object.keys(this.modelValue).forEach(i =>
                 this.$set(this.record, i, this.modelValue[i])
             );

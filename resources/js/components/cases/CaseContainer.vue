@@ -71,7 +71,7 @@
             ChargesList
         },
         props: {
-            record: {
+            data: {
                 type: [Boolean, Object, Array],
                 default: false
             },
@@ -82,8 +82,8 @@
         },
         data() {
             return {
+                record: {},
                 view: 'summary',
-                charges: {}
             }
         },
         methods: {
@@ -93,6 +93,9 @@
 
         },
         created() {
+            Object.keys(this.data).forEach(i =>
+                this.$set(this.record, i, this.data[i])
+            );
             if (this.record.id == 0) {
                 this.view = 'edit'
             }
@@ -100,11 +103,6 @@
                 if (id === this.record.id) this.setView('summary')
             })
         },
-        mounted() {
-
-        },
-
-        computed: {},
     }
 </script>
 

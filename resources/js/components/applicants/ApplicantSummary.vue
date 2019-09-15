@@ -2,7 +2,7 @@
     <div class="row">
 
         <div class="col-md-11">
-            <h4>{{ record.name }}  &nbsp; {{  moment(record.dob,["MM-DD-YYYY", "YYYY-MM-DD"]).format('MM/DD/YYYY')}}</h4>
+            <h4>{{ record.name }} &nbsp; {{ moment(record.dob,["MM-DD-YYYY", "YYYY-MM-DD"]).format('MM/DD/YYYY')}}</h4>
         </div>
 
         <div class="col-md-1">
@@ -30,12 +30,10 @@
         },
         data() {
             return {
-                record: {
-
-                }
+                record: {}
             }
         },
-        mounted: function () {
+        created: function () {
             Object.keys(this.modelValue).forEach(i =>
                 this.$set(this.record, i, this.modelValue[i])
             );

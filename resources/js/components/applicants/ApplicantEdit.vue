@@ -398,13 +398,12 @@
                 backup_copy: {}
             };
         },
-        mounted() {
+
+        created() {
             // Copy v-model's input into a reactive store
             Object.keys(this.modelValue).forEach(i =>
                 this.$set(this.record, i, this.modelValue[i])
             );
-        },
-        created() {
             /// make back up copy
             for (let index in this.record) {
                 this.backup_copy[index] = this.record[index]
@@ -444,7 +443,7 @@
                             }
 
                             $this.processing = false;
-                            this.$emit('input', this.record);      // emit the changed record to v-model
+                            this.$emit('input', $this.record);      // emit the changed record to v-model
                             $this.$bus.$emit('minimize-applicant', $this.record.id)
                         } else {
                             this.server_message = res.status;

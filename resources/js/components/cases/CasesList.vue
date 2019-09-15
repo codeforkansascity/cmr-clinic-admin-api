@@ -1,13 +1,11 @@
 <template>
     <div>
-        <h1>inside case list</h1>
         <div>
             <hr>
-
             <case-container
                     v-for="(record, index) in cases"
                     :key="index"
-                    :record="record"
+                    :data="record"
                     :case_count="index+1"
             >
             </case-container>
@@ -45,16 +43,17 @@
             }
         },
         created() {
+            Object.keys(this.data).forEach(i =>
+                this.$set(this.cases, i, this.data[i])
+            );
             this.$bus.$on('case-deleted', (case_id) => {
                 this.removeCase(case_id)
             })
-            this.cases = this.data
-
         },
         data() {
             return {
                 showCases: false,
-                cases: {}
+                cases: []
             }
         },
         methods: {

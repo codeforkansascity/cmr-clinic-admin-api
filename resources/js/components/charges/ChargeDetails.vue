@@ -1,6 +1,6 @@
 <template>
     <div style="margin-bottom: 1em">
-        <div class="row" >
+        <div class="row">
 
             <div class="col-md-6">
                 <h5>{{ record.citation }} {{ record.charge }} </h5>
@@ -90,12 +90,10 @@
         },
         data() {
             return {
-                record: {
-
-                }
+                record: {}
             }
         },
-        mounted: function () {
+        created: function () {
             Object.keys(this.modelValue).forEach(i =>
                 this.$set(this.record, i, this.modelValue[i])
             );

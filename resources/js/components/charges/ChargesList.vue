@@ -30,7 +30,8 @@
         name: "charges-list",
         components: {
             DoubleChevronToggle,
-            ChargeContainer},
+            ChargeContainer
+        },
         props: {
             data: {
                 type: [Boolean, Object, Array],
@@ -42,16 +43,17 @@
             }
         },
         created() {
-            this.charges = this.data
-            this.$bus.$on('charge-deleted:conviction:'+this.conviction_id, (charge_id) => {
+            Object.keys(this.data).forEach(i =>
+                this.$set(this.charges, i, this.data[i])
+            );
+            this.$bus.$on('charge-deleted:conviction:' + this.conviction_id, (charge_id) => {
                 this.removeCharge(charge_id)
             })
-
         },
         data() {
             return {
                 showCharges: false,
-                charges: {}
+                charges: []
             }
         },
         methods: {
@@ -69,9 +71,9 @@
                     please_expunge_text: "",
                     to_print: "",
                     notes: "",
-                    convicted: '0',
-                    eligible: '0',
-                    please_expunge: '0'
+                    convicted: null,
+                    eligible: null,
+                    please_expunge: null
                 }
                 this.charges.push(new_charge)
                 this.showCharges = true
@@ -102,6 +104,7 @@
         margin: auto;
         float: right;
     }
+
     .pad-30 {
         padding-bottom: 30px;
     }

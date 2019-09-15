@@ -245,8 +245,7 @@
                 backup_copy: {}
             };
         },
-        mounted() {
-        },
+
         created() {
 
             // Copy v-model's input into a reactive store
@@ -292,7 +291,7 @@
                             }
 
                             $this.processing = false;
-                            this.$emit('input', this.record);      // emit the changed record to v-model
+                            this.$emit('input', $this.record);      // emit the changed record to v-model
                             $this.$bus.$emit('minimize-case', $this.record.id)
                         } else {
                             this.server_message = res.status;

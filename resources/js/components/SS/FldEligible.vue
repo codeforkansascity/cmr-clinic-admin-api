@@ -64,12 +64,10 @@ Example usage:
         },
 
         mounted: function () {
-
             this.selected = this.modelValue;
         },
 
         methods: {
-
             updateValue: function (event) {
                 this.$emit('change', event.target.value);
             },

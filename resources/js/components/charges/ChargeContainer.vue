@@ -9,7 +9,7 @@
             </charge-summary>
         </div>
         <div v-if="view === 'details'">
-            <charge-details  v-model="record" >
+            <charge-details v-model="record">
                 <chevron-toggle class="float-right"
                                 :show="true"
                                 @click="setView('summary')"/>
@@ -70,14 +70,10 @@
             if (this.record.id == 0) {
                 this.view = 'edit'
             }
-            this.$bus.$on('minimize-charge:charge:'+this.record.id, () => {
-                this.setView('summary')
+            this.$bus.$on('minimize-charge', (id) => {
+                if (id === this.record.id) this.setView('summary')
             })
         },
-        mounted() {
-
-        },
-        computed: {},
     }
 </script>
 

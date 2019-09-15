@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-2">
                 <h4>
-                    {{ moment(String(record.release_date)).format('MM/DD/YYYY')  }}
+                    {{ moment(String(record.release_date)).format('MM/DD/YYYY') }}
 
                 </h4>
             </div>
@@ -32,7 +32,8 @@
                     <tr is="tr-view" v-model="record.judge">Judge</tr>
                     <tr is="tr-view" v-model="record.approximate_date_of_charge">Approx charte date</tr>
                     <tr is="tr-view" v-model="record.release_status">Relase Status</tr>
-                    <tr is="tr-view" v-model="moment(String(record.release_date)).format('MM/DD/YYYY')">Release Date</tr>
+                    <tr is="tr-view" v-model="moment(String(record.release_date)).format('MM/DD/YYYY')">Release Date
+                    </tr>
 
 
                 </table>
@@ -96,12 +97,10 @@
         },
         data() {
             return {
-                record: {
-
-                }
+                record: {}
             }
         },
-        mounted: function () {
+        created: function () {
             Object.keys(this.modelValue).forEach(i =>
                 this.$set(this.record, i, this.modelValue[i])
             );

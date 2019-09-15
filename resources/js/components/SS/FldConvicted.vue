@@ -15,7 +15,7 @@ Example usage:
 <template>
     <select
             class="form-control"
-            v-model="modelValue"
+            :value="modelValue"
             @change="updateValue"
             :name="this.name"
             :id="'field_' + this.name">
@@ -42,6 +42,7 @@ Example usage:
         },
         data() {
             return {
+                selected: '',
                 convicteds: [
                     {
                         value: null,
@@ -59,7 +60,7 @@ Example usage:
         },
 
         mounted: function () {
-
+            this.selected = this.modelValue;
         },
 
         methods: {
