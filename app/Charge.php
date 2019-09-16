@@ -80,13 +80,11 @@ class Charge extends Model
         $keyword = '')
     {
         return self::buildBaseGridQuery($column, $direction, $keyword,
-            [ 'id',
-                    'notes',
+            ['id',
+                'notes',
             ])
-        ->paginate($per_page);
+            ->paginate($per_page);
     }
-
-
 
 
     /**
@@ -122,7 +120,7 @@ class Charge extends Model
         }
 
         $query = Charge::select($columns)
-        ->orderBy($column, $direction);
+            ->orderBy($column, $direction);
 
         if ($keyword) {
             $query->where('name', 'like', '%' . $keyword . '%');
@@ -130,15 +128,15 @@ class Charge extends Model
         return $query;
     }
 
-        /**
-         * Get export/Excel/download data query to send to Excel download library
-         *
-         * @param $per_page
-         * @param $column
-         * @param $direction
-         * @param string $keyword
-         * @return mixed
-         */
+    /**
+     * Get export/Excel/download data query to send to Excel download library
+     *
+     * @param $per_page
+     * @param $column
+     * @param $direction
+     * @param string $keyword
+     * @return mixed
+     */
 
     static function exportDataQuery(
         $column,
@@ -153,18 +151,18 @@ class Charge extends Model
 
     }
 
-        static function pdfDataQuery(
-            $column,
-            $direction,
-            $keyword = '',
-            $columns = '*')
-        {
+    static function pdfDataQuery(
+        $column,
+        $direction,
+        $keyword = '',
+        $columns = '*')
+    {
 
-            info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
-            return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
+        return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
 
-        }
+    }
 
 
     /**

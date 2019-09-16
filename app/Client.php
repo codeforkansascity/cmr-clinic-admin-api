@@ -91,6 +91,17 @@ class Client extends Model
         return $this->morphMany(History::class, 'historyable');
     }
 
+    // this is a recommended way to declare event handlers
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($tbl) { // before delete() method call this
+            foreach ($tbl->conviction()->get() as $rec) {
+                $rec->delete();
+            }
+        });
+    }
+
     public function add($attributes)
     {
 
