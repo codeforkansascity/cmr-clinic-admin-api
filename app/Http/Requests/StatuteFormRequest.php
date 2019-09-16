@@ -40,7 +40,7 @@ class StatuteFormRequest extends FormRequest
             'id' => 'numeric',
             'number' => 'nullable|string|max:191',
             'note' => 'nullable|string',
-            'eligible' => 'nullable|string|max:191',
+            'statutes_eligibility_id' => 'nullable|string|max:191',
             'deleted_at' => 'nullable|string',
 
         ];
