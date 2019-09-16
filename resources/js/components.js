@@ -43,6 +43,8 @@ Vue.component('tr-view', () => import(/* webpackChunkName:"tr-view" */ './compon
 Vue.component('search-form-group', () => import(/* webpackChunkName:"search-form-group" */ './components/SS/SearchFormGroup.vue'));
 
 Vue.component('autocomplete', () => import(/* webpackChunkName:"autocomplete" */ './components/SS/AutoComplete.vue'));
+Vue.component('base-modal', () => import(/* webpackChunkName:"base-modal" */ './components/SS/BaseModal.vue'));
+Vue.component('fld-statute', () => import(/* webpackChunkName:"fld-statute" */ './components/SS/FldStatute.vue'));
 
 /*
      Application Components

@@ -24,18 +24,21 @@ create: if the create option is used this will return the value of the input fie
 */
 
 <template>
-    <div class="dropdown" style="position: relative;">
+    <div class="dropdown" style="position: relative;" >
         <input class="form-control"
                type="text"
-               :value="value" @input="updateValue($event.target.value)"
+               :value="value"
+               @click="toggleDropdown"
+               @input="updateValue($event.target.value)"
                @keydown.enter.prevent = 'enter'
                @keydown.down = 'down'
                @keydown.up = 'up'
+               @keydown.esc="toggleDropdown"
         >
         <ul class="search-box dropdown-content" v-if="open">
             <li v-for="(result, index) in matches"
                 v-bind:class="{'active': isActive(index), 'selected-result': current === index}"
-                class="search-result w-100"
+                class="search-result"
                 @click="resultClick(index)"
             >
                 <span class="form-control-label search-label"
@@ -43,18 +46,22 @@ create: if the create option is used this will return the value of the input fie
                 >
                 </span>
             </li>
-            <li v-if="matches.length === 0 && create">
-                <button class="text-center active btn btn default search-result w-100" @click="$emit('create', value)">
+            <li v-if="create">
+                <button class="text-center active btn btn default search-result w-100" @click.prevent="addNew">
                     Add New
                 </button>
             </li>
         </ul>
+
     </div>
+
 </template>
 
 <script>
-    export default {
+    import BaseModal from "./BaseModal";
 
+    export default {
+        components: {BaseModal},
         props: {
 
             value: {
@@ -98,6 +105,7 @@ create: if the create option is used this will return the value of the input fie
                 open: false,
                 current: 0,
                 data: [],
+                modal_fields: [],
             }
         },
 
@@ -120,9 +128,11 @@ create: if the create option is used this will return the value of the input fie
                     this.open === true
             }
         },
-
+        created() {
+            this.getData()
+        },
         mounted() {
-          this.getData()
+
         },
         methods: {
 
@@ -163,6 +173,7 @@ create: if the create option is used this will return the value of the input fie
             },
 
             resultClick (index) {
+                console.log('resultClick')
                 this.$emit('input', this.getValue(this.matches[index]))
                 this.$emit('selected', this.matches[index])
                 this.open = false
@@ -206,10 +217,19 @@ create: if the create option is used this will return the value of the input fie
                     })
                     .catch(e => {console.error(e)})
             },
-            toggleShow()
+            toggleDropdown()
             {
                 this.open = !this.open
-            }
+            },
+
+            addNew() {
+                this.open = false
+                this.$emit('create', this.value)
+
+            },
+            closeDropdown() {
+                this.open = false
+            },
 
         }
 
@@ -221,6 +241,7 @@ create: if the create option is used this will return the value of the input fie
     ul, li {list-style-type: none;}
 
     .search-result {
+        width: 100%;
         white-space: nowrap;
         padding-bottom: 3px;
         padding-left: 5px;
