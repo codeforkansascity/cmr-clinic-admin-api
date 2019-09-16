@@ -64,21 +64,10 @@
                                 label-for="citation"
                                 :errors="form_errors.citation"
                         >
-<!--                            <fld-input name="citation" v-model="charge.citation"/>-->
-                            <autocomplete
-                                url="/statutes/all"
-                                create
+                            <fld-statute
                                 v-model="charge.citation"
-                                valueField="number"
-                                displayField="name"
                                 @selected="statuteSelected"
-                            ></autocomplete>
-<!--                            <select-or-new-->
-<!--                                v-model="charge.citation"-->
-<!--                                valueField="number"-->
-<!--                                returnField="name"-->
-<!--                                @selected="(v) => {charge.charge = v}"-->
-<!--                            ></select-or-new>-->
+                            ></fld-statute>
                         </std-form-group>
                     </div>
 
