@@ -2,7 +2,7 @@
     <div class="row">
 
         <div class="col-md-11">
-            <h4>{{ record.name }}  &nbsp; {{  moment(String(record.dob)).format('MM/DD/YYYY')}}</h4>
+            <h4>{{ record.name }} &nbsp; {{ moment(record.dob,["MM-DD-YYYY", "YYYY-MM-DD"]).format('MM/DD/YYYY')}}</h4>
         </div>
 
         <div class="col-md-1">
@@ -19,7 +19,26 @@
 <script>
     export default {
         name: "ApplicantSummary",
-        props: ['record'],
+        model: {
+            prop: 'modelValue',  // Rename v-model's input value to modelValue
+                                 // We will use the default 'input' event for v-model
+        },
+        props: {
+            modelValue: {        // Need to define the v-model input value prop
+                type: Object,
+            },
+        },
+        data() {
+            return {
+                record: {}
+            }
+        },
+        created: function () {
+            Object.keys(this.modelValue).forEach(i =>
+                this.$set(this.record, i, this.modelValue[i])
+            );
+        },
+
     }
 </script>
 

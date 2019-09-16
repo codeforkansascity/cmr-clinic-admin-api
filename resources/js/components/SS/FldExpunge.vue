@@ -15,7 +15,7 @@ Example usage:
 <template>
     <select
             class="form-control"
-            v-model="modelValue"
+            :value="modelValue"
             @change="updateValue"
             :name="this.name"
             :id="'field_' + this.name">
@@ -43,7 +43,7 @@ Example usage:
         },
         data() {
             return {
-
+                selected: '',
                 please_expunges: [
                     {
                         value: null,
@@ -61,11 +61,10 @@ Example usage:
         },
 
         mounted: function () {
-
+            this.selected = this.modelValue;
         },
 
         methods: {
-
             updateValue: function (event) {
                 this.$emit('change', event.target.value);
             },
