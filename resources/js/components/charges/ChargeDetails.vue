@@ -1,14 +1,14 @@
 <template>
     <div style="margin-bottom: 1em">
-        <div class="row" >
+        <div class="row">
 
             <div class="col-md-6">
-                <h5>{{ charge.citation }} {{ charge.charge }} </h5>
+                <h5>{{ record.citation }} {{ record.charge }} </h5>
             </div>
             <div class="col-md-2">
                 <h5>
-                    {{ charge.conviction_charge_type }} {{ charge.conviction_class_type }}
-                    <span v-if="charge.notes"> [Note]</span>
+                    {{ record.conviction_charge_type }} {{ record.conviction_class_type }}
+                    <span v-if="record.notes"> [Note]</span>
                 </h5>
             </div>
 
@@ -27,7 +27,7 @@
                         Sentence
                     </label>
                     <div class="col-md-8">
-                        <dsp-text v-model="charge.sentence"/>
+                        <dsp-text v-model="record.sentence"/>
                     </div>
                 </div>
                 <div class="form-group row mb-2 mb-md-0 text-only">
@@ -35,7 +35,7 @@
                         To Print
                     </label>
                     <div class="col-md-8">
-                        <dsp-text v-model="charge.to_print"/>
+                        <dsp-text v-model="record.to_print"/>
                     </div>
                 </div>
                 <div class="form-group row mb-2 mb-md-0 text-only">
@@ -43,7 +43,7 @@
                         Notes
                     </label>
                     <div class="col-md-8">
-                        <dsp-text v-model="charge.notes"/>
+                        <dsp-text v-model="record.notes"/>
                     </div>
                 </div>
                 <div class="form-group row mb-2 mb-md-0 text-only">
@@ -51,7 +51,7 @@
                         Convicted
                     </label>
                     <div class="col-md-8">
-                        <dsp-text v-model="charge.convicted"/>
+                        <dsp-text v-model="record.convicted"/>
                     </div>
                 </div>
                 <div class="form-group row mb-2 mb-md-0 text-only">
@@ -59,7 +59,7 @@
                         Eligible
                     </label>
                     <div class="col-md-8">
-                        <dsp-text v-model="charge.eligible"/>
+                        <dsp-text v-model="record.eligible"/>
                     </div>
                 </div>
                 <div class="form-group row mb-2 mb-md-0 text-only">
@@ -67,7 +67,7 @@
                         Please Expunge
                     </label>
                     <div class="col-md-8">
-                        <dsp-text v-model="charge.please_expunge"/>
+                        <dsp-text v-model="record.please_expunge"/>
                     </div>
                 </div>
             </div>
@@ -79,21 +79,34 @@
 <script>
     export default {
         name: "ChargeDetails",
-        props: [
-            'charge'
-        ],
+        model: {
+            prop: 'modelValue',  // Rename v-model's input value to modelValue
+                                 // We will use the default 'input' event for v-model
+        },
+        props: {
+            modelValue: {        // Need to define the v-model input value prop
+                type: Object,
+            },
+        },
         data() {
-            return {}
+            return {
+                record: {}
+            }
+        },
+        created: function () {
+            Object.keys(this.modelValue).forEach(i =>
+                this.$set(this.record, i, this.modelValue[i])
+            );
         },
         computed: {
             is_convicted() {
-                return parseInt(this.charge.convicted) ? ' -- Convicted' : '';
+                return parseInt(this.record.convicted) ? ' -- Convicted' : '';
             },
             is_eligible() {
-                return parseInt(this.charge.eligible) ? ', Eligible' : '';
+                return parseInt(this.record.eligible) ? ', Eligible' : '';
             },
             is_please_expunge() {
-                return parseInt(this.charge.please_expunge) ? ', PleaseExpunge' : '';
+                return parseInt(this.record.please_expunge) ? ', PleaseExpunge' : '';
             },
         },
     }

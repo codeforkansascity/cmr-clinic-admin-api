@@ -2,11 +2,10 @@
     <div>
         <div>
             <hr>
-
             <case-container
                     v-for="(record, index) in cases"
                     :key="index"
-                    :record="record"
+                    :data="record"
                     :case_count="index+1"
             >
             </case-container>
@@ -38,29 +37,30 @@
                 type: [Boolean, Object, Array],
                 default: false
             },
-            conviction_id: {
+            client_id: {
                 type: Number,
                 default: 0
             }
         },
         created() {
+            Object.keys(this.data).forEach(i =>
+                this.$set(this.cases, i, this.data[i])
+            );
             this.$bus.$on('case-deleted', (case_id) => {
                 this.removeCase(case_id)
-            })
-            this.cases = this.data
-
+            });
         },
         data() {
             return {
                 showCases: false,
-                cases: {}
+                cases: []
             }
         },
         methods: {
             addCase() {
                 let new_case = {
                     id: 0,
-                    client_id: 0,
+                    client_id: this.client_id,
                     name: "",
                     arrest_date: "",
                     case_number: "",
@@ -82,8 +82,6 @@
                 this.showCases = !this.showCases
             },
             removeCase(id) {
-                console.log('remove-case ' + id)
-
                 this.cases = this.cases.filter(c => {
                     return c.id !== id
                 })

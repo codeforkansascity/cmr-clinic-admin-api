@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-2">
                 <h4>
-                    {{ moment(String(record.release_date)).format('MM/DD/YYYY')  }}
+                    {{ moment(String(record.release_date)).format('MM/DD/YYYY') }}
 
                 </h4>
             </div>
@@ -32,7 +32,8 @@
                     <tr is="tr-view" v-model="record.judge">Judge</tr>
                     <tr is="tr-view" v-model="record.approximate_date_of_charge">Approx charte date</tr>
                     <tr is="tr-view" v-model="record.release_status">Relase Status</tr>
-                    <tr is="tr-view" v-model="moment(String(record.release_date)).format('MM/DD/YYYY')">Release Date</tr>
+                    <tr is="tr-view" v-model="moment(String(record.release_date)).format('MM/DD/YYYY')">Release Date
+                    </tr>
 
 
                 </table>
@@ -85,12 +86,25 @@
 <script>
     export default {
         name: "CaseDetails",
-        props: [
-            'record'
-        ],
+        model: {
+            prop: 'modelValue',  // Rename v-model's input value to modelValue
+                                 // We will use the default 'input' event for v-model
+        },
+        props: {
+            modelValue: {        // Need to define the v-model input value prop
+                type: Object,
+            },
+        },
         data() {
-            return {}
-        }
+            return {
+                record: {}
+            }
+        },
+        created: function () {
+            Object.keys(this.modelValue).forEach(i =>
+                this.$set(this.record, i, this.modelValue[i])
+            );
+        },
     }
 </script>
 

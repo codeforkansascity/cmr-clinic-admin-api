@@ -12,14 +12,14 @@
                 <div class=" charge-container">
                     <div v-if="view === 'summary'">
                         <!--<button class="btn btn-dark" @click="setView('details')">Show Details</button>-->
-                        <case-summary :record="record">
+                        <case-summary v-model="record">
                             <chevron-toggle class="float-right"
                                             :show="false"
                                             @click="setView('details')"/>
                         </case-summary>
                     </div>
                     <div v-if="view === 'details'">
-                        <case-details :record="record">
+                        <case-details v-model="record">
                             <chevron-toggle class="float-right"
                                             :show="true"
                                             @click="setView('summary')"/>
@@ -29,7 +29,7 @@
                         </case-details>
                     </div>
                     <div v-if="view === 'edit'">
-                        <case-edit :record="record">
+                        <case-edit v-model="record">
                             <delete-control class="float-right"
                                             height="30"
                                             @click="setView('summary')"/>
@@ -38,8 +38,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <charges-list
-                                    :data="record.charge"
-                                    :conviction_id="record.id"
+                                    :data="this.record.charge"
+                                    :conviction_id="this.record.id"
                             ></charges-list>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
             ChargesList
         },
         props: {
-            record: {
+            data: {
                 type: [Boolean, Object, Array],
                 default: false
             },
@@ -82,8 +82,8 @@
         },
         data() {
             return {
+                record: {},
                 view: 'summary',
-                charges: {}
             }
         },
         methods: {
@@ -93,6 +93,9 @@
 
         },
         created() {
+            Object.keys(this.data).forEach(i =>
+                this.$set(this.record, i, this.data[i])
+            );
             if (this.record.id == 0) {
                 this.view = 'edit'
             }
@@ -100,11 +103,6 @@
                 if (id === this.record.id) this.setView('summary')
             })
         },
-        mounted() {
-            this.charges = this.record.charge
-        },
-
-        computed: {},
     }
 </script>
 

@@ -21,7 +21,7 @@
                                 label-for="convicted"
                                 :errors="form_errors.convicted"
                         >
-                            <fld-convicted name="convicted" v-model="charge.convicted"/>
+                            <fld-convicted name="convicted" v-model="record.convicted"/>
                         </std-form-group>
                     </div>
 
@@ -31,7 +31,7 @@
                                 label-for="eligible"
                                 :errors="form_errors.eligible"
                         >
-                            <fld-eligible name="eligible" v-model="charge.eligible"/>
+                            <fld-eligible name="eligible" v-model="record.eligible"/>
                         </std-form-group>
                     </div>
 
@@ -43,7 +43,7 @@
                         >
                             <fld-expunge
                                     name="please_expunge"
-                                    v-model="charge.please_expunge"
+                                    v-model="record.please_expunge"
                             />
                         </std-form-group>
                     </div>
@@ -64,21 +64,21 @@
                                 label-for="citation"
                                 :errors="form_errors.citation"
                         >
-<!--                            <fld-input name="citation" v-model="charge.citation"/>-->
+                            <!--                            <fld-input name="citation" v-model="record.citation"/>-->
                             <autocomplete
-                                url="/statutes/all"
-                                create
-                                v-model="charge.citation"
-                                valueField="number"
-                                displayField="name"
-                                @selected="statuteSelected"
+                                    url="/statutes/all"
+                                    create
+                                    v-model="record.citation"
+                                    valueField="number"
+                                    displayField="name"
+                                    @selected="statuteSelected"
                             ></autocomplete>
-<!--                            <select-or-new-->
-<!--                                v-model="charge.citation"-->
-<!--                                valueField="number"-->
-<!--                                returnField="name"-->
-<!--                                @selected="(v) => {charge.charge = v}"-->
-<!--                            ></select-or-new>-->
+                            <!--                            <select-or-new-->
+                            <!--                                v-model="record.citation"-->
+                            <!--                                valueField="number"-->
+                            <!--                                returnField="name"-->
+                            <!--                                @selected="(v) => {record.charge = v}"-->
+                            <!--                            ></select-or-new>-->
                         </std-form-group>
                     </div>
 
@@ -88,7 +88,7 @@
                                 label-for="charge"
                                 :errors="form_errors.charge"
                         >
-                            <fld-input name="charge" v-model="charge.charge"/>
+                            <fld-input name="charge" v-model="record.charge"/>
                         </std-form-group>
                     </div>
 
@@ -104,7 +104,7 @@
                         >
                             <fld-charge-type
                                     name="conviction_charge_type"
-                                    v-model="charge.conviction_charge_type"
+                                    v-model="record.conviction_charge_type"
                             />
                         </std-form-group>
                     </div>
@@ -116,7 +116,7 @@
                         >
                             <fld-charge-class
                                     name="conviction_class_type"
-                                    v-model="charge.conviction_class_type"
+                                    v-model="record.conviction_class_type"
                             />
                         </std-form-group>
 
@@ -127,7 +127,7 @@
                                 label-for="sentence"
                                 :errors="form_errors.sentence"
                         >
-                            <fld-input name="sentence" v-model="charge.sentence"/>
+                            <fld-input name="sentence" v-model="record.sentence"/>
                         </std-form-group>
                     </div>
 
@@ -141,7 +141,7 @@
                                 label-for="notes"
                                 :errors="form_errors.notes"
                         >
-                            <fld-text-area name="notes" v-model="charge.notes" rows="5"/>
+                            <fld-text-area name="notes" v-model="record.notes" rows="5"/>
                         </std-form-group>
                     </div>
                     <div class="col-md-12">
@@ -152,7 +152,7 @@
                         >
                             <fld-text-area
                                     name="reason_for_change"
-                                    v-model="charge.reason_for_change"
+                                    v-model="record.reason_for_change"
                                     required
                                     rows="5"
                             />
@@ -166,7 +166,7 @@
                         <div class="col-md-4 text-md-left mt-2 mt-md-0">
                             <button class="btn btn-secondary" @click.prevent="cancel">Cancel</button>
                         </div>
-                        <div class="col-md-4 text-center mt-2 mt-md-0" v-if="charge.id > 0">
+                        <div class="col-md-4 text-center mt-2 mt-md-0" v-if="record.id > 0">
                             <button class="btn btn-danger" @click.prevent="deleteCharge">Delete Charge</button>
                         </div>
                         <div class="col-md-4 text-md-right">
@@ -190,14 +190,18 @@
 
     export default {
         name: "charge-edit",
+        model: {
+            prop: 'modelValue',  // Rename v-model's input value to modelValue
+                                 // We will use the default 'input' event for v-model
+        },
         props: {
-            charge: {
-                type: [Boolean, Object],
-                default: false
-            }
+            modelValue: {        // Need to define the v-model input value prop
+                type: Object,
+            },
         },
         data() {
             return {
+                record: {},         // We will store v-model's input here to be reactive
                 form_errors: {
                     id: false,
                     conviction_id: false,
@@ -228,26 +232,17 @@
         },
         created() {
 
+            // Copy v-model's input into a reactive store
+            Object.keys(this.modelValue).forEach(i =>
+                this.$set(this.record, i, this.modelValue[i])
+            );
+
             /// make back up copy
             for (let index in this.charge) {
                 this.backup_copy[index] = this.charge[index]
             }
         },
-        computed: {
 
-            dsp_convicted() {
-                let q = this.charge.convicted;
-                return parseInt(q) ? ' -- Convicted' : '';
-            },
-            dsp_eligible() {
-                let q = this.charge.eligible;
-                return parseInt(q) ? ', Eligible' : '';
-            },
-            dsp_please_expunge() {
-                let q = this.charge.please_expunge;
-                return parseInt(q) ? ', PleaseExpunge' : '';
-            },
-        },
         methods: {
             async handleSubmit() {
                 let $this = this
@@ -255,8 +250,8 @@
                 this.processing = true;
                 let url = "";
                 let amethod = "";
-                if (this.charge.id) {
-                    url = "/charge/" + this.charge.id;
+                if (this.record.id) {
+                    url = "/charge/" + this.record.id;
                     amethod = "put";
                 } else {
                     url = "/charge";
@@ -265,24 +260,25 @@
                 await axios({
                     method: amethod,
                     url: url,
-                    data: this.charge
+                    data: this.record
                 })
                     .then(res => {
                         if (res.status === 200) {
                             // if saved set the get the id back and set to instance
                             if (res.data.charge) {
                                 /// set id in case this is a new entry
-                                $this.charge.id = res.data.charge.id
+                                $this.record.id = res.data.charge.id
                             }
                             /// reset reason for change
-                            $this.charge.reason_for_change = ''
+                            $this.record.reason_for_change = ''
                             /// recopy the new charge to our backup
-                            for(let index in $this.charge) {
+                            for (let index in $this.charge) {
                                 $this.backup_copy[index] = $this.charge[index]
                             }
 
-                            $this.processing = false
-                            $this.$bus.$emit('minimize-charge:charge:'+$this.charge.id)
+                            $this.processing = false;
+                            this.$emit('input', $this.record);      // emit the changed record to v-model
+                            $this.$bus.$emit('minimize-charge', $this.record.id)
                         } else {
                             this.server_message = res.status;
                         }
@@ -327,40 +323,40 @@
             deleteCharge() {
                 let $this = this
                 if (confirm('Do you want to delete record?')) {
-                    axios.delete(`/charge/${this.charge.id}`)
-                    .then(response => {
-                        // send delete event to Charges List
-                        this.$bus.$emit('charge-deleted:conviction:'+$this.charge.conviction_id, $this.charge.id)
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
+                    axios.delete(`/charge/${this.record.id}`)
+                        .then(response => {
+                            // send delete event to Charges List
+                            this.$bus.$emit('charge-deleted', $this.record.id)
+                        })
+                        .catch(error => {
+                            console.log(error)
+                        })
                 }
             },
             cancel() {
-                console.log('cancel')
-                if (this.charge.id === 0) {
-                    this.$bus.$emit('charge-deleted:conviction:'+this.charge.conviction_id, this.charge.id)
-                } else {
+                if (this.record.id !== 0) {
                     for (let index in this.backup_copy) {
-                        this.charge[index] = this.backup_copy[index]
-                        this.charge.reason_for_change = ''
+                        this.record[index] = this.backup_copy[index]
+                        this.record.reason_for_change = ''
                     }
                 }
+                this.$bus.$emit('minimize-charge', this.record.id)
             },
             getStatutes() {
                 axios.get('/statutes/all')
                     .then(res => {
-                        if(res.data) {
+                        if (res.data) {
                             this.statutes = res.data
                             // this.statute_numbers = this.statutes.map(s => s.number)
                         }
                     })
-                    .catch(e => {console.error(e)})
+                    .catch(e => {
+                        console.error(e)
+                    })
             },
             statuteSelected(statute) {
-                this.charge.charge = statute.name;
-                this.charge.eligible = statute.statutes_eligibility_id
+                this.record.charge = statute.name;
+                this.record.eligible = statute.statutes_eligibility_id
             }
         }
     };

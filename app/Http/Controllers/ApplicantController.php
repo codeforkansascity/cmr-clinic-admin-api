@@ -138,7 +138,8 @@ class ApplicantController extends Controller
         \Session::flash('flash_success_message', 'Vc Vendor ' . $client->name . ' was added');
 
         return response()->json([
-            'message' => 'Added record'
+            'message' => 'Added record',
+            'record' => $client,
         ], 200);
 
     }

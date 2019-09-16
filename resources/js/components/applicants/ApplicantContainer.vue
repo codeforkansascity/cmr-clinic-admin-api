@@ -2,18 +2,17 @@
     <div>
         <div class="row">
             <div class="col-md-12">
-
                 <div class=" charge-container">
                     <div v-if="view === 'summary'">
                         <!--<button class="btn btn-dark" @click="setView('details')">Show Details</button>-->
-                        <applicant-summary :record="record">
+                        <applicant-summary v-model="record">
                             <chevron-toggle class="float-right"
                                             :show="false"
                                             @click="setView('details')"/>
                         </applicant-summary>
                     </div>
                     <div v-if="view === 'details'">
-                        <applicant-details :record="record">
+                        <applicant-details v-model="record">
                             <chevron-toggle class="float-right"
                                             :show="true"
                                             @click="setView('summary')"/>
@@ -23,7 +22,7 @@
                         </applicant-details>
                     </div>
                     <div v-if="view === 'edit'">
-                        <applicant-edit :record="record">
+                        <applicant-edit v-model="record">
                             <delete-control class="float-right"
                                             height="30"
                                             @click="setView('summary')"/>
@@ -31,6 +30,7 @@
                     </div>
                     <div class="row" v-if="record.id !== 0">
                         <div class="col-md-12">
+                            <!--For now we will keep this one passed as a propery-->
                             <cases-list :data="this.record.conviction"
                                         :client_id="this.record.id"></cases-list>
                         </div>
@@ -39,7 +39,6 @@
             </div>
         </div>
     </div>
-
 </template>
 
 <script>
@@ -69,7 +68,7 @@
             ChargesList
         },
         props: {
-            record: {
+            data: {
                 type: [Boolean, Object, Array],
                 default: () => {
                     return {
@@ -119,6 +118,7 @@
         },
         data() {
             return {
+                record: {},
                 view: 'summary'
             }
         },
@@ -128,8 +128,9 @@
             },
         },
         created() {
-            /// this fixes reactivity but not sure why
-            this.record = Object.assign({}, this.record, this.record)
+            Object.keys(this.data).forEach(i =>
+                this.$set(this.record, i, this.data[i])
+            );
             if (this.record.id === 0) {
                 this.view = 'edit'
             }
@@ -137,7 +138,6 @@
                 if (id === this.record.id) this.setView('summary')
             })
         },
-        computed: {},
     }
 </script>
 
