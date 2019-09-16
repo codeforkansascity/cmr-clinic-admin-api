@@ -326,7 +326,7 @@
                     axios.delete(`/charge/${this.record.id}`)
                         .then(response => {
                             // send delete event to Charges List
-                            this.$bus.$emit('charge-deleted:conviction:' + $this.record.conviction_id, $this.record.id)
+                            this.$bus.$emit('charge-deleted', $this.record.id)
                         })
                         .catch(error => {
                             console.log(error)
@@ -335,14 +335,13 @@
             },
             cancel() {
                 console.log('cancel')
-                if (this.record.id === 0) {
-                    this.$bus.$emit('charge-deleted:conviction:' + this.record.conviction_id, this.record.id)
-                } else {
+                if (this.record.id !== 0) {
                     for (let index in this.backup_copy) {
                         this.record[index] = this.backup_copy[index]
                         this.record.reason_for_change = ''
                     }
                 }
+                this.$bus.$emit('minimize-charge', this.record.id)
             },
             getStatutes() {
                 axios.get('/statutes/all')

@@ -48,7 +48,7 @@
             );
             this.$bus.$on('case-deleted', (case_id) => {
                 this.removeCase(case_id)
-            })
+            });
         },
         data() {
             return {

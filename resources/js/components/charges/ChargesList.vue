@@ -46,9 +46,10 @@
             Object.keys(this.data).forEach(i =>
                 this.$set(this.charges, i, this.data[i])
             );
-            this.$bus.$on('charge-deleted:conviction:' + this.conviction_id, (charge_id) => {
+            this.$bus.$on('charge-deleted', (charge_id) => {
                 this.removeCharge(charge_id)
-            })
+            });
+
         },
         data() {
             return {
