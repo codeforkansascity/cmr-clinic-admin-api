@@ -83,15 +83,6 @@
                 this.showCharges = !this.showCharges
             },
             removeCharge(id) {
-                console.log('remove-charge ' + id)
-
-                // for(let i in this.charges) {
-                //     if(this.charges[i].id === id) {
-                //         console.log('deleted '+i)
-                //         this.charges.splice(id, 1)
-                //     }
-                // }
-                // we get a warning if we try to use filter
                 this.charges = this.charges.filter(charge => {
                     return charge.id !== id
                 })

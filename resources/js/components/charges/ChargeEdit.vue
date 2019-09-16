@@ -334,7 +334,6 @@
                 }
             },
             cancel() {
-                console.log('cancel')
                 if (this.record.id !== 0) {
                     for (let index in this.backup_copy) {
                         this.record[index] = this.backup_copy[index]

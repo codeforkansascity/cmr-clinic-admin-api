@@ -82,8 +82,6 @@
                 this.showCases = !this.showCases
             },
             removeCase(id) {
-                console.log('remove-case ' + id)
-
                 this.cases = this.cases.filter(c => {
                     return c.id !== id
                 })
