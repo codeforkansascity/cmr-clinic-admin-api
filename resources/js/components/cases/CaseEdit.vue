@@ -352,15 +352,13 @@
                 }
             },
             cancel() {
-                console.log('cancel')
-                if (this.record.id === 0) {
-                    this.$bus.$emit('case-deleted', this.record.id)
-                } else {
+                if (this.record.id !== 0) {
                     for (let index in this.backup_copy) {
                         this.record[index] = this.backup_copy[index]
                         this.record.reason_for_change = ''
                     }
                 }
+                this.$bus.$emit('minimize-case', this.record.id)
             }
         }
     };
