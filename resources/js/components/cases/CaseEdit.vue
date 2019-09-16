@@ -13,130 +13,131 @@
         <div>
             <form @submit.prevent="handleSubmit" class="form-horizontal">
 
+                <div class="row">
+                    <div class="col-md-6" style="padding-left: 2em;">
+                        <div class="col-md-12">
+                            <std-form-group
+                                    label="What Applicant calls this (or your abreviation)?"
+                                    label-for="name"
+                                    :errors="form_errors.name"
+                                    :required="true"
+                            >
+                                <fld-input name="name" v-model="record.name" required/>
+                                <template slot="help">
+                                    When speaking with the expungie, how they refer to this. "Car 2005".
+                                    Until someone meets with the expungie, a short but meaningful description.
+                                </template>
+                            </std-form-group>
+                        </div>
 
-                <div class="col-md-6" style="padding-left: 2em;">
-                    <div class="col-md-12">
-                        <std-form-group
-                                label="What Applicant calls this (or your abreviation)?"
-                                label-for="name"
-                                :errors="form_errors.name"
-                                :required="true"
-                        >
-                            <fld-input name="name" v-model="record.name" required/>
-                            <template slot="help">
-                                When speaking with the expungie, how they refer to this. "Car 2005".
-                                Until someone meets with the expungie, a short but meaningful description.
-                            </template>
-                        </std-form-group>
+                        <div class="col-md-12">
+                            <std-form-group
+                                    label="Approx. date of arrest per Applicant?"
+                                    label-for="arrest_date"
+                                    :errors="form_errors.arrest_date"
+                                    :required="true"
+                            >
+                                <fld-input name="arrest_date" v-model="record.arrest_date"/>
+                                <template slot="help">
+                                    Any format is ok, even just a year.
+                                </template>
+                            </std-form-group>
+                        </div>
+                        <div class="col-md-12">
+                            <std-form-group
+                                    label="What was the case number?"
+                                    label-for="case_number"
+                                    :errors="form_errors.case_number"
+                                    :required="true"
+                            >
+                                <fld-input name="case_number" v-model="record.case_number"/>
+                            </std-form-group>
+                        </div>
+
+                        <div class="col-md-12">
+                            <std-form-group
+                                    label="Was the court a Missouri circuit (county) court or a municipal (city) court?"
+                                    label-for="agency"
+                                    :errors="form_errors.agency"
+                                    :required="true"
+                            >
+                                <fld-input name="agency" v-model="record.agency"/>
+                            </std-form-group>
+                        </div>
+
+                        <div class="col-md-12">
+                            <std-form-group
+                                    label="What was the name of the County or City?"
+                                    label-for="court_city_county"
+                                    :errors="form_errors.court_city_county"
+                                    :required="true"
+                            >
+                                <fld-input name="court_city_county" v-model="record.court_city_county"/>
+                            </std-form-group>
+                        </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <std-form-group
-                                label="Approx. date of arrest per Applicant?"
-                                label-for="arrest_date"
-                                :errors="form_errors.arrest_date"
-                                :required="true"
-                        >
-                            <fld-input name="arrest_date" v-model="record.arrest_date"/>
-                            <template slot="help">
-                                Any format is ok, even just a year.
-                            </template>
-                        </std-form-group>
-                    </div>
-                    <div class="col-md-12">
-                        <std-form-group
-                                label="What was the case number?"
-                                label-for="case_number"
-                                :errors="form_errors.case_number"
-                                :required="true"
-                        >
-                            <fld-input name="case_number" v-model="record.case_number"/>
-                        </std-form-group>
+                    <div class="col-md-6">
+
+                        <div class="col-md-12">
+                            <std-form-group
+                                    label="What was your name as it appeared on the court’s records?"
+                                    label-for="record_name"
+                                    :errors="form_errors.record_name"
+                                    :required="true"
+                            >
+                                <fld-input name="record_name" v-model="record.record_name"/>
+                            </std-form-group>
+                        </div>
+
+                        <div class="col-md-12">
+                            <std-form-group
+                                    label="Release Status (not required)"
+                                    label-for="release_status"
+                                    :errors="form_errors.release_status"
+                                    :required="true"
+                            >
+                                <fld-input name="release_status" v-model="record.release_status"/>
+                            </std-form-group>
+                        </div>
+                        <div class="col-md-12">
+                            <std-form-group
+                                    label="Date of Charge (Approximate) - any format"
+                                    label-for="approximate_date_of_charge"
+                                    :errors="form_errors.approximate_date_of_charge"
+                                    :required="true"
+                            >
+                                <fld-input name="approximate_date_of_charge"
+                                           v-model="record.approximate_date_of_charge"/>
+                            </std-form-group>
+                        </div>
+                        <div class="col-md-12">
+                            <std-form-group
+                                    label="Release Date"
+                                    label-for="release_date"
+                                    :errors="form_errors.release_date"
+                                    :required="true"
+                            >
+                                <flat-pickr
+                                        v-model="record.release_date"
+                                        :config="config"
+                                        style="width: 10em"/>
+                            </std-form-group>
+                        </div>
+                        <div class="col-md-12">
+                            <std-form-group
+                                    label="What was the name of the Judge?"
+                                    label-for="judge"
+                                    :errors="form_errors.judge"
+                                    :required="true"
+                            >
+                                <fld-input name="judge" v-model="record.judge"/>
+                            </std-form-group>
+                        </div>
+
                     </div>
 
-                    <div class="col-md-12">
-                        <std-form-group
-                                label="Was the court a Missouri circuit (county) court or a municipal (city) court?"
-                                label-for="agency"
-                                :errors="form_errors.agency"
-                                :required="true"
-                        >
-                            <fld-input name="agency" v-model="record.agency"/>
-                        </std-form-group>
-                    </div>
-
-                    <div class="col-md-12">
-                        <std-form-group
-                                label="What was the name of the County or City?"
-                                label-for="court_city_county"
-                                :errors="form_errors.court_city_county"
-                                :required="true"
-                        >
-                            <fld-input name="court_city_county" v-model="record.court_city_county"/>
-                        </std-form-group>
-                    </div>
                 </div>
-                <div class="col-md-6">
-
-                    <div class="col-md-12">
-                        <std-form-group
-                                label="What was your name as it appeared on the court’s records?"
-                                label-for="record_name"
-                                :errors="form_errors.record_name"
-                                :required="true"
-                        >
-                            <fld-input name="record_name" v-model="record.record_name"/>
-                        </std-form-group>
-                    </div>
-
-                    <div class="col-md-12">
-                        <std-form-group
-                                label="Release Status (not required)"
-                                label-for="release_status"
-                                :errors="form_errors.release_status"
-                                :required="true"
-                        >
-                            <fld-input name="release_status" v-model="record.release_status"/>
-                        </std-form-group>
-                    </div>
-                    <div class="col-md-12">
-                        <std-form-group
-                                label="Date of Charge (Approximate) - any format"
-                                label-for="approximate_date_of_charge"
-                                :errors="form_errors.approximate_date_of_charge"
-                                :required="true"
-                        >
-                            <fld-input name="approximate_date_of_charge"
-                                       v-model="record.approximate_date_of_charge"/>
-                        </std-form-group>
-                    </div>
-                    <div class="col-md-12">
-                        <std-form-group
-                                label="Release Date"
-                                label-for="release_date"
-                                :errors="form_errors.release_date"
-                                :required="true"
-                        >
-                            <flat-pickr
-                                    v-model="record.release_date"
-                                    :config="config"
-                                    style="width: 10em"/>
-                        </std-form-group>
-                    </div>
-                    <div class="col-md-12">
-                        <std-form-group
-                                label="What was the name of the Judge?"
-                                label-for="judge"
-                                :errors="form_errors.judge"
-                                :required="true"
-                        >
-                            <fld-input name="judge" v-model="record.judge"/>
-                        </std-form-group>
-                    </div>
-
-                </div>
-
-
                 <div class="row">
                     <div class="col-md-12">
                         <std-form-group
@@ -148,20 +149,21 @@
                         </std-form-group>
                     </div>
                 </div>
-
-                <div class="col-md-12">
-                    <std-form-group
-                            label="Reason for Change"
-                            label-for="reason_for_change"
-                            :errors="form_errors.reason_for_change"
-                    >
-                        <fld-text-area
-                                name="reason_for_change"
-                                v-model="record.reason_for_change"
-                                required
-                                rows="5"
-                        />
-                    </std-form-group>
+                <div class="row">
+                    <div class="col-md-12">
+                        <std-form-group
+                                label="Reason for Change"
+                                label-for="reason_for_change"
+                                :errors="form_errors.reason_for_change"
+                        >
+                            <fld-text-area
+                                    name="reason_for_change"
+                                    v-model="record.reason_for_change"
+                                    required
+                                    rows="5"
+                            />
+                        </std-form-group>
+                    </div>
                 </div>
 
                 <div class="form-group mt-4">
@@ -192,6 +194,7 @@
 <script>
     import flatPickr from 'vue-flatpickr-component';
     import 'flatpickr/dist/flatpickr.css';
+
     export default {
         name: "CaseEdit",
         components: {
