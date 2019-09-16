@@ -1,6 +1,7 @@
 <template>
 <div>
     <autocomplete
+        ref="autocomplete"
         url="/statutes/all"
         :create="true"
         :value="value"
@@ -20,11 +21,11 @@
             </div>
             <div class="form-group">
                 <label class="font-weight-bold">Name</label>
-                <input type="text" required class="form-control" v-model="newStatute.name" placeholder="Password">
+                <input type="text" required class="form-control" v-model="newStatute.name" placeholder="Statute Name">
             </div>
             <div class="form-group">
                 <label class="font-weight-bold">Is Expungeable?</label>
-                <select class="form-control" v-model="newStatute.eligibility">
+                <select class="form-control" v-model="newStatute.statutes_eligibility_id">
                     <option value="">--Select--</option>
                     <option value="1">Yes</option>
                     <option value="2">No</option>
@@ -57,7 +58,7 @@
                 newStatute: {
                     name: null,
                     number: null,
-                    eligibility: null,
+                    statutes_eligibility_id: null,
                 }
             }
         },
@@ -69,7 +70,7 @@
                 console.log('create statute')
                 let $this = this
                 axios.post('/statute', {
-                    statutes_eligibility_id: this.newStatute.eligibility,
+                    statutes_eligibility_id: this.newStatute.statutes_eligibility_id,
                     name: this.newStatute.name,
                     number: this.newStatute.number
                 }).then(res => {
@@ -77,6 +78,7 @@
                     $this.statuteSelected($this.newStatute)
                     $this.updateStatute($this.newStatute.number)
                     $this.showModal = false
+                    $this.$refs.autocomplete.getData()
                 }).catch(e => {console.error(e)})
             },
             updateStatute(v) {
