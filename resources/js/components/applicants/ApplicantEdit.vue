@@ -289,6 +289,32 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-12">
+                        <std-form-group
+                                label="Notes"
+                                label-for="notes"
+                                :errors="form_errors.notes"
+                        >
+                            <fld-text-area name="notes" v-model="record.notes" rows="5"/>
+                        </std-form-group>
+                    </div>
+                    <div class="col-md-12">
+                        <std-form-group
+                                label="Reason for Change"
+                                label-for="reason_for_change"
+                                :errors="form_errors.reason_for_change"
+                        >
+                            <fld-text-area
+                                    name="reason_for_change"
+                                    v-model="record.reason_for_change"
+                                    required
+                                    rows="5"
+                            />
+                        </std-form-group>
+                    </div>
+                </div>
+
                 <div class="form-group mt-4">
                     <div class="row">
                         <div class="col-md-4 text-md-left mt-2 mt-md-0">
@@ -435,6 +461,8 @@
                             if (res.data.record) {
                                 /// set id in applicant this is a new entry
                                 $this.record.id = res.data.record.id
+                                /// reset reason for change
+                                $this.record.reason_for_change = ''
                                 /// recopy the new record to our backup
                                 for (let index in $this.record) {
                                     $this.backup_copy[index] = $this.record[index]
@@ -493,7 +521,7 @@
                         .then(response => {
                             console.log(response)
                             // send delete event to Charges List
-                            location.href = '/applicant'
+                            window.location.href = '/applicant'
                         })
                         .catch(error => {
                             console.log(error)
@@ -501,14 +529,13 @@
                 }
             },
             cancel() {
-                console.log('cancel')
-                if (this.record.id === 0) {
-                    location.href = '/applicant'
-                } else {
+                if (this.record.id !== 0) {
+                    this.record.reason_for_change = ''
                     for (let index in this.backup_copy) {
                         this.record[index] = this.backup_copy[index]
                     }
                 }
+                window.location.href = '/applicant';
             }
         }
     };
