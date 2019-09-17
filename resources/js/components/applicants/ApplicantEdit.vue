@@ -77,6 +77,7 @@
                                 <flat-pickr
                                             v-model="record.dob"
                                             :config="config"
+                                            @blur="v => {record.dob = v}"
                                             style="width: 10em"/>
                             </std-form-group>
                         </div>
