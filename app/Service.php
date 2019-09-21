@@ -5,66 +5,34 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\RecordSignature;
-use Illuminate\Notifications\Notifiable;
 
-class Conviction extends Model
+class Service extends Model
 {
 
     use SoftDeletes;
     use RecordSignature;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
+     * fillable - attributes that can be mass-assigned
      */
     protected $fillable = [
-        'client_id',
-        'name',
-        'arrest_date',
-        'case_number',
-        'agency',
-        'court_name',
-        'court_city_county',
-        'name_of_judge',
-        'your_name_in_case',
-        'release_status',
-        'release_date',
-        'judge',
-        'record_name',
-        'notes',
-        'approximate_date_of_charge',
+            'id',
+            'name',
+            'service_type_id',
+        ];
+
+    protected $hidden = [
+        'active',
         'created_by',
         'modified_by',
+        'purged_by',
+        'created_at',
+        'updated_at',
     ];
 
-    public function charge()
+    public function serviceType()
     {
-        return $this->hasMany('App\Charge');
-    }
-
-    public function histories()
-    {
-        return $this->morphMany(History::class, 'historyable');
-    }
-
-    public function services()
-    {
-        return $this->belongsToMany(Service::class)
-            ->using(ConvictionService::class)
-            ->withPivot(['name']);
-    }
-
-    // this is a recommended way to declare event handlers
-    public static function boot()
-    {
-        parent::boot();
-
-        static::deleting(function ($tbl) { // before delete() method call this
-            foreach ($tbl->charge()->get() as $rec) {
-                $rec->delete();
-            }
-        });
+        return $this->belongsTo(ServiceType::class);
     }
 
     public function add($attributes)
@@ -105,12 +73,13 @@ class Conviction extends Model
         $keyword = '')
     {
         return self::buildBaseGridQuery($column, $direction, $keyword,
-            ['id',
-                'name',
-                'notes',
+            [ 'id',
+                    'name',
             ])
-            ->paginate($per_page);
+        ->paginate($per_page);
     }
+
+
 
 
     /**
@@ -145,8 +114,8 @@ class Conviction extends Model
                 break;
         }
 
-        $query = Conviction::select($columns)
-            ->orderBy($column, $direction);
+        $query = Service::select($columns)
+        ->orderBy($column, $direction);
 
         if ($keyword) {
             $query->where('name', 'like', '%' . $keyword . '%');
@@ -154,15 +123,15 @@ class Conviction extends Model
         return $query;
     }
 
-    /**
-     * Get export/Excel/download data query to send to Excel download library
-     *
-     * @param $per_page
-     * @param $column
-     * @param $direction
-     * @param string $keyword
-     * @return mixed
-     */
+        /**
+         * Get export/Excel/download data query to send to Excel download library
+         *
+         * @param $per_page
+         * @param $column
+         * @param $direction
+         * @param string $keyword
+         * @return mixed
+         */
 
     static function exportDataQuery(
         $column,
@@ -177,18 +146,18 @@ class Conviction extends Model
 
     }
 
-    static function pdfDataQuery(
-        $column,
-        $direction,
-        $keyword = '',
-        $columns = '*')
-    {
+        static function pdfDataQuery(
+            $column,
+            $direction,
+            $keyword = '',
+            $columns = '*')
+        {
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+            info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
-        return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
+            return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
 
-    }
+        }
 
 
     /**
@@ -221,37 +190,4 @@ class Conviction extends Model
 
     }
 
-    public function saveHistory($request, $action = 'updated')
-    {
-        $data = [
-            'user_id' => auth()->user()->id ?? 1,
-            'reason_for_change' => $request->reason_for_change ?? null,
-            'action' => $action
-        ];
-
-        /*
-         * We only save the values listed in fillable for old and new
-         */
-        /// if not created add old values
-        if ($action !== 'created') {
-            $data['old'] = collect($this->getOriginal())->only($this->fillable);
-        }
-        /// if not deleted add new values
-        if ($action !== 'deleted') {
-            $data['new'] = $request->only($this->fillable);
-        }
-
-        return $this->histories()->create($data);
-    }
-
-//
-//    public function saveHistory($request)
-//    {
-//        return $this->histories()->create([
-//            'old' => $this->only($this->fillable),
-//            'new' => $request->only($this->fillable),
-//            'user_id' => auth()->user()->id,
-//            'reason_for_change' => $request->reason_for_change ?? null,
-//        ]);
-//    }
 }

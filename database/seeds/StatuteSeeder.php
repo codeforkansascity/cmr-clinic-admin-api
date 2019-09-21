@@ -12,33 +12,34 @@ class StatuteSeeder extends Seeder
      */
     public function run()
     {
-       $eligible_file = base_path('/doc/LIST OF CRIMES ELIGIBLE FOR EXPUNGEMENT.docx');
-       $ineligible_file = base_path('/doc/LIST OF CRIMES not eligible for expungement.docx');
+        $start = microtime(1);
+        $eligible_file = base_path('/doc/LIST OF CRIMES ELIGIBLE FOR EXPUNGEMENT.docx');
+        $ineligible_file = base_path('/doc/LIST OF CRIMES not eligible for expungement.docx');
 
-       \App\Statute::truncate();
+        \App\Statute::truncate();
 
-       $eligibles = (new \App\Lib\ParseCrimes)($eligible_file);
+        $eligibles = (new \App\Lib\ParseCrimes)($eligible_file);
 
-       $ineligibles = (new \App\Lib\ParseCrimes)($ineligible_file);
+        $ineligibles = (new \App\Lib\ParseCrimes)($ineligible_file);
 
-       $eligibles = array_map(function($e) {
-           $e['statutes_eligibility_id'] = \App\Statute::ELIGIBLE;
-           $e['created_at'] = now();
-           $e['updated_at'] = now();
-           return $e;
-       }, $eligibles);
-       \App\Statute::insert($eligibles);
+        $eligibles = array_map(function ($e) {
+            $e['statutes_eligibility_id'] = \App\Statute::ELIGIBLE;
+            $e['created_at'] = now();
+            $e['updated_at'] = now();
+            return $e;
+        }, $eligibles);
+        \App\Statute::insert($eligibles);
 
-       $ineligibles = array_map(function($i) {
-           $i['statutes_eligibility_id'] = \App\Statute::INELIGIBLE;
-           $i['created_at'] = now();
-           $i['updated_at'] = now();
-           return $i;
-       }, $ineligibles);
-       \App\Statute::insert($ineligibles);
+        $ineligibles = array_map(function ($i) {
+            $i['statutes_eligibility_id'] = \App\Statute::INELIGIBLE;
+            $i['created_at'] = now();
+            $i['updated_at'] = now();
+            return $i;
+        }, $ineligibles);
+        \App\Statute::insert($ineligibles);
 
-       $statute_count = count($ineligibles) + count($eligibles);
-       dump("Inserted $statute_count Statutes");
+        $statute_count = count($ineligibles) + count($eligibles);
+        dump("Inserted $statute_count Statutes in " . round(microtime(1) - $start, 2) . ' seconds');
 
     }
 }

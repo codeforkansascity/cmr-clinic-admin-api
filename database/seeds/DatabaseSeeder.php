@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
+        $start = microtime(1);
         $this->call(SpatiePermissionTableSeeder::class);
         $this->call(UsersTableSeeder::class);
         $this->call(OauthPersonalAccessClientsTableSeeder::class);
@@ -20,5 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(StatuteSeeder::class);
 //        $this->call(ConvictionTableSeeder::class);
 //        $this->call(ChargeTableSeeder::class);
+        $total = round(microtime(1) -$start, 2);
+        dump("Total seed time $total seconds");
     }
 }

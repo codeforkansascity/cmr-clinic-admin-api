@@ -97,3 +97,14 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 
+
+Route::get('/api-service-type', 'ServiceTypeApi@index');
+Route::get('/api-service-type/options', 'ServiceTypeApi@getOptions');
+Route::get('/service-type/download', 'ServiceTypeController@download')->name('service-type.download');
+Route::get('/service-type/print', 'ServiceTypeController@print')->name('service-type.print');
+Route::resource('/service-type', 'ServiceTypeController');
+Route::get('/api-service', 'ServiceApi@index');
+Route::get('/api-service/options', 'ServiceApi@getOptions');
+Route::get('/service/download', 'ServiceController@download')->name('service.download');
+Route::get('/service/print', 'ServiceController@print')->name('service.print');
+Route::resource('/service', 'ServiceController');
