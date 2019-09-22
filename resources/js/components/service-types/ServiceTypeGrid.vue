@@ -93,7 +93,7 @@
                     <tr v-else v-for="row in this.gridData" :key="row.id">
                         <td data-title="Name">
                             <a
-                                v-bind:href="'/service/' + row.id"
+                                v-bind:href="'/service-type/' + row.id"
                                 v-if="params.CanShow == '1'"
                             >
                                 {{ row.name }}
@@ -107,7 +107,9 @@
                             class="text-lg-center text-nowrap"
                         >
                             <a
-                                v-bind:href="'/service/' + row.id + '/edit'"
+                                v-bind:href="
+                                    '/service-type/' + row.id + '/edit'
+                                "
                                 v-if="params.CanEdit"
                                 class="grid-action-item"
                             >
@@ -123,10 +125,12 @@
         <!-- Grid Actions Bottom -->
         <div class="grid-bottom row mb-0 align-items-center">
             <div class="col-lg-4 mb-2">
-                <a href="/service/download" class="btn btn-primary mb-2 mr-2"
+                <a
+                    href="/service-type/download"
+                    class="btn btn-primary mb-2 mr-2"
                     >Export to Excel</a
                 >
-                <a href="/service/print" class="btn btn-primary mb-2 mr-2"
+                <a href="/service-type/print" class="btn btn-primary mb-2 mr-2"
                     >Print PDF</a
                 >
             </div>
@@ -151,12 +155,12 @@
 </template>
 
 <script>
-import SsGridColumnHeader from "./SsGridColumnHeader";
-import SsGridPagination from "./SsGridPagination";
-import SsGridPaginationLocation from "./SsPaginationLocation";
+import SsGridColumnHeader from "../SS/SsGridColumnHeader";
+import SsGridPagination from "../SS/SsGridPagination";
+import SsGridPaginationLocation from "../SS/SsPaginationLocation";
 
 export default {
-    name: "service-grid",
+    name: "service-type-grid",
     components: {
         SsGridColumnHeader,
         SsGridPaginationLocation,
@@ -204,7 +208,7 @@ export default {
 
     methods: {
         goToNew: function() {
-            window.location.href = "/service/create";
+            window.location.href = "/service-type/create";
         },
 
         sortColumn: function(obj) {
@@ -263,7 +267,7 @@ export default {
                             } else if (error.response.status === 404) {
                                 // Record not found
                                 this.server_message = "Record not found";
-                                window.location = "/service";
+                                window.location = "/service-type";
                             } else if (error.response.status === 419) {
                                 // Unknown status
                                 this.server_message =
@@ -287,7 +291,7 @@ export default {
         },
 
         getDataUrl: function(new_page_number) {
-            var url = "api-service?";
+            var url = "api-service-type?";
             var queryParams = [];
 
             queryParams.push("page=" + new_page_number);
