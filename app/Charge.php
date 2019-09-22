@@ -35,6 +35,7 @@ class Charge extends Model
         'notes',
         'created_by',
         'modified_by',
+        'purged_by'
     ];
 
     public function histories()
