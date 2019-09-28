@@ -44,13 +44,13 @@ class ChargeObserver
     public function deleting(Charge $charge)
     {
 
-        $user = \Auth::User();
-        if ( $user ) {
-            $charge->purged_by = $user->id;
-        } else {
-            $charge->purged_by = -1;
-        }
-        $charge->save();
+//        $user = \Auth::User();
+//        if ( $user ) {
+//            $charge->purged_by = $user->id;
+//        } else {
+//            $charge->purged_by = -1;
+//        }
+//        $charge->save();
 
     }
 
@@ -63,7 +63,7 @@ class ChargeObserver
     public function deleted(Charge $charge)
     {
         $charge->saveHistory($this->request, __FUNCTION__);
-        
+
     }
 
     /**
