@@ -120,15 +120,24 @@
             createService(s) {
                 this.record.services.push(s)
             },
-            updateService(s) {
+            updateService(s, i) {
                 for(let i in this.record.services) {
                     if(this.record.services[i].id === s.id) {
                         this.record.services[i] = s
                     }
                 }
             },
-            deleteService(s) {
-                this.record.services.filter(service => service.id !== s.id)
+            deleteService(s,i) {
+
+                this.record.services.splice(i, 1)
+                // for(let index in this.record.services) {
+                //     if(this.record.services[index].id !== s.id && this.record.services[index].pivot.name !== s.pivot.name) {
+                //         this.record.services.splice(index, 1)
+                //     }
+                // }
+                // this.record.services.filter(service => {
+                //     return service.id !== s.id && service.pivot.name !== s.pivot.name
+                // })
             }
         },
     }

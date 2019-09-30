@@ -6,9 +6,9 @@
         <table class="table  table-sm" >
             <tr class="row"  is="tr-view" v-for="(service,i) in services"
                 :key="i"
-                v-model="service.name"
+                v-model="service.pivot.name"
             >
-                <span @click="editService(service)">{{service.service_type.name}}</span>
+                <span @click="editService(service, i)">{{service.service_type.name}}</span>
             </tr>
         </table>
         <base-modal v-if="showServiceModal" @close="showServiceModal = false">
@@ -18,7 +18,6 @@
                     <label class="font-weight-bold">Attn Name</label>
                     <input type="text" required class="form-control"placeholder="Attn Name"
                            v-model="selectedService.pivot.name"
-
                     >
                 </div>
                 <div class="form-group">
@@ -38,7 +37,7 @@
                 </div>
                 <div class="form-group">
                     <label class="font-weight-bold">Address</label>
-                    <input type="text" required class="form-control"placeholder="Address"
+                    <input type="text" required class="form-control" placeholder="Address"
                            v-model="selectedService.address"
                             :disabled="disableFields"
                     >
@@ -120,6 +119,7 @@
                     }
                 },
                 serviceTypes: [],
+                selectedIndex: null,
             }
         },
         mounted() {
@@ -133,6 +133,7 @@
                 this.selectedService.name = name
             },
             addService() {
+                this.selectedIndex = null
                 Object.assign(this.selectedService, this.newService)
                 this.showServiceModal = true
                 this.disableService = false
@@ -146,7 +147,8 @@
 
                 this.disableFields = true
             },
-            editService(s) {
+            editService(s, i) {
+                this.selectedIndex = i
                 this.disableService = true
                 this.disableFields = true
                 Object.assign(this.selectedService, s)
@@ -160,9 +162,10 @@
                     service: this.selectedService,
                 }).then(res => {
                     console.log(res)
-                    this.selectedService.id = res.data.id
-                    this.$emit('created', this.selectedService)
-                    this.showServiceModal = false
+                    $this.selectedService.id = res.data.id
+                    $this.selectedService.service_type = res.data.service_type
+                    $this.$emit('created', this.selectedService)
+                    $this.showServiceModal = false
                 }).catch(e => {
                     console.error(e)
                 })
@@ -175,7 +178,7 @@
                     service: this.selectedService,
                 }).then(res => {
                     console.log(res)
-                    this.$emit('deleted', this.selectedService)
+                    this.$emit('deleted', this.selectedService, this.selectedIndex)
                     this.showServiceModal = false
                 }).catch(e => {
                     console.error(e)
@@ -189,7 +192,7 @@
                     service: this.selectedService,
                 }).then(res => {
                     console.log(res)
-                    this.$emit('updated', this.selectedService)
+                    this.$emit('updated', this.selectedService, this.selectedIndex)
                     this.showServiceModal = false
                 }).catch(e => {
                     console.error(e)

@@ -27,6 +27,7 @@ class CaseServiceController extends Controller
             $service =  $case->services()->create($service, ['name' => $name]);
         }
 
+        $service = $service->load('service_type');
 
         \Session::flash('flash_success_message', 'Vc Vendor ' . $service->name . ' was added');
 
