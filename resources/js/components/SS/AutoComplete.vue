@@ -34,6 +34,7 @@ create: if the create option is used this will return the value of the input fie
                @keydown.down = 'down'
                @keydown.up = 'up'
                @keydown.esc="toggleDropdown"
+               :disabled="disabled"
         >
         <ul class="search-box dropdown-content" v-if="open">
             <li v-for="(result, index) in matches"
@@ -96,6 +97,10 @@ create: if the create option is used this will return the value of the input fie
             create: {
                 type: Boolean|Function,
                 required: false
+            },
+            disabled: {
+                type: Boolean,
+                default: false,
             }
 
         },

@@ -4,8 +4,10 @@ use App\Conviction;
 use App\ConvictionService;
 use App\Service;
 use App\ServiceType;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+//use Faker\Generator as Faker;
 
 class ServiceSeeder extends Seeder
 {
@@ -16,6 +18,7 @@ class ServiceSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Factory::create();
         /// cleanup
         DB::unprepared('set FOREIGN_KEY_CHECKS=0');
         ConvictionService::truncate();
@@ -62,7 +65,7 @@ class ServiceSeeder extends Seeder
                 $conviction_services []= [
                     'conviction_id' => $conviction['id'],
                     'service_id' => $services[rand(0, $count-1)]['id'],
-                    'name' => 'Test Data'
+                    'name' => $faker->name,
                 ];
             }
         }

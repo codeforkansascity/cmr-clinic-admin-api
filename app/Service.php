@@ -16,10 +16,15 @@ class Service extends Model
      * fillable - attributes that can be mass-assigned
      */
     protected $fillable = [
-            'id',
-            'name',
-            'service_type_id',
-        ];
+        'id',
+        'name',
+        'service_type_id',
+        'note',
+        'address',
+        'phone',
+        'email'
+
+    ];
 
     protected $hidden = [
         'active',
@@ -30,7 +35,7 @@ class Service extends Model
         'updated_at',
     ];
 
-    public function serviceType()
+    public function service_type()
     {
         return $this->belongsTo(ServiceType::class);
     }
@@ -73,13 +78,11 @@ class Service extends Model
         $keyword = '')
     {
         return self::buildBaseGridQuery($column, $direction, $keyword,
-            [ 'id',
-                    'name',
+            ['id',
+                'name',
             ])
-        ->paginate($per_page);
+            ->paginate($per_page);
     }
-
-
 
 
     /**
@@ -115,7 +118,7 @@ class Service extends Model
         }
 
         $query = Service::select($columns)
-        ->orderBy($column, $direction);
+            ->orderBy($column, $direction);
 
         if ($keyword) {
             $query->where('name', 'like', '%' . $keyword . '%');
@@ -123,15 +126,15 @@ class Service extends Model
         return $query;
     }
 
-        /**
-         * Get export/Excel/download data query to send to Excel download library
-         *
-         * @param $per_page
-         * @param $column
-         * @param $direction
-         * @param string $keyword
-         * @return mixed
-         */
+    /**
+     * Get export/Excel/download data query to send to Excel download library
+     *
+     * @param $per_page
+     * @param $column
+     * @param $direction
+     * @param string $keyword
+     * @return mixed
+     */
 
     static function exportDataQuery(
         $column,
@@ -146,18 +149,18 @@ class Service extends Model
 
     }
 
-        static function pdfDataQuery(
-            $column,
-            $direction,
-            $keyword = '',
-            $columns = '*')
-        {
+    static function pdfDataQuery(
+        $column,
+        $direction,
+        $keyword = '',
+        $columns = '*')
+    {
 
-            info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
-            return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
+        return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
 
-        }
+    }
 
 
     /**

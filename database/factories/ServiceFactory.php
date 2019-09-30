@@ -9,7 +9,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Service::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
+        'name' => $faker->company,
         'service_type_id' => ServiceType::inRandomOrder()->first()->id,
         'address' => $faker->address,
         'phone' => substr($faker->phoneNumber, 0, 12),

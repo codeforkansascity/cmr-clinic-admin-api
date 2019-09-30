@@ -401,4 +401,11 @@ class ServiceTypeController extends Controller
         */
     }
 
+    public function all()
+    {
+
+        $service_type =  ServiceType::query();
+
+        return $service_type->get();
+    }
 }
