@@ -128,16 +128,7 @@
                 }
             },
             deleteService(s,i) {
-
                 this.record.services.splice(i, 1)
-                // for(let index in this.record.services) {
-                //     if(this.record.services[index].id !== s.id && this.record.services[index].pivot.name !== s.pivot.name) {
-                //         this.record.services.splice(index, 1)
-                //     }
-                // }
-                // this.record.services.filter(service => {
-                //     return service.id !== s.id && service.pivot.name !== s.pivot.name
-                // })
             }
         },
     }
