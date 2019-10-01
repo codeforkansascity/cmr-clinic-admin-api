@@ -103,7 +103,9 @@
         data() {
             return {
                 showServiceModal: false,
-                selectedService: {},
+                selectedService: {
+                    name: ''
+                },
                 disableFields: true,
                 disableService: false,
                 newService: {
