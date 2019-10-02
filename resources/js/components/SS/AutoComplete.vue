@@ -88,7 +88,11 @@ create: if the create option is used this will return the value of the input fie
             },
             displayLimit: {
                 type: Number,
-                default: 50
+                default: 1000
+            },
+            maxResults: {
+                type: Number,
+                default: 50,
             },
             url: {
                 type: String,
@@ -120,8 +124,8 @@ create: if the create option is used this will return the value of the input fie
                 let matches = this.data.filter((obj) => {
                     return this.getValue(obj).indexOf(this.value) >= 0
                 })
-                if(matches.length > 10) {
-                    matches.length = 10
+                if(matches.length > this.maxResults) {
+                    matches.length = this.maxResults
                 }
 
                 return matches
@@ -259,6 +263,10 @@ create: if the create option is used this will return the value of the input fie
     .selected-result {
         color: white;
         background: var(--primary, #4dc0b5);
+    }
+    .search-box {
+        max-height: 25vh;
+        overflow: auto;
     }
 
     /* The container <div> - needed to position the dropdown content */
