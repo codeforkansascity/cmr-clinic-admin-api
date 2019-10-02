@@ -401,4 +401,15 @@ class ServiceController extends Controller
         */
     }
 
+    public function all(Request $request)
+    {
+
+        $services =  Service::query();
+        if($request->q) {
+            $services = $services->where('name', 'like', '%'.$request->q.'%')
+                ->limit(20);
+        }
+        return $services->get();
+    }
+
 }

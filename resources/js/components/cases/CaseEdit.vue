@@ -138,6 +138,19 @@
                     </div>
 
                 </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <std-form-group
+                            label="Services"
+                            label-for="services"
+
+                        >
+                            <fld-text-area name="notes" v-model="record.notes"/>
+                        </std-form-group>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-md-12">
                         <std-form-group

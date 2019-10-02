@@ -11,6 +11,8 @@
 |
 */
 
+use App\Http\Controllers\ServiceTypeController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -93,7 +95,16 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
 
+    Route::group(['prefix' => 'case/{case}/service'], function () {
+        Route::post('/create', 'CaseServiceController@store')->name('case-service.store');
+        Route::put('/{service}', 'CaseServiceController@update')->name('case-service.update');
+        Route::delete('/{service}', 'CaseServiceController@destroy')->name('case-service.destroy');
+    });
+
+
     Route::get('statutes/all', 'StatuteController@all');
+    Route::get('services/all', 'ServiceController@all');
+    Route::get('service-types/all', 'ServiceTypeController@all');
 });
 
 
