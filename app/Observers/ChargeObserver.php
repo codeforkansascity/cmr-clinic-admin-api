@@ -41,9 +41,29 @@ class ChargeObserver
      * @param  Charge  $charge
      * @return void
      */
+    public function deleting(Charge $charge)
+    {
+
+//        $user = \Auth::User();
+//        if ( $user ) {
+//            $charge->purged_by = $user->id;
+//        } else {
+//            $charge->purged_by = -1;
+//        }
+//        $charge->save();
+
+    }
+
+    /**
+     * Handle the charge "deleted" event.
+     *
+     * @param  Charge  $charge
+     * @return void
+     */
     public function deleted(Charge $charge)
     {
         $charge->saveHistory($this->request, __FUNCTION__);
+
     }
 
     /**

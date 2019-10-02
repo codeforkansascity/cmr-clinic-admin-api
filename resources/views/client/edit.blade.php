@@ -15,6 +15,5 @@
     </ol>
 @endsection
 @section('content')
-    <h1>New</h1>
     <applicant-container csrf_token="{{ csrf_token() }}" :data='@json($client)'></applicant-container>
 @endsection

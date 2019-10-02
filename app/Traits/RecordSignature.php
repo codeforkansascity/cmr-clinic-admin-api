@@ -41,6 +41,8 @@ trait RecordSignature
             } else {
                 $model->purged_by = -1;
             }
+
+            $model->save();
         });
 
     }

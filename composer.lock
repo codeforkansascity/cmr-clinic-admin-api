@@ -4516,8 +4516,8 @@
             "authors": [
                 {
                     "name": "Nicola Asuni",
-                    "email": "info@tecnick.com",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "info@tecnick.com"
                 }
             ],
             "description": "TCPDF is a PHP class for generating PDF documents and barcodes.",
@@ -6408,8 +6408,8 @@
             "authors": [
                 {
                     "name": "Arne Blankerts",
-                    "email": "arne@blankerts.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "arne@blankerts.de"
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
@@ -6471,12 +6471,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zmon/laravel-crud-generator.git",
-                "reference": "20e837814a7b360583c4ac26550080de4c19bc2d"
+                "reference": "aacb2a126aedd3a6bf5a01f30bac5ee80d81233a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zmon/laravel-crud-generator/zipball/20e837814a7b360583c4ac26550080de4c19bc2d",
-                "reference": "20e837814a7b360583c4ac26550080de4c19bc2d",
+                "url": "https://api.github.com/repos/zmon/laravel-crud-generator/zipball/aacb2a126aedd3a6bf5a01f30bac5ee80d81233a",
+                "reference": "aacb2a126aedd3a6bf5a01f30bac5ee80d81233a",
                 "shasum": ""
             },
             "require": {
@@ -6504,7 +6504,7 @@
                 }
             ],
             "description": "php artisan command to generate fully working crud with grid paginated server side only by having database tables",
-            "time": "2019-08-04T23:06:20+00:00"
+            "time": "2019-10-01T05:53:32+00:00"
         }
     ],
     "aliases": [],
