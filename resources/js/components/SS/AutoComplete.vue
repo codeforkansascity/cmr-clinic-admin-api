@@ -267,12 +267,15 @@ create: if the create option is used this will return the value of the input fie
     .search-box {
         max-height: 25vh;
         overflow: auto;
+        border-radius: 5px;
+        padding-right: 1em;
     }
 
     /* The container <div> - needed to position the dropdown content */
     .dropdown {
         position: relative;
         display: inline-block;
+
     }
 
     /* Dropdown Content (Hidden by Default) */
