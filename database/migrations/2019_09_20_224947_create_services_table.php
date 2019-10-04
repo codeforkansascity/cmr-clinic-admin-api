@@ -19,7 +19,7 @@ class CreateServicesTable extends Migration
             $table->string('address')->nullable();
             $table->string('phone', 20)->nullable();
             $table->string('email')->nullable();
-            $table->string('note', 600);
+            $table->string('note', 600)->nullable();
 
             $table->unsignedBigInteger('service_type_id')->nullable();
             $table->foreign('service_type_id')->references('id')

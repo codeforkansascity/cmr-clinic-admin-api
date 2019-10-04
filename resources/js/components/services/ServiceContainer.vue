@@ -14,13 +14,19 @@
         <base-modal v-if="showServiceModal" @close="showServiceModal = false">
             <template v-slot:header>Case Service</template>
             <template v-slot:body>
-                <div class="form-group">
+                <std-form-group
+
+                    :errors="form_errors.name"
+                >
                     <label class="font-weight-bold">Attn Name</label>
                     <input type="text" required class="form-control"placeholder="Attn Name"
                            v-model="selectedService.pivot.name"
                     >
-                </div>
-                <div class="form-group">
+                </std-form-group>
+                <std-form-group
+
+                    :errors="form_errors.service.name"
+                >
                     <label class="font-weight-bold">Service Name</label>
                     <autocomplete
                         ref="autocomplete"
@@ -34,48 +40,58 @@
                         @create="addNew"
                         :disabled="disableService"
                     ></autocomplete>
-                </div>
-                <div class="form-group">
-                    <label class="font-weight-bold">Address</label>
+                </std-form-group>
+                <std-form-group
+
+                    :errors="form_errors.service.address"
+                >                    <label class="font-weight-bold">Address</label>
                     <input type="text" required class="form-control" placeholder="Address"
                            v-model="selectedService.address"
                             :disabled="disableFields"
                     >
-                </div>
-                <div class="form-group">
-                    <label class="font-weight-bold">Phone</label>
+                </std-form-group>
+                <std-form-group
+
+                    :errors="form_errors.service.phone"
+                >                    <label class="font-weight-bold">Phone</label>
                     <input type="text" required class="form-control"
                            placeholder="Phone Number"
                            v-model="selectedService.phone"
                            :disabled="disableFields"
                     >
-                </div>
-                <div class="form-group">
-                    <label class="font-weight-bold">Email</label>
+                </std-form-group>
+                <std-form-group
+
+                    :errors="form_errors.service.email"
+                >                    <label class="font-weight-bold">Email</label>
                     <input type="text" required class="form-control"
                            placeholder="Email"
                            v-model="selectedService.email"
                            :disabled="disableFields"
                     >
-                </div>
-                <div class="form-group">
-                    <label class="font-weight-bold">Note</label>
+                </std-form-group>
+                <std-form-group
+
+                    :errors="form_errors.service.note"
+                >                    <label class="font-weight-bold">Note</label>
                     <textarea type="text" required class="form-control"
                            placeholder="Note"
                            v-model="selectedService.note"
                            :disabled="disableFields"
                     ></textarea>
-                </div>
-                <div class="form-group">
-                    <label class="font-weight-bold">Service Type</label>
+                </std-form-group>
+                <std-form-group
+
+                    :errors="form_errors.service.service_type_id"
+                >                    <label class="font-weight-bold">Service Type</label>
                     <select class="form-control" v-model="selectedService.service_type_id" :disabled="disableFields">
                         <option value="">--Select--</option>
                         <option v-for="type in serviceTypes" :value="type.id">{{type.name}}</option>
                     </select>
-                </div>
+                </std-form-group>
             </template>
             <template v-slot:footer>
-                <button class="btn btn-secondary float-left" @click.prevent="showModal = false">Cancel</button>
+                <button class="btn btn-secondary float-left" @click.prevent="showServiceModal = false">Cancel</button>
                 <div v-if="disableService">
                     <button type="submit" class="btn btn-danger float-right" @click.prevent="submitDelete">Delete</button>
                     <button type="submit" class="btn btn-primary float-right" @click.prevent="submitEdit">Edit</button>
@@ -122,6 +138,18 @@
                 },
                 serviceTypes: [],
                 selectedIndex: null,
+                form_errors: {
+                    name: false,
+                    service: {
+                        id: false,
+                        name: false,
+                        address: false,
+                        phone: false,
+                        email: false,
+                        note: false,
+                        service_type_id: false,
+                    }
+                }
             }
         },
         mounted() {
@@ -169,7 +197,15 @@
                     $this.$emit('created', this.selectedService)
                     $this.showServiceModal = false
                 }).catch(e => {
-                    console.error(e)
+                    for(let name in e.response.data.errors) {
+                        let split = name.split('.')
+                        if (split.length > 1) {
+                            $this.form_errors[split[0]][split[1]] = e.response.data.errors[name]
+                        } else {
+                            $this.form_errors[name] = e.response.data.errors[name]
+                        }
+                    }
+
                 })
             },
             submitDelete() {
@@ -198,6 +234,9 @@
                     this.showServiceModal = false
                 }).catch(e => {
                     console.error(e)
+                    for(let name in e.response.data.errors) {
+                        $this.form_errors[name] = e.response.data.errors[name]
+                    }
                 })
             },
             // called when input changes
