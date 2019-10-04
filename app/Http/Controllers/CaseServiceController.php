@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 
 use App\Conviction;
+use App\Http\Requests\CaseServiceCreateRequest;
+use App\Http\Requests\CaseServiceUpdateRequest;
 use App\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -13,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CaseServiceController extends Controller
 {
-    public function store(Request $request, Conviction $case)
+    public function store(CaseServiceCreateRequest $request, Conviction $case)
     {
 
         $service = $request->service;
@@ -38,7 +40,7 @@ class CaseServiceController extends Controller
 
 
 
-    public function update(Request $request, Conviction $case, Service $service)
+    public function update(CaseServiceUpdateRequest $request, Conviction $case, Service $service)
     {
 
         $name = $request->name;
