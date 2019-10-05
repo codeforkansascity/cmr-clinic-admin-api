@@ -11,7 +11,7 @@
                 <span @click="editService(service, i)">{{service.service_type.name}}</span>
             </tr>
         </table>
-        <base-modal v-if="showServiceModal" @close="showServiceModal = false">
+        <base-modal v-if="showServiceModal" @close="closeModal">
             <template v-slot:header>Case Service</template>
             <template v-slot:body>
                 <std-form-group
@@ -91,7 +91,7 @@
                 </std-form-group>
             </template>
             <template v-slot:footer>
-                <button class="btn btn-secondary float-left" @click.prevent="showServiceModal = false">Cancel</button>
+                <button class="btn btn-secondary float-left" @click.prevent="closeModal">Cancel</button>
                 <div v-if="disableService">
                     <button type="submit" class="btn btn-danger float-right" @click.prevent="submitDelete">Delete</button>
                     <button type="submit" class="btn btn-primary float-right" @click.prevent="submitEdit">Edit</button>
@@ -195,7 +195,7 @@
                     $this.selectedService.id = res.data.id
                     $this.selectedService.service_type = res.data.service_type
                     $this.$emit('created', this.selectedService)
-                    $this.showServiceModal = false
+                    this.closeModal()
                 }).catch(e => {
                     for(let name in e.response.data.errors) {
                         let split = name.split('.')
@@ -217,7 +217,7 @@
                 }).then(res => {
                     console.log(res)
                     this.$emit('deleted', this.selectedService, this.selectedIndex)
-                    this.showServiceModal = false
+                    this.closeModal()
                 }).catch(e => {
                     console.error(e)
                 })
@@ -231,7 +231,7 @@
                 }).then(res => {
                     console.log(res)
                     this.$emit('updated', this.selectedService, this.selectedIndex)
-                    this.showServiceModal = false
+                    this.closeModal()
                 }).catch(e => {
                     console.error(e)
                     for(let name in e.response.data.errors) {
@@ -250,6 +250,24 @@
                         this.serviceTypes = res.data
                     })
                     .catch(e => {console.log(e)})
+            },
+            resetErrors() {
+                this.form_errors = {
+                    name: false,
+                        service: {
+                        id: false,
+                            name: false,
+                            address: false,
+                            phone: false,
+                            email: false,
+                            note: false,
+                            service_type_id: false,
+                    }
+                }
+            },
+            closeModal() {
+                this.showServiceModal = false
+                this.resetErrors()
             }
         }
     }
