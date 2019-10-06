@@ -11,6 +11,8 @@
 |
 */
 
+use App\Http\Controllers\ServiceTypeController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -93,7 +95,27 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
 
+    Route::group(['prefix' => 'case/{case}/service'], function () {
+        Route::post('/create', 'CaseServiceController@store')->name('case-service.store');
+        Route::put('/{service}', 'CaseServiceController@update')->name('case-service.update');
+        Route::delete('/{service}', 'CaseServiceController@destroy')->name('case-service.destroy');
+    });
+
+
     Route::get('statutes/all', 'StatuteController@all');
+    Route::get('services/all', 'ServiceController@all');
+    Route::get('service-types/all', 'ServiceTypeController@all');
 });
 
 
+
+Route::get('/api-service-type', 'ServiceTypeApi@index');
+Route::get('/api-service-type/options', 'ServiceTypeApi@getOptions');
+Route::get('/service-type/download', 'ServiceTypeController@download')->name('service-type.download');
+Route::get('/service-type/print', 'ServiceTypeController@print')->name('service-type.print');
+Route::resource('/service-type', 'ServiceTypeController');
+Route::get('/api-service', 'ServiceApi@index');
+Route::get('/api-service/options', 'ServiceApi@getOptions');
+Route::get('/service/download', 'ServiceController@download')->name('service.download');
+Route::get('/service/print', 'ServiceController@print')->name('service.print');
+Route::resource('/service', 'ServiceController');

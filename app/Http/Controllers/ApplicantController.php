@@ -304,9 +304,15 @@ class ApplicantController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\Client::with(
-            'conviction', 'conviction.charge', 'assignment', 'step'
-        )->find(intval($id));
+        return \App\Client::with([
+            'conviction',
+            'conviction.services' => function ($q) {
+                $q->with('service_type');
+            },
+            'conviction.charge',
+            'assignment',
+            'step',
+        ])->find(intval($id));
     }
 
 

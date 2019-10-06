@@ -34,6 +34,7 @@ create: if the create option is used this will return the value of the input fie
                @keydown.down = 'down'
                @keydown.up = 'up'
                @keydown.esc="toggleDropdown"
+               :disabled="disabled"
         >
         <ul class="search-box dropdown-content" v-if="open">
             <li v-for="(result, index) in matches"
@@ -87,7 +88,11 @@ create: if the create option is used this will return the value of the input fie
             },
             displayLimit: {
                 type: Number,
-                default: 50
+                default: 1000
+            },
+            maxResults: {
+                type: Number,
+                default: 50,
             },
             url: {
                 type: String,
@@ -96,6 +101,10 @@ create: if the create option is used this will return the value of the input fie
             create: {
                 type: Boolean|Function,
                 required: false
+            },
+            disabled: {
+                type: Boolean,
+                default: false,
             }
 
         },
@@ -115,8 +124,8 @@ create: if the create option is used this will return the value of the input fie
                 let matches = this.data.filter((obj) => {
                     return this.getValue(obj).indexOf(this.value) >= 0
                 })
-                if(matches.length > 10) {
-                    matches.length = 10
+                if(matches.length > this.maxResults) {
+                    matches.length = this.maxResults
                 }
 
                 return matches
@@ -255,11 +264,18 @@ create: if the create option is used this will return the value of the input fie
         color: white;
         background: var(--primary, #4dc0b5);
     }
+    .search-box {
+        max-height: 25vh;
+        overflow: auto;
+        border-radius: 5px;
+        padding-right: 1em;
+    }
 
     /* The container <div> - needed to position the dropdown content */
     .dropdown {
         position: relative;
         display: inline-block;
+
     }
 
     /* Dropdown Content (Hidden by Default) */

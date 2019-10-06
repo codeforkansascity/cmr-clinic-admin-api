@@ -56,6 +56,16 @@
 
                 </table>
             </div>
+            <hr>
+            <div class="col-md-5" style="padding-left: 1em;">
+                <service-container
+                    :services="record.services"
+                    :case_id="record.id"
+                    @created="createService"
+                    @updated="updateService"
+                    @deleted="deleteService"
+                ></service-container>
+            </div>
         </div>
         <div class="col-md-6">
 
@@ -76,16 +86,17 @@
                     <dsp-text v-model="record.notes"/>
                 </div>
             </div>
-
-
         </div>
     </div>
 </template>
 
 
 <script>
+    import ServiceContainer from "../services/ServiceContainer";
+
     export default {
         name: "CaseDetails",
+        components: {ServiceContainer},
         model: {
             prop: 'modelValue',  // Rename v-model's input value to modelValue
                                  // We will use the default 'input' event for v-model
@@ -104,6 +115,21 @@
             Object.keys(this.modelValue).forEach(i =>
                 this.$set(this.record, i, this.modelValue[i])
             );
+        },
+        methods: {
+            createService(s) {
+                this.record.services.push(s)
+            },
+            updateService(s, i) {
+                for(let i in this.record.services) {
+                    if(this.record.services[i].id === s.id) {
+                        this.record.services[i] = s
+                    }
+                }
+            },
+            deleteService(s,i) {
+                this.record.services.splice(i, 1)
+            }
         },
     }
 </script>

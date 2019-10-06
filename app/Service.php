@@ -5,66 +5,39 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\RecordSignature;
-use Illuminate\Notifications\Notifiable;
 
-class Conviction extends Model
+class Service extends Model
 {
 
     use SoftDeletes;
     use RecordSignature;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
+     * fillable - attributes that can be mass-assigned
      */
     protected $fillable = [
-        'client_id',
+        'id',
         'name',
-        'arrest_date',
-        'case_number',
-        'agency',
-        'court_name',
-        'court_city_county',
-        'name_of_judge',
-        'your_name_in_case',
-        'release_status',
-        'release_date',
-        'judge',
-        'record_name',
-        'notes',
-        'approximate_date_of_charge',
-        'created_by',
-        'modified_by',
+        'service_type_id',
+        'note',
+        'address',
+        'phone',
+        'email'
+
     ];
 
-    public function charge()
-    {
-        return $this->hasMany('App\Charge');
-    }
+    protected $hidden = [
+        'active',
+        'created_by',
+        'modified_by',
+        'purged_by',
+        'created_at',
+        'updated_at',
+    ];
 
-    public function histories()
+    public function service_type()
     {
-        return $this->morphMany(History::class, 'historyable');
-    }
-
-    public function services()
-    {
-        return $this->belongsToMany(Service::class)
-            ->using(ConvictionService::class)
-            ->withPivot(['name']);
-    }
-
-    // this is a recommended way to declare event handlers
-    public static function boot()
-    {
-        parent::boot();
-
-        static::deleting(function ($tbl) { // before delete() method call this
-            foreach ($tbl->charge()->get() as $rec) {
-                $rec->delete();
-            }
-        });
+        return $this->belongsTo(ServiceType::class);
     }
 
     public function add($attributes)
@@ -107,7 +80,6 @@ class Conviction extends Model
         return self::buildBaseGridQuery($column, $direction, $keyword,
             ['id',
                 'name',
-                'notes',
             ])
             ->paginate($per_page);
     }
@@ -145,7 +117,7 @@ class Conviction extends Model
                 break;
         }
 
-        $query = Conviction::select($columns)
+        $query = Service::select($columns)
             ->orderBy($column, $direction);
 
         if ($keyword) {
@@ -221,37 +193,4 @@ class Conviction extends Model
 
     }
 
-    public function saveHistory($request, $action = 'updated')
-    {
-        $data = [
-            'user_id' => auth()->user()->id ?? 1,
-            'reason_for_change' => $request->reason_for_change ?? null,
-            'action' => $action
-        ];
-
-        /*
-         * We only save the values listed in fillable for old and new
-         */
-        /// if not created add old values
-        if ($action !== 'created') {
-            $data['old'] = collect($this->getOriginal())->only($this->fillable);
-        }
-        /// if not deleted add new values
-        if ($action !== 'deleted') {
-            $data['new'] = $request->only($this->fillable);
-        }
-
-        return $this->histories()->create($data);
-    }
-
-//
-//    public function saveHistory($request)
-//    {
-//        return $this->histories()->create([
-//            'old' => $this->only($this->fillable),
-//            'new' => $request->only($this->fillable),
-//            'user_id' => auth()->user()->id,
-//            'reason_for_change' => $request->reason_for_change ?? null,
-//        ]);
-//    }
 }
