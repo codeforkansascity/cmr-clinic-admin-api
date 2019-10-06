@@ -13,7 +13,8 @@ Vue.component('ss-grid-pagination', './components/SsGridPagination.vue');
 Vue.component('ss-grid-pagination-location', './components/SsPaginationLocation.vue');
 Vue.component('search-form-group', './components/SearchFormGroup.vue');
 
-Vue.component('std-form-group', () => import(/* webpackChunkName:"std-form-group" */ './components/StdFormGroup.vue'));
+
+Vue.component('std-form-group', () => import(/* webpackChunkName:"std-form-group" */ './components/SS/StdFormGroup.vue'));
 
 /*
      UI
@@ -22,8 +23,21 @@ Vue.component('ui-field-view', require('./components/SS/UiFieldView.vue'));
 Vue.component('ui-select-pick-one', require('./components/SS/UiSelectPickOne.vue'));
 Vue.component('ui-pick-roles', () => import(/* webpackChunkName:"ui-pick-roles" */ './components/SS/UiPickRoles.vue'));
 
-Vue.component('std-form-group', () => import(/* webpackChunkName:"std-form-group" */ './components/SS/StdFormGroup.vue'));
 Vue.component('fld-input', () => import(/* webpackChunkName:"fld-input" */ './components/SS/FldInput.vue'));
+
+/*
+    User Invite
+ */
+Vue.component('create-password-form', () => import(/* webpackChunkName:"create-password-form" */ './components/invite/CreatePasswordForm.vue'));
+//Vue.component('invite-grid',       require('./components/InviteGrid.vue'));    // May need to add .default);
+Vue.component('invite-grid', () => import(/* webpackChunkName:"invite-grid" */ './components/InviteGrid.vue'));
+
+/*
+    Change Password
+ */
+Vue.component('change-password-form', () => import(/* webpackChunkName:"change-password-form" */ './components/change-password/ChangePasswordForm.vue'));
+
+Vue.component('role-grid', () => import(/* webpackChunkName:"role-grid" */ './components/RoleGrid.vue'));
 
 
 // Password strength library

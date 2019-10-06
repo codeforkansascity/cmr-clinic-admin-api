@@ -18,6 +18,11 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true, 'register' => false]);
 
+// {token} is a required parameter that will be exposed to us in the controller method
+Route::get('accept/{token}', 'InviteController@accept')->name('accept');
+Route::post('create_password', 'InviteController@createPassword')->name('create_password');
+Route::post('/password-strength', 'PasswordStrengthApi@calc');
+
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -34,7 +39,23 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/role-description/print', 'RoleDescriptionController@print')->name('role-description.print');
     Route::resource('/role-description', 'RoleDescriptionController');
 
-    Route::post('/password-strength', 'PasswordStrengthApi@calc');
+    ///////////////////////////////////////////////////////////////////////////////
+    // Invite Routes
+    ///////////////////////////////////////////////////////////////////////////////
+    //    Route::get('invite', 'InviteController@invite')->name('invite');
+    //    Route::post('invite', 'InviteController@process')->name('process');
+    Route::get('/invite/download', 'InviteController@download')->name('invite.download');
+    Route::get('/invite/print', 'InviteController@print')->name('invite.print');
+    Route::get('invite/{id}/resend', 'InviteController@resend')->name('invite.resend');
+    Route::resource('/invite', 'InviteController');
+    Route::get('/api-invite', 'InviteApi@index');
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Change Password Routes
+    ///////////////////////////////////////////////////////////////////////////////
+    Route::get('/change-password', 'ChangePasswordController@changePassword')->name('change_password');
+    Route::post('/update-password', 'ChangePasswordController@updatePassword');
+
 
 
     Route::get('/api-applicant', 'ApplicantApi@index');
