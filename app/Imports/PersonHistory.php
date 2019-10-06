@@ -13,7 +13,5 @@ class PersonHistory implements ToCollection
     public function collection(Collection $collection)
     {
 
-        print_r('ssss');
-        print_r($collection->toArray());
     }
 }
