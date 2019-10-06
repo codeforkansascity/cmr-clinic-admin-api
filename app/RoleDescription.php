@@ -2,19 +2,14 @@
 
 namespace App;
 
-use Laravel\Passport\HasApiTokens;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\Permission\Traits\HasRoles;
-
-
-// From crud generator:
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\RecordSignature;
 
-class User extends Authenticatable
+class RoleDescription extends Model
 {
-    use HasApiTokens, Notifiable, HasRoles;
+
+    use RecordSignature;
 
     use SoftDeletes;
     use RecordSignature;
@@ -24,42 +19,29 @@ class User extends Authenticatable
      */
     protected $fillable = [
             'id',
+            'role_id',
+            'role_name',
             'name',
-            'email',
-            'active',
-            'email_verified_at',
-            'password',
-            'remember_token',
+            'description',
+            'sequence',
+            'roles_that_can_assign',
+            'deleted_at',
         ];
 
     protected $hidden = [
-        /*'created_by',
+        'active',
+        'created_by',
         'modified_by',
-        'purged_by',*/
+        'purged_by',
         'created_at',
         'updated_at',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    public function add($attributes, $selected_roles)
+    public function add($attributes)
     {
 
         try {
-            $this->fill($attributes);
-
-            // Hash the pw
-            $this->password = bcrypt($this->password);
-
-            $this->save();
-            $this->syncRoles($selected_roles);
+            $this->fill($attributes)->save();
         } catch (\Exception $e) {
             info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
@@ -95,8 +77,6 @@ class User extends Authenticatable
         return self::buildBaseGridQuery($column, $direction, $keyword,
             [ 'id',
                     'name',
-                    'email',
-                    'active',
             ])
         ->paginate($per_page);
     }
@@ -136,15 +116,11 @@ class User extends Authenticatable
                 break;
         }
 
-        $query = User::select($columns)
-            ->orderBy($column, $direction);
-        $query->orderBy('name', 'ASC'); // Secondary sort criteria of name
+        $query = RoleDescription::select($columns)
+        ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where(function($query) use ($keyword) {
-                $query->where('name', 'like', '%' . $keyword . '%')
-                    ->orWhere('email', 'like', '%' . $keyword . '%');
-            });
+            $query->where('name', 'like', '%' . $keyword . '%');
         }
         return $query;
     }
@@ -186,7 +162,6 @@ class User extends Authenticatable
         }
 
 
-
     /**
      * Get "options" for HTML select tag
      *
@@ -216,86 +191,5 @@ class User extends Authenticatable
         }
 
     }
-
-    /**
-     * Get "options" for HTML select tag
-     *
-     * If flat return an array.
-     * Otherwise, return an array of records.  Helps keep in proper order durring ajax calls to Chrome
-     */
-    static public function getAssigneeOptions($flat = false)
-    {
-
-        $thisModel = new static;
-
-        $records = $thisModel::select('id',
-            'name')
-            ->orderBy('name')
-            ->get();
-
-        if (!$flat) {
-            return $records;
-        } else {
-            $data = [];
-
-            foreach ($records AS $rec) {
-                $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
-            }
-
-            return $data;
-        }
-
-    }
-
-    /**
-     * Get "options" for HTML select tag
-     *
-     * If flat return an array.
-     * Otherwise, return an array of records.  Helps keep in proper order durring ajax calls to Chrome
-     */
-    static public function getRoleOptions($flat = false)
-    {
-
-        $thisModel = new static;
-
-        $records = \App\Role::select('id',
-            'name')
-            ->orderBy('name')
-            ->get();
-
-        if (!$flat) {
-            $data = [];
-
-            foreach ($records AS $rec) {
-                $data[] = ['id' => $rec['name'], 'name' => $rec['name']];
-            }
-
-            return $data;
-        } else {
-            $data = [];
-
-            foreach ($records AS $rec) {
-                $data[] = ['id' => $rec['name'], 'name' => $rec['name']];
-            }
-
-            return $data;
-        }
-
-    }
-
-    public function areRolesDirty($current_roles, $new_roles) {
-        $roles_is_dirty = false;
-        $old_roles = [];
-        foreach($current_roles as $user_role) {
-            $old_roles[] = $user_role->name;
-        }
-        sort($new_roles);
-        sort($old_roles);
-        if($new_roles != $old_roles) {
-            $roles_is_dirty = true;
-        }
-        return $roles_is_dirty;
-    }
-
 
 }

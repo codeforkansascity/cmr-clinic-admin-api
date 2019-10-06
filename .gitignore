@@ -11,6 +11,7 @@
 .env_testing
 .idea
 .phpunit.result.cache
+data
 Homestead.json
 Homestead.yaml
 npm-debug.log
