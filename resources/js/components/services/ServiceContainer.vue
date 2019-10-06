@@ -1,14 +1,24 @@
 <template>
     <div>
         <h4>
-            Services <span @click="addService">+</span>
+            Services <span @click="addService" class="add-button">+</span>
         </h4>
-        <table class="table  table-sm" >
-            <tr class="row"  is="tr-view" v-for="(service,i) in services"
+        <table class="table  table-sm">
+            <tr class="row"  v-for="(service,i) in services"
                 :key="i"
-                v-model="service.pivot.name"
             >
-                <span @click="editService(service, i)">{{service.service_type.name}}</span>
+                <td class="service-name-column">
+                   <span class="service-name-field">
+                        {{service.service_type.name}}
+                    </span>
+                </td>
+                <td>
+                    {{service.pivot.name}}
+                </td>
+                <td>
+                    <pencil-control height="25"
+                                    @click="editService(service, i)"/>
+                </td>
             </tr>
         </table>
         <base-modal v-if="showServiceModal" @close="closeModal">
@@ -19,7 +29,7 @@
                     :errors="form_errors.name"
                 >
                     <label class="font-weight-bold">Attn Name</label>
-                    <input type="text" required class="form-control"placeholder="Attn Name"
+                    <input type="text" required class="form-control" placeholder="Attn Name"
                            v-model="selectedService.pivot.name"
                     >
                 </std-form-group>
@@ -44,16 +54,16 @@
                 <std-form-group
 
                     :errors="form_errors.service.address"
-                >                    <label class="font-weight-bold">Address</label>
+                ><label class="font-weight-bold">Address</label>
                     <input type="text" required class="form-control" placeholder="Address"
                            v-model="selectedService.address"
-                            :disabled="disableFields"
+                           :disabled="disableFields"
                     >
                 </std-form-group>
                 <std-form-group
 
                     :errors="form_errors.service.phone"
-                >                    <label class="font-weight-bold">Phone</label>
+                ><label class="font-weight-bold">Phone</label>
                     <input type="text" required class="form-control"
                            placeholder="Phone Number"
                            v-model="selectedService.phone"
@@ -63,7 +73,7 @@
                 <std-form-group
 
                     :errors="form_errors.service.email"
-                >                    <label class="font-weight-bold">Email</label>
+                ><label class="font-weight-bold">Email</label>
                     <input type="text" required class="form-control"
                            placeholder="Email"
                            v-model="selectedService.email"
@@ -73,17 +83,17 @@
                 <std-form-group
 
                     :errors="form_errors.service.note"
-                >                    <label class="font-weight-bold">Note</label>
+                ><label class="font-weight-bold">Note</label>
                     <textarea type="text" required class="form-control"
-                           placeholder="Note"
-                           v-model="selectedService.note"
-                           :disabled="disableFields"
+                              placeholder="Note"
+                              v-model="selectedService.note"
+                              :disabled="disableFields"
                     ></textarea>
                 </std-form-group>
                 <std-form-group
 
                     :errors="form_errors.service.service_type_id"
-                >                    <label class="font-weight-bold">Service Type</label>
+                ><label class="font-weight-bold">Service Type</label>
                     <select class="form-control" v-model="selectedService.service_type_id" :disabled="disableFields">
                         <option value="">--Select--</option>
                         <option v-for="type in serviceTypes" :value="type.id">{{type.name}}</option>
@@ -93,11 +103,13 @@
             <template v-slot:footer>
                 <button class="btn btn-secondary float-left" @click.prevent="closeModal">Cancel</button>
                 <div v-if="disableService">
-                    <button type="submit" class="btn btn-danger float-right" @click.prevent="submitDelete">Delete</button>
+                    <button type="submit" class="btn btn-danger float-right" @click.prevent="submitDelete">Delete
+                    </button>
                     <button type="submit" class="btn btn-primary float-right" @click.prevent="submitEdit">Edit</button>
                 </div>
                 <div v-else>
-                    <button type="submit" class="btn btn-primary float-right" @click.prevent="submitCreate">Create</button>
+                    <button type="submit" class="btn btn-primary float-right" @click.prevent="submitCreate">Create
+                    </button>
                 </div>
             </template>
         </base-modal>
@@ -105,11 +117,13 @@
 </template>
 
 <script>
+    import PencilControl from "../controls/PencilControl";
     export default {
+        components: {PencilControl},
         name: "ServiceContainer",
         props: {
             services: {
-                type: Array|Object,
+                type: Array | Object,
 
             },
             case_id: {
@@ -170,7 +184,7 @@
 
             },
             selectService(v) {
-                console.log('selectService',v, this.selectedService)
+                console.log('selectService', v, this.selectedService)
                 // keep the name of the pivot so it is overwritten
                 v.pivot = {name: this.selectedService.pivot.name}
                 Vue.set(this, 'selectedService', v)
@@ -197,7 +211,7 @@
                     $this.$emit('created', this.selectedService)
                     this.closeModal()
                 }).catch(e => {
-                    for(let name in e.response.data.errors) {
+                    for (let name in e.response.data.errors) {
                         let split = name.split('.')
                         if (split.length > 1) {
                             $this.form_errors[split[0]][split[1]] = e.response.data.errors[name]
@@ -234,14 +248,14 @@
                     this.closeModal()
                 }).catch(e => {
                     console.error(e)
-                    for(let name in e.response.data.errors) {
+                    for (let name in e.response.data.errors) {
                         $this.form_errors[name] = e.response.data.errors[name]
                     }
                 })
             },
             // called when input changes
             updateService(v) {
-                console.log('updateService',v)
+                console.log('updateService', v)
                 this.selectedService.name = v
             },
             getServiceTypes() {
@@ -249,19 +263,21 @@
                     .then(res => {
                         this.serviceTypes = res.data
                     })
-                    .catch(e => {console.log(e)})
+                    .catch(e => {
+                        console.log(e)
+                    })
             },
             resetErrors() {
                 this.form_errors = {
                     name: false,
-                        service: {
+                    service: {
                         id: false,
-                            name: false,
-                            address: false,
-                            phone: false,
-                            email: false,
-                            note: false,
-                            service_type_id: false,
+                        name: false,
+                        address: false,
+                        phone: false,
+                        email: false,
+                        note: false,
+                        service_type_id: false,
                     }
                 }
             },
@@ -274,5 +290,27 @@
 </script>
 
 <style scoped>
+    .service-name-column {
+        width: 12em;
+    }
+    .service-name-field {
+        color: darkgray;
+    }
+    .name-field:hover {
+        font-weight: bolder;
+        color: #343a40;
+        cursor: pointer;
+    }
+
+    .add-button {
+        color: #aaaaaa;
+        font-weight: normal;
+    }
+
+    .add-button:hover {
+        color: #343a40;
+        font-weight: bolder;
+        cursor: pointer;
+    }
 
 </style>
