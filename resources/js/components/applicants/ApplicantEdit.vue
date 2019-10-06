@@ -77,7 +77,7 @@
                                 <flat-pickr
                                             v-model="record.dob"
                                             :config="config"
-                                            @blur="v => {record.dob = v}"
+                                            @blur="parseDate($event, 'dob')"
                                             style="width: 10em"/>
                             </std-form-group>
                         </div>
@@ -141,6 +141,7 @@
                                     <!--/>-->
                                     <flat-pickr
                                             v-model="record.license_expiration_date"
+                                            @blur="parseDate($event, 'license_expiration_date')"
                                             :config="config"
                                             style="width: 10em"/>
                                 </std-form-group>
@@ -537,6 +538,9 @@
                     }
                 }
                 window.location.href = '/applicant';
+            },
+            parseDate(e, field) {
+                this.record[field] = this.moment(e, 'MM-DD-YYYY').format('YYYY-MM-DD')
             }
         }
     };

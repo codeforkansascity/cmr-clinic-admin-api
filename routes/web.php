@@ -11,6 +11,8 @@
 |
 */
 
+use App\Http\Controllers\ServiceTypeController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -18,8 +20,45 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true, 'register' => false]);
 
+// {token} is a required parameter that will be exposed to us in the controller method
+Route::get('accept/{token}', 'InviteController@accept')->name('accept');
+Route::post('create_password', 'InviteController@createPassword')->name('create_password');
+Route::post('/password-strength', 'PasswordStrengthApi@calc');
+
 
 Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('/api-user', 'UserApi@index');
+    Route::get('/api-user/role-options', 'UserApi@getRoleOptions');
+    Route::get('/api-user/options', 'UserApi@getOptions');
+    Route::get('/user/download', 'UserController@download')->name('user.download');
+    Route::get('/user/print', 'UserController@print')->name('user.print');
+    Route::resource('/user', 'UserController');
+
+    Route::get('/api-role-description', 'RoleDescriptionApi@index');
+    Route::get('/api-role-description/options', 'RoleDescriptionApi@getOptions');
+    Route::get('/role-description/download', 'RoleDescriptionController@download')->name('role-description.download');
+    Route::get('/role-description/print', 'RoleDescriptionController@print')->name('role-description.print');
+    Route::resource('/role-description', 'RoleDescriptionController');
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Invite Routes
+    ///////////////////////////////////////////////////////////////////////////////
+    //    Route::get('invite', 'InviteController@invite')->name('invite');
+    //    Route::post('invite', 'InviteController@process')->name('process');
+    Route::get('/invite/download', 'InviteController@download')->name('invite.download');
+    Route::get('/invite/print', 'InviteController@print')->name('invite.print');
+    Route::get('invite/{id}/resend', 'InviteController@resend')->name('invite.resend');
+    Route::resource('/invite', 'InviteController');
+    Route::get('/api-invite', 'InviteApi@index');
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Change Password Routes
+    ///////////////////////////////////////////////////////////////////////////////
+    Route::get('/change-password', 'ChangePasswordController@changePassword')->name('change_password');
+    Route::post('/update-password', 'ChangePasswordController@updatePassword');
+
+
 
     Route::get('/api-applicant', 'ApplicantApi@index');
     Route::get('/api-applicant/options', 'ApplicantApi@getOptions');
@@ -93,7 +132,27 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
 
+    Route::group(['prefix' => 'case/{case}/service'], function () {
+        Route::post('/create', 'CaseServiceController@store')->name('case-service.store');
+        Route::put('/{service}', 'CaseServiceController@update')->name('case-service.update');
+        Route::delete('/{service}', 'CaseServiceController@destroy')->name('case-service.destroy');
+    });
+
+
     Route::get('statutes/all', 'StatuteController@all');
+    Route::get('services/all', 'ServiceController@all');
+    Route::get('service-types/all', 'ServiceTypeController@all');
 });
 
 
+
+Route::get('/api-service-type', 'ServiceTypeApi@index');
+Route::get('/api-service-type/options', 'ServiceTypeApi@getOptions');
+Route::get('/service-type/download', 'ServiceTypeController@download')->name('service-type.download');
+Route::get('/service-type/print', 'ServiceTypeController@print')->name('service-type.print');
+Route::resource('/service-type', 'ServiceTypeController');
+Route::get('/api-service', 'ServiceApi@index');
+Route::get('/api-service/options', 'ServiceApi@getOptions');
+Route::get('/service/download', 'ServiceController@download')->name('service.download');
+Route::get('/service/print', 'ServiceController@print')->name('service.print');
+Route::resource('/service', 'ServiceController');

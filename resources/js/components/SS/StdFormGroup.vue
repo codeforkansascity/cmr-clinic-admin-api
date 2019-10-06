@@ -1,6 +1,6 @@
 <template>
     <div class="form-group" v-bind:class="getClasses">
-        <label class="form-control-label" :for="this.labelFor != '' ? 'field_' + this.labelFor : false">
+        <label :class="'form-control-label ' + this.additionalLabelClasses" :for="this.labelFor != '' ? 'field_' + this.labelFor : false">
             {{ label }}
             <span v-if="this.required === true" class="text-red">(required)</span>
             <a
@@ -48,6 +48,10 @@ export default {
             type: String,
             default: "standard"
         },
+        additionalLabelClasses: {
+            type: String,
+            default: ''
+        }
     },
     data() {
         return {

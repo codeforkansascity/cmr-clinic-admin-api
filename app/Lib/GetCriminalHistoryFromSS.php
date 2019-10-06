@@ -40,7 +40,40 @@ class GetCriminalHistoryFromSS
     {
 
         $this->readSpreadSheet($this->path . '/' . $this->file_name);
-        info(print_r($this->spread_sheet_data, true));
+
+        $this->in_client = true;
+        $this->in_case = false;
+        $this->in_charge = false;
+        while ($this->current_row) {
+
+
+            $row_type = $this->getRowType($this->current_row);
+
+
+
+            $label = $this->current_row[0];
+            $value = $this->current_row[1] ? $this->current_row[1] : '';
+
+            print "$row_type\t$label\t$value\n";
+
+            $this->getNextRow();
+        }
+        print "END\n";
+
+    }
+
+    function getRowType($row) {
+        $row_parts = [];
+        $label = trim($row[0]);
+        if ( 0 != preg_match('/(Case)\s*(\d+)$/',$label, $row_parts)) {
+            return 'CASE';
+        }
+        if ( 0 != preg_match('/(Charge)\s*(\d+)$/',$label, $row_parts)) {
+            return 'CHARGE';
+        }
+
+        return '      ';
+
 
     }
 
@@ -55,7 +88,7 @@ class GetCriminalHistoryFromSS
         if (array_key_exists($this->current_row_offset, $this->spread_sheet_data)) {
             $this->current_row = $this->spread_sheet_data[$this->current_row_offset];
         } else {
-            $this->current_row = null;
+            $this->current_row = false;
         }
         return $this->current_row;
     }
@@ -76,8 +109,7 @@ class GetCriminalHistoryFromSS
 
         if (count($tmp)) {  // We have data
             foreach ($tmp[0] AS $row) {
-                print_r($row);
-                if (isset($row[0]) && isset($row[1]) && !($row[0] == null && $row[1] == null)) {
+                if (isset($row[0]) && !($row[0] == null && $row[1] == null)) {
                     $this->spread_sheet_data[] = $row;
                 }
             }
@@ -87,7 +119,7 @@ class GetCriminalHistoryFromSS
 
         }
 
-        dd($this->current_row);
+
 
         return true;
 

@@ -1,11 +1,15 @@
 <?php
 
+use App\Charge;
 use App\Client;
+use App\Conviction;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
 class ClientTableSeeder extends Seeder
 {
+    protected $charges = [];
+    protected $convictions = [];
     /**
      * Run the database seeds.
      *
@@ -330,18 +334,52 @@ Arrest may be tied to this original case. After transfer, this case was disposed
         ];
         \App\Charge::insert($charges);
 
+        $start = microtime(1);
         dump('creating 100 clients with convictions and charges ');
-        $clients = factory(App\Client::class, 100)->create();
+        $index = Client::max('id')+1;
+        $clients = factory(App\Client::class, 100)->make()
+            ->map(function ($client) use(&$index) {
+                $client['id'] = $index++;
+                return $client;
+            });
 
-        $clients->each(function ($client) {
-            factory(\App\Conviction::class, rand(1, 5))->create(['client_id' => $client->id])
-                ->each(function ($conviction) {
-                    $number_of_charges = rand(0, 4);
-                    if ($number_of_charges > 0) {
-                        factory(\App\Charge::class, $number_of_charges)->create(['conviction_id' => $conviction->id]);
-                    }
+        Client::insert($clients->toArray());
+        dump("Inserted Clients in ". round(microtime(1) - $start, 2). ' seconds');
+
+        $start = microtime(1);
+        $index = Conviction::max('id')+1;
+        $charges = collect($clients)->each(function ($client) use (&$index){
+            $convictions = factory(\App\Conviction::class, rand(1, 5))
+                ->make(['client_id' => $client['id']])
+                ->map(function ($conviction) use(&$index) {
+                    $conviction['id'] = $index++;
+                    return $conviction;
                 });
+            $this->convictions = array_merge($convictions->toArray(), $this->convictions);
+
+            $convictions->each(function ($conviction) {
+                $number_of_charges = rand(0, 4);
+                if ($number_of_charges > 0) {
+                    $charges = factory(\App\Charge::class, $number_of_charges)->make(['conviction_id' => $conviction['id']]);
+                    $this->charges = array_merge($charges->toArray(), $this->charges);
+                }
+            });
+
         });
+
+        dump("Build arrays in ". round(microtime(1) - $start, 2). ' seconds');
+
+        $start = microtime(1);
+        Conviction::insert($this->convictions);
+        dump('Inserted '. count($this->convictions). ' convictions');
+        dump("Inserted Convictions in ". round(microtime(1) - $start, 2). ' seconds');
+
+        $start = microtime(1);
+
+        Charge::insert($this->charges);
+        dump('Inserted '. count($this->charges). ' charges');
+        dump("Inserted Charges in ". round(microtime(1) - $start, 2). ' seconds');
+
 
     }
 }

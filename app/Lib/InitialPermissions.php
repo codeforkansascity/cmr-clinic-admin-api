@@ -43,6 +43,14 @@ class InitialPermissions
         Permission::findOrCreate( 'user export-pdf');
         Permission::findOrCreate( 'user export-excel');
 
+        Permission::findOrCreate( 'invite index');
+        Permission::findOrCreate( 'invite add');
+        Permission::findOrCreate( 'invite update');
+        Permission::findOrCreate( 'invite view');
+        Permission::findOrCreate( 'invite destroy');
+        Permission::findOrCreate( 'invite export-pdf');
+        Permission::findOrCreate( 'invite export-excel');
+
         Permission::findOrCreate( 'client index');
         Permission::findOrCreate( 'client add');
         Permission::findOrCreate( 'client update');
@@ -129,6 +137,14 @@ class InitialPermissions
             'user export-pdf',
             'user export-excel',
 
+            'invite index',
+            'invite add',
+            'invite update',
+            'invite view',
+            'invite destroy',
+            'invite export-pdf',
+            'invite export-excel',
+
             'client index',
             'client add',
             'client update',
@@ -180,6 +196,63 @@ class InitialPermissions
         ]);
 
         try {
+            $role = Role::findByName('Clinic Staff');
+        } catch (RoleDoesNotExist $e) {
+            $role = Role::create(['name' => 'Clinic Staff']);
+        }
+
+        $role->givePermissionTo([
+
+            'client index',
+            'client add',
+            'client update',
+            'client view',
+            'client export-pdf',
+            'client export-excel',
+
+            'conviction index',
+            'conviction add',
+            'conviction update',
+            'conviction view',
+            'conviction destroy',
+            'conviction export-pdf',
+            'conviction export-excel',
+
+            'charge index',
+            'charge add',
+            'charge update',
+            'charge view',
+            'charge destroy',
+            'charge export-pdf',
+            'charge export-excel',
+
+            'status index',
+            'status add',
+            'status update',
+            'status view',
+            'status export-pdf',
+            'status export-excel',
+
+            'step index',
+            'step add',
+            'step update',
+            'step view',
+            'step export-pdf',
+            'step export-excel',
+
+            'assignment index',
+            'assignment add',
+            'assignment update',
+            'assignment view',
+            'assignment export-pdf',
+            'assignment export-excel',
+
+        ]);
+
+
+
+
+        try {
             $role = Role::findByName('read-only');
         } catch (RoleDoesNotExist $e) {
             $role = Role::create(['name' => 'read-only']);
@@ -188,7 +261,7 @@ class InitialPermissions
         $role->givePermissionTo([
 
             'user index',
-            'user view',
+
 
             'client index',
             'client view',

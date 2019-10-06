@@ -48,6 +48,13 @@ class Conviction extends Model
         return $this->morphMany(History::class, 'historyable');
     }
 
+    public function services()
+    {
+        return $this->belongsToMany(Service::class)
+            ->using(ConvictionService::class)
+            ->withPivot(['name']);
+    }
+
     // this is a recommended way to declare event handlers
     public static function boot()
     {
