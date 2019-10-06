@@ -1,6 +1,7 @@
 <template>
     <div>
-        <img :height="height"
+        <img class="control-icon"
+             :height="height"
              :src="icon"
              @click="toggle"/>
     </div>
@@ -38,5 +39,7 @@
 </script>
 
 <style scoped>
-
+.control-icon {
+    cursor: pointer;
+}
 </style>
