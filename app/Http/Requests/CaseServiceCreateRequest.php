@@ -30,7 +30,7 @@ class CaseServiceCreateRequest extends FormRequest
                     'service.phone' => 'max:20',
                     'service.email' => 'nullable|email',
                     'service.note' => 'max:600',
-                    'service.service_type_id' => 'required|exists:service_types',
+                    'service.service_type_id' => 'required|exists:service_types,id',
         ];
     }
 }
