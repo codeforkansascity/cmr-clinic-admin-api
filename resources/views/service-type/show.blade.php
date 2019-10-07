@@ -18,11 +18,11 @@ View {{$service_type->name}}
     <service-type-show :record='@json($service_type)'></service-type-show>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="row mt-4">
                 <div class="col-md-4">
                     @if ($can_edit)
-                        <a href="/service-type/{{ $service_type->id }}/edit" class="btn btn-primary">Edit</a>
+                        <a href="/service-type/{{ $service_type->id }}/edit" class="btn btn-primary">Edit service_type</a>
                     @endif
                 </div>
                 <div class="col-md-4 text-md-center mt-2 mt-md-0">
@@ -31,7 +31,7 @@ View {{$service_type->name}}
                             <input type="hidden" name="_method" value="delete">
                             {{ csrf_field() }}
 
-                            <input class="btn btn-danger" Onclick="return ConfirmDelete();" type="submit" value="Delete">
+                            <input class="btn btn-danger" Onclick="return ConfirmDelete();" type="submit" value="Delete Service Type">
 
                         </form>
                     @endif

@@ -128,13 +128,12 @@ Vue.component('role-description-form', () => import(/* webpackChunkName:"role-de
 Vue.component('role-description-show', () => import(/* webpackChunkName:"role-description-Show" */ './components/RoleDescription/RoleDescriptionShow.vue'));
 
 
-//Vue.component('service-type-grid',       require('./components/ServiceTypeGrid.vue'));    // May need to add .default);
-//Vue.component('service-type-form',       require('./components/ServiceTypeForm.vue'));    // May need to add .default);
-Vue.component('service-type-grid', () => import(/* webpackChunkName:"service-type-grid" */ './components/service-types/ServiceTypeGrid.vue'));
-Vue.component('service-type-form', () => import(/* webpackChunkName:"service-type-form" */ './components/service-types/ServiceTypeForm.vue'));
-Vue.component('service-type-show', () => import(/* webpackChunkName:"service-type-Show" */ './components/service-types/ServiceTypeShow.vue'));
 //Vue.component('service-grid',       require('./components/ServiceGrid.vue'));    // May need to add .default);
 //Vue.component('service-form',       require('./components/ServiceForm.vue'));    // May need to add .default);
 Vue.component('service-grid', () => import(/* webpackChunkName:"service-grid" */ './components/services/ServiceGrid.vue'));
 Vue.component('service-form', () => import(/* webpackChunkName:"service-form" */ './components/services/ServiceForm.vue'));
 Vue.component('service-show', () => import(/* webpackChunkName:"service-Show" */ './components/services/ServiceShow.vue'));
+
+Vue.component('service-type-grid', () => import(/* webpackChunkName:"service-type-grid" */ './components/service_types/ServiceTypeGrid.vue'));
+Vue.component('service-type-form', () => import(/* webpackChunkName:"service-type-form" */ './components/service_types/ServiceTypeForm.vue'));
+Vue.component('service-type-show', () => import(/* webpackChunkName:"service-type-Show" */ './components/service_types/ServiceTypeShow.vue'));

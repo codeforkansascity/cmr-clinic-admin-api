@@ -13,7 +13,9 @@ class CleanUpConvictions extends Migration
      */
     public function up()
     {
-
+        Schema::table('convictions', function (Blueprint $table) {
+            $table->dropColumn('release_date_text');
+        });
     }
 
     /**
@@ -23,6 +25,9 @@ class CleanUpConvictions extends Migration
      */
     public function down()
     {
+        Schema::table('convictions', function (Blueprint $table) {
+            $table->string('release_date_text', 64)->nullable();
 
+              });
     }
 }

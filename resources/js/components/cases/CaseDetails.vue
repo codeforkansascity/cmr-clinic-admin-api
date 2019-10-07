@@ -70,14 +70,7 @@
         <div class="col-md-6">
 
 
-            <div class="form-group row mb-2 mb-md-0 text-only">
-                <label class="col-md-4 col-form-label text-md-right">
-                    Release Date Text
-                </label>
-                <div class="col-md-8">
-                    <dsp-text v-model="record.release_date_text"/>
-                </div>
-            </div>
+
             <div class="form-group row mb-2 mb-md-0 text-only">
                 <label class="col-md-4 col-form-label text-md-right">
                     Notes
