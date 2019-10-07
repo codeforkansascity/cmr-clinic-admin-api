@@ -17,9 +17,7 @@ class CreateAssignmentsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name',64)->nullable()->default('');
 
-            $table->unsignedBigInteger('client_id')->default(0);
             $table->unsignedBigInteger('user_id')->default(0);
-
 
             $table->integer('created_by')->default(0)->nullable();
             $table->integer('modified_by')->default(0)->nullable();

@@ -17,7 +17,6 @@ class CreateStepsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name',64)->nullable()->default('');
 
-            $table->unsignedBigInteger('client_id')->default(0);
             $table->unsignedBigInteger('status_id')->default(0);
 
 

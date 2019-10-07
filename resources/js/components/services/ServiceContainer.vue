@@ -26,6 +26,15 @@
             <template v-slot:body>
                 <std-form-group
 
+                        :errors="form_errors.service.service_type_id"
+                ><label class="font-weight-bold">Service Type</label>
+                    <select class="form-control" v-model="selectedService.service_type_id" :disabled="disableFields">
+                        <option value="">--Select--</option>
+                        <option v-for="type in serviceTypes" :value="type.id">{{type.name}}</option>
+                    </select>
+                </std-form-group>
+                <std-form-group
+
                     :errors="form_errors.name"
                 >
                     <label class="font-weight-bold">Attn Name</label>
@@ -90,15 +99,7 @@
                               :disabled="disableFields"
                     ></textarea>
                 </std-form-group>
-                <std-form-group
 
-                    :errors="form_errors.service.service_type_id"
-                ><label class="font-weight-bold">Service Type</label>
-                    <select class="form-control" v-model="selectedService.service_type_id" :disabled="disableFields">
-                        <option value="">--Select--</option>
-                        <option v-for="type in serviceTypes" :value="type.id">{{type.name}}</option>
-                    </select>
-                </std-form-group>
             </template>
             <template v-slot:footer>
                 <button class="btn btn-secondary float-left" @click.prevent="closeModal">Cancel</button>

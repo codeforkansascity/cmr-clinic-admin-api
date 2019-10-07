@@ -20,10 +20,11 @@
             <div class="col-lg-8 mb-2">
                 <form class="form-inline mb-0">
                     <a
+                        v-if="params.CanAdd"
                         href="#"
                         @click.default="goToNew"
                         class="btn btn-primary mb-3 mb-sm-2 mr-3"
-                        >Add</a
+                        >Add Service Type</a
                     >
                     <search-form-group
                         class="mb-0"
@@ -63,7 +64,9 @@
                         >
                             Name
                         </ss-grid-column-header>
-                        <th style="width:20%;" class="text-center">Actions</th>
+                        <th style="width:20%;" class="text-lg-center">
+                            Actions
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
