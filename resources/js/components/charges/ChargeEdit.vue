@@ -119,6 +119,19 @@
                             <fld-input name="sentence" v-model="record.sentence"/>
                         </std-form-group>
                     </div>
+                    <div class="col-md-12">
+                        <std-form-group
+                                label="Release Date"
+                                label-for="release_date"
+                                :errors="form_errors.release_date"
+                                :required="true"
+                        >
+                            <flat-pickr
+                                    v-model="record.release_date"
+                                    :config="config"
+                                    style="width: 10em"/>
+                        </std-form-group>
+                    </div>
 
 
                 </div>
@@ -187,6 +200,17 @@
             modelValue: {        // Need to define the v-model input value prop
                 type: Object,
             },
+            config: {
+                type: Object,
+                default: function () {
+                    return {
+                        altInput: true,
+                        altFormat: "m/d/Y",
+                        dateFormat: "Y-m-d",
+                        allowInput: true,
+                    }
+                },
+            }
         },
         data() {
             return {

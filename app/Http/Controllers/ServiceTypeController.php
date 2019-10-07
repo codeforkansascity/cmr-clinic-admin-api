@@ -55,13 +55,13 @@ class ServiceTypeController extends Controller
      * Permissions
      *
 
-             Permission::create(['name' => 'service_type index']);
-             Permission::create(['name' => 'service_type add']);
-             Permission::create(['name' => 'service_type update']);
-             Permission::create(['name' => 'service_type view']);
-             Permission::create(['name' => 'service_type destroy']);
-             Permission::create(['name' => 'service_type export-pdf']);
-             Permission::create(['name' => 'service_type export-excel']);
+             Permission::findOrCreate('service_type index');
+             Permission::findOrCreate('service_type view');
+             Permission::findOrCreate('service_type export-pdf');
+             Permission::findOrCreate('service_type export-excel');
+             Permission::findOrCreate('service_type add');
+             Permission::findOrCreate('service_type edit');
+             Permission::findOrCreate('service_type delete');
 
     */
 
@@ -106,7 +106,7 @@ class ServiceTypeController extends Controller
 
         if (!Auth::user()->can('service_type add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Service Types.');
-            if (Auth::user()->can('vc_vendor index')) {
+            if (Auth::user()->can('service_type index')) {
                 return Redirect::route('service-type.index');
             } else {
                 return Redirect::route('home');
@@ -136,7 +136,7 @@ class ServiceTypeController extends Controller
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Vc Vendor ' . $service_type->name . ' was added');
+        \Session::flash('flash_success_message', 'Service Types ' . $service_type->name . ' was added.');
 
         return response()->json([
             'message' => 'Added record'
@@ -155,7 +155,7 @@ class ServiceTypeController extends Controller
 
         if (!Auth::user()->can('service_type view')) {
             \Session::flash('flash_error_message', 'You do not have access to view a Service Types.');
-            if (Auth::user()->can('vc_vendor index')) {
+            if (Auth::user()->can('service_type index')) {
                 return Redirect::route('service-type.index');
             } else {
                 return Redirect::route('home');
@@ -164,7 +164,7 @@ class ServiceTypeController extends Controller
 
         if ($service_type = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('service_type edit');
-            $can_delete = Auth::user()->can('service_type delete');
+            $can_delete = (Auth::user()->can('service_type delete') && $service_type->canDelete());
             return view('service-type.show', compact('service_type','can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Service Types to display.');
@@ -182,7 +182,7 @@ class ServiceTypeController extends Controller
     {
         if (!Auth::user()->can('service_type edit')) {
             \Session::flash('flash_error_message', 'You do not have access to edit a Service Types.');
-            if (Auth::user()->can('vc_vendor index')) {
+            if (Auth::user()->can('service_type index')) {
                 return Redirect::route('service-type.index');
             } else {
                 return Redirect::route('home');
@@ -217,7 +217,7 @@ class ServiceTypeController extends Controller
 //        }
 
         if (!$service_type = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Service Types to edit');
+       //     \Session::flash('flash_error_message', 'Unable to find Service Types to edit.');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
@@ -235,9 +235,9 @@ class ServiceTypeController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Service Types ' . $service_type->name . ' was changed');
+            \Session::flash('flash_success_message', 'Service Types ' . $service_type->name . ' was changed.');
         } else {
-            \Session::flash('flash_info_message', 'No changes were made');
+            \Session::flash('flash_info_message', 'No changes were made.');
         }
 
         return response()->json([
@@ -274,9 +274,9 @@ class ServiceTypeController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Invitation for ' . $service_type->name . ' was removed.');
+            \Session::flash('flash_success_message', 'Service Types ' . $service_type->name . ' was removed.');
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Invite to delete.');
+            \Session::flash('flash_error_message', 'Unable to find Service Types to delete.');
 
         }
 
@@ -339,7 +339,7 @@ class ServiceTypeController extends Controller
         public function print()
 {
         if (!Auth::user()->can('service_type export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print Service Types');
+            \Session::flash('flash_error_message', 'You do not have access to print Service Types.');
             if (Auth::user()->can('service_type index')) {
                 return Redirect::route('service-type.index');
             } else {

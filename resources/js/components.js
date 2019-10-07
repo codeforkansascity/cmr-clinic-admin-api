@@ -1,18 +1,47 @@
+/*
+     SUPPORT FUNCTIONS
+ */
+
+import VuePassword from 'vue-password/dist/custom';
+
+/*
+     Application
+ */
+
 Vue.component('ss-grid-column-header', './components/SS/SsGridColumnHeader.vue');
 Vue.component('ss-grid-pagination', './components/SS/SsGridPagination.vue');
 Vue.component('ss-grid-pagination-location', './components/SS/SsPaginationLocation.vue');
 Vue.component('search-form-group', './components/SS/SearchFormGroup.vue');
 
-Vue.component('std-form-group', () => import(/* webpackChunkName:"std-form-group" */ './components/StdFormGroup.vue'));
+
+Vue.component('std-form-group', () => import(/* webpackChunkName:"std-form-group" */ './components/SS/StdFormGroup.vue'));
 
 /*
      UI
  */
 Vue.component('ui-field-view', require('./components/SS/UiFieldView.vue'));
 Vue.component('ui-select-pick-one', require('./components/SS/UiSelectPickOne.vue'));
+Vue.component('ui-pick-roles', () => import(/* webpackChunkName:"ui-pick-roles" */ './components/SS/UiPickRoles.vue'));
 
-Vue.component('std-form-group', () => import(/* webpackChunkName:"std-form-group" */ './components/SS/StdFormGroup.vue'));
 Vue.component('fld-input', () => import(/* webpackChunkName:"fld-input" */ './components/SS/FldInput.vue'));
+
+/*
+    User Invite
+ */
+Vue.component('create-password-form', () => import(/* webpackChunkName:"create-password-form" */ './components/invite/CreatePasswordForm.vue'));
+//Vue.component('invite-grid',       require('./components/InviteGrid.vue'));    // May need to add .default);
+Vue.component('invite-grid', () => import(/* webpackChunkName:"invite-grid" */ './components/InviteGrid.vue'));
+
+/*
+    Change Password
+ */
+Vue.component('change-password-form', () => import(/* webpackChunkName:"change-password-form" */ './components/change-password/ChangePasswordForm.vue'));
+
+Vue.component('role-grid', () => import(/* webpackChunkName:"role-grid" */ './components/RoleGrid.vue'));
+
+
+// Password strength library
+Vue.component('VuePassword', () => import('vue-password'));
 
 // CKEditor
 import CKEditor from '@ckeditor/ckeditor5-vue';
@@ -86,15 +115,25 @@ Vue.component('comment-grid', () => import(/* webpackChunkName:"comment-grid" */
 Vue.component('comment-form', () => import(/* webpackChunkName:"comment-form" */ './components/comments/CommentForm.vue'));
 Vue.component('comment-show', () => import(/* webpackChunkName:"comment-Show" */ './components/comments/CommentShow.vue'));
 
+//Vue.component('user-grid',       require('./components/UserGrid.vue'));    // May need to add .default);
+//Vue.component('user-form',       require('./components/UserForm.vue'));    // May need to add .default);
+Vue.component('user-grid', () => import(/* webpackChunkName:"user-grid" */ './components/User/UserGrid.vue'));
+Vue.component('user-form', () => import(/* webpackChunkName:"user-form" */ './components/User/UserForm.vue'));
+Vue.component('user-show', () => import(/* webpackChunkName:"user-Show" */ './components/User/UserShow.vue'));
+
+//Vue.component('role-description-grid',       require('./components/RoleDescriptionGrid.vue'));    // May need to add .default);
+//Vue.component('role-description-form',       require('./components/RoleDescriptionForm.vue'));    // May need to add .default);
+Vue.component('role-description-grid', () => import(/* webpackChunkName:"role-description-grid" */ './components/RoleDescription/RoleDescriptionGrid.vue'));
+Vue.component('role-description-form', () => import(/* webpackChunkName:"role-description-form" */ './components/RoleDescription/RoleDescriptionForm.vue'));
+Vue.component('role-description-show', () => import(/* webpackChunkName:"role-description-Show" */ './components/RoleDescription/RoleDescriptionShow.vue'));
 
 
-//Vue.component('service-type-grid',       require('./components/ServiceTypeGrid.vue'));    // May need to add .default);
-//Vue.component('service-type-form',       require('./components/ServiceTypeForm.vue'));    // May need to add .default);
-Vue.component('service-type-grid', () => import(/* webpackChunkName:"service-type-grid" */ './components/service-types/ServiceTypeGrid.vue'));
-Vue.component('service-type-form', () => import(/* webpackChunkName:"service-type-form" */ './components/service-types/ServiceTypeForm.vue'));
-Vue.component('service-type-show', () => import(/* webpackChunkName:"service-type-Show" */ './components/service-types/ServiceTypeShow.vue'));
 //Vue.component('service-grid',       require('./components/ServiceGrid.vue'));    // May need to add .default);
 //Vue.component('service-form',       require('./components/ServiceForm.vue'));    // May need to add .default);
 Vue.component('service-grid', () => import(/* webpackChunkName:"service-grid" */ './components/services/ServiceGrid.vue'));
 Vue.component('service-form', () => import(/* webpackChunkName:"service-form" */ './components/services/ServiceForm.vue'));
 Vue.component('service-show', () => import(/* webpackChunkName:"service-Show" */ './components/services/ServiceShow.vue'));
+
+Vue.component('service-type-grid', () => import(/* webpackChunkName:"service-type-grid" */ './components/service_types/ServiceTypeGrid.vue'));
+Vue.component('service-type-form', () => import(/* webpackChunkName:"service-type-form" */ './components/service_types/ServiceTypeForm.vue'));
+Vue.component('service-type-show', () => import(/* webpackChunkName:"service-type-Show" */ './components/service_types/ServiceTypeShow.vue'));
