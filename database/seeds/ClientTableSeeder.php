@@ -180,8 +180,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '2',
                 'conviction_id' => '3',
-                'charge' => 'Assault On Law Enforcement Officer - 2nd Degree',
-                'citation' => '565.082',
+                'imported_statute_name' => 'Assault On Law Enforcement Officer - 2nd Degree',
+                'imported_statute_number' => '565.082',
                 'conviction_class_type' => 'B',
                 'conviction_charge_type' => 'felony',
                 'sentence' => 'Min',
@@ -199,8 +199,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '3',
                 'conviction_id' => '3',
-                'charge' => 'Trafficking In Drugs In The Second Degree',
-                'citation' => '195.223',
+                'imported_statute_name' => 'Trafficking In Drugs In The Second Degree',
+                'imported_statute_number' => '195.223',
                 'conviction_class_type' => 'B',
                 'conviction_charge_type' => 'felony',
                 'sentence' => 'Min',
@@ -218,8 +218,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '4',
                 'conviction_id' => '3',
-                'charge' => 'Resisting/Interfering with an Arrest, Detention, or Stop',
-                'citation' => '575.150',
+                'imported_statute_name' => 'Resisting/Interfering with an Arrest, Detention, or Stop',
+                'imported_statute_number' => '575.150',
                 'conviction_class_type' => 'A',
                 'conviction_charge_type' => 'misdemeanor',
                 'sentence' => 'Min',
@@ -237,8 +237,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '5',
                 'conviction_id' => '5',
-                'charge' => 'Exceeded Posted Speed Limit (Exceeded By 11-15 Mph)',
-                'citation' => '304.010',
+                'imported_statute_name' => 'Exceeded Posted Speed Limit (Exceeded By 11-15 Mph)',
+                'imported_statute_number' => '304.010',
                 'conviction_class_type' => 'C',
                 'conviction_charge_type' => 'Misdemeanor',
                 'sentence' => 'Fine ($51.50) & Costs',
@@ -256,8 +256,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '6',
                 'conviction_id' => '4',
-                'charge' => 'Assault On Law Enforcement Officer - 2nd Degree',
-                'citation' => '565.082',
+                'imported_statute_name' => 'Assault On Law Enforcement Officer - 2nd Degree',
+                'imported_statute_number' => '565.082',
                 'conviction_class_type' => 'B',
                 'conviction_charge_type' => 'Felony',
                 'sentence' => '7Years',
@@ -275,8 +275,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '7',
                 'conviction_id' => '4',
-                'charge' => 'Trafficking In Drugs In The Second Degree',
-                'citation' => '195.223',
+                'imported_statute_name' => 'Trafficking In Drugs In The Second Degree',
+                'imported_statute_number' => '195.223',
                 'conviction_class_type' => 'B',
                 'conviction_charge_type' => 'Felony',
                 'sentence' => '5Years',
@@ -295,8 +295,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '8',
                 'conviction_id' => '4',
-                'charge' => 'Resisting/Interfering With Arrest, Detention Or Stop',
-                'citation' => '575.150',
+                'imported_statute_name' => 'Resisting/Interfering With Arrest, Detention Or Stop',
+                'imported_statute_number' => '575.150',
                 'conviction_class_type' => 'A',
                 'conviction_charge_type' => 'Misdemeanor',
                 'sentence' => '1Year',
@@ -315,8 +315,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '9',
                 'conviction_id' => '6',
-                'charge' => 'STATE LIC PLATE REQUIRED',
-                'citation' => '96022060',
+                'imported_statute_name' => 'STATE LIC PLATE REQUIRED',
+                'imported_statute_number' => '96022060',
                 'conviction_class_type' => NULL,
                 'conviction_charge_type' => NULL,
                 'sentence' => '$72.50 in fees and fines',
@@ -347,7 +347,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
         dump("Inserted Clients in ". round(microtime(1) - $start, 2). ' seconds');
 
         $start = microtime(1);
-        $index = Conviction::max('id')+1;
+        $index = (Conviction::max('id') ?? 1)+1;
+
         $charges = collect($clients)->each(function ($client) use (&$index){
             $convictions = factory(\App\Conviction::class, rand(1, 5))
                 ->make(['client_id' => $client['id']])
@@ -355,8 +356,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                     $conviction['id'] = $index++;
                     return $conviction;
                 });
-            $this->convictions = array_merge($convictions->toArray(), $this->convictions);
 
+            $this->convictions = array_merge($convictions->toArray(), $this->convictions);
             $convictions->each(function ($conviction) {
                 $number_of_charges = rand(0, 4);
                 if ($number_of_charges > 0) {

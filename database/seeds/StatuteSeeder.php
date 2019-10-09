@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class StatuteSeeder extends Seeder
 {
@@ -16,7 +17,9 @@ class StatuteSeeder extends Seeder
         $eligible_file = base_path('/doc/LIST OF CRIMES ELIGIBLE FOR EXPUNGEMENT.docx');
         $ineligible_file = base_path('/doc/LIST OF CRIMES not eligible for expungement.docx');
 
+        DB::unprepared('set FOREIGN_KEY_CHECKS=0');
         \App\Statute::truncate();
+        DB::unprepared('set FOREIGN_KEY_CHECKS=1');
 
         $eligibles = (new \App\Lib\ParseCrimes)($eligible_file);
 
