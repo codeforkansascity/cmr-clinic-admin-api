@@ -58,28 +58,28 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-12">
                         <std-form-group
                                 label="Citation"
                                 label-for="citation"
-                                :errors="form_errors.citation"
+                                :errors="form_errors.imported_statute_number"
                         >
                             <fld-statute
-                                v-model="record.citation"
+                                v-model="record.statute_id"
                                 @selected="statuteSelected"
                             ></fld-statute>
                         </std-form-group>
                     </div>
 
-                    <div class="col-md-10">
-                        <std-form-group
-                                label="Charge"
-                                label-for="charge"
-                                :errors="form_errors.charge"
-                        >
-                            <fld-input name="charge" v-model="record.charge"/>
-                        </std-form-group>
-                    </div>
+<!--                    <div class="col-md-10">-->
+<!--                        <std-form-group-->
+<!--                                label="Charge"-->
+<!--                                label-for="charge"-->
+<!--                                :errors="form_errors.imported_statute_name"-->
+<!--                        >-->
+<!--                            <fld-input name="charge" v-model="record.imported_statute_name"/>-->
+<!--                        </std-form-group>-->
+<!--                    </div>-->
 
                 </div>
 

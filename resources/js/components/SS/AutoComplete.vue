@@ -24,7 +24,7 @@ create: if the create option is used this will return the value of the input fie
 */
 
 <template>
-    <div class="dropdown" style="position: relative;" >
+    <div class="dropdown" id="dropdown" style="position: relative;" >
         <input class="form-control"
                type="text"
                :value="value"
@@ -35,8 +35,9 @@ create: if the create option is used this will return the value of the input fie
                @keydown.up = 'up'
                @keydown.esc="toggleDropdown"
                :disabled="disabled"
+               @blur="handleBlur"
         >
-        <ul class="search-box dropdown-content" v-if="open">
+        <ul class="search-box dropdown-content" v-if="open" >
             <li v-for="(result, index) in matches"
                 v-bind:class="{'active': isActive(index), 'selected-result': current === index}"
                 class="search-result"
@@ -66,7 +67,7 @@ create: if the create option is used this will return the value of the input fie
         props: {
 
             value: {
-                type: String,
+                // type: String,
                 required: true
             },
 
@@ -105,6 +106,10 @@ create: if the create option is used this will return the value of the input fie
             disabled: {
                 type: Boolean,
                 default: false,
+            },
+            searchableFields: {
+                type: String,
+                default: ''
             }
 
         },
@@ -122,7 +127,18 @@ create: if the create option is used this will return the value of the input fie
             // Filtering the result based on the input
             matches () {
                 let matches = this.data.filter((obj) => {
-                    return this.getValue(obj).indexOf(this.value) >= 0
+                    if(this.searchableFields) {
+                        let match = false
+                        let searchFields = this.searchableFields.split(',')
+                        for(let field in searchFields) {
+                            console.log(obj[ searchFields[field]] )
+                            match = obj[searchFields[field]].toLowerCase().indexOf(this.value.toLowerCase()) >= 0 ? true: match
+                        }
+                        return match
+                    } else {
+                        return this.getValue(obj).indexOf(this.value) >= 0
+
+                    }
                 })
                 if(matches.length > this.maxResults) {
                     matches.length = this.maxResults
@@ -239,7 +255,12 @@ create: if the create option is used this will return the value of the input fie
             closeDropdown() {
                 this.open = false
             },
-
+            handleBlur(e) {
+                this.$emit('blur', e,)
+                if(e.target.parentElement.id !== 'dropdown') {
+                    this.closeDropdown()
+                }
+            }
         }
 
     }
