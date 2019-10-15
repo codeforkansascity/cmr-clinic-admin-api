@@ -57,18 +57,21 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row pb-3">
                     <div class="col-md-12">
-                        <std-form-group
-                                label="Statute"
-                                label-for="statute"
-                                :errors="[record.imported_statute]"
-                        >
-                            <fld-statute
-                                v-model="record.statute_id"
-                                @selected="statuteSelected"
-                            ></fld-statute>
-                        </std-form-group>
+                        <label class="form-control-label">
+                            Statute
+                        </label>
+                        <div class="alert alert-danger w-75" role="alert" v-if="record.imported_statute">
+                            Imported Statute: {{ record.imported_statute }}
+                            <button type="button" class="close" @click="record.imported_statute = null">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <fld-statute
+                            v-model="record.statute_id"
+                            @input="statuteSelected"
+                        ></fld-statute>
                     </div>
                 </div>
 
@@ -252,6 +255,8 @@
                 this.processing = true;
                 let url = "";
                 let amethod = "";
+
+
                 if (this.record.id) {
                     url = "/charge/" + this.record.id;
                     amethod = "put";
@@ -357,8 +362,8 @@
                     })
             },
             statuteSelected(statute) {
-                this.record.charge = statute.name;
-                this.record.eligible = statute.statutes_eligibility_id
+                console.log('selected')
+                this.record.imported_statute = null
             }
         }
     };

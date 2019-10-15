@@ -116,13 +116,6 @@
                 this.selected = false
                 this.$emit('input', v)
             },
-            // clear(e) {
-            //     console.log('blur')
-            //     if (!this.selected && e.target !== 'input.form-control') {
-            //         console.log('delete')
-            //         this.$emit('input', '')
-            //     }
-            // },
             getData(id = null) {
 
                 let $this = this
