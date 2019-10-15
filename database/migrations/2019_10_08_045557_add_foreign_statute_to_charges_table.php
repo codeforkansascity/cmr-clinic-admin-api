@@ -14,8 +14,9 @@ class AddForeignStatuteToChargesTable extends Migration
     public function up()
     {
         Schema::table('charges', function (Blueprint $table) {
-            $table->renameColumn('charge', 'imported_statute_name');
-            $table->renameColumn('citation', 'imported_statute_number');
+            $table->string('charge', 400)->nullable()->change();
+            $table->renameColumn('charge', 'imported_statute');
+            $table->dropColumn('citation');
 
             $table->foreign('statute_id')
                 ->references('id')->on('statutes')->onDelete('set null');

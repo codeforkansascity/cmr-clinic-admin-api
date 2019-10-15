@@ -97,14 +97,12 @@
                 this.$emit('selected', v)
             },
             createStatute() {
-                console.log('create statute')
                 let $this = this
                 axios.post('/statute', {
                     statutes_eligibility_id: this.newStatute.statutes_eligibility_id,
                     name: this.newStatute.name,
                     number: this.newStatute.number
                 }).then(res => {
-                    console.log(res.data)
                     $this.newStatute = {}
                     $this.selectedStatute = res.data
                     $this.updateStatute($this.selectedStatute.id)
@@ -118,13 +116,13 @@
                 this.selected = false
                 this.$emit('input', v)
             },
-            clear(e) {
-                console.log('blur')
-                if (!this.selected && e.target !== 'input.form-control') {
-                    console.log('delete')
-                    this.$emit('input', '')
-                }
-            },
+            // clear(e) {
+            //     console.log('blur')
+            //     if (!this.selected && e.target !== 'input.form-control') {
+            //         console.log('delete')
+            //         this.$emit('input', '')
+            //     }
+            // },
             getData(id = null) {
 
                 let $this = this

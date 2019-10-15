@@ -180,8 +180,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '2',
                 'conviction_id' => '3',
-                'imported_statute_name' => 'Assault On Law Enforcement Officer - 2nd Degree',
-                'imported_statute_number' => '565.082',
+                'imported_statute' => '565.082 Assault On Law Enforcement Officer - 2nd Degree',
                 'conviction_class_type' => 'B',
                 'conviction_charge_type' => 'felony',
                 'sentence' => 'Min',
@@ -199,8 +198,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '3',
                 'conviction_id' => '3',
-                'imported_statute_name' => 'Trafficking In Drugs In The Second Degree',
-                'imported_statute_number' => '195.223',
+                'imported_statute' => '195.223 Trafficking In Drugs In The Second Degree',
                 'conviction_class_type' => 'B',
                 'conviction_charge_type' => 'felony',
                 'sentence' => 'Min',
@@ -218,8 +216,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '4',
                 'conviction_id' => '3',
-                'imported_statute_name' => 'Resisting/Interfering with an Arrest, Detention, or Stop',
-                'imported_statute_number' => '575.150',
+                'imported_statute' => '575.150 Resisting/Interfering with an Arrest, Detention, or Stop',
                 'conviction_class_type' => 'A',
                 'conviction_charge_type' => 'misdemeanor',
                 'sentence' => 'Min',
@@ -237,8 +234,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '5',
                 'conviction_id' => '5',
-                'imported_statute_name' => 'Exceeded Posted Speed Limit (Exceeded By 11-15 Mph)',
-                'imported_statute_number' => '304.010',
+                'imported_statute_name' => '304.010 Exceeded Posted Speed Limit (Exceeded By 11-15 Mph)',
                 'conviction_class_type' => 'C',
                 'conviction_charge_type' => 'Misdemeanor',
                 'sentence' => 'Fine ($51.50) & Costs',
@@ -256,8 +252,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '6',
                 'conviction_id' => '4',
-                'imported_statute_name' => 'Assault On Law Enforcement Officer - 2nd Degree',
-                'imported_statute_number' => '565.082',
+                'imported_statute_name' => '565.082 Assault On Law Enforcement Officer - 2nd Degree',
                 'conviction_class_type' => 'B',
                 'conviction_charge_type' => 'Felony',
                 'sentence' => '7Years',
@@ -275,8 +270,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '7',
                 'conviction_id' => '4',
-                'imported_statute_name' => 'Trafficking In Drugs In The Second Degree',
-                'imported_statute_number' => '195.223',
+                'imported_statute' => '195.223 Trafficking In Drugs In The Second Degree',
                 'conviction_class_type' => 'B',
                 'conviction_charge_type' => 'Felony',
                 'sentence' => '5Years',
@@ -295,10 +289,10 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '8',
                 'conviction_id' => '4',
-                'imported_statute_name' => 'Resisting/Interfering With Arrest, Detention Or Stop',
-                'imported_statute_number' => '575.150',
                 'conviction_class_type' => 'A',
                 'conviction_charge_type' => 'Misdemeanor',
+                'imported_statute' => '195.223 Trafficking In Drugs In The Second Degree',
+
                 'sentence' => '1Year',
                 'convicted' => '1',
                 'eligible' => '0',
@@ -315,11 +309,11 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '9',
                 'conviction_id' => '6',
-                'imported_statute_name' => 'STATE LIC PLATE REQUIRED',
-                'imported_statute_number' => '96022060',
                 'conviction_class_type' => NULL,
                 'conviction_charge_type' => NULL,
                 'sentence' => '$72.50 in fees and fines',
+                'imported_statute' => '195.223 Trafficking In Drugs In The Second Degree',
+
                 'convicted' => '1',
                 'eligible' => '0',
                 'please_expunge' => '0',
