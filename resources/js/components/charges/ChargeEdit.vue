@@ -62,7 +62,7 @@
                         <std-form-group
                                 label="Statute"
                                 label-for="statute"
-                                :errors="record.imported_statute"
+                                :errors="[record.imported_statute]"
                         >
                             <fld-statute
                                 v-model="record.statute_id"
