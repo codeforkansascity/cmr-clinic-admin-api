@@ -104,11 +104,12 @@
                     name: this.newStatute.name,
                     number: this.newStatute.number
                 }).then(res => {
-                    console.log(res)
-                    $this.statuteSelected($this.newStatute)
-                    $this.updateStatute($this.newStatute.number)
+                    console.log(res.data)
+                    $this.newStatute = {}
+                    $this.selectedStatute = res.data
+                    $this.updateStatute($this.selectedStatute.id)
                     $this.showModal = false
-                    $this.$refs.autocomplete.getData()
+                    $this.getData($this.selectedStatute.id)
                 }).catch(e => {
                     console.error(e)
                 })
@@ -138,7 +139,6 @@
                                 for(let i in this.data) {
                                     if(this.data[i].id === this.value) {
                                         this.selectedStatute = this.data[i]
-                                        console.log(this.value, this.selectedStatute, this.data)
                                     }
                                 }
 
@@ -155,7 +155,13 @@
                 })
             },
             onSelect(e) {
-                console.log(e)
+                this.selectedStatute = e
+                let newId = null
+                if(this.selectedStatute) {
+                    newId = this.selectedStatute.id
+                }
+
+                this.$emit('input', newId)
             }
         }
     }

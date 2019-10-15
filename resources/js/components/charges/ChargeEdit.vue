@@ -60,9 +60,9 @@
                 <div class="row">
                     <div class="col-md-12">
                         <std-form-group
-                                label="Citation"
-                                label-for="citation"
-                                :errors="form_errors.imported_statute_number"
+                                label="Statute"
+                                label-for="statute"
+                                :errors="form_errors.imported_statute"
                         >
                             <fld-statute
                                 v-model="record.statute_id"
@@ -70,17 +70,6 @@
                             ></fld-statute>
                         </std-form-group>
                     </div>
-
-<!--                    <div class="col-md-10">-->
-<!--                        <std-form-group-->
-<!--                                label="Charge"-->
-<!--                                label-for="charge"-->
-<!--                                :errors="form_errors.imported_statute_name"-->
-<!--                        >-->
-<!--                            <fld-input name="charge" v-model="record.imported_statute_name"/>-->
-<!--                        </std-form-group>-->
-<!--                    </div>-->
-
                 </div>
 
 

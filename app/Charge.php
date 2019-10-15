@@ -33,6 +33,7 @@ class Charge extends Model
         'please_expunge',
         'please_print',
         'notes',
+        'statute_id',
         'created_by',
         'modified_by',
         'purged_by'
@@ -42,6 +43,17 @@ class Charge extends Model
     {
         return $this->morphMany(History::class, 'historyable');
     }
+
+    public function statute()
+    {
+        return $this->belongsTo(Statute::class);
+    }
+
+    public function conviction()
+    {
+        return $this->belongsTo(Conviction::class);
+    }
+
 
     public function add($attributes)
     {
