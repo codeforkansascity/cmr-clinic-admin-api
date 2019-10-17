@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class);
         $this->call(OauthPersonalAccessClientsTableSeeder::class);
         $this->call(OauthClientsTableSeeder::class);
-        $this->call(ClientTableSeeder::class);
         $this->call([StatuteSeeder::class, ServiceSeeder::class]);
+        $this->call(ClientTableSeeder::class);
 
         $total = round(microtime(1) -$start, 2);
         dump("Total seed time $total seconds");

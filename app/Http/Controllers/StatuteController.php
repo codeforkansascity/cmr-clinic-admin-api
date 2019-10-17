@@ -123,22 +123,14 @@ class StatuteController extends Controller
     public function store(StatuteFormRequest $request)
     {
 
-        $statute = new \App\Statute;
+        $statute = Statute::create($request->only([
+            'number',
+            'name',
+            'note',
+            'statutes_eligibility_id'
+        ]));
 
-        try {
-            $statute->add($request->validated());
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Unable to process request' . $e->getMessage()
-            ], 400);
-        }
-
-        \Session::flash('flash_success_message', 'Vc Vendor ' . $statute->name . ' was added');
-
-        return response()->json([
-            'message' => 'Added record'
-        ], 200);
-
+        return response()->json($statute, 200);
     }
 
     /**
