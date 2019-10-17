@@ -22,6 +22,11 @@ window.Vue = require('vue');
 */
 Vue.prototype.$bus = new Vue();
 
+import vSelect from 'vue-select'
+
+Vue.component('v-select', vSelect)
+
+
 
 /**
  * The following block of code may be used to automatically register your
