@@ -20,7 +20,6 @@ class ClientTableSeeder extends Seeder
 
 
         $faker = Faker::create();
-print "XXXXX\n";
         $client = \App\Client::create([
             'id' => '2',
             'name' => 'Teresa Lee Kuvalis',
@@ -58,8 +57,6 @@ print "XXXXX\n";
             'notes' => 'Check on parole release date.  If 2011 (per client), ready for expungement.  If 2013 (per records), wait 1 year on felony traficking. Assault on LEO not eligible',
 
         ]);
-
-        print "XXXXX\n";
 
         dump('creating convictions for '.$client->name);
         $convictions = [
@@ -180,7 +177,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '2',
                 'conviction_id' => '3',
-                'imported_statute' => '565.082 Assault On Law Enforcement Officer - 2nd Degree',
+                'imported_citation' => '565.082',
+                'imported_statute' => 'Assault On Law Enforcement Officer - 2nd Degree',
                 'conviction_class_type' => 'B',
                 'conviction_charge_type' => 'felony',
                 'sentence' => 'Min',
@@ -198,7 +196,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '3',
                 'conviction_id' => '3',
-                'imported_statute' => '195.223 Trafficking In Drugs In The Second Degree',
+                'imported_citation' => '195.223',
+                'imported_statute' => 'Trafficking In Drugs In The Second Degree',
                 'conviction_class_type' => 'B',
                 'conviction_charge_type' => 'felony',
                 'sentence' => 'Min',
@@ -216,7 +215,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '4',
                 'conviction_id' => '3',
-                'imported_statute' => '575.150 Resisting/Interfering with an Arrest, Detention, or Stop',
+                'imported_citation' => '575.150',
+                'imported_statute' => 'Resisting/Interfering with an Arrest, Detention, or Stop',
                 'conviction_class_type' => 'A',
                 'conviction_charge_type' => 'misdemeanor',
                 'sentence' => 'Min',
@@ -234,7 +234,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '5',
                 'conviction_id' => '5',
-                'imported_statute_name' => '304.010 Exceeded Posted Speed Limit (Exceeded By 11-15 Mph)',
+                'imported_citation' => '304.010',
+                'imported_statute' => 'Exceeded Posted Speed Limit (Exceeded By 11-15 Mph)',
                 'conviction_class_type' => 'C',
                 'conviction_charge_type' => 'Misdemeanor',
                 'sentence' => 'Fine ($51.50) & Costs',
@@ -252,7 +253,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '6',
                 'conviction_id' => '4',
-                'imported_statute_name' => '565.082 Assault On Law Enforcement Officer - 2nd Degree',
+                'imported_citation' => '565.082',
+                'imported_statute' => 'Assault On Law Enforcement Officer - 2nd Degree',
                 'conviction_class_type' => 'B',
                 'conviction_charge_type' => 'Felony',
                 'sentence' => '7Years',
@@ -270,7 +272,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '7',
                 'conviction_id' => '4',
-                'imported_statute' => '195.223 Trafficking In Drugs In The Second Degree',
+                'imported_citation' => '195.223',
+                'imported_statute' => 'Trafficking In Drugs In The Second Degree',
                 'conviction_class_type' => 'B',
                 'conviction_charge_type' => 'Felony',
                 'sentence' => '5Years',
@@ -291,8 +294,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'conviction_id' => '4',
                 'conviction_class_type' => 'A',
                 'conviction_charge_type' => 'Misdemeanor',
-                'imported_statute' => '195.223 Trafficking In Drugs In The Second Degree',
-
+                'imported_citation' => '195.223',
+                'imported_statute' => 'Trafficking In Drugs In The Second Degree',
                 'sentence' => '1Year',
                 'convicted' => '1',
                 'eligible' => '0',
@@ -312,8 +315,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'conviction_class_type' => NULL,
                 'conviction_charge_type' => NULL,
                 'sentence' => '$72.50 in fees and fines',
-                'imported_statute' => '195.223 Trafficking In Drugs In The Second Degree',
-
+                'imported_citation' => '195.223',
+                'imported_statute' => 'Trafficking In Drugs In The Second Degree',
                 'convicted' => '1',
                 'eligible' => '0',
                 'please_expunge' => '0',
