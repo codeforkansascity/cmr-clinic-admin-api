@@ -49,11 +49,11 @@ Example usage:
                 charge_types: [
                     {
                         "name": "Felony",
-                        "abbreviation": "felony"
+                        "abbreviation": "Felony"
                     },
                     {
                         "name": "Misdemeanor",
-                        "abbreviation": "misdemeanor"
+                        "abbreviation": "Misdemeanor"
                     },
                     {
                         "name": "Infraction",

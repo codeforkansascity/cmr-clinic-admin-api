@@ -16,10 +16,12 @@ class Statute extends Model
     CONST ELIGIBLE = '1';
     CONST INELIGIBLE = '2';
     CONST POSSIBLY = '3';
+    CONST UNDETERMINED = '4';
     const ELIGIBLITY_STATUSES = [
         self::ELIGIBLE,
         self::INELIGIBLE,
         self::POSSIBLY,
+        self::UNDETERMINED,
     ];
 
     /**
@@ -43,6 +45,16 @@ class Statute extends Model
         'updated_at',
     ];
 
+    public function charge()
+    {
+        return $this->hasMany(Charge::class);
+    }
+
+    public function statutes_eligibility() {
+        return $this->belongsTo(StatutesEligibility::class);
+    }
+
+
     public function comments()
     {
         return $this->morphMany(Comment::class, 'comments');
@@ -58,10 +70,11 @@ class Statute extends Model
 
     public function saveHistory($request)
     {
+
         $this->histories()->create([
             'old' => collect($this->getOriginal())->only($this->fillable),
             'new' => $request->only($this->fillable),
-            'user_id' => auth()->user()->id,
+            'user_id' => auth()->user() ? auth()->user()->id : 0,
             'reason_for_change' => $request->reason_for_change ?? null,
         ]);
     }
@@ -82,9 +95,20 @@ class Statute extends Model
         return true;
     }
 
+    public function getCharges($id) {
+        $recs = \App\Charge::with(['conviction:id,case_number,name,client_id','conviction.client:id,name'])->where('statute_id', $id)->get();
+        info(print_r($recs->toArray(),true));
+        return $recs;
+
+    }
+
     public function canDelete()
     {
-        return true;
+
+        $count = \App\Charge::select('id')->whereNotNull('statute_id')->count();
+        info(__METHOD__ . " count=$count|");
+        return !$count;
+
     }
 
 

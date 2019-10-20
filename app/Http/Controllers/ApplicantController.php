@@ -310,6 +310,7 @@ class ApplicantController extends Controller
                 $q->with('service_type');
             },
             'conviction.charge',
+            'conviction.charge.statute',
             'assignment',
             'step',
         ])->find(intval($id));

@@ -1,11 +1,12 @@
 <template>
     <div class="row">
 
-        <div class="col-md-6">
-            <h4>{{ record.name }}, {{ record.arrest_date }}</h4>
-        </div>
-        <div class="col-md-3">
+
+        <div class="col-md-4">
             <h4> {{ record.case_number }}, {{ record.agency }}</h4>
+        </div>
+        <div class="col-md-5">
+            <h4>{{ record.name }}, {{ record.arrest_date }}</h4>
         </div>
         <div class="col-md-2">
             <h4>

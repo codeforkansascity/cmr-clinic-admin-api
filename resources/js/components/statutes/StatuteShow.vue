@@ -1,61 +1,76 @@
 <template>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group row mb-2 mb-md-0 text-only">
-                <label class="col-md-4 col-form-label text-md-right">
-                    Number
-                </label>
-                <div class="col-md-8">
-                    <dsp-text v-model="record.number" />
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group row mb-2 mb-md-0 text-only">
+                    <label class="col-md-4 col-form-label text-md-right">
+                        Number
+                    </label>
+                    <div class="col-md-8">
+                        <dsp-text v-model="record.number"/>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row mb-2 mb-md-0 text-only">
-                <label class="col-md-4 col-form-label text-md-right">
-                    Name
-                </label>
-                <div class="col-md-8">
-                    <dsp-text v-model="record.name" />
+                <div class="form-group row mb-2 mb-md-0 text-only">
+                    <label class="col-md-4 col-form-label text-md-right">
+                        Name
+                    </label>
+                    <div class="col-md-8">
+                        <dsp-text v-model="record.name"/>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row mb-2 mb-md-0 text-only">
-                <label class="col-md-4 col-form-label text-md-right">
-                    Note
-                </label>
-                <div class="col-md-8">
-                    <dsp-textarea v-model="record.note" />
+                <div class="form-group row mb-2 mb-md-0 text-only">
+                    <label class="col-md-4 col-form-label text-md-right">
+                        Eligible
+                    </label>
+                    <div class="col-md-8">
+                        <dsp-text v-model="record.statutes_eligibility.name"/>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row mb-2 mb-md-0 text-only">
-                <label class="col-md-4 col-form-label text-md-right">
-                    Eligible
-                </label>
-                <div class="col-md-8">
-                    <dsp-text v-model="record.eligible" />
+                <div class="form-group row mb-2 mb-md-0 text-only">
+                    <label class="col-md-4 col-form-label text-md-right">
+                        Note
+                    </label>
+                    <div class="col-md-8">
+                        <dsp-textarea v-model="record.note"/>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row mb-2 mb-md-0 text-only">
-                <label class="col-md-4 col-form-label text-md-right">
-                    Deleted At
-                </label>
-                <div class="col-md-8">
-                    <dsp-text v-model="record.deleted_at" />
-                </div>
+
             </div>
         </div>
-        <div class="col-md-6">
-            test
+        <div class="row">
+            <div class="col-md-12">
+                <h5>Used in</h5>
+                <table class="table">
+                    <tr v-for="row in charges" :key="row.id">
+                        <td>
+                            {{ row.conviction.client.name }}
+                        </td>
+                        <td>
+                            {{ row.conviction.case_number }}
+                        </td>
+                        <td>
+                            {{ row.conviction_charge_type}}
+                            {{ row.conviction_class_type}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-export default {
-    name: "statute-show",
-    props: {
-        record: {
-            type: [Boolean, Object],
-            default: false
+    export default {
+        name: "statute-show",
+        props: {
+            record: {
+                type: [Boolean, Object],
+                default: false
+            },
+            charges: {
+                type: [Boolean, Object],
+                default: false
+            }
         }
-    }
-};
+    };
 </script>

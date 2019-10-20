@@ -2,8 +2,13 @@
     <div style="margin-bottom: 1em">
         <div class="row">
 
-            <div class="col-md-6">
-                <h5>{{ record.citation }} {{ record.charge }} </h5>
+            <div class="col-md-7">
+                <h5 v-if="record.statute">
+                    {{ record.statute.number }} {{ record.statute.name }}
+                </h5>
+                <h5 v-else>
+                    *** {{ record.imported_citation }} {{ record.imported_statute }} ***
+                </h5>
             </div>
             <div class="col-md-2">
                 <h5>
@@ -12,7 +17,7 @@
                 </h5>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 {{ is_convicted }} {{ is_eligible}} {{ is_please_expunge }}
             </div>
 
@@ -68,14 +73,6 @@
                     </label>
                     <div class="col-md-8">
                         <dsp-text v-model="record.please_expunge"/>
-                    </div>
-                </div>
-                <div class="form-group row mb-2 mb-md-0 text-only">
-                    <label class="col-md-4 col-form-label text-md-right">
-                        Release Date
-                    </label>
-                    <div class="col-md-8">
-                        <dsp-text v-model="moment(String(record.release_date)).format('MM/DD/YYYY')"/>
                     </div>
                 </div>
             </div>

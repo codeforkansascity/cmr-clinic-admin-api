@@ -62,8 +62,8 @@
                         <label class="form-control-label">
                             Statute
                         </label>
-                        <div class="alert alert-danger w-75" role="alert" v-if="record.imported_statute">
-                            Imported Statute: {{ record.imported_statute }}
+                        <div class="alert alert-danger w-75" role="alert" v-if="!record.statute_id">
+                            Imported Statute: {{ record.imported_citation }} {{ record.imported_statute }}
                             <button type="button" class="close" @click="record.imported_statute = null">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -109,19 +109,6 @@
                                 :errors="form_errors.sentence"
                         >
                             <fld-input name="sentence" v-model="record.sentence"/>
-                        </std-form-group>
-                    </div>
-                    <div class="col-md-12">
-                        <std-form-group
-                                label="Release Date"
-                                label-for="release_date"
-                                :errors="form_errors.release_date"
-                                :required="true"
-                        >
-                            <flat-pickr
-                                    v-model="record.release_date"
-                                    :config="config"
-                                    style="width: 10em"/>
                         </std-form-group>
                     </div>
 
@@ -192,17 +179,6 @@
             modelValue: {        // Need to define the v-model input value prop
                 type: Object,
             },
-            config: {
-                type: Object,
-                default: function () {
-                    return {
-                        altInput: true,
-                        altFormat: "m/d/Y",
-                        dateFormat: "Y-m-d",
-                        allowInput: true,
-                    }
-                },
-            }
         },
         data() {
             return {

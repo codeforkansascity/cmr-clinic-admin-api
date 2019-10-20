@@ -111,7 +111,19 @@
                                            v-model="record.approximate_date_of_charge"/>
                             </std-form-group>
                         </div>
-
+                        <div class="col-md-12">
+                            <std-form-group
+                                    label="Release Date"
+                                    label-for="release_date"
+                                    :errors="form_errors.release_date"
+                                    :required="true"
+                            >
+                                <flat-pickr
+                                        v-model="record.release_date"
+                                        :config="config"
+                                        style="width: 10em"/>
+                            </std-form-group>
+                        </div>
                         <div class="col-md-12">
                             <std-form-group
                                     label="What was the name of the Judge?"

@@ -38,6 +38,11 @@ class Conviction extends Model
         'modified_by',
     ];
 
+    public function client()
+    {
+        return $this->belongsTo('App\Client');
+    }
+
     public function charge()
     {
         return $this->hasMany('App\Charge');
