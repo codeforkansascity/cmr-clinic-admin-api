@@ -16,7 +16,7 @@ class AddForeignStatuteToChargesTable extends Migration
         Schema::table('charges', function (Blueprint $table) {
             $table->string('charge', 400)->nullable()->change();
             $table->renameColumn('charge', 'imported_statute');
-            $table->dropColumn('citation');
+//            $table->dropColumn('citation');
 
             $table->foreign('statute_id')
                 ->references('id')->on('statutes')->onDelete('set null');
@@ -32,7 +32,7 @@ class AddForeignStatuteToChargesTable extends Migration
     {
         Schema::table('charges', function (Blueprint $table) {
             $table->string('charge',64)->nullable();
-            $table->string('citation',64)->nullable();
+//            $table->string('citation',64)->nullable();
             $table->dropForeign(['statute_id']);
         });
     }
