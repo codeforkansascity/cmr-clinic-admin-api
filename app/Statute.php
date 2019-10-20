@@ -70,10 +70,11 @@ class Statute extends Model
 
     public function saveHistory($request)
     {
+
         $this->histories()->create([
             'old' => collect($this->getOriginal())->only($this->fillable),
             'new' => $request->only($this->fillable),
-            'user_id' => auth()->user()->id,
+            'user_id' => auth()->user() ? auth()->user()->id : 0,
             'reason_for_change' => $request->reason_for_change ?? null,
         ]);
     }
