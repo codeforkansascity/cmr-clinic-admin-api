@@ -22,8 +22,8 @@
         </v-select>
 
         <add-icon
-            @click="showModal = true"
-            :height="25"
+                @click="showModal = true"
+                :height="25"
         />
 
         <base-modal v-if="showModal" @close="showModal = false">
@@ -42,12 +42,15 @@
                 </div>
                 <div class="form-group">
                     <label class="font-weight-bold">Is Expungeable?</label>
-                    <select class="form-control" v-model="newStatute.statutes_eligibility_id">
-                        <option value="">--Select--</option>
-                        <option value="1">Yes</option>
-                        <option value="2">No</option>
-                        <option value="3">Possibly</option>
-                    </select>
+                    <ui-select-pick-one
+                            url="/api-statutes-eligibility/options"
+                            v-model="newStatute.statutes_eligibility_id"
+                            :selected_id="newStatute.statutes_eligibility_id"
+                            name="statutes_eligibility"
+                            blank_value="0"
+                            additional_classes="mb-2 grid-filter"
+                            styleAttr="max-width: 175px;"
+                            required/>
                 </div>
             </template>
             <template v-slot:footer>
@@ -62,12 +65,17 @@
 
 <script>
     import AddIcon from "../controls/AddIcon";
+    import UiSelectPickOne from "../SS/UiSelectPickOne";
+
     export default {
-        components: {AddIcon},
+        components: {
+            AddIcon,
+            UiSelectPickOne
+        },
         name: "FldStatute",
         props: {
             value: {
-                type: String|Number,
+                type: String | Number,
                 default: '',
             }
         },
@@ -76,7 +84,7 @@
         },
         mounted() {
 
-         },
+        },
         data() {
             return {
                 showModal: false,
@@ -124,11 +132,11 @@
                         if (res.data) {
                             $this.data = res.data
                         }
-                        if(id) {
+                        if (id) {
                             this.matches = this.data
-                            if(this.data.length > 0) {
-                                for(let i in this.data) {
-                                    if(this.data[i].id === this.value) {
+                            if (this.data.length > 0) {
+                                for (let i in this.data) {
+                                    if (this.data[i].id === this.value) {
                                         this.selectedStatute = this.data[i]
                                     }
                                 }
@@ -148,7 +156,7 @@
             onSelect(e) {
                 this.selectedStatute = e
                 let newId = null
-                if(this.selectedStatute) {
+                if (this.selectedStatute) {
                     newId = this.selectedStatute.id
                 }
 
@@ -159,7 +167,7 @@
 </script>
 
 <style scoped>
-.w-90 {
-    width: 90%;
-}
+    .w-90 {
+        width: 90%;
+    }
 </style>
