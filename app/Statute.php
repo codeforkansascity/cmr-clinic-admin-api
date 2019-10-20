@@ -43,6 +43,12 @@ class Statute extends Model
         'updated_at',
     ];
 
+    public function charge()
+    {
+        return $this->hasMany(Charge::class);
+    }
+
+
     public function comments()
     {
         return $this->morphMany(Comment::class, 'comments');

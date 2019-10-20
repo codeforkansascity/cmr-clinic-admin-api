@@ -16,11 +16,13 @@ class AddForeignStatuteToChargesTable extends Migration
         Schema::table('charges', function (Blueprint $table) {
             $table->string('charge', 400)->nullable()->change();
             $table->renameColumn('charge', 'imported_statute');
-//            $table->dropColumn('citation');
+            $table->renameColumn('citation', 'imported_citation');
 
             $table->foreign('statute_id')
                 ->references('id')->on('statutes')->onDelete('set null');
         });
+
+
     }
 
     /**
@@ -32,7 +34,8 @@ class AddForeignStatuteToChargesTable extends Migration
     {
         Schema::table('charges', function (Blueprint $table) {
             $table->string('charge',64)->nullable();
-//            $table->string('citation',64)->nullable();
+            $table->renameColumn('imported_statute', 'charge');
+            $table->renameColumn('imported_citation', 'citation');
             $table->dropForeign(['statute_id']);
         });
     }

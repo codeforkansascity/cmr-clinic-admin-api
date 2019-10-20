@@ -2,9 +2,15 @@
     <div class="row">
 
         <div class="col-md-7">
-            <h5>{{ record.citation }} {{ record.charge }} </h5>
+            <h5 v-if="record.statute">
+                {{ record.statute.number }} {{ record.statute.name }}
+            </h5>
+            <h5 v-else>
+                *** {{ record.imported_citation }} {{ record.imported_statute }} ***
+            </h5>
         </div>
         <div class="col-md-2">
+
             <h5>
                 {{ record.conviction_charge_type }} {{ record.conviction_class_type }}
             </h5>
