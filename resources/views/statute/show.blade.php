@@ -15,10 +15,10 @@ View {{$statute->name}}
 @endsection
 @section('content')
 
-    <statute-show :record='@json($statute)'></statute-show>
+    <statute-show :record='@json($statute)' :charges='@json($charges)'></statute-show>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="row mt-4">
                 <div class="col-md-4">
                     @if ($can_edit)

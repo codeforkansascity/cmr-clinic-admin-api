@@ -50,6 +50,10 @@ class Statute extends Model
         return $this->hasMany(Charge::class);
     }
 
+    public function statutes_eligibility() {
+        return $this->belongsTo(StatutesEligibility::class);
+    }
+
 
     public function comments()
     {
@@ -90,9 +94,20 @@ class Statute extends Model
         return true;
     }
 
+    public function getCharges($id) {
+        $recs = \App\Charge::with(['conviction:id,case_number,name,client_id','conviction.client:id,name'])->where('statute_id', $id)->get();
+        info(print_r($recs->toArray(),true));
+        return $recs;
+
+    }
+
     public function canDelete()
     {
-        return true;
+
+        $count = \App\Charge::select('id')->whereNotNull('statute_id')->count();
+        info(__METHOD__ . " count=$count|");
+        return !$count;
+
     }
 
 

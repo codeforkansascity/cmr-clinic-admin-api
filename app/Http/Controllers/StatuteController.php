@@ -153,8 +153,10 @@ class StatuteController extends Controller
 
         if ($statute = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('statute edit');
-            $can_delete = Auth::user()->can('statute delete');
-            return view('statute.show', compact('statute', 'can_edit', 'can_delete'));
+            $can_delete = Auth::user()->can('statute delete') && $statute->canDelete();
+            $charges = $statute->getCharges($id);
+
+            return view('statute.show', compact('charges', 'statute', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Statutes to display.');
             return Redirect::route('statute.index');
@@ -286,7 +288,7 @@ class StatuteController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\Statute::find(intval($id));
+        return \App\Statute::with('statutes_eligibility')->find(intval($id));
     }
 
 

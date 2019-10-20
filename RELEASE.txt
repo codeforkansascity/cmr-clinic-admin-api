@@ -17,4 +17,6 @@
                          - Now adding statute through FldStatute pop up form uses statutes-eligibility table value
                          - Added Undetermined Eligable as a Statutes eligibility option
                          - Now convert charges imported_citation to statute_id FK
+                         - Statutes: show screen now lists charges used in, and
+                           delete option only shows when statute is not used in a charge
 
