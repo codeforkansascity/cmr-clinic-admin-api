@@ -16,10 +16,12 @@ class Statute extends Model
     CONST ELIGIBLE = '1';
     CONST INELIGIBLE = '2';
     CONST POSSIBLY = '3';
+    CONST UNDETERMINED = '4';
     const ELIGIBLITY_STATUSES = [
         self::ELIGIBLE,
         self::INELIGIBLE,
         self::POSSIBLY,
+        self::UNDETERMINED,
     ];
 
     /**

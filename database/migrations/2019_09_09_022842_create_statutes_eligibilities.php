@@ -38,6 +38,11 @@ class CreateStatutesEligibilities extends Migration
             'name' => 'Possibly Eligable',
             'sequence' => 30,
         ]);
+        $status = \App\StatutesEligibility::create([
+            'id' => \App\Statute::UNDETERMINED,
+            'name' => 'Undetermined Eligable',
+            'sequence' => 30,
+        ]);
 
 
     }
