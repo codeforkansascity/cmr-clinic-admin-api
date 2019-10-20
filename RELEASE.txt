@@ -16,4 +16,5 @@
                          - Added Undetermined Eligable to statutes_eligibilities
                          - Now adding statute through FldStatute pop up form uses statutes-eligibility table value
                          - Added Undetermined Eligable as a Statutes eligibility option
+                         - Now convert charges imported_citation to statute_id FK
 
