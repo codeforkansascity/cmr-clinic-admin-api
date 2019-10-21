@@ -45,7 +45,7 @@
                 <table class="table  table-sm">
                     <tr is="tr-view" v-model="record.license_number">License number</tr>
                     <tr is="tr-view" v-model="record.license_issuing_state">Issuing state</tr>
-                    <tr is="tr-view" v-model="record.license_expiration_date">Expiration date</tr>
+                    <tr is="tr-view" v-model="moment(String(record.license_expiration_date)).format('MM/DD/YYYY')">Expiration date</tr>
                 </table>
 
             </div>
@@ -56,11 +56,11 @@
                     <tr is="tr-view" v-model="record.address_line_1">Address Line 1</tr>
                     <tr is="tr-view" v-model="record.address_line_2">Address Line 2</tr>
                     <tr>
-                        <td>City/State/Zip</td>
+                        <td style="width: 10em; color: darkgray">City/State/Zip</td>
                         <td>
                             {{ record.city }}
                             {{ record.state }}
-                            {{ record.zip }}
+                            {{ record.zip_code }}
                         </td>
                     </tr>
                 </table>
@@ -68,13 +68,13 @@
             </div>
 
 
-            <div class="row">
+
                 <div class="col-md-6" style="padding-left: 1em;">
 
                     <h5>CMS</h5>
                     <table class="table  table-sm">
-                        <tr is="tr-view" v-model="record.cms_client_number">Client number</tr>
-                        <tr is="tr-view" v-model="record.cms_matter_number">Matter number</tr>
+                        <tr is="tr-view" v-model="record.cms_client_number">Client #</tr>
+                        <tr is="tr-view" v-model="record.cms_matter_number">Matter #</tr>
                     </table>
 
                 </div>
@@ -82,7 +82,7 @@
 
 
                 </div>
-            </div>
+
 
 
         </div>

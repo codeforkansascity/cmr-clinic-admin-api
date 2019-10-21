@@ -2,11 +2,11 @@
     <div style="margin-bottom: 1em">
         <div class="row">
 
-            <div class="col-md-6">
-                <h4>{{ record.name }}, {{ record.arrest_date }}</h4>
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <h4> {{ record.case_number }}, {{ record.agency }}</h4>
+            </div>
+            <div class="col-md-5">
+                <h4>{{ record.name }}, {{ record.arrest_date }}</h4>
             </div>
             <div class="col-md-2">
                 <h4>
@@ -20,7 +20,7 @@
             </div>
 
             <div class="col-md-12" style="padding-left: 4em;">
-                {{ record.notes }}
+                <dsp-textarea v-model="record.notes"/>
             </div>
         </div>
         <div class="row">
@@ -30,7 +30,7 @@
                     <tr is="tr-view" v-model="record.case_number">Case Number</tr>
                     <tr is="tr-view" v-model="record.court_name">Court</tr>
                     <tr is="tr-view" v-model="record.judge">Judge</tr>
-                    <tr is="tr-view" v-model="record.approximate_date_of_charge">Approx charte date</tr>
+                    <tr is="tr-view" v-model="record.approximate_date_of_charge">Approx charge date</tr>
                     <tr is="tr-view" v-model="record.release_status">Relase Status</tr>
                     <tr is="tr-view" v-model="moment(String(record.release_date)).format('MM/DD/YYYY')">Release Date
                     </tr>
@@ -59,25 +59,12 @@
             <hr>
             <div class="col-md-5" style="padding-left: 1em;">
                 <service-container
-                    :services="record.services"
-                    :case_id="record.id"
-                    @created="createService"
-                    @updated="updateService"
-                    @deleted="deleteService"
+                        :services="record.services"
+                        :case_id="record.id"
+                        @created="createService"
+                        @updated="updateService"
+                        @deleted="deleteService"
                 ></service-container>
-            </div>
-        </div>
-        <div class="col-md-6">
-
-
-
-            <div class="form-group row mb-2 mb-md-0 text-only">
-                <label class="col-md-4 col-form-label text-md-right">
-                    Notes
-                </label>
-                <div class="col-md-8">
-                    <dsp-text v-model="record.notes"/>
-                </div>
             </div>
         </div>
     </div>
@@ -114,13 +101,13 @@
                 this.record.services.push(s)
             },
             updateService(s, i) {
-                for(let i in this.record.services) {
-                    if(this.record.services[i].id === s.id) {
+                for (let i in this.record.services) {
+                    if (this.record.services[i].id === s.id) {
                         this.record.services[i] = s
                     }
                 }
             },
-            deleteService(s,i) {
+            deleteService(s, i) {
                 this.record.services.splice(i, 1)
             }
         },

@@ -10,7 +10,7 @@
         </div>
         <div class="col-md-2">
             <h4>
-                {{ record.release_date }}
+                {{ moment(String(record.release_date)).format('MM/DD/YYYY') }}
 
             </h4>
         </div>
@@ -20,7 +20,7 @@
         </div>
 
         <div class="col-md-12" style="padding-left: 4em;">
-            {{ record.notes }}
+            <dsp-textarea v-model="record.notes"/>
         </div>
 
     </div>

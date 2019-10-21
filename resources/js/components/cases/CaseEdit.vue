@@ -120,6 +120,7 @@
                             >
                                 <flat-pickr
                                         v-model="record.release_date"
+                                        @blur="parseDate($event, 'dob')"
                                         :config="config"
                                         style="width: 10em"/>
                             </std-form-group>
@@ -137,47 +138,36 @@
 
                     </div>
 
-                </div>
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <std-form-group
-                            label="Services"
-                            label-for="services"
+                    <div class="col-md-12" style="padding-left: 2em;">
+                        <div class="col-md-12">
+                            <std-form-group
+                                    label="Notes"
+                                    label-for="notes"
+                                    :errors="form_errors.notes"
 
-                        >
-                            <fld-text-area name="notes" v-model="record.notes"/>
-                        </std-form-group>
+                            >
+                                <fld-text-editor name="notes" v-model="record.notes"  style="height: 20em"/>
+                            </std-form-group>
+                        </div>
+
+                        <div class="col-md-12">
+                            <std-form-group
+                                    label="Reason for Change"
+                                    label-for="reason_for_change"
+                                    :errors="form_errors.reason_for_change"
+                            >
+                                <fld-text-area
+                                        name="reason_for_change"
+                                        v-model="record.reason_for_change"
+                                        required
+                                        rows="5"
+                                />
+                            </std-form-group>
+                        </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <std-form-group
-                                label="Notes"
-                                label-for="notes"
-                                :errors="form_errors.notes"
-                        >
-                            <fld-text-area name="notes" v-model="record.notes"/>
-                        </std-form-group>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <std-form-group
-                                label="Reason for Change"
-                                label-for="reason_for_change"
-                                :errors="form_errors.reason_for_change"
-                        >
-                            <fld-text-area
-                                    name="reason_for_change"
-                                    v-model="record.reason_for_change"
-                                    required
-                                    rows="5"
-                            />
-                        </std-form-group>
-                    </div>
-                </div>
 
                 <div class="form-group mt-4">
                     <div class="row">
