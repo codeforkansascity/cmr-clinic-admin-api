@@ -141,6 +141,12 @@
                         >
                             Edit
                         </a>
+
+
+                        <span v-if="row.cms_client_number">
+                            <a href="#" @click="cms(row.cms_client_number)">CMS</a>
+                        </span>
+
                     </td>
                 </tr>
                 </tbody>
@@ -331,6 +337,14 @@
                 if (queryParams.length > 0) url += queryParams.join("&");
 
                 return url;
+            },
+            cms(cms_client_number) {
+                if ( cms_client_number ) {
+                    window.open("https://prose.umkc.edu/civicrm/contact/view?reset=1&cid="+cms_client_number, "_blank");
+                } else {
+                    alert ('Invalid CMS Client Number')
+                }
+
             }
         }
     };
