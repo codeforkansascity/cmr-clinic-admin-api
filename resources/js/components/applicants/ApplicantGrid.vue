@@ -66,6 +66,17 @@
                     <ss-grid-column-header
                             v-on:selectedSort="sortColumn"
                             v-bind:selectedKey="sortKey"
+                            title="Sort by DOB"
+                            :params="{
+                                sortField: 'dob',
+                                InitialSortOrder: 'asc'
+                            }"
+                    >
+                        DOB
+                    </ss-grid-column-header>
+                    <ss-grid-column-header
+                            v-on:selectedSort="sortColumn"
+                            v-bind:selectedKey="sortKey"
                             title="Sort by Notes"
                             :params="{
                                 sortField: 'notes',
@@ -112,6 +123,11 @@
                         <span v-if="params.CanShow != '1'">
                                 {{ row.name }}
                             </span>
+                    </td>
+                    <td data-title="DOB">
+
+                            {{ moment(String(row.dob)).format('MM/DD/YYYY')}}
+
                     </td>
                     <td data-title="Notes">{{ row.notes }}</td>
                     <td
