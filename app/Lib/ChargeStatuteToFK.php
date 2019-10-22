@@ -66,7 +66,13 @@ class ChargeStatuteToFK
             $charge->statute_id = $statute_id;
             $charge->save();
         }
-    }
 
+        $charges = Charge::where('conviction_charge_type', 'felony')->get();
+
+        foreach ($charges AS $charge) {
+            $charge->conviction_charge_type = 'Felony';
+            $charge->save();
+        }
+    }
 
 }

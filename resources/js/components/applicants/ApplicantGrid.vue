@@ -66,6 +66,17 @@
                     <ss-grid-column-header
                             v-on:selectedSort="sortColumn"
                             v-bind:selectedKey="sortKey"
+                            title="Sort by DOB"
+                            :params="{
+                                sortField: 'dob',
+                                InitialSortOrder: 'asc'
+                            }"
+                    >
+                        DOB
+                    </ss-grid-column-header>
+                    <ss-grid-column-header
+                            v-on:selectedSort="sortColumn"
+                            v-bind:selectedKey="sortKey"
                             title="Sort by Notes"
                             :params="{
                                 sortField: 'notes',
@@ -113,11 +124,23 @@
                                 {{ row.name }}
                             </span>
                     </td>
+                    <td data-title="DOB">
+
+                        {{ moment(String(row.dob)).format('MM/DD/YYYY')}}
+
+                    </td>
                     <td data-title="Notes">{{ row.notes }}</td>
                     <td
                             data-title="Actions"
                             class="text-lg-center text-nowrap"
                     >
+                        <a
+                                v-bind:href="'/applicant/' + row.id"
+                                v-if="params.CanShow == '1'"
+                                class="grid-action-item"
+                        >
+                            View
+                        </a>
                         <a
                                 v-bind:href="'/applicant/' + row.id + '/edit'"
                                 v-if="params.CanEdit"
@@ -125,6 +148,11 @@
                         >
                             Edit
                         </a>
+
+                        <span v-if="row.cms_client_number">
+                            <a href="#" @click="cms(row.cms_client_number)">CMS</a>
+                        </span>
+
                     </td>
                 </tr>
                 </tbody>
@@ -315,6 +343,14 @@
                 if (queryParams.length > 0) url += queryParams.join("&");
 
                 return url;
+            },
+            cms(cms_client_number) {
+                if (cms_client_number) {
+                    window.open("https://prose.umkc.edu/civicrm/contact/view?reset=1&cid=" + cms_client_number, "_blank");
+                } else {
+                    alert('Invalid CMS Client Number')
+                }
+
             }
         }
     };

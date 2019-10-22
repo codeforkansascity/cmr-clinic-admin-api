@@ -1,24 +1,17 @@
-/**
-
-For text area
-=====================
-
-<dsp-date v-model="PostData.created_on"/>
-
-
-*/
-
 <template>
-
-        <span class="form-text" v-html="display_date">
-
-        </span>
-
+    <tr>
+    <td style="width: 10em; color: darkgray">
+        <slot></slot>
+    </td>
+    <td>
+        {{ display_date }}
+    </td>
+    </tr>
 </template>
 
 <script>
     export default {
-        name: 'dsp-date',
+        name: "tr-view-date",
         props: {
             value: {
                 default: null
@@ -35,3 +28,7 @@ For text area
         }
     }
 </script>
+
+<style scoped>
+
+</style>

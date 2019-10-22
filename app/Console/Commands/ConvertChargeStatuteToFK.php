@@ -19,7 +19,7 @@ class ConvertChargeStatuteToFK extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Cleanup charge, felony and set statute to FK';
 
     /**
      * Create a new command instance.

@@ -49,19 +49,7 @@
                                 <fld-race name="race" v-model="record.race"/>
                             </std-form-group>
                         </div>
-                        <div class="col-md-12">
-                            <std-form-group
-                                    label="Previous Expungements"
-                                    label-for="previous_expungements"
-                                    :errors="form_errors.race"
-                            >
-                                <fld-text-area field="previous_expungements">
-                                </fld-text-area>
-                                <template slot="help">
-                                    Leave blank or enter state court and case number of previous expungements.
-                                </template>
-                            </std-form-group>
-                        </div>
+
 
 
                     </div>
@@ -144,49 +132,6 @@
                                             @blur="parseDate($event, 'license_expiration_date')"
                                             :config="config"
                                             style="width: 10em"/>
-                                </std-form-group>
-                            </div>
-                        </fieldset>
-                        <fieldset>
-                            <legend>Filing</legend>
-                            <div class="col-md-12">
-                                <std-form-group
-                                        label="County Name"
-                                        label-for="county_name"
-                                        :errors="form_errors.county_name"
-                                >
-                                    <fld-input
-                                            name="county_name"
-                                            v-model="record.county_name"
-                                    />
-                                </std-form-group>
-                            </div>
-
-                            <div class="col-md-12">
-                                <std-form-group
-                                        label="Filing Court"
-                                        label-for="filing_court"
-                                        :errors="form_errors.filing_court"
-                                >
-                                    <fld-input
-                                            name="filing_court"
-                                            v-model="record.filing_court"
-                                    />
-                                    <template slot="help">
-                                        Court where expungement will be filed.
-                                    </template>
-                                </std-form-group>
-                            </div>
-                            <div class="col-md-12">
-                                <std-form-group
-                                        label="Judicial Circuit Number"
-                                        label-for="judicial_circuit_number"
-                                        :errors="form_errors.judicial_circuit_number"
-                                >
-                                    <fld-input
-                                            name="judicial_circuit_number"
-                                            v-model="record.judicial_circuit_number"
-                                    />
                                 </std-form-group>
                             </div>
                         </fieldset>
@@ -289,6 +234,60 @@
                             </div>
                         </fieldset>
                     </div>
+
+
+
+
+                    <div class="col-md-6" style="padding-left: 1em;">
+                        <fieldset>
+                            <legend>Previous Expungements</legend>
+                            <div class="col-md-12">
+                                <std-form-group
+                                        label="Previous Expungements"
+                                        label-for="previous_expungements"
+                                        :errors="form_errors.race"
+                                >
+                                    <fld-text-area field="previous_expungements">
+                                    </fld-text-area>
+                                    <template slot="help">
+                                        Leave blank or enter state court and case number of previous expungements.
+                                    </template>
+                                </std-form-group>
+                            </div>
+
+
+
+                            <div class="col-md-12">
+                                <std-form-group
+                                        label="Previous Felony Expungements"
+                                        label-for="previous_felony_expungements"
+                                        :errors="form_errors.previous_felony_expungements"
+                                >
+                                    <fld-input style="width: 3em"
+                                            name="previous_felony_expungements"
+                                            v-model="record.previous_felony_expungements"
+                                    />
+                                </std-form-group>
+                            </div>
+
+                            <div class="col-md-12">
+                                <std-form-group
+                                        label="Previous Misdemeanor Expungements"
+                                        label-for="previous_misdemeanor_expungements"
+                                        :errors="form_errors.previous_misdemeanor_expungements"
+                                >
+                                    <fld-input style="width: 3em"
+                                               name="previous_misdemeanor_expungements"
+                                               v-model="record.previous_misdemeanor_expungements"
+                                    />
+                                </std-form-group>
+                            </div>
+
+                        </fieldset>
+                    </div>
+
+
+
                 </div>
 
                 <div class="row">

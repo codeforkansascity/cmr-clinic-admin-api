@@ -165,7 +165,8 @@ class ApplicantController extends Controller
         if ($client = $this->sanitizeAndFind($id)) {
 
 
-
+info(__METHOD__);
+info(print_r($client->toArray(),true));
 
             $can_edit = Auth::user()->can('client edit');
             $can_delete = Auth::user()->can('client delete');
