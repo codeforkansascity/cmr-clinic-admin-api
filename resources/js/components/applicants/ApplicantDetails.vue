@@ -32,7 +32,6 @@
                     <tr is="tr-view" v-model="record.phone">Phone/Cell</tr>
                     <tr is="tr-view" v-model="record.email">Email</tr>
                     <tr is="tr-view-date" v-model="record.dob">Date of birth?</tr>
-                    <tr is="tr-view" v-model="record.previous_expungements">Previous Expungements</tr>
                 </table>
             </div>
         </div>
@@ -77,7 +76,12 @@
 
                 </div>
                 <div class="col-md-6" style="padding-left: 1em;">
-
+                    <h5>Previous Expungements</h5>
+                    <table class="table  table-sm">
+                        <tr is="tr-view" v-model="record.previous_expungements">Notes</tr>
+                        <tr is="tr-view" v-model="record.previous_felony_expungements">Felony</tr>
+                        <tr is="tr-view" v-model="record.previous_misdemeanor_expungements">Misdemeanor</tr>
+                    </table>
 
                 </div>
 
