@@ -17,7 +17,7 @@
         </div>
 
         <div class="col-md-2">
-            {{ is_convicted }} {{ is_eligible}} {{ is_please_expunge }}
+            {{ display_charge_eligibility }}
         </div>
 
         <div class="col-md-1">
@@ -55,18 +55,18 @@
         },
         computed: {
 
-            is_convicted() {
-                let q = this.record.convicted;
-                return parseInt(q) ? ' -- Convicted' : '';
-            },
-            is_eligible() {
-                let q = this.record.eligible;
-                return parseInt(q) ? ', Eligible' : '';
-            },
-            is_please_expunge() {
-                let q = this.record.please_expunge;
-                return parseInt(q) ? ', PleaseExpunge' : '';
-            },
+            display_charge_eligibility() {
+                if ( parseInt(this.record.please_expunge)) {
+                    return 'Please Expunge';
+                }
+                if ( parseInt(this.record.eligible)) {
+                    return 'Eligible';
+                }
+                if ( parseInt(this.record.convicted)) {
+                    return 'Convicted';
+                }
+                return '--';
+            }
         },
     }
 </script>

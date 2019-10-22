@@ -126,7 +126,7 @@
                     </td>
                     <td data-title="DOB">
 
-                            {{ moment(String(row.dob)).format('MM/DD/YYYY')}}
+                        {{ moment(String(row.dob)).format('MM/DD/YYYY')}}
 
                     </td>
                     <td data-title="Notes">{{ row.notes }}</td>
@@ -135,13 +135,19 @@
                             class="text-lg-center text-nowrap"
                     >
                         <a
+                                v-bind:href="'/applicant/' + row.id"
+                                v-if="params.CanShow == '1'"
+                                class="grid-action-item"
+                        >
+                            View
+                        </a>
+                        <a
                                 v-bind:href="'/applicant/' + row.id + '/edit'"
                                 v-if="params.CanEdit"
                                 class="grid-action-item"
                         >
                             Edit
                         </a>
-
 
                         <span v-if="row.cms_client_number">
                             <a href="#" @click="cms(row.cms_client_number)">CMS</a>
@@ -339,10 +345,10 @@
                 return url;
             },
             cms(cms_client_number) {
-                if ( cms_client_number ) {
-                    window.open("https://prose.umkc.edu/civicrm/contact/view?reset=1&cid="+cms_client_number, "_blank");
+                if (cms_client_number) {
+                    window.open("https://prose.umkc.edu/civicrm/contact/view?reset=1&cid=" + cms_client_number, "_blank");
                 } else {
-                    alert ('Invalid CMS Client Number')
+                    alert('Invalid CMS Client Number')
                 }
 
             }

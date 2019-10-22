@@ -15,31 +15,15 @@ View {{$client->name}}
 @endsection
 @section('content')
 
-    <applicant-show :record='@json($client)'></applicant-show>
+    <applicant-show :data='@json($client)'></applicant-show>
 
     <div class="row">
         <div class="col-md-6">
-            <div class="row mt-4">
-                <div class="col-md-4">
-                    @if ($can_edit)
-                        <a href="/applicant/{{ $client->id }}/edit" class="btn btn-primary">Edit</a>
-                    @endif
-                </div>
-                <div class="col-md-4 text-md-center mt-2 mt-md-0">
-                    @if ($can_delete)
-                        <form class="form" role="form" method="POST" action="/applicant/{{ $client->id }}">
-                            <input type="hidden" name="_method" value="delete">
-                            {{ csrf_field() }}
 
-                            <input class="btn btn-danger" Onclick="return ConfirmDelete();" type="submit" value="Delete">
-
-                        </form>
-                    @endif
-                </div>
                 <div class="col-md-4 text-md-right mt-2 mt-md-0">
                     <a href="{{ url('/applicant') }}" class="btn btn-default">Return to List</a>
                 </div>
-            </div>
+
         </div>
     </div>
 </div>

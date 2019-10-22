@@ -10,8 +10,7 @@
         </div>
         <div class="col-md-2">
             <h4>
-                {{ moment(String(record.release_date)).format('MM/DD/YYYY') }}
-
+                <dsp-date v-model="record.release_date" />
             </h4>
         </div>
 

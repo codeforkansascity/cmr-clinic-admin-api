@@ -10,8 +10,7 @@
             </div>
             <div class="col-md-2">
                 <h4>
-                    {{ moment(String(record.release_date)).format('MM/DD/YYYY') }}
-
+                    <dsp-date v-model="record.release_date" />
                 </h4>
             </div>
 
@@ -30,20 +29,17 @@
                     <tr is="tr-view" v-model="record.case_number">Case Number</tr>
                     <tr is="tr-view" v-model="record.court_name">Court</tr>
                     <tr is="tr-view" v-model="record.judge">Judge</tr>
-                    <tr is="tr-view" v-model="record.approximate_date_of_charge">Approx charge date</tr>
-                    <tr is="tr-view" v-model="record.release_status">Relase Status</tr>
-                    <tr is="tr-view" v-model="moment(String(record.release_date)).format('MM/DD/YYYY')">Release Date
-                    </tr>
+                    <tr is="tr-view" v-model="record.name">Name</tr>
 
 
                 </table>
             </div>
             <div class="col-md-6" style="padding-left: 1em;">
                 <table class="table  table-sm">
-                    <tr is="tr-view" v-model="record.name">Name</tr>
                     <tr is="tr-view" v-model="record.arrest_date">Arrest date per applicant</tr>
-                    <tr is="tr-view" v-model="record.record_name">Client's Name<br>as appeares in court records</tr>
-
+                    <tr is="tr-view" v-model="record.approximate_date_of_charge">Approx charge date</tr>
+                    <tr is="tr-view" v-model="record.release_status">Relase Status</tr>
+                    <tr is="tr-view-date" v-model="record.release_date">Release Date</tr>
                 </table>
             </div>
             <hr>

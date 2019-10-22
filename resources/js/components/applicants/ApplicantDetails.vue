@@ -31,9 +31,7 @@
                 <table class="table  table-sm">
                     <tr is="tr-view" v-model="record.phone">Phone/Cell</tr>
                     <tr is="tr-view" v-model="record.email">Email</tr>
-                    <tr is="tr-view" v-model="moment(String(record.dob)).format('MM/DD/YYYY')">Date of birth?</tr>
-                    <tr is="tr-view" v-model="record.judicial_circuit_number">Judicial Circuit Number</tr>
-                    <tr is="tr-view" v-model="record.county_name">County Name</tr>
+                    <tr is="tr-view-date" v-model="record.dob">Date of birth?</tr>
                     <tr is="tr-view" v-model="record.previous_expungements">Previous Expungements</tr>
                 </table>
             </div>
@@ -45,7 +43,7 @@
                 <table class="table  table-sm">
                     <tr is="tr-view" v-model="record.license_number">License number</tr>
                     <tr is="tr-view" v-model="record.license_issuing_state">Issuing state</tr>
-                    <tr is="tr-view" v-model="moment(String(record.license_expiration_date)).format('MM/DD/YYYY')">Expiration date</tr>
+                    <tr is="tr-view-date" v-model="record.license_expiration_date">Expiration date</tr>
                 </table>
 
             </div>

@@ -68,6 +68,7 @@ Vue.component('dsp-text', () => import(/* webpackChunkName:"dsp-text" */ './comp
 Vue.component('dsp-date', () => import(/* webpackChunkName:"dsp-date" */ './components/SS/DspDate.vue'));
 
 Vue.component('tr-view', () => import(/* webpackChunkName:"tr-view" */ './components/SS/TrView.vue'));
+Vue.component('tr-view-date', () => import(/* webpackChunkName:"tr-view-date" */ './components/SS/TrViewDate.vue'));
 
 Vue.component('search-form-group', () => import(/* webpackChunkName:"search-form-group" */ './components/SS/SearchFormGroup.vue'));
 
@@ -82,6 +83,7 @@ Vue.component('fld-statute', () => import(/* webpackChunkName:"fld-statute" */ '
 //Vue.component('applicant-grid',       require('./components/ApplicantGrid.vue'));    // May need to add .default);
 //Vue.component('applicant-form',       require('./components/ApplicantForm.vue'));    // May need to add .default);
 Vue.component('applicant-grid', () => import(/* webpackChunkName:"applicant-grid" */ './components/applicants/ApplicantGrid.vue'));
+Vue.component('applicant-show', () => import(/* webpackChunkName:"applicant-show" */ './components/applicants/ApplicantShow.vue'));
 //Vue.component('applicant-form', () => import(/* webpackChunkName:"applicant-form" */ './components/ApplicantForm.vue'));
 Vue.component('applicant-container', () => import(/* webpackChunkName:"applicant-container" */ './components/applicants/ApplicantContainer'));
 
