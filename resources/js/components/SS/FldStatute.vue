@@ -150,7 +150,7 @@
             },
             onSearch(e) {
                 this.matches = this.data.filter(d => {
-                    return (d.name + d.number).toLowerCase().indexOf(e) > -1
+                    return (d.name + '' + d.number).toLowerCase().indexOf(e.toLowerCase()) > -1
                 })
             },
             onSelect(e) {
