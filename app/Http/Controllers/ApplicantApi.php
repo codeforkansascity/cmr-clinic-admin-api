@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Client;
+use App\Applicant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ApplicantIndexRequest;
@@ -28,16 +28,16 @@ class ApplicantApi extends Controller
         // Save the search parameters so we can remember when we go back to the index
         //   The page is being done by Laravel
         session([
-            'client_page' => $page,
-            'client_column' => $column,
-            'client_direction' => $direction,
-            'client_keyword' => $keyword
+            'applicant_page' => $page,
+            'applicant_column' => $column,
+            'applicant_direction' => $direction,
+            'applicant_keyword' => $keyword
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
         $column = $column ? mb_strtolower($column) : 'name';
 
-        return Client::indexData(10, $column, $direction, $keyword);
+        return Applicant::indexData(10, $column, $direction, $keyword);
     }
 
     /**
@@ -46,7 +46,7 @@ class ApplicantApi extends Controller
      */
     public function getOptions() {
 
-        return Client::getOptions();
+        return Applicant::getOptions();
     }
 
     /**

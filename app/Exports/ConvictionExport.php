@@ -30,7 +30,7 @@ class ConvictionExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
                         'id',
-                        'client_id',
+                        'applicant_id',
                         'name',
                         'arrest_date',
                         'case_number',
@@ -55,7 +55,7 @@ class ConvictionExport implements FromQuery, WithHeadings, WithMapping
         return [
 
                         $conviction->id,
-                        $conviction->client_id,
+                        $conviction->applicant_id,
                         $conviction->name,
                         $conviction->arrest_date,
                         $conviction->case_number,

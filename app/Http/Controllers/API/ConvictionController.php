@@ -19,9 +19,9 @@ class ConvictionController extends Controller
         return Conviction::all();
     }
 
-    public function indexByClient(Request $request, $client_id)
+    public function indexByClient(Request $request, $applicant_id)
     {
-        $convictions = Conviction::where('client_id',$client_id)->get();
+        $convictions = Conviction::where('applicant_id',$applicant_id)->get();
 
         foreach ( $convictions AS $i => $conviction) {
             $conviction_id = $conviction->id;
@@ -36,13 +36,13 @@ class ConvictionController extends Controller
 
     }
 
-    public function add(Request $request, $client_id)
+    public function add(Request $request, $applicant_id)
     {
-        info("convictions::add($client_id)");
+        info("convictions::add($applicant_id)");
         info(print_r($request->toArray(),true));
 
         $data = $request->all();
-        $data['client_id'] = $client_id;
+        $data['applicant_id'] = $applicant_id;
 
 
         $conviction =  Conviction::create($data);

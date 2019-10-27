@@ -17,7 +17,7 @@ class ConvictionTableSeeder extends Seeder
 
         $conviction = \App\Conviction::create([
             'id' => '2',
-            'client_id' => '2',
+            'applicant_id' => '2',
             'name' => 'OriginalArrest/ChargesforTrafficking',
             'arrest_date' => '10/22/2003',
             'case_number' => '16CR9996477',
@@ -40,7 +40,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
         ]);
         $conviction = \App\Conviction::create([
             'id' => '3',
-            'client_id' => '2',
+            'applicant_id' => '2',
             'name' => 'TraffickingDrugs2ndDegree',
             'arrest_date' => '11/03/2003',
             'case_number' => '16CR039997-01',
@@ -63,7 +63,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
 
         $conviction = \App\Conviction::create([
             'id' => '4',
-            'client_id' => '2',
+            'applicant_id' => '2',
             'name' => 'TraffickingDrugs/Attempt-2ndDegree',
             'arrest_date' => NULL,
             'case_number' => '16CR030999-01',
@@ -85,7 +85,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
 
         $conviction = \App\Conviction::create([
             'id' => '5',
-            'client_id' => '2',
+            'applicant_id' => '2',
             'name' => 'Exceeded Speed Limit 11-15 miles per hour',
             'arrest_date' => '03/18/2004',
             'case_number' => '02199940',
@@ -107,7 +107,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
 
         $conviction = \App\Conviction::create([
             'id' => '6',
-            'client_id' => '2',
+            'applicant_id' => '2',
             'name' => 'Driving with out a license plate',
             'arrest_date' => NULL,
             'case_number' => NULL,

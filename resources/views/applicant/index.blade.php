@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@php $nav_path = ['client']; @endphp
+@php $nav_path = ['applicant']; @endphp
 @section('page-title', 'Applicants')
 @section('page-header-title', 'Applicants')
 @section('page-help-link', '#TODO')

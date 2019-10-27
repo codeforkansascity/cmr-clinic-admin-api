@@ -30,7 +30,7 @@
                 type: [Boolean, Object, Array],
                 default: false
             },
-            client_id: {
+            applicant_id: {
                 type: Number,
                 default: 0
             }

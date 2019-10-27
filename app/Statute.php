@@ -96,7 +96,7 @@ class Statute extends Model
     }
 
     public function getCharges($id) {
-        $recs = \App\Charge::with(['conviction:id,case_number,name,client_id','conviction.client:id,name'])->where('statute_id', $id)->get();
+        $recs = \App\Charge::with(['conviction:id,case_number,name,applicant_id','conviction.applicant:id,name'])->where('statute_id', $id)->get();
         info(print_r($recs->toArray(),true));
         return $recs;
 

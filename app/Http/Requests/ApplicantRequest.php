@@ -14,10 +14,10 @@ class ApplicantRequest extends FormRequest
      */
     public function authorize()
     {
-        if ($this->route('client')) {  // If ID we must be changing an existing record
-            return Auth::user()->can('client update');
+        if ($this->route('applicant')) {  // If ID we must be changing an existing record
+            return Auth::user()->can('applicant update');
         } else {  // If not we must be adding one
-            return Auth::user()->can('client add');
+            return Auth::user()->can('applicant add');
         }
 
     }
@@ -30,7 +30,7 @@ class ApplicantRequest extends FormRequest
     public function rules()
     {
 
-        $id = $this->route('client');
+        $id = $this->route('applicant');
 
         $rules = [
          //  Ignore duplicate email if it is this record

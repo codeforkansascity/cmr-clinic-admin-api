@@ -16,6 +16,7 @@ class CleanUpClients extends Migration
 
         Schema::table('clients', function (Blueprint $table) {
             $table->dropColumn('dob_text');
+            $table->dropColumn('license_expiration_date_text');
             $table->dropColumn('filing_court');
             $table->dropColumn('judicial_circuit_number');
             $table->dropColumn('judge_name');
@@ -40,6 +41,7 @@ class CleanUpClients extends Migration
     {
         Schema::table('clients', function (Blueprint $table) {
             $table->string('dob_text', 64)->nullable();
+            $table->string('license_expiration_date_text', 64)->nullable();
             $table->string('filing_court', 64)->nullable();
 
             $table->text('judicial_ciruit_number')->nullable();

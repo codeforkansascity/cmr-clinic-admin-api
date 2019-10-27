@@ -25,7 +25,7 @@ class AssignmentController extends Controller
         return Assignment::all();
     }
 
-    public function indexByClient(Request $request, $client_id)
+    public function indexByClient(Request $request, $applicant_id)
     {
 
         if (!Auth::user()->can('assignment index')) {
@@ -34,7 +34,7 @@ class AssignmentController extends Controller
             ], 403);
         }
 
-        $assignments = Assignment::where('client_id',$client_id)->get();
+        $assignments = Assignment::where('applicant_id',$applicant_id)->get();
 
 
 
@@ -42,13 +42,13 @@ class AssignmentController extends Controller
 
     }
 
-    public function add(Request $request, $client_id)
+    public function add(Request $request, $applicant_id)
     {
-        info("assignments::add($client_id)");
+        info("assignments::add($applicant_id)");
         info(print_r($request->toArray(),true));
 
         $data = $request->all();
-        $data['client_id'] = $client_id;
+        $data['applicant_id'] = $applicant_id;
 
 
         $assignment =  Assignment::create($data);

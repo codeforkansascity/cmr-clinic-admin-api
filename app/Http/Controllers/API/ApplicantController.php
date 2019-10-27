@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use App\Client;
+use App\Applicant;
 use App\Http\Requests\ApplicantFormRequest;
 use App\Conviction;
 
-class ClientController extends Controller
+class ApplicantController extends Controller
 {
 
 
@@ -27,7 +27,7 @@ class ClientController extends Controller
 
         info(__METHOD__ );
 
-        return Client::all();
+        return Applicant::all();
     }
 
     /**
@@ -38,7 +38,7 @@ class ClientController extends Controller
     public function index_v1_0_1(Request $request)
     {
 
-        if (!Auth::user()->can('client index')) {
+        if (!Auth::user()->can('applicant index')) {
             return response()->json([
                 'error' => 'Not authorized'
             ], 403);
@@ -66,13 +66,13 @@ class ClientController extends Controller
                 $column = 'users.name';
                 break;
             default:
-                $column = 'clients.' . $column;
+                $column = 'applicant.' . $column;
                 break;
 
         }
 
 
-        return Client::indexData(10, $column, $direction, $keyword, $assigned_filter, $status_filter);
+        return Applicant::indexData(10, $column, $direction, $keyword, $assigned_filter, $status_filter);
     }
 
     /**
@@ -83,8 +83,8 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        $newClient = Client::create($request->all());
-        return $newClient->id;
+        $newApplicant = Applicant::create($request->all());
+        return $newApplicant->id;
     }
 
     /**
@@ -95,11 +95,11 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-//        $client =  Client::with('assignment','assignment.user','step', 'step.status')->find($id);
-        $client =  Client::find($id);
+//        $applicant =  Applicant::with('assignment','assignment.user','step', 'step.status')->find($id);
+        $applicant =  Applicant::find($id);
 
 
-        return $client;
+        return $applicant;
     }
 
     /**
@@ -111,16 +111,16 @@ class ClientController extends Controller
      */
     public function update(ApplicantFormRequest $request, $id)
     {
-        $client = Client::with('assignment','assignment.user','step', 'step.status')->findOrFail($id);
+        $applicant = Applicant::with('assignment','assignment.user','step', 'step.status')->findOrFail($id);
         $user = Auth::user();
         $user_id = $user->id;
 
         $all_fields = $request->all();
 
-        if (!$client->step || ($client->step->status_id != $request->status_id)) {
+        if (!$applicant->step || ($applicant->step->status_id != $request->status_id)) {
 
                 $step = Step::create([
-                    'client_id' => intval($id),
+                    'applicant_id' => intval($id),
                     'status_id' => $request->status_id,
                     'created_by' => $user_id,
                     'modified_by' => $user_id
@@ -130,10 +130,10 @@ class ClientController extends Controller
 
         }
 
-        if ($client->assignment_id != $request->assignment_id) {
+        if ($applicant->assignment_id != $request->assignment_id) {
 
             Assignment::create([
-                'client_id' => intval($id),
+                'applicant_id' => intval($id),
                 'user_id' => $request->assignment_id,
                 'created_by' => $user_id,
                 'modified_by' => $user_id
@@ -144,9 +144,9 @@ class ClientController extends Controller
 
 
 
-        $client->update($all_fields);
+        $applicant->update($all_fields);
 
-        return $client;
+        return $applicant;
     }
 
     /**
@@ -157,7 +157,7 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        Client::find($id)->delete();
+        Applicant::find($id)->delete();
 
         return 204;
     }

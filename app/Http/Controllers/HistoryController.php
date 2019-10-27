@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Charge;
-use App\Client;
+use App\Applicant;
 use App\Conviction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +19,7 @@ class HistoryController extends Controller
 
     public function case(Conviction $convictions)
     {
-        /// return client, cases, charges and histories with everything
+        /// return applicant, cases, charges and histories with everything
         return $convictions->load([
             'histories' => function ($q) {
                 $q->with(['user']);
@@ -32,11 +32,11 @@ class HistoryController extends Controller
         ]);
     }
 
-    public function client(Client $client)
+    public function applicant(Applicant $applicant)
     {
-        /// return client, cases, charges and histories with everything
+        /// return applicant, cases, charges and histories with everything
         DB::enableQueryLog();
-        $history = $client->load([
+        $history = $applicant->load([
             'conviction' => function ($q) {
                 $q->with([
                     'histories' => function ($q) {

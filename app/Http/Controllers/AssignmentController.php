@@ -354,7 +354,7 @@ class AssignmentController extends Controller
         // Get query data
         $columns = [
             'name',
-            'client_id',
+            'applicant_id',
             'user_id',
         ];
         $dataQuery = Assignment::pdfDataQuery($column, $direction, $search, $columns);

@@ -142,17 +142,25 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('statutes/all', 'StatuteController@all');
     Route::get('services/all', 'ServiceController@all');
     Route::get('service-types/all', 'ServiceTypeController@all');
+
+    Route::get('/api-service-type', 'ServiceTypeApi@index');
+    Route::get('/api-service-type/options', 'ServiceTypeApi@getOptions');
+    Route::get('/service-type/download', 'ServiceTypeController@download')->name('service-type.download');
+    Route::get('/service-type/print', 'ServiceTypeController@print')->name('service-type.print');
+    Route::resource('/service-type', 'ServiceTypeController');
+
+    Route::get('/api-service', 'ServiceApi@index');
+    Route::get('/api-service/options', 'ServiceApi@getOptions');
+    Route::get('/service/download', 'ServiceController@download')->name('service.download');
+    Route::get('/service/print', 'ServiceController@print')->name('service.print');
+    Route::resource('/service', 'ServiceController');
+
+    Route::get('/api-applicant', 'ApplicantApi@index');
+    Route::get('/api-applicant/options', 'ApplicantApi@getOptions');
+    Route::get('/applicant/download', 'ApplicantController@download')->name('applicant.download');
+    Route::get('/applicant/print', 'ApplicantController@print')->name('applicant.print');
+    Route::resource('/applicant', 'ApplicantController');
 });
 
 
 
-Route::get('/api-service-type', 'ServiceTypeApi@index');
-Route::get('/api-service-type/options', 'ServiceTypeApi@getOptions');
-Route::get('/service-type/download', 'ServiceTypeController@download')->name('service-type.download');
-Route::get('/service-type/print', 'ServiceTypeController@print')->name('service-type.print');
-Route::resource('/service-type', 'ServiceTypeController');
-Route::get('/api-service', 'ServiceApi@index');
-Route::get('/api-service/options', 'ServiceApi@getOptions');
-Route::get('/service/download', 'ServiceController@download')->name('service.download');
-Route::get('/service/print', 'ServiceController@print')->name('service.print');
-Route::resource('/service', 'ServiceController');

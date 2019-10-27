@@ -14,7 +14,7 @@ class ApplicantIndexRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;  // Authorization is being done in the controler  ClientController::index()
+        return true;  // Authorization is being done in the controler  ApplicantController::index()
     }
 
     /**

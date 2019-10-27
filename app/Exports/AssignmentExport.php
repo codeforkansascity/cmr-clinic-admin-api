@@ -31,7 +31,7 @@ class AssignmentExport implements FromQuery, WithHeadings, WithMapping
         return [
                         'id',
                         'name',
-                        'client_id',
+                        'applicant_id',
                         'user_id',
                         'deleted_at',
                     ];
@@ -46,7 +46,7 @@ class AssignmentExport implements FromQuery, WithHeadings, WithMapping
 
                         $assignment->id,
                         $assignment->name,
-                        $assignment->client_id,
+                        $assignment->applicant_id,
                         $assignment->user_id,
                         $assignment->deleted_at,
                     ];

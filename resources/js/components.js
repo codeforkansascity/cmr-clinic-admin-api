@@ -83,10 +83,11 @@ Vue.component('fld-statute', () => import(/* webpackChunkName:"fld-statute" */ '
 //Vue.component('applicant-grid',       require('./components/ApplicantGrid.vue'));    // May need to add .default);
 //Vue.component('applicant-form',       require('./components/ApplicantForm.vue'));    // May need to add .default);
 Vue.component('applicant-grid', () => import(/* webpackChunkName:"applicant-grid" */ './components/applicants/ApplicantGrid.vue'));
-Vue.component('applicant-show', () => import(/* webpackChunkName:"applicant-show" */ './components/applicants/ApplicantShow.vue'));
 //Vue.component('applicant-form', () => import(/* webpackChunkName:"applicant-form" */ './components/ApplicantForm.vue'));
 Vue.component('applicant-container', () => import(/* webpackChunkName:"applicant-container" */ './components/applicants/ApplicantContainer'));
 
+Vue.component('applicant-form', () => import(/* webpackChunkName:"applicant-form" */ './components/applicants/ApplicantForm.vue'));
+Vue.component('applicant-show', () => import(/* webpackChunkName:"applicant-Show" */ './components/applicants/ApplicantShow.vue'));
 
 //Vue.component('status-grid',       require('./components/StatusGrid.vue'));    // May need to add .default);
 //Vue.component('status-form',       require('./components/StatusForm.vue'));    // May need to add .default);
@@ -140,3 +141,4 @@ Vue.component('service-show', () => import(/* webpackChunkName:"service-Show" */
 Vue.component('service-type-grid', () => import(/* webpackChunkName:"service-type-grid" */ './components/service_types/ServiceTypeGrid.vue'));
 Vue.component('service-type-form', () => import(/* webpackChunkName:"service-type-form" */ './components/service_types/ServiceTypeForm.vue'));
 Vue.component('service-type-show', () => import(/* webpackChunkName:"service-type-Show" */ './components/service_types/ServiceTypeShow.vue'));
+

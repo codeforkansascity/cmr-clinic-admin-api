@@ -37,7 +37,7 @@
                 type: [Boolean, Object, Array],
                 default: false
             },
-            client_id: {
+            applicant_id: {
                 type: Number,
                 default: 0
             }
@@ -60,7 +60,7 @@
             addCase() {
                 let new_case = {
                     id: 0,
-                    client_id: this.client_id,
+                    applicant_id: this.applicant_id,
                     name: "",
                     arrest_date: "",
                     case_number: "",

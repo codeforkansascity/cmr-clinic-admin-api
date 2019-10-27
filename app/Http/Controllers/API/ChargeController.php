@@ -18,9 +18,9 @@ class ChargeController extends Controller
         return Charge::all();
     }
 
-    public function add(Request $request, $client_id, $conviction_id)
+    public function add(Request $request, $applicant_id, $conviction_id)
     {
-        info("Charges::add($client_id");
+        info("Charges::add($applicant_id");
 
         $data = $request->all();
         $data['conviction_id'] = $conviction_id;
