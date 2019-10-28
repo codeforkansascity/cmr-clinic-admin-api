@@ -15,11 +15,12 @@ Example usage:
 <template>
     <select
             class="form-control"
-            v-model="modelValue"
+            v-model="selected"
             @change="updateValue"
             :name="this.name"
             :id="'field_' + this.name">
-        <option v-for="c in states" v-bind:value="c.name"> {{ c.name }}</option>
+        <option v-bind:value="this.blank_value">{{ this.blank_text }}</option>
+        <option v-for="c in states" v-bind:value="c.abbreviation"> {{ c.abbreviation }}</option>
     </select>
 </template>
 
@@ -27,21 +28,31 @@ Example usage:
     export default {
         name: "fld-state",
         model: {
-            prop: 'modelValue',
+            prop: 'selected',
             event: 'change'
         },
         props: {
             modelValue: {
                 type: String,
-                default: 'MO'
+                default: ''
             },
             name: {
                 type: String,
                 default: ''
-            }
+            },
+            blank_text: {
+                type: String,
+                default: ''
+            },
+            blank_value: {
+                type: [String, Number],
+                default: ''
+            },
         },
         data() {
             return {
+                //selected: 'MO',
+                selected: this.modelValue,
                 states: [
                     {
                         "name": "Alabama",
@@ -281,6 +292,7 @@ Example usage:
 
         mounted: function () {
 
+            //this.selected = this.modelValue;
         },
 
         methods: {

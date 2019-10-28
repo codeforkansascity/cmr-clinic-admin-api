@@ -381,6 +381,7 @@ class ServiceControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => "",
+            'service_type_id' => "",
         ];
 
         $totalNumberOfServicesBefore = Service::count();
@@ -408,6 +409,7 @@ class ServiceControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => "a",
+            'service_type_id' => "a",
         ];
 
         $totalNumberOfServicesBefore = Service::count();
@@ -437,6 +439,7 @@ class ServiceControllerTest extends TestCase
 
         $data = [
           'name' => $faker->name,
+          'service_type_id' => "",
         ];
 
         info('--  Service  --');
@@ -462,6 +465,9 @@ class ServiceControllerTest extends TestCase
         $this->assertEquals($lastInsertedInTheDB->name, $data['name'], "the name of the saved service is different from the input data");
 
 
+        $this->assertEquals($lastInsertedInTheDB->service_type_id, $data['service_type_id'], "the service_type_id of the saved service is different from the input data");
+
+
     }
 
     /**
@@ -484,6 +490,7 @@ class ServiceControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => $service->name,
+            'service_type_id' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('service.store'), $data);
@@ -548,6 +555,7 @@ class ServiceControllerTest extends TestCase
         $service_dup = [
 
             'name' => $faker->name,
+            'service_type_id' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('service.store'), $service_dup);

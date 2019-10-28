@@ -87,7 +87,7 @@ Vue.component('applicant-grid', () => import(/* webpackChunkName:"applicant-grid
 Vue.component('applicant-container', () => import(/* webpackChunkName:"applicant-container" */ './components/applicants/ApplicantContainer'));
 
 Vue.component('applicant-form', () => import(/* webpackChunkName:"applicant-form" */ './components/applicants/ApplicantForm.vue'));
-Vue.component('applicant-show', () => import(/* webpackChunkName:"applicant-Show" */ './components/applicants/ApplicantShow.vue'));
+Vue.component('applicant-show', () => import(/* webpackChunkName:"applicant-show" */ './components/applicants/ApplicantShow.vue'));
 
 //Vue.component('status-grid',       require('./components/StatusGrid.vue'));    // May need to add .default);
 //Vue.component('status-form',       require('./components/StatusForm.vue'));    // May need to add .default);

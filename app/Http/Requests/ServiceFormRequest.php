@@ -39,6 +39,11 @@ class ServiceFormRequest extends FormRequest
 
             'id' => 'numeric',
             'address' => 'nullable|string|max:191',
+            'address_line_2' => 'nullable|string|max:64',
+            'city' => 'nullable|string|max:64',
+            'state' => 'nullable|string|max:64',
+            'zip' => 'nullable|string|max:64',
+            'county' => 'nullable|string|max:64',
             'phone' => 'nullable|string|max:20',
             'email' => 'nullable|string|max:191',
             'note' => 'nullable|string|max:600',

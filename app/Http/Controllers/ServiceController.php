@@ -55,13 +55,13 @@ class ServiceController extends Controller
      * Permissions
      *
 
-             Permission::create(['name' => 'service index']);
-             Permission::create(['name' => 'service add']);
-             Permission::create(['name' => 'service update']);
-             Permission::create(['name' => 'service view']);
-             Permission::create(['name' => 'service destroy']);
-             Permission::create(['name' => 'service export-pdf']);
-             Permission::create(['name' => 'service export-excel']);
+             Permission::findOrCreate('service index');
+             Permission::findOrCreate('service view');
+             Permission::findOrCreate('service export-pdf');
+             Permission::findOrCreate('service export-excel');
+             Permission::findOrCreate('service add');
+             Permission::findOrCreate('service edit');
+             Permission::findOrCreate('service delete');
 
     */
 
@@ -82,7 +82,7 @@ class ServiceController extends Controller
         // Remember the search parameters, we saved them in the Query
         $page = session('service_page', '');
         $search = session('service_keyword', '');
-        $column = session('service_column', 'Name');
+        $column = session('service_column', 'name');
         $direction = session('service_direction', '-1');
 
         $can_add = Auth::user()->can('service add');
@@ -106,7 +106,7 @@ class ServiceController extends Controller
 
         if (!Auth::user()->can('service add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Services.');
-            if (Auth::user()->can('vc_vendor index')) {
+            if (Auth::user()->can('service index')) {
                 return Redirect::route('service.index');
             } else {
                 return Redirect::route('home');
@@ -136,7 +136,7 @@ class ServiceController extends Controller
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Vc Vendor ' . $service->name . ' was added');
+        \Session::flash('flash_success_message', 'Services ' . $service->name . ' was added.');
 
         return response()->json([
             'message' => 'Added record'
@@ -155,7 +155,7 @@ class ServiceController extends Controller
 
         if (!Auth::user()->can('service view')) {
             \Session::flash('flash_error_message', 'You do not have access to view a Services.');
-            if (Auth::user()->can('vc_vendor index')) {
+            if (Auth::user()->can('service index')) {
                 return Redirect::route('service.index');
             } else {
                 return Redirect::route('home');
@@ -164,7 +164,7 @@ class ServiceController extends Controller
 
         if ($service = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('service edit');
-            $can_delete = Auth::user()->can('service delete');
+            $can_delete = (Auth::user()->can('service delete') && $service->canDelete());
             return view('service.show', compact('service','can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Services to display.');
@@ -182,7 +182,7 @@ class ServiceController extends Controller
     {
         if (!Auth::user()->can('service edit')) {
             \Session::flash('flash_error_message', 'You do not have access to edit a Services.');
-            if (Auth::user()->can('vc_vendor index')) {
+            if (Auth::user()->can('service index')) {
                 return Redirect::route('service.index');
             } else {
                 return Redirect::route('home');
@@ -217,7 +217,7 @@ class ServiceController extends Controller
 //        }
 
         if (!$service = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Services to edit');
+       //     \Session::flash('flash_error_message', 'Unable to find Services to edit.');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
@@ -235,9 +235,9 @@ class ServiceController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Services ' . $service->name . ' was changed');
+            \Session::flash('flash_success_message', 'Services ' . $service->name . ' was changed.');
         } else {
-            \Session::flash('flash_info_message', 'No changes were made');
+            \Session::flash('flash_info_message', 'No changes were made.');
         }
 
         return response()->json([
@@ -274,9 +274,9 @@ class ServiceController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Invitation for ' . $service->name . ' was removed.');
+            \Session::flash('flash_success_message', 'Services ' . $service->name . ' was removed.');
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Invite to delete.');
+            \Session::flash('flash_error_message', 'Unable to find Services to delete.');
 
         }
 
@@ -297,7 +297,7 @@ class ServiceController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\Service::find(intval($id));
+        return \App\Service::with('service_type')->find(intval($id));
     }
 
 
@@ -339,7 +339,7 @@ class ServiceController extends Controller
         public function print()
 {
         if (!Auth::user()->can('service export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print Services');
+            \Session::flash('flash_error_message', 'You do not have access to print Services.');
             if (Auth::user()->can('service index')) {
                 return Redirect::route('service.index');
             } else {
@@ -358,6 +358,7 @@ class ServiceController extends Controller
         // Get query data
         $columns = [
             'name',
+            'service_type_id',
         ];
         $dataQuery = Service::pdfDataQuery($column, $direction, $search, $columns);
         $data = $dataQuery->get();

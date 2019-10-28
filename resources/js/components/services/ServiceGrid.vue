@@ -20,10 +20,11 @@
             <div class="col-lg-8 mb-2">
                 <form class="form-inline mb-0">
                     <a
+                        v-if="params.CanAdd"
                         href="#"
                         @click.default="goToNew"
                         class="btn btn-primary mb-3 mb-sm-2 mr-3"
-                        >Add</a
+                        >Add service</a
                     >
                     <search-form-group
                         class="mb-0"
@@ -55,6 +56,7 @@
                         <ss-grid-column-header
                             v-on:selectedSort="sortColumn"
                             v-bind:selectedKey="sortKey"
+                            v-bind:selectedOrder="sortOrder"
                             title="Sort by Name"
                             :params="{
                                 sortField: 'name',
@@ -63,19 +65,33 @@
                         >
                             Name
                         </ss-grid-column-header>
-                        <th style="width:20%;" class="text-center">Actions</th>
+                        <ss-grid-column-header
+                            v-on:selectedSort="sortColumn"
+                            v-bind:selectedKey="sortKey"
+                            v-bind:selectedOrder="sortOrder"
+                            title="Service Type"
+                            :params="{
+                                sortField: 'service_type_name',
+                                InitialSortOrder: 'asc'
+                            }"
+                        >
+                            Service Type Id
+                        </ss-grid-column-header>
+                        <th style="width:20%;" class="text-lg-center">
+                            Actions
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-if="gridState == 'wait'">
-                        <td colspan="2" class="grid-alert">
+                        <td colspan="3" class="grid-alert">
                             <div class="alert alert-info" role="alert">
                                 Please wait.
                             </div>
                         </td>
                     </tr>
                     <tr v-if="gridState == 'error'">
-                        <td colspan="2" class="grid-alert">
+                        <td colspan="3" class="grid-alert">
                             <div class="alert alert-warning" role="alert">
                                 Error please try again.
                             </div>
@@ -83,7 +99,7 @@
                     </tr>
 
                     <tr v-if="gridState == 'good' && !gridData.length">
-                        <td colspan="2" class="grid-alert">
+                        <td colspan="3" class="grid-alert">
                             <div class="alert alert-warning" role="alert">
                                 No matching records found.
                             </div>
@@ -101,6 +117,9 @@
                             <span v-if="params.CanShow != '1'">
                                 {{ row.name }}
                             </span>
+                        </td>
+                        <td data-title="Service Type">
+                            {{ row.service_type_name }}
                         </td>
                         <td
                             data-title="Actions"

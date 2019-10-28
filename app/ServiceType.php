@@ -30,6 +30,10 @@ class ServiceType extends Model
         'updated_at',
     ];
 
+    public function service() {
+        return $this->hasMany(\App\Service::class);
+    }
+
     public function add($attributes)
     {
 
