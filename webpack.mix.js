@@ -22,7 +22,6 @@ mix.webpackConfig({
 });
 
 mix.js('resources/js/app.js', 'public/js')
-    .browserSync('cmr-clinic-admin-api.test')
     .sass('resources/sass/app.scss', 'public/css')
     .copyDirectoryWatched('resources/img/**/*', 'public/img', { base: 'resources/img' });
 

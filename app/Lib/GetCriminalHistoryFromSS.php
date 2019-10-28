@@ -28,6 +28,39 @@ class GetCriminalHistoryFromSS
 
     var $applicant_number;
 
+    var $applicant = [];
+
+
+    var $current_type = 'CLIENT';
+    var $in = 'CLIENT';
+    var $record = [];
+    var $case = [];
+
+    var $labels = [];
+    var $label_errors = 0;
+
+    var $label_map = [
+        "Full Name" => "name",
+        "Date of Birth" => "dob",
+        "Client ID" => "cms_client_number",
+        "Case ID" => "cms_matter_number",
+        "Case" => "ERROR",
+        "Case Number" => "case_number",
+        "Name on Court Records" => "record_name",
+        "Arresting Agency" => "agency",
+        "Date of Arrest" => "arrest_date",
+        "Date of Charge" => "charge_date",
+        "Date of Disposition" => "disposition_date",
+        "County/City" => "court",
+        "Judge" => "judge",
+        "Release Status" => "release_status",
+        "Statute #" => "imported_citation",
+        "Level" => "level_text",
+        "Sentence" => "sentence",
+        "Release Date" => "release_date",
+        "Source" => "source",
+    ];
+
 
     public function __construct($path, $file_name, $data)
     {
@@ -41,9 +74,6 @@ class GetCriminalHistoryFromSS
 
         $this->readSpreadSheet($this->path . '/' . $this->file_name);
 
-        $this->in_applicant = true;
-        $this->in_case = false;
-        $this->in_charge = false;
         $this->current_type = 'CLIENT';
         $this->in = 'CLIENT';
         $this->record = [];
@@ -60,7 +90,7 @@ class GetCriminalHistoryFromSS
 
             if ($row_type) {
 
-                print "\n $row_type |" . $this->in . "|" . $this->current_type . "|\n-----------------------------------\n";
+                print "\n $row_type |>" . $this->in . "|" . $this->current_type . "<|\n-----------------------------------\n";
                 print_r($this->record);
 
                 switch ($this->in) {
@@ -92,20 +122,22 @@ class GetCriminalHistoryFromSS
 
             }
 
-            switch( $row_type) {
+            switch ($row_type) {
 
                 case 'CHARGE':
-                    $this->record['statute_text'] = $value;
+                    $this->record['imported_statute'] = $value;
                     break;
 
                 default:
+
+
                     switch ($this->in) {
                         case 'CASE':
-                            $this->case[$label] = $value;
+                            $this->case[$this->convertLable($label)] = $value;
                             break;
 
                         default:
-                            $this->record[$label] = $value;
+                            $this->record[$this->convertLable($label)] = $value;
                             break;
                     }
 
@@ -117,17 +149,29 @@ class GetCriminalHistoryFromSS
 
         print $this->current_type . "\n\n-----------------------------------\n";
         print_r($this->record);
+        print_r($this->labels);
 
-        print "\n\n-----------------------------------\n";
-        print_r($this->applicant);
-        print "END\n";
+        return $this->applicant;
+
 
     }
 
-    function cleanRow($row) {
+    function convertLable($label)
+    {
+
+        return $label;
+
+        if (!array_key_exists($label, $this->label_map)) {
+            return "ERROR $label";
+        }
+        return $this->label_map[$label];
+    }
+
+    function cleanRow($row)
+    {
         $label = trim($row[0]);
         $value = $row[1] ? trim($row[1]) : '';
-        if ( 0 != preg_match('/(Case)\s*(\d+)$/',$label, $row_parts)) {
+        if (0 != preg_match('/(Case)\s*(\d+)$/', $label, $row_parts)) {
             $label = 'Case';
         }
 
@@ -147,13 +191,14 @@ class GetCriminalHistoryFromSS
 
     }
 
-    function getRowType(&$row) {
+    function getRowType(&$row)
+    {
         $row_parts = [];
         $label = trim($row[0]);
-        if ( 0 != preg_match('/(Case)\s*(\d+)$/',$label, $row_parts)) {
+        if (0 != preg_match('/(Case)\s*(\d+)$/', $label, $row_parts)) {
             return 'CASE';
         }
-        if ( 0 != preg_match('/(Charge)\s*(\d+)$/',$label, $row_parts)) {
+        if (0 != preg_match('/(Charge)\s*(\d+)$/', $label, $row_parts)) {
             return 'CHARGE';
         }
 

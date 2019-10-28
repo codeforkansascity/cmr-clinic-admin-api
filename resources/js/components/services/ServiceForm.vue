@@ -15,6 +15,23 @@
                 <div class="row">
                     <div class="col-md-12">
                         <std-form-group
+                                label="Service Type"
+                                label-for="service_type_id"
+                                :errors="form_errors.service_type_id"
+                        >
+                            <ui-select-pick-one
+                                    url="/api-service-type/options"
+                                    v-model="form_data.service_type_id"
+                                    :selected_id="form_data.service_type_id"
+                                    name="service_type_id">
+                            </ui-select-pick-one>
+                        </std-form-group>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <std-form-group
                                 label="Name"
                                 label-for="name"
                                 :errors="form_errors.name"
@@ -31,19 +48,17 @@
                 <div class="row">
                     <div class="col-md-12">
                         <std-form-group
-                                label="Service Type"
-                                label-for="service_type_id"
-                                :errors="form_errors.service_type_id"
+                                label="Attn:"
+                                label-for="attn"
+                                :errors="form_errors.name"
+                                :required="true"
                         >
-                            <ui-select-pick-one
-                                    url="/api-service-type/options"
-                                    v-model="form_data.service_type_id"
-                                    :selected_id="form_data.service_type_id"
-                                    name="service_type_id">
-                            </ui-select-pick-one>
+                            <fld-input name="attn" v-model="form_data.attn" required/>
                         </std-form-group>
                     </div>
                 </div>
+
+
 
                 <div class="row">
                     <div class="col-md-12">

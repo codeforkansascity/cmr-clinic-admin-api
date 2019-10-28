@@ -15,6 +15,9 @@ class CleanUpConvictions extends Migration
     {
         Schema::table('convictions', function (Blueprint $table) {
             $table->dropColumn('release_date_text');
+            $table->string('arresting_agency', 64)->nullable();
+            $table->string('date_of_disposition', 64)->nullable();
+            $table->boolean('sis')->nullable();
         });
     }
 
@@ -27,7 +30,9 @@ class CleanUpConvictions extends Migration
     {
         Schema::table('convictions', function (Blueprint $table) {
             $table->string('release_date_text', 64)->nullable();
-
-              });
+            $table->dropColumn('arresting_agency');
+            $table->dropColumn('date_of_disposition');
+            $table->dropColumn('sis');
+        });
     }
 }

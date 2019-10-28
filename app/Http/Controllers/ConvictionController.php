@@ -233,8 +233,10 @@ info(__METHOD__ . ' saving');
             try {
                 $conviction->save();
             } catch (\Exception $e) {
+                info(print_r($e->getMessage(),true));
                 return response()->json([
-                    'message' => 'Unable to process request'
+                    'message' => 'Unable to process request',
+
                 ], 400);
             }
 
