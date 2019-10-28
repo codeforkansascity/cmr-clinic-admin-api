@@ -48,6 +48,7 @@ class LoadCriminalHistory extends Command
         $ss = new GetCriminalHistoryFromSS($this->path, $this->file_name, $data);
         try {
             $data = $ss->processSpreadSheet();
+            print_r($data);
         } catch (\Exception $e) {
             print $e->getMessage() . "\n";
 
