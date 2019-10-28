@@ -164,31 +164,32 @@
                             </std-form-group>
                         </div>
                         <div class="col-md-12">
-                            <std-form-group
-                                    label="City"
-                                    label-for="city"
-                                    :errors="form_errors.city"
-                            >
-                                <fld-input name="city" v-model="form_data.city"/>
-                            </std-form-group>
-                        </div>
-                        <div class="col-md-12">
-                            <std-form-group
-                                    label="State"
-                                    label-for="state"
-                                    :errors="form_errors.state"
-                            >
-                                <fld-state name="state" v-model="form_data.state"/>
-                            </std-form-group>
-                        </div>
-                        <div class="col-md-12">
-                            <std-form-group
-                                    label="Zip Code"
-                                    label-for="zip_code"
-                                    :errors="form_errors.zip_code"
-                            >
-                                <fld-input name="zip_code" v-model="form_data.zip_code"/>
-                            </std-form-group>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <std-form-group label="City" label-for="city" :errors="form_errors.city">
+                                        <fld-input
+                                                name="city"
+                                                v-model="form_data.city"
+                                        />
+                                    </std-form-group>
+                                </div>
+                                <div class="col-md-2">
+                                    <std-form-group label="State" label-for="state" :errors="form_errors.state">
+                                        <fld-state
+                                                name="state"
+                                                v-model="form_data.state"
+                                        />
+                                    </std-form-group>
+                                </div>
+                                <div class="col-md-4">
+                                    <std-form-group label="Zip" label-for="zip" :errors="form_errors.zip">
+                                        <fld-input
+                                                name="zip"
+                                                v-model="form_data.zip"
+                                        />
+                                    </std-form-group>
+                                </div>
+                            </div>
                         </div>
                     </fieldset>
                 </div>
