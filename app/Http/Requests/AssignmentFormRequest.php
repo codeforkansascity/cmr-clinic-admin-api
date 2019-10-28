@@ -38,7 +38,7 @@ class AssignmentFormRequest extends FormRequest
 
 
             'id' => 'numeric',
-            'client_id' => 'nullable|numeric',
+            'applicant_id' => 'nullable|numeric',
             'user_id' => 'nullable|numeric',
             'deleted_at' => 'nullable|string',
 

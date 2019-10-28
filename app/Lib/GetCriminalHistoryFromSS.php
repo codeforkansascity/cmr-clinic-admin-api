@@ -26,7 +26,7 @@ class GetCriminalHistoryFromSS
     var $current_row_offset = 0;
     var $current_row = [];
 
-    var $client_number;
+    var $applicant_number;
 
 
     public function __construct($path, $file_name, $data)
@@ -41,7 +41,7 @@ class GetCriminalHistoryFromSS
 
         $this->readSpreadSheet($this->path . '/' . $this->file_name);
 
-        $this->in_client = true;
+        $this->in_applicant = true;
         $this->in_case = false;
         $this->in_charge = false;
         $this->current_type = 'CLIENT';
@@ -65,10 +65,10 @@ class GetCriminalHistoryFromSS
 
                 switch ($this->in) {
                     case 'CLIENT':
-                        print "end client\n";
+                        print "end applicant\n";
                         $this->record['CASES'] = [];
-                        $this->client = $this->record;
-                        $this->client['CASES'] = [];
+                        $this->applicant = $this->record;
+                        $this->applicant['CASES'] = [];
                         break;
 
                     case 'CHARGE':
@@ -79,7 +79,7 @@ class GetCriminalHistoryFromSS
                         $this->case['CHARGES'][] = $this->record;
 
                         if ($row_type == 'CASE') {
-                            $this->client['CASES'][] = $this->case;
+                            $this->applicant['CASES'][] = $this->case;
                             $this->case = [];
                         }
 
@@ -119,7 +119,7 @@ class GetCriminalHistoryFromSS
         print_r($this->record);
 
         print "\n\n-----------------------------------\n";
-        print_r($this->client);
+        print_r($this->applicant);
         print "END\n";
 
     }
@@ -184,10 +184,7 @@ class GetCriminalHistoryFromSS
     private function readSpreadSheet($spread_sheet_file_name)
     {
 
-
         $tmp = Excel::toArray(new PersonHistory, $spread_sheet_file_name);
-
-
 
         if (count($tmp)) {  // We have data
             foreach ($tmp[0] AS $row) {
@@ -200,8 +197,6 @@ class GetCriminalHistoryFromSS
             }
 
         }
-
-
 
         return true;
 

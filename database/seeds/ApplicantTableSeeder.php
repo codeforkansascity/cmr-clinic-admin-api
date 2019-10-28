@@ -1,12 +1,12 @@
 <?php
 
 use App\Charge;
-use App\Client;
+use App\Applicant;
 use App\Conviction;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
-class ClientTableSeeder extends Seeder
+class ApplicantTableSeeder extends Seeder
 {
     protected $charges = [];
     protected $convictions = [];
@@ -20,7 +20,7 @@ class ClientTableSeeder extends Seeder
 
 
         $faker = Faker::create();
-        $client = \App\Client::create([
+        $applicant = \App\Applicant::create([
             'id' => '2',
             'name' => 'Teresa Lee Kuvalis',
             'phone' => $faker->phoneNumber,
@@ -54,15 +54,15 @@ class ClientTableSeeder extends Seeder
             'created_at' => '2019-04-22',
             'updated_at' => '2019-04-27',
             'previous_expungements' => NULL,
-            'notes' => 'Check on parole release date.  If 2011 (per client), ready for expungement.  If 2013 (per records), wait 1 year on felony traficking. Assault on LEO not eligible',
+            'notes' => 'Check on parole release date.  If 2011 (per applicant), ready for expungement.  If 2013 (per records), wait 1 year on felony traficking. Assault on LEO not eligible',
 
         ]);
 
-        dump('creating convictions for '.$client->name);
+        dump('creating convictions for '.$applicant->name);
         $convictions = [
             [
                 'id' => '2',
-                'client_id' => '2',
+                'applicant_id' => '2',
                 'name' => 'OriginalArrest/ChargesforTrafficking',
                 'arrest_date' => '10/22/2003',
                 'case_number' => '16CR9996477',
@@ -84,7 +84,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             ],
             [
                 'id' => '3',
-                'client_id' => '2',
+                'applicant_id' => '2',
                 'name' => 'TraffickingDrugs2ndDegree',
                 'arrest_date' => '11/03/2003',
                 'case_number' => '16CR039997-01',
@@ -106,7 +106,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             ],
             [
                 'id' => '4',
-                'client_id' => '2',
+                'applicant_id' => '2',
                 'name' => 'TraffickingDrugs/Attempt-2ndDegree',
                 'arrest_date' => NULL,
                 'case_number' => '16CR030999-01',
@@ -127,7 +127,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             ],
             [
                 'id' => '5',
-                'client_id' => '2',
+                'applicant_id' => '2',
                 'name' => 'Exceeded Speed Limit 11-15 miles per hour',
                 'arrest_date' => '03/18/2004',
                 'case_number' => '02199940',
@@ -148,7 +148,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             ],
             [
                 'id' => '6',
-                'client_id' => '2',
+                'applicant_id' => '2',
                 'name' => 'Driving with out a license plate',
                 'arrest_date' => NULL,
                 'case_number' => NULL,
@@ -172,7 +172,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             \App\Conviction::create($c);
         });
 
-        dump('creating charges for '.$client->name);
+        dump('creating charges for '.$applicant->name);
         $charges = [
             [
                 'id' => '2',
@@ -332,23 +332,23 @@ Arrest may be tied to this original case. After transfer, this case was disposed
         \App\Charge::insert($charges);
 
         $start = microtime(1);
-        dump('creating 100 clients with convictions and charges ');
-        $index = Client::max('id')+1;
-        $clients = factory(App\Client::class, 100)->make()
-            ->map(function ($client) use(&$index) {
-                $client['id'] = $index++;
-                return $client;
+        dump('creating 100 applicants with convictions and charges ');
+        $index = Applicant::max('id')+1;
+        $applicants = factory(App\Applicant::class, 100)->make()
+            ->map(function ($applicant) use(&$index) {
+                $applicant['id'] = $index++;
+                return $applicant;
             });
 
-        Client::insert($clients->toArray());
-        dump("Inserted Clients in ". round(microtime(1) - $start, 2). ' seconds');
+        Applicant::insert($applicants->toArray());
+        dump("Inserted Applicants in ". round(microtime(1) - $start, 2). ' seconds');
 
         $start = microtime(1);
         $index = (Conviction::max('id') ?? 1)+1;
 
-        $charges = collect($clients)->each(function ($client) use (&$index){
+        $charges = collect($applicants)->each(function ($applicant) use (&$index){
             $convictions = factory(\App\Conviction::class, rand(1, 5))
-                ->make(['client_id' => $client['id']])
+                ->make(['applicant_id' => $applicant['id']])
                 ->map(function ($conviction) use(&$index) {
                     $conviction['id'] = $index++;
                     return $conviction;

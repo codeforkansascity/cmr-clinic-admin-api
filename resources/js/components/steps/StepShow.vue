@@ -11,10 +11,10 @@
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">
                 <label class="col-md-4 col-form-label text-md-right">
-                    Client Id
+                    Applicant Id
                 </label>
                 <div class="col-md-8">
-                    <dsp-text v-model="record.client_id"/>
+                    <dsp-text v-model="record.applicant_id"/>
                 </div>
             </div>
             <div class="form-group row mb-2 mb-md-0 text-only">

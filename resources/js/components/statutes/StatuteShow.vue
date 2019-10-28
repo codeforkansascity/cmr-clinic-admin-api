@@ -43,7 +43,7 @@
                 <table class="table">
                     <tr v-for="row in charges" :key="row.id">
                         <td>
-                            {{ row.conviction.client.name }}
+                            {{ row.conviction.applicant.name }}
                         </td>
                         <td>
                             {{ row.conviction.case_number }}

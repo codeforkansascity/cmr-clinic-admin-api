@@ -40,11 +40,11 @@
         <div class="row">
             <div class="col-md-12">
                 <std-form-group
-                        label="Client Id"
-                        label-for="client_id"
-                        :errors="form_errors.client_id"
+                        label="Applicant Id"
+                        label-for="applicant_id"
+                        :errors="form_errors.applicant_id"
                 >
-                    <fld-input name="client_id" v-model="form_data.client_id"/>
+                    <fld-input name="applicant_id" v-model="form_data.applicant_id"/>
                 </std-form-group>
             </div>
         </div>
@@ -118,14 +118,14 @@
                     _token: this.csrf_token,
                     id: 0,
                     name: "",
-                    client_id: 0,
+                    applicant_id: 0,
                     status_id: 0,
                     deleted_at: ""
                 },
                 form_errors: {
                     id: false,
                     name: false,
-                    client_id: false,
+                    applicant_id: false,
                     status_id: false,
                     deleted_at: false
                 },

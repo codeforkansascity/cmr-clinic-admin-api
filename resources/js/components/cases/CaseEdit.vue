@@ -228,7 +228,7 @@
                 record: {},         // We will store v-model's input here to be reactive
                 form_errors: {
                     id: false,
-                    client_id: false,
+                    applicant_id: false,
                     name: false,
                     arrest_date: false,
                     case_number: false,

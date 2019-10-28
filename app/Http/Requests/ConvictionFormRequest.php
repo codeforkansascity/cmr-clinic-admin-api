@@ -38,7 +38,7 @@ class ConvictionFormRequest extends FormRequest
 
 
             'id' => 'numeric',
-            'client_id' => 'nullable|numeric',
+            'applicant_id' => 'nullable|numeric',
             'arrest_date' => 'nullable|string|max:64',
             'case_number' => 'nullable|string|max:64',
             'agency' => 'nullable|string|max:64',

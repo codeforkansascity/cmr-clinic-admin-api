@@ -2,11 +2,12 @@
 
 namespace App;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\RecordSignature;
 
-class Service extends Model
+class Applicant extends Model
 {
 
     use SoftDeletes;
@@ -18,17 +19,31 @@ class Service extends Model
     protected $fillable = [
             'id',
             'name',
-            'address',
+            'phone',
+            'email',
+            'sex',
+            'race',
+            'address_line_1',
             'address_line_2',
             'city',
             'state',
-            'zip',
-            'county',
-            'phone',
-            'email',
-            'note',
-            'service_type_id',
+            'zip_code',
+            'license_number',
+            'license_issuing_state',
+            'previous_expungements',
+            'previous_felony_expungements',
+            'previous_misdemeanor_expungements',
+            'notes',
+            'external_ref',
+            'any_pending_cases',
             'deleted_at',
+            'status_id',
+            'dob',
+            'license_expiration_date',
+            'cms_client_number',
+            'cms_matter_number',
+            'assignment_id',
+            'step_id',
         ];
 
     protected $hidden = [
@@ -40,8 +55,38 @@ class Service extends Model
         'updated_at',
     ];
 
-    public function service_type() {
-        return $this->belongsTo(\App\ServiceType::class);
+
+
+    public function assignment()
+    {
+        return $this->hasOne('App\Assignment', 'id', 'assignment_id');
+    }
+
+    public function step()
+    {
+        return $this->hasOne('App\Step', 'id', 'step_id');
+    }
+
+    public function conviction()
+    {
+        return $this->hasMany('App\Conviction');
+
+    }
+
+    public function histories()
+    {
+        return $this->morphMany(History::class, 'historyable');
+    }
+
+    // this is a recommended way to declare event handlers
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($tbl) { // before delete() method call this
+            foreach ($tbl->conviction()->get() as $rec) {
+                $rec->delete();
+            }
+        });
     }
 
     public function add($attributes)
@@ -73,20 +118,40 @@ class Service extends Model
      * @param $column
      * @param $direction
      * @param string $keyword
+     * @param $filter_assigned
+     * @param $status_filter
      * @return mixed
      */
     static function indexData(
         $per_page,
         $column,
         $direction,
-        $keyword = '')
+        $keyword = '',
+        $filter_assigned = -1,
+        $status_filter = -1)
     {
-        return self::buildBaseGridQuery($column, $direction, $keyword,
-            [ 'id',
-                    'name',
+        \DB::connection()->enableQueryLog();
 
+        $ret =  self::buildBaseGridQuery($column, $direction, $keyword, $filter_assigned, $status_filter,
+            [   'applicants.id',
+                'applicants.name',
+                'applicants.dob',
+                'applicants.notes',
+                'applicants.cms_client_number',
+                'users.name AS assigned_to',
+                'statuses.name AS status_name'
             ])
         ->paginate($per_page);
+
+
+        $query = \DB::getQueryLog();
+        $lastQuery = end($query);
+
+        info(print_r($lastQuery,true));
+
+
+
+        return $ret;
     }
 
 
@@ -109,6 +174,8 @@ class Service extends Model
         $column,
         $direction,
         $keyword = '',
+        $assigned_filter = -1,
+        $status_filter = -1,
         $columns = '*')
     {
         // Map sort direction from 1/-1 integer to asc/desc sql keyword
@@ -124,14 +191,40 @@ class Service extends Model
                 break;
         }
 
-        $query = Service::select('services.*', 'service_types.name AS service_type_name')
-            ->leftJoin('service_types','services.service_type_id', '=', 'service_types.id')
-            ->orderBy($column, $direction);
+        $query = Applicant::select($columns)
+            ->leftJoin('users', 'applicants.assignment_id', 'users.id')
+            ->leftJoin('steps', 'applicants.step_id', 'steps.id')
+            ->leftJoin('statuses', 'steps.status_id', 'statuses.id')
+        ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('services.name', 'like', '%' . $keyword . '%');
+            $query->where('applicants.name', 'like', '%' . $keyword . '%');
         }
 
+        switch ($assigned_filter) {
+            case -1:
+                break;
+            case 0:
+                $query->where('applicants.assignment_id', 0);
+                break;
+            default:
+                $query->where('applicants.assignment_id', intval($assigned_filter));
+                break;
+
+        }
+
+        info("\$status_filter=|$status_filter|");
+        switch ($status_filter) {
+            case -1:
+                break;
+            case 0:
+                $query->where('applicants.step_id', 0);
+                break;
+            default:
+                $query->where('steps.status_id', intval($status_filter));
+                break;
+
+        }
 
         return $query;
     }
@@ -201,6 +294,29 @@ class Service extends Model
             return $data;
         }
 
+    }
+
+    public function saveHistory($request, $action = 'updated')
+    {
+        $data = [
+            'user_id' => auth()->user()->id ??  1,
+            'reason_for_change' => $request->reason_for_change ?? null,
+            'action' => $action
+        ];
+
+        /*
+         * We only save the values listed in fillable for old and new
+         */
+        /// if not created add old values
+        if ($action !== 'created') {
+            $data['old'] = collect($this->getOriginal())->only($this->fillable);
+        }
+        /// if not deleted add new values
+        if ($action !== 'deleted') {
+            $data['new'] = $request->only($this->fillable);
+        }
+
+        return $this->histories()->create($data);
     }
 
 }

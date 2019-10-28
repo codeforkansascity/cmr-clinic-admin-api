@@ -15,9 +15,9 @@ class ApplicantFormRequest extends FormRequest
     public function authorize()
     {
         if ($this->route('applicant')) {  // If ID we must be changing an existing record
-            return Auth::user()->can('client update');
+            return Auth::user()->can('applicant update');
         } else {  // If not we must be adding one
-            return Auth::user()->can('client add');
+            return Auth::user()->can('applicant add');
         }
 
     }
@@ -42,7 +42,6 @@ class ApplicantFormRequest extends FormRequest
             'email' => 'nullable|string|max:225',
             'sex' => 'nullable|string|max:64',
             'race' => 'nullable|string|max:64',
-            'dob_text' => 'nullable|string|max:64',
             'address_line_1' => 'nullable|string|max:64',
             'address_line_2' => 'nullable|string|max:64',
             'city' => 'nullable|string|max:64',
@@ -50,21 +49,9 @@ class ApplicantFormRequest extends FormRequest
             'zip_code' => 'nullable|string|max:64',
             'license_number' => 'nullable|string|max:64',
             'license_issuing_state' => 'nullable|string|max:64',
-            'license_expiration_date_text' => 'nullable|string|max:64',
-            'filing_court' => 'nullable|string|max:64',
-            'judicial_circuit_number' => 'nullable|string',
-            'count_name' => 'nullable|string|max:64',
-            'judge_name' => 'nullable|string',
-            'division_name' => 'nullable|string',
-            'petitioner_name' => 'nullable|string',
-            'division_number' => 'nullable|string',
-            'city_name_here' => 'nullable|string',
-            'county_name' => 'nullable|string',
-            'arresting_county' => 'nullable|string',
-            'prosecuting_county' => 'nullable|string',
-            'arresting_municipality' => 'nullable|string',
-            'other_agencies_name' => 'nullable|string',
             'previous_expungements' => 'nullable|string',
+            'previous_felony_expungements' => 'nullable|numeric',
+            'previous_misdemeanor_expungements' => 'nullable|numeric',
             'notes' => 'nullable|string|max:255',
             'external_ref' => 'nullable|string|max:42',
             'any_pending_cases' => 'nullable|string|max:255',
@@ -80,9 +67,9 @@ class ApplicantFormRequest extends FormRequest
         ];
 
                 if ($this->route('applicant')) {  // If ID we must be changing an existing record
-                    $rules['name'] = 'required|min:3|nullable|string|max:64|unique:clients,name,' . $id;
+                    $rules['name'] = 'required|min:3|nullable|string|max:64|unique:applicants,name,' . $id;
                 } else {  // If not we must be adding one
-                    $rules['name'] = 'required|min:3|nullable|string|max:64|unique:clients';
+                    $rules['name'] = 'required|min:3|nullable|string|max:64|unique:applicants';
                 }
 
         return $rules;

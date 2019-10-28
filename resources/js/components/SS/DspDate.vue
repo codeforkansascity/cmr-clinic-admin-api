@@ -17,7 +17,9 @@ For text area
 </template>
 
 <script>
+    import moment from 'moment';
     export default {
+
         name: 'dsp-date',
         props: {
             value: {

@@ -66,13 +66,13 @@
                     <ss-grid-column-header
                             v-on:selectedSort="sortColumn"
                             v-bind:selectedKey="sortKey"
-                            title="Sort by Client Id"
+                            title="Sort by Applicant Id"
                             :params="{
-                                sortField: 'client_id',
+                                sortField: 'applicant_id',
                                 InitialSortOrder: 'asc'
                             }"
                     >
-                        Client Id
+                        Applicant Id
                     </ss-grid-column-header>
                     <ss-grid-column-header
                             v-on:selectedSort="sortColumn"
@@ -124,7 +124,7 @@
                                 {{ row.name }}
                             </span>
                     </td>
-                    <td data-title="Client Id">{{ row.client_id }}</td>
+                    <td data-title="Applicant Id">{{ row.applicant_id }}</td>
                     <td data-title="User Id">{{ row.user_id }}</td>
                     <td
                             data-title="Actions"

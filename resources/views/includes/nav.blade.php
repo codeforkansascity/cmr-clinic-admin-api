@@ -42,6 +42,10 @@
                             <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'status') echo 'active'; @endphp"
                                href="/status">Applicant Statuses</a>
                         @endcanany
+                        @canany(['service index'])
+                            <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'service') echo 'active'; @endphp"
+                               href="/service">Service</a>
+                        @endcanany
                     </div>
                 </li>
 

@@ -31,7 +31,7 @@ class StepExport implements FromQuery, WithHeadings, WithMapping
         return [
                         'id',
                         'name',
-                        'client_id',
+                        'applicant_id',
                         'status_id',
                         'deleted_at',
                     ];
@@ -46,7 +46,7 @@ class StepExport implements FromQuery, WithHeadings, WithMapping
 
                         $step->id,
                         $step->name,
-                        $step->client_id,
+                        $step->applicant_id,
                         $step->status_id,
                         $step->deleted_at,
                     ];

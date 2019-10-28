@@ -25,7 +25,7 @@ class StepController extends Controller
         return Step::all();
     }
 
-    public function indexByClient(Request $request, $client_id)
+    public function indexByClient(Request $request, $applicant_id)
     {
 
 //        if (!Auth::user()->can('step index')) {
@@ -34,7 +34,7 @@ class StepController extends Controller
 //            ], 403);
 //        }
 
-        $steps = Step::where('client_id',$client_id)->get();
+        $steps = Step::where('applicant_id',$applicant_id)->get();
 
 
 
@@ -42,13 +42,13 @@ class StepController extends Controller
 
     }
 
-    public function add(Request $request, $client_id)
+    public function add(Request $request, $applicant_id)
     {
-        info("steps::add($client_id)");
+        info("steps::add($applicant_id)");
         info(print_r($request->toArray(),true));
 
         $data = $request->all();
-        $data['client_id'] = $client_id;
+        $data['applicant_id'] = $applicant_id;
 
 
         $step =  Step::create($data);

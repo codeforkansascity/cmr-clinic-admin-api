@@ -357,7 +357,7 @@ class StepController extends Controller
         // Get query data
         $columns = [
             'name',
-            'client_id',
+            'applicant_id',
             'status_id',
         ];
         $dataQuery = Step::pdfDataQuery($column, $direction, $search, $columns);

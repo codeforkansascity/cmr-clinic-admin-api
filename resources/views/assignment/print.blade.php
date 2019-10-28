@@ -3,7 +3,7 @@
 @section('table-headings-row')
     <tr>
             <th>Name</th>
-            <th>Client Id</th>
+            <th>Applicant Id</th>
             <th>User Id</th>
         </tr>
 @endsection
@@ -11,7 +11,7 @@
     @foreach($data as $obj)
         <tr>
                     <td>{{ $obj->name }}</td>
-                    <td>{{ $obj->client_id }}</td>
+                    <td>{{ $obj->applicant_id }}</td>
                     <td>{{ $obj->user_id }}</td>
                 </tr>
     @endforeach

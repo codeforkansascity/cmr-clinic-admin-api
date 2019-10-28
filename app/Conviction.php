@@ -19,7 +19,7 @@ class Conviction extends Model
      * @var array
      */
     protected $fillable = [
-        'client_id',
+        'applicant_id',
         'name',
         'arrest_date',
         'case_number',
@@ -38,9 +38,9 @@ class Conviction extends Model
         'modified_by',
     ];
 
-    public function client()
+    public function applicant()
     {
-        return $this->belongsTo('App\Client');
+        return $this->belongsTo('App\Applicant');
     }
 
     public function charge()

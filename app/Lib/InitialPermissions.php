@@ -51,13 +51,13 @@ class InitialPermissions
         Permission::findOrCreate( 'invite export-pdf');
         Permission::findOrCreate( 'invite export-excel');
 
-        Permission::findOrCreate( 'client index');
-        Permission::findOrCreate( 'client add');
-        Permission::findOrCreate( 'client update');
-        Permission::findOrCreate( 'client view');
-        Permission::findOrCreate( 'client destroy');
-        Permission::findOrCreate( 'client export-pdf');
-        Permission::findOrCreate( 'client export-excel');
+        Permission::findOrCreate( 'applicant index');
+        Permission::findOrCreate( 'applicant add');
+        Permission::findOrCreate( 'applicant update');
+        Permission::findOrCreate( 'applicant view');
+        Permission::findOrCreate( 'applicant destroy');
+        Permission::findOrCreate( 'applicant export-pdf');
+        Permission::findOrCreate( 'applicant export-excel');
 
 
         Permission::findOrCreate( 'conviction index');
@@ -117,7 +117,7 @@ class InitialPermissions
             $role = Role::create(['name' => 'only index']);
         }
 
-        $role->givePermissionTo(['client index']);
+        $role->givePermissionTo(['applicant index']);
         $role->givePermissionTo(['conviction index']);
         $role->givePermissionTo(['charge index']);
         $role->givePermissionTo(['status index']);
@@ -145,13 +145,13 @@ class InitialPermissions
             'invite export-pdf',
             'invite export-excel',
 
-            'client index',
-            'client add',
-            'client update',
-            'client view',
-            'client destroy',
-            'client export-pdf',
-            'client export-excel',
+            'applicant index',
+            'applicant add',
+            'applicant update',
+            'applicant view',
+            'applicant destroy',
+            'applicant export-pdf',
+            'applicant export-excel',
 
             'conviction index',
             'conviction add',
@@ -203,12 +203,12 @@ class InitialPermissions
 
         $role->givePermissionTo([
 
-            'client index',
-            'client add',
-            'client update',
-            'client view',
-            'client export-pdf',
-            'client export-excel',
+            'applicant index',
+            'applicant add',
+            'applicant update',
+            'applicant view',
+            'applicant export-pdf',
+            'applicant export-excel',
 
             'conviction index',
             'conviction add',
@@ -263,8 +263,8 @@ class InitialPermissions
             'user index',
 
 
-            'client index',
-            'client view',
+            'applicant index',
+            'applicant view',
 
             'conviction index',
             'conviction view',

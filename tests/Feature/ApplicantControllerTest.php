@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use function MongoDB\BSON\toJSON;
 use Tests\TestCase;
 
-use App\Service;
+use App\Applicant;
 use Faker;
 
 //use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -19,13 +19,13 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Exceptions\RoleDoesNotExist;
 
 /**
- * Class ServiceControllerTest
+ * Class ApplicantControllerTest
  *
  * 1. Test that you must be logged in to access any of the controller functions.
  *
  * @package Tests\Feature
  */
-class ServiceControllerTest extends TestCase
+class ApplicantControllerTest extends TestCase
 {
 
     //use RefreshDatabase;
@@ -36,9 +36,9 @@ class ServiceControllerTest extends TestCase
     /**
      * @test
      */
-    public function prevent_non_logged_in_users_from_seeing_service_index()
+    public function prevent_non_logged_in_users_from_seeing_applicant_index()
     {
-        $response = $this->get('/service');
+        $response = $this->get('/applicant');
 
         $this->withoutMiddleware();
         $response->assertRedirect('login');
@@ -47,9 +47,9 @@ class ServiceControllerTest extends TestCase
     /**
      * @test
      */
-    public function prevent_non_logged_in_users_from_creating_service()
+    public function prevent_non_logged_in_users_from_creating_applicant()
     {
-        $response = $this->get(route('service.create'));
+        $response = $this->get(route('applicant.create'));
 
         $this->withoutMiddleware();
         $response->assertRedirect('login');
@@ -58,9 +58,9 @@ class ServiceControllerTest extends TestCase
     /**
      * @test
      */
-    public function prevent_non_logged_in_users_from_storing_service()
+    public function prevent_non_logged_in_users_from_storing_applicant()
     {
-        $response = $this->get(route('service.store'));
+        $response = $this->get(route('applicant.store'));
 
         $this->withoutMiddleware();
         $response->assertRedirect('login');
@@ -69,10 +69,10 @@ class ServiceControllerTest extends TestCase
     /**
      * @test
      */
-    public function prevent_non_logged_in_users_from_showing_service()
+    public function prevent_non_logged_in_users_from_showing_applicant()
     {
         // Should check for permisson before checking to see if record exists
-        $response = $this->get(route('service.show', ['id' => 1]));
+        $response = $this->get(route('applicant.show', ['id' => 1]));
 
         $this->withoutMiddleware();
         $response->assertRedirect('login');
@@ -81,10 +81,10 @@ class ServiceControllerTest extends TestCase
     /**
      * @test
      */
-    public function prevent_non_logged_in_users_from_editing_service()
+    public function prevent_non_logged_in_users_from_editing_applicant()
     {
         // Should check for permisson before checking to see if record exists
-        $response = $this->get(route('service.edit', ['id' => 1]));
+        $response = $this->get(route('applicant.edit', ['id' => 1]));
 
         $this->withoutMiddleware();
         $response->assertRedirect('login');
@@ -94,10 +94,10 @@ class ServiceControllerTest extends TestCase
     /**
      * @test
      */
-    public function prevent_non_logged_in_users_from_updateing_service()
+    public function prevent_non_logged_in_users_from_updateing_applicant()
     {
         // Should check for permisson before checking to see if record exists
-        $response = $this->put(route('service.update', ['id' => 1]));
+        $response = $this->put(route('applicant.update', ['id' => 1]));
         $this->withoutMiddleware();
         $response->assertRedirect('login');
     }
@@ -106,11 +106,11 @@ class ServiceControllerTest extends TestCase
     /**
      * @test
      */
-    public function prevent_non_logged_in_users_from_destroying_service()
+    public function prevent_non_logged_in_users_from_destroying_applicant()
     {
 
         // Should check for permisson before checking to see if record exists
-        $response = $this->delete(route('service.destroy', ['id' => 1]));
+        $response = $this->delete(route('applicant.destroy', ['id' => 1]));
 
         $this->withoutMiddleware();
         $response->assertRedirect('login');
@@ -124,12 +124,12 @@ class ServiceControllerTest extends TestCase
     /**
      * @test
      */
-    public function prevent_users_without_permissions_from_seeing_service_index()
+    public function prevent_users_without_permissions_from_seeing_applicant_index()
     {
 
         $user = $this->getRandomUser('cant');
 
-        $response = $this->actingAs($user)->get('/service');
+        $response = $this->actingAs($user)->get('/applicant');
 
         // TODO: Check for message???
 
@@ -139,12 +139,12 @@ class ServiceControllerTest extends TestCase
     /**
      * @test
      */
-    public function prevent_users_without_permissions_from_creating_service()
+    public function prevent_users_without_permissions_from_creating_applicant()
     {
 
         $user = $this->getRandomUser('cant');
 
-        $response = $this->actingAs($user)->get(route('service.create'));
+        $response = $this->actingAs($user)->get(route('applicant.create'));
 
         $response->assertRedirect('home');
     }
@@ -153,12 +153,12 @@ class ServiceControllerTest extends TestCase
     /**
      * @test
      */
-    public function prevent_users_without_permissions_from_storing_service()
+    public function prevent_users_without_permissions_from_storing_applicant()
     {
 
         $user = $this->getRandomUser('cant');
 
-        $response = $this->actingAs($user)->post(route('service.store'));
+        $response = $this->actingAs($user)->post(route('applicant.store'));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
 
@@ -167,13 +167,13 @@ class ServiceControllerTest extends TestCase
     /**
      * @test
      */
-    public function prevent_users_without_permissions_from_showing_service()
+    public function prevent_users_without_permissions_from_showing_applicant()
     {
 
         $user = $this->getRandomUser('cant');
 
         // Should check for permisson before checking to see if record exists
-        $response = $this->actingAs($user)->get(route('service.show', ['id' => 1]));
+        $response = $this->actingAs($user)->get(route('applicant.show', ['id' => 1]));
 
         $response->assertRedirect('home');
     }
@@ -181,12 +181,12 @@ class ServiceControllerTest extends TestCase
     /**
      * @test
      */
-    public function prevent_users_without_permissions_from_editing_service()
+    public function prevent_users_without_permissions_from_editing_applicant()
     {
 
         $user = $this->getRandomUser('cant');
 
-        $response = $this->actingAs($user)->get(route('service.edit', ['id' => 1]));
+        $response = $this->actingAs($user)->get(route('applicant.edit', ['id' => 1]));
 
         $response->assertRedirect('home');
     }
@@ -195,12 +195,12 @@ class ServiceControllerTest extends TestCase
     /**
      * @test
      */
-    public function prevent_users_without_permissions_from_updateing_service()
+    public function prevent_users_without_permissions_from_updateing_applicant()
     {
 
         $user = $this->getRandomUser('cant');
 
-        $response = $this->actingAs($user)->put(route('service.update', ['id' => 1]));
+        $response = $this->actingAs($user)->put(route('applicant.update', ['id' => 1]));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
 
@@ -210,13 +210,13 @@ class ServiceControllerTest extends TestCase
     /**
      * @test
      */
-    public function prevent_users_without_permissions_from_destroying_service()
+    public function prevent_users_without_permissions_from_destroying_applicant()
     {
 
         $user = $this->getRandomUser('cant');
 
         // Should check for permisson before checking to see if record exists
-        $response = $this->actingAs($user)->delete(route('service.destroy', ['id' => 1]));
+        $response = $this->actingAs($user)->delete(route('applicant.destroy', ['id' => 1]));
 
         $response->assertRedirect('home');
     }
@@ -232,26 +232,26 @@ class ServiceControllerTest extends TestCase
     /**
      * @test
      */
-    public function prevent_users_withonly_index_permissions_from_creating_service()
+    public function prevent_users_withonly_index_permissions_from_creating_applicant()
     {
 
         $user = $this->getRandomUser('only index');
 
-        $response = $this->actingAs($user)->get(route('service.create'));
+        $response = $this->actingAs($user)->get(route('applicant.create'));
 
-        $response->assertRedirect('service');
+        $response->assertRedirect('applicant');
     }
 
 
     /**
      * @test
      */
-    public function prevent_users_withonly_index_permissions_from_storing_service()
+    public function prevent_users_withonly_index_permissions_from_storing_applicant()
     {
 
         $user = $this->getRandomUser('only index');
 
-        $response = $this->actingAs($user)->post(route('service.store'));
+        $response = $this->actingAs($user)->post(route('applicant.store'));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
 
@@ -260,40 +260,40 @@ class ServiceControllerTest extends TestCase
     /**
      * @test
      */
-    public function prevent_users_withonly_index_permissions_from_showing_service()
+    public function prevent_users_withonly_index_permissions_from_showing_applicant()
     {
 
         $user = $this->getRandomUser('only index');
 
         // Should check for permisson before checking to see if record exists
-        $response = $this->actingAs($user)->get(route('service.show', ['id' => 1]));
+        $response = $this->actingAs($user)->get(route('applicant.show', ['id' => 1]));
 
-        $response->assertRedirect('service');
+        $response->assertRedirect('applicant');
     }
 
     /**
      * @test
      */
-    public function prevent_users_withonly_index_permissions_from_editing_service()
+    public function prevent_users_withonly_index_permissions_from_editing_applicant()
     {
 
         $user = $this->getRandomUser('only index');
 
-        $response = $this->actingAs($user)->get(route('service.edit', ['id' => 1]));
+        $response = $this->actingAs($user)->get(route('applicant.edit', ['id' => 1]));
 
-        $response->assertRedirect('service');
+        $response->assertRedirect('applicant');
     }
 
 
     /**
      * @test
      */
-    public function prevent_users_withonly_index_permissions_from_updating_service()
+    public function prevent_users_withonly_index_permissions_from_updating_applicant()
     {
 
         $user = $this->getRandomUser('only index');
 
-        $response = $this->actingAs($user)->put(route('service.update', ['id' => 1]));
+        $response = $this->actingAs($user)->put(route('applicant.update', ['id' => 1]));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
 
@@ -303,15 +303,15 @@ class ServiceControllerTest extends TestCase
     /**
      * @test
      */
-    public function prevent_users_withonly_index_permissions_from_destroying_service()
+    public function prevent_users_withonly_index_permissions_from_destroying_applicant()
     {
 
         $user = $this->getRandomUser('only index');
 
         // Should check for permisson before checking to see if record exists
-        $response = $this->actingAs($user)->delete(route('service.destroy', ['id' => 1]));
+        $response = $this->actingAs($user)->delete(route('applicant.destroy', ['id' => 1]));
 
-        $response->assertRedirect('service');
+        $response->assertRedirect('applicant');
     }
 
     /// ////////
@@ -323,30 +323,30 @@ class ServiceControllerTest extends TestCase
     /**
      * @test
      */
-    public function prevent_showing_a_nonexistent_service()
+    public function prevent_showing_a_nonexistent_applicant()
     {
         // get a random user
         $user = $this->getRandomUser('super-admin');
 
         // act as the user we got and request the create_new_article route
-        $response = $this->actingAs($user)->get(route('service.show',['id' => 100]));
+        $response = $this->actingAs($user)->get(route('applicant.show',['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Services to display.');
+        $response->assertSessionHas('flash_error_message','Unable to find Applicants to display.');
 
     }
 
     /**
      * @test
      */
-    public function prevent_editing_a_nonexistent_service()
+    public function prevent_editing_a_nonexistent_applicant()
     {
         // get a random user
         $user = $this->getRandomUser('super-admin');
 
         // act as the user we got and request the create_new_article route
-        $response = $this->actingAs($user)->get(route('service.edit',['id' => 100]));
+        $response = $this->actingAs($user)->get(route('applicant.edit',['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Services to edit.');
+        $response->assertSessionHas('flash_error_message','Unable to find Applicants to edit.');
 
     }
 
@@ -356,24 +356,24 @@ class ServiceControllerTest extends TestCase
     /**
      * @test
      */
-    public function it_allows_logged_in_users_to_create_new_service()
+    public function it_allows_logged_in_users_to_create_new_applicant()
     {
         // get a random user
         $user = $this->getRandomUser('super-admin');
 
         // act as the user we got and request the create_new_article route
-        $response = $this->actingAs($user)->get(route('service.create'));
+        $response = $this->actingAs($user)->get(route('applicant.create'));
 
         $response->assertStatus(200);
-        $response->assertViewIs('service.create');
-        $response->assertSee('service-form');
+        $response->assertViewIs('applicant.create');
+        $response->assertSee('applicant-form');
 
     }
 
     /**
      * @test
      */
-    public function prevent_creating_a_blank_service()
+    public function prevent_creating_a_blank_applicant()
     {
         // get a random user
         $user = $this->getRandomUser('super-admin');
@@ -381,15 +381,15 @@ class ServiceControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => "",
-            'service_type_id' => "",
+            'dob' => "",
         ];
 
-        $totalNumberOfServicesBefore = Service::count();
+        $totalNumberOfApplicantsBefore = Applicant::count();
 
-        $response = $this->actingAs($user)->post(route('service.store'), $data);
+        $response = $this->actingAs($user)->post(route('applicant.store'), $data);
 
-        $totalNumberOfServicesAfter = Service::count();
-        $this->assertEquals($totalNumberOfServicesAfter, $totalNumberOfServicesBefore, "the number of total article is supposed to be the same ");
+        $totalNumberOfApplicantsAfter = Applicant::count();
+        $this->assertEquals($totalNumberOfApplicantsAfter, $totalNumberOfApplicantsBefore, "the number of total article is supposed to be the same ");
 
         $errors = session('errors');
         $this->assertEquals($errors->get('name')[0],"The name field is required.");
@@ -401,7 +401,7 @@ class ServiceControllerTest extends TestCase
      *
      * Check validation works
      */
-    public function prevent_invalid_data_when_creating_a_service()
+    public function prevent_invalid_data_when_creating_a_applicant()
     {
         // get a random user
         $user = $this->getRandomUser('super-admin');
@@ -409,15 +409,15 @@ class ServiceControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => "a",
-            'service_type_id' => "a",
+            'dob' => "a",
         ];
 
-        $totalNumberOfServicesBefore = Service::count();
+        $totalNumberOfApplicantsBefore = Applicant::count();
 
-        $response = $this->actingAs($user)->post(route('service.store'), $data);
+        $response = $this->actingAs($user)->post(route('applicant.store'), $data);
 
-        $totalNumberOfServicesAfter = Service::count();
-        $this->assertEquals($totalNumberOfServicesAfter, $totalNumberOfServicesBefore, "the number of total article is supposed to be the same ");
+        $totalNumberOfApplicantsAfter = Applicant::count();
+        $this->assertEquals($totalNumberOfApplicantsAfter, $totalNumberOfApplicantsBefore, "the number of total article is supposed to be the same ");
 
         $errors = session('errors');
 
@@ -430,7 +430,7 @@ class ServiceControllerTest extends TestCase
      *
      * Check validation works
      */
-    public function create_a_service()
+    public function create_a_applicant()
     {
 
         $faker = Faker\Factory::create();
@@ -439,33 +439,33 @@ class ServiceControllerTest extends TestCase
 
         $data = [
           'name' => $faker->name,
-          'service_type_id' => "",
+          'dob' => "",
         ];
 
-        info('--  Service  --');
+        info('--  Applicant  --');
          info(print_r($data,true));
           info('----');
 
-        $totalNumberOfServicesBefore = Service::count();
+        $totalNumberOfApplicantsBefore = Applicant::count();
 
-        $response = $this->actingAs($user)->post(route('service.store'), $data);
+        $response = $this->actingAs($user)->post(route('applicant.store'), $data);
 
-        $totalNumberOfServicesAfter = Service::count();
+        $totalNumberOfApplicantsAfter = Applicant::count();
 
 
         $errors = session('errors');
 
         info(print_r($errors,true));
 
-        $this->assertEquals($totalNumberOfServicesAfter, $totalNumberOfServicesBefore + 1, "the number of total service is supposed to be one more ");
+        $this->assertEquals($totalNumberOfApplicantsAfter, $totalNumberOfApplicantsBefore + 1, "the number of total applicant is supposed to be one more ");
 
-        $lastInsertedInTheDB = Service::orderBy('id', 'desc')->first();
-
-
-        $this->assertEquals($lastInsertedInTheDB->name, $data['name'], "the name of the saved service is different from the input data");
+        $lastInsertedInTheDB = Applicant::orderBy('id', 'desc')->first();
 
 
-        $this->assertEquals($lastInsertedInTheDB->service_type_id, $data['service_type_id'], "the service_type_id of the saved service is different from the input data");
+        $this->assertEquals($lastInsertedInTheDB->name, $data['name'], "the name of the saved applicant is different from the input data");
+
+
+        $this->assertEquals($lastInsertedInTheDB->dob, $data['dob'], "the dob of the saved applicant is different from the input data");
 
 
     }
@@ -475,7 +475,7 @@ class ServiceControllerTest extends TestCase
      *
      * Check validation works
      */
-    public function prevent_creating_a_duplicate_service()
+    public function prevent_creating_a_duplicate_applicant()
     {
 
         $faker = Faker\Factory::create();
@@ -484,23 +484,23 @@ class ServiceControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
 
-        $totalNumberOfServicesBefore = Service::count();
+        $totalNumberOfApplicantsBefore = Applicant::count();
 
-        $service = Service::get()->random();
+        $applicant = Applicant::get()->random();
         $data = [
             'id' => "",
-            'name' => $service->name,
-            'service_type_id' => "",
+            'name' => $applicant->name,
+            'dob' => "",
         ];
 
-        $response = $this->actingAs($user)->post(route('service.store'), $data);
+        $response = $this->actingAs($user)->post(route('applicant.store'), $data);
         $response->assertStatus(302);
 
         $errors = session('errors');
         $this->assertEquals($errors->get('name')[0],"The name has already been taken.");
 
-        $totalNumberOfServicesAfter = Service::count();
-        $this->assertEquals($totalNumberOfServicesAfter, $totalNumberOfServicesBefore, "the number of total service should be the same ");
+        $totalNumberOfApplicantsAfter = Applicant::count();
+        $this->assertEquals($totalNumberOfApplicantsAfter, $totalNumberOfApplicantsBefore, "the number of total applicant should be the same ");
 
     }
 
@@ -509,7 +509,7 @@ class ServiceControllerTest extends TestCase
      *
      * Check validation works
      */
-    public function allow_changing_service()
+    public function allow_changing_applicant()
     {
 
         $faker = Faker\Factory::create();
@@ -517,18 +517,18 @@ class ServiceControllerTest extends TestCase
         // get a random user
         $user = $this->getRandomUser('super-admin');
 
-        $data = Service::get()->random()->toArray();
+        $data = Applicant::get()->random()->toArray();
 
         $data['name'] = $data['name'] . '1';
 
-        $totalNumberOfServicesBefore = Service::count();
+        $totalNumberOfApplicantsBefore = Applicant::count();
 
-        $response = $this->actingAs($user)->json('PATCH', 'service/' . $data['id'], $data);
+        $response = $this->actingAs($user)->json('PATCH', 'applicant/' . $data['id'], $data);
 
         $response->assertStatus(200);
 
-        $totalNumberOfServicesAfter = Service::count();
-        $this->assertEquals($totalNumberOfServicesAfter, $totalNumberOfServicesBefore, "the number of total service should be the same ");
+        $totalNumberOfApplicantsAfter = Applicant::count();
+        $this->assertEquals($totalNumberOfApplicantsAfter, $totalNumberOfApplicantsBefore, "the number of total applicant should be the same ");
 
     }
 
@@ -539,7 +539,7 @@ class ServiceControllerTest extends TestCase
      *
      * Check validation works on change for catching dups
      */
-    public function prevent_creating_a_duplicate_by_changing_service()
+    public function prevent_creating_a_duplicate_by_changing_applicant()
     {
 
         $faker = Faker\Factory::create();
@@ -547,25 +547,25 @@ class ServiceControllerTest extends TestCase
         // get a random user
         $user = $this->getRandomUser('super-admin');
 
-        $data = Service::get()->random()->toArray();
+        $data = Applicant::get()->random()->toArray();
 
 
 
-        // Create one that we can duplicate the name for, at this point we only have one service record
-        $service_dup = [
+        // Create one that we can duplicate the name for, at this point we only have one applicant record
+        $applicant_dup = [
 
             'name' => $faker->name,
-            'service_type_id' => "",
+            'dob' => "",
         ];
 
-        $response = $this->actingAs($user)->post(route('service.store'), $service_dup);
+        $response = $this->actingAs($user)->post(route('applicant.store'), $applicant_dup);
 
 
-        $data['name'] = $service_dup['name'];
+        $data['name'] = $applicant_dup['name'];
 
-        $totalNumberOfServicesBefore = Service::count();
+        $totalNumberOfApplicantsBefore = Applicant::count();
 
-        $response = $this->actingAs($user)->json('PATCH', 'service/' . $data['id'], $data);
+        $response = $this->actingAs($user)->json('PATCH', 'applicant/' . $data['id'], $data);
         $response->assertStatus(422);  // From web page we get a 422
 
         $errors = session('errors');
@@ -580,8 +580,8 @@ class ServiceControllerTest extends TestCase
 
         $response->assertJsonValidationErrors(['name']);
 
-        $totalNumberOfServicesAfter = Service::count();
-        $this->assertEquals($totalNumberOfServicesAfter, $totalNumberOfServicesBefore, "the number of total service should be the same ");
+        $totalNumberOfApplicantsAfter = Applicant::count();
+        $this->assertEquals($totalNumberOfApplicantsAfter, $totalNumberOfApplicantsBefore, "the number of total applicant should be the same ");
 
     }
 
@@ -590,7 +590,7 @@ class ServiceControllerTest extends TestCase
      *
      * Check validation works
      */
-    public function allow_deleting_service()
+    public function allow_deleting_applicant()
     {
 
         $faker = Faker\Factory::create();
@@ -598,15 +598,15 @@ class ServiceControllerTest extends TestCase
         // get a random user
         $user = $this->getRandomUser('super-admin');
 
-        $data = Service::get()->random()->toArray();
+        $data = Applicant::get()->random()->toArray();
 
 
-        $totalNumberOfServicesBefore = Service::count();
+        $totalNumberOfApplicantsBefore = Applicant::count();
 
-        $response = $this->actingAs($user)->json('DELETE', 'service/' . $data['id'], $data);
+        $response = $this->actingAs($user)->json('DELETE', 'applicant/' . $data['id'], $data);
 
-        $totalNumberOfServicesAfter = Service::count();
-        $this->assertEquals($totalNumberOfServicesAfter, $totalNumberOfServicesBefore - 1, "the number of total service should be the same ");
+        $totalNumberOfApplicantsAfter = Applicant::count();
+        $this->assertEquals($totalNumberOfApplicantsAfter, $totalNumberOfApplicantsBefore - 1, "the number of total applicant should be the same ");
 
     }
 

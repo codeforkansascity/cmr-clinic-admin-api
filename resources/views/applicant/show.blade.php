@@ -1,21 +1,21 @@
 @extends('layouts.master')
 @php $nav_path = ['applicant']; @endphp
 @section('page-title')
-View {{$client->name}}
+View {{$applicant->name}}
 @endsection
 @section('page-header-title')
-View {{$client->name}}
+View {{$applicant->name}}
 @endsection
 @section('page-header-breadcrumbs')
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
     <li class="breadcrumb-item"><a href="{{ route('applicant.index') }}">Applicants</a></li>
-    <li class="breadcrumb-item active" aria-current="location">View {{$client->name}}</li>
+    <li class="breadcrumb-item active" aria-current="location">View {{$applicant->name}}</li>
 </ol>
 @endsection
 @section('content')
 
-    <applicant-show :data='@json($client)'></applicant-show>
+    <applicant-show :data='@json($applicant)'></applicant-show>
 
     <div class="row">
         <div class="col-md-6">
