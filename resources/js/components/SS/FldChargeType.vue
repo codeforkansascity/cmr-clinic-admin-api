@@ -58,6 +58,10 @@ Example usage:
                     {
                         "name": "Infraction",
                         "abbreviation": "Infraction"
+                    },
+                    {
+                        "name": "Ordanace",
+                        "abbreviation": "Ordanace"
                     }
                 ]
             }
