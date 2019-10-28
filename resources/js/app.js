@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -8,6 +7,26 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+
+
+/**
+ *    Global Event Bus
+ *      -- Usage --
+ *
+ * Registering an event from a component
+ * this.$bus.$emit('event-name', value)
+ *
+ * Registering Listener
+ *
+ * this.$bus.$on('event-name', (value) => { // Your code here })
+*/
+Vue.prototype.$bus = new Vue();
+
+import vSelect from 'vue-select'
+
+Vue.component('v-select', vSelect)
+
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -42,6 +61,10 @@ require('./components');
 
 require('./cmr-mixins');
 
+import moment from 'moment'
+
+Vue.prototype.moment = moment
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -49,5 +72,5 @@ require('./cmr-mixins');
  */
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
 });

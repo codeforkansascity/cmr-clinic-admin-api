@@ -3,6 +3,7 @@
 @section('table-headings-row')
     <tr>
             <th>Name</th>
+            <th>Alias</th>
             <th>Sequence</th>
         </tr>
 @endsection
@@ -10,6 +11,7 @@
     @foreach($data as $obj)
         <tr>
                     <td>{{ $obj->name }}</td>
+                    <td>{{ $obj->alias }}</td>
                     <td>{{ $obj->sequence }}</td>
                 </tr>
     @endforeach

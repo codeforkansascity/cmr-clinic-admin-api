@@ -52,9 +52,6 @@ class CreateConvictions extends Migration
     public function down()
     {
 
-//        Schema::table('convictions', function(Blueprint $table) {
-//            $table->dropForeign('convictions_client_id_foreign');
-//        });
         Schema::dropIfExists('conviction');
     }
 }

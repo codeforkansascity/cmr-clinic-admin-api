@@ -331,7 +331,7 @@ class StatusControllerTest extends TestCase
         // act as the user we got and request the create_new_article route
         $response = $this->actingAs($user)->get(route('status.show',['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Statuses to display.');
+        $response->assertSessionHas('flash_error_message','Unable to find Status to display.');
 
     }
 
@@ -346,7 +346,7 @@ class StatusControllerTest extends TestCase
         // act as the user we got and request the create_new_article route
         $response = $this->actingAs($user)->get(route('status.edit',['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Statuses to edit.');
+        $response->assertSessionHas('flash_error_message','Unable to find Status to edit.');
 
     }
 
@@ -381,6 +381,7 @@ class StatusControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => "",
+            'alias' => "",
             'sequence' => "",
         ];
 
@@ -409,6 +410,7 @@ class StatusControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => "a",
+            'alias' => "a",
             'sequence' => "a",
         ];
 
@@ -439,6 +441,7 @@ class StatusControllerTest extends TestCase
 
         $data = [
           'name' => $faker->name,
+          'alias' => "",
           'sequence' => "",
         ];
 
@@ -463,6 +466,9 @@ class StatusControllerTest extends TestCase
 
 
         $this->assertEquals($lastInsertedInTheDB->name, $data['name'], "the name of the saved status is different from the input data");
+
+
+        $this->assertEquals($lastInsertedInTheDB->alias, $data['alias'], "the alias of the saved status is different from the input data");
 
 
         $this->assertEquals($lastInsertedInTheDB->sequence, $data['sequence'], "the sequence of the saved status is different from the input data");
@@ -490,6 +496,7 @@ class StatusControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => $status->name,
+            'alias' => "",
             'sequence' => "",
         ];
 
@@ -555,6 +562,7 @@ class StatusControllerTest extends TestCase
         $status_dup = [
 
             'name' => $faker->name,
+            'alias' => "",
             'sequence' => "",
         ];
 

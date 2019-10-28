@@ -16,12 +16,12 @@ class ConvertTextDates
 {
     function __construct() {
 
-        $clients = Client::all();
+        $applicants = Client::all();
 
-        foreach ($clients AS $client) {
-            $client->dob = $this->convertDateToMySql($client->dob_text);
-            $client->license_expiration_date = $this->convertDateToMySql($client->license_expiration_date_text);
-            $client->save();
+        foreach ($applicants AS $applicant) {
+            $applicant->dob = $this->convertDateToMySql($applicant->dob_text);
+            $applicant->license_expiration_date = $this->convertDateToMySql($applicant->license_expiration_date_text);
+            $applicant->save();
         }
 
         $convictions = Conviction::all();

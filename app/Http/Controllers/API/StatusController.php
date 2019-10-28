@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Status;
 
 class StatusController extends Controller
@@ -80,5 +81,28 @@ class StatusController extends Controller
         Status::find($id)->delete();
 
         return 204;
+    }
+
+    /**
+     * Returns "options" for HTML select
+     * @return array
+     */
+    public function options() {
+        if (!Auth::user()->can('status index')) {
+            return response()->json([
+                'error' => 'Not authorized'
+            ], 403);
+        }
+
+        $data =  Status::getOptions()->toArray();
+
+        info(print_r($data,true));
+
+        array_unshift($data, ['id' => '-1', 'name' => 'All Status']);
+        array_unshift($data, ['id' => '0', 'name' => 'Unassigned'] );
+
+        info(print_r($data,true));
+
+        return $data;
     }
 }

@@ -27,7 +27,7 @@ class IncreaseSizeOfChargesChargeField extends Migration
     public function down()
     {
         Schema::table('charge', function (Blueprint $table) {
-            $table->string('charge', 64)->nullable()->change();
+            $table->string('charge', 255)->nullable()->change();
 
         });
     }

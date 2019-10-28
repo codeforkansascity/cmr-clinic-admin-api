@@ -10,3 +10,14 @@
 2.0.0.3.1 2019-07-25 - Now passes back CMS id to front end
                      - Adjusted date for seeding
 
+2.0.0.4.0 2019-10-?? - Statutes are now a lookup table
+                         - Original statutes fields are now kept as imported_*
+                         - If charge.statute_id is 0 we display the imported_* fields
+                         - Added Undetermined Eligable to statutes_eligibilities
+                         - Now adding statute through FldStatute pop up form uses statutes-eligibility table value
+                         - Added Undetermined Eligable as a Statutes eligibility option
+                         - Now convert charges imported_citation to statute_id FK
+                         - Statutes: show screen now lists charges used in, and
+                           delete option only shows when statute is not used in a charge
+
+3.0.0.0.0 2019-10-28 - Moving to new version

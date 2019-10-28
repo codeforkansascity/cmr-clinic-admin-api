@@ -1,4 +1,8 @@
 /node_modules
+/public/mix-manifest.json
+/public/css
+/public/img
+/public/js
 /public/hot
 /public/storage
 /storage/*.key
@@ -7,8 +11,10 @@
 .env_testing
 .idea
 .phpunit.result.cache
+data
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+data
 .DS_Store

@@ -17,6 +17,10 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\MakeFirstUser',
         'App\Console\Commands\SetInitialPermissions',
         'App\Console\Commands\SetYesNoCommand',
+        'App\Console\Commands\LoadStatutesFromScott',
+        'App\Console\Commands\LoadCriminalHistory',
+        'App\Console\Commands\EmailTestCommand',
+        'App\Console\Commands\ConvertChargeStatuteToFK',
     ];
 
     /**

@@ -30,9 +30,16 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('/clients/v1.0.0','API\ClientController@index_v1_0_1')->name('client.conviction.index_v1_0_1');
 
+
+    Route::get('/assignees/options','UserController@assignee_options')->name('assignees.options');
+    Route::get('/status/options','API\StatusController@options')->name('status.options');
+
     Route::apiResource('clients', 'API\ClientController');
     Route::apiResource('convictions', 'API\ConvictionController');
     Route::apiResource('charges', 'API\ChargeController');
     Route::apiResource('statuses', 'API\StatusController');
+    Route::apiResource('assignments', 'API\StatusController');
+
+
 
 });
