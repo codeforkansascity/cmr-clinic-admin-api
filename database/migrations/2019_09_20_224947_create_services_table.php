@@ -16,6 +16,7 @@ class CreateServicesTable extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('attn')->nullable();
             $table->string('address')->nullable();
             $table->string('address_line_2',64)->nullable();
             $table->string('city',64)->nullable();
@@ -42,6 +43,7 @@ class CreateServicesTable extends Migration
         \App\Service::create([
             "id"=> "1",
             "name"=> "16th Circuit Court of Jackson County, Missouri OR 16th Circuit Court",
+            "attn" => "Court Clerk",
             "address"=> "415 E 12th St Suite 300",
             "address_line_2"=> "NULL",
             "city"=> "Kansas City",
@@ -56,6 +58,7 @@ class CreateServicesTable extends Migration
         \App\Service::create([
             "id"=> "2",
             "name"=> "Clinton County Circuit Court",
+            "attn" => "Court Clerk",
             "address"=> "207 N Main St",
             "address_line_2"=> "NULL",
             "city"=> "Plattsburg",
@@ -72,6 +75,7 @@ class CreateServicesTable extends Migration
         \App\Service::create([
             "id"=> "3",
             "name"=> "11th Judicial Circuit Court St. Charles County",
+            "attn" => "Court Clerk",
             "address"=> "300 North 2nd Street",
             "address_line_2"=> "NULL",
             "city"=> "St Charles",
@@ -88,6 +92,7 @@ class CreateServicesTable extends Migration
         \App\Service::create([
             "id"=> "6",
             "name"=> "7th Judicial Circuit - Clay County Courthouse",
+            "attn" => "Court Clerk",
             "address"=> "11 South Water",
             "address_line_2"=> "NULL",
             "city"=> "Liberty",
@@ -103,12 +108,14 @@ class CreateServicesTable extends Migration
         \App\Service::create([
             "id"=> "7",
             "name"=> "South Platte County-Platte City",
+            "attn" => "Clerk",
             "service_type_id"=> "1",
         ]);
 
         \App\Service::create([
             "id"=> "8",
             "name"=> "Raymore PD",
+            "attn" => "Clerk",
             "service_type_id"=> "1",
         ]);
 
