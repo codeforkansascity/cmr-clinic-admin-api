@@ -130,6 +130,8 @@ class ApplicantController extends Controller
 
         try {
             $applicant->add($request->validated());
+            $data = $applicant->toArray();
+            info(print_r($data,true));
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Unable to process request'
@@ -139,7 +141,8 @@ class ApplicantController extends Controller
         \Session::flash('flash_success_message', 'Applicants ' . $applicant->name . ' was added.');
 
         return response()->json([
-            'message' => 'Added record'
+            'message' => 'Added record',
+            'record' => $data
         ], 200);
 
     }

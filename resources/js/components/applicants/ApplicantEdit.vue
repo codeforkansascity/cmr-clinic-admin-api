@@ -459,22 +459,16 @@
                 })
                     .then(res => {
                         if (res.status === 200) {
-                            // if saved set the get the id back and set to instance
-                            if (res.data.record) {
-                                /// set id in applicant this is a new entry
-                                $this.record.id = res.data.record.id
-                                /// reset reason for change
-                                $this.record.reason_for_change = ''
-                                /// recopy the new record to our backup
-                                for (let index in $this.record) {
-                                    $this.backup_copy[index] = $this.record[index]
-                                }
-
+                            if (!$this.record.id) {
+                                console.log('adding');
+                             //   window.location.href = '/applicant/' + res.data.record.id + '/edit';
+                                $this.record.id = res.data.record.id;
                             }
-
                             $this.processing = false;
                             this.$emit('input', $this.record);      // emit the changed record to v-model
                             $this.$bus.$emit('minimize-applicant', $this.record.id)
+
+
                         } else {
                             this.server_message = res.status;
                         }
