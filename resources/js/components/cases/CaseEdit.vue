@@ -105,7 +105,7 @@
 
                                 <flat-pickr
                                         v-model="record.date_of_charge"
-                                        @blur="parseDate($event, 'date_of_charge')"
+
                                         :config="config"
                                         style="width: 10em"/>
                             </std-form-group>
@@ -146,7 +146,7 @@
                             >
                                 <flat-pickr
                                         v-model="record.release_date"
-                                        @blur="parseDate($event, 'release_date')"
+
                                         :config="config"
                                         style="width: 10em"/>
                             </std-form-group>
