@@ -3,7 +3,7 @@
         <div class="row">
 
             <div class="col-md-4">
-                <h4> {{ record.case_number }}, {{ record.agency }}</h4>
+                <h4> {{ record.case_number }}, {{ record.court_city_county }}</h4>
             </div>
             <div class="col-md-5">
                 <h4>{{ record.name }}, {{ record.arrest_date }}</h4>
@@ -27,33 +27,28 @@
                 <table class="table  table-sm">
 
                     <tr is="tr-view" v-model="record.case_number">Case Number</tr>
-                    <tr is="tr-view" v-model="record.court_name">Court</tr>
-                    <tr is="tr-view" v-model="record.judge">Judge</tr>
-                    <tr is="tr-view" v-model="record.name">Name</tr>
+                    <tr is="tr-view" v-model="record.name">Description</tr>
+                    <tr is="tr-view" v-model="record.record_name">Applicant's name as it appeared on the court’s records?</tr>
+                    <tr is="tr-view" v-model="record.arresting_agency">Arresting Agency</tr>
+                    <tr is="tr-view" v-model="record.arrest_date">Date of arrest</tr>
 
 
                 </table>
             </div>
             <div class="col-md-6" style="padding-left: 1em;">
                 <table class="table  table-sm">
-                    <tr is="tr-view" v-model="record.arrest_date">Arrest date per applicant</tr>
-                    <tr is="tr-view" v-model="record.approximate_date_of_charge">Approx charge date</tr>
+                    <tr is="tr-view" v-model="record.approximate_date_of_charge">Date of Charge</tr>
+                    <tr is="tr-view" v-model="record.date_of_disposition">Date of Disposition</tr>
                     <tr is="tr-view" v-model="record.release_status">Relase Status</tr>
                     <tr is="tr-view-date" v-model="record.release_date">Release Date</tr>
-                </table>
-            </div>
-            <hr>
-            <div class="col-md-6" style="padding-left: 1em;">
-                <h4>Extra stuff</h4>
-                <table class="table  table-sm">
-                    <tr is="tr-view" v-model="record.agency">Agency</tr>
-                    <tr is="tr-view" v-model="record.court_city_county">Court City County</tr>
-                    <tr is="tr-view" v-model="record.record_name">Client's Name<br>as appeares in court records</tr>
+                    <tr is="tr-view" v-model="record.court_city_county">Court</tr>
+                    <tr is="tr-view" v-model="record.judge">Judge</tr>
+                    <tr is="tr-view-yn" v-model="record.sis">SIS</tr>
 
                 </table>
             </div>
-            <hr>
-            <div class="col-md-5" style="padding-left: 1em;">
+
+            <div class="col-md-6" style="padding-left: 1em;">
                 <service-container
                         :services="record.services"
                         :case_id="record.id"

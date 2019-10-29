@@ -187,6 +187,16 @@
                         </div>
 
 
+                        <div class="col-md-12">
+                            <std-form-group
+                                    label="SIS"
+                                    label-for="sis"
+                                    :errors="form_errors.sis"
+
+                            >
+                                <fld-checkbox name="sis" v-model="record.sis"/>
+                            </std-form-group>
+                        </div>
 
 
 

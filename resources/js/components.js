@@ -69,6 +69,7 @@ Vue.component('dsp-date', () => import(/* webpackChunkName:"dsp-date" */ './comp
 
 Vue.component('tr-view', () => import(/* webpackChunkName:"tr-view" */ './components/SS/TrView.vue'));
 Vue.component('tr-view-date', () => import(/* webpackChunkName:"tr-view-date" */ './components/SS/TrViewDate.vue'));
+Vue.component('tr-view-yn', () => import(/* webpackChunkName:"tr-view-yn" */ './components/SS/TrViewYN.vue'));
 
 Vue.component('search-form-group', () => import(/* webpackChunkName:"search-form-group" */ './components/SS/SearchFormGroup.vue'));
 
