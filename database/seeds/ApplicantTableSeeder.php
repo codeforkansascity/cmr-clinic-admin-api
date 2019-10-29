@@ -80,7 +80,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'purged_by' => '0',
                 'created_at' => '2019-04-22',
                 'updated_at' => '2019-04-22',
-                'approximate_date_of_charge' => NULL,
+                'date_of_charge' => NULL,
             ],
             [
                 'id' => '3',
@@ -102,7 +102,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'purged_by' => '0',
                 'created_at' => '2019-04-22',
                 'updated_at' => '2019-04-27',
-                'approximate_date_of_charge' => NULL,
+                'date_of_charge' => NULL,
             ],
             [
                 'id' => '4',
@@ -123,7 +123,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'purged_by' => '0',
                 'created_at' => '2019-04-22',
                 'updated_at' => '2019-04-23',
-                'approximate_date_of_charge' => NULL,
+                'date_of_charge' => NULL,
             ],
             [
                 'id' => '5',
@@ -165,7 +165,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'purged_by' => '0',
                 'created_at' => '2019-04-23',
                 'updated_at' => '2019-04-23',
-                'approximate_date_of_charge' => NULL,
+                'date_of_charge' => NULL,
             ]
         ];
         collect($convictions)->each(function ($c) {

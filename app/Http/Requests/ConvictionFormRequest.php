@@ -49,7 +49,7 @@ class ConvictionFormRequest extends FormRequest
             'release_status' => 'nullable|string|max:64',
             'release_date_text' => 'nullable|string|max:64',
             'notes' => 'nullable|string',
-            'approximate_date_of_charge' => 'nullable|string',
+            'date_of_charge' => 'nullable|date',
             'release_date' => 'nullable|date',
 
         ];

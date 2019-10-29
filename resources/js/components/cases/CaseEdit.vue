@@ -77,19 +77,6 @@
                             </std-form-group>
                         </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
                         <!--<div class="col-md-12">-->
                             <!--<std-form-group-->
                                     <!--label="Was the court a Missouri circuit (county) court or a municipal (city) court?"-->
@@ -110,16 +97,17 @@
 
                         <div class="col-md-12">
                             <std-form-group
-                                    label="Date of Charge (Approximate)"
-                                    label-for="approximate_date_of_charge"
-                                    :errors="form_errors.approximate_date_of_charge"
+                                    label="Date of Charge "
+                                    label-for="date_of_charge"
+                                    :errors="form_errors.date_of_charge"
 
                             >
-                                <fld-input name="approximate_date_of_charge"
-                                           v-model="record.approximate_date_of_charge"/>
-                                <template slot="help">
-                                    Any format is ok, even just a year.
-                                </template>
+
+                                <flat-pickr
+                                        v-model="record.date_of_charge"
+                                        @blur="parseDate($event, 'date_of_charge')"
+                                        :config="config"
+                                        style="width: 10em"/>
                             </std-form-group>
                         </div>
 
@@ -158,7 +146,7 @@
                             >
                                 <flat-pickr
                                         v-model="record.release_date"
-                                        @blur="parseDate($event, 'dob')"
+                                        @blur="parseDate($event, 'release_date')"
                                         :config="config"
                                         style="width: 10em"/>
                             </std-form-group>
@@ -304,7 +292,7 @@
                     release_status: false,
                     release_date_text: false,
                     notes: false,
-                    approximate_date_of_charge: false,
+                    date_of_charge: false,
                     release_date: false,
                     reason_for_change: false
                 },
