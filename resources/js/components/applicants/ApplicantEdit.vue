@@ -182,10 +182,10 @@
                                         </std-form-group>
                                     </div>
                                     <div class="col-md-4">
-                                        <std-form-group label="Zip" label-for="zip" :errors="form_errors.zip">
+                                        <std-form-group label="Zip" label-for="zip_code" :errors="form_errors.zip">
                                             <fld-input
-                                                    name="zip"
-                                                    v-model="record.zip"
+                                                    name="zip_code"
+                                                    v-model="record.zip_code"
                                             />
                                         </std-form-group>
                                     </div>
@@ -260,7 +260,7 @@
 
                             <div class="col-md-12">
                                 <std-form-group
-                                        label="Previous Felony Expungements"
+                                        label="Previous MO Felony Expungements"
                                         label-for="previous_felony_expungements"
                                         :errors="form_errors.previous_felony_expungements"
                                 >
@@ -273,7 +273,7 @@
 
                             <div class="col-md-12">
                                 <std-form-group
-                                        label="Previous Misdemeanor Expungements"
+                                        label="Previous MO Misdemeanor Expungements"
                                         label-for="previous_misdemeanor_expungements"
                                         :errors="form_errors.previous_misdemeanor_expungements"
                                 >
