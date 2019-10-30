@@ -4,7 +4,7 @@
             Services <span @click="addService" class="add-button">+</span>
         </h4>
         <table class="table  table-sm">
-            <tr class="row"  v-for="(service,i) in services"
+            <tr class="row" v-for="(service,i) in services"
                 :key="i"
             >
                 <td class="service-name-column">
@@ -13,7 +13,7 @@
                     </span>
                 </td>
                 <td>
-                    {{service.pivot.name}}
+                    {{service.name}} Attn: {{service.pivot.name}}
                 </td>
                 <td>
                     <pencil-control height="25"
@@ -24,75 +24,61 @@
         <base-modal v-if="showServiceModal" @close="closeModal">
             <template v-slot:header>Case Service</template>
             <template v-slot:body>
-                <std-form-group
-
-                        :errors="form_errors.service.service_type_id"
-                ><label class="font-weight-bold">Service Type</label>
-                    <select class="form-control" v-model="selectedService.service_type_id" :disabled="disableFields">
+                <std-form-group :errors="form_errors.service.name">
+                    <label class="font-weight-bold">Service Name</label>
+                    <autocomplete
+                            style="width: 100%"
+                            ref="autocomplete"
+                            url="/services/all"
+                            :create="true"
+                            :value="selectedService.name"
+                            valueField="name"
+                            displayField="address"
+                            @selected="selectService"
+                            @input="updateService"
+                            @create="addNew"
+                            :disabled="disableService"
+                    ></autocomplete>
+                </std-form-group>
+                <std-form-group :errors="form_errors.service.service_type_id">
+                    <label class="font-weight-bold">Service Type</label>
+                    <select class="form-control" v-model="selectedService.service_type_id" >
                         <option value="">--Select--</option>
                         <option v-for="type in serviceTypes" :value="type.id">{{type.name}}</option>
                     </select>
                 </std-form-group>
-                <std-form-group
-
-                    :errors="form_errors.name"
-                >
+                <std-form-group :errors="form_errors.name">
                     <label class="font-weight-bold">Attn Name</label>
                     <input type="text" required class="form-control" placeholder="Attn Name"
                            v-model="selectedService.pivot.name"
                     >
                 </std-form-group>
-                <std-form-group
 
-                    :errors="form_errors.service.name"
-                >
-                    <label class="font-weight-bold">Service Name</label>
-                    <autocomplete
-                        ref="autocomplete"
-                        url="/services/all"
-                        :create="true"
-                        :value="selectedService.name"
-                        valueField="name"
-                        displayField="address"
-                        @selected="selectService"
-                        @input="updateService"
-                        @create="addNew"
-                        :disabled="disableService"
-                    ></autocomplete>
-                </std-form-group>
-                <std-form-group
-
-                    :errors="form_errors.service.address"
-                ><label class="font-weight-bold">Address</label>
+                <std-form-group :errors="form_errors.service.address">
+                    <label class="font-weight-bold">Address</label>
                     <input type="text" required class="form-control" placeholder="Address"
                            v-model="selectedService.address"
                            :disabled="disableFields"
                     >
                 </std-form-group>
-                <std-form-group
-
-                    :errors="form_errors.service.phone"
-                ><label class="font-weight-bold">Phone</label>
+                <std-form-group :errors="form_errors.service.phone">
+                    <label class="font-weight-bold">Phone</label>
                     <input type="text" required class="form-control"
                            placeholder="Phone Number"
                            v-model="selectedService.phone"
                            :disabled="disableFields"
                     >
                 </std-form-group>
-                <std-form-group
-
-                    :errors="form_errors.service.email"
-                ><label class="font-weight-bold">Email</label>
+                <std-form-group :errors="form_errors.service.email">
+                    <label class="font-weight-bold">Email</label>
                     <input type="text" required class="form-control"
                            placeholder="Email"
                            v-model="selectedService.email"
                            :disabled="disableFields"
                     >
                 </std-form-group>
-                <std-form-group
-
-                    :errors="form_errors.service.note"
-                ><label class="font-weight-bold">Note</label>
+                <std-form-group :errors="form_errors.service.note">
+                    <label class="font-weight-bold">Note</label>
                     <textarea type="text" required class="form-control"
                               placeholder="Note"
                               v-model="selectedService.note"
@@ -119,6 +105,7 @@
 
 <script>
     import PencilControl from "../controls/PencilControl";
+
     export default {
         components: {PencilControl},
         name: "ServiceContainer",
@@ -186,6 +173,13 @@
             },
             selectService(v) {
                 console.log('selectService', v, this.selectedService)
+
+                if (!this.selectedService.attn) {
+                    this.selectedService.attn = "Court Clerk";
+                }
+
+                this.selectedService.pivot.name = this.selectedService.attn;
+
                 // keep the name of the pivot so it is overwritten
                 v.pivot = {name: this.selectedService.pivot.name}
                 Vue.set(this, 'selectedService', v)
@@ -201,6 +195,12 @@
             },
             submitCreate() {
                 console.log('create service')
+                // if (!this.selectedService.attn) {
+                //     this.selectedService.attn = "Court Clerk";
+                // }
+                //
+                // this.selectedService.pivot.name = this.selectedService.attn;
+
                 let $this = this
                 axios.post(`/case/${this.case_id}/service/create`, {
                     name: this.selectedService.pivot.name,
@@ -294,9 +294,11 @@
     .service-name-column {
         width: 12em;
     }
+
     .service-name-field {
         color: darkgray;
     }
+
     .name-field:hover {
         font-weight: bolder;
         color: #343a40;

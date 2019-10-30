@@ -48,7 +48,7 @@
                 </table>
             </div>
 
-            <div class="col-md-6" style="padding-left: 1em;">
+            <div class="col-md-12" style="padding-left: 1em;">
                 <service-container
                         :services="record.services"
                         :case_id="record.id"

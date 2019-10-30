@@ -1,4 +1,6 @@
 /*
+
+DEAD CODE DEAD CODE ????
 id: 1,
 name: "Brennon Cole",
 address: """
@@ -61,7 +63,7 @@ deleted_at: null,
 
 <script>
     export default {
-        name: "FldStatute",
+        name: "fld-service",
         props: {
             value: {
                 type: String,

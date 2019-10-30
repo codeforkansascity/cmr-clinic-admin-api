@@ -62,6 +62,9 @@ Vue.component('fld-convicted', () => import(/* webpackChunkName:"fld-convicted" 
 Vue.component('fld-eligible', () => import(/* webpackChunkName:"fld-eligible" */ './components/SS/FldEligible.vue'));
 Vue.component('fld-expunge', () => import(/* webpackChunkName:"fld-expunge" */ './components/SS/FldExpunge.vue'));
 
+// fld-service may be dead code.
+// Vue.component('fld-service', () => import(/* webpackChunkName:"fld-service" */ './components/SS/FldService.vue'));
+
 Vue.component('dsp-boolean', () => import(/* webpackChunkName:"dsp-boolean" */ './components/SS/DspBoolean.vue'));
 Vue.component('dsp-textarea', () => import(/* webpackChunkName:"dsp-textarea" */ './components/SS/DspTextArea.vue'));
 Vue.component('dsp-text', () => import(/* webpackChunkName:"dsp-text" */ './components/SS/DspText.vue'));
