@@ -121,8 +121,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/api-statutes-eligibility/options', 'StatutesEligibilityApi@getOptions');
 
     Route::group(['prefix' => '/cms'], function () {
-        Route::get('/{cms_matter_number}', 'ClientController@show');
-        Route::get('/{cms_matter_number}/edit', 'ClientController@edit');
+        Route::get('/{cms_matter_number}', 'ApplicantController@show');
+        Route::get('/{cms_matter_number}/edit', 'ApplicantController@edit');
     });
 
     Route::group(['prefix' => 'history'], function () {
