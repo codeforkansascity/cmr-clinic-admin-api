@@ -83,7 +83,7 @@
             removeCharge(id) {
                 this.charges = this.charges.filter(charge => {
                     return charge.id !== id
-                })
+                });
             }
         },
     }

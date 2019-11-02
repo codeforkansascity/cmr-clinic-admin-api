@@ -250,12 +250,24 @@
                             if (res.data.charge) {
                                 /// set id in case this is a new entry
                                 $this.record.id = res.data.charge.id
+                                if ( res.data.charge.statute) {
+                                    $this.record.statute = {};
+                                    Object.keys(res.data.charge.statute).forEach(
+                                        i => ($this.record.statute[i] = res.data.charge.statute[i])
+                                    );
+                                }
                             }
                             /// reset reason for change
                             $this.record.reason_for_change = ''
                             /// recopy the new charge to our backup
-                            for (let index in $this.charge) {
-                                $this.backup_copy[index] = $this.charge[index]
+                            for (let index in $this.record) {
+                                $this.backup_copy[index] = $this.record[index]
+                            }
+
+                            if ( res.data.statute) {
+                                Object.keys(res.data.statute).forEach(
+                                    i => ($this.record.statute[i] = res.data.statute[i])
+                                );
                             }
 
                             $this.processing = false;
