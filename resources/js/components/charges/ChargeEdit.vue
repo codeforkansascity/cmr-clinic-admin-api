@@ -186,7 +186,6 @@
                 form_errors: {
                     id: false,
                     conviction_id: false,
-                    charge: false,
                     citation: false,
                     conviction_class_type: false,
                     conviction_charge_type: false,

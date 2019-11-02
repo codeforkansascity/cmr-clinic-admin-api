@@ -23,8 +23,6 @@ class Charge extends Model
      */
     protected $fillable = [
         'conviction_id',
-        'charge',
-        'citation',
         'conviction_class_type',
         'conviction_charge_type',
         'sentence',

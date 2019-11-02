@@ -62,19 +62,17 @@
                 let new_charge = {
                     id: 0,
                     conviction_id: this.conviction_id,
-                    charge: "",
-                    citation: "",
+                    statute_id: 0,
+                    imported_statute: "",
+                    imported_citation: "",
                     conviction_class_type: "",
                     conviction_charge_type: "",
                     sentence: "",
-                    convicted_text: "",
-                    eligible_text: "",
-                    please_expunge_text: "",
                     to_print: "",
                     notes: "",
                     convicted: null,
                     eligible: null,
-                    please_expunge: null
+                    please_expunge: null,
                 }
                 this.charges.push(new_charge)
                 this.showCharges = true
