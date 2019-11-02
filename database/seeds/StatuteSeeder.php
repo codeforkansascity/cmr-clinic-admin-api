@@ -41,6 +41,25 @@ class StatuteSeeder extends Seeder
         }, $ineligibles);
         \App\Statute::insert($ineligibles);
 
+        $statute = \App\Statute::create([
+            "number" => "579.015",
+            "name" => "Possession or control of a controlled substance",
+            "note" => "",
+            "statutes_eligibility_id" => "4",
+        ]);
+
+
+        \App\Statute::create([
+            "number" => "195.202",
+            "name" => "POSSESSION OF CONTROLLED SUBSTANCE EXCEPT 35 GRAMS OR LESS OF MARIJUANA",
+            "note" => "",
+            "statutes_eligibility_id" => "4",
+            "superseded_id" => $statute->id,
+            "superseded_on" => "2014",
+        ]);
+
+
+
         $statute_count = count($ineligibles) + count($eligibles);
         dump("Inserted $statute_count Statutes in " . round(microtime(1) - $start, 2) . ' seconds');
 

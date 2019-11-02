@@ -288,7 +288,7 @@ class StatuteController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\Statute::with('statutes_eligibility')->find(intval($id));
+        return \App\Statute::with('statutes_eligibility','superseded')->find(intval($id));
     }
 
 

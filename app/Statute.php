@@ -45,6 +45,11 @@ class Statute extends Model
         'updated_at',
     ];
 
+    public function superseded()
+    {
+        return $this->belongsTo(Statute::class);
+    }
+
     public function charge()
     {
         return $this->hasMany(Charge::class);
