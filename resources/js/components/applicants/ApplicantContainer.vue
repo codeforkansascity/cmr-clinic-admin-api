@@ -32,7 +32,7 @@
                         <div class="col-md-12">
                             <!--For now we will keep this one passed as a propery-->
                             <cases-list :data="this.record.conviction"
-                                        :client_id="this.record.id"></cases-list>
+                                        :applicant_id="this.record.id"></cases-list>
                         </div>
                     </div>
                 </div>
