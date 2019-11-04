@@ -59,7 +59,7 @@ class Comment extends Model
 
     public function canDelete()
     {
-        return true;
+        return false;
     }
 
 

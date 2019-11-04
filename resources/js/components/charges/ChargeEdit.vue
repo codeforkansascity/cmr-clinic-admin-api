@@ -62,7 +62,7 @@
                         <label class="form-control-label">
                             Statute
                         </label>
-                        <div class="alert alert-danger w-75" role="alert" v-if="!record.statute_id">
+                        <div class="alert alert-danger w-75" role="alert" v-if="isUndefinedOrEmpty(record.statute_id)">
                             Imported Statute: {{ record.imported_citation }} {{ record.imported_statute }}
                             <button type="button" class="close" @click="record.imported_statute = null">
                                 <span aria-hidden="true">&times;</span>
@@ -122,7 +122,7 @@
                                 label-for="notes"
                                 :errors="form_errors.notes"
                         >
-                            <fld-text-area name="notes" v-model="record.notes" rows="5"/>
+                            <fld-text-editor name="notes" v-model="record.notes" rows="5"/>
                         </std-form-group>
                     </div>
                     <div class="col-md-12">
@@ -186,7 +186,6 @@
                 form_errors: {
                     id: false,
                     conviction_id: false,
-                    charge: false,
                     citation: false,
                     conviction_class_type: false,
                     conviction_charge_type: false,
@@ -251,12 +250,24 @@
                             if (res.data.charge) {
                                 /// set id in case this is a new entry
                                 $this.record.id = res.data.charge.id
+                                if ( res.data.charge.statute) {
+                                    $this.record.statute = {};
+                                    Object.keys(res.data.charge.statute).forEach(
+                                        i => ($this.record.statute[i] = res.data.charge.statute[i])
+                                    );
+                                }
                             }
                             /// reset reason for change
                             $this.record.reason_for_change = ''
                             /// recopy the new charge to our backup
-                            for (let index in $this.charge) {
-                                $this.backup_copy[index] = $this.charge[index]
+                            for (let index in $this.record) {
+                                $this.backup_copy[index] = $this.record[index]
+                            }
+
+                            if ( res.data.statute) {
+                                Object.keys(res.data.statute).forEach(
+                                    i => ($this.record.statute[i] = res.data.statute[i])
+                                );
                             }
 
                             $this.processing = false;

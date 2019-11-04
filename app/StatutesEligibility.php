@@ -49,7 +49,9 @@ class StatutesEligibility extends Model
 
     public function canDelete()
     {
-        return true;
+        $count = \App\Statute::select('id')->whereNotNull('statutes_eligibility_id')->count();
+        info(__METHOD__ . " count=$count|");
+        return !$count;
     }
 
 

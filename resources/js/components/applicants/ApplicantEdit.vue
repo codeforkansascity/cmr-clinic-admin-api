@@ -17,7 +17,7 @@
                     <div class="col-md-6" style="padding-left: 1em;">
                         <div class="col-md-12">
                             <std-form-group
-                                    label="What is your full name?"
+                                    label="Name"
                                     label-for="name"
                                     :errors="form_errors.name"
                                     :required="true"
@@ -182,10 +182,10 @@
                                         </std-form-group>
                                     </div>
                                     <div class="col-md-4">
-                                        <std-form-group label="Zip" label-for="zip" :errors="form_errors.zip">
+                                        <std-form-group label="Zip" label-for="zip_code" :errors="form_errors.zip">
                                             <fld-input
-                                                    name="zip"
-                                                    v-model="record.zip"
+                                                    name="zip_code"
+                                                    v-model="record.zip_code"
                                             />
                                         </std-form-group>
                                     </div>
@@ -199,7 +199,7 @@
                             <legend>CMS</legend>
                             <div class="col-md-12">
                                 <std-form-group
-                                        label="Cms Client Number"
+                                        label="Cms Client ID"
                                         label-for="cms_client_number"
                                         :errors="form_errors.cms_client_number"
                                 >
@@ -211,7 +211,7 @@
                             </div>
                             <div class="col-md-12">
                                 <std-form-group
-                                        label="Cms Matter Number"
+                                        label="Cms Case ID"
                                         label-for="cms_matter_number"
                                         :errors="form_errors.cms_matter_number"
                                 >
@@ -219,6 +219,9 @@
                                             name="cms_matter_number"
                                             v-model="record.cms_matter_number"
                                     />
+                                    <template slot="help">
+                                        This is also refered to as "Matter"
+                                    </template>
                                 </std-form-group>
                             </div>
                             <div class="col-md-12">
@@ -260,7 +263,7 @@
 
                             <div class="col-md-12">
                                 <std-form-group
-                                        label="Previous Felony Expungements"
+                                        label="Previous MO Felony Expungements"
                                         label-for="previous_felony_expungements"
                                         :errors="form_errors.previous_felony_expungements"
                                 >
@@ -273,7 +276,7 @@
 
                             <div class="col-md-12">
                                 <std-form-group
-                                        label="Previous Misdemeanor Expungements"
+                                        label="Previous MO Misdemeanor Expungements"
                                         label-for="previous_misdemeanor_expungements"
                                         :errors="form_errors.previous_misdemeanor_expungements"
                                 >
@@ -459,22 +462,16 @@
                 })
                     .then(res => {
                         if (res.status === 200) {
-                            // if saved set the get the id back and set to instance
-                            if (res.data.record) {
-                                /// set id in applicant this is a new entry
-                                $this.record.id = res.data.record.id
-                                /// reset reason for change
-                                $this.record.reason_for_change = ''
-                                /// recopy the new record to our backup
-                                for (let index in $this.record) {
-                                    $this.backup_copy[index] = $this.record[index]
-                                }
-
+                            if (!$this.record.id) {
+                                console.log('adding');
+                             //   window.location.href = '/applicant/' + res.data.record.id + '/edit';
+                                $this.record.id = res.data.record.id;
                             }
-
                             $this.processing = false;
                             this.$emit('input', $this.record);      // emit the changed record to v-model
                             $this.$bus.$emit('minimize-applicant', $this.record.id)
+
+
                         } else {
                             this.server_message = res.status;
                         }

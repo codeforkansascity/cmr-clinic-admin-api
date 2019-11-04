@@ -42,7 +42,7 @@ class ConvictionExport implements FromQuery, WithHeadings, WithMapping
                         'release_status',
                         'release_date_text',
                         'notes',
-                        'approximate_date_of_charge',
+                        'date_of_charge',
                         'release_date',
                     ];
     }
@@ -67,7 +67,7 @@ class ConvictionExport implements FromQuery, WithHeadings, WithMapping
                         $conviction->release_status,
                         $conviction->release_date_text,
                         $conviction->notes,
-                        $conviction->approximate_date_of_charge,
+                        $conviction->date_of_charge,
                         $conviction->release_date,
                     ];
     }

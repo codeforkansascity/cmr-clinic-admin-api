@@ -25,6 +25,6 @@ $factory->define(\App\Conviction::class, function (Faker $faker) {
         'purged_by' => '0',
         'created_at' => '2019-04-23',
         'updated_at' => '2019-04-23',
-        'approximate_date_of_charge' => NULL,
+        'date_of_charge' => NULL,
     ];
 });

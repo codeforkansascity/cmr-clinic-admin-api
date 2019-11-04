@@ -51,6 +51,10 @@
                 type: [Boolean, Object, Array],
                 default: false
             },
+            case_count: {
+                type: [Boolean, Number],
+                default: 1
+            }
         },
         data() {
             return {

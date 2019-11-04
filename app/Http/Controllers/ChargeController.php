@@ -136,6 +136,9 @@ class ChargeController extends Controller
 
         \Session::flash('flash_success_message', 'Charge ' . $charge->name . ' was added');
 
+        $charge = $this->sanitizeAndFind($charge->id);      // Get all of the things we need to display
+                                                            // associated with a charge
+
         return response()->json([
             'message' => 'Added record',
             'charge' => $charge
@@ -226,7 +229,15 @@ class ChargeController extends Controller
         /// This was moved to ChargeObserver
         //$charge->saveHistory($request);
 
-        $charge->update($request->all());
+
+        $request_fields = $request->all();
+
+        $statute = null;
+        if ($charge->statute_id != $request_fields['statute_id']) {
+            $statute = \App\Statute::with('statutes_eligibility', 'superseded')->find(intval($request_fields['statute_id']));
+        }
+
+        $charge->fill($request_fields);
 
         if ($charge->isDirty()) {
 
@@ -239,13 +250,26 @@ class ChargeController extends Controller
             }
 
             \Session::flash('flash_success_message', 'Charges ' . $charge->name . ' was changed');
+
+            if ($statute) {
+                return response()->json([
+                    'message' => 'Changed record',
+                    'statute' => $statute
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => 'Changed record'
+                ], 200);
+            }
+
         } else {
             \Session::flash('flash_info_message', 'No changes were made');
+            return response()->json([
+                'message' => 'No Changes'
+            ], 200);
         }
 
-        return response()->json([
-            'message' => 'Changed record'
-        ], 200);
+
     }
 
     /**
@@ -300,7 +324,7 @@ class ChargeController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\Charge::find(intval($id));
+        return \App\Charge::with('statute', 'statute.statutes_eligibility', 'statute.superseded')->find(intval($id));
     }
 
 

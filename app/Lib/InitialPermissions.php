@@ -27,10 +27,7 @@ class InitialPermissions
         } catch (RoleDoesNotExist $e) {
             $role = Role::create(['name' => 'super-admin']);
         }
-
-
-
-
+        
 
         Permission::findOrCreate( 'always fail');
 
@@ -85,6 +82,14 @@ class InitialPermissions
         Permission::findOrCreate('step export-pdf');
         Permission::findOrCreate('step export-excel');
 
+        Permission::findOrCreate('statute index');
+        Permission::findOrCreate('statute add');
+        Permission::findOrCreate('statute update');
+        Permission::findOrCreate('statute view');
+        Permission::findOrCreate('statute destroy');
+        Permission::findOrCreate('statute export-pdf');
+        Permission::findOrCreate('statute export-excel');
+
         Permission::findOrCreate('status index');
         Permission::findOrCreate('status add');
         Permission::findOrCreate('status update');
@@ -120,6 +125,7 @@ class InitialPermissions
         $role->givePermissionTo(['applicant index']);
         $role->givePermissionTo(['conviction index']);
         $role->givePermissionTo(['charge index']);
+        $role->givePermissionTo(['statute index']);
         $role->givePermissionTo(['status index']);
 
         try {
@@ -168,6 +174,14 @@ class InitialPermissions
             'charge destroy',
             'charge export-pdf',
             'charge export-excel',
+
+            'statute index',
+            'statute add',
+            'statute update',
+            'statute view',
+            'statute destroy',
+            'statute export-pdf',
+            'statute export-excel',
 
             'status index',
             'status add',
@@ -226,26 +240,14 @@ class InitialPermissions
             'charge export-pdf',
             'charge export-excel',
 
-            'status index',
-            'status add',
-            'status update',
-            'status view',
-            'status export-pdf',
-            'status export-excel',
+            'statute index',
+            'statute add',
+            'statute update',
+            'statute view',
+            'statute destroy',
+            'statute export-pdf',
+            'statute export-excel',
 
-            'step index',
-            'step add',
-            'step update',
-            'step view',
-            'step export-pdf',
-            'step export-excel',
-
-            'assignment index',
-            'assignment add',
-            'assignment update',
-            'assignment view',
-            'assignment export-pdf',
-            'assignment export-excel',
 
         ]);
 
@@ -271,6 +273,9 @@ class InitialPermissions
 
             'charge index',
             'charge view',
+
+            'statute index',
+            'statute view',
 
             'status index',
             'status view',

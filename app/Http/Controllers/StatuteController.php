@@ -127,7 +127,9 @@ class StatuteController extends Controller
             'number',
             'name',
             'note',
-            'statutes_eligibility_id'
+            'statutes_eligibility_id',
+            'superseded_id',
+            'superseded_on'
         ]));
 
         return response()->json($statute, 200);
@@ -288,7 +290,7 @@ class StatuteController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\Statute::with('statutes_eligibility')->find(intval($id));
+        return \App\Statute::with('statutes_eligibility','superseded')->find(intval($id));
     }
 
 

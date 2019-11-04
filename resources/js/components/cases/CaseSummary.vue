@@ -6,7 +6,7 @@
             <h4> {{ record.case_number }}, {{ record.agency }}</h4>
         </div>
         <div class="col-md-5">
-            <h4>{{ record.name }}, {{ record.arrest_date }}</h4>
+            <h4>{{ record.name }}, <dsp-date v-model="record.arrest_date" /></h4>
         </div>
         <div class="col-md-2">
             <h4>

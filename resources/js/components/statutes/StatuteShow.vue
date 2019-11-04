@@ -18,6 +18,14 @@
                         <dsp-text v-model="record.name"/>
                     </div>
                 </div>
+                <div v-if="isSuperseded" class="form-group row mb-2 mb-md-0 text-only">
+                    <label class="col-md-4 col-form-label text-md-right">
+                        Superseded by
+                    </label>
+                    <div class="col-md-8">
+                        {{ record.superseded.number}} {{ record.superseded.name}} on {{ record.superseded_on}}
+                    </div>
+                </div>
                 <div class="form-group row mb-2 mb-md-0 text-only">
                     <label class="col-md-4 col-form-label text-md-right">
                         Eligible
@@ -34,6 +42,8 @@
                         <dsp-textarea v-model="record.note"/>
                     </div>
                 </div>
+
+
 
             </div>
         </div>
@@ -68,9 +78,18 @@
                 default: false
             },
             charges: {
-                type: [Boolean, Object],
+                type: [Boolean, Object, Array],
                 default: false
             }
+        },
+        computed: {
+            isSuperseded: function () {
+                if (this.record.superseded) {
+                    return true;
+                }
+                return false;
+            }
         }
+
     };
 </script>

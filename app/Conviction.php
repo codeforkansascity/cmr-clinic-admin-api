@@ -33,7 +33,7 @@ class Conviction extends Model
         'judge',
         'record_name',
         'notes',
-        'approximate_date_of_charge',
+        'date_of_charge',
         'arresting_agency',
         'date_of_disposition',
         'sis',

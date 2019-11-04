@@ -10,7 +10,7 @@
 @section('page-header-breadcrumbs')
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('service.index') }}">Services</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('service.index') }}">Service</a></li>
         <li class="breadcrumb-item active" aria-current="location">Edit {{$service->name}}</li>
     </ol>
 @endsection
