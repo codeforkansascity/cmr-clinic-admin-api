@@ -38,14 +38,6 @@
                         <dsp-text v-model="record.sentence"/>
                     </div>
                 </div>
-                <div class="form-group row mb-2 mb-md-0 text-only">
-                    <label class="col-md-4 col-form-label text-md-right">
-                        To Print
-                    </label>
-                    <div class="col-md-8">
-                        <dsp-text v-model="record.to_print"/>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

@@ -17,7 +17,7 @@
                     <div class="col-md-6" style="padding-left: 1em;">
                         <div class="col-md-12">
                             <std-form-group
-                                    label="What is your full name?"
+                                    label="Name"
                                     label-for="name"
                                     :errors="form_errors.name"
                                     :required="true"
@@ -199,7 +199,7 @@
                             <legend>CMS</legend>
                             <div class="col-md-12">
                                 <std-form-group
-                                        label="Cms Client Number"
+                                        label="Cms Client ID"
                                         label-for="cms_client_number"
                                         :errors="form_errors.cms_client_number"
                                 >
@@ -211,7 +211,7 @@
                             </div>
                             <div class="col-md-12">
                                 <std-form-group
-                                        label="Cms Matter Number"
+                                        label="Cms Case ID"
                                         label-for="cms_matter_number"
                                         :errors="form_errors.cms_matter_number"
                                 >
@@ -219,6 +219,9 @@
                                             name="cms_matter_number"
                                             v-model="record.cms_matter_number"
                                     />
+                                    <template slot="help">
+                                        This is also refered to as "Matter"
+                                    </template>
                                 </std-form-group>
                             </div>
                             <div class="col-md-12">

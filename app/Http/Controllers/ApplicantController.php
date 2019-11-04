@@ -301,7 +301,9 @@ class ApplicantController extends Controller
     private function sanitizeAndFind($id)
     {
         return \App\Applicant::with([
-            'conviction',
+            'conviction' => function ($q) {
+                $q->orderBy('release_date', 'desc');
+            },
             'conviction.services' => function ($q) {
                 $q->with('service_type');
             },

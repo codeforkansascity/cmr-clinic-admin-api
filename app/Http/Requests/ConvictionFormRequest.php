@@ -38,6 +38,7 @@ class ConvictionFormRequest extends FormRequest
 
 
             'id' => 'numeric',
+            'name' => 'nullable|string|max:64',
             'applicant_id' => 'nullable|numeric',
             'arrest_date' => 'nullable|string|max:64',
             'case_number' => 'nullable|string|max:64',
@@ -54,11 +55,11 @@ class ConvictionFormRequest extends FormRequest
 
         ];
 
-                if ($this->route('conviction')) {  // If ID we must be changing an existing record
-                    $rules['name'] = 'required|min:3|nullable|string|max:64|unique:convictions,name,' . $id;
-                } else {  // If not we must be adding one
-                    $rules['name'] = 'required|min:3|nullable|string|max:64|unique:convictions';
-                }
+//                if ($this->route('conviction')) {  // If ID we must be changing an existing record
+//                    $rules['name'] = 'required|min:3|nullable|string|max:64|unique:convictions,name,' . $id;
+//                } else {  // If not we must be adding one
+//                    $rules['name'] = 'required|min:3|nullable|string|max:64|unique:convictions';
+//                }
 
         return $rules;
     }

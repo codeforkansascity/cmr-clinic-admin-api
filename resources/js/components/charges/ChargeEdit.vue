@@ -122,7 +122,7 @@
                                 label-for="notes"
                                 :errors="form_errors.notes"
                         >
-                            <fld-text-area name="notes" v-model="record.notes" rows="5"/>
+                            <fld-text-editor name="notes" v-model="record.notes" rows="5"/>
                         </std-form-group>
                     </div>
                     <div class="col-md-12">

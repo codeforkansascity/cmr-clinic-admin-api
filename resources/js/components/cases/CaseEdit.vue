@@ -33,7 +33,7 @@
                                     label-for="name"
                                     :errors="form_errors.name"
                             >
-                                <fld-input name="name" v-model="record.name" required/>
+                                <fld-input name="name" v-model="record.name" />
                                 <template slot="help">
                                     When speaking with the expungie, how they refer to this. "Car 2005".
                                     Until someone meets with the expungie, a short but meaningful description.
@@ -43,12 +43,15 @@
 
                         <div class="col-md-12">
                             <std-form-group
-                                    label="Applicant's name as it appeared on the court’s records?"
+                                    label="Applicant's name in court’s records?"
                                     label-for="record_name"
                                     :errors="form_errors.record_name"
 
                             >
                                 <fld-input name="record_name" v-model="record.record_name"/>
+                                <template slot="help">
+                                    Applicant's name as it appeared on the court’s records.
+                                </template>
                             </std-form-group>
                         </div>
 
@@ -128,6 +131,28 @@
 
                         <div class="col-md-12">
                             <std-form-group
+                                    label="Coumnty/City or Court"
+                                    label-for="court_city_county"
+                                    :errors="form_errors.court_city_county"
+
+                            >
+                                <fld-input name="court_city_county" v-model="record.court_city_county"/>
+                            </std-form-group>
+                        </div>
+
+                        <div class="col-md-12">
+                            <std-form-group
+                                    label="Judge"
+                                    label-for="judge"
+                                    :errors="form_errors.judge"
+
+                            >
+                                <fld-input name="judge" v-model="record.judge"/>
+                            </std-form-group>
+                        </div>
+
+                        <div class="col-md-12">
+                            <std-form-group
                                     label="Release Status"
                                     label-for="release_status"
                                     :errors="form_errors.release_status"
@@ -152,27 +177,7 @@
                             </std-form-group>
                         </div>
 
-                        <div class="col-md-12">
-                            <std-form-group
-                                    label="Court"
-                                    label-for="court_city_county"
-                                    :errors="form_errors.court_city_county"
 
-                            >
-                                <fld-input name="court_city_county" v-model="record.court_city_county"/>
-                            </std-form-group>
-                        </div>
-
-                        <div class="col-md-12">
-                            <std-form-group
-                                    label="Judge"
-                                    label-for="judge"
-                                    :errors="form_errors.judge"
-
-                            >
-                                <fld-input name="judge" v-model="record.judge"/>
-                            </std-form-group>
-                        </div>
 
 
                         <div class="col-md-12">

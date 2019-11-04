@@ -28,7 +28,7 @@
 
                     <tr is="tr-view" v-model="record.case_number">Case Number</tr>
                     <tr is="tr-view" v-model="record.name">Description</tr>
-                    <tr is="tr-view" v-model="record.record_name">Applicant's name as it appeared on the court’s records?</tr>
+                    <tr is="tr-view" v-model="record.record_name">Applicant's name in court's records?</tr>
                     <tr is="tr-view" v-model="record.arresting_agency">Arresting Agency</tr>
                     <tr is="tr-view-date" v-model="record.arrest_date">Date of arrest</tr>
 
