@@ -1,7 +1,7 @@
 <template>
     <div>
         <h4>
-            Services <span @click="addService" class="add-button">+</span>
+            Service <span @click="addService" class="add-button">+</span>
         </h4>
         <table class="table  table-sm">
             <tr class="row" v-for="(service,i) in services"

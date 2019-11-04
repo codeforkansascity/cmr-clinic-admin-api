@@ -1,5 +1,5 @@
 @extends('layouts.print')
-@section('page-title', 'Services')
+@section('page-title', 'Service')
 @section('table-headings-row')
     <tr>
             <th>Name</th>
