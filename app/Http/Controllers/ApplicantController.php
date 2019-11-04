@@ -130,6 +130,8 @@ class ApplicantController extends Controller
 
         try {
             $applicant->add($request->validated());
+            $data = $applicant->toArray();
+            info(print_r($data,true));
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Unable to process request'
@@ -139,7 +141,8 @@ class ApplicantController extends Controller
         \Session::flash('flash_success_message', 'Applicants ' . $applicant->name . ' was added.');
 
         return response()->json([
-            'message' => 'Added record'
+            'message' => 'Added record',
+            'record' => $data
         ], 200);
 
     }
@@ -298,12 +301,17 @@ class ApplicantController extends Controller
     private function sanitizeAndFind($id)
     {
         return \App\Applicant::with([
-            'conviction',
+            'conviction' => function ($q) {
+                $q->orderBy('release_date', 'desc');
+            },
             'conviction.services' => function ($q) {
                 $q->with('service_type');
             },
             'conviction.charge',
             'conviction.charge.statute',
+            'conviction.charge.statute.statutes_eligibility',
+            'conviction.charge.statute.superseded',
+            //'conviction.charge.statute.superseded.statutes_eligibility',
             'assignment',
             'step',
         ])->find(intval($id));

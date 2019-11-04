@@ -44,7 +44,7 @@ Example usage:
             return {
                 sexs: [
                     {
-                        "name": "Please indicate your sex",
+                        "name": "Please select sex",
                         "abbreviation": ""
                     },
                     {

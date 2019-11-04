@@ -72,7 +72,7 @@
                     release_status: "",
                     release_date_text: "",
                     notes: "",
-                    approximate_date_of_charge: "",
+                    date_of_charge: "",
                     release_date: null
                 };
                 this.cases.push(new_case);

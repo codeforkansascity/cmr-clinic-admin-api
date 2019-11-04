@@ -51,6 +51,11 @@ class StatuteApi extends Controller
         return Statute::getOptions();
     }
 
+    public function get($id) {
+        return \App\Statute::with('statutes_eligibility','superseded')->find(intval($id));
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *

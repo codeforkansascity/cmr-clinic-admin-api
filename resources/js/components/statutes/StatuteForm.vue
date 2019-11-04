@@ -36,6 +36,28 @@
             </div>
         </div>
 
+        <div class="row pb-3">
+            <div class="col-md-9">
+                <label class="form-control-label">
+                    Supereded By
+                </label>
+
+                <fld-statute
+                        v-model="form_data.superseded_id"
+                        @input="statuteSelected"
+                ></fld-statute>
+            </div>
+            <div class="col-md-3">
+                <std-form-group
+                        label="Superseded On"
+                        label-for="superseded_on"
+                        :errors="form_errors.superseded_on"
+                >
+                    <fld-input name="superseded_on" v-model="form_data.superseded_on"/>
+                </std-form-group>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-12">
                 <std-form-group
@@ -211,6 +233,10 @@
                         }
                         this.processing = false;
                     });
+            },
+            statuteSelected(statute) {
+                console.log('selected')
+                this.record.superseded_id = null
             }
         }
     };

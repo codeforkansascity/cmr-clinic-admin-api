@@ -2,7 +2,9 @@
     <div class="row">
 
         <div class="col-md-11">
-            <h4>{{ record.name }} &nbsp; {{ moment(record.dob,["MM-DD-YYYY", "YYYY-MM-DD"]).format('MM/DD/YYYY')}}</h4>
+            <h4>{{ record.name }} &nbsp;
+                <dsp-date v-model="record.dob"/>
+            </h4>
         </div>
 
         <div class="col-md-1">

@@ -9,7 +9,7 @@ View {{$service->name}}
 @section('page-header-breadcrumbs')
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('service.index') }}">Services</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('service.index') }}">Service</a></li>
     <li class="breadcrumb-item active" aria-current="location">View {{$service->name}}</li>
 </ol>
 @endsection
@@ -47,7 +47,7 @@ View {{$service->name}}
 @section('scripts')
 <script>
     function ConfirmDelete() {
-        var x = confirm("Are you sure you want to delete this Services?");
+        var x = confirm("Are you sure you want to delete this Service?");
         if (x)
             return true;
         else

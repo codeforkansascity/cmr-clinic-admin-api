@@ -15,9 +15,11 @@ class AddPermissionFields extends Migration
     {
         Schema::table('roles', function (Blueprint $table) {
 
-            $table->integer('created_by')->default(0)->nullable();
-            $table->integer('modified_by')->default(0)->nullable();
-            $table->integer('purged_by')->default(0)->nullable();
+
+
+            $table->integer('created_by')->default(0)->nullable()->after('created_at');
+            $table->integer('modified_by')->default(0)->nullable()->after('created_by');
+            $table->integer('purged_by')->default(0)->nullable()->after('modified_by');
 
             $table->softDeletes();
         });

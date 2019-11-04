@@ -55,7 +55,7 @@ class Assignment extends Model
 
     public function canDelete()
     {
-        return true;
+        return false;
     }
 
 

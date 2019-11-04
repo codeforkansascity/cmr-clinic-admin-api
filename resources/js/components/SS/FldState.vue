@@ -28,7 +28,7 @@ Example usage:
     export default {
         name: "fld-state",
         model: {
-            prop: 'selected',
+            prop: 'modelValue',
             event: 'change'
         },
         props: {

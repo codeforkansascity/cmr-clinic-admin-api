@@ -73,7 +73,7 @@ class User extends Authenticatable
 
     public function canDelete()
     {
-        return true;
+        return false;
     }
 
 

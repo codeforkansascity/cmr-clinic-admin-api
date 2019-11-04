@@ -125,8 +125,7 @@
                             </span>
                     </td>
                     <td data-title="DOB">
-
-                        {{ moment(String(row.dob)).format('MM/DD/YYYY')}}
+                        <dsp-date v-model="row.dob"/>
 
                     </td>
                     <td data-title="Notes">{{ row.notes }}</td>

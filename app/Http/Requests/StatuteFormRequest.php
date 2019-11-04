@@ -33,23 +33,24 @@ class StatuteFormRequest extends FormRequest
         $id = $this->route('statute');
 
         $rules = [
-         //  Ignore duplicate email if it is this record
-         //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
-
+            //  Ignore duplicate email if it is this record
+            //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
 
             'id' => 'numeric',
             'number' => 'nullable|string|max:191',
             'note' => 'nullable|string',
             'statutes_eligibility_id' => 'required|numeric',
+            'superseded_id' => 'nullable|numeric',
+            'superseded_on' => 'nullable|string',
             'deleted_at' => 'nullable|string',
 
         ];
 
-                if ($this->route('statute')) {  // If ID we must be changing an existing record
-                    $rules['name'] = 'required|min:3|nullable|string|max:500|unique:statutes,name,' . $id;
-                } else {  // If not we must be adding one
-                    $rules['name'] = 'required|min:3|nullable|string|max:500|unique:statutes';
-                }
+        if ($this->route('statute')) {  // If ID we must be changing an existing record
+            $rules['name'] = 'required|min:3|nullable|string|max:500|unique:statutes,name,' . $id;
+        } else {  // If not we must be adding one
+            $rules['name'] = 'required|min:3|nullable|string|max:500|unique:statutes';
+        }
 
         return $rules;
     }

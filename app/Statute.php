@@ -33,6 +33,8 @@ class Statute extends Model
         'name',
         'note',
         'statutes_eligibility_id',
+        'superseded_id',
+        'superseded_on',
         'deleted_at',
     ];
 
@@ -44,6 +46,11 @@ class Statute extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function superseded()
+    {
+        return $this->belongsTo(Statute::class);
+    }
 
     public function charge()
     {

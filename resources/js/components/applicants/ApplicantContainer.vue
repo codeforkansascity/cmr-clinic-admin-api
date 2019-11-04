@@ -32,7 +32,7 @@
                         <div class="col-md-12">
                             <!--For now we will keep this one passed as a propery-->
                             <cases-list :data="this.record.conviction"
-                                        :client_id="this.record.id"></cases-list>
+                                        :applicant_id="this.record.id"></cases-list>
                         </div>
                     </div>
                 </div>
@@ -73,45 +73,7 @@
                 default: () => {
                     return {
                         id: 0,
-                        name: null,
-                        phone: null,
-                        email: null,
-                        sex: null,
-                        race: null,
-                        dob_text: null,
-                        address_line_1: null,
-                        address_line_2: null,
-                        city: null,
-                        state: null,
-                        zip_code: null,
-                        license_number: null,
-                        license_issuing_state: null,
-                        license_expiration_date_text: null,
-                        filing_court: null,
-                        judicial_circuit_number: null,
-                        count_name: null,
-                        judge_name: null,
-                        division_name: null,
-                        petitioner_name: null,
-                        division_number: null,
-                        city_name_here: null,
-                        county_name: null,
-                        arresting_county: null,
-                        prosecuting_county: null,
-                        arresting_municipality: null,
-                        other_agencies_name: null,
-                        previous_expungements: null,
-                        notes: null,
-                        external_ref: null,
-                        any_pending_cases: null,
-                        deleted_at: null,
-                        status_id: null,
-                        dob: null,
-                        license_expiration_date: null,
-                        cms_client_number: null,
-                        cms_matter_number: null,
-                        assignment_id: null,
-                        step_id: null
+
                     }
                 },
             }

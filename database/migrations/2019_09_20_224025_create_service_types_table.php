@@ -27,7 +27,7 @@ class CreateServiceTypesTable extends Migration
 
         DB::connection()->getPdo()->exec('insert into service_types (name) values ("Arresting Agency") ;');
         DB::connection()->getPdo()->exec('insert into service_types (name) values ("County Court") ;');
-        DB::connection()->getPdo()->exec('insert into service_types (name) values ("Municiple Court") ;');
+        DB::connection()->getPdo()->exec('insert into service_types (name) values ("Municipal Court") ;');
 
     }
 
