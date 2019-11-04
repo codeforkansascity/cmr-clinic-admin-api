@@ -309,6 +309,9 @@ class ApplicantController extends Controller
             },
             'conviction.charge',
             'conviction.charge.statute',
+            'conviction.charge.statute.statutes_eligibility',
+            'conviction.charge.statute.superseded',
+            //'conviction.charge.statute.superseded.statutes_eligibility',
             'assignment',
             'step',
         ])->find(intval($id));

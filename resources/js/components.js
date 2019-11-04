@@ -69,6 +69,8 @@ Vue.component('dsp-boolean', () => import(/* webpackChunkName:"dsp-boolean" */ '
 Vue.component('dsp-textarea', () => import(/* webpackChunkName:"dsp-textarea" */ './components/SS/DspTextArea.vue'));
 Vue.component('dsp-text', () => import(/* webpackChunkName:"dsp-text" */ './components/SS/DspText.vue'));
 Vue.component('dsp-date', () => import(/* webpackChunkName:"dsp-date" */ './components/SS/DspDate.vue'));
+Vue.component('dsp-statute', () => import(/* webpackChunkName:"dsp-statute" */ './components/SS/DspStatute.vue'));
+
 
 Vue.component('tr-view', () => import(/* webpackChunkName:"tr-view" */ './components/SS/TrView.vue'));
 Vue.component('tr-view-date', () => import(/* webpackChunkName:"tr-view-date" */ './components/SS/TrViewDate.vue'));

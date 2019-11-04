@@ -63,7 +63,7 @@ class ChargeStatuteToFK
                         [
                             'number' => $charge->imported_citation,
                             'name' => $charge->imported_statute,
-                            'note' => 'Added from db conversion',
+                            'note' => '',
                             'statutes_eligibility_id' => \App\Statute::UNDETERMINED
                         ]
                     );

@@ -3,7 +3,7 @@
 
         <div class="col-md-7">
             <h5 v-if="record.statute">
-                {{ record.statute.number }} {{ record.statute.name }}
+                <dsp-statute v-model="record.statute" />
             </h5>
             <h5 v-else>
                 *** {{ record.imported_citation }} {{ record.imported_statute }} ***
