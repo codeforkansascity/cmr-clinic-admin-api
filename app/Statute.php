@@ -33,6 +33,8 @@ class Statute extends Model
         'name',
         'note',
         'statutes_eligibility_id',
+        'superseded_id',
+        'superseded_on',
         'deleted_at',
     ];
 
