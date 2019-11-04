@@ -31,22 +31,25 @@
                     <tr is="tr-view" v-model="record.record_name">Applicant's name in court's records?</tr>
                     <tr is="tr-view" v-model="record.arresting_agency">Arresting Agency</tr>
                     <tr is="tr-view-date" v-model="record.arrest_date">Date of arrest</tr>
+                    <tr is="tr-view-date" v-model="record.date_of_charge">Date of Charge</tr>
 
 
                 </table>
             </div>
             <div class="col-md-6" style="padding-left: 1em;">
                 <table class="table  table-sm">
-                    <tr is="tr-view-date" v-model="record.date_of_charge">Date of Charge</tr>
+
                     <tr is="tr-view" v-model="record.date_of_disposition">Date of Disposition</tr>
                     <tr is="tr-view" v-model="record.release_status">Relase Status</tr>
                     <tr is="tr-view-date" v-model="record.release_date">Release Date</tr>
                     <tr is="tr-view" v-model="record.court_city_county">Court</tr>
                     <tr is="tr-view" v-model="record.judge">Judge</tr>
                     <tr is="tr-view-yn" v-model="record.sis">SIS</tr>
+                    <tr is="tr-view" v-model="record.source">Source</tr>
 
                 </table>
             </div>
+
 
             <div class="col-md-12" style="padding-left: 1em;">
                 <service-container

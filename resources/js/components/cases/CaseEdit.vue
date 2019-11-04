@@ -33,7 +33,7 @@
                                     label-for="name"
                                     :errors="form_errors.name"
                             >
-                                <fld-input name="name" v-model="record.name" />
+                                <fld-input name="name" v-model="record.name"/>
                                 <template slot="help">
                                     When speaking with the expungie, how they refer to this. "Car 2005".
                                     Until someone meets with the expungie, a short but meaningful description.
@@ -80,24 +80,6 @@
                             </std-form-group>
                         </div>
 
-                        <!--<div class="col-md-12">-->
-                            <!--<std-form-group-->
-                                    <!--label="Was the court a Missouri circuit (county) court or a municipal (city) court?"-->
-                                    <!--label-for="agency"-->
-                                    <!--:errors="form_errors.agency"-->
-                                    <!--:required="true"-->
-                            <!--&gt;-->
-                                <!--<fld-input name="agency" v-model="record.agency"/>-->
-                            <!--</std-form-group>-->
-                        <!--</div>-->
-
-
-                    </div>
-
-                    <!--=====================-->
-                    <div class="col-md-6">
-
-
                         <div class="col-md-12">
                             <std-form-group
                                     label="Date of Charge "
@@ -113,6 +95,24 @@
                                         style="width: 10em"/>
                             </std-form-group>
                         </div>
+
+                        <!--<div class="col-md-12">-->
+                        <!--<std-form-group-->
+                        <!--label="Was the court a Missouri circuit (county) court or a municipal (city) court?"-->
+                        <!--label-for="agency"-->
+                        <!--:errors="form_errors.agency"-->
+                        <!--:required="true"-->
+                        <!--&gt;-->
+                        <!--<fld-input name="agency" v-model="record.agency"/>-->
+                        <!--</std-form-group>-->
+                        <!--</div>-->
+
+
+                    </div>
+
+                    <!--=====================-->
+                    <div class="col-md-6">
+
 
                         <div class="col-md-12">
                             <std-form-group
@@ -178,8 +178,6 @@
                         </div>
 
 
-
-
                         <div class="col-md-12">
                             <std-form-group
                                     label="SIS"
@@ -192,11 +190,24 @@
                         </div>
 
 
-
                     </div>
 
 
                     <div class="col-md-12" style="padding-left: 2em;">
+                        <div class="col-md-4">
+                            <std-form-group
+                                    label="Source"
+                                    label-for="source"
+                                    :errors="form_errors.source"
+
+                            >
+                                <fld-input name="source" v-model="record.source"/>
+                                <template slot="help">
+                                    The current options are: Lexus, Casenet, and MSHP.
+                                </template>
+                            </std-form-group>
+                        </div>
+
                         <div class="col-md-12">
                             <std-form-group
                                     label="Notes"
@@ -204,7 +215,7 @@
                                     :errors="form_errors.notes"
 
                             >
-                                <fld-text-editor name="notes" v-model="record.notes"  style="height: 20em"/>
+                                <fld-text-editor name="notes" v-model="record.notes" style="height: 20em"/>
                             </std-form-group>
                         </div>
 

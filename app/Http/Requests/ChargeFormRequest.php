@@ -48,6 +48,7 @@ class ChargeFormRequest extends FormRequest
             'eligible_text' => 'nullable|string|max:64',
             'please_expunge_text' => 'nullable|string|max:64',
             'to_print' => 'nullable|string|max:64',
+            'source' => 'nullable|string',
             'notes' => 'nullable|string',
             'convicted' => 'nullable|numeric',
             'eligible' => 'nullable|numeric',
