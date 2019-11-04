@@ -40,6 +40,22 @@ class ChargeStatuteToFK
                     continue;
                 }
 
+                if (!preg_match('/^\d\d\d\.\d\d\d$/', $charge->imported_citation)) {  // Make sure citation is in MO  999.999 format
+                    continue;
+                }
+
+                // Make sure we do not end up with any duplicate names in the statute list
+                $existing = \App\Statute::select('id','number', 'name')->whereRaw("LOWER('name')", strtolower($charge->imported_statute))->get();
+
+                info("count=".$existing->count(). " " . $charge->imported_citation . " -- " . strtolower($charge->imported_statute));
+
+
+                if ($existing->count() > 0) {
+
+                    info(print_r($existing->toArray(),true));
+                    continue;
+                }
+
                 $statute = new \App\Statute;
                 try {
 
