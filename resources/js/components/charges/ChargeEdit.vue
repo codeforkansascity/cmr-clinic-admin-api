@@ -62,7 +62,7 @@
                         <label class="form-control-label">
                             Statute
                         </label>
-                        <div class="alert alert-danger w-75" role="alert" v-if="!record.statute_id">
+                        <div class="alert alert-danger w-75" role="alert" v-if="isUndefinedOrEmpty(record.statute_id)">
                             Imported Statute: {{ record.imported_citation }} {{ record.imported_statute }}
                             <button type="button" class="close" @click="record.imported_statute = null">
                                 <span aria-hidden="true">&times;</span>
