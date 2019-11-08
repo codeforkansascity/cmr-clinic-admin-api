@@ -40,7 +40,7 @@ class CreateStatutesEligibilities extends Migration
         ]);
         $status = \App\StatutesEligibility::create([
             'id' => \App\Statute::UNDETERMINED,
-            'name' => 'Undetermined Eligable',
+            'name' => 'Undetermined Eligibility',
             'sequence' => 30,
         ]);
 
