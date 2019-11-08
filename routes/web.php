@@ -100,6 +100,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/charge/print', 'ChargeController@print')->name('charge.print');
     Route::resource('/charge', 'ChargeController');
 
+    Route::get('/api-data-source', 'DataSourceApi@index');
+    Route::get('/api-data-source/options', 'DataSourceApi@getOptions');
+    Route::get('/data-source/download', 'DataSourceController@download')->name('data-source.download');
+    Route::get('/data-source/print', 'DataSourceController@print')->name('data-source.print');
+    Route::resource('/data-source', 'DataSourceController');
+
     Route::get('/api-step', 'StepApi@index');
     Route::get('/api-step/options', 'StepApi@getOptions');
     Route::get('/step/download', 'StepController@download')->name('step.download');
@@ -161,6 +167,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/applicant/print', 'ApplicantController@print')->name('applicant.print');
     Route::resource('/applicant', 'ApplicantController');
 });
+
 
 
 

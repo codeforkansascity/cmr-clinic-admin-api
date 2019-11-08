@@ -23,7 +23,8 @@
 
                 @canany(['statute index'])
                     <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'statute') echo 'active'; @endphp">
-                        <a class="nav-link" href="{{ route('statute.index') }}">Statutes <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="{{ route('statute.index') }}">Statutes <span
+                                    class="sr-only">(current)</span></a>
                     </li>
                 @endif
 
@@ -32,11 +33,16 @@
                        aria-haspopup="true" aria-expanded="false">Admin</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown-admin">
                         @canany(['user index'])
-                            <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'user') echo 'active'; @endphp" href="/user">Users</a>
+                            <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'user') echo 'active'; @endphp"
+                               href="/user">Users</a>
                         @endcanany
                         @canany(['invite index'])
                             <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'invite') echo 'active'; @endphp"
                                href="/invite">Invite Users</a>
+                        @endcanany
+                        @canany(['data_source index'])
+                            <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'data-source') echo 'active'; @endphp"
+                               href="/data-source">Data Source</a>
                         @endcanany
                         @canany(['status index'])
                             <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'status') echo 'active'; @endphp"

@@ -27,7 +27,7 @@ class InitialPermissions
         } catch (RoleDoesNotExist $e) {
             $role = Role::create(['name' => 'super-admin']);
         }
-        
+
 
         Permission::findOrCreate( 'always fail');
 
@@ -89,6 +89,14 @@ class InitialPermissions
         Permission::findOrCreate('statute destroy');
         Permission::findOrCreate('statute export-pdf');
         Permission::findOrCreate('statute export-excel');
+
+        Permission::findOrCreate('data_source index');
+        Permission::findOrCreate('data_source view');
+        Permission::findOrCreate('data_source export-pdf');
+        Permission::findOrCreate('data_source export-excel');
+        Permission::findOrCreate('data_source add');
+        Permission::findOrCreate('data_source update');
+        Permission::findOrCreate('data_source destroy');
 
         Permission::findOrCreate('status index');
         Permission::findOrCreate('status add');
@@ -183,6 +191,14 @@ class InitialPermissions
             'statute export-pdf',
             'statute export-excel',
 
+            'data_source index',
+            'data_source add',
+            'data_source update',
+            'data_source view',
+            'data_source destroy',
+            'data_source export-pdf',
+            'data_source export-excel',
+
             'status index',
             'status add',
             'status update',
@@ -248,6 +264,14 @@ class InitialPermissions
             'statute export-pdf',
             'statute export-excel',
 
+            'data_source index',
+            'data_source add',
+            'data_source update',
+            'data_source view',
+            'data_source destroy',
+            'data_source export-pdf',
+            'data_source export-excel',
+
 
         ]);
 
@@ -276,6 +300,11 @@ class InitialPermissions
 
             'statute index',
             'statute view',
+
+            'data_source index',
+            'data_source view',
+
+
 
             'status index',
             'status view',
