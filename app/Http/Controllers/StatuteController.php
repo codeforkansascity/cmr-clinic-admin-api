@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\TrimStrings;
 use App\Statute;
+use App\StatutesEligibility;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\StatuteFormRequest;
@@ -154,6 +155,7 @@ class StatuteController extends Controller
         }
 
         if ($statute = $this->sanitizeAndFind($id)) {
+            dd($statute);
             $can_edit = Auth::user()->can('statute edit');
             $can_delete = Auth::user()->can('statute delete') && $statute->canDelete();
             $charges = $statute->getCharges($id);
@@ -290,7 +292,13 @@ class StatuteController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\Statute::with('statutes_eligibility','superseded')->find(intval($id));
+        return \App\Statute::with([
+            'statutes_eligibility',
+            'superseded' => function ($q) {
+                $q->with('statutes_eligibility');
+            }
+        ])
+            ->find(intval($id));
     }
 
 
@@ -413,4 +421,6 @@ class StatuteController extends Controller
         }
         return $statutes->get();
     }
+
+
 }

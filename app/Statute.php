@@ -269,4 +269,28 @@ class Statute extends Model
 
     }
 
+    public function scopeWithEligibility($builder)
+    {
+        // check if the selects are loaded if not load them
+        if (is_null($builder->getQuery()->columns)) {
+            $builder->select('statutes.*');
+        }
+
+        // build subquery to join eligibility status and select name as eligibility
+        $query = StatutesEligibility::select('name')
+            ->whereColumn('statutes.statutes_eligibility_id', 'statutes_eligibilities.id');
+
+        return $builder->selectSub($query->limit(1), 'eligibility');
+    }
+
+    public function scopeWithSuperseded($query)
+    {
+        $query->withEligibility()
+            ->with([
+                'superseded' => function ($q) {
+                    $q->withEligibility();
+            }
+        ]);
+    }
+
 }
