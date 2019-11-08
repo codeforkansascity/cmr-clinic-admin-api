@@ -27,10 +27,10 @@
                 <table class="table  table-sm">
 
                     <tr is="tr-view" v-model="record.case_number">Case Number</tr>
-                    <tr is="tr-view" v-model="record.name">Description</tr>
+                    <tr is="tr-view" v-model="record.name">Case Description</tr>
                     <tr is="tr-view" v-model="record.record_name">Applicant's name in court's records?</tr>
                     <tr is="tr-view" v-model="record.arresting_agency">Arresting Agency</tr>
-                    <tr is="tr-view-date" v-model="record.arrest_date">Date of arrest</tr>
+                    <tr is="tr-view-date" v-model="record.arrest_date">Date of Arrest</tr>
                     <tr is="tr-view-date" v-model="record.date_of_charge">Date of Charge</tr>
 
 

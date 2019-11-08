@@ -131,7 +131,7 @@
 
                         <div class="col-md-12">
                             <std-form-group
-                                    label="Coumnty/City or Court"
+                                    label="County/City or Court"
                                     label-for="court_city_county"
                                     :errors="form_errors.court_city_county"
 
@@ -203,7 +203,7 @@
                             >
                                 <fld-input name="source" v-model="record.source"/>
                                 <template slot="help">
-                                    The current options are: Lexus, Casenet, and MSHP.
+                                    The current options are: Lexis, Casenet, and MSHP.
                                 </template>
                             </std-form-group>
                         </div>

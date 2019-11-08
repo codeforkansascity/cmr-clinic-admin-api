@@ -39,7 +39,7 @@
         <div class="row pb-3">
             <div class="col-md-9">
                 <label class="form-control-label">
-                    Supereded By
+                    Superseded By
                 </label>
 
                 <fld-statute

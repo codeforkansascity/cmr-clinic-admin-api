@@ -37,7 +37,7 @@ class Conviction extends Model
         'arresting_agency',
         'date_of_disposition',
         'sis',
-
+        'source',
         'created_by',
         'modified_by',
     ];
