@@ -24,7 +24,7 @@
                 <slot></slot>
             </div>
             <div class="col-md-12" style="padding-left: 4em;">
-                {{ record.notes }}
+                <dsp-textarea v-model="record.notes"></dsp-textarea>
             </div>
         </div>
 
