@@ -155,7 +155,6 @@ class StatuteController extends Controller
         }
 
         if ($statute = $this->sanitizeAndFind($id)) {
-            dd($statute);
             $can_edit = Auth::user()->can('statute edit');
             $can_delete = Auth::user()->can('statute delete') && $statute->canDelete();
             $charges = $statute->getCharges($id);
