@@ -148,3 +148,7 @@ Vue.component('service-type-grid', () => import(/* webpackChunkName:"service-typ
 Vue.component('service-type-form', () => import(/* webpackChunkName:"service-type-form" */ './components/service_types/ServiceTypeForm.vue'));
 Vue.component('service-type-show', () => import(/* webpackChunkName:"service-type-Show" */ './components/service_types/ServiceTypeShow.vue'));
 
+
+Vue.component('data-source-grid', () => import(/* webpackChunkName:"data-source-grid" */ './components/data_sources/DataSourceGrid.vue'));
+Vue.component('data-source-form', () => import(/* webpackChunkName:"data-source-form" */ './components/data_sources/DataSourceForm.vue'));
+Vue.component('data-source-show', () => import(/* webpackChunkName:"data-source-Show" */ './components/data_sources/DataSourceShow.vue'));
