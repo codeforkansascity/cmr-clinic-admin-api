@@ -39,16 +39,13 @@ class ChargeFormRequest extends FormRequest
 
             'id' => 'numeric',
             'conviction_id' => 'nullable|numeric',
-            'charge' => 'nullable|string|max:255',
-            'citation' => 'nullable|string|max:64',
+            'statute_id' => 'nullable|numeric|empty_with:imported_statute',
+            'imported_statute' => 'nullable|string|max:255|empty_with:statute_id',
+            'imported_citation' => 'nullable|string|max:64',
             'conviction_class_type' => 'nullable|string|max:64',
             'conviction_charge_type' => 'nullable|string|max:64',
             'sentence' => 'nullable|string|max:64',
-            'convicted_text' => 'nullable|string|max:64',
-            'eligible_text' => 'nullable|string|max:64',
-            'please_expunge_text' => 'nullable|string|max:64',
             'to_print' => 'nullable|string|max:64',
-            'source' => 'nullable|string',
             'notes' => 'nullable|string',
             'convicted' => 'nullable|numeric',
             'eligible' => 'nullable|numeric',
@@ -58,6 +55,13 @@ class ChargeFormRequest extends FormRequest
 
 
         return $rules;
+    }
+
+    public function messages()
+    {
+        return [
+            'statute_id.validation.empty_with' => 'Please select one'
+        ];
     }
 }
 

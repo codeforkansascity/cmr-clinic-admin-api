@@ -23,7 +23,7 @@
                                     :errors="form_errors.case_number"
                                     :required="true"
                             >
-                                <fld-input name="case_number" v-model="record.case_number"/>
+                                <fld-input name="case_number" v-model="record.case_number" :required="true"/>
                             </std-form-group>
                         </div>
 
