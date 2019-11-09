@@ -13,6 +13,7 @@ use App\Observers\ApplicantObserver;
 use App\Observers\ConvictionObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -42,5 +43,25 @@ class AppServiceProvider extends ServiceProvider
         Statute::observe(StatuteObserver::class);
         Applicant::observe(ApplicantObserver::class);
         Conviction::observe(ConvictionObserver::class);
+
+        /**
+         * Validate that there is only a value in one and not the other.
+         *
+         *
+         * Can be used like
+         *
+         *      'statute_id' => 'nullable|numeric|empty_with:imported_statute',
+         *      'imported_statute' => 'nullable|string|max:255|empty_with:statute_id',
+
+         */
+        Validator::extend(
+            'empty_with',
+            function ($attribute, $value, $parameters)
+            {
+                if (empty($value) && empty(request($parameters[0]))) return false;
+                if (!empty($value) && !empty(request($parameters[0]))) return false;
+                return true;
+            }
+        );
     }
 }

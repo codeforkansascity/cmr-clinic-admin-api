@@ -59,19 +59,24 @@
 
                 <div class="row pb-3">
                     <div class="col-md-12">
-                        <label class="form-control-label">
-                            Statute
-                        </label>
-                        <div class="alert alert-danger w-75" role="alert" v-if="isUndefinedOrEmpty(record.statute_id)">
-                            Imported Statute: {{ record.imported_citation }} {{ record.imported_statute }}
-                            <button type="button" class="close" @click="record.imported_statute = null">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <fld-statute
-                            v-model="record.statute_id"
-                            @input="statuteSelected"
-                        ></fld-statute>
+                        <std-form-group
+                                label="Charge Type"
+                                label-for="statute_id"
+                                :errors="form_errors.statute_id"
+                        >
+                            <div class="alert alert-danger w-75" role="alert"
+                                 v-if="isUndefinedOrEmpty(record.statute_id)">
+                                Imported Statute: {{ record.imported_citation }} {{ record.imported_statute }}
+                                <button type="button" class="close" @click="record.imported_statute = null">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <fld-statute
+                                    name="statute_id"
+                                    v-model="record.statute_id"
+                                    @input="statuteSelected"
+                            ></fld-statute>
+                        </std-form-group>
                     </div>
                 </div>
 
@@ -182,17 +187,18 @@
         },
         data() {
             return {
-                record: {},         // We will store v-model's input here to be reactive
+                record: {
+                    statute: {}
+                },         // We will store v-model's input here to be reactive
                 form_errors: {
                     id: false,
                     conviction_id: false,
-                    citation: false,
+                    statute_id: false,
+                    imported_statute: false,
+                    imported_citation: false,
                     conviction_class_type: false,
                     conviction_charge_type: false,
                     sentence: false,
-                    convicted_text: false,
-                    eligible_text: false,
-                    please_expunge_text: false,
                     to_print: false,
                     notes: false,
                     convicted: false,
@@ -250,7 +256,7 @@
                             if (res.data.charge) {
                                 /// set id in case this is a new entry
                                 $this.record.id = res.data.charge.id
-                                if ( res.data.charge.statute) {
+                                if (res.data.charge.statute) {
                                     $this.record.statute = {};
                                     Object.keys(res.data.charge.statute).forEach(
                                         i => ($this.record.statute[i] = res.data.charge.statute[i])
@@ -264,7 +270,12 @@
                                 $this.backup_copy[index] = $this.record[index]
                             }
 
-                            if ( res.data.statute) {
+
+                            if (!$this.isDefined($this.record.statute)) {
+                                $this.record.statute = {};
+                            }
+
+                            if (res.data.statute) {
                                 Object.keys(res.data.statute).forEach(
                                     i => ($this.record.statute[i] = res.data.statute[i])
                                 );
