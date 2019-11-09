@@ -29,7 +29,7 @@
                         </case-details>
                     </div>
                     <div v-if="view === 'edit'">
-                        <case-edit v-model="record">
+                        <case-edit v-model="record" @input="update">
                             <delete-control class="float-right"
                                             height="30"
                                             @click="setView('summary')"/>
@@ -90,6 +90,9 @@
             setView(view) {
                 this.view = view
             },
+            update() {
+                this.$emit('input', this.record)
+            }
 
         },
         created() {

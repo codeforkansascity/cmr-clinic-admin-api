@@ -201,10 +201,7 @@
                                     :errors="form_errors.source"
 
                             >
-                                <fld-input name="source" v-model="record.source"/>
-                                <template slot="help">
-                                    The current options are: Lexis, Casenet, and MSHP.
-                                </template>
+                                <fld-source-select v-model="record.sources"></fld-source-select>
                             </std-form-group>
                         </div>
 
