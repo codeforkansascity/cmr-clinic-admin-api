@@ -45,7 +45,7 @@
                     <tr is="tr-view" v-model="record.court_city_county">Court</tr>
                     <tr is="tr-view" v-model="record.judge">Judge</tr>
                     <tr is="tr-view-yn" v-model="record.sis">SIS</tr>
-                    <tr is="tr-view" v-model="record.source">Source</tr>
+                    <tr is="tr-view" v-model="record.sources.map(s => s.name).join(', ')">Sources</tr>
 
                 </table>
             </div>
