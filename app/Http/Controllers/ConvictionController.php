@@ -205,7 +205,7 @@ class ConvictionController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Conviction $conviction     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ConvictionFormRequest $request, $id)
     {
 
         info(__METHOD__ . ' start');
