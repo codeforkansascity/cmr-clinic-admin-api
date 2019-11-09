@@ -32,6 +32,11 @@ class DataSource extends Model
         'updated_at',
     ];
 
+    public function convictions()
+    {
+        return $this->belongsToMany(Conviction::class, 'conviction_source', 'data_source_id', 'conviction_id', 'id', 'id');
+    }
+
     public function add($attributes)
     {
 
