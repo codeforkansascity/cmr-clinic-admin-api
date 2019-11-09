@@ -7,6 +7,7 @@
                     v-for="(record, index) in charges"
                     :key="index"
                     :data="record"
+                    @updateCharge="updateCharge"
             >
             </charge-container>
 
@@ -84,6 +85,10 @@
                 this.charges = this.charges.filter(charge => {
                     return charge.id !== id
                 });
+            },
+            updateCharge(key, value) {
+                console.log('updateCharge',key, value)
+                this.charges[key] = value
             }
         },
     }
