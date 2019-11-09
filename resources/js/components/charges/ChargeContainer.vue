@@ -76,6 +76,10 @@
             }
             this.$bus.$on('minimize-charge', (id) => {
                 if (id === this.record.id) this.setView('summary')
+                // if charge hasn't been saved but is canceled delete
+                if(id === 0) {
+                    this.$bus.$emit('charge-deleted', 0 )
+                }
             })
         },
     }
