@@ -331,6 +331,7 @@
                     axios.delete(`/charge/${this.record.id}`)
                         .then(response => {
                             // send delete event to Charges List
+                            
                             this.$bus.$emit('charge-deleted', $this.record.id)
                         })
                         .catch(error => {

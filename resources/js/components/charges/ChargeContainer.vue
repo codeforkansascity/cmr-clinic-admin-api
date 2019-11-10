@@ -19,10 +19,12 @@
             </charge-details>
         </div>
         <div v-if="view === 'edit'">
-            <charge-edit v-model="record">
+            <charge-edit v-model="record" @input="update">
                 <delete-control class="float-right"
                                 height="30"
-                                @click="setView('summary')"/>
+                                @click="setView('summary')"
+
+                />
             </charge-edit>
         </div>
     </div>
@@ -54,7 +56,8 @@
             case_count: {
                 type: [Boolean, Number],
                 default: 1
-            }
+            },
+
         },
         data() {
             return {
@@ -66,6 +69,9 @@
             setView(view) {
                 this.view = view
             },
+            update(v) {
+                this.$emit('updateCharge', this.$vnode.key, v);
+            }
         },
         created() {
             Object.keys(this.data).forEach(i =>
@@ -76,6 +82,10 @@
             }
             this.$bus.$on('minimize-charge', (id) => {
                 if (id === this.record.id) this.setView('summary')
+                // if charge hasn't been saved but is canceled delete
+                if(id === 0) {
+                    this.$bus.$emit('charge-deleted', 0 )
+                }
             })
         },
     }
