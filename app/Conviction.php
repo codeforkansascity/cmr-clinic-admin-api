@@ -64,6 +64,11 @@ class Conviction extends Model
             ->withPivot(['name']);
     }
 
+    public function sources()
+    {
+        return $this->belongsToMany(DataSource::class, 'conviction_source', 'conviction_id', 'data_source_id', 'id', 'id');
+    }
+
     // this is a recommended way to declare event handlers
     public static function boot()
     {

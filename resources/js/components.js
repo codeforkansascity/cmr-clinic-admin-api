@@ -152,3 +152,4 @@ Vue.component('service-type-show', () => import(/* webpackChunkName:"service-typ
 Vue.component('data-source-grid', () => import(/* webpackChunkName:"data-source-grid" */ './components/data_sources/DataSourceGrid.vue'));
 Vue.component('data-source-form', () => import(/* webpackChunkName:"data-source-form" */ './components/data_sources/DataSourceForm.vue'));
 Vue.component('data-source-show', () => import(/* webpackChunkName:"data-source-Show" */ './components/data_sources/DataSourceShow.vue'));
+Vue.component('fld-source-select',  () => import(/* webpackChunkName:"fld-source-select" */ './components/SS/FldSourceSelect'));
