@@ -240,7 +240,7 @@
                             <button class="btn btn-secondary" @click.prevent="cancel">Cancel</button>
                         </div>
                         <div class="col-md-4 text-center mt-2 mt-md-0" v-if="record.id > 0">
-                            <button class="btn btn-danger" @click.prevent="deleteCharge">Delete Charge</button>
+                            <button class="btn btn-danger" @click.prevent="deleteCase">Delete Case</button>
                         </div>
                         <div class="col-md-4 text-md-right">
                             <button
@@ -405,7 +405,7 @@
                         this.processing = false;
                     });
             },
-            deleteCharge() {
+            deleteCase() {
                 let $this = this
                 if (confirm('Do you want to delete record?')) {
                     axios.delete(`/conviction/${this.record.id}`)
