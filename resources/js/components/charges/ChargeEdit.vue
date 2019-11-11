@@ -60,7 +60,7 @@
                 <div class="row pb-3">
                     <div class="col-md-12">
                         <std-form-group
-                                label="Charge Type"
+                                label="Charge"
                                 label-for="statute_id"
                                 :errors="form_errors.statute_id"
                         >
