@@ -12,7 +12,7 @@
             </div>
 
             <div class="col-md-12" style="padding-left: 4em;">
-                {{ record.notes }}
+                <dsp-textarea v-model="record.notes"></dsp-textarea>
             </div>
         </div>
 
@@ -70,8 +70,8 @@
 
                     <h5>CMS</h5>
                     <table class="table  table-sm">
-                        <tr is="tr-view" v-model="record.cms_client_number">Client #</tr>
-                        <tr is="tr-view" v-model="record.cms_matter_number">Matter #</tr>
+                        <tr is="tr-view" v-model="record.cms_client_number">CMS Client ID</tr>
+                        <tr is="tr-view" v-model="record.cms_matter_number">CMS Case ID</tr>
                     </table>
 
                 </div>

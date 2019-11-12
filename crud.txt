@@ -3,3 +3,4 @@ php artisan make:crud statutes_eligibilities  --force --display-name="Statutes E
 php artisan make:crud service_types  --force --display-name="Service Types" --grid-columns="name"
 php artisan make:crud service_types  --force --display-name="Service Types" --grid-columns="name"
 php artisan make:crud services  --force --display-name="Services" --grid-columns="name:service_type_id"
+php artisan make:crud data_sources  --force --display-name="Sources" --grid-columns="name:description"

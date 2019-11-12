@@ -23,7 +23,7 @@
                                     :errors="form_errors.case_number"
                                     :required="true"
                             >
-                                <fld-input name="case_number" v-model="record.case_number"/>
+                                <fld-input name="case_number" v-model="record.case_number" :required="true"/>
                             </std-form-group>
                         </div>
 
@@ -131,7 +131,7 @@
 
                         <div class="col-md-12">
                             <std-form-group
-                                    label="Coumnty/City or Court"
+                                    label="County/City or Court"
                                     label-for="court_city_county"
                                     :errors="form_errors.court_city_county"
 
@@ -201,10 +201,7 @@
                                     :errors="form_errors.source"
 
                             >
-                                <fld-input name="source" v-model="record.source"/>
-                                <template slot="help">
-                                    The current options are: Lexus, Casenet, and MSHP.
-                                </template>
+                                <fld-source-select v-model="record.sources"></fld-source-select>
                             </std-form-group>
                         </div>
 
@@ -236,14 +233,13 @@
                     </div>
                 </div>
 
-
                 <div class="form-group mt-4">
                     <div class="row">
                         <div class="col-md-4 text-md-left mt-2 mt-md-0">
                             <button class="btn btn-secondary" @click.prevent="cancel">Cancel</button>
                         </div>
                         <div class="col-md-4 text-center mt-2 mt-md-0" v-if="record.id > 0">
-                            <button class="btn btn-danger" @click.prevent="deleteCharge">Delete Charge</button>
+                            <button class="btn btn-danger" @click.prevent="deleteCase">Delete Case</button>
                         </div>
                         <div class="col-md-4 text-md-right">
                             <button
@@ -408,7 +404,7 @@
                         this.processing = false;
                     });
             },
-            deleteCharge() {
+            deleteCase() {
                 let $this = this
                 if (confirm('Do you want to delete record?')) {
                     axios.delete(`/conviction/${this.record.id}`)

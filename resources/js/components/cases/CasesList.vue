@@ -6,6 +6,7 @@
                     v-for="(record, index) in cases"
                     :key="index"
                     :data="record"
+                    @updateCase="updateCase"
                     :case_count="index+1"
             >
             </case-container>
@@ -46,7 +47,7 @@
             Object.keys(this.data).forEach(i =>
                 this.$set(this.cases, i, this.data[i])
             );
-            this.$bus.$on('case-deleted', (case_id) => {
+            this.$bus.$on('case-deleted-2', (case_id) => {
                 this.removeCase(case_id)
             });
         },
@@ -82,9 +83,18 @@
                 this.showCases = !this.showCases
             },
             removeCase(id) {
+                console.log('removeCase='+id);
                 this.cases = this.cases.filter(c => {
                     return c.id !== id
-                })
+                });
+                console.log('removed');
+                // this.$forceUpdate();
+                // console.log('$forceUpdate');
+            },
+            updateCase(key, value) {
+                console.log('updateCase='+key);
+                console.log(value);
+                this.cases[key] = value
             }
         },
     }

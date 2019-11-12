@@ -126,6 +126,9 @@ class ConvictionController extends Controller
     {
 
         $conviction = Conviction::create($request->all());
+        if($request->sources) {
+            $conviction->sources()->sync(collect($request->sources)->pluck('id'));
+        }
         /// We need to return the id to the front end
         ///
 //        try {
@@ -205,7 +208,7 @@ class ConvictionController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @param  \App\Conviction $conviction     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ConvictionFormRequest $request, $id)
     {
 
         info(__METHOD__ . ' start');
@@ -227,11 +230,15 @@ class ConvictionController extends Controller
         }
 
         $conviction->fill($request->all());
+        if($request->sources) {
+            $conviction->sources()->sync(collect($request->sources)->pluck('id'));
+        }
 
         if ($conviction->isDirty()) {
 info(__METHOD__ . ' saving');
             try {
                 $conviction->save();
+
             } catch (\Exception $e) {
                 info(print_r($e->getMessage(),true));
                 return response()->json([

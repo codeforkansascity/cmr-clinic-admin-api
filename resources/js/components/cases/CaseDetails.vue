@@ -27,10 +27,10 @@
                 <table class="table  table-sm">
 
                     <tr is="tr-view" v-model="record.case_number">Case Number</tr>
-                    <tr is="tr-view" v-model="record.name">Description</tr>
+                    <tr is="tr-view" v-model="record.name">Case Description</tr>
                     <tr is="tr-view" v-model="record.record_name">Applicant's name in court's records?</tr>
                     <tr is="tr-view" v-model="record.arresting_agency">Arresting Agency</tr>
-                    <tr is="tr-view-date" v-model="record.arrest_date">Date of arrest</tr>
+                    <tr is="tr-view-date" v-model="record.arrest_date">Date of Arrest</tr>
                     <tr is="tr-view-date" v-model="record.date_of_charge">Date of Charge</tr>
 
 
@@ -45,7 +45,7 @@
                     <tr is="tr-view" v-model="record.court_city_county">Court</tr>
                     <tr is="tr-view" v-model="record.judge">Judge</tr>
                     <tr is="tr-view-yn" v-model="record.sis">SIS</tr>
-                    <tr is="tr-view" v-model="record.source">Source</tr>
+                    <tr is="tr-view" :value="mapNames(record.sources)">Sources</tr>
 
                 </table>
             </div>
@@ -103,8 +103,13 @@
             },
             deleteService(s, i) {
                 this.record.services.splice(i, 1)
+            },
+            mapNames(array) {
+                if(!array) return ''
+                return array.length? array.map(s => s.name).join(', '): ''
             }
         },
+
     }
 </script>
 

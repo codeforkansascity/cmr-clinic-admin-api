@@ -37,7 +37,7 @@ class Conviction extends Model
         'arresting_agency',
         'date_of_disposition',
         'sis',
-
+        'source',
         'created_by',
         'modified_by',
     ];
@@ -62,6 +62,11 @@ class Conviction extends Model
         return $this->belongsToMany(Service::class)
             ->using(ConvictionService::class)
             ->withPivot(['name']);
+    }
+
+    public function sources()
+    {
+        return $this->belongsToMany(DataSource::class, 'conviction_source', 'conviction_id', 'data_source_id', 'id', 'id');
     }
 
     // this is a recommended way to declare event handlers
