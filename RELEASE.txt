@@ -24,3 +24,11 @@
 
 3.0.0.1.0 2019-11-04 - Changes to Applicant, Case, Charges, Statutes
 3.0.0.1.1 2019-11-04 - Had to merge in codeforkc chagnes
+
+3.1.0.0.0 2019-11-12 - Source has been added to case.
+                       Case and Charge can be deleted, but UI issue
+                       Charge must have a value in the imported statue or statute_id #109
+                       Make case number required, and description (name) not required. #93
+                       Now all note fields are WYSIWYG and display as rendered HTML
+                       add options to get superseded and eligibility
+                       
