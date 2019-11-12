@@ -87,7 +87,8 @@
                 });
             },
             updateCharge(key, value) {
-                console.log('updateCharge',key, value)
+                console.log('updateCharge='+key);
+                console.log(value);
                 this.charges[key] = value
             }
         },
