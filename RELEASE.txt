@@ -34,3 +34,6 @@
                        
 3.1.1.0.0 2019-11-13 - Fix deleting existing and unsaved case and charge records
                        Cleanup up home page
+
+3.1.2.0.0 2019-11-13 - Display Statute now shows link to MO Revisor #74
+
