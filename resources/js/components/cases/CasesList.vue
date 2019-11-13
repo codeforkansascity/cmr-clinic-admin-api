@@ -47,7 +47,7 @@
             Object.keys(this.data).forEach(i =>
                 this.$set(this.cases, i, this.data[i])
             );
-            this.$bus.$on('case-deleted-2', (case_id) => {
+            this.$bus.$on('case-deleted', (case_id) => {
                 this.removeCase(case_id)
             });
         },
@@ -84,9 +84,13 @@
             },
             removeCase(id) {
                 console.log('removeCase='+id);
-                this.cases = this.cases.filter(c => {
+                let filtered = this.cases.filter(c => {
                     return c.id !== id
                 });
+                this.cases = []
+                this.$nextTick(() => {
+                    this.cases = filtered
+                })
                 console.log('removed');
                 // this.$forceUpdate();
                 // console.log('$forceUpdate');
