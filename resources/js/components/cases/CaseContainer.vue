@@ -94,7 +94,6 @@
                 this.$emit('updateCase', this.$vnode.key, v);
             },
             async deleteCase(case_id) {
-                this.$bus.$emit('case-deleted-2', case_id)
                 this.setView('summary')
             }
 
@@ -108,14 +107,8 @@
             };
             this.$bus.$on('minimize-case', (id) => {
                 if (id === this.record.id) this.setView('summary')
-                // if charge hasn't been saved but is canceled delete
-                if (id === 0) {
-                    this.$bus.$emit('case-deleted', 0)
-                }
             });
-            this.$bus.$on('case-deleted', (case_id) => {
-                this.deleteCase(case_id);
-            });
+
         },
     }
 </script>

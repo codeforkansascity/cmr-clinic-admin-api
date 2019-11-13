@@ -425,7 +425,14 @@
                         this.record.reason_for_change = ''
                     }
                 }
-                this.$bus.$emit('minimize-case', this.record.id)
+                //  since the minimize-case event goes to all case containers let's just skip that to avoid problems
+                //  and send  to the case list delete to if 0
+                //  otherwise we could namespace the event with the case id or key
+                if (this.record.id === 0) {
+                    this.$bus.$emit('case-deleted', 0)
+                } else {
+                    this.$bus.$emit('minimize-case', this.record.id)
+                }
             }
         }
     };
