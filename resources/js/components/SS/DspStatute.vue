@@ -16,6 +16,9 @@ For text area
             <span v-if="hasNote" style="margin-left: 3em; font-size: smaller">
                 <a href="#" @click="displayNote">See Note</a>
             </span>
+            <span v-if="isMoStatute" style="margin-left: 3em; font-size: smaller">
+                <a href="#" @click="displayMoRevisor">Revisor</a>
+            </span>
         </span>
         <div v-if="superseded" style="margin-left: 3em; font-size: smaller">
             Superseded by {{ superseded }}
@@ -40,6 +43,14 @@ For text area
                     alert('Cannot find statute')
                 }
                 return false;
+            },
+            displayMoRevisor: function () {
+                if (!this.isUndefinedOrEmpty(this.value.number)) {
+                    window.open("http://revisor.mo.gov/main/OneSection.aspx?section=" + this.value.number, "_blank");
+                } else {
+                    alert('Cannot find statute')
+                }
+                return false;
             }
         },
         computed: {
@@ -53,6 +64,17 @@ For text area
             hasNote: function () {
                 return (!this.isUndefinedOrEmpty(this.value.note));
                 // return !( this.value.note === '' || this.value.note === null);
+            },
+            isMoStatute: function () {
+                if (!this.isUndefinedOrEmpty(this.value.number)) {
+                    var regx = /^\d\d\d\.\d\d\d$/;
+                    var found = this.value.number.match(regx);
+
+                    if (found) {
+                        return true;
+                    }
+                }
+                return false;
             },
 
         }
