@@ -93,8 +93,13 @@
             update(v) {
                 this.$emit('updateCase', this.$vnode.key, v);
             },
+            addNewCharge(v) {
+                if (!this.isDefined(this.record.charge)) {
+                    this.$set(this.record,'charge',[]);
+                }
+                this.record.charge.push(v)
+            },
             async deleteCase(case_id) {
-                this.$bus.$emit('case-deleted-2', case_id)
                 this.setView('summary')
             }
 
@@ -108,14 +113,11 @@
             };
             this.$bus.$on('minimize-case', (id) => {
                 if (id === this.record.id) this.setView('summary')
-                // if charge hasn't been saved but is canceled delete
-                if (id === 0) {
-                    this.$bus.$emit('case-deleted', 0)
-                }
             });
-            this.$bus.$on('case-deleted', (case_id) => {
-                this.deleteCase(case_id);
-            });
+            this.$bus.$on('adding-new-charge', (v) => {
+                if (v.conviction_id === this.record.id) this.addNewCharge(v)
+            })
+
         },
     }
 </script>

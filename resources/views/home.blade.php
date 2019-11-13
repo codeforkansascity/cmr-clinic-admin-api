@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    Please goto <a href="https://cmr-clinic.codeforkc.org">The clinic site</a>
+                    Please goto <a href="/applicant">Applicants</a>
 
 
                 </div>

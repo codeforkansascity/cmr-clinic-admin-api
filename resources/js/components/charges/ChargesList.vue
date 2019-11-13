@@ -82,9 +82,16 @@
                 this.showCharges = !this.showCharges
             },
             removeCharge(id) {
-                this.charges = this.charges.filter(charge => {
+                let filtered = this.charges.filter(charge => {
                     return charge.id !== id
-                });
+                })
+                this.charges = []
+
+                // After we set the charges array empty we wait for vue to catch up to reset the data
+                // otherwise it doesn't reset the ui. Not sure why this is necessary but it works this way
+                this.$nextTick(() => {
+                    this.charges = filtered
+                })
             },
             updateCharge(key, value) {
                 console.log('updateCharge='+key);
