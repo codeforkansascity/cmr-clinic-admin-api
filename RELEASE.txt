@@ -32,3 +32,5 @@
                        Now all note fields are WYSIWYG and display as rendered HTML
                        add options to get superseded and eligibility
                        
+3.1.1.0.0 2019-11-13 - Fix deleting existing and unsaved case and charge records
+                       Cleanup up home page
