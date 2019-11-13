@@ -284,6 +284,9 @@
                             $this.processing = false;
                             this.$emit('input', $this.record);      // emit the changed record to v-model
                             $this.$bus.$emit('minimize-charge', $this.record.id)
+                            if (res.data.charge) {
+                                $this.$bus.$emit('adding-new-charge', $this.record)
+                            }
                         } else {
                             this.server_message = res.status;
                         }
