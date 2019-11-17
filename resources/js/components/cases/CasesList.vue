@@ -1,7 +1,6 @@
 <template>
     <div>
         <div>
-            <hr>
             <case-container
                     v-for="(record, index) in cases"
                     :key="index"
@@ -11,14 +10,12 @@
             >
             </case-container>
 
-            <div class="row">
-                <div class="col-md-12 pb-5 pt-3">
-                    <button class="btn btn-primary btn-sm float-right" @click="addCase">
-                        {{cases.length > 0? 'New Case': 'Create Case'}}
-                    </button>
-                </div>
+            <div class="col-md-12 pb-5 pt-3 text-center">
+                <button class="btn btn-primary btn-sm" @click="addCase">
+                    {{cases.length > 0? 'New Case': 'Create Case'}}
+                </button>
             </div>
-            <hr>
+
         </div>
     </div>
 </template>
@@ -83,7 +80,7 @@
                 this.showCases = !this.showCases
             },
             removeCase(id) {
-                console.log('removeCase='+id);
+                console.log('removeCase=' + id);
                 let filtered = this.cases.filter(c => {
                     return c.id !== id
                 });
@@ -96,7 +93,7 @@
                 // console.log('$forceUpdate');
             },
             updateCase(key, value) {
-                console.log('updateCase='+key);
+                console.log('updateCase=' + key);
                 console.log(value);
                 this.cases[key] = value
             }

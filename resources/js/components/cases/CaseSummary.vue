@@ -1,24 +1,14 @@
 <template>
     <div class="row">
-
-
-        <div class="col-md-4">
-            <h4> {{ record.case_number }}, {{ record.agency }}</h4>
-        </div>
-        <div class="col-md-5">
-            <h4>{{ record.name }}, <dsp-date v-model="record.arrest_date" /></h4>
-        </div>
-        <div class="col-md-2">
-            <h4>
-                <dsp-date v-model="record.release_date" />
-            </h4>
+        <div class="col-md-11">
+            <h4> {{ record.case_number }}, {{ record.court_city_county }}, {{ record.name }}</h4>
         </div>
 
         <div class="col-md-1">
             <slot></slot>
         </div>
 
-        <div class="col-md-12" style="padding-left: 4em;">
+        <div class="col-md-12" style="padding-bottom: 1.25em;">
             <dsp-textarea v-model="record.notes"/>
         </div>
 

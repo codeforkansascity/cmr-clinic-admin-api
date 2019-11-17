@@ -1,21 +1,20 @@
 <template>
     <div style="margin-bottom: 1em">
         <div class="row">
-
             <div class="col-md-11">
-                <h4>{{ record.name }} &nbsp; &nbsp; &nbsp; &nbsp; {{ moment(String(record.dob)).format('MM/DD/YYYY')
-                    }}</h4>
+                <h4>{{ record.name }} &nbsp; &nbsp; &nbsp; &nbsp;
+                    <dsp-date v-model="record.dob"/>
+                </h4>
             </div>
 
             <div class="col-md-1">
                 <slot></slot>
             </div>
 
-            <div class="col-md-12" style="padding-left: 4em;">
+            <div class="col-md-12" style="padding-bottom: 1.25em;">
                 <dsp-textarea v-model="record.notes"></dsp-textarea>
             </div>
         </div>
-
 
         <div class="row">
             <div class="col-md-6" style="padding-left: 1em;">
@@ -38,7 +37,8 @@
         <div class="row">
             <div class="col-md-6" style="padding-left: 1em;">
 
-                <h5>Driver’s License information</h5>
+                <h5>Driver’s License</h5>
+
                 <table class="table  table-sm">
                     <tr is="tr-view" v-model="record.license_number">License number</tr>
                     <tr is="tr-view" v-model="record.license_issuing_state">Issuing state</tr>
@@ -49,6 +49,7 @@
             <div class="col-md-6" style="padding-left: 1em;">
 
                 <h5>Current Address</h5>
+
                 <table class="table  table-sm">
                     <tr is="tr-view" v-model="record.address_line_1">Address Line 1</tr>
                     <tr is="tr-view" v-model="record.address_line_2">Address Line 2</tr>
@@ -63,32 +64,28 @@
                 </table>
 
             </div>
+            <div class="col-md-6" style="padding-left: 1em;">
 
+                <h5>CMS</h5>
 
+                <table class="table  table-sm">
+                    <tr is="tr-view" v-model="record.cms_client_number">CMS Client ID</tr>
+                    <tr is="tr-view" v-model="record.cms_matter_number">CMS Case ID</tr>
+                </table>
 
-                <div class="col-md-6" style="padding-left: 1em;">
+            </div>
+            <div class="col-md-6" style="padding-left: 1em;">
 
-                    <h5>CMS</h5>
-                    <table class="table  table-sm">
-                        <tr is="tr-view" v-model="record.cms_client_number">CMS Client ID</tr>
-                        <tr is="tr-view" v-model="record.cms_matter_number">CMS Case ID</tr>
-                    </table>
+                <h5>Previous Expungements</h5>
 
-                </div>
-                <div class="col-md-6" style="padding-left: 1em;">
-                    <h5>Previous Expungements</h5>
-                    <table class="table  table-sm">
-                        <tr is="tr-view" v-model="record.previous_expungements">Notes</tr>
-                        <tr is="tr-view" v-model="record.previous_felony_expungements">Felony</tr>
-                        <tr is="tr-view" v-model="record.previous_misdemeanor_expungements">Misdemeanor</tr>
-                    </table>
+                <table class="table  table-sm">
+                    <tr is="tr-view" v-model="record.previous_felony_expungements">Felony</tr>
+                    <tr is="tr-view" v-model="record.previous_misdemeanor_expungements">Misdemeanor</tr>
+                    <tr is="tr-view" v-model="record.previous_expungements">Notes</tr>
+                </table>
 
-                </div>
-
-
-
+            </div>
         </div>
-
     </div>
 </template>
 

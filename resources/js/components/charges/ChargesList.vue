@@ -1,25 +1,19 @@
 <template>
     <div>
-        <div>
-            <hr>
+        <charge-container
+                v-for="(record, index) in charges"
+                :key="index"
+                :data="record"
+                @updateCharge="updateCharge"
+        >
+        </charge-container>
 
-            <charge-container
-                    v-for="(record, index) in charges"
-                    :key="index"
-                    :data="record"
-                    @updateCharge="updateCharge"
-            >
-            </charge-container>
-
-            <div class="row">
-                <div class="col-md-12 pb-5 pt-3">
-                    <button class="btn btn-primary btn-sm float-right" @click="addCharge">
-                        {{charges.length > 0? 'New Charge': 'Create Charge'}}
-                    </button>
-                </div>
-            </div>
-            <hr>
+        <div class="col-md-12 pb-5 pt-3 text-center">
+            <button class="btn btn-primary btn-sm" @click="addCharge">
+                {{charges.length > 0? 'New Charge': 'Create Charge'}}
+            </button>
         </div>
+
     </div>
 </template>
 
@@ -94,7 +88,7 @@
                 })
             },
             updateCharge(key, value) {
-                console.log('updateCharge='+key);
+                console.log('updateCharge=' + key);
                 console.log(value);
                 this.charges[key] = value
             }

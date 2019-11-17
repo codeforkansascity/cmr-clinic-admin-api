@@ -10,7 +10,7 @@ For text area
 
 <template>
 
-        <span class="form-text" v-html="display_date">
+        <span  v-html="display_date">
 
         </span>
 

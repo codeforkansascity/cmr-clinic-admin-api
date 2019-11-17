@@ -2,23 +2,15 @@
     <div style="margin-bottom: 1em">
         <div class="row">
 
-            <div class="col-md-4">
-                <h4> {{ record.case_number }}, {{ record.court_city_county }}</h4>
-            </div>
-            <div class="col-md-5">
-                <h4>{{ record.name }}, <dsp-date v-model="record.arrest_date" /></h4>
-            </div>
-            <div class="col-md-2">
-                <h4>
-                    <dsp-date v-model="record.release_date" />
-                </h4>
+            <div class="col-md-11">
+                <h4> {{ record.case_number }}, {{ record.court_city_county }}, {{ record.name }}</h4>
             </div>
 
             <div class="col-md-1">
                 <slot></slot>
             </div>
 
-            <div class="col-md-12" style="padding-left: 4em;">
+            <div class="col-md-12" style="padding-bottom: 1.25em;">
                 <dsp-textarea v-model="record.notes"/>
             </div>
         </div>
@@ -30,7 +22,7 @@
                     <tr is="tr-view" v-model="record.name">Case Description</tr>
                     <tr is="tr-view" v-model="record.record_name">Applicant's name in court's records?</tr>
                     <tr is="tr-view" v-model="record.arresting_agency">Arresting Agency</tr>
-                    <tr is="tr-view-date" v-model="record.arrest_date">Date of Arrest</tr>
+                    <tr is="tr-view" v-model="record.arrest_date">Date of Arrest</tr>
                     <tr is="tr-view-date" v-model="record.date_of_charge">Date of Charge</tr>
 
 
