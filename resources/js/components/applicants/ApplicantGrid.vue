@@ -244,7 +244,7 @@
 
         methods: {
             goToNew: function () {
-                window.location.href = "/applicant/create";
+                window.location.href = "/applicant/add";
             },
 
             sortColumn: function (obj) {

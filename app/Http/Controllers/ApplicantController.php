@@ -101,6 +101,26 @@ class ApplicantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function add()
+    {
+
+        if (!Auth::user()->can('applicant add')) {  // TODO: add -> create
+            \Session::flash('flash_error_message', 'You do not have access to add a Applicants.');
+            if (Auth::user()->can('applicant index')) {
+                return Redirect::route('applicant.index');
+            } else {
+                return Redirect::route('home');
+            }
+        }
+
+        return view('applicant.add');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
 	public function create()
 	{
 

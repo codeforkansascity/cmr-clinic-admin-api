@@ -62,6 +62,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/api-applicant', 'ApplicantApi@index');
     Route::get('/api-applicant/options', 'ApplicantApi@getOptions');
+    Route::get('/applicant/add', 'ApplicantController@add');
     Route::get('/applicant/download', 'ApplicantController@download');
     Route::resource('/applicant', 'ApplicantController');
 

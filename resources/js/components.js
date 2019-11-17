@@ -92,6 +92,7 @@ Vue.component('applicant-grid', () => import(/* webpackChunkName:"applicant-grid
 //Vue.component('applicant-form', () => import(/* webpackChunkName:"applicant-form" */ './components/ApplicantForm.vue'));
 Vue.component('applicant-container', () => import(/* webpackChunkName:"applicant-container" */ './components/applicants/ApplicantContainer'));
 
+Vue.component('applicant-add', () => import(/* webpackChunkName:"applicant-add" */ './components/applicants/ApplicantAdd.vue'));
 Vue.component('applicant-form', () => import(/* webpackChunkName:"applicant-form" */ './components/applicants/ApplicantForm.vue'));
 Vue.component('applicant-show', () => import(/* webpackChunkName:"applicant-show" */ './components/applicants/ApplicantShow.vue'));
 
