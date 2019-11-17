@@ -154,3 +154,7 @@ Vue.component('data-source-grid', () => import(/* webpackChunkName:"data-source-
 Vue.component('data-source-form', () => import(/* webpackChunkName:"data-source-form" */ './components/data_sources/DataSourceForm.vue'));
 Vue.component('data-source-show', () => import(/* webpackChunkName:"data-source-Show" */ './components/data_sources/DataSourceShow.vue'));
 Vue.component('fld-source-select',  () => import(/* webpackChunkName:"fld-source-select" */ './components/SS/FldSourceSelect'));
+
+
+Vue.component('Uploader', () => import(/* webpackChunkName:"Uploader" */ './components/Uploader.vue'));
+Vue.component('photo-uploader', () => import(/* webpackChunkName:"photo-uploader" */ './components/PhotoUploader.vue'));

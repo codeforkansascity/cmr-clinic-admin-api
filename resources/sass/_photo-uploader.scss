@@ -1,0 +1,410 @@
+// This is for styling the PhotoUploader component
+//  It was stylus and was convert to css with http://beautifytools.com/stylus-compiler.php
+//  For some reason the component could not be found with they style in it
+//     See https://github.com/JeffreyWay/laravel-mix/issues/2064
+
+.vuejs-uploader label {
+  cursor: pointer;
+}
+
+.vuejs-uploader label.disabled {
+  cursor: not-allowed;
+}
+
+.vuejs-uploader [type=file] {
+  display: none;
+}
+
+.vuejs-uploader__error {
+  color: #f00;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.vuejs-uploader__queue {
+  list-style-type: none;
+  padding: 0;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+}
+
+.vuejs-uploader__btn {
+  overflow: hidden;
+  position: relative;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 100%;
+  background: inherit;
+  font-family: inherit;
+  margin-right: 2px;
+}
+
+.vuejs-uploader__btn--delete {
+  padding: 3px 6px;
+}
+
+.vuejs-uploader__file {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.vuejs-uploader__file--preview {
+  display: inline-block;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vuejs-uploader__file--meta {
+  display: inline-block;
+  flex-grow: 1;
+}
+
+.vuejs-uploader__file--filename,
+.vuejs-uploader__file--filesize {
+  vertical-align: top;
+  margin: 0;
+}
+
+.vuejs-uploader__progress {
+  position: relative;
+  height: 6px;
+  border-radius: 3px;
+  background: #eee;
+}
+
+.vuejs-uploader__progress-bar {
+  display: inline-block;
+  height: 6px;
+  background: #32cd32;
+  position: absolute;
+  border-radius: 3px;
+}
+
+.loading:after {
+  content: '';
+  display: block;
+  font-size: 10px;
+  width: 1em;
+  height: 1em;
+  margin-top: -0.5em;
+  animation: spinner 1500ms infinite linear;
+  border-radius: 0.5em;
+  box-shadow: rgba(0,0,0,0.25) 1.5em 0 0 0, rgba(0,0,0,0.25) 1.1em 1.1em 0 0, rgba(0,0,0,0.25) 0 1.5em 0 0, rgba(0,0,0,0.25) -1.1em 1.1em 0 0, rgba(0,0,0,0.25) -1.5em 0 0 0, rgba(0,0,0,0.25) -1.1em -1.1em 0 0, rgba(0,0,0,0.25) 0 -1.5em 0 0, rgba(0,0,0,0.25) 1.1em -1.1em 0 0;
+}
+
+.vuejs-uploader__dir-icon {
+  height: 40px;
+  width: 60px;
+  background: #8dcaf7;
+  border-top: 3px solid $borderColour;
+  line-height: 35px;
+  text-align: center;
+  position: relative;
+  display: inline-block;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 0 3px 3px 3px;
+  font-size: 16px;
+}
+
+.vuejs-uploader__dir-icon.open {
+  padding-left: 6px;
+}
+
+.vuejs-uploader__dir-icon.open .dir-icon-open {
+  display: block;
+}
+
+.vuejs-uploader__dir-icon .dir-icon-open {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.vuejs-uploader__dir-icon .dir-icon-open:before,
+.vuejs-uploader__dir-icon .dir-icon-open:after {
+  content: '';
+  position: absolute;
+  height: 0;
+  width: 0;
+  top: 0;
+}
+
+.vuejs-uploader__dir-icon .dir-icon-open:before {
+  left: 0;
+  border-left: 3px solid #acdcfd;
+  border-bottom: 17px solid #8dcaf7;
+  border-right: 3px solid #8dcaf7;
+  border-top: 17px solid #acdcfd;
+}
+
+.vuejs-uploader__dir-icon .dir-icon-open:after {
+  left: 60px;
+  border-left: 3px solid #8dcaf7;
+  border-bottom: 17px solid #fff;
+  border-right: 3px solid #fff;
+  border-top: 17px solid #8dcaf7;
+}
+
+.vuejs-uploader__dir-icon:before,
+.vuejs-uploader__dir-icon:after {
+  content: '';
+  position: absolute;
+  background: $borderColour;
+  display: inline-block;
+}
+
+.vuejs-uploader__dir-icon:before {
+  top: -8px;
+  left: 0;
+  height: 6px;
+  width: 20px;
+  border-radius: 3px 0 0 0;
+}
+
+.vuejs-uploader__dir-icon:after {
+  top: -8px;
+  left: 20px;
+  border: 3px solid #fff;
+  border-left: 3px solid $borderColour;
+  border-bottom: 3px solid $borderColour;
+}
+/**
+ * File mixin
+ */
+.vuejs-uploader__file-icon {
+  font-weight: bold;
+  color: #fff;
+  border-radius: 3px;
+  line-height: 60px;
+  height: 60px;
+  width: 50px;
+  text-align: center;
+  display: inline-block;
+  text-transform: uppercase;
+  position: relative;
+  background: #787878;
+  /**
+     * App specific branded colours
+     */
+  /**
+     * Generic image
+     */
+  /**
+     * Generic video
+     */
+  /**
+     * Generic video caption
+     */
+  /**
+     * Generic project
+     */
+  /**
+     * Generic text
+     */
+  /**
+     * Generic compression
+     */;
+}
+
+.vuejs-uploader__file-icon:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-top: 6px solid #fff;
+  border-right: 6px solid #fff;
+}
+
+.vuejs-uploader__file-icon:after {
+  border-bottom: 6px solid #868686;
+  border-left: 6px solid #868686;
+}
+
+.vuejs-uploader__file-icon.doc,
+.vuejs-uploader__file-icon.docx {
+  background: #4b639e;
+}
+
+.vuejs-uploader__file-icon.doc:after,
+.vuejs-uploader__file-icon.docx:after {
+  border-bottom: 6px solid #5670af;
+  border-left: 6px solid #5670af;
+}
+
+.vuejs-uploader__file-icon.key {
+  background: #6eb4fa;
+}
+
+.vuejs-uploader__file-icon.key:after {
+  border-bottom: 6px solid #7cbbfa;
+  border-left: 6px solid #7cbbfa;
+}
+
+.vuejs-uploader__file-icon.numbers {
+  background: #d77427;
+}
+
+.vuejs-uploader__file-icon.numbers:after {
+  border-bottom: 6px solid #dc823c;
+  border-left: 6px solid #dc823c;
+}
+
+.vuejs-uploader__file-icon.pdf {
+  background: #d2780c;
+}
+
+.vuejs-uploader__file-icon.pdf:after {
+  border-bottom: 6px solid #ed880e;
+  border-left: 6px solid #ed880e;
+}
+
+.vuejs-uploader__file-icon.pptx {
+  background: #b9593e;
+}
+
+.vuejs-uploader__file-icon.pptx:after {
+  border-bottom: 6px solid #c4684e;
+  border-left: 6px solid #c4684e;
+}
+
+.vuejs-uploader__file-icon.psd {
+  background: #7dd2f9;
+}
+
+.vuejs-uploader__file-icon.psd:after {
+  border-bottom: 6px solid #8ad6fa;
+  border-left: 6px solid #8ad6fa;
+}
+
+.vuejs-uploader__file-icon.csv,
+.vuejs-uploader__file-icon.xls,
+.vuejs-uploader__file-icon.xlsx {
+  background: #4e7853;
+}
+
+.vuejs-uploader__file-icon.csv:after,
+.vuejs-uploader__file-icon.xls:after,
+.vuejs-uploader__file-icon.xlsx:after {
+  border-bottom: 6px solid #5a8b60;
+  border-left: 6px solid #5a8b60;
+}
+
+.vuejs-uploader__file-icon.arw,
+.vuejs-uploader__file-icon.bmp,
+.vuejs-uploader__file-icon.cr2,
+.vuejs-uploader__file-icon.dng,
+.vuejs-uploader__file-icon.tif,
+.vuejs-uploader__file-icon.tiff,
+.vuejs-uploader__file-icon.raf,
+.vuejs-uploader__file-icon.tga {
+  background: #62a891;
+}
+
+.vuejs-uploader__file-icon.arw:after,
+.vuejs-uploader__file-icon.bmp:after,
+.vuejs-uploader__file-icon.cr2:after,
+.vuejs-uploader__file-icon.dng:after,
+.vuejs-uploader__file-icon.tif:after,
+.vuejs-uploader__file-icon.tiff:after,
+.vuejs-uploader__file-icon.raf:after,
+.vuejs-uploader__file-icon.tga:after {
+  border-bottom: 6px solid #72b19c;
+  border-left: 6px solid #72b19c;
+}
+
+.vuejs-uploader__file-icon.webm,
+.vuejs-uploader__file-icon.m4v,
+.vuejs-uploader__file-icon.mov,
+.vuejs-uploader__file-icon.mp4,
+.vuejs-uploader__file-icon.ogv,
+.vuejs-uploader__file-icon.vtt {
+  background: #62a8f5;
+}
+
+.vuejs-uploader__file-icon.webm:after,
+.vuejs-uploader__file-icon.m4v:after,
+.vuejs-uploader__file-icon.mov:after,
+.vuejs-uploader__file-icon.mp4:after,
+.vuejs-uploader__file-icon.ogv:after,
+.vuejs-uploader__file-icon.vtt:after {
+  border-bottom: 6px solid #72b1f6;
+  border-left: 6px solid #72b1f6;
+}
+
+.vuejs-uploader__file-icon.mvtt,
+.vuejs-uploader__file-icon.sbv,
+.vuejs-uploader__file-icon.srt {
+  background: #645091;
+}
+
+.vuejs-uploader__file-icon.mvtt:after,
+.vuejs-uploader__file-icon.sbv:after,
+.vuejs-uploader__file-icon.srt:after {
+  border-bottom: 6px solid #715aa3;
+  border-left: 6px solid #715aa3;
+}
+
+.vuejs-uploader__file-icon.eml,
+.vuejs-uploader__file-icon.html,
+.vuejs-uploader__file-icon.rtf,
+.vuejs-uploader__file-icon.txt,
+.vuejs-uploader__file-icon.xml {
+  background: #dcc8be;
+  color: #333;
+}
+
+.vuejs-uploader__file-icon.eml:after,
+.vuejs-uploader__file-icon.html:after,
+.vuejs-uploader__file-icon.rtf:after,
+.vuejs-uploader__file-icon.txt:after,
+.vuejs-uploader__file-icon.xml:after {
+  border-bottom: 6px solid #e0cdc4;
+  border-left: 6px solid #e0cdc4;
+}
+
+@-moz-keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@-o-keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

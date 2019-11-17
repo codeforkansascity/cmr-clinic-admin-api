@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Session;
 
 use App\Exports\ApplicantExport;
 use Maatwebsite\Excel\Facades\Excel;
+
+use App\Lib\VcVendorLogoUploader;
+
 //use PDF; // TCPDF, not currently in use
 
 class ApplicantController extends Controller
@@ -114,6 +117,14 @@ class ApplicantController extends Controller
         }
 
         return view('applicant.add');
+    }
+
+    public function file_upload(Request $request)
+    {
+
+        info(__METHOD__ . print_r($request->all(),true));
+        $uploader = new VcVendorLogoUploader();
+        $uploader->saveUploadedFile('vc_vendor_id', $request->work_order_log_id, $request->display_name, '/download/vendor-logo/', $request->filename);
     }
 
     /**
