@@ -13,52 +13,9 @@
         <div>
             <form @submit.prevent="handleSubmit" class="form-horizontal">
                 <input type="hidden" ref="newCharge">
-                <div class="row">
-
-                    <div class="col-md-3">
-                        <std-form-group
-                                label="Convicted"
-                                label-for="convicted"
-                                :errors="form_errors.convicted"
-                        >
-                            <fld-convicted name="convicted" v-model="record.convicted"/>
-                        </std-form-group>
-                    </div>
-
-                    <div class="col-md-3">
-                        <std-form-group
-                                label="Eligible"
-                                label-for="eligible"
-                                :errors="form_errors.eligible"
-                        >
-                            <fld-eligible name="eligible" v-model="record.eligible"/>
-                        </std-form-group>
-                    </div>
-
-                    <div class="col-md-3">
-                        <std-form-group
-                                label="Please Expunge"
-                                label-for="please_expunge"
-                                :errors="form_errors.please_expunge"
-                        >
-                            <fld-expunge
-                                    name="please_expunge"
-                                    v-model="record.please_expunge"
-                            />
-                        </std-form-group>
-                    </div>
-
-                    <div class="col-md-2">
-
-                    </div>
-
-                    <div class="col-md-1">
-                        <slot></slot>
-                    </div>
-                </div>
 
                 <div class="row pb-3">
-                    <div class="col-md-12">
+                    <div class="col-md-11">
                         <std-form-group
                                 label="Charge"
                                 label-for="statute_id"
@@ -78,8 +35,11 @@
                             ></fld-statute>
                         </std-form-group>
                     </div>
-                </div>
 
+                    <div class="col-md-1">
+                        <slot></slot>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-md-2">
@@ -115,6 +75,46 @@
                         >
                             <fld-input name="sentence" v-model="record.sentence"/>
                         </std-form-group>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <std-form-group
+                                label="Convicted"
+                                label-for="convicted"
+                                :errors="form_errors.convicted"
+                        >
+                            <fld-convicted name="convicted" v-model="record.convicted"/>
+                        </std-form-group>
+                    </div>
+
+                    <div class="col-md-3">
+                        <std-form-group
+                                label="Eligible"
+                                label-for="eligible"
+                                :errors="form_errors.eligible"
+                        >
+                            <fld-eligible name="eligible" v-model="record.eligible"/>
+                        </std-form-group>
+                    </div>
+
+                    <div class="col-md-3">
+                        <std-form-group
+                                label="Please Expunge"
+                                label-for="please_expunge"
+                                :errors="form_errors.please_expunge"
+                        >
+                            <fld-expunge
+                                    name="please_expunge"
+                                    v-model="record.please_expunge"
+                            />
+                        </std-form-group>
+                    </div>
+
+                    <div class="col-md-3">
+
                     </div>
 
 
