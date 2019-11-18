@@ -30,7 +30,6 @@ class Charge extends Model
         'conviction_charge_type',
         'sentence',
         'to_print',
-        'source',
         'notes',
         'convicted',
         'eligible',

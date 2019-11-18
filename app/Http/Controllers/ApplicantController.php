@@ -17,7 +17,9 @@ use Illuminate\Support\Facades\Session;
 use App\Exports\ApplicantExport;
 use Maatwebsite\Excel\Facades\Excel;
 
-use App\Lib\VcVendorLogoUploader;
+use App\Lib\ApplicantHistoryUploader;
+use App\Lib\GetCriminalHistoryFromSS;
+use App\Lib\AddApplicantFromCriminalHistory;
 
 //use PDF; // TCPDF, not currently in use
 
@@ -121,10 +123,50 @@ class ApplicantController extends Controller
 
     public function file_upload(Request $request)
     {
-
         info(__METHOD__ . print_r($request->all(),true));
-        $uploader = new VcVendorLogoUploader();
+        $uploader = new ApplicantHistoryUploader();
         $uploader->saveUploadedFile('vc_vendor_id', $request->work_order_log_id, $request->display_name, '/download/vendor-logo/', $request->filename);
+    }
+
+    public function add_from_ss(Request $request)
+    {
+        info(__METHOD__ . print_r($request->all(),true));
+
+        $data = [];
+
+        $path = env('APPLICANT_HISTORIES_DIRECTORY', 'applicant_histories');
+
+
+        $ss = new GetCriminalHistoryFromSS( $path, '/' . $request->local_file_name, $data);
+//        try {
+            $data = $ss->processSpreadSheet();
+            info(print_r($data,true));
+
+            $criminal_history = new AddApplicantFromCriminalHistory($data);
+            $add = $criminal_history->addHistory();
+            info(print_r($add,true));
+//        } catch (\Exception $e) {
+//            print $e->getMessage() . "\n";
+//
+//        }
+
+        if (empty($add['errors'])) {
+            return response()->json([
+                'message' => 'Added record',
+                'warnings' => $add['warnings'],
+                'errors' => $add['errors'],
+            'record' => $add['record'],
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Unable to add record',
+                'warnings' => $add['warnings'],
+                'errors' => $add['errors'],
+            'record' => $add['record'],
+            ], 422);
+        }
+
+
     }
 
     /**

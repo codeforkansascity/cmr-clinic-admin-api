@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Lib\GetCriminalHistoryFromSS;
+use App\Lib\AddApplicantFromCriminalHistory;
 
 class LoadCriminalHistory extends Command
 {
@@ -31,7 +32,11 @@ class LoadCriminalHistory extends Command
         parent::__construct();
 
         $this->path = '/Users/paulb/Projects/code4kc/cmr/cmr-clinic-admin-api/data';
-        $this->file_name = 'Background-Check-DK.xls';
+        $this->file_name = 'Background-Check–AL.xls';
+
+//        $this->path = '/Users/paulb/Projects/code4kc/cmr/cmr-clinic-admin-api/storage/app/applicant_histories';
+//        $this->file_name = '1tddDwTHs2p73tzjatk0CderxpM1Xx4ej2VFL2FT.xls';
+
     }
 
     /**
@@ -48,7 +53,10 @@ class LoadCriminalHistory extends Command
         $ss = new GetCriminalHistoryFromSS($this->path, $this->file_name, $data);
         try {
             $data = $ss->processSpreadSheet();
-            print_r($data);
+            $r = new AddApplicantFromCriminalHistory($data);
+
+            $r->addHistory();
+
         } catch (\Exception $e) {
             print $e->getMessage() . "\n";
 

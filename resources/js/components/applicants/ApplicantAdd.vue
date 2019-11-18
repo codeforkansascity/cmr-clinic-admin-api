@@ -1,6 +1,15 @@
 <template>
     <div>
+        <div class="row">
+
+        </div>
         <div class="row" v-if="mode=='select'">
+            <div class="col-md-12" v-if="errors.length">
+                <h3>Errors</h3>
+                <ul>
+                    <li v-for="error in errors">{{error}}</li>
+                </ul>
+            </div>
             <div class="col-md-4">
                 <a
                         href="#"
@@ -31,44 +40,44 @@
                         label="Upload and Process Applicant History"
                 >
                     <table class="file-upload-group">
-                        <tr v-if="haveALogo">
+                        <tr v-if="haveHistory">
                             <td colspan="2" class="file-upload-photo">
-                                <img :src="vc_vendor_logo.url" alt="Vendor logo">
+                                <img :src="applicant_history.url" alt="Vendor applicant_history">
                             </td>
                         </tr>
-                        <tr v-if="haveALogo">
+                        <tr v-if="haveHistory">
                             <td>
                                 <input name="name"
                                        required
-                                       v-model="vc_vendor_logo.name"
-                                       v-bind:class="{file_marked_for_deletion: logos_to_delete}" />
+                                       v-model="applicant_history.name"
+                                       v-bind:class="{file_marked_for_deletion: applicant_historys_to_delete}" />
                             </td>
                             <td>
-                                <a title="Remove file" href="#" v-on:click.prevent="delete_logo()">
+                                <a title="Remove file" href="#" v-on:click.prevent="delete_applicant_history()">
                                     <img src="/img/icons/noun_trash_2815015.svg"
                                          alt="Remove file" class="file-upload-delete-icon">
                                 </a>
                             </td>
                         </tr>
                     </table>
-                    <div class="file-upload-group" v-if="!haveALogo || logos_to_delete">
+                    <div class="file-upload-group" v-if="!haveHistory || applicant_historys_to_delete">
                         <photo-uploader
                                 end-point="/applicant/file-upload"
                                 :save-images="SaveDocuments"
-                                :display-name="logo_display_name"
+                                :display-name="applicant_history_display_name"
                                 :multipart="true"
                                 :multiple="true"
                                 :maxUploads="1"
                                 :userDefinedProperties="[{property: 'display_name', required: true}]"
-                                @fileCount="newLogosCount"
-                                @uploaded="doneUploadingLogos">
+                                @fileCount="newApplicantHistoriesCount"
+                                @fileUploaded="fileUploaded">
                             <template v-slot:browse-btn>
                                 <span class="vuejs-uploader__btn">Upload Applicant History Spreadsheet</span>
                             </template>
                         </photo-uploader>
                     </div>
 
-                    <div v-if="CountOfNewLogos">
+                    <div v-if="CountOfNewApplicantHistories">
                         <a
                                 href="#"
                                 @click.default="uploadAndAdd"
@@ -78,25 +87,49 @@
                 </std-form-group>
             </div>
         </div>
+        <div class="row" v-if="mode=='SS-Loading'">
+            Loading
+        </div>
+
+        <div class="row" v-if="mode=='SS-Processing'">
+            Processing
+        </div>
     </div>
 </template>
 
 <script>
 
+    import axios from "axios";
+
+    function resolveAfter2Seconds() {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve('resolved');
+            }, 2000);
+        });
+    }
     export default {
-        name: "applicant-show",
+        name: "applicant-add",
         data: function () {
             return {
                 mode: 'select',
 
-                vc_vendor_logo: {
+                applicant_history: {
                     url: ''
                 },
 
+                spread_sheet: {
+                    local_file_name: ''
+                },
+
                 SaveDocuments: 0,
-                CountOfNewLogos: 0,
-                logo_display_name: "",
-                logos_to_delete: null,
+                CountOfNewApplicantHistories: 0,
+                applicant_history_display_name: "",
+                applicant_historys_to_delete: null,
+                event: null,
+                errors: [],
+                warnings: [],
+                ret: [],
             }
         },
         methods: {
@@ -112,26 +145,105 @@
             },
 
             uploadAndAdd() {
-                this.SaveDocuments = 1;
+                this.errors=[];
+                this.warnings=[];
+                this.SaveDocuments++;
+
             },
 
-            doneUploadingLogos() {
+            async fileUploaded(event) {
 
-                alert('done with upload');
-                //window.location = "/vc-vendor";
-            },
-            newLogosCount(count) {
-                this.CountOfNewLogos = count;
-            },
-            delete_logo() {
+                this.mode = 'SS-Processing';
 
-                if (this.isDefined(this.vc_vendor_logo.delete)
-                    && this.vc_vendor_logo.delete === true) {
-                    this.$set(this.vc_vendor_logo, 'delete', false);
-                    this.logos_to_delete = false;
+                console.log(
+                    'fileUploaded'
+                );
+
+                this.spread_sheet.local_file_name = event.response.local_file_name;
+
+                await axios({
+                    method: 'POST',
+                    url: '/applicant/add-from-ss',
+                    data: this.spread_sheet
+                })
+                    .then(res => {
+                        if (res.status === 200) {
+                            console.log(res.data);
+                            this.saved(res.data);
+
+                        } else {
+                            this.server_message = res.status;
+                        }
+                    })
+                    .catch(error => {
+                        if (error.response) {
+                            if (error.response.status === 422) {
+                                // Clear errors out
+
+                                console.log(error.response);
+                                this.uploadError(error.response.data);
+
+                                this.server_message = 'The given data was invalid. Please correct the fields in red below.';
+                            } else if (error.response.status === 404) {
+                                // Record not found
+                                this.server_message = "Record not found";
+                                window.location = "/applicant";
+                            } else if (error.response.status === 419) {
+                                // Unknown status
+                                this.server_message =
+                                    "Unknown Status, please try to ";
+                                this.try_logging_in = true;
+                            } else if (error.response.status === 500) {
+                                // Unknown status
+                                this.server_message =
+                                    "Server Error, please try to ";
+                                this.try_logging_in = true;
+                            } else {
+                                this.server_message = error.response.data.message;
+                            }
+                        } else {
+                            console.log(error.response);
+                            this.server_message = error;
+                        }
+                        this.scrollToTop();
+                        this.processing = false;
+                    });
+
+
+
+            },
+
+            saved(data) {
+                console.log('saved');
+                this.ret = data;
+
+                window.location = "/applicant/" + data.record.id;
+            },
+
+            uploadError(data) {
+                console.log('saved');
+                this.errors = data.errors;
+                this.warnings = data.warnings;
+                this.mode = 'select';
+
+            },
+
+            getFileData(event) {
+                return event;
+            },
+
+            newApplicantHistoriesCount(count) {
+                this.CountOfNewApplicantHistories = count;
+            },
+            delete_applicant_history() {
+
+                if (this.isDefined(this.applicant_history.delete)
+                    && this.applicant_history.delete === true) {
+                    this.$set(this.applicant_history, 'delete', false);
+                    this.applicant_historys_to_delete = false;
                 } else {
-                    this.$set(this.vc_vendor_logo, 'delete', true);
-                    this.logos_to_delete = true;
+                    this.$set(this.applicant_history, 'delete', true);
+                    this.applicant_historys_to_delete = true;
                 }
             },
 
@@ -139,8 +251,8 @@
 
         },
         computed: {
-            haveALogo: function () {
-                return this.vc_vendor_logo && this.vc_vendor_logo.url;
+            haveHistory: function () {
+                return this.applicant_history && this.applicant_history.url;
             }
         }
     }

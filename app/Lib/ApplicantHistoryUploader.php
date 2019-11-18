@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
 
 
-class VcVendorLogoUploader
+class ApplicantHistoryUploader
 {
     const UPLOAD_DIR = '/tmp/';
 
@@ -56,7 +56,7 @@ class VcVendorLogoUploader
 
         $target_file_name_and_path = $this->getTargetFileNameAndPath();
 
-        $destination_directory = env('VENDOR_LOGO_DIRECTORY', '/vendor/logos');
+        $destination_directory = env('APPLICANT_HISTORIES_DIRECTORY', 'applicant_histories');
 
         if (move_uploaded_file($this->getSource(), $target_file_name_and_path)) {
 
