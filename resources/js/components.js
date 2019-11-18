@@ -92,6 +92,7 @@ Vue.component('applicant-grid', () => import(/* webpackChunkName:"applicant-grid
 //Vue.component('applicant-form', () => import(/* webpackChunkName:"applicant-form" */ './components/ApplicantForm.vue'));
 Vue.component('applicant-container', () => import(/* webpackChunkName:"applicant-container" */ './components/applicants/ApplicantContainer'));
 
+Vue.component('applicant-add', () => import(/* webpackChunkName:"applicant-add" */ './components/applicants/ApplicantAdd.vue'));
 Vue.component('applicant-form', () => import(/* webpackChunkName:"applicant-form" */ './components/applicants/ApplicantForm.vue'));
 Vue.component('applicant-show', () => import(/* webpackChunkName:"applicant-show" */ './components/applicants/ApplicantShow.vue'));
 
@@ -153,3 +154,7 @@ Vue.component('data-source-grid', () => import(/* webpackChunkName:"data-source-
 Vue.component('data-source-form', () => import(/* webpackChunkName:"data-source-form" */ './components/data_sources/DataSourceForm.vue'));
 Vue.component('data-source-show', () => import(/* webpackChunkName:"data-source-Show" */ './components/data_sources/DataSourceShow.vue'));
 Vue.component('fld-source-select',  () => import(/* webpackChunkName:"fld-source-select" */ './components/SS/FldSourceSelect'));
+
+
+Vue.component('Uploader', () => import(/* webpackChunkName:"Uploader" */ './components/Uploader.vue'));
+Vue.component('photo-uploader', () => import(/* webpackChunkName:"photo-uploader" */ './components/PhotoUploader.vue'));
