@@ -550,3 +550,43 @@ a.form-group-help > .help-text {
   text-transform: uppercase;
 }
 
+table.file-upload-group,
+div.file-upload-group {
+  width: 100%;
+  max-width: 550px;
+}
+div.file-upload-group {
+  margin-top: 13px;
+}
+.file-upload-group img {
+  max-width: 100%;
+}
+table td.file-upload-photo {
+  padding-bottom: 7px;
+}
+table.file-upload-group td {
+  vertical-align: middle;
+}
+table.file-upload-group td:nth-child(1) {
+  width: 80%;
+}
+table.file-upload-group td:nth-child(1) input {
+  width: 100%;
+}
+table.file-upload-group td:nth-child(2) {
+  text-align: right;
+  width: 20%;
+}
+.file-upload-delete-icon,
+.file-upload-download-icon {
+  width: 22px;
+  height: 22px;
+  max-width: none;
+}
+
+// To show file is deleted
+.file_marked_for_deletion {
+  text-decoration: line-through;
+  color: red;
+}
+

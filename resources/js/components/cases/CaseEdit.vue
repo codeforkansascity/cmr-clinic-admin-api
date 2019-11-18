@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <div
                 v-if="server_message !== false"
                 class="alert alert-danger"
@@ -106,13 +105,10 @@
                         <!--<fld-input name="agency" v-model="record.agency"/>-->
                         <!--</std-form-group>-->
                         <!--</div>-->
-
-
                     </div>
 
                     <!--=====================-->
                     <div class="col-md-6">
-
 
                         <div class="col-md-12">
                             <std-form-group
@@ -126,28 +122,6 @@
                                 <template slot="help">
                                     Any format is ok, even just a year.
                                 </template>
-                            </std-form-group>
-                        </div>
-
-                        <div class="col-md-12">
-                            <std-form-group
-                                    label="County/City or Court"
-                                    label-for="court_city_county"
-                                    :errors="form_errors.court_city_county"
-
-                            >
-                                <fld-input name="court_city_county" v-model="record.court_city_county"/>
-                            </std-form-group>
-                        </div>
-
-                        <div class="col-md-12">
-                            <std-form-group
-                                    label="Judge"
-                                    label-for="judge"
-                                    :errors="form_errors.judge"
-
-                            >
-                                <fld-input name="judge" v-model="record.judge"/>
                             </std-form-group>
                         </div>
 
@@ -177,6 +151,27 @@
                             </std-form-group>
                         </div>
 
+                        <div class="col-md-12">
+                            <std-form-group
+                                    label="Court"
+                                    label-for="court_city_county"
+                                    :errors="form_errors.court_city_county"
+
+                            >
+                                <fld-input name="court_city_county" v-model="record.court_city_county"/>
+                            </std-form-group>
+                        </div>
+
+                        <div class="col-md-12">
+                            <std-form-group
+                                    label="Judge"
+                                    label-for="judge"
+                                    :errors="form_errors.judge"
+
+                            >
+                                <fld-input name="judge" v-model="record.judge"/>
+                            </std-form-group>
+                        </div>
 
                         <div class="col-md-12">
                             <std-form-group
@@ -188,10 +183,7 @@
                                 <fld-checkbox name="sis" v-model="record.sis"/>
                             </std-form-group>
                         </div>
-
-
                     </div>
-
 
                     <div class="col-md-12" style="padding-left: 2em;">
                         <div class="col-md-4">
@@ -254,7 +246,6 @@
                 </div>
             </form>
         </div>
-
     </div>
 </template>
 

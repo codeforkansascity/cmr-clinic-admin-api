@@ -1,17 +1,11 @@
 <template>
     <div>
-        <div>
-            <hr>
-
-            <charge-show-container
-                    v-for="(record, index) in charges"
-                    :key="index"
-                    :data="record"
-            >
-            </charge-show-container>
-
-            <hr>
-        </div>
+        <charge-show-container
+                v-for="(record, index) in charges"
+                :key="index"
+                :data="record"
+        >
+        </charge-show-container>
     </div>
 </template>
 

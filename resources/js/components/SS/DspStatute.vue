@@ -10,20 +10,20 @@ For text area
 
 <template>
 
-    <span v-if="value.id">
+    <div v-if="value.id" style="padding-left: 5em; text-indent: -5em ;">
         <span>
             {{ value.number }} {{ value.name }} ({{value.statutes_eligibility.name}})
             <span v-if="hasNote" style="margin-left: 3em; font-size: smaller">
                 <a href="#" @click="displayNote">See Note</a>
             </span>
-            <span v-if="isMoStatute" style="margin-left: 3em; font-size: smaller">
+            <span v-if="isMoStatute" style="margin-left: 1em; font-size: smaller">
                 <a href="#" @click="displayMoRevisor">Revisor</a>
             </span>
         </span>
         <div v-if="superseded" style="margin-left: 3em; font-size: smaller">
             Superseded by {{ superseded }}
         </div>
-    </span>
+    </div>
 
 </template>
 

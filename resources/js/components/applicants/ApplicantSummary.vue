@@ -2,7 +2,7 @@
     <div class="row">
 
         <div class="col-md-11">
-            <h4>{{ record.name }} &nbsp;
+            <h4>{{ record.name }} &nbsp; &nbsp; &nbsp; &nbsp
                 <dsp-date v-model="record.dob"/>
             </h4>
         </div>
@@ -11,7 +11,7 @@
             <slot></slot>
         </div>
 
-        <div class="col-md-12" style="padding-left: 4em;">
+        <div class="col-md-12" style="padding-bottom: 1.25em;">
             <dsp-textarea v-model="record.notes"></dsp-textarea>
         </div>
 

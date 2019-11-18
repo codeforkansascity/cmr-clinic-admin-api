@@ -1,17 +1,12 @@
 <template>
     <div>
-        <div>
-            <hr>
-            <case-show-container
-                    v-for="(record, index) in cases"
-                    :key="index"
-                    :data="record"
-                    :case_count="index+1"
-            >
-            </case-show-container>
-
-            <hr>
-        </div>
+        <case-show-container
+                v-for="(record, index) in cases"
+                :key="index"
+                :data="record"
+                :case_count="index+1"
+        >
+        </case-show-container>
     </div>
 </template>
 

@@ -6,6 +6,13 @@
                     <br>
                     {{ case_count }}
                 </h4>
+                <span v-if="date_is_release_date == true">
+
+                    {{ date_name }}<br>{{date_display}}<br>{{date_from_now}}
+                </span>
+                <span v-else style="color: gray">
+                    {{ date_name }}<br>{{date_display}}<br>{{date_from_now}}
+                </span>
             </div>
             <div class="col-md-11">
 
@@ -36,6 +43,7 @@
 <script>
     import CaseDetails from "./CaseDetails";
     import ChargesShowList from "../charges/ChargesShowList";
+    import moment from 'moment';
 
     export default {
         name: "CaseShowContainer",
@@ -56,6 +64,10 @@
         data() {
             return {
                 record: {},
+                date_name: '',
+                date_display: 'No Date',
+                date_from_now: '',
+                date_is_release_date: false,
 
             }
         },
@@ -64,6 +76,35 @@
                 this.$set(this.record, i, this.data[i])
             );
         },
+
+    mounted() {
+        if (this.isDefined(this.record.arrest_date)
+            && moment(String(this.record.arrest_date)).format('MM/DD/YYYY') != 'Invalid date') {
+            this.date_name = 'Arrested';
+            this.date_display = moment(String(this.record.arrest_date)).format('MM/DD/YYYY');
+            this.date_from_now = moment(String(this.record.arrest_date)).fromNow(true);
+        }
+        if (this.isDefined(this.record.date_of_charge)
+            && moment(String(this.record.date_of_charge)).format('MM/DD/YYYY') != 'Invalid date') {
+            this.date_name = 'Charged';
+            this.date_display = moment(String(this.record.date_of_charge)).format('MM/DD/YYYY');
+            this.date_from_now = moment(String(this.record.date_of_charge)).fromNow(true);
+        }
+        if (this.isDefined(this.record.date_of_disposition)
+            && moment(String(this.record.date_of_disposition)).format('MM/DD/YYYY') != 'Invalid date') {
+            this.date_name = 'Disposition';
+            this.date_display = moment(String(this.record.date_of_disposition)).format('MM/DD/YYYY');
+            this.date_from_now = moment(String(this.record.date_of_disposition)).fromNow(true);
+        }
+        if (this.isDefined(this.record.release_date)
+            && moment(String(this.record.release_date)).format('MM/DD/YYYY') != 'Invalid date') {
+            this.date_is_release_date = true;
+            this.date_name = 'Released';
+            this.date_display = moment(String(this.record.release_date)).format('MM/DD/YYYY');
+            this.date_from_now = moment(String(this.record.release_date)).fromNow(true);
+
+        }
+    }
     }
 </script>
 

@@ -1,18 +1,14 @@
 <template>
     <div>
-
-        <div
-                v-if="server_message !== false"
-                class="alert alert-danger"
-                role="alert"
-        >
+        <div v-if="server_message !== false"
+             class="alert alert-danger"
+             role="alert">
             {{ this.server_message }}
             <a v-if="try_logging_in" href="/login">Login</a>
         </div>
 
         <div>
             <form @submit.prevent="handleSubmit" class="form-horizontal">
-
                 <div class="row">
                     <div class="col-md-6" style="padding-left: 1em;">
                         <div class="col-md-12">
@@ -49,9 +45,6 @@
                                 <fld-race name="race" v-model="record.race"/>
                             </std-form-group>
                         </div>
-
-
-
                     </div>
                     <div class="col-md-6" style="padding-left: 1em;">
                         <div class="col-md-12">
@@ -63,10 +56,10 @@
                                 <!--<fld-date name="dob" v-model="record.dob"/>-->
 
                                 <flat-pickr
-                                            v-model="record.dob"
-                                            :config="config"
-                                            @blur="parseDate($event, 'dob')"
-                                            style="width: 10em"/>
+                                        v-model="record.dob"
+                                        :config="config"
+                                        @blur="parseDate($event, 'dob')"
+                                        style="width: 10em"/>
                             </std-form-group>
                         </div>
                         <div class="col-md-12">
@@ -124,8 +117,8 @@
                                         :errors="form_errors.license_expiration_date"
                                 >
                                     <!--<fld-date-->
-                                            <!--name="license_expiration_date"-->
-                                            <!--v-model="record.license_expiration_date"-->
+                                    <!--name="license_expiration_date"-->
+                                    <!--v-model="record.license_expiration_date"-->
                                     <!--/>-->
                                     <flat-pickr
                                             v-model="record.license_expiration_date"
@@ -239,9 +232,6 @@
                         </fieldset>
                     </div>
 
-
-
-
                     <div class="col-md-6" style="padding-left: 1em;">
                         <fieldset>
                             <legend>Previous Expungements</legend>
@@ -259,8 +249,6 @@
                                 </std-form-group>
                             </div>
 
-
-
                             <div class="col-md-12">
                                 <std-form-group
                                         label="Previous MO Felony Expungements"
@@ -268,8 +256,8 @@
                                         :errors="form_errors.previous_felony_expungements"
                                 >
                                     <fld-input style="width: 3em"
-                                            name="previous_felony_expungements"
-                                            v-model="record.previous_felony_expungements"
+                                               name="previous_felony_expungements"
+                                               v-model="record.previous_felony_expungements"
                                     />
                                 </std-form-group>
                             </div>
@@ -289,9 +277,6 @@
 
                         </fieldset>
                     </div>
-
-
-
                 </div>
 
                 <div class="row">
@@ -341,13 +326,13 @@
                 </div>
             </form>
         </div>
-
     </div>
 </template>
 
 <script>
     import flatPickr from 'vue-flatpickr-component';
     import 'flatpickr/dist/flatpickr.css';
+
     export default {
         name: "ApplicantEdit",
         components: {
@@ -464,7 +449,7 @@
                         if (res.status === 200) {
                             if (!$this.record.id) {
                                 console.log('adding');
-                             //   window.location.href = '/applicant/' + res.data.record.id + '/edit';
+                                //   window.location.href = '/applicant/' + res.data.record.id + '/edit';
                                 $this.record.id = res.data.record.id;
                             }
                             $this.processing = false;

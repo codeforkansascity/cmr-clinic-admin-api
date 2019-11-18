@@ -1,16 +1,17 @@
 <template>
     <div class="row">
-
         <div class="col-md-7">
             <h5 v-if="record.statute">
-                <dsp-statute v-model="record.statute" />
+                <dsp-statute v-model="record.statute"/>
             </h5>
             <h5 v-else>
+
                 *** {{ record.imported_citation }} {{ record.imported_statute }} ***
+
             </h5>
         </div>
-        <div class="col-md-2">
 
+        <div class="col-md-2">
             <h5>
                 {{ record.conviction_charge_type }} {{ record.conviction_class_type }}
             </h5>
@@ -24,7 +25,7 @@
             <slot></slot>
         </div>
 
-        <div class="col-md-12" style="padding-left: 4em;">
+        <div class="col-md-12" style="padding-left: 4em; padding-bottom: 1.25em;">
             <dsp-textarea v-model="record.notes"></dsp-textarea>
         </div>
 
@@ -56,13 +57,13 @@
         computed: {
 
             display_charge_eligibility() {
-                if ( parseInt(this.record.please_expunge)) {
+                if (parseInt(this.record.please_expunge)) {
                     return 'Please Expunge';
                 }
-                if ( parseInt(this.record.eligible)) {
+                if (parseInt(this.record.eligible)) {
                     return 'Eligible';
                 }
-                if ( parseInt(this.record.convicted)) {
+                if (parseInt(this.record.convicted)) {
                     return 'Convicted';
                 }
                 return '--';
