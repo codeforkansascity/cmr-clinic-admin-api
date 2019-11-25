@@ -30,7 +30,7 @@ class ApplicantIndexRequest extends FormRequest
             'direction' => 'numeric',
             'keyword' => 'string',
             'assignment_id' => 'nullable|numeric',
-            'step_id' => 'nullable|numeric',
+            'status_id' => 'nullable|numeric',
         ];
     }
 }

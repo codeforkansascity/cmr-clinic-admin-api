@@ -18,7 +18,7 @@
                         <div class="col-md-12">
                             <!--For now we will keep this one passed as a propery-->
                             <cases-show-list :data="this.record.conviction"
-                                        :client_id="this.record.id"></cases-show-list>
+                                             :client_id="this.record.id"></cases-show-list>
                         </div>
                     </div>
                 </div>

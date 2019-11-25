@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 
-
 use App\Http\Middleware\TrimStrings;
 use App\Applicant;
 use Illuminate\Http\Request;
@@ -31,44 +30,41 @@ class ApplicantController extends Controller
      *
      * Vue component example.
      *
-        <ui-select-pick-one
-            url="/api-applicant/options"
-            v-model="applicantSelected"
-            :selected_id=applicantSelected"
-            name="applicant">
-        </ui-select-pick-one>
+     * <ui-select-pick-one
+     * url="/api-applicant/options"
+     * v-model="applicantSelected"
+     * :selected_id=applicantSelected"
+     * name="applicant">
+     * </ui-select-pick-one>
      *
      *
      * Blade component example.
      *
      *   In Controler
      *
-             $applicant_options = \App\Applicant::getOptions();
-
-
+     * $applicant_options = \App\Applicant::getOptions();
      *
      *   In View
-
-            @component('../components/select-pick-one', [
-                'fld' => 'applicant_id',
-                'selected_id' => $RECORD->applicant_id,
-                'first_option' => 'Select a Applicants',
-                'options' => $applicant_options
-            ])
-            @endcomponent
+     *
+     * @component('../components/select-pick-one', [
+     * 'fld' => 'applicant_id',
+     * 'selected_id' => $RECORD->applicant_id,
+     * 'first_option' => 'Select a Applicants',
+     * 'options' => $applicant_options
+     * ])
+     * @endcomponent
      *
      * Permissions
      *
-
-             Permission::findOrCreate('applicant index');
-             Permission::findOrCreate('applicant view');
-             Permission::findOrCreate('applicant export-pdf');
-             Permission::findOrCreate('applicant export-excel');
-             Permission::findOrCreate('applicant add');
-             Permission::findOrCreate('applicant edit');
-             Permission::findOrCreate('applicant delete');
-
-    */
+     *
+     * Permission::findOrCreate('applicant index');
+     * Permission::findOrCreate('applicant view');
+     * Permission::findOrCreate('applicant export-pdf');
+     * Permission::findOrCreate('applicant export-excel');
+     * Permission::findOrCreate('applicant add');
+     * Permission::findOrCreate('applicant edit');
+     * Permission::findOrCreate('applicant delete');
+     */
 
 
     /**
@@ -87,7 +83,7 @@ class ApplicantController extends Controller
         // Remember the search parameters, we saved them in the Query
         $page = session('applicant_page', '');
         $search = session('applicant_keyword', '');
-        $column = session('applicant_column', 'name');
+        $column = session('applicant_column', 'applicant_name');
         $direction = session('applicant_direction', '-1');
 
         $can_add = Auth::user()->can('applicant add');
@@ -96,6 +92,10 @@ class ApplicantController extends Controller
         $can_delete = Auth::user()->can('applicant delete');
         $can_excel = Auth::user()->can('applicant excel');
         $can_pdf = Auth::user()->can('applicant pdf');
+
+        info(__METHOD__);
+        info($can_add);
+        info($can_edit);
 
         return view('applicant.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
 
@@ -123,28 +123,28 @@ class ApplicantController extends Controller
 
     public function file_upload(Request $request)
     {
-        info(__METHOD__ . print_r($request->all(),true));
+        info(__METHOD__ . print_r($request->all(), true));
         $uploader = new ApplicantHistoryUploader();
         $uploader->saveUploadedFile('vc_vendor_id', $request->work_order_log_id, $request->display_name, '/download/vendor-logo/', $request->filename);
     }
 
     public function add_from_ss(Request $request)
     {
-        info(__METHOD__ . print_r($request->all(),true));
+        info(__METHOD__ . print_r($request->all(), true));
 
         $data = [];
 
         $path = env('APPLICANT_HISTORIES_DIRECTORY', 'applicant_histories');
 
 
-        $ss = new GetCriminalHistoryFromSS( $path, '/' . $request->local_file_name, $data);
+        $ss = new GetCriminalHistoryFromSS($path, '/' . $request->local_file_name, $data);
 //        try {
-            $data = $ss->processSpreadSheet();
-            info(print_r($data,true));
+        $data = $ss->processSpreadSheet();
+        info(print_r($data, true));
 
-            $criminal_history = new AddApplicantFromCriminalHistory($data);
-            $add = $criminal_history->addHistory();
-            info(print_r($add,true));
+        $criminal_history = new AddApplicantFromCriminalHistory($data);
+        $add = $criminal_history->addHistory();
+        info(print_r($add, true));
 //        } catch (\Exception $e) {
 //            print $e->getMessage() . "\n";
 //
@@ -155,14 +155,14 @@ class ApplicantController extends Controller
                 'message' => 'Added record',
                 'warnings' => $add['warnings'],
                 'errors' => $add['errors'],
-            'record' => $add['record'],
+                'record' => $add['record'],
             ], 200);
         } else {
             return response()->json([
                 'message' => 'Unable to add record',
                 'warnings' => $add['warnings'],
                 'errors' => $add['errors'],
-            'record' => $add['record'],
+                'record' => $add['record'],
             ], 422);
         }
 
@@ -174,8 +174,8 @@ class ApplicantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-	public function create()
-	{
+    public function create()
+    {
 
         if (!Auth::user()->can('applicant add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Applicants.');
@@ -186,8 +186,8 @@ class ApplicantController extends Controller
             }
         }
 
-	    return view('applicant.create');
-	}
+        return view('applicant.create');
+    }
 
 
     /**
@@ -204,7 +204,7 @@ class ApplicantController extends Controller
         try {
             $applicant->add($request->validated());
             $data = $applicant->toArray();
-            info(print_r($data,true));
+            info(print_r($data, true));
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Unable to process request'
@@ -241,7 +241,7 @@ class ApplicantController extends Controller
         if ($applicant = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('applicant edit');
             $can_delete = (Auth::user()->can('applicant delete') && $applicant->canDelete());
-            return view('applicant.show', compact('applicant','can_edit', 'can_delete'));
+            return view('applicant.show', compact('applicant', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Applicants to display.');
             return Redirect::route('applicant.index');
@@ -278,7 +278,7 @@ class ApplicantController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Applicant $applicant     * @return \Illuminate\Http\Response
+     * @param  \App\Applicant $applicant * @return \Illuminate\Http\Response
      */
     public function update(ApplicantFormRequest $request, $id)
     {
@@ -293,7 +293,7 @@ class ApplicantController extends Controller
 //        }
 
         if (!$applicant = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Applicants to edit.');
+            //     \Session::flash('flash_error_message', 'Unable to find Applicants to edit.');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
@@ -324,7 +324,7 @@ class ApplicantController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Applicant $applicant     * @return \Illuminate\Http\Response
+     * @param  \App\Applicant $applicant * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -332,7 +332,7 @@ class ApplicantController extends Controller
         if (!Auth::user()->can('applicant delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Applicants.');
             if (Auth::user()->can('applicant index')) {
-                 return Redirect::route('applicant.index');
+                return Redirect::route('applicant.index');
             } else {
                 return Redirect::route('home');
             }
@@ -340,7 +340,7 @@ class ApplicantController extends Controller
 
         $applicant = $this->sanitizeAndFind($id);
 
-        if ( $applicant  && $applicant->canDelete()) {
+        if ($applicant && $applicant->canDelete()) {
 
             try {
                 $applicant->delete();
@@ -357,7 +357,7 @@ class ApplicantController extends Controller
         }
 
         if (Auth::user()->can('applicant index')) {
-             return Redirect::route('applicant.index');
+            return Redirect::route('applicant.index');
         } else {
             return Redirect::route('home');
         }
@@ -387,6 +387,7 @@ class ApplicantController extends Controller
             //'conviction.charge.statute.superseded.statutes_eligibility',
             'assignment',
             'step',
+            'status',
             'conviction.sources'
         ])->find(intval($id));
     }
@@ -427,8 +428,8 @@ class ApplicantController extends Controller
     }
 
 
-        public function print()
-{
+    public function print()
+    {
         if (!Auth::user()->can('applicant export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Applicants.');
             if (Auth::user()->can('applicant index')) {
@@ -455,7 +456,7 @@ class ApplicantController extends Controller
         $data = $dataQuery->get();
 
         // Pass it to the view for html formatting:
-        $printHtml = view('applicant.print', compact( 'data' ) );
+        $printHtml = view('applicant.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
         $pdf = \App::make('dompdf.wrapper');

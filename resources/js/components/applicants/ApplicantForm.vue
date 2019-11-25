@@ -8,7 +8,7 @@
             {{ this.server_message }}
             <a v-if="try_logging_in" href="/login">Login</a>
         </div>
-
+        <h1>IS THIS USED??</h1>
         <div class="row">
             <div class="col-md-6" style="padding-left: 1em;">
                 <div class="col-md-12">
@@ -283,6 +283,30 @@
 
 
                 </fieldset>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <h1>paul</h1>
+                <std-form-group
+                        label="Status"
+                        label-for="status"
+                        :errors="form_errors.status"
+                        :required="true"
+                >
+
+                    <ui-select-pick-one
+                            url="/api-status/options"
+                            v-model="form_data.status_id"
+                            :selected_id="form_data.status_id"
+                            name="status"
+                            blank_value="0"
+                            additional_classes="mb-2 grid-filter"
+                            styleAttr="max-width: 175px;"
+                            required/>
+
+                </std-form-group>
             </div>
         </div>
 

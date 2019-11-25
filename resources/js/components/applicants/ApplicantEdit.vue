@@ -280,6 +280,29 @@
                 </div>
 
                 <div class="row">
+                    <div class="col-md-4">
+                        <std-form-group
+                                label="Status"
+                                label-for="status"
+                                :errors="form_errors.status"
+                                :required="true"
+                        >
+
+                            <ui-select-pick-one
+                                    url="/api-status/options"
+                                    v-model="record.status_id"
+                                    :selected_id="record.status_id"
+                                    name="status"
+                                    blank_value="0"
+                                    additional_classes="mb-2 grid-filter"
+                                    styleAttr="max-width: 175px;"
+                                    required/>
+
+                        </std-form-group>
+                    </div>
+                </div>
+
+                <div class="row">
                     <div class="col-md-12">
                         <std-form-group
                                 label="Notes"
@@ -332,11 +355,13 @@
 <script>
     import flatPickr from 'vue-flatpickr-component';
     import 'flatpickr/dist/flatpickr.css';
+    import UiSelectPickOne from "../SS/UiSelectPickOne";
 
     export default {
         name: "ApplicantEdit",
         components: {
-            flatPickr
+            flatPickr,
+            UiSelectPickOne
         },
         model: {
             prop: 'modelValue',  // Rename v-model's input value to modelValue

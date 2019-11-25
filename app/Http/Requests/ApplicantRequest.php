@@ -70,6 +70,7 @@ class ApplicantRequest extends FormRequest
             'cms_client_number' => 'nullable|string|max:255',
             'cms_matter_number' => 'nullable|string|max:255',
             'assignment_id' => 'numeric|nullable',
+            'status_id' => 'nullable|numeric',
 
 
         ];

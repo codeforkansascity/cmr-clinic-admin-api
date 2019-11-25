@@ -19,7 +19,7 @@
         <div class="grid-top row mb-0 align-items-center">
             <div class="col-lg-8 mb-2">
                 <form class="form-inline mb-0">
-                    <a
+                    <a      v-if="params.CanAdd"
                             href="#"
                             @click.default="goToNew"
                             class="btn btn-primary mb-3 mb-sm-2 mr-3"
@@ -41,6 +41,24 @@
                                 aria-label="Name search"
                         />
                     </search-form-group>
+
+                    <search-form-group
+                            class="mb-0"
+                            :errors="form_errors.status"
+                            label="Status"
+                            labelFor="status"
+                    >
+                        <ui-select-pick-one
+                                url="/api-status/options"
+                                v-model="statusSelected"
+                                :selected_id="statusSelected"
+                                name="status"
+                                blank_text="All"
+                                blank_value="0"
+                                additional_classes="mb-2 grid-filter"
+                                styleAttr="max-width: 175px;"/>
+                    </search-form-group>
+
                 </form>
             </div>
             <div class="col-lg-4 text-lg-right mb-2"></div>
@@ -57,7 +75,7 @@
                             v-bind:selectedKey="sortKey"
                             title="Sort by Name"
                             :params="{
-                                sortField: 'name',
+                                sortField: 'applicant_name',
                                 InitialSortOrder: 'asc'
                             }"
                     >
@@ -85,19 +103,30 @@
                     >
                         Notes
                     </ss-grid-column-header>
+                    <ss-grid-column-header
+                            v-on:selectedSort="sortColumn"
+                            v-bind:selectedKey="sortKey"
+                            title="Sort by Status"
+                            :params="{
+                                sortField: 'status_name',
+                                InitialSortOrder: 'asc'
+                            }"
+                    >
+                        Status
+                    </ss-grid-column-header>
                     <th style="width:20%;" class="text-center">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-if="gridState == 'wait'">
-                    <td colspan="3" class="grid-alert">
+                    <td colspan="5" class="grid-alert">
                         <div class="alert alert-info" role="alert">
                             Please wait.
                         </div>
                     </td>
                 </tr>
                 <tr v-if="gridState == 'error'">
-                    <td colspan="3" class="grid-alert">
+                    <td colspan="5" class="grid-alert">
                         <div class="alert alert-warning" role="alert">
                             Error please try again.
                         </div>
@@ -105,7 +134,7 @@
                 </tr>
 
                 <tr v-if="gridState == 'good' && !gridData.length">
-                    <td colspan="3" class="grid-alert">
+                    <td colspan="5" class="grid-alert">
                         <div class="alert alert-warning" role="alert">
                             No matching records found.
                         </div>
@@ -118,10 +147,10 @@
                                 v-bind:href="'/applicant/' + row.id"
                                 v-if="params.CanShow == '1'"
                         >
-                            {{ row.name }}
+                            {{ row.applicant_name }}
                         </a>
                         <span v-if="params.CanShow != '1'">
-                                {{ row.name }}
+                                {{ row.applicant_name }}
                             </span>
                     </td>
                     <td data-title="DOB">
@@ -129,13 +158,14 @@
 
                     </td>
                     <td data-title="Notes">{{ row.notes }}</td>
+                    <td data-title="Status">{{ row.status_name }}</td>
                     <td
                             data-title="Actions"
                             class="text-lg-center text-nowrap"
                     >
                         <a
                                 v-bind:href="'/applicant/' + row.id"
-                                v-if="params.CanShow == '1'"
+                                v-if="params.CanShow"
                                 class="grid-action-item"
                         >
                             View
@@ -193,13 +223,16 @@
     import SsGridColumnHeader from "../SS/SsGridColumnHeader";
     import SsGridPagination from "../SS/SsGridPagination";
     import SsGridPaginationLocation from "../SS/SsPaginationLocation";
+    import UiSelectPickOne from "../SS/UiSelectPickOne";
 
     export default {
         name: "applicant-grid",
         components: {
             SsGridColumnHeader,
             SsGridPaginationLocation,
-            SsGridPagination
+            SsGridPagination,
+            UiSelectPickOne
+
         },
         props: {
             params: {
@@ -238,8 +271,15 @@
                     direction: false
                 },
                 server_message: false,
-                try_logging_in: false
+                try_logging_in: false,
+                statusSelected: 0,
             };
+        },
+
+        watch: {
+            statusSelected: function (val) {
+                this.getData(1);
+            },
         },
 
         methods: {
@@ -269,6 +309,7 @@
                 this.gridState = "wait";
 
                 if (getPage != null) {
+
                     // We have a filter
                     axios
                         .get(getPage)
@@ -338,6 +379,8 @@
                 //                if (this.isDefined(this.searchType)) queryParams.push('search_type=' + this.searchType);
                 //                if (this.isDefined(this.showFilter)) queryParams.push('show_filter=' + this.showFilter);
                 //                if (this.isDefined(this.contractorSelected)) queryParams.push('contractor_id=' + this.contractorSelected);
+
+                if (this.isDefined(this.statusSelected)) queryParams.push('status_id=' + this.statusSelected);
 
                 if (queryParams.length > 0) url += queryParams.join("&");
 

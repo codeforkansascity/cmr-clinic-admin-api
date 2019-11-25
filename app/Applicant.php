@@ -17,34 +17,34 @@ class Applicant extends Model
      * fillable - attributes that can be mass-assigned
      */
     protected $fillable = [
-            'id',
-            'name',
-            'phone',
-            'email',
-            'sex',
-            'race',
-            'address_line_1',
-            'address_line_2',
-            'city',
-            'state',
-            'zip_code',
-            'license_number',
-            'license_issuing_state',
-            'previous_expungements',
-            'previous_felony_expungements',
-            'previous_misdemeanor_expungements',
-            'notes',
-            'external_ref',
-            'any_pending_cases',
-            'deleted_at',
-            'status_id',
-            'dob',
-            'license_expiration_date',
-            'cms_client_number',
-            'cms_matter_number',
-            'assignment_id',
-            'step_id',
-        ];
+        'id',
+        'name',
+        'phone',
+        'email',
+        'sex',
+        'race',
+        'address_line_1',
+        'address_line_2',
+        'city',
+        'state',
+        'zip_code',
+        'license_number',
+        'license_issuing_state',
+        'previous_expungements',
+        'previous_felony_expungements',
+        'previous_misdemeanor_expungements',
+        'notes',
+        'external_ref',
+        'any_pending_cases',
+        'deleted_at',
+        'status_id',
+        'dob',
+        'license_expiration_date',
+        'cms_client_number',
+        'cms_matter_number',
+        'assignment_id',
+        'step_id',
+    ];
 
     protected $hidden = [
         'active',
@@ -56,7 +56,6 @@ class Applicant extends Model
     ];
 
 
-
     public function assignment()
     {
         return $this->hasOne('App\Assignment', 'id', 'assignment_id');
@@ -65,6 +64,11 @@ class Applicant extends Model
     public function step()
     {
         return $this->hasOne('App\Step', 'id', 'step_id');
+    }
+
+    public function status()
+    {
+        return $this->hasOne('App\Status', 'id', 'status_id');
     }
 
     public function conviction()
@@ -79,10 +83,11 @@ class Applicant extends Model
     }
 
     // this is a recommended way to declare event handlers
-    public static function boot() {
+    public static function boot()
+    {
         parent::boot();
 
-        static::deleting(function($tbl) { // before delete() method call this
+        static::deleting(function ($tbl) { // before delete() method call this
             foreach ($tbl->conviction()->get() as $rec) {
                 $rec->delete();
             }
@@ -118,7 +123,6 @@ class Applicant extends Model
      * @param $column
      * @param $direction
      * @param string $keyword
-     * @param $filter_assigned
      * @param $status_filter
      * @return mixed
      */
@@ -127,34 +131,30 @@ class Applicant extends Model
         $column,
         $direction,
         $keyword = '',
-        $filter_assigned = -1,
         $status_filter = -1)
     {
         \DB::connection()->enableQueryLog();
 
-        $ret =  self::buildBaseGridQuery($column, $direction, $keyword, $filter_assigned, $status_filter,
-            [   'applicants.id',
-                'applicants.name',
+        $ret = self::buildBaseGridQuery($column, $direction, $keyword, $status_filter,
+            ['applicants.id',
+                'applicants.name as applicant_name',
                 'applicants.dob',
                 'applicants.notes',
                 'applicants.cms_client_number',
                 'users.name AS assigned_to',
                 'statuses.name AS status_name'
             ])
-        ->paginate($per_page);
+            ->paginate($per_page);
 
 
         $query = \DB::getQueryLog();
         $lastQuery = end($query);
 
-        info(print_r($lastQuery,true));
-
+        info(print_r($lastQuery, true));
 
 
         return $ret;
     }
-
-
 
 
     /**
@@ -174,10 +174,10 @@ class Applicant extends Model
         $column,
         $direction,
         $keyword = '',
-        $assigned_filter = -1,
         $status_filter = -1,
         $columns = '*')
     {
+
         // Map sort direction from 1/-1 integer to asc/desc sql keyword
         switch ($direction) {
             case '1':
@@ -191,37 +191,24 @@ class Applicant extends Model
                 break;
         }
 
+        $column = $column == 'name' ? 'applicant_name' : $column;
+
         $query = Applicant::select($columns)
             ->leftJoin('users', 'applicants.assignment_id', 'users.id')
-            ->leftJoin('steps', 'applicants.step_id', 'steps.id')
-            ->leftJoin('statuses', 'steps.status_id', 'statuses.id')
-        ->orderBy($column, $direction);
+            ->leftJoin('statuses', 'applicants.status_id', 'statuses.id')
+            ->orderBy($column, $direction);
 
         if ($keyword) {
             $query->where('applicants.name', 'like', '%' . $keyword . '%');
         }
 
-        switch ($assigned_filter) {
-            case -1:
-                break;
-            case 0:
-                $query->where('applicants.assignment_id', 0);
-                break;
-            default:
-                $query->where('applicants.assignment_id', intval($assigned_filter));
-                break;
 
-        }
-
-        info("\$status_filter=|$status_filter|");
         switch ($status_filter) {
             case -1:
-                break;
             case 0:
-                $query->where('applicants.step_id', 0);
                 break;
             default:
-                $query->where('steps.status_id', intval($status_filter));
+                $query->where('applicants.status_id', intval($status_filter));
                 break;
 
         }
@@ -229,15 +216,15 @@ class Applicant extends Model
         return $query;
     }
 
-        /**
-         * Get export/Excel/download data query to send to Excel download library
-         *
-         * @param $per_page
-         * @param $column
-         * @param $direction
-         * @param string $keyword
-         * @return mixed
-         */
+    /**
+     * Get export/Excel/download data query to send to Excel download library
+     *
+     * @param $per_page
+     * @param $column
+     * @param $direction
+     * @param string $keyword
+     * @return mixed
+     */
 
     static function exportDataQuery(
         $column,
@@ -252,18 +239,18 @@ class Applicant extends Model
 
     }
 
-        static function pdfDataQuery(
-            $column,
-            $direction,
-            $keyword = '',
-            $columns = '*')
-        {
+    static function pdfDataQuery(
+        $column,
+        $direction,
+        $keyword = '',
+        $columns = '*')
+    {
 
-            info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
-            return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
+        return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
 
-        }
+    }
 
 
     /**
@@ -299,7 +286,7 @@ class Applicant extends Model
     public function saveHistory($request, $action = 'updated')
     {
         $data = [
-            'user_id' => auth()->user()->id ??  1,
+            'user_id' => auth()->user()->id ?? 1,
             'reason_for_change' => $request->reason_for_change ?? null,
             'action' => $action
         ];
