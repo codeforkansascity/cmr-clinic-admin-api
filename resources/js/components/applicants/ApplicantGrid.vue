@@ -19,7 +19,7 @@
         <div class="grid-top row mb-0 align-items-center">
             <div class="col-lg-8 mb-2">
                 <form class="form-inline mb-0">
-                    <a      v-if="CanAdd"
+                    <a      v-if="params.CanAdd"
                             href="#"
                             @click.default="goToNew"
                             class="btn btn-primary mb-3 mb-sm-2 mr-3"
@@ -165,14 +165,14 @@
                     >
                         <a
                                 v-bind:href="'/applicant/' + row.id"
-                                v-if="CanShow"
+                                v-if="params.CanShow"
                                 class="grid-action-item"
                         >
                             View
                         </a>
                         <a
                                 v-bind:href="'/applicant/' + row.id + '/edit'"
-                                v-if="CanEdit"
+                                v-if="params.CanEdit"
                                 class="grid-action-item"
                         >
                             Edit

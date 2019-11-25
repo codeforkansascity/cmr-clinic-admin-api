@@ -39,8 +39,10 @@ class ChargeFormRequest extends FormRequest
 
             'id' => 'numeric',
             'conviction_id' => 'nullable|numeric',
-            'statute_id' => 'nullable|numeric|empty_with:imported_statute',
-            'imported_statute' => 'nullable|string|max:255|empty_with:statute_id',
+//            'statute_id' => 'nullable|numeric|empty_with:imported_statute',
+//            'imported_statute' => 'nullable|string|max:255|empty_with:statute_id',
+            'statute_id' => 'nullable|numeric',
+            'imported_statute' => 'nullable|string|max:255',
             'imported_citation' => 'nullable|string|max:64',
             'conviction_class_type' => 'nullable|string|max:64',
             'conviction_charge_type' => 'nullable|string|max:64',
