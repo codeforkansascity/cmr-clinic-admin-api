@@ -21,9 +21,10 @@ class ApplicantApi extends Controller
 
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
-        $column = $request->get('column', 'Name');
+        $column = $request->get('column', 'applicant_name');
         $direction = $request->get('direction', '-1');
         $keyword = $request->get('keyword', '');
+        $status_id = $request->get('status_id', '');
 
         // Save the search parameters so we can remember when we go back to the index
         //   The page is being done by Laravel
@@ -31,20 +32,22 @@ class ApplicantApi extends Controller
             'applicant_page' => $page,
             'applicant_column' => $column,
             'applicant_direction' => $direction,
-            'applicant_keyword' => $keyword
+            'applicant_keyword' => $keyword,
+            'status_id' => $status_id
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
-        $column = $column ? mb_strtolower($column) : 'name';
+        $column = $column ? mb_strtolower($column) : 'applicant_name';
 
-        return Applicant::indexData(10, $column, $direction, $keyword);
+        return Applicant::indexData(10, $column, $direction, $keyword, $status_id);
     }
 
     /**
      * Returns "options" for HTML select
      * @return array
      */
-    public function getOptions() {
+    public function getOptions()
+    {
 
         return Applicant::getOptions();
     }
@@ -52,7 +55,7 @@ class ApplicantApi extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -63,7 +66,7 @@ class ApplicantApi extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -74,8 +77,8 @@ class ApplicantApi extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -86,7 +89,7 @@ class ApplicantApi extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

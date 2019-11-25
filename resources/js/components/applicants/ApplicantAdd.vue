@@ -50,7 +50,7 @@
                                 <input name="name"
                                        required
                                        v-model="applicant_history.name"
-                                       v-bind:class="{file_marked_for_deletion: applicant_historys_to_delete}" />
+                                       v-bind:class="{file_marked_for_deletion: applicant_historys_to_delete}"/>
                             </td>
                             <td>
                                 <a title="Remove file" href="#" v-on:click.prevent="delete_applicant_history()">
@@ -108,6 +108,7 @@
             }, 2000);
         });
     }
+
     export default {
         name: "applicant-add",
         data: function () {
@@ -145,8 +146,8 @@
             },
 
             uploadAndAdd() {
-                this.errors=[];
-                this.warnings=[];
+                this.errors = [];
+                this.warnings = [];
                 this.SaveDocuments++;
 
             },
@@ -210,7 +211,6 @@
                     });
 
 
-
             },
 
             saved(data) {
@@ -246,7 +246,6 @@
                     this.applicant_historys_to_delete = true;
                 }
             },
-
 
 
         },

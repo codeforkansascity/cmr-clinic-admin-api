@@ -4,9 +4,9 @@
             <div class="col-md-11">
                 <h4>{{ record.name }} &nbsp; &nbsp; &nbsp; &nbsp;
                     <dsp-date v-model="record.dob"/>
+                    &nbsp; &nbsp; &nbsp; &nbsp;{{ status_name }}
                 </h4>
             </div>
-
             <div class="col-md-1">
                 <slot></slot>
             </div>
@@ -104,13 +104,17 @@
         },
         data() {
             return {
-                record: {}
+                record: {},
+                status_name: ''
             }
         },
         created: function () {
             Object.keys(this.modelValue).forEach(i =>
                 this.$set(this.record, i, this.modelValue[i])
             );
+            if (this.isDefined(this.record.status.name)) {
+                this.status_name = this.record.status.name;
+            }
         },
     }
 </script>
