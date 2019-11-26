@@ -185,13 +185,22 @@ class GetCriminalHistoryFromSS
 
         if ($value) {
             switch ($label) {
-                case 'Date of Arrest':
+
+                // Date fields that are dates, always convert
                 case 'Date of Birth':
                 case 'Date of Charge':
-                case 'Date of Disposition':
                 case 'Release Date':
                     $value = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(intval($value))->format('Y-m-d');
                     break;
+
+                    // Date fields that are string, if numberic we will assume it is a date
+                case 'Date of Arrest':
+                case 'Date of Disposition':
+                    if (is_numeric($value)) {
+                        $value = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(intval($value))->format('m-d-Y');
+                    }
+                    break;
+
             }
         }
 
