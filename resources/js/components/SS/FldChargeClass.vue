@@ -70,6 +70,10 @@ Example usage:
                     {
                         "name": "E",
                         "abbreviation": "E"
+                    },
+                    {
+                        "name": "Unclassified",
+                        "abbreviation": "U"
                     }
 
                 ]
