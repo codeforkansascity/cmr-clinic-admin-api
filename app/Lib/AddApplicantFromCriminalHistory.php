@@ -26,7 +26,7 @@ class AddApplicantFromCriminalHistory
     public function __construct($data)
     {
         $this->data = $data;
-        info(print_r($this->data,true));
+
     }
 
     public function addHistory()
@@ -144,6 +144,37 @@ class AddApplicantFromCriminalHistory
         foreach ($charges AS $charge) {
             $charge['conviction_id'] = $conviction_id;
             unset($charge['source']);
+
+            if (array_key_exists('level_text',$charge) && !empty($charge['level_text'])) {
+                $row_parts = [];
+                if ($charge['level_text'] == 'Local Ordinance') {
+                    $charge['conviction_charge_type'] = 'Local Ordinance';
+                    $charge['conviction_class_type'] = '';
+                } else {
+                    if (0 != preg_match('/^([a-zA-Z]*)\s*([a-zA-Z]*)$/', $charge['level_text'], $row_parts)) {
+                        info(print_r($row_parts, true));
+                        $charge['conviction_charge_type'] = $row_parts[1];
+                        $charge['conviction_class_type'] = $row_parts[2];
+                    } else {
+                        $charge['conviction_charge_type'] = $charge['level_text'];
+                        $charge['conviction_class_type'] = '';
+                    }
+                }
+
+            }
+
+            if (array_key_exists('imported_citation',$charge) && !empty($charge['imported_citation'])) {
+                $number = $charge['imported_citation'];
+                $statute_id = 0;
+                $statute = \App\Statute::where('number', $number)->first();
+
+                if ($statute) {
+                    $statute_id = $statute->id;
+                }
+
+                $charge['statute_id'] = $statute_id;
+            }
+
 
             try {
                 $rec = Charge::create(array_filter($charge));

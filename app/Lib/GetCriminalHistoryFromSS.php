@@ -49,11 +49,11 @@ class GetCriminalHistoryFromSS
         "Case" => "name",
         "Case Number" => "case_number",
         "Name on Court Records" => "record_name",
-        "Arresting Agency" => "agency",
+        "Arresting Agency" => "arresting_agency",
         "Date of Arrest" => "arrest_date",
-        "Date of Charge" => "charge_date",
-        "Date of Disposition" => "disposition_date",
-        "County/City" => "court",
+        "Date of Charge" => "date_of_charge",
+        "Date of Disposition" => "date_of_disposition",
+        "County/City" => "court_city_county",
         "Judge" => "judge",
         "Release Status" => "release_status",
 
@@ -92,6 +92,13 @@ class GetCriminalHistoryFromSS
 
             list($label, $value) = $this->cleanRow($this->current_row);
 
+            // This code should be someplace else, but it works here
+            if ($label == 'Release Date') {
+                $this->case[$this->convertLable($label)] = $value;
+            }
+
+
+
             // print "$this->current_row_offset \$this->in=|$this->in| \$row_type=|$row_type| \$label=|$label|=\$value=|$value|\n";
 
             if ($row_type) {
@@ -124,7 +131,6 @@ class GetCriminalHistoryFromSS
                 $this->in = $row_type;
 
 
-
             }
 
             switch ($row_type) {
@@ -143,7 +149,7 @@ class GetCriminalHistoryFromSS
 
                         default:
 
-                            if ( $label == 'Source') {
+                            if ($label == 'Source') {
                                 $this->case['Source'] = $value;
                             } else {
                                 $this->record[$this->convertLable($label)] = $value;
@@ -157,7 +163,16 @@ class GetCriminalHistoryFromSS
             $this->getNextRow();
         }
 
-        $this->applicant['CASES'][] = $this->case;
+        // Flush out any straglers
+
+        if (count($this->record)) {
+            $this->case['CHARGES'][] = $this->record;
+        }
+
+        if (count($this->case)) {
+            $this->applicant['CASES'][] = $this->case;
+        }
+
 
         return $this->applicant;
 
@@ -167,7 +182,7 @@ class GetCriminalHistoryFromSS
     function convertLable($label)
     {
 
-    //    return $label;
+        //    return $label;
 
         if (!array_key_exists($label, $this->label_map)) {
             return "ERROR $label";
@@ -185,13 +200,28 @@ class GetCriminalHistoryFromSS
 
         if ($value) {
             switch ($label) {
-                case 'Date of Arrest':
+
+                // Date fields that are dates, always convert
                 case 'Date of Birth':
                 case 'Date of Charge':
-                case 'Date of Disposition':
                 case 'Release Date':
-                    $value = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(intval($value))->format('Y-m-d');
+                    if (is_numeric($value)) {
+                        $value = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(intval($value))->format('Y-m-d');
+                    } else {
+                        $value = null;
+                    }
                     break;
+
+                // Date fields that are string, if numberic we will assume it is a date
+                case 'Date of Arrest':
+                case 'Date of Disposition':
+                    if (is_numeric($value)) {
+                        $value = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(intval($value))->format('m/d/Y');
+                    }
+                    break;
+
+
+
             }
         }
 
@@ -224,7 +254,6 @@ class GetCriminalHistoryFromSS
     {
 
 
-
         if ($this->current_row == null) return null;
 
         $this->current_row_offset++;
@@ -252,9 +281,9 @@ class GetCriminalHistoryFromSS
         if (count($tmp)) {  // We have data
 
             foreach ($tmp[0] AS $row) {
-               // if (isset($row[0]) && !($row[0] == null && $row[1] == null)) {
-                    $this->spread_sheet_data[] = $row;
-               // }
+                // if (isset($row[0]) && !($row[0] == null && $row[1] == null)) {
+                $this->spread_sheet_data[] = $row;
+                // }
             }
             if (count($this->spread_sheet_data)) {
                 $this->current_row = $this->spread_sheet_data[$this->current_row_offset];

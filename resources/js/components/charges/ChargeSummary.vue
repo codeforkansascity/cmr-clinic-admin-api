@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col-md-7">
-            <h5 v-if="record.statute">
+            <h5 v-if="display_statute">
                 <dsp-statute v-model="record.statute"/>
             </h5>
             <h5 v-else>
@@ -55,6 +55,10 @@
             );
         },
         computed: {
+
+            display_statute() {
+                return !this.isUndefinedOrEmpty(this.record.statute) && !this.isUndefinedOrEmpty(this.record.statute.id);
+            },
 
             display_charge_eligibility() {
                 if (parseInt(this.record.please_expunge)) {

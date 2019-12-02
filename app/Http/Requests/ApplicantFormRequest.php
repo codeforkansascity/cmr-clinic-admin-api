@@ -66,11 +66,13 @@ class ApplicantFormRequest extends FormRequest
 
         ];
 
-        if ($this->route('applicant')) {  // If ID we must be changing an existing record
-            $rules['name'] = 'required|min:3|nullable|string|max:64|unique:applicants,name,' . $id;
-        } else {  // If not we must be adding one
-            $rules['name'] = 'required|min:3|nullable|string|max:64|unique:applicants';
-        }
+        $rules['name'] = 'required|min:3|nullable|string|max:64';
+
+//        if ($this->route('applicant')) {  // If ID we must be changing an existing record
+//            $rules['name'] = 'required|min:3|nullable|string|max:64|unique:applicants,name,' . $id;
+//        } else {  // If not we must be adding one
+//            $rules['name'] = 'required|min:3|nullable|string|max:64|unique:applicants';
+//        }
 
         return $rules;
     }
