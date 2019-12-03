@@ -75,7 +75,7 @@ class JurisdictionController extends Controller
     {
 
         if (!Auth::user()->can('jurisdiction index')) {
-            \Session::flash('flash_error_message', 'You do not have access to Sourcess.');
+            \Session::flash('flash_error_message', 'You do not have access to Jurisdictions.');
             return Redirect::route('home');
         }
 
@@ -105,7 +105,7 @@ class JurisdictionController extends Controller
 	{
 
         if (!Auth::user()->can('jurisdiction add')) {  // TODO: add -> create
-            \Session::flash('flash_error_message', 'You do not have access to add a Sources.');
+            \Session::flash('flash_error_message', 'You do not have access to add a Jurisdiction.');
             if (Auth::user()->can('jurisdiction index')) {
                 return Redirect::route('jurisdiction.index');
             } else {
@@ -136,7 +136,7 @@ class JurisdictionController extends Controller
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Sources ' . $jurisdiction->name . ' was added.');
+        \Session::flash('flash_success_message', 'Jurisdiction ' . $jurisdiction->name . ' was added.');
 
         return response()->json([
             'message' => 'Added record'
@@ -154,7 +154,7 @@ class JurisdictionController extends Controller
     {
 
         if (!Auth::user()->can('jurisdiction view')) {
-            \Session::flash('flash_error_message', 'You do not have access to view a Sources.');
+            \Session::flash('flash_error_message', 'You do not have access to view a Jurisdiction.');
             if (Auth::user()->can('jurisdiction index')) {
                 return Redirect::route('jurisdiction.index');
             } else {
@@ -167,7 +167,7 @@ class JurisdictionController extends Controller
             $can_delete = (Auth::user()->can('jurisdiction delete') && $jurisdiction->canDelete());
             return view('jurisdiction.show', compact('jurisdiction','can_edit', 'can_delete'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Sources to display.');
+            \Session::flash('flash_error_message', 'Unable to find Jurisdiction to display.');
             return Redirect::route('jurisdiction.index');
         }
     }
@@ -181,7 +181,7 @@ class JurisdictionController extends Controller
     public function edit($id)
     {
         if (!Auth::user()->can('jurisdiction edit')) {
-            \Session::flash('flash_error_message', 'You do not have access to edit a Sources.');
+            \Session::flash('flash_error_message', 'You do not have access to edit a Jurisdiction.');
             if (Auth::user()->can('jurisdiction index')) {
                 return Redirect::route('jurisdiction.index');
             } else {
@@ -192,7 +192,7 @@ class JurisdictionController extends Controller
         if ($jurisdiction = $this->sanitizeAndFind($id)) {
             return view('jurisdiction.edit', compact('jurisdiction'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Sources to edit.');
+            \Session::flash('flash_error_message', 'Unable to find Jurisdiction to edit.');
             return Redirect::route('jurisdiction.index');
         }
 
@@ -208,7 +208,7 @@ class JurisdictionController extends Controller
     {
 
 //        if (!Auth::user()->can('jurisdiction update')) {
-//            \Session::flash('flash_error_message', 'You do not have access to update a Sources.');
+//            \Session::flash('flash_error_message', 'You do not have access to update a Jurisdiction.');
 //            if (!Auth::user()->can('jurisdiction index')) {
 //                return Redirect::route('jurisdiction.index');
 //            } else {
@@ -217,7 +217,7 @@ class JurisdictionController extends Controller
 //        }
 
         if (!$jurisdiction = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Sources to edit.');
+       //     \Session::flash('flash_error_message', 'Unable to find Jurisdiction to edit.');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
@@ -235,7 +235,7 @@ class JurisdictionController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Sources ' . $jurisdiction->name . ' was changed.');
+            \Session::flash('flash_success_message', 'Jurisdiction ' . $jurisdiction->name . ' was changed.');
         } else {
             \Session::flash('flash_info_message', 'No changes were made.');
         }
@@ -254,7 +254,7 @@ class JurisdictionController extends Controller
     {
 
         if (!Auth::user()->can('jurisdiction delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a Sources.');
+            \Session::flash('flash_error_message', 'You do not have access to remove a Jurisdiction.');
             if (Auth::user()->can('jurisdiction index')) {
                  return Redirect::route('jurisdiction.index');
             } else {
@@ -274,9 +274,9 @@ class JurisdictionController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Sources ' . $jurisdiction->name . ' was removed.');
+            \Session::flash('flash_success_message', 'Jurisdiction ' . $jurisdiction->name . ' was removed.');
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Sources to delete.');
+            \Session::flash('flash_error_message', 'Unable to find Jurisdiction to delete.');
 
         }
 
@@ -305,7 +305,7 @@ class JurisdictionController extends Controller
     {
 
         if (!Auth::user()->can('jurisdiction excel')) {
-            \Session::flash('flash_error_message', 'You do not have access to download Sources.');
+            \Session::flash('flash_error_message', 'You do not have access to download Jurisdictions.');
             if (Auth::user()->can('jurisdiction index')) {
                 return Redirect::route('jurisdiction.index');
             } else {
@@ -339,7 +339,7 @@ class JurisdictionController extends Controller
         public function print()
 {
         if (!Auth::user()->can('jurisdiction export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print Sources.');
+            \Session::flash('flash_error_message', 'You do not have access to print Jurisdictions.');
             if (Auth::user()->can('jurisdiction index')) {
                 return Redirect::route('jurisdiction.index');
             } else {

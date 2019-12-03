@@ -6,10 +6,26 @@
                 <div class="col-md-6">
                     <div class="form-group row mb-2 mb-md-0 text-only">
                         <label class="col-md-4 col-form-label text-md-right">
+                            Jurisdiction Type Id
+                        </label>
+                        <div class="col-md-8">
+                            <dsp-text v-model="record.jurisdiction_type_id" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2 mb-md-0 text-only">
+                        <label class="col-md-4 col-form-label text-md-right">
                             Name
                         </label>
                         <div class="col-md-8">
                             <dsp-text v-model="record.name" />
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2 mb-md-0 text-only">
+                        <label class="col-md-4 col-form-label text-md-right">
+                            Url
+                        </label>
+                        <div class="col-md-8">
+                            <dsp-text v-model="record.url" />
                         </div>
                     </div>
                     <div class="form-group row mb-2 mb-md-0 text-only">
@@ -28,7 +44,7 @@
 
 <script>
 export default {
-    name: "jurisdiction-type-show",
+    name: "jurisdiction-show",
     props: {
         record: {
             type: [Boolean, Object],

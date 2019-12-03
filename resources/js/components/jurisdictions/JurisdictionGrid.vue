@@ -24,7 +24,7 @@
                         href="#"
                         @click.default="goToNew"
                         class="btn btn-primary mb-3 mb-sm-2 mr-3"
-                        >Add jurisdiction_type</a
+                        >Add Jurisdiction</a
                     >
                     <search-form-group
                         class="mb-0"
@@ -56,6 +56,17 @@
                         <ss-grid-column-header
                             v-on:selectedSort="sortColumn"
                             v-bind:selectedKey="sortKey"
+                            title="Sort by Jurisdiction Type Id"
+                            :params="{
+                                sortField: 'jurisdiction_type_id',
+                                InitialSortOrder: 'asc'
+                            }"
+                        >
+                            Jurisdiction Type Id
+                        </ss-grid-column-header>
+                        <ss-grid-column-header
+                            v-on:selectedSort="sortColumn"
+                            v-bind:selectedKey="sortKey"
                             title="Sort by Name"
                             :params="{
                                 sortField: 'name',
@@ -64,6 +75,17 @@
                         >
                             Name
                         </ss-grid-column-header>
+                        <ss-grid-column-header
+                            v-on:selectedSort="sortColumn"
+                            v-bind:selectedKey="sortKey"
+                            title="Sort by Url"
+                            :params="{
+                                sortField: 'url',
+                                InitialSortOrder: 'asc'
+                            }"
+                        >
+                            Url
+                        </ss-grid-column-header>
                         <th style="width:20%;" class="text-lg-center">
                             Actions
                         </th>
@@ -71,14 +93,14 @@
                 </thead>
                 <tbody>
                     <tr v-if="gridState == 'wait'">
-                        <td colspan="2" class="grid-alert">
+                        <td colspan="4" class="grid-alert">
                             <div class="alert alert-info" role="alert">
                                 Please wait.
                             </div>
                         </td>
                     </tr>
                     <tr v-if="gridState == 'error'">
-                        <td colspan="2" class="grid-alert">
+                        <td colspan="4" class="grid-alert">
                             <div class="alert alert-warning" role="alert">
                                 Error please try again.
                             </div>
@@ -86,7 +108,7 @@
                     </tr>
 
                     <tr v-if="gridState == 'good' && !gridData.length">
-                        <td colspan="2" class="grid-alert">
+                        <td colspan="4" class="grid-alert">
                             <div class="alert alert-warning" role="alert">
                                 No matching records found.
                             </div>
@@ -94,9 +116,12 @@
                     </tr>
 
                     <tr v-else v-for="row in this.gridData" :key="row.id">
+                        <td data-title="Jurisdiction Type Id">
+                            {{ row.jurisdiction_type_id }}
+                        </td>
                         <td data-title="Name">
                             <a
-                                v-bind:href="'/jurisdiction-type/' + row.id"
+                                v-bind:href="'/jurisdiction/' + row.id"
                                 v-if="params.CanShow == '1'"
                             >
                                 {{ row.name }}
@@ -105,13 +130,14 @@
                                 {{ row.name }}
                             </span>
                         </td>
+                        <td data-title="Url">{{ row.url }}</td>
                         <td
                             data-title="Actions"
                             class="text-lg-center text-nowrap"
                         >
                             <a
                                 v-bind:href="
-                                    '/jurisdiction-type/' + row.id + '/edit'
+                                    '/jurisdiction/' + row.id + '/edit'
                                 "
                                 v-if="params.CanEdit"
                                 class="grid-action-item"
@@ -129,13 +155,11 @@
         <div class="grid-bottom row mb-0 align-items-center">
             <div class="col-lg-4 mb-2">
                 <a
-                    href="/jurisdiction-type/download"
+                    href="/jurisdiction/download"
                     class="btn btn-primary mb-2 mr-2"
                     >Export to Excel</a
                 >
-                <a
-                    href="/jurisdiction-type/print"
-                    class="btn btn-primary mb-2 mr-2"
+                <a href="/jurisdiction/print" class="btn btn-primary mb-2 mr-2"
                     >Print PDF</a
                 >
             </div>
@@ -165,7 +189,7 @@ import SsGridPagination from "../SS/SsGridPagination";
 import SsGridPaginationLocation from "../SS/SsPaginationLocation";
 
 export default {
-    name: "jurisdiction-type-grid",
+    name: "jurisdiction-grid",
     components: {
         SsGridColumnHeader,
         SsGridPaginationLocation,
@@ -213,7 +237,7 @@ export default {
 
     methods: {
         goToNew: function() {
-            window.location.href = "/jurisdiction-type/create";
+            window.location.href = "/jurisdiction/create";
         },
 
         sortColumn: function(obj) {
@@ -272,7 +296,7 @@ export default {
                             } else if (error.response.status === 404) {
                                 // Record not found
                                 this.server_message = "Record not found";
-                                window.location = "/jurisdiction-type";
+                                window.location = "/jurisdiction";
                             } else if (error.response.status === 419) {
                                 // Unknown status
                                 this.server_message =
@@ -296,7 +320,7 @@ export default {
         },
 
         getDataUrl: function(new_page_number) {
-            var url = "api-jurisdiction-type?";
+            var url = "api-jurisdiction?";
             var queryParams = [];
 
             queryParams.push("page=" + new_page_number);

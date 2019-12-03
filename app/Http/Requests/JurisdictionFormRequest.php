@@ -45,9 +45,9 @@ class JurisdictionFormRequest extends FormRequest
         ];
 
                 if ($this->route('jurisdiction')) {  // If ID we must be changing an existing record
-                    $rules['name'] = 'required|min:3|nullable|string|max:191|unique:jurisdiction,name,' . $id;
+                    $rules['name'] = 'required|min:3|nullable|string|max:191|unique:jurisdictions,name,' . $id;
                 } else {  // If not we must be adding one
-                    $rules['name'] = 'required|min:3|nullable|string|max:191|unique:jurisdiction';
+                    $rules['name'] = 'required|min:3|nullable|string|max:191|unique:jurisdictions';
                 }
 
         return $rules;

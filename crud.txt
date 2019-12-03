@@ -4,5 +4,5 @@ php artisan make:crud service_types  --force --display-name="Service Types" --gr
 php artisan make:crud service_types  --force --display-name="Service Types" --grid-columns="name"
 php artisan make:crud services  --force --display-name="Services" --grid-columns="name:service_type_id"
 php artisan make:crud data_sources  --force --display-name="Sources" --grid-columns="name:description"
-php artisan make:crud jurisdiction_type  --force --display-name="Sources" --grid-columns="name"
-php artisan make:crud jurisdiction  --force --display-name="Sources" --grid-columns="name:url:jurisdiction_type_id"
+php artisan make:crud jurisdiction_types  --force --display-name="Jurisdiction Type" --grid-columns="name:display_sequence"
+php artisan make:crud jurisdictions  --force --display-name="Jurisdiction" --grid-columns="name:url:jurisdiction_type_id"

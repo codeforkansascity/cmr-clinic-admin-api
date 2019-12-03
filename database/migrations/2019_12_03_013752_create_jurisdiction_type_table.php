@@ -16,7 +16,7 @@ class CreateJurisdictionTypeTable extends Migration
         Schema::create('jurisdiction_types', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->integer('sequence');
+            $table->integer('display_sequence')->default(0)->nullable();
 
             $table->integer('created_by')->default(0)->nullable();
             $table->integer('modified_by')->default(0)->nullable();
@@ -28,28 +28,28 @@ class CreateJurisdictionTypeTable extends Migration
         \App\JurisdictionType::create([
             "id"=> "1",
             "name"=> "State",
-            'sequence' => 1,
+            'display_sequence' => 1,
             "created_by"=> "1",
         ]);
 
         \App\JurisdictionType::create([
             "id"=> "2",
             "name"=> "County",
-            'sequence' => 2,
+            'display_sequence' => 2,
             "created_by"=> "1",
         ]);
 
         \App\JurisdictionType::create([
             "id"=> "3",
             "name"=> "Municiple",
-            'sequence' => 3,
+            'display_sequence' => 3,
             "created_by"=> "1",
         ]);
 
         \App\JurisdictionType::create([
             "id"=> "4",
             "name"=> "Unknown",
-            'sequence' => 4,
+            'display_sequence' => 4,
             "created_by"=> "1",
         ]);
 

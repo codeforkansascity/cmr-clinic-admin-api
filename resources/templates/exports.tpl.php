@@ -7,7 +7,7 @@ use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class JurisdictionTypeExport implements FromQuery, WithHeadings, WithMapping
+class [[model_uc]]Export implements FromQuery, WithHeadings, WithMapping
 {
     use Exportable;
 
@@ -29,24 +29,22 @@ class JurisdictionTypeExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'name',
-                        'display_sequence',
-                        'deleted_at',
-                    ];
+            [[foreach:columns]]
+            '[[i.name]]',
+            [[endforeach]]
+        ];
     }
 
     // Map/format each field that's being exported
     // NOTE: to use raw values from SELECT (without having to manually specify
     // each column), comment out this function/"WithMapping" above
-    public function map($jurisdiction_type): array
+    public function map($[[model_singular]]): array
     {
         return [
 
-                        $jurisdiction_type->id,
-                        $jurisdiction_type->name,
-                        $jurisdiction_type->display_sequence,
-                        $jurisdiction_type->deleted_at,
-                    ];
+            [[foreach:columns]]
+            $[[model_singular]]->[[i.name]],
+            [[endforeach]]
+        ];
     }
 }
