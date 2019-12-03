@@ -310,7 +310,7 @@ class Statute extends Model
             ->whereColumn('statutes.jurisdiction_id', 'jurisdictions.id')
             ->join('jurisdiction_types', 'jurisdictions.jurisdiction_type_id', 'jurisdiction_types.id');
 
-        return $builder->selectSub($query->limit(1), 'jurisdiction_type_name');
+        return $builder->selectSub($query->limit(1), 'jurisdiction_type');
     }
 
 }
