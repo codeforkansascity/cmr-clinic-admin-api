@@ -52,6 +52,11 @@ class Statute extends Model
         return $this->belongsTo(Statute::class);
     }
 
+    public function jurisdiction()
+    {
+        return $this->belongsTo(Jurisdiction::class)->with('type');
+    }
+
     public function charge()
     {
         return $this->hasMany(Charge::class);
@@ -291,6 +296,21 @@ class Statute extends Model
                     $q->withEligibility();
             }
         ]);
+    }
+
+    public function scopeWithJurisdictionType($builder)
+    {
+        // check if the selects are loaded if not load them
+        if (is_null($builder->getQuery()->columns)) {
+            $builder->select('statutes.*');
+        }
+
+        // build subquery to join eligibility status and select name as eligibility
+        $query = Jurisdiction::select('jurisdiction_types.name')
+            ->whereColumn('statutes.jurisdiction_id', 'jurisdictions.id')
+            ->join('jurisdiction_types', 'jurisdictions.jurisdiction_type_id', 'jurisdiction_types.id');
+
+        return $builder->selectSub($query->limit(1), 'jurisdiction_type_name');
     }
 
 }
