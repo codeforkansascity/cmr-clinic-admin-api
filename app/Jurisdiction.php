@@ -32,6 +32,11 @@ class Jurisdiction extends Model
         'updated_at',
     ];
 
+    public function type()
+    {
+        return $this->belongsTo(JurisdictionType::class);
+    }
+
     public function add($attributes)
     {
 
@@ -114,7 +119,8 @@ class Jurisdiction extends Model
         }
 
         $query = Jurisdiction::select($columns)
-        ->orderBy($column, $direction);
+            ->withType()
+            ->orderBy($column, $direction);
 
         if ($keyword) {
             $query->where('name', 'like', '%' . $keyword . '%');
@@ -187,6 +193,20 @@ class Jurisdiction extends Model
             return $data;
         }
 
+    }
+
+    public function scopeWithType($builder)
+    {
+        // check if the selects are loaded if not load them
+        if (is_null($builder->getQuery()->columns)) {
+            $builder->select('jurisdictions.*');
+        }
+
+        // build subquery to join eligibility status and select name as eligibility
+        $query = JurisdictionType::select('name')
+            ->whereColumn('jurisdictions.jurisdiction_type_id', 'jurisdiction_types.id');
+
+        return $builder->selectSub($query->limit(1), 'jurisdiction_type');
     }
 
 }
