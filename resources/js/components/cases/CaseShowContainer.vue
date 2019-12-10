@@ -2,17 +2,7 @@
     <div>
         <div class="row">
             <div class="col-md-1 text-center" style="padding-left: 1em">
-                <h4>Case
-                    <br>
-                    {{ case_count }}
-                </h4>
-                <span v-if="date_is_release_date == true">
-
-                    {{ date_name }}<br>{{date_display}}<br>{{date_from_now}}
-                </span>
-                <span v-else style="color: gray">
-                    {{ date_name }}<br>{{date_display}}<br>{{date_from_now}}
-                </span>
+                <dsp-case-badge :data="record"/>
             </div>
             <div class="col-md-11">
 
