@@ -228,6 +228,7 @@ class ApplicantController extends Controller
      */
     public function show($id)
     {
+        info(__METHOD__);
 
         if (!Auth::user()->can('applicant view')) {
             \Session::flash('flash_error_message', 'You do not have access to view a Applicants.');

@@ -82,10 +82,6 @@
             return {
                 record: {},
                 view: 'summary',
-                date_name: '',
-                date_display: 'No Dates',
-                date_from_now: '',
-                date_is_release_date: false,
             }
         },
         methods: {
@@ -97,7 +93,7 @@
             },
             addNewCharge(v) {
                 if (!this.isDefined(this.record.charge)) {
-                    this.$set(this.record,'charge',[]);
+                    this.$set(this.record, 'charge', []);
                 }
                 this.record.charge.push(v)
             },
@@ -112,7 +108,8 @@
             );
             if (this.record.id == 0) {
                 this.view = 'edit'
-            };
+            }
+            ;
             this.$bus.$on('minimize-case', (id) => {
                 if (id === this.record.id) this.setView('summary')
             });
