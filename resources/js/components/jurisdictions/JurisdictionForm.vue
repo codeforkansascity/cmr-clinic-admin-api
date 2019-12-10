@@ -12,11 +12,14 @@
         <div class="row">
             <div class="col-md-12">
                 <std-form-group
-                    label="Id"
-                    label-for="id"
-                    :errors="form_errors.id"
+                    label="Jurisdiction Type Id"
+                    label-for="jurisdiction_type_id"
+                    :errors="form_errors.jurisdiction_type_id"
                 >
-                    <fld-input name="id" v-model="form_data.id" />
+                    <fld-input
+                        name="jurisdiction_type_id"
+                        v-model="form_data.jurisdiction_type_id"
+                    />
                 </std-form-group>
             </div>
         </div>
@@ -40,14 +43,11 @@
         <div class="row">
             <div class="col-md-12">
                 <std-form-group
-                    label="Deleted At"
-                    label-for="deleted_at"
-                    :errors="form_errors.deleted_at"
+                    label="Url"
+                    label-for="url"
+                    :errors="form_errors.url"
                 >
-                    <fld-input
-                        name="deleted_at"
-                        v-model="form_data.deleted_at"
-                    />
+                    <fld-input name="url" v-model="form_data.url" />
                 </std-form-group>
             </div>
         </div>
@@ -61,17 +61,13 @@
                         :disabled="processing"
                     >
                         <span v-if="this.form_data.id"
-                            >Change jurisdiction_type</span
+                            >Change Jurisdiction</span
                         >
-                        <span v-else="this.form_data.id"
-                            >Add jurisdiction_type</span
-                        >
+                        <span v-else="this.form_data.id">Add Jurisdiction</span>
                     </button>
                 </div>
                 <div class="col-md-6 text-md-right mt-2 mt-md-0">
-                    <a href="/jurisdiction-type" class="btn btn-default"
-                        >Cancel</a
-                    >
+                    <a href="/jurisdiction" class="btn btn-default">Cancel</a>
                 </div>
             </div>
         </div>
@@ -82,7 +78,7 @@
 import axios from "axios";
 
 export default {
-    name: "jurisdiction-type-form",
+    name: "jurisdiction-form",
     props: {
         record: {
             type: [Boolean, Object],
@@ -99,12 +95,16 @@ export default {
                 // _method: 'patch',
                 _token: this.csrf_token,
                 id: 0,
+                jurisdiction_type_id: 0,
                 name: "",
+                url: "",
                 deleted_at: ""
             },
             form_errors: {
                 id: false,
+                jurisdiction_type_id: false,
                 name: false,
+                url: false,
                 deleted_at: false
             },
             server_message: false,
@@ -129,10 +129,10 @@ export default {
             let url = "";
             let amethod = "";
             if (this.form_data.id) {
-                url = "/jurisdiction-type/" + this.form_data.id;
+                url = "/jurisdiction/" + this.form_data.id;
                 amethod = "put";
             } else {
-                url = "/jurisdiction-type";
+                url = "/jurisdiction";
                 amethod = "post";
             }
             await axios({
@@ -142,7 +142,7 @@ export default {
             })
                 .then(res => {
                     if (res.status === 200) {
-                        window.location = "/jurisdiction-type";
+                        window.location = "/jurisdiction";
                     } else {
                         this.server_message = res.status;
                     }
@@ -165,7 +165,7 @@ export default {
                         } else if (error.response.status === 404) {
                             // Record not found
                             this.server_message = "Record not found";
-                            window.location = "/jurisdiction-type";
+                            window.location = "/jurisdiction";
                         } else if (error.response.status === 419) {
                             // Unknown status
                             this.server_message =

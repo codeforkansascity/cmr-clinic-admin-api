@@ -9,7 +9,7 @@ View {{$jurisdiction->name}}
 @section('page-header-breadcrumbs')
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('jurisdiction.index') }}">Sources</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('jurisdiction.index') }}">Jurisdictions</a></li>
     <li class="breadcrumb-item active" aria-current="location">View {{$jurisdiction->name}}</li>
 </ol>
 @endsection
@@ -22,7 +22,7 @@ View {{$jurisdiction->name}}
             <div class="row mt-4">
                 <div class="col-md-4">
                     @if ($can_edit)
-                        <a href="/jurisdiction/{{ $jurisdiction->id }}/edit" class="btn btn-primary">Edit jurisdiction</a>
+                        <a href="/jurisdiction/{{ $jurisdiction->id }}/edit" class="btn btn-primary">Edit Jurisdiction</a>
                     @endif
                 </div>
                 <div class="col-md-4 text-md-center mt-2 mt-md-0">
@@ -31,7 +31,7 @@ View {{$jurisdiction->name}}
                             <input type="hidden" name="_method" value="delete">
                             {{ csrf_field() }}
 
-                            <input class="btn btn-danger" Onclick="return ConfirmDelete();" type="submit" value="Delete jurisdiction">
+                            <input class="btn btn-danger" Onclick="return ConfirmDelete();" type="submit" value="Delete Jurisdiction">
 
                         </form>
                     @endif
@@ -47,7 +47,7 @@ View {{$jurisdiction->name}}
 @section('scripts')
 <script>
     function ConfirmDelete() {
-        var x = confirm("Are you sure you want to delete this Sources?");
+        var x = confirm("Are you sure you want to delete this Jurisdiction?");
         if (x)
             return true;
         else

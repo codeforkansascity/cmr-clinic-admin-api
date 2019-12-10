@@ -1,5 +1,5 @@
 @extends('layouts.print')
-@section('page-title', 'Sources')
+@section('page-title', 'Jurisdictions')
 @section('table-headings-row')
     <tr>
             <th>Jurisdiction Type Id</th>

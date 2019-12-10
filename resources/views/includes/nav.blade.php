@@ -52,6 +52,16 @@
                             <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'service') echo 'active'; @endphp"
                                href="/service">Service</a>
                         @endcanany
+                        @canany(['jurisdiction index'])
+                            <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'jurisdiction') echo 'active'; @endphp"
+                               href="/jurisdiction">Jurisdiction</a>
+                        @endcanany
+                        @canany(['jurisdiction_type index'])
+                            <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'jurisdiction-type') echo 'active'; @endphp"
+                               href="/jurisdiction-type">Jurisdiction Type</a>
+                        @endcanany
+
+
                     </div>
                 </li>
 
