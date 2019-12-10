@@ -28,6 +28,12 @@
                     </li>
                 @endif
 
+                <li class="nav-item">
+                    <a class="nav-link" target="_blank"
+                       href="https://www.revisor.mo.gov/main/OneSection.aspx?section=610.140&bid=47676&hl=">
+                        Mo Expungement Statute</a>
+                </li>
+
                 <li class="nav-item dropdown @php if(isset($nav_path[0]) && $nav_path[0] == 'admin') echo 'active'; @endphp">
                     <a class="nav-link dropdown-toggle" href="#TODO" id="dropdown-admin" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">Admin</a>
