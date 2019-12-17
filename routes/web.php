@@ -182,6 +182,7 @@ Route::get('/api-jurisdiction-type/options', 'JurisdictionTypeApi@getOptions');
 Route::get('/jurisdiction-type/download', 'JurisdictionTypeController@download')->name('jurisdiction-type.download');
 Route::get('/jurisdiction-type/print', 'JurisdictionTypeController@print')->name('jurisdiction-type.print');
 Route::resource('/jurisdiction-type', 'JurisdictionTypeController');
+
 Route::get('/api-jurisdiction', 'JurisdictionApi@index');
 Route::get('/api-jurisdiction/options', 'JurisdictionApi@getOptions');
 Route::get('/jurisdiction/download', 'JurisdictionController@download')->name('jurisdiction.download');

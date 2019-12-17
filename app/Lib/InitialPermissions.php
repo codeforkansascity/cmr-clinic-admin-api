@@ -36,7 +36,7 @@ class InitialPermissions
         Permission::findOrCreate( 'user add');
         Permission::findOrCreate( 'user update');
         Permission::findOrCreate( 'user view');
-        Permission::findOrCreate( 'user destroy');
+        Permission::findOrCreate( 'user delete');
         Permission::findOrCreate( 'user export-pdf');
         Permission::findOrCreate( 'user export-excel');
 
@@ -44,7 +44,7 @@ class InitialPermissions
         Permission::findOrCreate( 'invite add');
         Permission::findOrCreate( 'invite update');
         Permission::findOrCreate( 'invite view');
-        Permission::findOrCreate( 'invite destroy');
+        Permission::findOrCreate( 'invite delete');
         Permission::findOrCreate( 'invite export-pdf');
         Permission::findOrCreate( 'invite export-excel');
 
@@ -52,7 +52,7 @@ class InitialPermissions
         Permission::findOrCreate( 'applicant add');
         Permission::findOrCreate( 'applicant update');
         Permission::findOrCreate( 'applicant view');
-        Permission::findOrCreate( 'applicant destroy');
+        Permission::findOrCreate( 'applicant delete');
         Permission::findOrCreate( 'applicant export-pdf');
         Permission::findOrCreate( 'applicant export-excel');
 
@@ -60,7 +60,7 @@ class InitialPermissions
         Permission::findOrCreate( 'assignment add');
         Permission::findOrCreate( 'assignment update');
         Permission::findOrCreate( 'assignment view');
-        Permission::findOrCreate( 'assignment destroy');
+        Permission::findOrCreate( 'assignment delete');
         Permission::findOrCreate( 'assignment export-pdf');
         Permission::findOrCreate( 'assignment export-excel');
 
@@ -68,7 +68,7 @@ class InitialPermissions
         Permission::findOrCreate( 'conviction add');
         Permission::findOrCreate( 'conviction update');
         Permission::findOrCreate( 'conviction view');
-        Permission::findOrCreate( 'conviction destroy');
+        Permission::findOrCreate( 'conviction delete');
         Permission::findOrCreate( 'conviction export-pdf');
         Permission::findOrCreate( 'conviction export-excel');
 
@@ -76,7 +76,7 @@ class InitialPermissions
         Permission::findOrCreate( 'charge add');
         Permission::findOrCreate( 'charge update');
         Permission::findOrCreate( 'charge view');
-        Permission::findOrCreate( 'charge destroy');
+        Permission::findOrCreate( 'charge delete');
         Permission::findOrCreate( 'charge export-pdf');
         Permission::findOrCreate( 'charge export-excel');
 
@@ -86,7 +86,7 @@ class InitialPermissions
         Permission::findOrCreate('data_source export-excel');
         Permission::findOrCreate('data_source add');
         Permission::findOrCreate('data_source update');
-        Permission::findOrCreate('data_source destroy');
+        Permission::findOrCreate('data_source delete');
 
         Permission::findOrCreate('jurisdiction index');
         Permission::findOrCreate('jurisdiction view');
@@ -94,7 +94,7 @@ class InitialPermissions
         Permission::findOrCreate('jurisdiction export-excel');
         Permission::findOrCreate('jurisdiction add');
         Permission::findOrCreate('jurisdiction update');
-        Permission::findOrCreate('jurisdiction destroy');
+        Permission::findOrCreate('jurisdiction delete');
 
         Permission::findOrCreate('jurisdiction_type index');
         Permission::findOrCreate('jurisdiction_type view');
@@ -102,13 +102,13 @@ class InitialPermissions
         Permission::findOrCreate('jurisdiction_type export-excel');
         Permission::findOrCreate('jurisdiction_type add');
         Permission::findOrCreate('jurisdiction_type update');
-        Permission::findOrCreate('jurisdiction_type destroy');
+        Permission::findOrCreate('jurisdiction_type delete');
 
         Permission::findOrCreate('step index');
         Permission::findOrCreate('step add');
         Permission::findOrCreate('step update');
         Permission::findOrCreate('step view');
-        Permission::findOrCreate('step destroy');
+        Permission::findOrCreate('step delete');
         Permission::findOrCreate('step export-pdf');
         Permission::findOrCreate('step export-excel');
 
@@ -116,7 +116,7 @@ class InitialPermissions
         Permission::findOrCreate('statute add');
         Permission::findOrCreate('statute update');
         Permission::findOrCreate('statute view');
-        Permission::findOrCreate('statute destroy');
+        Permission::findOrCreate('statute delete');
         Permission::findOrCreate('statute export-pdf');
         Permission::findOrCreate('statute export-excel');
 
@@ -126,7 +126,7 @@ class InitialPermissions
         Permission::findOrCreate('status add');
         Permission::findOrCreate('status update');
         Permission::findOrCreate('status view');
-        Permission::findOrCreate('status destroy');
+        Permission::findOrCreate('status delete');
         Permission::findOrCreate('status export-pdf');
         Permission::findOrCreate('status export-excel');
 
@@ -166,7 +166,7 @@ class InitialPermissions
             'user add',
             'user update',
             'user view',
-            'user destroy',
+            'user delete',
             'user export-pdf',
             'user export-excel',
 
@@ -174,7 +174,7 @@ class InitialPermissions
             'invite add',
             'invite update',
             'invite view',
-            'invite destroy',
+            'invite delete',
             'invite export-pdf',
             'invite export-excel',
 
@@ -182,7 +182,7 @@ class InitialPermissions
             'applicant add',
             'applicant update',
             'applicant view',
-            'applicant destroy',
+            'applicant delete',
             'applicant export-pdf',
             'applicant export-excel',
 
@@ -190,7 +190,7 @@ class InitialPermissions
             'conviction add',
             'conviction update',
             'conviction view',
-            'conviction destroy',
+            'conviction delete',
             'conviction export-pdf',
             'conviction export-excel',
 
@@ -198,7 +198,7 @@ class InitialPermissions
             'charge add',
             'charge update',
             'charge view',
-            'charge destroy',
+            'charge delete',
             'charge export-pdf',
             'charge export-excel',
 
@@ -208,7 +208,7 @@ class InitialPermissions
             'data_source add',
             'data_source update',
             'data_source view',
-            'data_source destroy',
+            'data_source delete',
             'data_source export-pdf',
             'data_source export-excel',
 
@@ -216,7 +216,7 @@ class InitialPermissions
             'jurisdiction add',
             'jurisdiction update',
             'jurisdiction view',
-            'jurisdiction destroy',
+            'jurisdiction delete',
             'jurisdiction export-pdf',
             'jurisdiction export-excel',
 
@@ -224,7 +224,7 @@ class InitialPermissions
             'jurisdiction_type add',
             'jurisdiction_type update',
             'jurisdiction_type view',
-            'jurisdiction_type destroy',
+            'jurisdiction_type delete',
             'jurisdiction_type export-pdf',
             'jurisdiction_type export-excel',
 
@@ -233,7 +233,7 @@ class InitialPermissions
             'status add',
             'status update',
             'status view',
-            'status destroy',
+            'status delete',
             'status export-pdf',
             'status export-excel',
 
@@ -241,7 +241,7 @@ class InitialPermissions
             'statute add',
             'statute update',
             'statute view',
-            'statute destroy',
+            'statute delete',
             'statute export-pdf',
             'statute export-excel',
 
@@ -249,7 +249,7 @@ class InitialPermissions
             'step add',
             'step update',
             'step view',
-            'step destroy',
+            'step delete',
             'step export-pdf',
             'step export-excel',
 
@@ -257,7 +257,7 @@ class InitialPermissions
             'assignment add',
             'assignment update',
             'assignment view',
-            'assignment destroy',
+            'assignment delete',
             'assignment export-pdf',
             'assignment export-excel',
 
@@ -282,7 +282,7 @@ class InitialPermissions
             'conviction add',
             'conviction update',
             'conviction view',
-            'conviction destroy',
+            'conviction delete',
             'conviction export-pdf',
             'conviction export-excel',
 
@@ -290,7 +290,7 @@ class InitialPermissions
             'charge add',
             'charge update',
             'charge view',
-            'charge destroy',
+            'charge delete',
             'charge export-pdf',
             'charge export-excel',
 
@@ -298,7 +298,7 @@ class InitialPermissions
             'data_source add',
             'data_source update',
             'data_source view',
-            'data_source destroy',
+            'data_source delete',
             'data_source export-pdf',
             'data_source export-excel',
 
@@ -306,7 +306,7 @@ class InitialPermissions
             'jurisdiction add',
             'jurisdiction update',
             'jurisdiction view',
-            'jurisdiction destroy',
+            'jurisdiction delete',
             'jurisdiction export-pdf',
             'jurisdiction export-excel',
 
@@ -315,7 +315,7 @@ class InitialPermissions
             'jurisdiction_type add',
             'jurisdiction_type update',
             'jurisdiction_type view',
-            'jurisdiction_type destroy',
+            'jurisdiction_type delete',
             'jurisdiction_type export-pdf',
             'jurisdiction_type export-excel',
 
@@ -323,7 +323,7 @@ class InitialPermissions
             'statute add',
             'statute update',
             'statute view',
-            'statute destroy',
+            'statute delete',
             'statute export-pdf',
             'statute export-excel',
 
