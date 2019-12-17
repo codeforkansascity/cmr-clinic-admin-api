@@ -47,3 +47,12 @@
 3.1.5.0.0 2019-12-01 - Resolved loading spread sheet issues.
                        Display's applicant status
                        Charge statute is only displayed if one is set
+
+3.1.6.0.0 2019-12-17 - Added only tables for Jurisdiction and type, need to incorporate in.
+                       Highlight case number of years ago #123
+                       Show Source field in case Summary and Detail screens #127
+                       Change name of Revisor link to “Mo Statutes” #124
+                       Add link to Mo Expungement Statute #128
+                       Cannow navigate between Edit and View, button upper right hand corner
+                       Permission is now delete not destroy
+                       Resolves Cannot delete an applicant #141
