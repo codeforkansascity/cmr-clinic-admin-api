@@ -331,7 +331,7 @@ class JurisdictionTypeControllerTest extends TestCase
         // act as the user we got and request the create_new_article route
         $response = $this->actingAs($user)->get(route('jurisdiction-type.show',['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Sources to display.');
+        $response->assertSessionHas('flash_error_message','Unable to find Jurisdiction Type to display.');
 
     }
 
@@ -346,7 +346,7 @@ class JurisdictionTypeControllerTest extends TestCase
         // act as the user we got and request the create_new_article route
         $response = $this->actingAs($user)->get(route('jurisdiction-type.edit',['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Sources to edit.');
+        $response->assertSessionHas('flash_error_message','Unable to find Jurisdiction Type to edit.');
 
     }
 
@@ -381,6 +381,7 @@ class JurisdictionTypeControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => "",
+            'display_sequence' => "",
         ];
 
         $totalNumberOfJurisdictionTypesBefore = JurisdictionType::count();
@@ -408,6 +409,7 @@ class JurisdictionTypeControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => "a",
+            'display_sequence' => "a",
         ];
 
         $totalNumberOfJurisdictionTypesBefore = JurisdictionType::count();
@@ -437,6 +439,7 @@ class JurisdictionTypeControllerTest extends TestCase
 
         $data = [
           'name' => $faker->name,
+          'display_sequence' => "",
         ];
 
         info('--  JurisdictionType  --');
@@ -462,6 +465,9 @@ class JurisdictionTypeControllerTest extends TestCase
         $this->assertEquals($lastInsertedInTheDB->name, $data['name'], "the name of the saved jurisdiction_type is different from the input data");
 
 
+        $this->assertEquals($lastInsertedInTheDB->display_sequence, $data['display_sequence'], "the display_sequence of the saved jurisdiction_type is different from the input data");
+
+
     }
 
     /**
@@ -484,6 +490,7 @@ class JurisdictionTypeControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => $jurisdiction_type->name,
+            'display_sequence' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('jurisdiction-type.store'), $data);
@@ -548,6 +555,7 @@ class JurisdictionTypeControllerTest extends TestCase
         $jurisdiction_type_dup = [
 
             'name' => $faker->name,
+            'display_sequence' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('jurisdiction-type.store'), $jurisdiction_type_dup);

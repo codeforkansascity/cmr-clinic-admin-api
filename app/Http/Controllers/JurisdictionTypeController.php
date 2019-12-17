@@ -75,7 +75,7 @@ class JurisdictionTypeController extends Controller
     {
 
         if (!Auth::user()->can('jurisdiction_type index')) {
-            \Session::flash('flash_error_message', 'You do not have access to Sourcess.');
+            \Session::flash('flash_error_message', 'You do not have access to Jurisdiction Types.');
             return Redirect::route('home');
         }
 
@@ -105,7 +105,7 @@ class JurisdictionTypeController extends Controller
 	{
 
         if (!Auth::user()->can('jurisdiction_type add')) {  // TODO: add -> create
-            \Session::flash('flash_error_message', 'You do not have access to add a Sources.');
+            \Session::flash('flash_error_message', 'You do not have access to add a Jurisdiction Type.');
             if (Auth::user()->can('jurisdiction_type index')) {
                 return Redirect::route('jurisdiction-type.index');
             } else {
@@ -136,7 +136,7 @@ class JurisdictionTypeController extends Controller
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Sources ' . $jurisdiction_type->name . ' was added.');
+        \Session::flash('flash_success_message', 'Jurisdiction Type ' . $jurisdiction_type->name . ' was added.');
 
         return response()->json([
             'message' => 'Added record'
@@ -154,7 +154,7 @@ class JurisdictionTypeController extends Controller
     {
 
         if (!Auth::user()->can('jurisdiction_type view')) {
-            \Session::flash('flash_error_message', 'You do not have access to view a Sources.');
+            \Session::flash('flash_error_message', 'You do not have access to view a Jurisdiction Type.');
             if (Auth::user()->can('jurisdiction_type index')) {
                 return Redirect::route('jurisdiction-type.index');
             } else {
@@ -167,7 +167,7 @@ class JurisdictionTypeController extends Controller
             $can_delete = (Auth::user()->can('jurisdiction_type delete') && $jurisdiction_type->canDelete());
             return view('jurisdiction-type.show', compact('jurisdiction_type','can_edit', 'can_delete'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Sources to display.');
+            \Session::flash('flash_error_message', 'Unable to find Jurisdiction Type to display.');
             return Redirect::route('jurisdiction-type.index');
         }
     }
@@ -181,7 +181,7 @@ class JurisdictionTypeController extends Controller
     public function edit($id)
     {
         if (!Auth::user()->can('jurisdiction_type edit')) {
-            \Session::flash('flash_error_message', 'You do not have access to edit a Sources.');
+            \Session::flash('flash_error_message', 'You do not have access to edit a Jurisdiction Type.');
             if (Auth::user()->can('jurisdiction_type index')) {
                 return Redirect::route('jurisdiction-type.index');
             } else {
@@ -192,7 +192,7 @@ class JurisdictionTypeController extends Controller
         if ($jurisdiction_type = $this->sanitizeAndFind($id)) {
             return view('jurisdiction-type.edit', compact('jurisdiction_type'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Sources to edit.');
+            \Session::flash('flash_error_message', 'Unable to find Jurisdiction Type to edit.');
             return Redirect::route('jurisdiction-type.index');
         }
 
@@ -208,7 +208,7 @@ class JurisdictionTypeController extends Controller
     {
 
 //        if (!Auth::user()->can('jurisdiction_type update')) {
-//            \Session::flash('flash_error_message', 'You do not have access to update a Sources.');
+//            \Session::flash('flash_error_message', 'You do not have access to update a Jurisdiction Type.');
 //            if (!Auth::user()->can('jurisdiction_type index')) {
 //                return Redirect::route('jurisdiction-type.index');
 //            } else {
@@ -217,7 +217,7 @@ class JurisdictionTypeController extends Controller
 //        }
 
         if (!$jurisdiction_type = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Sources to edit.');
+       //     \Session::flash('flash_error_message', 'Unable to find Jurisdiction Type to edit.');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
@@ -235,7 +235,7 @@ class JurisdictionTypeController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Sources ' . $jurisdiction_type->name . ' was changed.');
+            \Session::flash('flash_success_message', 'Jurisdiction Type ' . $jurisdiction_type->name . ' was changed.');
         } else {
             \Session::flash('flash_info_message', 'No changes were made.');
         }
@@ -254,7 +254,7 @@ class JurisdictionTypeController extends Controller
     {
 
         if (!Auth::user()->can('jurisdiction_type delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a Sources.');
+            \Session::flash('flash_error_message', 'You do not have access to remove a Jurisdiction Type.');
             if (Auth::user()->can('jurisdiction_type index')) {
                  return Redirect::route('jurisdiction-type.index');
             } else {
@@ -274,9 +274,9 @@ class JurisdictionTypeController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Sources ' . $jurisdiction_type->name . ' was removed.');
+            \Session::flash('flash_success_message', 'Jurisdiction Type ' . $jurisdiction_type->name . ' was removed.');
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Sources to delete.');
+            \Session::flash('flash_error_message', 'Unable to find Jurisdiction Type to delete.');
 
         }
 
@@ -305,7 +305,7 @@ class JurisdictionTypeController extends Controller
     {
 
         if (!Auth::user()->can('jurisdiction_type excel')) {
-            \Session::flash('flash_error_message', 'You do not have access to download Sources.');
+            \Session::flash('flash_error_message', 'You do not have access to download Jurisdiction Types.');
             if (Auth::user()->can('jurisdiction_type index')) {
                 return Redirect::route('jurisdiction-type.index');
             } else {
@@ -339,7 +339,7 @@ class JurisdictionTypeController extends Controller
         public function print()
 {
         if (!Auth::user()->can('jurisdiction_type export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print Sources.');
+            \Session::flash('flash_error_message', 'You do not have access to print Jurisdiction Types.');
             if (Auth::user()->can('jurisdiction_type index')) {
                 return Redirect::route('jurisdiction-type.index');
             } else {
@@ -358,6 +358,7 @@ class JurisdictionTypeController extends Controller
         // Get query data
         $columns = [
             'name',
+            'display_sequence',
         ];
         $dataQuery = JurisdictionType::pdfDataQuery($column, $direction, $search, $columns);
         $data = $dataQuery->get();

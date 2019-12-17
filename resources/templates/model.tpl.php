@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\RecordSignature;
 
-class JurisdictionType extends Model
+class [[model_uc]] extends Model
 {
 
     use SoftDeletes;
@@ -16,11 +16,10 @@ class JurisdictionType extends Model
      * fillable - attributes that can be mass-assigned
      */
     protected $fillable = [
-            'id',
-            'name',
-            'display_sequence',
-            'deleted_at',
-        ];
+    [[foreach:columns]]
+        '[[i.name]]',
+    [[endforeach]]
+    ];
 
     protected $hidden = [
         'active',
@@ -70,8 +69,9 @@ class JurisdictionType extends Model
     {
         return self::buildBaseGridQuery($column, $direction, $keyword,
             [ 'id',
-                    'name',
-                    'display_sequence',
+[[foreach:grid_columns]]
+                    '[[i.name]]',
+[[endforeach]]
             ])
         ->paginate($per_page);
     }
@@ -111,7 +111,7 @@ class JurisdictionType extends Model
                 break;
         }
 
-        $query = JurisdictionType::select($columns)
+        $query = [[model_uc]]::select($columns)
         ->orderBy($column, $direction);
 
         if ($keyword) {

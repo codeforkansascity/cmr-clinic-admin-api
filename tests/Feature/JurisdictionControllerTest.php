@@ -331,7 +331,7 @@ class JurisdictionControllerTest extends TestCase
         // act as the user we got and request the create_new_article route
         $response = $this->actingAs($user)->get(route('jurisdiction.show',['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Sources to display.');
+        $response->assertSessionHas('flash_error_message','Unable to find Jurisdiction to display.');
 
     }
 
@@ -346,7 +346,7 @@ class JurisdictionControllerTest extends TestCase
         // act as the user we got and request the create_new_article route
         $response = $this->actingAs($user)->get(route('jurisdiction.edit',['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Sources to edit.');
+        $response->assertSessionHas('flash_error_message','Unable to find Jurisdiction to edit.');
 
     }
 

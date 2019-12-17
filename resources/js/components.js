@@ -166,3 +166,4 @@ Vue.component('jurisdiction-type-show', () => import(/* webpackChunkName:"jurisd
 Vue.component('jurisdiction-grid', () => import(/* webpackChunkName:"jurisdiction-grid" */ './components/jurisdiction/JurisdictionGrid.vue'));
 Vue.component('jurisdiction-form', () => import(/* webpackChunkName:"jurisdiction-form" */ './components/jurisdiction/JurisdictionForm.vue'));
 Vue.component('jurisdiction-show', () => import(/* webpackChunkName:"jurisdiction-Show" */ './components/jurisdiction/JurisdictionShow.vue'));
+
