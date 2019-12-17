@@ -1,7 +1,8 @@
 <template>
     <div class="row">
         <div class="col-md-11">
-            <h4> {{ record.case_number }}, {{ record.court_city_county }}, {{ record.name }}</h4>
+            <h4 style="display: inline-block"> {{ record.case_number }}, {{ record.court_city_county }}, {{ record.name }}</h4>
+            <span style="float: right">{{ mapNames(record.sources) }}</span>
         </div>
 
         <div class="col-md-1">
@@ -32,6 +33,12 @@
                 record: {}
             }
         },
+        methods: {
+            mapNames(array) {
+                if(!array) return ''
+                return array.length? array.map(s => s.name).join(', '): ''
+            }
+        },
         created: function () {
             Object.keys(this.modelValue).forEach(i =>
                 this.$set(this.record, i, this.modelValue[i])
@@ -40,6 +47,3 @@
     }
 </script>
 
-<style scoped>
-
-</style>

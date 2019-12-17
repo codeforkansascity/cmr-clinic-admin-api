@@ -228,6 +228,7 @@ class ApplicantController extends Controller
      */
     public function show($id)
     {
+        info(__METHOD__);
 
         if (!Auth::user()->can('applicant view')) {
             \Session::flash('flash_error_message', 'You do not have access to view a Applicants.');
@@ -350,17 +351,15 @@ class ApplicantController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Applicants ' . $applicant->name . ' was removed.');
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Applicants to delete.');
+            return response()->json([
+                'message' => 'Unable to find Applicants to delete.'
+            ], 404);
 
         }
 
-        if (Auth::user()->can('applicant index')) {
-            return Redirect::route('applicant.index');
-        } else {
-            return Redirect::route('home');
-        }
+        return response()->json('Success', 200);
+
 
 
     }

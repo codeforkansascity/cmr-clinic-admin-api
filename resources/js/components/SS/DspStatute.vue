@@ -17,7 +17,7 @@ For text area
                 <a href="#" @click="displayNote">See Note</a>
             </span>
             <span v-if="isMoStatute" style="margin-left: 1em; font-size: smaller">
-                <a href="#" @click="displayMoRevisor">Revisor</a>
+                <a href="#" @click="displayMoRevisor">Mo Statute</a>
             </span>
         </span>
         <div v-if="superseded" style="margin-left: 3em; font-size: smaller">

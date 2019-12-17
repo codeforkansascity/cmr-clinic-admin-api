@@ -68,6 +68,7 @@ Vue.component('fld-expunge', () => import(/* webpackChunkName:"fld-expunge" */ '
 Vue.component('dsp-boolean', () => import(/* webpackChunkName:"dsp-boolean" */ './components/SS/DspBoolean.vue'));
 Vue.component('dsp-textarea', () => import(/* webpackChunkName:"dsp-textarea" */ './components/SS/DspTextArea.vue'));
 Vue.component('dsp-text', () => import(/* webpackChunkName:"dsp-text" */ './components/SS/DspText.vue'));
+Vue.component('dsp-case-badge', () => import(/* webpackChunkName:"dsp-case-badge" */ './components/SS/DspCaseBadge.vue'));
 Vue.component('dsp-date', () => import(/* webpackChunkName:"dsp-date" */ './components/SS/DspDate.vue'));
 Vue.component('dsp-statute', () => import(/* webpackChunkName:"dsp-statute" */ './components/SS/DspStatute.vue'));
 
@@ -158,3 +159,12 @@ Vue.component('fld-source-select',  () => import(/* webpackChunkName:"fld-source
 
 Vue.component('Uploader', () => import(/* webpackChunkName:"Uploader" */ './components/Uploader.vue'));
 Vue.component('photo-uploader', () => import(/* webpackChunkName:"photo-uploader" */ './components/PhotoUploader.vue'));
+
+Vue.component('jurisdiction-grid', () => import(/* webpackChunkName:"jurisdiction-grid" */ './components/jurisdiction/JurisdictionGrid.vue'));
+Vue.component('jurisdiction-form', () => import(/* webpackChunkName:"jurisdiction-form" */ './components/jurisdiction/JurisdictionForm.vue'));
+Vue.component('jurisdiction-show', () => import(/* webpackChunkName:"jurisdiction-Show" */ './components/jurisdiction/JurisdictionShow.vue'));
+
+
+Vue.component('jurisdiction-type-grid', () => import(/* webpackChunkName:"jurisdiction-type-grid" */ './components/jurisdiction_types/JurisdictionTypeGrid.vue'));
+Vue.component('jurisdiction-type-form', () => import(/* webpackChunkName:"jurisdiction-type-form" */ './components/jurisdiction_types/JurisdictionTypeForm.vue'));
+Vue.component('jurisdiction-type-show', () => import(/* webpackChunkName:"jurisdiction-type-Show" */ './components/jurisdiction_types/JurisdictionTypeShow.vue'));

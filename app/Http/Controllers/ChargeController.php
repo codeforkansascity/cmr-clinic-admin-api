@@ -280,14 +280,14 @@ class ChargeController extends Controller
     public function destroy(Charge $charge)
     {
 
-//        if (!Auth::user()->can('charge delete')) {
-//            \Session::flash('flash_error_message', 'You do not have access to remove a Charges.');
-//            if (Auth::user()->can('charge index')) {
-//                 return Redirect::route('charge.index');
-//            } else {
-//                return Redirect::route('home');
-//            }
-//        }
+        if (!Auth::user()->can('charge delete')) {
+            \Session::flash('flash_error_message', 'You do not have access to remove a Charges.');
+            if (Auth::user()->can('charge index')) {
+                 return Redirect::route('charge.index');
+            } else {
+                return Redirect::route('home');
+            }
+        }
 
 
         if ($charge && $charge->canDelete()) {

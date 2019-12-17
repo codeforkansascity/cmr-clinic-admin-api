@@ -6,6 +6,9 @@ View {{$applicant->name}}
 @section('page-header-title')
 View {{$applicant->name}}
 @endsection
+@section('page-header-title-action')
+    <a class="btn btn-secondary" href="{{ route('applicant.edit', $applicant->id) }}">Edit</a>
+@endsection
 @section('page-header-breadcrumbs')
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>

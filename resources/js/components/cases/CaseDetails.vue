@@ -3,7 +3,9 @@
         <div class="row">
 
             <div class="col-md-11">
-                <h4> {{ record.case_number }}, {{ record.court_city_county }}, {{ record.name }}</h4>
+                <h4 style="display: inline-block"> {{ record.case_number }}, {{ record.court_city_county }}, {{ record.name }}</h4>
+                <span style="float: right">{{ mapNames(record.sources) }}</span>
+
             </div>
 
             <div class="col-md-1">
@@ -17,31 +19,25 @@
         <div class="row">
             <div class="col-md-6" style="padding-left: 1em;">
                 <table class="table  table-sm">
-
                     <tr is="tr-view" v-model="record.case_number">Case Number</tr>
                     <tr is="tr-view" v-model="record.name">Case Description</tr>
                     <tr is="tr-view" v-model="record.record_name">Applicant's name in court's records?</tr>
                     <tr is="tr-view" v-model="record.arresting_agency">Arresting Agency</tr>
                     <tr is="tr-view" v-model="record.arrest_date">Date of Arrest</tr>
                     <tr is="tr-view-date" v-model="record.date_of_charge">Date of Charge</tr>
-
-
+                    <tr is="tr-view" :value="mapNames(record.sources)">Sources</tr>
                 </table>
             </div>
             <div class="col-md-6" style="padding-left: 1em;">
                 <table class="table  table-sm">
-
                     <tr is="tr-view" v-model="record.date_of_disposition">Date of Disposition</tr>
                     <tr is="tr-view" v-model="record.release_status">Relase Status</tr>
                     <tr is="tr-view-date" v-model="record.release_date">Release Date</tr>
                     <tr is="tr-view" v-model="record.court_city_county">Court</tr>
                     <tr is="tr-view" v-model="record.judge">Judge</tr>
                     <tr is="tr-view-yn" v-model="record.sis">SIS</tr>
-                    <tr is="tr-view" :value="mapNames(record.sources)">Sources</tr>
-
                 </table>
             </div>
-
 
             <div class="col-md-12" style="padding-left: 1em;">
                 <service-container

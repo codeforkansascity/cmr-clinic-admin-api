@@ -6,6 +6,9 @@
 @section('page-header-title')
     Edit {{$applicant->name}}
 @endsection
+@section('page-header-title-action')
+    <a class="btn btn-secondary" href="{{ route('applicant.show', $applicant->id) }}">View</a>
+@endsection
 @section('page-help-link', '#TODO')
 @section('page-header-breadcrumbs')
     <ol class="breadcrumb">

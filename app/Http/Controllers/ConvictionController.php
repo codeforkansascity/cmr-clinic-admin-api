@@ -268,8 +268,8 @@ info(__METHOD__ . ' saving');
         // TODO change this to return error response
         if (!Auth::user()->can('conviction delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Case.');
-            if (Auth::user()->can('conviction index')) {
-                 return Redirect::route('conviction.index');
+            if (Auth::user()->can('applicant index')) {
+                 return Redirect::route('applicant.index');
             } else {
                 return Redirect::route('home');
             }
@@ -287,9 +287,9 @@ info(__METHOD__ . ' saving');
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Invitation for ' . $conviction->name . ' was removed.');
+            \Session::flash('flash_success_message', 'Case ' . $conviction->name . ' was removed.');
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Invite to delete.');
+            \Session::flash('flash_error_message', 'Unable to find Case to delete.');
 
         }
 
