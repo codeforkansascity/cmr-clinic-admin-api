@@ -9,7 +9,7 @@
                             Name
                         </label>
                         <div class="col-md-8">
-                            <dsp-text v-model="record.name" />
+                            <dsp-text v-model="record.name"/>
                         </div>
                     </div>
                     <div class="form-group row mb-2 mb-md-0 text-only">
@@ -17,15 +17,7 @@
                             Display Sequence
                         </label>
                         <div class="col-md-8">
-                            <dsp-text v-model="record.display_sequence" />
-                        </div>
-                    </div>
-                    <div class="form-group row mb-2 mb-md-0 text-only">
-                        <label class="col-md-4 col-form-label text-md-right">
-                            Deleted At
-                        </label>
-                        <div class="col-md-8">
-                            <dsp-text v-model="record.deleted_at" />
+                            <dsp-text v-model="record.display_sequence"/>
                         </div>
                     </div>
                 </div>
@@ -35,13 +27,13 @@
 </template>
 
 <script>
-export default {
-    name: "jurisdiction-type-show",
-    props: {
-        record: {
-            type: [Boolean, Object],
-            default: false
+    export default {
+        name: "jurisdiction-type-show",
+        props: {
+            record: {
+                type: [Boolean, Object],
+                default: false
+            }
         }
-    }
-};
+    };
 </script>

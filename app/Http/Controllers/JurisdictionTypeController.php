@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 
-
 use App\Http\Middleware\TrimStrings;
 use App\JurisdictionType;
 use Illuminate\Http\Request;
@@ -16,6 +15,7 @@ use Illuminate\Support\Facades\Session;
 
 use App\Exports\JurisdictionTypeExport;
 use Maatwebsite\Excel\Facades\Excel;
+
 //use PDF; // TCPDF, not currently in use
 
 class JurisdictionTypeController extends Controller
@@ -26,44 +26,41 @@ class JurisdictionTypeController extends Controller
      *
      * Vue component example.
      *
-        <ui-select-pick-one
-            url="/api-jurisdiction-type/options"
-            v-model="jurisdiction_typeSelected"
-            :selected_id=jurisdiction_typeSelected"
-            name="jurisdiction_type">
-        </ui-select-pick-one>
+     * <ui-select-pick-one
+     * url="/api-jurisdiction-type/options"
+     * v-model="jurisdiction_typeSelected"
+     * :selected_id=jurisdiction_typeSelected"
+     * name="jurisdiction_type">
+     * </ui-select-pick-one>
      *
      *
      * Blade component example.
      *
      *   In Controler
      *
-             $jurisdiction_type_options = \App\JurisdictionType::getOptions();
-
-
+     * $jurisdiction_type_options = \App\JurisdictionType::getOptions();
      *
      *   In View
-
-            @component('../components/select-pick-one', [
-                'fld' => 'jurisdiction_type_id',
-                'selected_id' => $RECORD->jurisdiction_type_id,
-                'first_option' => 'Select a JurisdictionTypes',
-                'options' => $jurisdiction_type_options
-            ])
-            @endcomponent
+     *
+     * @component('../components/select-pick-one', [
+     * 'fld' => 'jurisdiction_type_id',
+     * 'selected_id' => $RECORD->jurisdiction_type_id,
+     * 'first_option' => 'Select a JurisdictionTypes',
+     * 'options' => $jurisdiction_type_options
+     * ])
+     * @endcomponent
      *
      * Permissions
      *
-
-             Permission::findOrCreate('jurisdiction_type index');
-             Permission::findOrCreate('jurisdiction_type view');
-             Permission::findOrCreate('jurisdiction_type export-pdf');
-             Permission::findOrCreate('jurisdiction_type export-excel');
-             Permission::findOrCreate('jurisdiction_type add');
-             Permission::findOrCreate('jurisdiction_type update');
-             Permission::findOrCreate('jurisdiction_type destroy');
-
-    */
+     *
+     * Permission::findOrCreate('jurisdiction_type index');
+     * Permission::findOrCreate('jurisdiction_type view');
+     * Permission::findOrCreate('jurisdiction_type export-pdf');
+     * Permission::findOrCreate('jurisdiction_type export-excel');
+     * Permission::findOrCreate('jurisdiction_type add');
+     * Permission::findOrCreate('jurisdiction_type update');
+     * Permission::findOrCreate('jurisdiction_type destroy');
+     */
 
 
     /**
@@ -101,8 +98,8 @@ class JurisdictionTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-	public function create()
-	{
+    public function create()
+    {
 
         if (!Auth::user()->can('jurisdiction_type add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Jurisdiction Type.');
@@ -113,8 +110,8 @@ class JurisdictionTypeController extends Controller
             }
         }
 
-	    return view('jurisdiction-type.create');
-	}
+        return view('jurisdiction-type.create');
+    }
 
 
     /**
@@ -165,7 +162,7 @@ class JurisdictionTypeController extends Controller
         if ($jurisdiction_type = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('jurisdiction_type edit');
             $can_delete = (Auth::user()->can('jurisdiction_type delete') && $jurisdiction_type->canDelete());
-            return view('jurisdiction-type.show', compact('jurisdiction_type','can_edit', 'can_delete'));
+            return view('jurisdiction-type.show', compact('jurisdiction_type', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Jurisdiction Type to display.');
             return Redirect::route('jurisdiction-type.index');
@@ -202,7 +199,7 @@ class JurisdictionTypeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\JurisdictionType $jurisdiction_type     * @return \Illuminate\Http\Response
+     * @param  \App\JurisdictionType $jurisdiction_type * @return \Illuminate\Http\Response
      */
     public function update(JurisdictionTypeFormRequest $request, $id)
     {
@@ -217,7 +214,7 @@ class JurisdictionTypeController extends Controller
 //        }
 
         if (!$jurisdiction_type = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Jurisdiction Type to edit.');
+            //     \Session::flash('flash_error_message', 'Unable to find Jurisdiction Type to edit.');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
@@ -248,7 +245,7 @@ class JurisdictionTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\JurisdictionType $jurisdiction_type     * @return \Illuminate\Http\Response
+     * @param  \App\JurisdictionType $jurisdiction_type * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -256,7 +253,7 @@ class JurisdictionTypeController extends Controller
         if (!Auth::user()->can('jurisdiction_type delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Jurisdiction Type.');
             if (Auth::user()->can('jurisdiction_type index')) {
-                 return Redirect::route('jurisdiction-type.index');
+                return Redirect::route('jurisdiction-type.index');
             } else {
                 return Redirect::route('home');
             }
@@ -264,7 +261,7 @@ class JurisdictionTypeController extends Controller
 
         $jurisdiction_type = $this->sanitizeAndFind($id);
 
-        if ( $jurisdiction_type  && $jurisdiction_type->canDelete()) {
+        if ($jurisdiction_type && $jurisdiction_type->canDelete()) {
 
             try {
                 $jurisdiction_type->delete();
@@ -281,7 +278,7 @@ class JurisdictionTypeController extends Controller
         }
 
         if (Auth::user()->can('jurisdiction_type index')) {
-             return Redirect::route('jurisdiction-type.index');
+            return Redirect::route('jurisdiction-type.index');
         } else {
             return Redirect::route('home');
         }
@@ -336,8 +333,8 @@ class JurisdictionTypeController extends Controller
     }
 
 
-        public function print()
-{
+    public function print()
+    {
         if (!Auth::user()->can('jurisdiction_type export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Jurisdiction Types.');
             if (Auth::user()->can('jurisdiction_type index')) {
@@ -364,7 +361,7 @@ class JurisdictionTypeController extends Controller
         $data = $dataQuery->get();
 
         // Pass it to the view for html formatting:
-        $printHtml = view('jurisdiction-type.print', compact( 'data' ) );
+        $printHtml = view('jurisdiction-type.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
         $pdf = \App::make('dompdf.wrapper');

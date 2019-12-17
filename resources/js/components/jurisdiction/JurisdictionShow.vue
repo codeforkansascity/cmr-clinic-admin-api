@@ -6,18 +6,10 @@
                 <div class="col-md-6">
                     <div class="form-group row mb-2 mb-md-0 text-only">
                         <label class="col-md-4 col-form-label text-md-right">
-                            Jurisdiction Type Id
-                        </label>
-                        <div class="col-md-8">
-                            <dsp-text v-model="record.jurisdiction_type_id" />
-                        </div>
-                    </div>
-                    <div class="form-group row mb-2 mb-md-0 text-only">
-                        <label class="col-md-4 col-form-label text-md-right">
                             Name
                         </label>
                         <div class="col-md-8">
-                            <dsp-text v-model="record.name" />
+                            <dsp-text v-model="record.name"/>
                         </div>
                     </div>
                     <div class="form-group row mb-2 mb-md-0 text-only">
@@ -25,15 +17,7 @@
                             Url
                         </label>
                         <div class="col-md-8">
-                            <dsp-text v-model="record.url" />
-                        </div>
-                    </div>
-                    <div class="form-group row mb-2 mb-md-0 text-only">
-                        <label class="col-md-4 col-form-label text-md-right">
-                            Deleted At
-                        </label>
-                        <div class="col-md-8">
-                            <dsp-text v-model="record.deleted_at" />
+                            <dsp-text v-model="record.url"/>
                         </div>
                     </div>
                 </div>
@@ -43,13 +27,13 @@
 </template>
 
 <script>
-export default {
-    name: "jurisdiction-show",
-    props: {
-        record: {
-            type: [Boolean, Object],
-            default: false
+    export default {
+        name: "jurisdiction-show",
+        props: {
+            record: {
+                type: [Boolean, Object],
+                default: false
+            }
         }
-    }
-};
+    };
 </script>

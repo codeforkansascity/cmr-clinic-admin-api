@@ -15,5 +15,6 @@
     </ol>
 @endsection
 @section('content')
-    <jurisdiction-type-form csrf_token="{{ csrf_token() }}" :record='@json($jurisdiction_type)'></jurisdiction-type-form>
+    <jurisdiction-type-form csrf_token="{{ csrf_token() }}"
+                            :record='@json($jurisdiction_type)'></jurisdiction-type-form>
 @endsection
