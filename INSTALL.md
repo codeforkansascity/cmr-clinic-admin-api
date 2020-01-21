@@ -1,26 +1,9 @@
-# Install
+# Install OSX DeskTop
 
-These instructions assume you have git, npm, composer, php, mysql installed, that iss have a running Laravel environment.
+These instructions assume you have git, npm, 
+composer, php, mysql installed, 
+that you have a running Laravel environment with Valet.
 
-
-Since this is used with the front end, we normaly create a directory called `cmr`
-that we clone both projects into. 
-
-```
-              cmr
-               |
-    -----------+----------
-    |                     |
-cmr-clinic       cmr-clinic-admin-api
-```
-## Fork the repository and clone it to your desktop
-
-## Setup the `.env` file and adjust
-
-```
-cp .env.example .env
-php artisan key:generate
-```
 
 Adjust:
 
@@ -46,6 +29,8 @@ php artisan db:seed
 ```
 
 ## Setup Passport
+
+You can skip this if you are not going to use the API.
 
 ````
 php artisan passport:keys --force
