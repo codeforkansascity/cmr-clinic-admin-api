@@ -276,11 +276,22 @@ td.grid-alert {
     border: none;
     border-bottom: 1px solid #eee;
     position: relative;
-    padding-left: 50%;
     white-space: normal;
     text-align: left;
     min-height: 48px; /* In case it's empty */
   }
+
+  .no-more-tables td {
+    padding-left: 50%;
+  }
+
+  .no-more-tables td.first-in-no-more-tables {
+    padding-left: 2%;
+    //text-align: center;
+  }
+
+
+
 
   .no-more-tables td:before {
     /* Now like a table header */
@@ -297,7 +308,24 @@ td.grid-alert {
     text-align: left;
     font-weight: 700;
 
+
+
   }
+
+  .no-more-tables tr td:first-child:before {
+    top: -9999px;
+    left: -9999px;
+    padding-left: 5%;
+
+
+  }
+
+  .no-more-tables tr td a.no-more-tables-name-link {
+    font-size: x-large;
+
+
+  }
+
 
   /* Label the data */
   .no-more-tables td:before {
