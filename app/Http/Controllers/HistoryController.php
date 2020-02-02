@@ -32,7 +32,7 @@ class HistoryController extends Controller
         ]);
     }
 
-    public function applicant(Applicant $applicant)
+    public function client(Applicant $applicant)
     {
         /// return applicant, cases, charges and histories with everything
         DB::enableQueryLog();

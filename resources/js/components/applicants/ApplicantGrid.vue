@@ -142,8 +142,8 @@
                 </tr>
 
                 <tr v-else v-for="row in this.gridData" :key="row.id">
-                    <td data-title="Name">
-                        <a
+                    <td data-title="Name" class="first-in-no-more-tables">
+                        <a class="no-more-tables-name-link"
                                 v-bind:href="'/applicant/' + row.id"
                                 v-if="params.CanShow == '1'"
                         >
