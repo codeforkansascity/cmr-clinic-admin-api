@@ -322,7 +322,7 @@
             addJurisdiction(j) {
                 if(j && j.id > 0) {
                     this.jurisdictions.push(j)
-                    this.form_data.jurisdiction_id = j.id
+                    this.form_data.jurisdiction_id = j
                 }
             },
 
