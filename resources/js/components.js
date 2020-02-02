@@ -84,6 +84,7 @@ Vue.component('autocomplete', () => import(/* webpackChunkName:"autocomplete" */
 Vue.component('base-modal', () => import(/* webpackChunkName:"base-modal" */ './components/SS/BaseModal.vue'));
 Vue.component('fld-statute', () => import(/* webpackChunkName:"fld-statute" */ './components/SS/FldStatute.vue'));
 
+
 /*
      Application Components
  */
@@ -168,3 +169,6 @@ Vue.component('jurisdiction-show', () => import(/* webpackChunkName:"jurisdictio
 Vue.component('jurisdiction-type-grid', () => import(/* webpackChunkName:"jurisdiction-type-grid" */ './components/jurisdiction_types/JurisdictionTypeGrid.vue'));
 Vue.component('jurisdiction-type-form', () => import(/* webpackChunkName:"jurisdiction-type-form" */ './components/jurisdiction_types/JurisdictionTypeForm.vue'));
 Vue.component('jurisdiction-type-show', () => import(/* webpackChunkName:"jurisdiction-type-Show" */ './components/jurisdiction_types/JurisdictionTypeShow.vue'));
+
+Vue.component('jurisdiction-create-modal', () => import(/* webpackChunkName:"jurisdiction-create-modal" */ './components/jurisdictions/JurisdictionCreateModal'));
+

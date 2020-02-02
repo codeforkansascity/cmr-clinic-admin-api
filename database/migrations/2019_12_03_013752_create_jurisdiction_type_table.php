@@ -41,7 +41,7 @@ class CreateJurisdictionTypeTable extends Migration
 
         \App\JurisdictionType::create([
             "id"=> "3",
-            "name"=> "Municiple",
+            "name"=> "Municipal",
             'display_sequence' => 3,
             "created_by"=> "1",
         ]);

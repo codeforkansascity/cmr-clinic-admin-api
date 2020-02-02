@@ -1,15 +1,59 @@
 <template>
     <form @submit.prevent="handleSubmit" class="form-horizontal">
         <div
-                v-if="server_message !== false"
-                class="alert alert-danger"
-                role="alert"
+            v-if="server_message !== false"
+            class="alert alert-danger"
+            role="alert"
         >
             {{ this.server_message }}
             <a v-if="try_logging_in" href="/login">Login</a>
         </div>
 
 
+        <div class="row">
+
+            <div class="col-md-4">
+                <std-form-group
+
+                    label="Jurisdiction Type"
+                    :errors="false"
+                >
+                    <v-select label="name"
+                              :filterable="false"
+                              v-model="selected_jurisdiction_type"
+                              :options="jurisdiction_types"
+                              @input="filterJurisdictionsByType"
+                    >
+                    </v-select>
+
+                </std-form-group>
+
+
+            </div>
+
+
+            <div class="col-md-4">
+                <std-form-group
+                    label="Jurisdiction"
+                    :errors="false"
+                >
+                    <v-select label="name"
+                              class="d-inline-block w-85"
+                              :filterable="false"
+                              v-model="form_data.jurisdiction_id"
+                              :options="jurisdictions"
+                    >
+                    </v-select>
+                    <add-icon
+                        @click="$refs.jurisdictionModal.showModal = true"
+                        :height="25"
+                    />
+                </std-form-group>
+            </div>
+            <jurisdiction-create-modal ref="jurisdictionModal" @add="addJurisdiction"/>
+
+
+        </div>
         <div class="row">
             <div class="col-md-2">
                 <std-form-group
@@ -34,6 +78,20 @@
                     </template>
                 </std-form-group>
             </div>
+        </div>
+
+        <div class="row pb-3" v-if="selected_jurisdiction_type && selected_jurisdiction_type.name.toLowerCase() !== 'state'">
+            <div class="col-md-9">
+                <label class="form-control-label">
+                    Same As State Statute
+                </label>
+
+                <fld-statute
+                    v-model="form_data.same_as_id"
+                    @input="statuteSelected"
+                ></fld-statute>
+            </div>
+
         </div>
 
         <div class="row pb-3">
@@ -121,11 +179,13 @@
 <script>
     import axios from "axios";
     import UiSelectPickOne from "../SS/UiSelectPickOne";
+    import AddIcon from "../controls/AddIcon";
+
 
     export default {
         name: "statute-form",
         components: {
-            UiSelectPickOne
+            UiSelectPickOne, AddIcon
         },
         props: {
             record: {
@@ -139,6 +199,12 @@
         },
         data() {
             return {
+                selected_jurisdiction_type: null,
+                jurisdiction_types: [],
+                jurisdictions: [],
+                all_jurisdictions: [],
+
+
                 form_data: {
                     // _method: 'patch',
                     _token: this.csrf_token,
@@ -147,7 +213,10 @@
                     name: "",
                     note: "",
                     statutes_eligibility_id: "",
-                    deleted_at: ""
+                    deleted_at: "",
+                    jurisdiction_id: null,
+                    same_as_id: null,
+
                 },
                 form_errors: {
                     id: false,
@@ -171,8 +240,13 @@
             } else {
                 // this.form_data._method = 'post';
             }
+            this.getData()
         },
         methods: {
+            getData() {
+                this.getJurisdictions()
+                this.getJurisdictionTypes()
+            },
             async handleSubmit() {
                 this.server_message = false;
                 this.processing = true;
@@ -235,8 +309,39 @@
                     });
             },
             statuteSelected(statute) {
-                console.log('selected')
                 this.record.superseded_id = null
+            },
+
+            filterJurisdictionsByType(e) {
+                this.jurisdictions = this.all_jurisdictions.filter(j => {
+                    return j.jurisdiction_type_id === e.id
+                })
+
+            },
+
+            addJurisdiction(j) {
+                if(j && j.id > 0) {
+                    this.jurisdictions.push(j)
+                    this.form_data.jurisdiction_id = j.id
+                }
+            },
+
+            getJurisdictions() {
+                axios.get('/api-jurisdiction')
+                    .then((res) => {
+                        this.all_jurisdictions = res.data.data
+
+                        this.jurisdictions = this.all_jurisdictions
+                    })
+                    .catch(e => console.error(e))
+            },
+
+            getJurisdictionTypes() {
+                axios.get('/api-jurisdiction-type')
+                    .then((res) => {
+                        this.jurisdiction_types = res.data.data
+                    })
+                    .catch(e => console.error(e))
             }
         }
     };
