@@ -170,5 +170,5 @@ Vue.component('jurisdiction-type-grid', () => import(/* webpackChunkName:"jurisd
 Vue.component('jurisdiction-type-form', () => import(/* webpackChunkName:"jurisdiction-type-form" */ './components/jurisdiction_types/JurisdictionTypeForm.vue'));
 Vue.component('jurisdiction-type-show', () => import(/* webpackChunkName:"jurisdiction-type-Show" */ './components/jurisdiction_types/JurisdictionTypeShow.vue'));
 
-Vue.component('jurisdiction-create-modal', () => import(/* webpackChunkName:"jurisdiction-create-modal" */ './components/jurisdictions/JurisdictionCreateModal'));
+Vue.component('jurisdiction-create-modal', () => import(/* webpackChunkName:"jurisdiction-create-modal" */ './components/jurisdiction/JurisdictionCreateModal'));
 
