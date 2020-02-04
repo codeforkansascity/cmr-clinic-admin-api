@@ -58,7 +58,11 @@ class JurisdictionTypeApi extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->only('name');
+
+        $jurisdiction_type = JurisdictionType::create($data);
+
+        return $jurisdiction_type;
     }
 
     /**

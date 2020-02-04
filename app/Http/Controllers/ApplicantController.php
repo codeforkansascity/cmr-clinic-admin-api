@@ -380,6 +380,8 @@ class ApplicantController extends Controller
                 $q->with('service_type');
             },
             'conviction.charge',
+            'conviction.charge.statute.jurisdiction',
+            'conviction.charge.statute.jurisdiction.type',
             'conviction.charge.statute',
             'conviction.charge.statute.statutes_eligibility',
             'conviction.charge.statute.superseded',

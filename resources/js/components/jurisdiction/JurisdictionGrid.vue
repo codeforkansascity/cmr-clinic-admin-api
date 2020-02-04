@@ -67,13 +67,13 @@
                     <ss-grid-column-header
                             v-on:selectedSort="sortColumn"
                             v-bind:selectedKey="sortKey"
-                            title="Sort by Url"
+                            title="Type"
                             :params="{
-                                sortField: 'url',
+                                sortField: 'jurisdiction_type',
                                 InitialSortOrder: 'asc'
                             }"
                     >
-                        Url
+                        Type
                     </ss-grid-column-header>
                     <th style="width:20%;" class="text-lg-center">
                         Actions
@@ -116,7 +116,7 @@
                                 {{ row.name }}
                             </span>
                     </td>
-                    <td data-title="Url">{{ row.url }}</td>
+                    <td data-title="jurisdiction_type">{{ row.jurisdiction_type }}</td>
                     <td
                             data-title="Actions"
                             class="text-lg-center text-nowrap"

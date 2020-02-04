@@ -36,6 +36,7 @@ class Statute extends Model
         'superseded_id',
         'superseded_on',
         'deleted_at',
+        'jurisdiction_id',
     ];
 
     protected $hidden = [
