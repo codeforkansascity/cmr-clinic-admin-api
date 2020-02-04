@@ -157,7 +157,7 @@
                         <dsp-date v-model="row.dob"/>
 
                     </td>
-                    <td data-title="Notes">{{ row.notes }}</td>
+                    <td data-title="Notes"><dsp-textarea v-model="row.notes" /></td>
                     <td data-title="Status">{{ row.status_name }}</td>
                     <td
                             data-title="Actions"
