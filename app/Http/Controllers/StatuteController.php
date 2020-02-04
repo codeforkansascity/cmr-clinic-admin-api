@@ -294,6 +294,8 @@ class StatuteController extends Controller
     {
         return \App\Statute::with([
             'statutes_eligibility',
+            'jurisdiction',
+            'jurisdiction.type',
             'superseded' => function ($q) {
                 $q->with('statutes_eligibility');
             }
