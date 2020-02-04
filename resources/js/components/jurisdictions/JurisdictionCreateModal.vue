@@ -3,6 +3,9 @@
         <template v-slot:header>Create New Jursidiction</template>
         <template v-slot:body>
 
+            <div class="error-block invalid-feedback" role="alert" v-for="error in form_errors">
+                {{ error[0]? error[0] : '' }}
+            </div>
 
             <div class="form-group">
                 <label class="font-weight-bold">Type</label>
@@ -31,7 +34,11 @@
         name: "JurisdictionCreateModal",
         data() {
             return {
-                selected_jurisdiction_type: null,
+                form_errors: {
+                    name: false,
+                    jurisdiction_type_id: false,
+                },
+                selected_jurisdiction_type: {id: null},
                 jurisdiction_types: [],
                 name: null,
                 showModal: false,
@@ -55,7 +62,21 @@
                 }).then(res => {
                     this.$emit('add', res.data)
                     this.showModal = false
-                }).catch(e => console.log(e))
+                }).catch(error => {
+                    console.log(error.response)
+                    if (error.response && error.response.status === 422) {
+                        // Clear errors out
+                        Object.keys(this.form_errors).forEach(
+                            i => (this.form_errors[i] = false)
+                        );
+                        // Set current errors
+                        Object.keys(error.response.data.errors).forEach(
+                            i =>
+                                (this.form_errors[i] =
+                                    error.response.data.errors[i])
+                        );
+                    }
+                })
             }
         }
     }

@@ -42,8 +42,11 @@
                 </div>
 
                 <jurisdiction-create-modal ref="jurisdictionModal" @add="addJurisdiction"/>
-                <div class="form-group">
+
+                <div class="form-group mb-1">
                     <label class="font-weight-bold">Jurisdiction</label>
+                </div>
+                <div class="form-group">
                     <v-select label="name"
                                 class="d-inline-block w-50"
                                 :filterable="false"
@@ -233,7 +236,7 @@
             addJurisdiction(j) {
                 if(j && j.id > 0) {
                     this.jurisdictions.push(j)
-                    this.form_data.jurisdiction_id = j
+                    this.newStatute.jurisdiction_id = j
                 }
             },
 
@@ -250,7 +253,6 @@
             getJurisdictionTypes() {
                 axios.get('/api-jurisdiction-type')
                     .then((res) => {
-                        console.log('getJurisdictionTypes', res.data.data)
                         this.jurisdiction_types = res.data.data
                     })
                     .catch(e => console.error(e))
