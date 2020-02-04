@@ -35,12 +35,12 @@
             <div class="col-md-4">
                 <std-form-group
                     label="Jurisdiction"
-                    :errors="false"
+                    :errors="form_errors.jurisdiction_id"
                 >
                     <v-select label="name"
                               class="d-inline-block w-85"
                               :filterable="false"
-                              v-model="form_data.jurisdiction_id"
+                              v-model="selected_jurisdiction"
                               :options="jurisdictions"
                     >
                     </v-select>
@@ -200,6 +200,7 @@
         data() {
             return {
                 selected_jurisdiction_type: null,
+                selected_jurisdiction: {id: null},
                 jurisdiction_types: [],
                 jurisdictions: [],
                 all_jurisdictions: [],
@@ -224,7 +225,8 @@
                     name: false,
                     note: false,
                     statutes_eligibility_id: false,
-                    deleted_at: false
+                    deleted_at: false,
+                    jurisdiction_id: false,
                 },
                 server_message: false,
                 try_logging_in: false,
@@ -248,6 +250,8 @@
                 this.getJurisdictionTypes()
             },
             async handleSubmit() {
+
+                this.form_data.jurisdiction_id = this.selected_jurisdiction.id
                 this.server_message = false;
                 this.processing = true;
                 let url = "";
@@ -332,6 +336,8 @@
                         this.all_jurisdictions = res.data.data
 
                         this.jurisdictions = this.all_jurisdictions
+
+                        this.selected_jurisdiction = this.jurisdictions.filter(j => j.id ===  this.form_data.jurisdiction_id)
                     })
                     .catch(e => console.error(e))
             },
