@@ -2,9 +2,12 @@
 
 namespace App;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\RecordSignature;
+use Illuminate\Database\QueryException;
 
 class Statute extends Model
 {
@@ -63,7 +66,8 @@ class Statute extends Model
         return $this->hasMany(Charge::class);
     }
 
-    public function statutes_eligibility() {
+    public function statutes_eligibility()
+    {
         return $this->belongsTo(StatutesEligibility::class);
     }
 
@@ -74,7 +78,7 @@ class Statute extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @return MorphMany
      */
     public function histories()
     {
@@ -97,20 +101,21 @@ class Statute extends Model
 
         try {
             $this->fill($attributes)->save();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
-            throw new \Exception($e->getMessage());
-        } catch (\Illuminate\Database\QueryException $e) {
+            throw new Exception($e->getMessage());
+        } catch (QueryException $e) {
             info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
-            throw new \Exception($e->getMessage());
+            throw new Exception($e->getMessage());
         }
 
         return true;
     }
 
-    public function getCharges($id) {
-        $recs = \App\Charge::with(['conviction:id,case_number,name,applicant_id','conviction.applicant:id,name'])->where('statute_id', $id)->get();
-        info(print_r($recs->toArray(),true));
+    public function getCharges($id)
+    {
+        $recs = Charge::with(['conviction:id,case_number,name,applicant_id', 'conviction.applicant:id,name'])->where('statute_id', $id)->get();
+        info(print_r($recs->toArray(), true));
         return $recs;
 
     }
@@ -118,7 +123,7 @@ class Statute extends Model
     public function canDelete()
     {
 
-        $count = \App\Charge::select('id')->whereNotNull('statute_id')->count();
+        $count = Charge::select('id')->whereNotNull('statute_id')->count();
         info(__METHOD__ . " count=$count|");
         return !$count;
 
@@ -147,6 +152,9 @@ class Statute extends Model
                 'statutes.name as name',
                 'statutes.note as note',
                 'statutes_eligibilities.name AS eligible',
+                'jurisdiction_types.name AS jurisdiction_type',
+                'jurisdictions.name AS jurisdiction',
+
             ])
             ->paginate($per_page);
     }
@@ -202,6 +210,8 @@ class Statute extends Model
         }
 
         $query->leftJoin('statutes_eligibilities', 'statutes.statutes_eligibility_id', '=', 'statutes_eligibilities.id');
+        $query->leftJoin('jurisdictions', 'statutes.jurisdiction_id', '=', 'jurisdictions.id');
+        $query->leftJoin('jurisdiction_types', 'jurisdictions.jurisdiction_type_id', '=', 'jurisdiction_types.id');
         return $query;
     }
 
@@ -295,8 +305,8 @@ class Statute extends Model
             ->with([
                 'superseded' => function ($q) {
                     $q->withEligibility();
-            }
-        ]);
+                }
+            ]);
     }
 
     public function scopeWithJurisdictionType($builder)

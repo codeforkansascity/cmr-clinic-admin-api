@@ -1,16 +1,16 @@
 <template>
     <div>
         <div
-                v-if="global_error_message"
-                class="alert alert-danger"
-                role="alert"
+            v-if="global_error_message"
+            class="alert alert-danger"
+            role="alert"
         >
             {{ global_error_message }}
         </div>
         <div
-                v-if="server_message !== false"
-                class="alert alert-danger"
-                role="alert"
+            v-if="server_message !== false"
+            class="alert alert-danger"
+            role="alert"
         >
             {{ this.server_message }}
             <a v-if="try_logging_in" href="/login">Login</a>
@@ -20,44 +20,44 @@
             <div class="col-lg-8 mb-2">
                 <form class="form-inline mb-0">
                     <a
-                            href="#"
-                            @click.default="goToNew"
-                            class="btn btn-primary mb-3 mb-sm-2 mr-3"
+                        href="#"
+                        @click.default="goToNew"
+                        class="btn btn-primary mb-3 mb-sm-2 mr-3"
                     >Add</a
                     >
                     <search-form-group
-                            class="mb-0"
-                            :errors="form_errors.keyword"
-                            label=""
-                            labelFor="keyword"
+                        class="mb-0"
+                        :errors="form_errors.keyword"
+                        label=""
+                        labelFor="keyword"
                     >
                         <input
-                                name="keyword"
-                                id="field_keyword"
-                                v-model="query"
-                                @keyup="getData(1)"
-                                class="form-control mb-3"
-                                type="text"
-                                style="width: 25em; margin-right: 5em;"
-                                placeholder="Filter by number and name"
+                            name="keyword"
+                            id="field_keyword"
+                            v-model="query"
+                            @keyup="getData(1)"
+                            class="form-control mb-3"
+                            type="text"
+                            style="width: 25em; margin-right: 5em;"
+                            placeholder="Filter by number and name"
                         />
                     </search-form-group>
                     &nbsp;
                     <search-form-group
-                            class="mb-0"
-                            :errors="form_errors.statutes_eligibility"
-                            label="Eligibility"
-                            labelFor="statutes_eligibility"
+                        class="mb-0"
+                        :errors="form_errors.statutes_eligibility"
+                        label="Eligibility"
+                        labelFor="statutes_eligibility"
                     >
                         <ui-select-pick-one
-                                url="/api-statutes-eligibility/options"
-                                v-model="eligibilitySelected"
-                                :selected_id="eligibilitySelected"
-                                name="statutes_eligibility"
-                                blank_text="All"
-                                blank_value="0"
-                                additional_classes="mb-2 grid-filter"
-                                styleAttr="max-width: 175px;"/>
+                            url="/api-statutes-eligibility/options"
+                            v-model="eligibilitySelected"
+                            :selected_id="eligibilitySelected"
+                            name="statutes_eligibility"
+                            blank_text="All"
+                            blank_value="0"
+                            additional_classes="mb-2 grid-filter"
+                            styleAttr="max-width: 175px;"/>
                     </search-form-group>
                 </form>
             </div>
@@ -71,10 +71,32 @@
                 <thead>
                 <tr>
                     <ss-grid-column-header
-                            v-on:selectedSort="sortColumn"
-                            v-bind:selectedKey="sortKey"
-                            title="Sort by Number"
-                            :params="{
+                        v-on:selectedSort="sortColumn"
+                        v-bind:selectedKey="sortKey"
+                        title="Sort by Jurisdiction Type"
+                        :params="{
+                                sortField: 'jurisdiction_type',
+                                InitialSortOrder: 'asc'
+                            }"
+                    >
+                        Jurisdiction Type
+                    </ss-grid-column-header>
+                    <ss-grid-column-header
+                        v-on:selectedSort="sortColumn"
+                        v-bind:selectedKey="sortKey"
+                        title="Sort by Jurisdiction"
+                        :params="{
+                                sortField: 'jurisdiction',
+                                InitialSortOrder: 'asc'
+                            }"
+                    >
+                        Jurisdiction
+                    </ss-grid-column-header>
+                    <ss-grid-column-header
+                        v-on:selectedSort="sortColumn"
+                        v-bind:selectedKey="sortKey"
+                        title="Sort by Number"
+                        :params="{
                                 sortField: 'number',
                                 InitialSortOrder: 'asc'
                             }"
@@ -82,10 +104,10 @@
                         Number
                     </ss-grid-column-header>
                     <ss-grid-column-header
-                            v-on:selectedSort="sortColumn"
-                            v-bind:selectedKey="sortKey"
-                            title="Sort by Name"
-                            :params="{
+                        v-on:selectedSort="sortColumn"
+                        v-bind:selectedKey="sortKey"
+                        title="Sort by Name"
+                        :params="{
                                 sortField: 'name',
                                 InitialSortOrder: 'asc'
                             }"
@@ -93,10 +115,10 @@
                         Name
                     </ss-grid-column-header>
                     <ss-grid-column-header
-                            v-on:selectedSort="sortColumn"
-                            v-bind:selectedKey="sortKey"
-                            title="Sort by Eligible"
-                            :params="{
+                        v-on:selectedSort="sortColumn"
+                        v-bind:selectedKey="sortKey"
+                        title="Sort by Eligible"
+                        :params="{
                                 sortField: 'eligible',
                                 InitialSortOrder: 'asc'
                             }"
@@ -131,11 +153,13 @@
                 </tr>
 
                 <tr v-else v-for="row in this.gridData" :key="row.id">
+                    <td data-title="Jurisdiction Type">{{ row.jurisdiction_type }}</td>
+                    <td data-title="Jurisdiction">{{ row.jurisdiction }}</td>
                     <td data-title="Number">{{ row.number }}</td>
                     <td data-title="Name">
                         <a
-                                v-bind:href="'/statute/' + row.id"
-                                v-if="params.CanShow == '1'"
+                            v-bind:href="'/statute/' + row.id"
+                            v-if="params.CanShow == '1'"
                         >
                             {{ row.name }}
                         </a>
@@ -144,18 +168,18 @@
                             </span>
 
                         <div v-if="row.note != ''" style="height: 3em; overflow: hidden; margin-left: 3em;">
-                            <dsp-textarea v-model="row.note" />
+                            <dsp-textarea v-model="row.note"/>
                         </div>
                     </td>
                     <td data-title="Eligible">{{ row.eligible }}</td>
                     <td
-                            data-title="Actions"
-                            class="text-lg-center text-nowrap"
+                        data-title="Actions"
+                        class="text-lg-center text-nowrap"
                     >
                         <a
-                                v-bind:href="'/statute/' + row.id + '/edit'"
-                                v-if="params.CanEdit"
-                                class="grid-action-item"
+                            v-bind:href="'/statute/' + row.id + '/edit'"
+                            v-if="params.CanEdit"
+                            class="grid-action-item"
                         >
                             Edit
                         </a>
@@ -177,18 +201,18 @@
                 >
             </div>
             <ss-grid-pagination
-                    class="col-lg-4 mb-2"
-                    v-bind:current_page="current_page"
-                    v-bind:last_page="last_page"
-                    v-bind:total="total"
-                    v-on:goto-page="getData(...arguments)"
+                class="col-lg-4 mb-2"
+                v-bind:current_page="current_page"
+                v-bind:last_page="last_page"
+                v-bind:total="total"
+                v-on:goto-page="getData(...arguments)"
             >
             </ss-grid-pagination>
             <ss-grid-pagination-location
-                    class="col-lg-4 text-lg-right mb-2"
-                    v-bind:current_page="current_page"
-                    v-bind:last_page="last_page"
-                    v-bind:total="total"
+                class="col-lg-4 text-lg-right mb-2"
+                v-bind:current_page="current_page"
+                v-bind:last_page="last_page"
+                v-bind:total="total"
             >
             </ss-grid-pagination-location>
         </div>
