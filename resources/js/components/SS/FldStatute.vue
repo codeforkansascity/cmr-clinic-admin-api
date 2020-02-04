@@ -150,7 +150,7 @@
                     statutes_eligibility_id: this.newStatute.statutes_eligibility_id,
                     name: this.newStatute.name,
                     number: this.newStatute.number,
-                    jurisdiction_id: this.newStatute.jurisdiction_id
+                    jurisdiction_id: this.newStatute.jurisdiction_id.id
                 }).then(res => {
                     $this.newStatute = {}
                     $this.selectedStatute = res.data
