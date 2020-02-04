@@ -130,7 +130,8 @@ class StatuteController extends Controller
             'note',
             'statutes_eligibility_id',
             'superseded_id',
-            'superseded_on'
+            'superseded_on',
+            'jurisdiction_id'
         ]));
 
         return response()->json($statute, 200);

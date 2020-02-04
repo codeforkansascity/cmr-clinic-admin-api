@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\JurisdictionCreateRequest;
 use App\Jurisdiction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -56,9 +57,13 @@ class JurisdictionApi extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(JurisdictionCreateRequest $request)
     {
-        //
+        $data = $request->only('jurisdiction_type_id', 'name');
+
+        $jurisdiction_type = Jurisdiction::create($data);
+
+        return $jurisdiction_type;
     }
 
     /**
