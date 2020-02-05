@@ -56,3 +56,8 @@
                        Cannow navigate between Edit and View, button upper right hand corner
                        Permission is now delete not destroy
                        Resolves Cannot delete an applicant #141
+3.1.7.0.0 2020-02-04 - Cleanup on Applicant history and grid
+                       Added Jurisdiction and Jurisdiction type to Statutes
+                       Allow statute number to be null
+
+                       
