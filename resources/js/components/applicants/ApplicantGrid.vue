@@ -142,8 +142,8 @@
                 </tr>
 
                 <tr v-else v-for="row in this.gridData" :key="row.id">
-                    <td data-title="Name">
-                        <a
+                    <td data-title="Name" class="first-in-no-more-tables">
+                        <a class="no-more-tables-name-link"
                                 v-bind:href="'/applicant/' + row.id"
                                 v-if="params.CanShow == '1'"
                         >
@@ -157,7 +157,7 @@
                         <dsp-date v-model="row.dob"/>
 
                     </td>
-                    <td data-title="Notes">{{ row.notes }}</td>
+                    <td data-title="Notes"><dsp-textarea v-model="row.notes" /></td>
                     <td data-title="Status">{{ row.status_name }}</td>
                     <td
                             data-title="Actions"

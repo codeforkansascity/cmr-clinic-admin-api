@@ -1,7 +1,4 @@
-# Clear My Record Admin/API
-
-This code is provides the initial administrative functions and API endpoints to the 
-[Clear My Record Clinic Application](https://github.com/codeforkansascity/cmr-clinic) application
+# Clear My Record Clinic App
 
 Clear My Record is focused on providing assistance to persons seeking expungement under the laws of the state of Missouri. Effective January 1, 2018, the State of Missouri greatly expanded the convictions qualifying for expungement. 
 
@@ -9,7 +6,6 @@ Clear My Record is focused on providing assistance to persons seeking expungemen
 
 As of June 2019 we are merging the front end with this project.  The API endpoints still exist so other projects
 can use this repository of records.
-
 
 ## How to help
 

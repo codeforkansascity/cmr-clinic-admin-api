@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class StatuteFormRequest extends FormRequest
 {
@@ -38,6 +39,7 @@ class StatuteFormRequest extends FormRequest
 
             'id' => 'numeric',
             'number' => 'nullable|string|max:191',
+            'name' => 'nullable|string|max:500',
             'note' => 'nullable|string',
             'statutes_eligibility_id' => 'required|numeric',
             'superseded_id' => 'nullable|numeric',
@@ -46,10 +48,43 @@ class StatuteFormRequest extends FormRequest
 
         ];
 
+        // -----------------------------------------------------------------------
+        // A statute is unique based off of the jurisdiction_id, number, and name
+        // -----------------------------------------------------------------------
+
+        $d = $this->validationData();
+
+        $number = $d['number'];
+        $name = $d['name'];
+
+        // [PDB] We should not need to do this but for some reason jurisdiction_id is notbeing passed by StatuteForm.vue
+        if (array_key_exists('jurisdiction_id', $d)) {
+            $jurisdiction_id = intval($d['jurisdiction_id']);
+        } elseif (array_key_exists('jurisdiction', $d)) {
+            $jurisdiction_id = intval($d['jurisdiction']['id']);
+        } else {
+            $jurisdiction_id = 0;
+        }
+
         if ($this->route('statute')) {  // If ID we must be changing an existing record
-            $rules['name'] = 'required|min:3|nullable|string|max:500|unique:statutes,name,' . $id;
+            $rules['name'] = [
+                'required',
+                Rule::unique('statutes')->where(function ($query) use ($number, $name, $jurisdiction_id, $id) {
+                    return $query->where('number', $number)
+                        ->where('name', $name)
+                        ->where('jurisdiction_id', $jurisdiction_id);
+
+                })->ignore($id)
+            ];
         } else {  // If not we must be adding one
-            $rules['name'] = 'required|min:3|nullable|string|max:500|unique:statutes';
+            $rules['name'] = [
+                'required',
+                Rule::unique('statutes')->where(function ($query) use ($number, $name, $jurisdiction_id) {
+                    return $query->where('number', $number)
+                        ->where('name', $name)
+                        ->where('jurisdiction_id', $jurisdiction_id);
+                }),
+            ];
         }
 
         return $rules;

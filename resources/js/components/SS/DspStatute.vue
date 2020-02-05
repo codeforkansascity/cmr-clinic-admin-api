@@ -12,7 +12,11 @@ For text area
 
     <div v-if="value.id" style="padding-left: 5em; text-indent: -5em ;">
         <span>
-            {{ value.number }} {{ value.name }} ({{value.statutes_eligibility.name}})
+            {{ value.number }} {{ value.name }}
+             <span v-if="not_state_jurisdiction" style="color: lightsteelblue">
+                [{{ not_state_jurisdiction }}]
+            </span>
+            ({{value.statutes_eligibility.name}})
             <span v-if="hasNote" style="margin-left: 3em; font-size: smaller">
                 <a href="#" @click="displayNote">See Note</a>
             </span>
@@ -76,7 +80,14 @@ For text area
                 }
                 return false;
             },
+            not_state_jurisdiction: function () {
 
+                if (this.value.jurisdiction && this.value.jurisdiction.name != 'Missouri') {
+                    return this.value.jurisdiction.name;
+                } else {
+                    return null;
+                }
+            }
         }
     }
 </script>

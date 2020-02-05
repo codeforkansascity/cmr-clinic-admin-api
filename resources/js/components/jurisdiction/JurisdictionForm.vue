@@ -12,14 +12,16 @@
         <div class="row">
             <div class="col-md-12">
                 <std-form-group
-                        label="Jurisdiction Type Id"
-                        label-for="jurisdiction_type_id"
-                        :errors="form_errors.jurisdiction_type_id"
+                    label="Type"
+                    label-for="type"
+                    :errors="form_errors.jurisdiction_type_id"
                 >
-                    <fld-input
-                            name="jurisdiction_type_id"
-                            v-model="form_data.jurisdiction_type_id"
-                    />
+                    <v-select label="name"
+                              :filterable="false"
+                              v-model="selected_jurisdiction_type"
+                              :options="jurisdiction_types"
+                    >
+                    </v-select>
                 </std-form-group>
             </div>
         </div>
@@ -40,17 +42,7 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-12">
-                <std-form-group
-                        label="Url"
-                        label-for="url"
-                        :errors="form_errors.url"
-                >
-                    <fld-input name="url" v-model="form_data.url"/>
-                </std-form-group>
-            </div>
-        </div>
+
 
         <div class="form-group mt-4">
             <div class="row">
@@ -97,8 +89,6 @@
                     id: 0,
                     jurisdiction_type_id: 0,
                     name: "",
-                    url: "",
-                    deleted_at: ""
                 },
                 form_errors: {
                     id: false,
@@ -107,6 +97,8 @@
                     url: false,
                     deleted_at: false
                 },
+                selected_jurisdiction_type: {id: null},
+                jurisdiction_types: [],
                 server_message: false,
                 try_logging_in: false,
                 processing: false
@@ -122,8 +114,22 @@
                 // this.form_data._method = 'post';
             }
         },
+        created() {
+            this.getJurisdictionTypes()
+        },
         methods: {
+            getJurisdictionTypes() {
+                axios.get('/api-jurisdiction-type')
+                    .then((res) => {
+                        this.jurisdiction_types = res.data.data
+
+                        this.selected_jurisdiction_type = this.jurisdiction_types.filter( t => this.form_data.jurisdiction_type_id === t.id)
+                    })
+                    .catch(e => console.error(e))
+            },
             async handleSubmit() {
+                this.form_data.jurisdiction_type_id = this.selected_jurisdiction_type.id
+
                 this.server_message = false;
                 this.processing = true;
                 let url = "";

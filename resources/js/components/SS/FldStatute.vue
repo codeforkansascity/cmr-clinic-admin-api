@@ -31,6 +31,36 @@
             <template v-slot:body>
 
                 <div class="form-group">
+                    <label class="font-weight-bold">Jurisdiction Type</label>
+                    <v-select label="name"
+                              :filterable="false"
+                              v-model="selected_jurisdiction_type"
+                              :options="jurisdiction_types"
+                              @input="filterJurisdictionsByType"
+                    >
+                    </v-select>
+                </div>
+
+                <jurisdiction-create-modal ref="jurisdictionModal" @add="addJurisdiction"/>
+
+                <div class="form-group mb-1">
+                    <label class="font-weight-bold">Jurisdiction</label>
+                </div>
+                <div class="form-group">
+                    <v-select label="name"
+                                class="d-inline-block w-50"
+                                :filterable="false"
+                                v-model="newStatute.jurisdiction_id"
+                                :options="jurisdictions"
+                    >
+                    </v-select>
+                    <add-icon
+                        @click="$refs.jurisdictionModal.showModal = true"
+                        :height="25"
+                    />
+                </div>
+
+                <div class="form-group">
                     <label class="font-weight-bold">Number</label>
                     <input type="text" required class="form-control" placeholder="Statute Number"
                            v-model="newStatute.number">
@@ -77,10 +107,16 @@
             value: {
                 type: String | Number,
                 default: '',
+            },
+            filters: {
+                default: null,
+                type: Object
             }
         },
         created() {
             this.getData(this.value)
+            this.getJurisdictionTypes()
+            this.getJurisdictions()
         },
         mounted() {
 
@@ -92,11 +128,15 @@
                     name: null,
                     number: null,
                     statutes_eligibility_id: null,
+                    jurisdiction_id: null,
                 },
                 selectedStatute: null,
                 selected: false,
                 data: [],
                 matches: [],
+                selected_jurisdiction_type: null,
+                jurisdiction_types: [],
+                jurisdictions: [],
             }
         },
         methods: {
@@ -109,7 +149,8 @@
                 axios.post('/statute', {
                     statutes_eligibility_id: this.newStatute.statutes_eligibility_id,
                     name: this.newStatute.name,
-                    number: this.newStatute.number
+                    number: this.newStatute.number,
+                    jurisdiction_id: this.newStatute.jurisdiction_id.id
                 }).then(res => {
                     $this.newStatute = {}
                     $this.selectedStatute = res.data
@@ -132,6 +173,7 @@
                         if (res.data) {
                             $this.data = res.data
                         }
+
                         if (id) {
                             this.matches = this.data
                             if (this.data.length > 0) {
@@ -152,7 +194,35 @@
                 this.matches = this.data.filter(d => {
                     return (d.name + '' + d.number).toLowerCase().indexOf(e.toLowerCase()) > -1
                 })
+                if(this.filters) {
+
+                    this.matches = this.filterBy(this.matches)
+                }
             },
+
+            filterBy(matches) {
+
+                for(let key in this.filters) {
+                    matches = matches.filter((s) => {
+
+                        if(Array.isArray(this.filters[key])) {
+                            for(let value in this.filter[key]) {
+                                if(s[key] === this.filter[key][value]) {
+                                    return true
+                                }
+                            }
+                        } else {
+                            return s[key] === this.filters[key]
+                        }
+
+                        return false
+
+                    })
+                }
+
+                return matches
+            },
+
             onSelect(e) {
                 this.selectedStatute = e
                 let newId = null
@@ -161,7 +231,39 @@
                 }
 
                 this.$emit('input', newId)
-            }
+            },
+
+            addJurisdiction(j) {
+                if(j && j.id > 0) {
+                    this.jurisdictions.push(j)
+                    this.newStatute.jurisdiction_id = j
+                }
+            },
+
+            getJurisdictions() {
+                axios.get('/api-jurisdiction')
+                    .then((res) => {
+                        this.all_jurisdictions = res.data.data
+
+                        this.jurisdictions = this.all_jurisdictions
+                    })
+                    .catch(e => console.error(e))
+            },
+
+            getJurisdictionTypes() {
+                axios.get('/api-jurisdiction-type')
+                    .then((res) => {
+                        this.jurisdiction_types = res.data.data
+                    })
+                    .catch(e => console.error(e))
+            },
+
+            filterJurisdictionsByType(e) {
+                this.jurisdictions = this.all_jurisdictions.filter(j => {
+                    return j.jurisdiction_type_id === e.id
+                })
+
+            },
         }
     }
 </script>

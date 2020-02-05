@@ -34,7 +34,7 @@ class Jurisdiction extends Model
 
     public function type()
     {
-        return $this->belongsTo(JurisdictionType::class);
+        return $this->belongsTo(JurisdictionType::class,'jurisdiction_type_id');
     }
 
     public function add($attributes)

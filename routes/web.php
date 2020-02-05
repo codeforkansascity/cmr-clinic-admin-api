@@ -179,12 +179,16 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::get('/api-jurisdiction-type', 'JurisdictionTypeApi@index');
 Route::get('/api-jurisdiction-type/options', 'JurisdictionTypeApi@getOptions');
+Route::post('/api-jurisdiction-type', 'JurisdictionTypeApi@store');
+
 Route::get('/jurisdiction-type/download', 'JurisdictionTypeController@download')->name('jurisdiction-type.download');
 Route::get('/jurisdiction-type/print', 'JurisdictionTypeController@print')->name('jurisdiction-type.print');
 Route::resource('/jurisdiction-type', 'JurisdictionTypeController');
 
 Route::get('/api-jurisdiction', 'JurisdictionApi@index');
 Route::get('/api-jurisdiction/options', 'JurisdictionApi@getOptions');
+Route::post('/api-jurisdiction', 'JurisdictionApi@store');
+
 Route::get('/jurisdiction/download', 'JurisdictionController@download')->name('jurisdiction.download');
 Route::get('/jurisdiction/print', 'JurisdictionController@print')->name('jurisdiction.print');
 Route::resource('/jurisdiction', 'JurisdictionController');
