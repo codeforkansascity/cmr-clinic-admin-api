@@ -13,10 +13,10 @@
                     <div class="col-md-6" style="padding-left: 1em;">
                         <div class="col-md-12">
                             <std-form-group
-                                    label="Name"
-                                    label-for="name"
-                                    :errors="form_errors.name"
-                                    :required="true"
+                                label="Name"
+                                label-for="name"
+                                :errors="form_errors.name"
+                                :required="true"
                             >
                                 <fld-input name="name" v-model="record.name" required/>
                                 <template slot="help">
@@ -26,9 +26,9 @@
                         </div>
                         <div class="col-md-12">
                             <std-form-group
-                                    label="Sex"
-                                    label-for="sex"
-                                    :errors="form_errors.sex"
+                                label="Sex"
+                                label-for="sex"
+                                :errors="form_errors.sex"
                             >
                                 <fld-sex name="sex" v-model="record.sex"/>
                             </std-form-group>
@@ -38,9 +38,9 @@
                         <!--<input-select-other field="race" v-bind:options="race_options">What is your race?</input-select-other>-->
                         <div class="col-md-12">
                             <std-form-group
-                                    label="Race"
-                                    label-for="race"
-                                    :errors="form_errors.race"
+                                label="Race"
+                                label-for="race"
+                                :errors="form_errors.race"
                             >
                                 <fld-race name="race" v-model="record.race"/>
                             </std-form-group>
@@ -49,33 +49,33 @@
                     <div class="col-md-6" style="padding-left: 1em;">
                         <div class="col-md-12">
                             <std-form-group
-                                    label="Date of Birth"
-                                    label-for="dob"
-                                    :errors="form_errors.dob"
+                                label="Date of Birth"
+                                label-for="dob"
+                                :errors="form_errors.dob"
                             >
                                 <!--<fld-date name="dob" v-model="record.dob"/>-->
 
                                 <flat-pickr
-                                        v-model="record.dob"
-                                        :config="config"
-                                        @blur="parseDate($event, 'dob')"
-                                        style="width: 10em"/>
+                                    v-model="record.dob"
+                                    :config="config"
+                                    @blur="parseDate($event, 'dob')"
+                                    style="width: 10em"/>
                             </std-form-group>
                         </div>
                         <div class="col-md-12">
                             <std-form-group
-                                    label="Phone/Cell"
-                                    label-for="phone"
-                                    :errors="form_errors.phone"
+                                label="Phone/Cell"
+                                label-for="phone"
+                                :errors="form_errors.phone"
                             >
                                 <fld-input name="phone" v-model="record.phone"/>
                             </std-form-group>
                         </div>
                         <div class="col-md-12">
                             <std-form-group
-                                    label="Email"
-                                    label-for="email"
-                                    :errors="form_errors.email"
+                                label="Email"
+                                label-for="email"
+                                :errors="form_errors.email"
                             >
                                 <fld-input name="email" v-model="record.email"/>
                             </std-form-group>
@@ -88,43 +88,43 @@
                             <legend>Driver’s License information</legend>
                             <div class="col-md-12">
                                 <std-form-group
-                                        label="License Number"
-                                        label-for="license_number"
-                                        :errors="form_errors.license_number"
+                                    label="License Number"
+                                    label-for="license_number"
+                                    :errors="form_errors.license_number"
                                 >
                                     <fld-input
-                                            name="license_number"
-                                            v-model="record.license_number"
+                                        name="license_number"
+                                        v-model="record.license_number"
                                     />
                                 </std-form-group>
                             </div>
                             <div class="col-md-12">
                                 <std-form-group
-                                        label="Issuing State"
-                                        label-for="license_issuing_state"
-                                        :errors="form_errors.license_issuing_state"
+                                    label="Issuing State"
+                                    label-for="license_issuing_state"
+                                    :errors="form_errors.license_issuing_state"
                                 >
                                     <fld-state
-                                            name="license_issuing_state"
-                                            v-model="record.license_issuing_state"
+                                        name="license_issuing_state"
+                                        v-model="record.license_issuing_state"
                                     />
                                 </std-form-group>
                             </div>
                             <div class="col-md-12">
                                 <std-form-group
-                                        label="Expiration Date"
-                                        label-for="license_expiration_date"
-                                        :errors="form_errors.license_expiration_date"
+                                    label="Expiration Date"
+                                    label-for="license_expiration_date"
+                                    :errors="form_errors.license_expiration_date"
                                 >
                                     <!--<fld-date-->
                                     <!--name="license_expiration_date"-->
                                     <!--v-model="record.license_expiration_date"-->
                                     <!--/>-->
                                     <flat-pickr
-                                            v-model="record.license_expiration_date"
-                                            @blur="parseDate($event, 'license_expiration_date')"
-                                            :config="config"
-                                            style="width: 10em"/>
+                                        v-model="record.license_expiration_date"
+                                        @blur="parseDate($event, 'license_expiration_date')"
+                                        :config="config"
+                                        style="width: 10em"/>
                                 </std-form-group>
                             </div>
                         </fieldset>
@@ -134,25 +134,25 @@
                             <legend>Current Address</legend>
                             <div class="col-md-12">
                                 <std-form-group
-                                        label="Address Line 1"
-                                        label-for="address_line_1"
-                                        :errors="form_errors.address_line_1"
+                                    label="Address Line 1"
+                                    label-for="address_line_1"
+                                    :errors="form_errors.address_line_1"
                                 >
                                     <fld-input
-                                            name="address_line_1"
-                                            v-model="record.address_line_1"
+                                        name="address_line_1"
+                                        v-model="record.address_line_1"
                                     />
                                 </std-form-group>
                             </div>
                             <div class="col-md-12">
                                 <std-form-group
-                                        label="Address Line 2"
-                                        label-for="address_line_2"
-                                        :errors="form_errors.address_line_2"
+                                    label="Address Line 2"
+                                    label-for="address_line_2"
+                                    :errors="form_errors.address_line_2"
                                 >
                                     <fld-input
-                                            name="address_line_2"
-                                            v-model="record.address_line_2"
+                                        name="address_line_2"
+                                        v-model="record.address_line_2"
                                     />
                                 </std-form-group>
                             </div>
@@ -161,24 +161,24 @@
                                     <div class="col-md-6">
                                         <std-form-group label="City" label-for="city" :errors="form_errors.city">
                                             <fld-input
-                                                    name="city"
-                                                    v-model="record.city"
+                                                name="city"
+                                                v-model="record.city"
                                             />
                                         </std-form-group>
                                     </div>
                                     <div class="col-md-2">
                                         <std-form-group label="State" label-for="state" :errors="form_errors.state">
                                             <fld-state
-                                                    name="state"
-                                                    v-model="record.state"
+                                                name="state"
+                                                v-model="record.state"
                                             />
                                         </std-form-group>
                                     </div>
                                     <div class="col-md-4">
                                         <std-form-group label="Zip" label-for="zip_code" :errors="form_errors.zip">
                                             <fld-input
-                                                    name="zip_code"
-                                                    v-model="record.zip_code"
+                                                name="zip_code"
+                                                v-model="record.zip_code"
                                             />
                                         </std-form-group>
                                     </div>
@@ -192,25 +192,25 @@
                             <legend>CMS</legend>
                             <div class="col-md-12">
                                 <std-form-group
-                                        label="Cms Client ID"
-                                        label-for="cms_client_number"
-                                        :errors="form_errors.cms_client_number"
+                                    label="Cms Client ID"
+                                    label-for="cms_client_number"
+                                    :errors="form_errors.cms_client_number"
                                 >
                                     <fld-input
-                                            name="cms_client_number"
-                                            v-model="record.cms_client_number"
+                                        name="cms_client_number"
+                                        v-model="record.cms_client_number"
                                     />
                                 </std-form-group>
                             </div>
                             <div class="col-md-12">
                                 <std-form-group
-                                        label="Cms Case ID"
-                                        label-for="cms_matter_number"
-                                        :errors="form_errors.cms_matter_number"
+                                    label="Cms Case ID"
+                                    label-for="cms_matter_number"
+                                    :errors="form_errors.cms_matter_number"
                                 >
                                     <fld-input
-                                            name="cms_matter_number"
-                                            v-model="record.cms_matter_number"
+                                        name="cms_matter_number"
+                                        v-model="record.cms_matter_number"
                                     />
                                     <template slot="help">
                                         This is also refered to as "Matter"
@@ -219,13 +219,13 @@
                             </div>
                             <div class="col-md-12">
                                 <std-form-group
-                                        label="Person Assigned"
-                                        label-for="assignment_id"
-                                        :errors="form_errors.assignment_id"
+                                    label="Person Assigned"
+                                    label-for="assignment_id"
+                                    :errors="form_errors.assignment_id"
                                 >
                                     <fld-input
-                                            name="assignment_id"
-                                            v-model="record.assignment_id"
+                                        name="assignment_id"
+                                        v-model="record.assignment_id"
                                     />
                                 </std-form-group>
                             </div>
@@ -237,9 +237,9 @@
                             <legend>Previous Expungements</legend>
                             <div class="col-md-12">
                                 <std-form-group
-                                        label="Previous Expungements"
-                                        label-for="previous_expungements"
-                                        :errors="form_errors.race"
+                                    label="Previous Expungements"
+                                    label-for="previous_expungements"
+                                    :errors="form_errors.race"
                                 >
                                     <fld-text-area field="previous_expungements">
                                     </fld-text-area>
@@ -251,9 +251,9 @@
 
                             <div class="col-md-12">
                                 <std-form-group
-                                        label="Previous MO Felony Expungements"
-                                        label-for="previous_felony_expungements"
-                                        :errors="form_errors.previous_felony_expungements"
+                                    label="Previous MO Felony Expungements"
+                                    label-for="previous_felony_expungements"
+                                    :errors="form_errors.previous_felony_expungements"
                                 >
                                     <fld-input style="width: 3em"
                                                name="previous_felony_expungements"
@@ -264,9 +264,9 @@
 
                             <div class="col-md-12">
                                 <std-form-group
-                                        label="Previous MO Misdemeanor Expungements"
-                                        label-for="previous_misdemeanor_expungements"
-                                        :errors="form_errors.previous_misdemeanor_expungements"
+                                    label="Previous MO Misdemeanor Expungements"
+                                    label-for="previous_misdemeanor_expungements"
+                                    :errors="form_errors.previous_misdemeanor_expungements"
                                 >
                                     <fld-input style="width: 3em"
                                                name="previous_misdemeanor_expungements"
@@ -282,22 +282,38 @@
                 <div class="row">
                     <div class="col-md-4">
                         <std-form-group
-                                label="Status"
-                                label-for="status"
-                                :errors="form_errors.status"
-                                :required="true"
+                            label="Status"
+                            label-for="status"
+                            :errors="form_errors.status"
+                            :required="true"
                         >
 
                             <ui-select-pick-one
-                                    url="/api-status/options"
-                                    v-model="record.status_id"
-                                    :selected_id="record.status_id"
-                                    name="status"
-                                    blank_value="0"
-                                    additional_classes="mb-2 grid-filter"
-                                    styleAttr="max-width: 175px;"
-                                    required/>
+                                url="/api-status/options"
+                                v-model="record.status_id"
+                                :selected_id="record.status_id"
+                                name="status"
+                                blank_value="0"
+                                additional_classes="mb-2 grid-filter"
+                                styleAttr="max-width: 175px;"
+                                required/>
 
+                        </std-form-group>
+                    </div>
+
+                    <div class="col-md-4">
+                        <std-form-group
+                            label="Assigned"
+                            label-for="assignment"
+                            :errors="form_errors.assignment"
+                            :required="true"
+                        >
+                            <ui-select-pick-one
+                                url="/api-user/options"
+                                v-model="record.assignment_id"
+                                :selected_id="record.assignment_id"
+                                blank_value="0">
+                            </ui-select-pick-one>
                         </std-form-group>
                     </div>
                 </div>
@@ -305,24 +321,24 @@
                 <div class="row">
                     <div class="col-md-12">
                         <std-form-group
-                                label="Notes"
-                                label-for="notes"
-                                :errors="form_errors.notes"
+                            label="Notes"
+                            label-for="notes"
+                            :errors="form_errors.notes"
                         >
                             <fld-text-editor name="notes" v-model="record.notes" rows="5"/>
                         </std-form-group>
                     </div>
                     <div class="col-md-12">
                         <std-form-group
-                                label="Reason for Change"
-                                label-for="reason_for_change"
-                                :errors="form_errors.reason_for_change"
+                            label="Reason for Change"
+                            label-for="reason_for_change"
+                            :errors="form_errors.reason_for_change"
                         >
                             <fld-text-area
-                                    name="reason_for_change"
-                                    v-model="record.reason_for_change"
-                                    required
-                                    rows="5"
+                                name="reason_for_change"
+                                v-model="record.reason_for_change"
+                                required
+                                rows="5"
                             />
                         </std-form-group>
                     </div>
@@ -338,9 +354,9 @@
                         </div>
                         <div class="col-md-4 text-md-right">
                             <button
-                                    type="submit"
-                                    class="btn btn-primary"
-                                    :disabled="processing"
+                                type="submit"
+                                class="btn btn-primary"
+                                :disabled="processing"
                             >
                                 Save
                             </button>
