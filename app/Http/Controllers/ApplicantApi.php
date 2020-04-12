@@ -6,6 +6,7 @@ use App\Applicant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ApplicantIndexRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ApplicantApi extends Controller
 {
@@ -24,7 +25,8 @@ class ApplicantApi extends Controller
         $column = $request->get('column', 'applicant_name');
         $direction = $request->get('direction', '-1');
         $keyword = $request->get('keyword', '');
-        $status_id = $request->get('status_id', '');
+        $status_id = $request->get('status_id', '0');
+        $assignment_id = $request->get('assignment_id', Auth::id());
 
         // Save the search parameters so we can remember when we go back to the index
         //   The page is being done by Laravel
@@ -33,13 +35,14 @@ class ApplicantApi extends Controller
             'applicant_column' => $column,
             'applicant_direction' => $direction,
             'applicant_keyword' => $keyword,
-            'status_id' => $status_id
+            'status_id' => $status_id,
+            'assignment_id' => $assignment_id
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
         $column = $column ? mb_strtolower($column) : 'applicant_name';
 
-        return Applicant::indexData(10, $column, $direction, $keyword, $status_id);
+        return Applicant::indexData(10, $column, $direction, $keyword, $status_id, $assignment_id);
     }
 
     /**

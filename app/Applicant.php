@@ -131,18 +131,20 @@ class Applicant extends Model
         $column,
         $direction,
         $keyword = '',
-        $status_filter = -1)
+        $status_filter = 0,
+        $assignment_filter = 0)
     {
         \DB::connection()->enableQueryLog();
 
-        $ret = self::buildBaseGridQuery($column, $direction, $keyword, $status_filter,
+        $ret = self::buildBaseGridQuery($column, $direction, $keyword, $status_filter, $assignment_filter,
             ['applicants.id',
                 'applicants.name as applicant_name',
                 'applicants.dob',
                 'applicants.notes',
                 'applicants.cms_client_number',
                 'users.name AS assigned_to',
-                'statuses.name AS status_name'
+                'statuses.name AS status_name',
+                'users.name AS assignment_name',
             ])
             ->paginate($per_page);
 
@@ -174,7 +176,8 @@ class Applicant extends Model
         $column,
         $direction,
         $keyword = '',
-        $status_filter = -1,
+        $status_filter = 0,
+        $assignment_filter = 0,
         $columns = '*')
     {
 
@@ -209,6 +212,16 @@ class Applicant extends Model
                 break;
             default:
                 $query->where('applicants.status_id', intval($status_filter));
+                break;
+
+        }
+
+        switch ($assignment_filter) {
+            case -1:
+            case 0:
+                break;
+            default:
+                $query->where('applicants.assignment_id', intval($assignment_filter));
                 break;
 
         }

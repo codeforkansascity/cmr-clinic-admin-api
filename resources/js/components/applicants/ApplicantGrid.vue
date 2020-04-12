@@ -1,62 +1,81 @@
 <template>
     <div>
         <div
-                v-if="global_error_message"
-                class="alert alert-danger"
-                role="alert"
+            v-if="global_error_message"
+            class="alert alert-danger"
+            role="alert"
         >
             {{ global_error_message }}
         </div>
         <div
-                v-if="server_message !== false"
-                class="alert alert-danger"
-                role="alert"
+            v-if="server_message !== false"
+            class="alert alert-danger"
+            role="alert"
         >
             {{ this.server_message }}
             <a v-if="try_logging_in" href="/login">Login</a>
         </div>
         <!-- Grid Actions Top -->
         <div class="grid-top row mb-0 align-items-center">
-            <div class="col-lg-8 mb-2">
+            <div class="col-lg-12 mb-2">
                 <form class="form-inline mb-0">
-                    <a      v-if="params.CanAdd"
-                            href="#"
-                            @click.default="goToNew"
-                            class="btn btn-primary mb-3 mb-sm-2 mr-3"
+                    <a v-if="params.CanAdd"
+                       href="#"
+                       @click.default="goToNew"
+                       class="btn btn-primary mb-3 mb-sm-2 mr-3"
                     >Add</a
                     >
                     <search-form-group
-                            class="mb-0"
-                            :errors="form_errors.keyword"
-                            label="Search"
+                        class="mb-0"
+                        :errors="form_errors.keyword"
+                        label="Search"
                     >
                         <input
-                                name="query"
-                                id="grid-filter-query-copy"
-                                v-model="query"
-                                @keyup="getData(1)"
-                                class="form-control mb-2"
-                                type="text"
-                                placeholder="Name search"
-                                aria-label="Name search"
+                            name="query"
+                            id="grid-filter-query-copy"
+                            v-model="query"
+                            @keyup="getData(1)"
+                            class="form-control mb-2"
+                            type="text"
+                            placeholder="Name search"
+                            aria-label="Name search"
                         />
                     </search-form-group>
 
                     <search-form-group
-                            class="mb-0"
-                            :errors="form_errors.status"
-                            label="Status"
-                            labelFor="status"
+                        class="mb-0"
+                        :errors="form_errors.status"
+                        label="Status"
+                        labelFor="status"
                     >
                         <ui-select-pick-one
-                                url="/api-status/options"
-                                v-model="statusSelected"
-                                :selected_id="statusSelected"
-                                name="status"
-                                blank_text="All"
-                                blank_value="0"
-                                additional_classes="mb-2 grid-filter"
-                                styleAttr="max-width: 175px;"/>
+                            url="/api-status/options"
+                            v-model="statusSelected"
+                            :selected_id="statusSelected"
+                            name="status"
+                            blank_text="All"
+                            blank_value="0"
+                            additional_classes="mb-2 grid-filter"
+                            styleAttr="max-width: 175px;"/>
+                    </search-form-group>
+
+                    <search-form-group
+                        class="mb-0"
+                        :errors="form_errors.assignment"
+                        label="Assigned"
+                        labelFor="assignment"
+                    >
+
+
+                        <ui-select-pick-one
+                            url="/api-user/options"
+                            v-model="assignmentSelected"
+                            :selected_id="assignmentSelected"
+                            blank_text="All"
+                            blank_value="0"
+                            additional_classes="mb-2 grid-filter"
+                            styleAttr="max-width: 175px;">
+                        </ui-select-pick-one>
                     </search-form-group>
 
                 </form>
@@ -71,10 +90,10 @@
                 <thead>
                 <tr>
                     <ss-grid-column-header
-                            v-on:selectedSort="sortColumn"
-                            v-bind:selectedKey="sortKey"
-                            title="Sort by Name"
-                            :params="{
+                        v-on:selectedSort="sortColumn"
+                        v-bind:selectedKey="sortKey"
+                        title="Sort by Name"
+                        :params="{
                                 sortField: 'applicant_name',
                                 InitialSortOrder: 'asc'
                             }"
@@ -82,10 +101,10 @@
                         Name
                     </ss-grid-column-header>
                     <ss-grid-column-header
-                            v-on:selectedSort="sortColumn"
-                            v-bind:selectedKey="sortKey"
-                            title="Sort by DOB"
-                            :params="{
+                        v-on:selectedSort="sortColumn"
+                        v-bind:selectedKey="sortKey"
+                        title="Sort by DOB"
+                        :params="{
                                 sortField: 'dob',
                                 InitialSortOrder: 'asc'
                             }"
@@ -93,10 +112,10 @@
                         DOB
                     </ss-grid-column-header>
                     <ss-grid-column-header
-                            v-on:selectedSort="sortColumn"
-                            v-bind:selectedKey="sortKey"
-                            title="Sort by Notes"
-                            :params="{
+                        v-on:selectedSort="sortColumn"
+                        v-bind:selectedKey="sortKey"
+                        title="Sort by Notes"
+                        :params="{
                                 sortField: 'notes',
                                 InitialSortOrder: 'asc'
                             }"
@@ -104,10 +123,10 @@
                         Notes
                     </ss-grid-column-header>
                     <ss-grid-column-header
-                            v-on:selectedSort="sortColumn"
-                            v-bind:selectedKey="sortKey"
-                            title="Sort by Status"
-                            :params="{
+                        v-on:selectedSort="sortColumn"
+                        v-bind:selectedKey="sortKey"
+                        title="Sort by Status"
+                        :params="{
                                 sortField: 'status_name',
                                 InitialSortOrder: 'asc'
                             }"
@@ -120,14 +139,14 @@
                 </thead>
                 <tbody>
                 <tr v-if="gridState == 'wait'">
-                    <td colspan="5" class="grid-alert">
+                    <td colspan="6" class="grid-alert">
                         <div class="alert alert-info" role="alert">
                             Please wait.
                         </div>
                     </td>
                 </tr>
                 <tr v-if="gridState == 'error'">
-                    <td colspan="5" class="grid-alert">
+                    <td colspan="6" class="grid-alert">
                         <div class="alert alert-warning" role="alert">
                             Error please try again.
                         </div>
@@ -135,7 +154,7 @@
                 </tr>
 
                 <tr v-if="gridState == 'good' && !gridData.length">
-                    <td colspan="5" class="grid-alert">
+                    <td colspan="6" class="grid-alert">
                         <div class="alert alert-warning" role="alert">
                             No matching records found.
                         </div>
@@ -145,8 +164,8 @@
                 <tr v-else v-for="row in this.gridData" :key="row.id">
                     <td data-title="Name" class="first-in-no-more-tables">
                         <a class="no-more-tables-name-link"
-                                v-bind:href="'/applicant/' + row.id"
-                                v-if="params.CanShow == '1'"
+                           v-bind:href="'/applicant/' + row.id"
+                           v-if="params.CanShow == '1'"
                         >
                             {{ row.applicant_name }}
                         </a>
@@ -158,24 +177,26 @@
                         <dsp-date v-model="row.dob"/>
 
                     </td>
-                    <td data-title="Notes"><dsp-textarea v-model="row.notes" /></td>
+                    <td data-title="Notes">
+                        <dsp-textarea v-model="row.notes"/>
+                    </td>
                     <td data-title="Status">{{ row.status_name }}</td>
                     <td data-title="Status">{{ row.assigned_to }}</td>
                     <td
-                            data-title="Actions"
-                            class="text-lg-center text-nowrap"
+                        data-title="Actions"
+                        class="text-lg-center text-nowrap"
                     >
                         <a
-                                v-bind:href="'/applicant/' + row.id"
-                                v-if="params.CanShow"
-                                class="grid-action-item"
+                            v-bind:href="'/applicant/' + row.id"
+                            v-if="params.CanShow"
+                            class="grid-action-item"
                         >
                             View
                         </a>
                         <a
-                                v-bind:href="'/applicant/' + row.id + '/edit'"
-                                v-if="params.CanEdit"
-                                class="grid-action-item"
+                            v-bind:href="'/applicant/' + row.id + '/edit'"
+                            v-if="params.CanEdit"
+                            class="grid-action-item"
                         >
                             Edit
                         </a>
@@ -202,18 +223,18 @@
                 >
             </div>
             <ss-grid-pagination
-                    class="col-lg-4 mb-2"
-                    v-bind:current_page="current_page"
-                    v-bind:last_page="last_page"
-                    v-bind:total="total"
-                    v-on:goto-page="getData(...arguments)"
+                class="col-lg-4 mb-2"
+                v-bind:current_page="current_page"
+                v-bind:last_page="last_page"
+                v-bind:total="total"
+                v-on:goto-page="getData(...arguments)"
             >
             </ss-grid-pagination>
             <ss-grid-pagination-location
-                    class="col-lg-4 text-lg-right mb-2"
-                    v-bind:current_page="current_page"
-                    v-bind:last_page="last_page"
-                    v-bind:total="total"
+                class="col-lg-4 text-lg-right mb-2"
+                v-bind:current_page="current_page"
+                v-bind:last_page="last_page"
+                v-bind:total="total"
             >
             </ss-grid-pagination-location>
         </div>
@@ -250,6 +271,9 @@
                 : 1;
             this.query = this.params.Search;
             this.getData(this.current_page);
+            this.assignmentSelected = !isNaN(parseInt(this.params.assignmentSelected))
+                ? parseInt(this.params.assignmentSelected)
+                : 0;
         },
 
         data: function () {
@@ -275,11 +299,15 @@
                 server_message: false,
                 try_logging_in: false,
                 statusSelected: 0,
+                assignmentSelected: 0,
             };
         },
 
         watch: {
             statusSelected: function (val) {
+                this.getData(1);
+            },
+            assignmentSelected: function (val) {
                 this.getData(1);
             },
         },
@@ -383,6 +411,7 @@
                 //                if (this.isDefined(this.contractorSelected)) queryParams.push('contractor_id=' + this.contractorSelected);
 
                 if (this.isDefined(this.statusSelected)) queryParams.push('status_id=' + this.statusSelected);
+                if (this.isDefined(this.assignmentSelected)) queryParams.push('assignment_id=' + this.assignmentSelected);
 
                 if (queryParams.length > 0) url += queryParams.join("&");
 

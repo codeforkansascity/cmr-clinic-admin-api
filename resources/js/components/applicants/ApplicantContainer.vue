@@ -17,8 +17,8 @@
                                             :show="true"
                                             @click="setView('summary')"/>
                             <pencil-control
-                                    height="25"
-                                    @click="setView('edit')"/>
+                                height="25"
+                                @click="setView('edit')"/>
                         </applicant-details>
                     </div>
                     <div v-if="view === 'edit'">
