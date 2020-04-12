@@ -11,14 +11,16 @@
 @endsection
 @section('content')
     <applicant-grid :params="{
-            Page: '{{ $page }}',
-            Search: '{{ $search }}',
-            sortOrder: '{{ $direction }}',
-            sortKey: '{{ $column }}',
-            CanAdd: '{{ $can_add }}',
-            CanEdit: '{{ $can_edit }}',
-            CanShow: '{{ $can_show }}',
-            CanDelete: '{{ $can_delete }}',
-            CanExcel: '{{ $can_excel }}'
+        Page: '{{ $page }}',
+        Search: '{{ $search }}',
+        sortOrder: '{{ $direction }}',
+        sortKey: '{{ $column }}',
+        CanAdd: '{{ $can_add }}',
+        CanEdit: '{{ $can_edit }}',
+        CanShow: '{{ $can_show }}',
+        CanDelete: '{{ $can_delete }}',
+        CanExcel: '{{ $can_excel }}',
+        statusSelected: '{{ $status_id }}',
+        assignmentSelected: '{{ $assignment_id }}'
         }"></applicant-grid>
 @endsection

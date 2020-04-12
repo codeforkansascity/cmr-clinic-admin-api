@@ -85,6 +85,8 @@ class ApplicantController extends Controller
         $search = session('applicant_keyword', '');
         $column = session('applicant_column', 'applicant_name');
         $direction = session('applicant_direction', '-1');
+        $status_id = session('status_id', '0');
+        $assignment_id = session('assignment_id', Auth::id());
 
         $can_add = Auth::user()->can('applicant add');
         $can_show = Auth::user()->can('applicant view');
@@ -97,7 +99,7 @@ class ApplicantController extends Controller
         info($can_add);
         info($can_edit);
 
-        return view('applicant.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
+        return view('applicant.index', compact('page', 'column', 'direction', 'search', 'status_id', 'assignment_id', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
 
     }
 
@@ -193,7 +195,7 @@ class ApplicantController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(ApplicantFormRequest $request)
@@ -223,7 +225,7 @@ class ApplicantController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  integer $id
+     * @param integer $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -252,7 +254,7 @@ class ApplicantController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  integer $id
+     * @param integer $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -278,8 +280,8 @@ class ApplicantController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Applicant $applicant * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Applicant $applicant * @return \Illuminate\Http\Response
      */
     public function update(ApplicantFormRequest $request, $id)
     {
@@ -325,7 +327,7 @@ class ApplicantController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Applicant $applicant * @return \Illuminate\Http\Response
+     * @param \App\Applicant $applicant * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -359,7 +361,6 @@ class ApplicantController extends Controller
         }
 
         return response()->json('Success', 200);
-
 
 
     }

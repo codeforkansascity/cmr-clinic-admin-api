@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\LoadCriminalHistory',
         'App\Console\Commands\EmailTestCommand',
         'App\Console\Commands\ConvertChargeStatuteToFK',
+        'App\Console\Commands\ApiTest',
     ];
 
     /**

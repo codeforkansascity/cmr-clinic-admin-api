@@ -18,7 +18,6 @@ class Assignment extends Model
     protected $fillable = [
             'id',
             'name',
-            'applicant_id',
             'user_id',
             'deleted_at',
         ];
@@ -77,7 +76,6 @@ class Assignment extends Model
         return self::buildBaseGridQuery($column, $direction, $keyword,
             [ 'id',
                     'name',
-                    'applicant_id',
                     'user_id',
             ])
         ->paginate($per_page);
