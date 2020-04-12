@@ -114,6 +114,7 @@
                     >
                         Status
                     </ss-grid-column-header>
+                    <th>Assigned</th>
                     <th style="width:20%;" class="text-center">Actions</th>
                 </tr>
                 </thead>
@@ -159,6 +160,7 @@
                     </td>
                     <td data-title="Notes"><dsp-textarea v-model="row.notes" /></td>
                     <td data-title="Status">{{ row.status_name }}</td>
+                    <td data-title="Status">{{ row.assigned_to }}</td>
                     <td
                             data-title="Actions"
                             class="text-lg-center text-nowrap"

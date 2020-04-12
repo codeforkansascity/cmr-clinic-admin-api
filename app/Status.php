@@ -175,7 +175,7 @@ class Status extends Model
 
         $records = $thisModel::select('id',
             'name')
-            ->orderBy('name')
+            ->orderBy('sequence')
             ->get();
 
         if (!$flat) {

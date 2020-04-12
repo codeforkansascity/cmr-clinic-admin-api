@@ -12,18 +12,6 @@
         <div class="row">
             <div class="col-md-12">
                 <std-form-group
-                        label="Id"
-                        label-for="id"
-                        :errors="form_errors.id"
-                >
-                    <fld-input name="id" v-model="form_data.id"/>
-                </std-form-group>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <std-form-group
                         label="Name"
                         label-for="name"
                         :errors="form_errors.name"
@@ -57,21 +45,6 @@
                         :errors="form_errors.sequence"
                 >
                     <fld-input name="sequence" v-model="form_data.sequence"/>
-                </std-form-group>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <std-form-group
-                        label="Deleted At"
-                        label-for="deleted_at"
-                        :errors="form_errors.deleted_at"
-                >
-                    <fld-input
-                            name="deleted_at"
-                            v-model="form_data.deleted_at"
-                    />
                 </std-form-group>
             </div>
         </div>
@@ -120,14 +93,12 @@
                     name: "",
                     alias: "",
                     sequence: 0,
-                    deleted_at: ""
                 },
                 form_errors: {
                     id: false,
                     name: false,
                     alias: false,
                     sequence: false,
-                    deleted_at: false
                 },
                 server_message: false,
                 try_logging_in: false,
