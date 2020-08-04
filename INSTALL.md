@@ -2,7 +2,8 @@
 
 These instructions assume you have git, npm, 
 composer, php, mysql installed, 
-that you have a running Laravel environment with Valet.
+that you have a running [Laravel 5.8 environment or greater](https://laravel.com/docs/5.8).
+You can also use Apache or Nginx server.
 
 
 Adjust:
@@ -10,7 +11,7 @@ Adjust:
 1. `DB_` setting to reflect the database you will use
 2. `TEST_USER_PASSWORD` to the test password you want for the inital user. 
     See `database/seeds/UserTableSeeder.php` for user name
-3. `MAIL_` should be adjusted if you are goint to test Forgot password or other functions that meil.    
+3. `MAIL_` should be adjusted if you are goint to test Forgot password or other functions that will emeil. mailtrap.io is a good solution.
 3. If you regenerate Passport Keys you man need to adjust `PASSWORD_CLIENT_ID`
 
 ## Install the dependencies
