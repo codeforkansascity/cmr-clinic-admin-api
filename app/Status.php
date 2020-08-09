@@ -33,7 +33,7 @@ class Status extends Model
 
     public function applicant()
     {
-        return $this->belongsTo('App\Applicant');
+        return $this->belongsTo(\App\Applicant::class);
     }
 
     public function add($attributes)

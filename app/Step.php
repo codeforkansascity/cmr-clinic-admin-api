@@ -33,7 +33,7 @@ class Step extends Model
 
     public function status()
     {
-        return $this->hasOne('App\Status', 'id', 'status_id');
+        return $this->hasOne(\App\Status::class, 'id', 'status_id');
     }
 
     public function add($attributes)

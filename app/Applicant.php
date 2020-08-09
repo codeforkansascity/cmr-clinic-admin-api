@@ -56,22 +56,22 @@ class Applicant extends Model
 
     public function assignment()
     {
-        return $this->hasOne('App\Assignment', 'id', 'assignment_id');
+        return $this->hasOne(\App\Assignment::class, 'id', 'assignment_id');
     }
 
     public function step()
     {
-        return $this->hasOne('App\Step', 'id', 'step_id');
+        return $this->hasOne(\App\Step::class, 'id', 'step_id');
     }
 
     public function status()
     {
-        return $this->hasOne('App\Status', 'id', 'status_id');
+        return $this->hasOne(\App\Status::class, 'id', 'status_id');
     }
 
     public function conviction()
     {
-        return $this->hasMany('App\Conviction');
+        return $this->hasMany(\App\Conviction::class);
     }
 
     public function histories()

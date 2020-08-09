@@ -43,12 +43,12 @@ class Conviction extends Model
 
     public function applicant()
     {
-        return $this->belongsTo('App\Applicant');
+        return $this->belongsTo(\App\Applicant::class);
     }
 
     public function charge()
     {
-        return $this->hasMany('App\Charge');
+        return $this->hasMany(\App\Charge::class);
     }
 
     public function histories()
