@@ -2,32 +2,25 @@
 
 namespace Tests\Feature;
 
-use function MongoDB\BSON\toJSON;
-use Tests\TestCase;
-
 use App\Charge;
+use App\User;
+use DB;
 use Faker;
-
 //use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-
-
-use DB;
-use App\User;
-use Spatie\Permission\Models\Role;
+use function MongoDB\BSON\toJSON;
 use Spatie\Permission\Exceptions\RoleDoesNotExist;
+use Spatie\Permission\Models\Role;
+use Tests\TestCase;
 
 /**
- * Class ChargeControllerTest
+ * Class ChargeControllerTest.
  *
  * 1. Test that you must be logged in to access any of the controller functions.
- *
- * @package Tests\Feature
  */
 class ChargeControllerTest extends TestCase
 {
-
     //use RefreshDatabase;
     //------------------------------------------------------------------------------
     // Test that you must be logged in to access any of the controller functions.
@@ -90,7 +83,6 @@ class ChargeControllerTest extends TestCase
         $response->assertRedirect('login');
     }
 
-
     /**
      * @test
      */
@@ -101,7 +93,6 @@ class ChargeControllerTest extends TestCase
         $this->withoutMiddleware();
         $response->assertRedirect('login');
     }
-
 
     /**
      * @test
@@ -120,13 +111,11 @@ class ChargeControllerTest extends TestCase
     // Test that you must have access any of the controller functions.
     //------------------------------------------------------------------------------
 
-
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_seeing_charge_index()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->get('/charge');
@@ -141,7 +130,6 @@ class ChargeControllerTest extends TestCase
      */
     public function prevent_users_without_permissions_from_creating_charge()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->get(route('charge.create'));
@@ -149,19 +137,16 @@ class ChargeControllerTest extends TestCase
         $response->assertRedirect('home');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_storing_charge()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->post(route('charge.store'));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
 
     /**
@@ -169,7 +154,6 @@ class ChargeControllerTest extends TestCase
      */
     public function prevent_users_without_permissions_from_showing_charge()
     {
-
         $user = $this->getRandomUser('cant');
 
         // Should check for permisson before checking to see if record exists
@@ -183,7 +167,6 @@ class ChargeControllerTest extends TestCase
      */
     public function prevent_users_without_permissions_from_editing_charge()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->get(route('charge.edit', ['id' => 1]));
@@ -191,28 +174,23 @@ class ChargeControllerTest extends TestCase
         $response->assertRedirect('home');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_updateing_charge()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->put(route('charge.update', ['id' => 1]));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
-
 
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_destroying_charge()
     {
-
         $user = $this->getRandomUser('cant');
 
         // Should check for permisson before checking to see if record exists
@@ -228,13 +206,11 @@ class ChargeControllerTest extends TestCase
     //   user does have access to index
     //------------------------------------------------------------------------------
 
-
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_creating_charge()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->get(route('charge.create'));
@@ -242,19 +218,16 @@ class ChargeControllerTest extends TestCase
         $response->assertRedirect('charge');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_storing_charge()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->post(route('charge.store'));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
 
     /**
@@ -262,7 +235,6 @@ class ChargeControllerTest extends TestCase
      */
     public function prevent_users_withonly_index_permissions_from_showing_charge()
     {
-
         $user = $this->getRandomUser('only index');
 
         // Should check for permisson before checking to see if record exists
@@ -276,7 +248,6 @@ class ChargeControllerTest extends TestCase
      */
     public function prevent_users_withonly_index_permissions_from_editing_charge()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->get(route('charge.edit', ['id' => 1]));
@@ -284,28 +255,23 @@ class ChargeControllerTest extends TestCase
         $response->assertRedirect('charge');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_updating_charge()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->put(route('charge.update', ['id' => 1]));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
-
 
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_destroying_charge()
     {
-
         $user = $this->getRandomUser('only index');
 
         // Should check for permisson before checking to see if record exists
@@ -320,6 +286,7 @@ class ChargeControllerTest extends TestCase
     // Now lets test that we have the functionality to add, change, delete, and
     //   catch validation errors
     //------------------------------------------------------------------------------
+
     /**
      * @test
      */
@@ -329,10 +296,9 @@ class ChargeControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         // act as the user we got and request the create_new_article route
-        $response = $this->actingAs($user)->get(route('charge.show',['id' => 100]));
+        $response = $this->actingAs($user)->get(route('charge.show', ['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Charges to display.');
-
+        $response->assertSessionHas('flash_error_message', 'Unable to find Charges to display.');
     }
 
     /**
@@ -344,14 +310,10 @@ class ChargeControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         // act as the user we got and request the create_new_article route
-        $response = $this->actingAs($user)->get(route('charge.edit',['id' => 100]));
+        $response = $this->actingAs($user)->get(route('charge.edit', ['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Charges to edit.');
-
+        $response->assertSessionHas('flash_error_message', 'Unable to find Charges to edit.');
     }
-
-
-
 
     /**
      * @test
@@ -367,7 +329,6 @@ class ChargeControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('charge.create');
         $response->assertSee('charge-form');
-
     }
 
     /**
@@ -379,8 +340,8 @@ class ChargeControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         $data = [
-            'id' => "",
-            'notes' => "",
+            'id' => '',
+            'notes' => '',
         ];
 
         $totalNumberOfChargesBefore = Charge::count();
@@ -388,11 +349,10 @@ class ChargeControllerTest extends TestCase
         $response = $this->actingAs($user)->post(route('charge.store'), $data);
 
         $totalNumberOfChargesAfter = Charge::count();
-        $this->assertEquals($totalNumberOfChargesAfter, $totalNumberOfChargesBefore, "the number of total article is supposed to be the same ");
+        $this->assertEquals($totalNumberOfChargesAfter, $totalNumberOfChargesBefore, 'the number of total article is supposed to be the same ');
 
         $errors = session('errors');
-        $this->assertEquals($errors->get('name')[0],"The name field is required.");
-
+        $this->assertEquals($errors->get('name')[0], 'The name field is required.');
     }
 
     /**
@@ -406,8 +366,8 @@ class ChargeControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         $data = [
-            'id' => "",
-            'notes' => "a",
+            'id' => '',
+            'notes' => 'a',
         ];
 
         $totalNumberOfChargesBefore = Charge::count();
@@ -415,12 +375,11 @@ class ChargeControllerTest extends TestCase
         $response = $this->actingAs($user)->post(route('charge.store'), $data);
 
         $totalNumberOfChargesAfter = Charge::count();
-        $this->assertEquals($totalNumberOfChargesAfter, $totalNumberOfChargesBefore, "the number of total article is supposed to be the same ");
+        $this->assertEquals($totalNumberOfChargesAfter, $totalNumberOfChargesBefore, 'the number of total article is supposed to be the same ');
 
         $errors = session('errors');
 
-        $this->assertEquals($errors->get('name')[0],"The name must be at least 3 characters.");
-
+        $this->assertEquals($errors->get('name')[0], 'The name must be at least 3 characters.');
     }
 
     /**
@@ -430,18 +389,17 @@ class ChargeControllerTest extends TestCase
      */
     public function create_a_charge()
     {
-
         $faker = Faker\Factory::create();
         // get a random user
         $user = $this->getRandomUser('super-admin');
 
         $data = [
-          'notes' => "",
+          'notes' => '',
         ];
 
         info('--  Charge  --');
-         info(print_r($data,true));
-          info('----');
+        info(print_r($data, true));
+        info('----');
 
         $totalNumberOfChargesBefore = Charge::count();
 
@@ -449,19 +407,15 @@ class ChargeControllerTest extends TestCase
 
         $totalNumberOfChargesAfter = Charge::count();
 
-
         $errors = session('errors');
 
-        info(print_r($errors,true));
+        info(print_r($errors, true));
 
-        $this->assertEquals($totalNumberOfChargesAfter, $totalNumberOfChargesBefore + 1, "the number of total charge is supposed to be one more ");
+        $this->assertEquals($totalNumberOfChargesAfter, $totalNumberOfChargesBefore + 1, 'the number of total charge is supposed to be one more ');
 
         $lastInsertedInTheDB = Charge::orderBy('id', 'desc')->first();
 
-
-        $this->assertEquals($lastInsertedInTheDB->notes, $data['notes'], "the notes of the saved charge is different from the input data");
-
-
+        $this->assertEquals($lastInsertedInTheDB->notes, $data['notes'], 'the notes of the saved charge is different from the input data');
     }
 
     /**
@@ -471,30 +425,27 @@ class ChargeControllerTest extends TestCase
      */
     public function prevent_creating_a_duplicate_charge()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
         $user = $this->getRandomUser('super-admin');
 
-
         $totalNumberOfChargesBefore = Charge::count();
 
         $charge = Charge::get()->random();
         $data = [
-            'id' => "",
-            'notes' => "",
+            'id' => '',
+            'notes' => '',
         ];
 
         $response = $this->actingAs($user)->post(route('charge.store'), $data);
         $response->assertStatus(302);
 
         $errors = session('errors');
-        $this->assertEquals($errors->get('name')[0],"The name has already been taken.");
+        $this->assertEquals($errors->get('name')[0], 'The name has already been taken.');
 
         $totalNumberOfChargesAfter = Charge::count();
-        $this->assertEquals($totalNumberOfChargesAfter, $totalNumberOfChargesBefore, "the number of total charge should be the same ");
-
+        $this->assertEquals($totalNumberOfChargesAfter, $totalNumberOfChargesBefore, 'the number of total charge should be the same ');
     }
 
     /**
@@ -504,7 +455,6 @@ class ChargeControllerTest extends TestCase
      */
     public function allow_changing_charge()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
@@ -512,20 +462,17 @@ class ChargeControllerTest extends TestCase
 
         $data = Charge::get()->random()->toArray();
 
-        $data['name'] = $data['name'] . '1';
+        $data['name'] = $data['name'].'1';
 
         $totalNumberOfChargesBefore = Charge::count();
 
-        $response = $this->actingAs($user)->json('PATCH', 'charge/' . $data['id'], $data);
+        $response = $this->actingAs($user)->json('PATCH', 'charge/'.$data['id'], $data);
 
         $response->assertStatus(200);
 
         $totalNumberOfChargesAfter = Charge::count();
-        $this->assertEquals($totalNumberOfChargesAfter, $totalNumberOfChargesBefore, "the number of total charge should be the same ");
-
+        $this->assertEquals($totalNumberOfChargesAfter, $totalNumberOfChargesBefore, 'the number of total charge should be the same ');
     }
-
-
 
     /**
      * @test
@@ -534,7 +481,6 @@ class ChargeControllerTest extends TestCase
      */
     public function prevent_creating_a_duplicate_by_changing_charge()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
@@ -542,39 +488,35 @@ class ChargeControllerTest extends TestCase
 
         $data = Charge::get()->random()->toArray();
 
-
-
         // Create one that we can duplicate the name for, at this point we only have one charge record
         $charge_dup = [
 
-            'notes' => "",
+            'notes' => '',
         ];
 
         $response = $this->actingAs($user)->post(route('charge.store'), $charge_dup);
-
 
         $data['name'] = $charge_dup['name'];
 
         $totalNumberOfChargesBefore = Charge::count();
 
-        $response = $this->actingAs($user)->json('PATCH', 'charge/' . $data['id'], $data);
+        $response = $this->actingAs($user)->json('PATCH', 'charge/'.$data['id'], $data);
         $response->assertStatus(422);  // From web page we get a 422
 
         $errors = session('errors');
 
-        info(print_r($errors,true));
+        info(print_r($errors, true));
 
         $response
             ->assertStatus(422)
             ->assertJson([
-                'message' => 'The given data was invalid.'
+                'message' => 'The given data was invalid.',
             ]);
 
         $response->assertJsonValidationErrors(['name']);
 
         $totalNumberOfChargesAfter = Charge::count();
-        $this->assertEquals($totalNumberOfChargesAfter, $totalNumberOfChargesBefore, "the number of total charge should be the same ");
-
+        $this->assertEquals($totalNumberOfChargesAfter, $totalNumberOfChargesBefore, 'the number of total charge should be the same ');
     }
 
     /**
@@ -584,7 +526,6 @@ class ChargeControllerTest extends TestCase
      */
     public function allow_deleting_charge()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
@@ -592,18 +533,16 @@ class ChargeControllerTest extends TestCase
 
         $data = Charge::get()->random()->toArray();
 
-
         $totalNumberOfChargesBefore = Charge::count();
 
-        $response = $this->actingAs($user)->json('DELETE', 'charge/' . $data['id'], $data);
+        $response = $this->actingAs($user)->json('DELETE', 'charge/'.$data['id'], $data);
 
         $totalNumberOfChargesAfter = Charge::count();
-        $this->assertEquals($totalNumberOfChargesAfter, $totalNumberOfChargesBefore - 1, "the number of total charge should be the same ");
-
+        $this->assertEquals($totalNumberOfChargesAfter, $totalNumberOfChargesBefore - 1, 'the number of total charge should be the same ');
     }
 
     /**
-     * Get a random user with optional role and guard
+     * Get a random user with optional role and guard.
      *
      * @param null $role
      * @param string $guard
@@ -611,11 +550,10 @@ class ChargeControllerTest extends TestCase
      */
     public function getRandomUser($role = null, $guard = 'web')
     {
-
         if ($role) {
 
             // This should work but throws a 'Spatie\Permission\Exceptions\RoleDoesNotExist: There is no role named `super-admin`.
-            $role_id = Role::findByName($role,'web')->id;
+            $role_id = Role::findByName($role, 'web')->id;
 
             $sql = "SELECT model_id FROM model_has_roles WHERE model_type = 'App\\\User' AND role_id = $role_id ORDER BY RAND() LIMIT 1";
             $ret = DB::select($sql);
@@ -628,6 +566,4 @@ class ChargeControllerTest extends TestCase
 
         return $this->user;
     }
-
-
 }

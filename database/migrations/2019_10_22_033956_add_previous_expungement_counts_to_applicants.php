@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddPreviousExpungementCountsToApplicants extends Migration
 {
@@ -16,7 +16,6 @@ class AddPreviousExpungementCountsToApplicants extends Migration
         Schema::table('clients', function (Blueprint $table) {
             $table->integer('previous_misdemeanor_expungements')->default(0)->nullable()->after('previous_expungements');
             $table->integer('previous_felony_expungements')->default(0)->nullable()->after('previous_expungements');
-
         });
     }
 

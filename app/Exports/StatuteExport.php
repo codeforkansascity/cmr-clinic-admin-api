@@ -2,8 +2,8 @@
 
 namespace App\Exports;
 
-use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
@@ -32,7 +32,7 @@ class StatuteExport implements FromQuery, WithHeadings, WithMapping
             'number',
             'name',
             'note',
-            'eligible'
+            'eligible',
         ];
     }
 

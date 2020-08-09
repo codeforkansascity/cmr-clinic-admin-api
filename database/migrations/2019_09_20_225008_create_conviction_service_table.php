@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateConvictionServiceTable extends Migration
 {
@@ -30,7 +30,6 @@ class CreateConvictionServiceTable extends Migration
             $table->integer('purged_by')->default(0)->nullable();
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 

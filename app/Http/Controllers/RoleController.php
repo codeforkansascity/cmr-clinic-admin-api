@@ -2,25 +2,21 @@
 
 namespace App\Http\Controllers;
 
-
-
+use App\Exports\RoleExport;
 use App\Http\Middleware\TrimStrings;
+use App\Http\Requests\RoleEditRequest;
+use App\Http\Requests\RoleStoreRequest;
 use App\Role;
 use Illuminate\Http\Request;
-use App\Http\Requests\RoleStoreRequest;
-use App\Http\Requests\RoleEditRequest;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-
-use App\Exports\RoleExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class RoleController extends Controller
 {
-
     /**
-     * Examples
+     * Examples.
      *
      * Vue component example.
      *
@@ -50,8 +46,7 @@ class RoleController extends Controller
                 'options' => $role_options
             ])
             @endcomponent
-    */
-
+     */
 
     /**
      * Display a listing of the resource.
@@ -74,7 +69,6 @@ class RoleController extends Controller
         $can_excel = true; // Auth::user()->isAllowed('role-excel');
 
         return view('role.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel'));
-
     }
 
     /**
@@ -82,11 +76,10 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-	public function create(Request $request)
-	{
-	    return view('role.create');
-	}
-
+    public function create(Request $request)
+    {
+        return view('role.create');
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -96,26 +89,25 @@ class RoleController extends Controller
      */
     public function store(RoleStoreRequest $request)
     {
-
         $role = new \App\Role;
 
-        if (!$role->add($request->all())) {
+        if (! $role->add($request->all())) {
             \Session::flash('flash_error_message', 'Member could not be added.  Try again.');
+
             return redirect('role/create')
                 ->withErrors($request->validator)
                 ->withInput();
         }
 
-        \Session::flash('flash_success_message', 'Role ' . $role->name . ' was added');
+        \Session::flash('flash_success_message', 'Role '.$role->name.' was added');
 
         return Redirect::route('role.index');
-
     }
 
     /**
      * Display the specified resource.
-     *d
-     * @param  integer $id
+     *d.
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -124,6 +116,7 @@ class RoleController extends Controller
             return view('role.show', compact('role'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find role to display');
+
             return Redirect::route('role.index');
         }
     }
@@ -131,19 +124,18 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-
         if ($role = $this->find($id)) {
             return view('role.edit', compact('role'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find role to edit');
+
             return Redirect::route('role.index');
         }
-
     }
 
     /**
@@ -154,18 +146,18 @@ class RoleController extends Controller
      */
     public function update(RoleEditRequest $request, $id)
     {
-        if (!$role = $this->find($id)) {
+        if (! $role = $this->find($id)) {
             \Session::flash('flash_error_message', 'Unable to find role to edit');
+
             return Redirect::route('role.index');
         }
 
         $role->fill($request->all());
 
         if ($role->isDirty()) {
-
             $role->save();
 
-            \Session::flash('flash_success_message', 'Role ' . $role->name . ' was changed');
+            \Session::flash('flash_success_message', 'Role '.$role->name.' was changed');
         } else {
             \Session::flash('flash_info_message', 'No changes were made');
         }
@@ -184,7 +176,7 @@ class RoleController extends Controller
     }
 
     /**
-     * Find by ID, sanitize the ID first
+     * Find by ID, sanitize the ID first.
      *
      * @param $id
      * @return Role or null
@@ -193,7 +185,6 @@ class RoleController extends Controller
     {
         return \App\Role::find(intval($id));
     }
-
 
     public function download()
     {
@@ -207,7 +198,7 @@ class RoleController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         $dataQuery = Role::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());
@@ -223,7 +214,5 @@ class RoleController extends Controller
         //    \Session::flash('flash_error_message', 'There are no organizations to download.');
         //    return Redirect::route('organization.index');
         //}
-
     }
-	
 }

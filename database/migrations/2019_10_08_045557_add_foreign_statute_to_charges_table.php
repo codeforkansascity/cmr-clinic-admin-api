@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddForeignStatuteToChargesTable extends Migration
 {
@@ -21,8 +21,6 @@ class AddForeignStatuteToChargesTable extends Migration
             $table->foreign('statute_id')
                 ->references('id')->on('statutes')->onDelete('set null');
         });
-
-
     }
 
     /**
@@ -33,7 +31,7 @@ class AddForeignStatuteToChargesTable extends Migration
     public function down()
     {
         Schema::table('charges', function (Blueprint $table) {
-            $table->string('charge',64)->nullable();
+            $table->string('charge', 64)->nullable();
             $table->renameColumn('imported_statute', 'charge');
             $table->renameColumn('imported_citation', 'citation');
             $table->dropForeign(['statute_id']);

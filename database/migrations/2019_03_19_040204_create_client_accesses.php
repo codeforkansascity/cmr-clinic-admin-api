@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateClientAccesses extends Migration
 {
@@ -17,7 +17,7 @@ class CreateClientAccesses extends Migration
             $table->bigIncrements('id');
 
             $table->unsignedBigInteger('user_id')->default(0);
-            $table->string('access_type',64)->nullable();
+            $table->string('access_type', 64)->nullable();
             $table->unsignedBigInteger('client_id')->default(0);
 
             $table->integer('created_by')->default(0)->nullable();
@@ -28,7 +28,6 @@ class CreateClientAccesses extends Migration
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('client_id')->references('id')->on('client');
-
         });
     }
 

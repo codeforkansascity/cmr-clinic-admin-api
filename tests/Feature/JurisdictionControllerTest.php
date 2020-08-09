@@ -2,32 +2,25 @@
 
 namespace Tests\Feature;
 
-use function MongoDB\BSON\toJSON;
-use Tests\TestCase;
-
 use App\Jurisdiction;
+use App\User;
+use DB;
 use Faker;
-
 //use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-
-
-use DB;
-use App\User;
-use Spatie\Permission\Models\Role;
+use function MongoDB\BSON\toJSON;
 use Spatie\Permission\Exceptions\RoleDoesNotExist;
+use Spatie\Permission\Models\Role;
+use Tests\TestCase;
 
 /**
- * Class JurisdictionControllerTest
+ * Class JurisdictionControllerTest.
  *
  * 1. Test that you must be logged in to access any of the controller functions.
- *
- * @package Tests\Feature
  */
 class JurisdictionControllerTest extends TestCase
 {
-
     //use RefreshDatabase;
     //------------------------------------------------------------------------------
     // Test that you must be logged in to access any of the controller functions.
@@ -90,7 +83,6 @@ class JurisdictionControllerTest extends TestCase
         $response->assertRedirect('login');
     }
 
-
     /**
      * @test
      */
@@ -101,7 +93,6 @@ class JurisdictionControllerTest extends TestCase
         $this->withoutMiddleware();
         $response->assertRedirect('login');
     }
-
 
     /**
      * @test
@@ -120,13 +111,11 @@ class JurisdictionControllerTest extends TestCase
     // Test that you must have access any of the controller functions.
     //------------------------------------------------------------------------------
 
-
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_seeing_jurisdiction_index()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->get('/jurisdiction');
@@ -141,7 +130,6 @@ class JurisdictionControllerTest extends TestCase
      */
     public function prevent_users_without_permissions_from_creating_jurisdiction()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->get(route('jurisdiction.create'));
@@ -149,19 +137,16 @@ class JurisdictionControllerTest extends TestCase
         $response->assertRedirect('home');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_storing_jurisdiction()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->post(route('jurisdiction.store'));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
 
     /**
@@ -169,7 +154,6 @@ class JurisdictionControllerTest extends TestCase
      */
     public function prevent_users_without_permissions_from_showing_jurisdiction()
     {
-
         $user = $this->getRandomUser('cant');
 
         // Should check for permisson before checking to see if record exists
@@ -183,7 +167,6 @@ class JurisdictionControllerTest extends TestCase
      */
     public function prevent_users_without_permissions_from_editing_jurisdiction()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->get(route('jurisdiction.edit', ['id' => 1]));
@@ -191,28 +174,23 @@ class JurisdictionControllerTest extends TestCase
         $response->assertRedirect('home');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_updateing_jurisdiction()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->put(route('jurisdiction.update', ['id' => 1]));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
-
 
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_destroying_jurisdiction()
     {
-
         $user = $this->getRandomUser('cant');
 
         // Should check for permisson before checking to see if record exists
@@ -228,13 +206,11 @@ class JurisdictionControllerTest extends TestCase
     //   user does have access to index
     //------------------------------------------------------------------------------
 
-
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_creating_jurisdiction()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->get(route('jurisdiction.create'));
@@ -242,19 +218,16 @@ class JurisdictionControllerTest extends TestCase
         $response->assertRedirect('jurisdiction');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_storing_jurisdiction()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->post(route('jurisdiction.store'));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
 
     /**
@@ -262,7 +235,6 @@ class JurisdictionControllerTest extends TestCase
      */
     public function prevent_users_withonly_index_permissions_from_showing_jurisdiction()
     {
-
         $user = $this->getRandomUser('only index');
 
         // Should check for permisson before checking to see if record exists
@@ -276,7 +248,6 @@ class JurisdictionControllerTest extends TestCase
      */
     public function prevent_users_withonly_index_permissions_from_editing_jurisdiction()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->get(route('jurisdiction.edit', ['id' => 1]));
@@ -284,28 +255,23 @@ class JurisdictionControllerTest extends TestCase
         $response->assertRedirect('jurisdiction');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_updating_jurisdiction()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->put(route('jurisdiction.update', ['id' => 1]));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
-
 
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_destroying_jurisdiction()
     {
-
         $user = $this->getRandomUser('only index');
 
         // Should check for permisson before checking to see if record exists
@@ -320,6 +286,7 @@ class JurisdictionControllerTest extends TestCase
     // Now lets test that we have the functionality to add, change, delete, and
     //   catch validation errors
     //------------------------------------------------------------------------------
+
     /**
      * @test
      */
@@ -329,10 +296,9 @@ class JurisdictionControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         // act as the user we got and request the create_new_article route
-        $response = $this->actingAs($user)->get(route('jurisdiction.show',['id' => 100]));
+        $response = $this->actingAs($user)->get(route('jurisdiction.show', ['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Jurisdiction to display.');
-
+        $response->assertSessionHas('flash_error_message', 'Unable to find Jurisdiction to display.');
     }
 
     /**
@@ -344,14 +310,10 @@ class JurisdictionControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         // act as the user we got and request the create_new_article route
-        $response = $this->actingAs($user)->get(route('jurisdiction.edit',['id' => 100]));
+        $response = $this->actingAs($user)->get(route('jurisdiction.edit', ['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Jurisdiction to edit.');
-
+        $response->assertSessionHas('flash_error_message', 'Unable to find Jurisdiction to edit.');
     }
-
-
-
 
     /**
      * @test
@@ -367,7 +329,6 @@ class JurisdictionControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('jurisdiction.create');
         $response->assertSee('jurisdiction-form');
-
     }
 
     /**
@@ -379,10 +340,10 @@ class JurisdictionControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         $data = [
-            'id' => "",
-            'jurisdiction_type_id' => "",
-            'name' => "",
-            'url' => "",
+            'id' => '',
+            'jurisdiction_type_id' => '',
+            'name' => '',
+            'url' => '',
         ];
 
         $totalNumberOfJurisdictionsBefore = Jurisdiction::count();
@@ -390,11 +351,10 @@ class JurisdictionControllerTest extends TestCase
         $response = $this->actingAs($user)->post(route('jurisdiction.store'), $data);
 
         $totalNumberOfJurisdictionsAfter = Jurisdiction::count();
-        $this->assertEquals($totalNumberOfJurisdictionsAfter, $totalNumberOfJurisdictionsBefore, "the number of total article is supposed to be the same ");
+        $this->assertEquals($totalNumberOfJurisdictionsAfter, $totalNumberOfJurisdictionsBefore, 'the number of total article is supposed to be the same ');
 
         $errors = session('errors');
-        $this->assertEquals($errors->get('name')[0],"The name field is required.");
-
+        $this->assertEquals($errors->get('name')[0], 'The name field is required.');
     }
 
     /**
@@ -408,10 +368,10 @@ class JurisdictionControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         $data = [
-            'id' => "",
-            'jurisdiction_type_id' => "a",
-            'name' => "a",
-            'url' => "a",
+            'id' => '',
+            'jurisdiction_type_id' => 'a',
+            'name' => 'a',
+            'url' => 'a',
         ];
 
         $totalNumberOfJurisdictionsBefore = Jurisdiction::count();
@@ -419,12 +379,11 @@ class JurisdictionControllerTest extends TestCase
         $response = $this->actingAs($user)->post(route('jurisdiction.store'), $data);
 
         $totalNumberOfJurisdictionsAfter = Jurisdiction::count();
-        $this->assertEquals($totalNumberOfJurisdictionsAfter, $totalNumberOfJurisdictionsBefore, "the number of total article is supposed to be the same ");
+        $this->assertEquals($totalNumberOfJurisdictionsAfter, $totalNumberOfJurisdictionsBefore, 'the number of total article is supposed to be the same ');
 
         $errors = session('errors');
 
-        $this->assertEquals($errors->get('name')[0],"The name must be at least 3 characters.");
-
+        $this->assertEquals($errors->get('name')[0], 'The name must be at least 3 characters.');
     }
 
     /**
@@ -434,20 +393,19 @@ class JurisdictionControllerTest extends TestCase
      */
     public function create_a_jurisdiction()
     {
-
         $faker = Faker\Factory::create();
         // get a random user
         $user = $this->getRandomUser('super-admin');
 
         $data = [
-          'jurisdiction_type_id' => "",
+          'jurisdiction_type_id' => '',
           'name' => $faker->name,
-          'url' => "",
+          'url' => '',
         ];
 
         info('--  Jurisdiction  --');
-         info(print_r($data,true));
-          info('----');
+        info(print_r($data, true));
+        info('----');
 
         $totalNumberOfJurisdictionsBefore = Jurisdiction::count();
 
@@ -455,25 +413,19 @@ class JurisdictionControllerTest extends TestCase
 
         $totalNumberOfJurisdictionsAfter = Jurisdiction::count();
 
-
         $errors = session('errors');
 
-        info(print_r($errors,true));
+        info(print_r($errors, true));
 
-        $this->assertEquals($totalNumberOfJurisdictionsAfter, $totalNumberOfJurisdictionsBefore + 1, "the number of total jurisdiction is supposed to be one more ");
+        $this->assertEquals($totalNumberOfJurisdictionsAfter, $totalNumberOfJurisdictionsBefore + 1, 'the number of total jurisdiction is supposed to be one more ');
 
         $lastInsertedInTheDB = Jurisdiction::orderBy('id', 'desc')->first();
 
+        $this->assertEquals($lastInsertedInTheDB->jurisdiction_type_id, $data['jurisdiction_type_id'], 'the jurisdiction_type_id of the saved jurisdiction is different from the input data');
 
-        $this->assertEquals($lastInsertedInTheDB->jurisdiction_type_id, $data['jurisdiction_type_id'], "the jurisdiction_type_id of the saved jurisdiction is different from the input data");
+        $this->assertEquals($lastInsertedInTheDB->name, $data['name'], 'the name of the saved jurisdiction is different from the input data');
 
-
-        $this->assertEquals($lastInsertedInTheDB->name, $data['name'], "the name of the saved jurisdiction is different from the input data");
-
-
-        $this->assertEquals($lastInsertedInTheDB->url, $data['url'], "the url of the saved jurisdiction is different from the input data");
-
-
+        $this->assertEquals($lastInsertedInTheDB->url, $data['url'], 'the url of the saved jurisdiction is different from the input data');
     }
 
     /**
@@ -483,32 +435,29 @@ class JurisdictionControllerTest extends TestCase
      */
     public function prevent_creating_a_duplicate_jurisdiction()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
         $user = $this->getRandomUser('super-admin');
 
-
         $totalNumberOfJurisdictionsBefore = Jurisdiction::count();
 
         $jurisdiction = Jurisdiction::get()->random();
         $data = [
-            'id' => "",
-            'jurisdiction_type_id' => "",
+            'id' => '',
+            'jurisdiction_type_id' => '',
             'name' => $jurisdiction->name,
-            'url' => "",
+            'url' => '',
         ];
 
         $response = $this->actingAs($user)->post(route('jurisdiction.store'), $data);
         $response->assertStatus(302);
 
         $errors = session('errors');
-        $this->assertEquals($errors->get('name')[0],"The name has already been taken.");
+        $this->assertEquals($errors->get('name')[0], 'The name has already been taken.');
 
         $totalNumberOfJurisdictionsAfter = Jurisdiction::count();
-        $this->assertEquals($totalNumberOfJurisdictionsAfter, $totalNumberOfJurisdictionsBefore, "the number of total jurisdiction should be the same ");
-
+        $this->assertEquals($totalNumberOfJurisdictionsAfter, $totalNumberOfJurisdictionsBefore, 'the number of total jurisdiction should be the same ');
     }
 
     /**
@@ -518,7 +467,6 @@ class JurisdictionControllerTest extends TestCase
      */
     public function allow_changing_jurisdiction()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
@@ -526,20 +474,17 @@ class JurisdictionControllerTest extends TestCase
 
         $data = Jurisdiction::get()->random()->toArray();
 
-        $data['name'] = $data['name'] . '1';
+        $data['name'] = $data['name'].'1';
 
         $totalNumberOfJurisdictionsBefore = Jurisdiction::count();
 
-        $response = $this->actingAs($user)->json('PATCH', 'jurisdiction/' . $data['id'], $data);
+        $response = $this->actingAs($user)->json('PATCH', 'jurisdiction/'.$data['id'], $data);
 
         $response->assertStatus(200);
 
         $totalNumberOfJurisdictionsAfter = Jurisdiction::count();
-        $this->assertEquals($totalNumberOfJurisdictionsAfter, $totalNumberOfJurisdictionsBefore, "the number of total jurisdiction should be the same ");
-
+        $this->assertEquals($totalNumberOfJurisdictionsAfter, $totalNumberOfJurisdictionsBefore, 'the number of total jurisdiction should be the same ');
     }
-
-
 
     /**
      * @test
@@ -548,7 +493,6 @@ class JurisdictionControllerTest extends TestCase
      */
     public function prevent_creating_a_duplicate_by_changing_jurisdiction()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
@@ -556,41 +500,37 @@ class JurisdictionControllerTest extends TestCase
 
         $data = Jurisdiction::get()->random()->toArray();
 
-
-
         // Create one that we can duplicate the name for, at this point we only have one jurisdiction record
         $jurisdiction_dup = [
 
-            'jurisdiction_type_id' => "",
+            'jurisdiction_type_id' => '',
             'name' => $faker->name,
-            'url' => "",
+            'url' => '',
         ];
 
         $response = $this->actingAs($user)->post(route('jurisdiction.store'), $jurisdiction_dup);
-
 
         $data['name'] = $jurisdiction_dup['name'];
 
         $totalNumberOfJurisdictionsBefore = Jurisdiction::count();
 
-        $response = $this->actingAs($user)->json('PATCH', 'jurisdiction/' . $data['id'], $data);
+        $response = $this->actingAs($user)->json('PATCH', 'jurisdiction/'.$data['id'], $data);
         $response->assertStatus(422);  // From web page we get a 422
 
         $errors = session('errors');
 
-        info(print_r($errors,true));
+        info(print_r($errors, true));
 
         $response
             ->assertStatus(422)
             ->assertJson([
-                'message' => 'The given data was invalid.'
+                'message' => 'The given data was invalid.',
             ]);
 
         $response->assertJsonValidationErrors(['name']);
 
         $totalNumberOfJurisdictionsAfter = Jurisdiction::count();
-        $this->assertEquals($totalNumberOfJurisdictionsAfter, $totalNumberOfJurisdictionsBefore, "the number of total jurisdiction should be the same ");
-
+        $this->assertEquals($totalNumberOfJurisdictionsAfter, $totalNumberOfJurisdictionsBefore, 'the number of total jurisdiction should be the same ');
     }
 
     /**
@@ -600,7 +540,6 @@ class JurisdictionControllerTest extends TestCase
      */
     public function allow_deleting_jurisdiction()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
@@ -608,18 +547,16 @@ class JurisdictionControllerTest extends TestCase
 
         $data = Jurisdiction::get()->random()->toArray();
 
-
         $totalNumberOfJurisdictionsBefore = Jurisdiction::count();
 
-        $response = $this->actingAs($user)->json('DELETE', 'jurisdiction/' . $data['id'], $data);
+        $response = $this->actingAs($user)->json('DELETE', 'jurisdiction/'.$data['id'], $data);
 
         $totalNumberOfJurisdictionsAfter = Jurisdiction::count();
-        $this->assertEquals($totalNumberOfJurisdictionsAfter, $totalNumberOfJurisdictionsBefore - 1, "the number of total jurisdiction should be the same ");
-
+        $this->assertEquals($totalNumberOfJurisdictionsAfter, $totalNumberOfJurisdictionsBefore - 1, 'the number of total jurisdiction should be the same ');
     }
 
     /**
-     * Get a random user with optional role and guard
+     * Get a random user with optional role and guard.
      *
      * @param null $role
      * @param string $guard
@@ -627,11 +564,10 @@ class JurisdictionControllerTest extends TestCase
      */
     public function getRandomUser($role = null, $guard = 'web')
     {
-
         if ($role) {
 
             // This should work but throws a 'Spatie\Permission\Exceptions\RoleDoesNotExist: There is no role named `super-admin`.
-            $role_id = Role::findByName($role,'web')->id;
+            $role_id = Role::findByName($role, 'web')->id;
 
             $sql = "SELECT model_id FROM model_has_roles WHERE model_type = 'App\\\User' AND role_id = $role_id ORDER BY RAND() LIMIT 1";
             $ret = DB::select($sql);
@@ -644,6 +580,4 @@ class JurisdictionControllerTest extends TestCase
 
         return $this->user;
     }
-
-
 }

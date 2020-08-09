@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Charge;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class ChargeController extends Controller
 {
@@ -24,7 +24,8 @@ class ChargeController extends Controller
 
         $data = $request->all();
         $data['conviction_id'] = $conviction_id;
-        $charge =  Charge::create($data);
+        $charge = Charge::create($data);
+
         return $charge->id;
     }
 

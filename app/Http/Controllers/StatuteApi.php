@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Statute;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StatuteIndexRequest;
+use App\Statute;
+use Illuminate\Http\Request;
 
 class StatuteApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +16,6 @@ class StatuteApi extends Controller
      */
     public function index(StatuteIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -33,7 +30,7 @@ class StatuteApi extends Controller
             'statute_column' => $column,
             'statute_direction' => $direction,
             'statute_keyword' => $keyword,
-            'eligibility_id' => $eligibility_id
+            'eligibility_id' => $eligibility_id,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -43,17 +40,17 @@ class StatuteApi extends Controller
     }
 
     /**
-     * Returns "options" for HTML select
+     * Returns "options" for HTML select.
      * @return array
      */
-    public function getOptions() {
-
+    public function getOptions()
+    {
         return Statute::getOptions();
     }
 
-    public function get($id) {
-        return \App\Statute::with('statutes_eligibility','superseded')->find(intval($id));
-
+    public function get($id)
+    {
+        return \App\Statute::with('statutes_eligibility', 'superseded')->find(intval($id));
     }
 
     /**
@@ -100,5 +97,4 @@ class StatuteApi extends Controller
     {
         //
     }
-
 }

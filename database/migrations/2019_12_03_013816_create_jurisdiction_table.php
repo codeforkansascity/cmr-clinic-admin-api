@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateJurisdictionTable extends Migration
 {
@@ -26,13 +26,11 @@ class CreateJurisdictionTable extends Migration
         });
 
         \App\Jurisdiction::create([
-            "id"=> "1",
-            "name"=> "Missouri",
-            "jurisdiction_type_id" => 1,
-            "created_by"=> "1",
+            'id'=> '1',
+            'name'=> 'Missouri',
+            'jurisdiction_type_id' => 1,
+            'created_by'=> '1',
         ]);
-
-
     }
 
     /**

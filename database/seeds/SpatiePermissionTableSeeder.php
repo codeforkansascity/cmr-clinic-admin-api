@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Lib\InitialPermissions;
+use Illuminate\Database\Seeder;
 
 class SpatiePermissionTableSeeder extends Seeder
 {

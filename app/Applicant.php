@@ -2,19 +2,18 @@
 
 namespace App;
 
+use App\Traits\RecordSignature;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\RecordSignature;
 
 class Applicant extends Model
 {
-
     use SoftDeletes;
     use RecordSignature;
 
     /**
-     * fillable - attributes that can be mass-assigned
+     * fillable - attributes that can be mass-assigned.
      */
     protected $fillable = [
         'id',
@@ -55,26 +54,24 @@ class Applicant extends Model
         'updated_at',
     ];
 
-
     public function assignment()
     {
-        return $this->hasOne('App\Assignment', 'id', 'assignment_id');
+        return $this->hasOne(\App\Assignment::class, 'id', 'assignment_id');
     }
 
     public function step()
     {
-        return $this->hasOne('App\Step', 'id', 'step_id');
+        return $this->hasOne(\App\Step::class, 'id', 'step_id');
     }
 
     public function status()
     {
-        return $this->hasOne('App\Status', 'id', 'status_id');
+        return $this->hasOne(\App\Status::class, 'id', 'status_id');
     }
 
     public function conviction()
     {
-        return $this->hasMany('App\Conviction');
-
+        return $this->hasMany(\App\Conviction::class);
     }
 
     public function histories()
@@ -96,14 +93,13 @@ class Applicant extends Model
 
     public function add($attributes)
     {
-
         try {
             $this->fill($attributes)->save();
         } catch (\Exception $e) {
-            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
+            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
             throw new \Exception($e->getMessage());
         } catch (\Illuminate\Database\QueryException $e) {
-            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
+            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
             throw new \Exception($e->getMessage());
         }
 
@@ -115,9 +111,8 @@ class Applicant extends Model
         return true;
     }
 
-
     /**
-     * Get Grid/index data PAGINATED
+     * Get Grid/index data PAGINATED.
      *
      * @param $per_page
      * @param $column
@@ -126,7 +121,7 @@ class Applicant extends Model
      * @param $status_filter
      * @return mixed
      */
-    static function indexData(
+    public static function indexData(
         $per_page,
         $column,
         $direction,
@@ -148,19 +143,16 @@ class Applicant extends Model
             ])
             ->paginate($per_page);
 
-
         $query = \DB::getQueryLog();
         $lastQuery = end($query);
 
         info(print_r($lastQuery, true));
 
-
         return $ret;
     }
 
-
     /**
-     * Create base query to be used by Grid, Download, and PDF
+     * Create base query to be used by Grid, Download, and PDF.
      *
      * NOTE: to override the select you must supply all fields, ie you cannot add to the
      *       fields being selected.
@@ -171,8 +163,7 @@ class Applicant extends Model
      * @param string|array $columns
      * @return mixed
      */
-
-    static function buildBaseGridQuery(
+    public static function buildBaseGridQuery(
         $column,
         $direction,
         $keyword = '',
@@ -196,15 +187,14 @@ class Applicant extends Model
 
         $column = $column == 'name' ? 'applicant_name' : $column;
 
-        $query = Applicant::select($columns)
+        $query = self::select($columns)
             ->leftJoin('users', 'applicants.assignment_id', 'users.id')
             ->leftJoin('statuses', 'applicants.status_id', 'statuses.id')
             ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('applicants.name', 'like', '%' . $keyword . '%');
+            $query->where('applicants.name', 'like', '%'.$keyword.'%');
         }
-
 
         switch ($status_filter) {
             case -1:
@@ -230,7 +220,7 @@ class Applicant extends Model
     }
 
     /**
-     * Get export/Excel/download data query to send to Excel download library
+     * Get export/Excel/download data query to send to Excel download library.
      *
      * @param $per_page
      * @param $column
@@ -238,43 +228,36 @@ class Applicant extends Model
      * @param string $keyword
      * @return mixed
      */
-
-    static function exportDataQuery(
+    public static function exportDataQuery(
         $column,
         $direction,
         $keyword = '',
         $columns = '*')
     {
-
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
-
     }
 
-    static function pdfDataQuery(
+    public static function pdfDataQuery(
         $column,
         $direction,
         $keyword = '',
         $columns = '*')
     {
-
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
-
     }
-
 
     /**
-     * Get "options" for HTML select tag
+     * Get "options" for HTML select tag.
      *
      * If flat return an array.
      * Otherwise, return an array of records.  Helps keep in proper order durring ajax calls to Chrome
      */
-    static public function getOptions($flat = false)
+    public static function getOptions($flat = false)
     {
-
         $thisModel = new static;
 
         $records = $thisModel::select('id',
@@ -282,18 +265,17 @@ class Applicant extends Model
             ->orderBy('name')
             ->get();
 
-        if (!$flat) {
+        if (! $flat) {
             return $records;
         } else {
             $data = [];
 
-            foreach ($records AS $rec) {
+            foreach ($records as $rec) {
                 $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
             }
 
             return $data;
         }
-
     }
 
     public function saveHistory($request, $action = 'updated')
@@ -301,7 +283,7 @@ class Applicant extends Model
         $data = [
             'user_id' => auth()->user()->id ?? 1,
             'reason_for_change' => $request->reason_for_change ?? null,
-            'action' => $action
+            'action' => $action,
         ];
 
         /*
@@ -318,5 +300,4 @@ class Applicant extends Model
 
         return $this->histories()->create($data);
     }
-
 }

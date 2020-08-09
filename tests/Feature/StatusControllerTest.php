@@ -2,32 +2,25 @@
 
 namespace Tests\Feature;
 
-use function MongoDB\BSON\toJSON;
-use Tests\TestCase;
-
 use App\Status;
+use App\User;
+use DB;
 use Faker;
-
 //use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-
-
-use DB;
-use App\User;
-use Spatie\Permission\Models\Role;
+use function MongoDB\BSON\toJSON;
 use Spatie\Permission\Exceptions\RoleDoesNotExist;
+use Spatie\Permission\Models\Role;
+use Tests\TestCase;
 
 /**
- * Class StatusControllerTest
+ * Class StatusControllerTest.
  *
  * 1. Test that you must be logged in to access any of the controller functions.
- *
- * @package Tests\Feature
  */
 class StatusControllerTest extends TestCase
 {
-
     //use RefreshDatabase;
     //------------------------------------------------------------------------------
     // Test that you must be logged in to access any of the controller functions.
@@ -90,7 +83,6 @@ class StatusControllerTest extends TestCase
         $response->assertRedirect('login');
     }
 
-
     /**
      * @test
      */
@@ -101,7 +93,6 @@ class StatusControllerTest extends TestCase
         $this->withoutMiddleware();
         $response->assertRedirect('login');
     }
-
 
     /**
      * @test
@@ -120,13 +111,11 @@ class StatusControllerTest extends TestCase
     // Test that you must have access any of the controller functions.
     //------------------------------------------------------------------------------
 
-
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_seeing_status_index()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->get('/status');
@@ -141,7 +130,6 @@ class StatusControllerTest extends TestCase
      */
     public function prevent_users_without_permissions_from_creating_status()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->get(route('status.create'));
@@ -149,19 +137,16 @@ class StatusControllerTest extends TestCase
         $response->assertRedirect('home');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_storing_status()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->post(route('status.store'));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
 
     /**
@@ -169,7 +154,6 @@ class StatusControllerTest extends TestCase
      */
     public function prevent_users_without_permissions_from_showing_status()
     {
-
         $user = $this->getRandomUser('cant');
 
         // Should check for permisson before checking to see if record exists
@@ -183,7 +167,6 @@ class StatusControllerTest extends TestCase
      */
     public function prevent_users_without_permissions_from_editing_status()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->get(route('status.edit', ['id' => 1]));
@@ -191,28 +174,23 @@ class StatusControllerTest extends TestCase
         $response->assertRedirect('home');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_updateing_status()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->put(route('status.update', ['id' => 1]));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
-
 
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_destroying_status()
     {
-
         $user = $this->getRandomUser('cant');
 
         // Should check for permisson before checking to see if record exists
@@ -228,13 +206,11 @@ class StatusControllerTest extends TestCase
     //   user does have access to index
     //------------------------------------------------------------------------------
 
-
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_creating_status()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->get(route('status.create'));
@@ -242,19 +218,16 @@ class StatusControllerTest extends TestCase
         $response->assertRedirect('status');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_storing_status()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->post(route('status.store'));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
 
     /**
@@ -262,7 +235,6 @@ class StatusControllerTest extends TestCase
      */
     public function prevent_users_withonly_index_permissions_from_showing_status()
     {
-
         $user = $this->getRandomUser('only index');
 
         // Should check for permisson before checking to see if record exists
@@ -276,7 +248,6 @@ class StatusControllerTest extends TestCase
      */
     public function prevent_users_withonly_index_permissions_from_editing_status()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->get(route('status.edit', ['id' => 1]));
@@ -284,28 +255,23 @@ class StatusControllerTest extends TestCase
         $response->assertRedirect('status');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_updating_status()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->put(route('status.update', ['id' => 1]));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
-
 
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_destroying_status()
     {
-
         $user = $this->getRandomUser('only index');
 
         // Should check for permisson before checking to see if record exists
@@ -320,6 +286,7 @@ class StatusControllerTest extends TestCase
     // Now lets test that we have the functionality to add, change, delete, and
     //   catch validation errors
     //------------------------------------------------------------------------------
+
     /**
      * @test
      */
@@ -329,10 +296,9 @@ class StatusControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         // act as the user we got and request the create_new_article route
-        $response = $this->actingAs($user)->get(route('status.show',['id' => 100]));
+        $response = $this->actingAs($user)->get(route('status.show', ['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Status to display.');
-
+        $response->assertSessionHas('flash_error_message', 'Unable to find Status to display.');
     }
 
     /**
@@ -344,14 +310,10 @@ class StatusControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         // act as the user we got and request the create_new_article route
-        $response = $this->actingAs($user)->get(route('status.edit',['id' => 100]));
+        $response = $this->actingAs($user)->get(route('status.edit', ['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Status to edit.');
-
+        $response->assertSessionHas('flash_error_message', 'Unable to find Status to edit.');
     }
-
-
-
 
     /**
      * @test
@@ -367,7 +329,6 @@ class StatusControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('status.create');
         $response->assertSee('status-form');
-
     }
 
     /**
@@ -379,10 +340,10 @@ class StatusControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         $data = [
-            'id' => "",
-            'name' => "",
-            'alias' => "",
-            'sequence' => "",
+            'id' => '',
+            'name' => '',
+            'alias' => '',
+            'sequence' => '',
         ];
 
         $totalNumberOfStatusesBefore = Status::count();
@@ -390,11 +351,10 @@ class StatusControllerTest extends TestCase
         $response = $this->actingAs($user)->post(route('status.store'), $data);
 
         $totalNumberOfStatusesAfter = Status::count();
-        $this->assertEquals($totalNumberOfStatusesAfter, $totalNumberOfStatusesBefore, "the number of total article is supposed to be the same ");
+        $this->assertEquals($totalNumberOfStatusesAfter, $totalNumberOfStatusesBefore, 'the number of total article is supposed to be the same ');
 
         $errors = session('errors');
-        $this->assertEquals($errors->get('name')[0],"The name field is required.");
-
+        $this->assertEquals($errors->get('name')[0], 'The name field is required.');
     }
 
     /**
@@ -408,10 +368,10 @@ class StatusControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         $data = [
-            'id' => "",
-            'name' => "a",
-            'alias' => "a",
-            'sequence' => "a",
+            'id' => '',
+            'name' => 'a',
+            'alias' => 'a',
+            'sequence' => 'a',
         ];
 
         $totalNumberOfStatusesBefore = Status::count();
@@ -419,12 +379,11 @@ class StatusControllerTest extends TestCase
         $response = $this->actingAs($user)->post(route('status.store'), $data);
 
         $totalNumberOfStatusesAfter = Status::count();
-        $this->assertEquals($totalNumberOfStatusesAfter, $totalNumberOfStatusesBefore, "the number of total article is supposed to be the same ");
+        $this->assertEquals($totalNumberOfStatusesAfter, $totalNumberOfStatusesBefore, 'the number of total article is supposed to be the same ');
 
         $errors = session('errors');
 
-        $this->assertEquals($errors->get('name')[0],"The name must be at least 3 characters.");
-
+        $this->assertEquals($errors->get('name')[0], 'The name must be at least 3 characters.');
     }
 
     /**
@@ -434,20 +393,19 @@ class StatusControllerTest extends TestCase
      */
     public function create_a_status()
     {
-
         $faker = Faker\Factory::create();
         // get a random user
         $user = $this->getRandomUser('super-admin');
 
         $data = [
           'name' => $faker->name,
-          'alias' => "",
-          'sequence' => "",
+          'alias' => '',
+          'sequence' => '',
         ];
 
         info('--  Status  --');
-         info(print_r($data,true));
-          info('----');
+        info(print_r($data, true));
+        info('----');
 
         $totalNumberOfStatusesBefore = Status::count();
 
@@ -455,25 +413,19 @@ class StatusControllerTest extends TestCase
 
         $totalNumberOfStatusesAfter = Status::count();
 
-
         $errors = session('errors');
 
-        info(print_r($errors,true));
+        info(print_r($errors, true));
 
-        $this->assertEquals($totalNumberOfStatusesAfter, $totalNumberOfStatusesBefore + 1, "the number of total status is supposed to be one more ");
+        $this->assertEquals($totalNumberOfStatusesAfter, $totalNumberOfStatusesBefore + 1, 'the number of total status is supposed to be one more ');
 
         $lastInsertedInTheDB = Status::orderBy('id', 'desc')->first();
 
+        $this->assertEquals($lastInsertedInTheDB->name, $data['name'], 'the name of the saved status is different from the input data');
 
-        $this->assertEquals($lastInsertedInTheDB->name, $data['name'], "the name of the saved status is different from the input data");
+        $this->assertEquals($lastInsertedInTheDB->alias, $data['alias'], 'the alias of the saved status is different from the input data');
 
-
-        $this->assertEquals($lastInsertedInTheDB->alias, $data['alias'], "the alias of the saved status is different from the input data");
-
-
-        $this->assertEquals($lastInsertedInTheDB->sequence, $data['sequence'], "the sequence of the saved status is different from the input data");
-
-
+        $this->assertEquals($lastInsertedInTheDB->sequence, $data['sequence'], 'the sequence of the saved status is different from the input data');
     }
 
     /**
@@ -483,32 +435,29 @@ class StatusControllerTest extends TestCase
      */
     public function prevent_creating_a_duplicate_status()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
         $user = $this->getRandomUser('super-admin');
 
-
         $totalNumberOfStatusesBefore = Status::count();
 
         $status = Status::get()->random();
         $data = [
-            'id' => "",
+            'id' => '',
             'name' => $status->name,
-            'alias' => "",
-            'sequence' => "",
+            'alias' => '',
+            'sequence' => '',
         ];
 
         $response = $this->actingAs($user)->post(route('status.store'), $data);
         $response->assertStatus(302);
 
         $errors = session('errors');
-        $this->assertEquals($errors->get('name')[0],"The name has already been taken.");
+        $this->assertEquals($errors->get('name')[0], 'The name has already been taken.');
 
         $totalNumberOfStatusesAfter = Status::count();
-        $this->assertEquals($totalNumberOfStatusesAfter, $totalNumberOfStatusesBefore, "the number of total status should be the same ");
-
+        $this->assertEquals($totalNumberOfStatusesAfter, $totalNumberOfStatusesBefore, 'the number of total status should be the same ');
     }
 
     /**
@@ -518,7 +467,6 @@ class StatusControllerTest extends TestCase
      */
     public function allow_changing_status()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
@@ -526,20 +474,17 @@ class StatusControllerTest extends TestCase
 
         $data = Status::get()->random()->toArray();
 
-        $data['name'] = $data['name'] . '1';
+        $data['name'] = $data['name'].'1';
 
         $totalNumberOfStatusesBefore = Status::count();
 
-        $response = $this->actingAs($user)->json('PATCH', 'status/' . $data['id'], $data);
+        $response = $this->actingAs($user)->json('PATCH', 'status/'.$data['id'], $data);
 
         $response->assertStatus(200);
 
         $totalNumberOfStatusesAfter = Status::count();
-        $this->assertEquals($totalNumberOfStatusesAfter, $totalNumberOfStatusesBefore, "the number of total status should be the same ");
-
+        $this->assertEquals($totalNumberOfStatusesAfter, $totalNumberOfStatusesBefore, 'the number of total status should be the same ');
     }
-
-
 
     /**
      * @test
@@ -548,7 +493,6 @@ class StatusControllerTest extends TestCase
      */
     public function prevent_creating_a_duplicate_by_changing_status()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
@@ -556,41 +500,37 @@ class StatusControllerTest extends TestCase
 
         $data = Status::get()->random()->toArray();
 
-
-
         // Create one that we can duplicate the name for, at this point we only have one status record
         $status_dup = [
 
             'name' => $faker->name,
-            'alias' => "",
-            'sequence' => "",
+            'alias' => '',
+            'sequence' => '',
         ];
 
         $response = $this->actingAs($user)->post(route('status.store'), $status_dup);
-
 
         $data['name'] = $status_dup['name'];
 
         $totalNumberOfStatusesBefore = Status::count();
 
-        $response = $this->actingAs($user)->json('PATCH', 'status/' . $data['id'], $data);
+        $response = $this->actingAs($user)->json('PATCH', 'status/'.$data['id'], $data);
         $response->assertStatus(422);  // From web page we get a 422
 
         $errors = session('errors');
 
-        info(print_r($errors,true));
+        info(print_r($errors, true));
 
         $response
             ->assertStatus(422)
             ->assertJson([
-                'message' => 'The given data was invalid.'
+                'message' => 'The given data was invalid.',
             ]);
 
         $response->assertJsonValidationErrors(['name']);
 
         $totalNumberOfStatusesAfter = Status::count();
-        $this->assertEquals($totalNumberOfStatusesAfter, $totalNumberOfStatusesBefore, "the number of total status should be the same ");
-
+        $this->assertEquals($totalNumberOfStatusesAfter, $totalNumberOfStatusesBefore, 'the number of total status should be the same ');
     }
 
     /**
@@ -600,7 +540,6 @@ class StatusControllerTest extends TestCase
      */
     public function allow_deleting_status()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
@@ -608,18 +547,16 @@ class StatusControllerTest extends TestCase
 
         $data = Status::get()->random()->toArray();
 
-
         $totalNumberOfStatusesBefore = Status::count();
 
-        $response = $this->actingAs($user)->json('DELETE', 'status/' . $data['id'], $data);
+        $response = $this->actingAs($user)->json('DELETE', 'status/'.$data['id'], $data);
 
         $totalNumberOfStatusesAfter = Status::count();
-        $this->assertEquals($totalNumberOfStatusesAfter, $totalNumberOfStatusesBefore - 1, "the number of total status should be the same ");
-
+        $this->assertEquals($totalNumberOfStatusesAfter, $totalNumberOfStatusesBefore - 1, 'the number of total status should be the same ');
     }
 
     /**
-     * Get a random user with optional role and guard
+     * Get a random user with optional role and guard.
      *
      * @param null $role
      * @param string $guard
@@ -627,11 +564,10 @@ class StatusControllerTest extends TestCase
      */
     public function getRandomUser($role = null, $guard = 'web')
     {
-
         if ($role) {
 
             // This should work but throws a 'Spatie\Permission\Exceptions\RoleDoesNotExist: There is no role named `super-admin`.
-            $role_id = Role::findByName($role,'web')->id;
+            $role_id = Role::findByName($role, 'web')->id;
 
             $sql = "SELECT model_id FROM model_has_roles WHERE model_type = 'App\\\User' AND role_id = $role_id ORDER BY RAND() LIMIT 1";
             $ret = DB::select($sql);
@@ -644,6 +580,4 @@ class StatusControllerTest extends TestCase
 
         return $this->user;
     }
-
-
 }

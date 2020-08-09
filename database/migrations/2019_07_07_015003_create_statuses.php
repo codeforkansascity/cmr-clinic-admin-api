@@ -1,11 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
-use Spatie\Permission\Models\Role;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class CreateStatuses extends Migration
 {
@@ -53,7 +52,6 @@ class CreateStatuses extends Migration
             'alias' => 'Meet',
             'sequence' => 70,
         ]);
-
     }
 
     /**
@@ -68,12 +66,10 @@ class CreateStatuses extends Migration
         Schema::table('clients', function (Blueprint $table) {
             $table->dropColumn('status_id');
         });
-
     }
 
     private function addRole($role, $permissions)
     {
-
         try {
             $role = Role::findByName($role);
         } catch (Exception $e) {
@@ -81,6 +77,5 @@ class CreateStatuses extends Migration
         }
 
         $role->givePermissionTo($permissions);
-
     }
 }

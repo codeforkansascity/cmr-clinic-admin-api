@@ -19,7 +19,6 @@ class CommentFormRequest extends FormRequest
         } else {  // If not we must be adding one
             return Auth::user()->can('comment add');
         }
-
     }
 
     /**
@@ -29,13 +28,11 @@ class CommentFormRequest extends FormRequest
      */
     public function rules()
     {
-
         $id = $this->route('comment');
 
         $rules = [
          //  Ignore duplicate email if it is this record
          //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
-
 
             'id' => 'numeric',
             'user_id' => 'nullable|numeric',
@@ -46,9 +43,6 @@ class CommentFormRequest extends FormRequest
 
         ];
 
-
         return $rules;
     }
 }
-
-

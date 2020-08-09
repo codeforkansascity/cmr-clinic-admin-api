@@ -3,7 +3,6 @@
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
-
 class ConvictionTableSeeder extends Seeder
 {
     /**
@@ -22,7 +21,7 @@ class ConvictionTableSeeder extends Seeder
             'arrest_date' => '10/22/2003',
             'case_number' => '16CR9996477',
             'agency' => 'County',
-            'court_name' => NULL,
+            'court_name' => null,
             'court_city_county' => 'Jackson',
             'judge' => $faker->name,
             'record_name' => 'Teresa Kuvalis',
@@ -36,7 +35,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             'purged_by' => '0',
             'created_at' => '2019-04-22',
             'updated_at' => '2019-04-22',
-            'date_of_charge' => NULL,
+            'date_of_charge' => null,
         ]);
         $conviction = \App\Conviction::create([
             'id' => '3',
@@ -45,11 +44,11 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             'arrest_date' => '11/03/2003',
             'case_number' => '16CR039997-01',
             'agency' => 'County',
-            'court_name' => NULL,
+            'court_name' => null,
             'court_city_county' => 'Jackson',
             'judge' => $faker->name,
             'record_name' => 'Teresa Kuvalis',
-            'release_status' => NULL,
+            'release_status' => null,
             // 'release_date' => '2013-05-02',
             'notes' => 'Release date says "OCN 05/02/2013; assume this is a release date that is about seven years after sentencing.  Says released from parole in 2011. Advised that Assault on LEO is not expungable per statute',
 
@@ -58,17 +57,17 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             'purged_by' => '0',
             'created_at' => '2019-04-22',
             'updated_at' => '2019-04-27',
-            'date_of_charge' => NULL,
+            'date_of_charge' => null,
         ]);
 
         $conviction = \App\Conviction::create([
             'id' => '4',
             'applicant_id' => '2',
             'name' => 'TraffickingDrugs/Attempt-2ndDegree',
-            'arrest_date' => NULL,
+            'arrest_date' => null,
             'case_number' => '16CR030999-01',
             'agency' => 'Circuit',
-            'court_name' => NULL,
+            'court_name' => null,
             'court_city_county' => 'Jackson',
             'judge' => $faker->name,
             'record_name' => 'Teresa Kuvalis',
@@ -80,7 +79,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             'purged_by' => '0',
             'created_at' => '2019-04-22',
             'updated_at' => '2019-04-23',
-            'date_of_charge' => NULL,
+            'date_of_charge' => null,
         ]);
 
         $conviction = \App\Conviction::create([
@@ -90,7 +89,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             'arrest_date' => '03/18/2004',
             'case_number' => '02199940',
             'agency' => 'Municipal',
-            'court_name' => NULL,
+            'court_name' => null,
             'court_city_county' => 'Independence',
             'judge' => $faker->name,
             'record_name' => 'Teresa Kuvalis',
@@ -109,14 +108,14 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             'id' => '6',
             'applicant_id' => '2',
             'name' => 'Driving with out a license plate',
-            'arrest_date' => NULL,
-            'case_number' => NULL,
+            'arrest_date' => null,
+            'case_number' => null,
             'agency' => 'Municipal',
-            'court_name' => NULL,
+            'court_name' => null,
             'court_city_county' => 'Kansas City',
             'judge' => 'Payable without court appearance',
             'record_name' => 'Teresa L .Kuvalis',
-            'release_status' => NULL,
+            'release_status' => null,
             // 'release_date' => '2018-03-17',
             'notes' => 'Appears a bench warrant was issued; picked up on bench warrant and paid the fine.  May not have appeared before the court. At one place, it identifieds the Court 2',
             'created_by' => '0',
@@ -124,8 +123,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             'purged_by' => '0',
             'created_at' => '2019-04-23',
             'updated_at' => '2019-04-23',
-            'date_of_charge' => NULL,
+            'date_of_charge' => null,
         ]);
-
     }
 }

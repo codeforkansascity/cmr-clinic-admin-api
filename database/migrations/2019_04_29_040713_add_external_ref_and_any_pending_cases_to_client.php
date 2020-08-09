@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddExternalRefAndAnyPendingCasesToClient extends Migration
 {
@@ -14,8 +14,8 @@ class AddExternalRefAndAnyPendingCasesToClient extends Migration
     public function up()
     {
         Schema::table('client', function (Blueprint $table) {
-            $table->string('external_ref',42)->nullable();
-            $table->string('any_pending_cases',255)->nullable();
+            $table->string('external_ref', 42)->nullable();
+            $table->string('any_pending_cases', 255)->nullable();
         });
     }
 

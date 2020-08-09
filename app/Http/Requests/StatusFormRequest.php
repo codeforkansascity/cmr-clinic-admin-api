@@ -19,7 +19,6 @@ class StatusFormRequest extends FormRequest
         } else {  // If not we must be adding one
             return Auth::user()->can('status add');
         }
-
     }
 
     /**
@@ -29,13 +28,11 @@ class StatusFormRequest extends FormRequest
      */
     public function rules()
     {
-
         $id = $this->route('status');
 
         $rules = [
          //  Ignore duplicate email if it is this record
          //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
-
 
             'id' => 'numeric',
             'alias' => 'nullable|string|max:12',
@@ -44,14 +41,12 @@ class StatusFormRequest extends FormRequest
 
         ];
 
-                if ($this->route('status')) {  // If ID we must be changing an existing record
-                    $rules['name'] = 'required|min:3|nullable|string|max:60|unique:statuses,name,' . $id;
-                } else {  // If not we must be adding one
-                    $rules['name'] = 'required|min:3|nullable|string|max:60|unique:statuses';
-                }
+        if ($this->route('status')) {  // If ID we must be changing an existing record
+            $rules['name'] = 'required|min:3|nullable|string|max:60|unique:statuses,name,'.$id;
+        } else {  // If not we must be adding one
+            $rules['name'] = 'required|min:3|nullable|string|max:60|unique:statuses';
+        }
 
         return $rules;
     }
 }
-
-

@@ -19,7 +19,6 @@ class ApplicantFormRequest extends FormRequest
         } else {  // If not we must be adding one
             return Auth::user()->can('applicant add');
         }
-
     }
 
     /**
@@ -29,13 +28,11 @@ class ApplicantFormRequest extends FormRequest
      */
     public function rules()
     {
-
         $id = $this->route('applicant');
 
         $rules = [
             //  Ignore duplicate email if it is this record
             //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
-
 
             'id' => 'numeric',
             'phone' => 'nullable|string|max:64',
@@ -77,5 +74,3 @@ class ApplicantFormRequest extends FormRequest
         return $rules;
     }
 }
-
-
