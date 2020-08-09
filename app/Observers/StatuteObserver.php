@@ -26,7 +26,6 @@ class StatuteObserver
     public function updated(Statute $statute)
     {
         $statute->saveHistory(request());
-
     }
 
     /**
@@ -38,7 +37,6 @@ class StatuteObserver
     public function deleted(Statute $statute)
     {
         $statute->saveHistory(request());
-
     }
 
     /**

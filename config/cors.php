@@ -1,4 +1,5 @@
 <?php
+
 // From https://github.com/barryvdh/laravel-cors
 
 return [

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class ChangeDeletedAtToTimestamps extends Migration
 {
@@ -15,7 +15,6 @@ class ChangeDeletedAtToTimestamps extends Migration
     {
         Schema::table('charges', function (Blueprint $table) {
             $table->dropColumn('deleted_at');
-
         });
         Schema::table('charges', function (Blueprint $table) {
             $table->softDeletes();
@@ -39,7 +38,6 @@ class ChangeDeletedAtToTimestamps extends Migration
             $table->dropColumn('deleted_at');
         });
         Schema::table('charges', function (Blueprint $table) {
-
             $table->unsignedBigInteger('deleted_at')->nullable();
         });
 

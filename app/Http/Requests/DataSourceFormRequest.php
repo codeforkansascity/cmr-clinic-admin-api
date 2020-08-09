@@ -19,7 +19,6 @@ class DataSourceFormRequest extends FormRequest
         } else {  // If not we must be adding one
             return Auth::user()->can('data_source add');
         }
-
     }
 
     /**
@@ -29,13 +28,11 @@ class DataSourceFormRequest extends FormRequest
      */
     public function rules()
     {
-
         $id = $this->route('data_source');
 
         $rules = [
          //  Ignore duplicate email if it is this record
          //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
-
 
             'id' => 'numeric',
             'description' => 'nullable|string|max:191',
@@ -44,14 +41,12 @@ class DataSourceFormRequest extends FormRequest
 
         ];
 
-                if ($this->route('data_source')) {  // If ID we must be changing an existing record
-                    $rules['name'] = 'required|min:3|nullable|string|max:191|unique:data_sources,name,' . $id;
-                } else {  // If not we must be adding one
-                    $rules['name'] = 'required|min:3|nullable|string|max:191|unique:data_sources';
-                }
+        if ($this->route('data_source')) {  // If ID we must be changing an existing record
+            $rules['name'] = 'required|min:3|nullable|string|max:191|unique:data_sources,name,'.$id;
+        } else {  // If not we must be adding one
+            $rules['name'] = 'required|min:3|nullable|string|max:191|unique:data_sources';
+        }
 
         return $rules;
     }
 }
-
-

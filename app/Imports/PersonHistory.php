@@ -8,10 +8,9 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 class PersonHistory implements ToCollection
 {
     /**
-    * @param Collection $collection
-    */
+     * @param Collection $collection
+     */
     public function collection(Collection $collection)
     {
-
     }
 }

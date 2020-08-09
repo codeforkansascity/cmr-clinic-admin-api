@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Assignment;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AssignmentController extends Controller
 {
@@ -16,42 +16,38 @@ class AssignmentController extends Controller
      */
     public function index()
     {
-
-        if (!Auth::user()->can('assignment index')) {  // TODO: add -> create
+        if (! Auth::user()->can('assignment index')) {  // TODO: add -> create
             return response()->json([
-                'error' => 'Not authorized'
+                'error' => 'Not authorized',
             ], 403);
         }
+
         return Assignment::all();
     }
 
     public function indexByClient(Request $request, $applicant_id)
     {
-
-        if (!Auth::user()->can('assignment index')) {
+        if (! Auth::user()->can('assignment index')) {
             return response()->json([
-                'error' => 'Not authorized'
+                'error' => 'Not authorized',
             ], 403);
         }
 
-        $assignments = Assignment::where('applicant_id',$applicant_id)->get();
-
-
+        $assignments = Assignment::where('applicant_id', $applicant_id)->get();
 
         return $assignments;
-
     }
 
     public function add(Request $request, $applicant_id)
     {
         info("assignments::add($applicant_id)");
-        info(print_r($request->toArray(),true));
+        info(print_r($request->toArray(), true));
 
         $data = $request->all();
         $data['applicant_id'] = $applicant_id;
 
+        $assignment = Assignment::create($data);
 
-        $assignment =  Assignment::create($data);
         return $assignment->id;
     }
 
@@ -101,7 +97,6 @@ class AssignmentController extends Controller
     public function destroy($id)
     {
         Assignment::find($id)->delete();
-
 
         return 204;
     }

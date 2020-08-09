@@ -10,14 +10,14 @@ $factory->define(\App\Conviction::class, function (Faker $faker) {
     return [
         'applicant_id' => $applicant->id,
         'name' => 'Driving with out a license plate',
-        'arrest_date' => NULL,
-        'case_number' => NULL,
+        'arrest_date' => null,
+        'case_number' => null,
         'agency' => 'Municipal',
-        'court_name' => NULL,
+        'court_name' => null,
         'court_city_county' => 'Kansas City',
         'judge' => 'Payable without court appearance',
         'record_name' => $applicant->name,
-        'release_status' => NULL,
+        'release_status' => null,
 //        'release_date' => $release,
         'notes' => 'Appears a bench warrant was issued; picked up on bench warrant and paid the fine.  May not have appeared before the court. At one place, it identifieds the Court 2',
         'created_by' => '0',
@@ -25,6 +25,6 @@ $factory->define(\App\Conviction::class, function (Faker $faker) {
         'purged_by' => '0',
         'created_at' => '2019-04-23',
         'updated_at' => '2019-04-23',
-        'date_of_charge' => NULL,
+        'date_of_charge' => null,
     ];
 });

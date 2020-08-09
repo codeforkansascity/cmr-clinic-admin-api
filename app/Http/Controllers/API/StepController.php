@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Step;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StepController extends Controller
 {
@@ -16,12 +16,12 @@ class StepController extends Controller
      */
     public function index()
     {
-
-        if (!Auth::user()->can('step index')) {  // TODO: add -> create
+        if (! Auth::user()->can('step index')) {  // TODO: add -> create
             return response()->json([
-                'error' => 'Not authorized'
+                'error' => 'Not authorized',
             ], 403);
         }
+
         return Step::all();
     }
 
@@ -34,24 +34,21 @@ class StepController extends Controller
 //            ], 403);
 //        }
 
-        $steps = Step::where('applicant_id',$applicant_id)->get();
-
-
+        $steps = Step::where('applicant_id', $applicant_id)->get();
 
         return $steps;
-
     }
 
     public function add(Request $request, $applicant_id)
     {
         info("steps::add($applicant_id)");
-        info(print_r($request->toArray(),true));
+        info(print_r($request->toArray(), true));
 
         $data = $request->all();
         $data['applicant_id'] = $applicant_id;
 
+        $step = Step::create($data);
 
-        $step =  Step::create($data);
         return $step->id;
     }
 
@@ -101,7 +98,6 @@ class StepController extends Controller
     public function destroy($id)
     {
         Step::find($id)->delete();
-
 
         return 204;
     }

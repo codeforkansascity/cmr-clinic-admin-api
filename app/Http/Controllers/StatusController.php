@@ -2,27 +2,23 @@
 
 namespace App\Http\Controllers;
 
-
-
+use App\Exports\StatusExport;
 use App\Http\Middleware\TrimStrings;
-use App\Status;
-use Illuminate\Http\Request;
-
 use App\Http\Requests\StatusFormRequest;
 use App\Http\Requests\StatusIndexRequest;
-use Illuminate\Support\Facades\Redirect;
+use App\Status;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-
-use App\Exports\StatusExport;
 use Maatwebsite\Excel\Facades\Excel;
+
 //use PDF; // TCPDF, not currently in use
 
 class StatusController extends Controller
 {
-
     /**
-     * Examples
+     * Examples.
      *
      * Vue component example.
      *
@@ -61,9 +57,7 @@ class StatusController extends Controller
              Permission::create(['name' => 'status destroy']);
              Permission::create(['name' => 'status export-pdf']);
              Permission::create(['name' => 'status export-excel']);
-
-    */
-
+     */
 
     /**
      * Display a listing of the resource.
@@ -72,9 +66,9 @@ class StatusController extends Controller
      */
     public function index(StatusIndexRequest $request)
     {
-
-        if (!Auth::user()->can('status index')) {
+        if (! Auth::user()->can('status index')) {
             \Session::flash('flash_error_message', 'You do not have access to Statuss.');
+
             return Redirect::route('home');
         }
 
@@ -92,7 +86,6 @@ class StatusController extends Controller
         $can_pdf = Auth::user()->can('status pdf');
 
         return view('status.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
-
     }
 
     /**
@@ -100,10 +93,9 @@ class StatusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-	public function create()
-	{
-
-        if (!Auth::user()->can('status add')) {  // TODO: add -> create
+    public function create()
+    {
+        if (! Auth::user()->can('status add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Status.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('status.index');
@@ -112,9 +104,8 @@ class StatusController extends Controller
             }
         }
 
-	    return view('status.create');
-	}
-
+        return view('status.create');
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -124,35 +115,32 @@ class StatusController extends Controller
      */
     public function store(StatusFormRequest $request)
     {
-
         $status = new \App\Status;
 
         try {
             $status->add($request->validated());
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Unable to process request'
+                'message' => 'Unable to process request',
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Vc Vendor ' . $status->name . ' was added');
+        \Session::flash('flash_success_message', 'Vc Vendor '.$status->name.' was added');
 
         return response()->json([
-            'message' => 'Added record'
+            'message' => 'Added record',
         ], 200);
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-
-        if (!Auth::user()->can('status view')) {
+        if (! Auth::user()->can('status view')) {
             \Session::flash('flash_error_message', 'You do not have access to view a Status.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('status.index');
@@ -164,9 +152,11 @@ class StatusController extends Controller
         if ($status = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('status edit');
             $can_delete = Auth::user()->can('status delete');
-            return view('status.show', compact('status','can_edit', 'can_delete'));
+
+            return view('status.show', compact('status', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Status to display.');
+
             return Redirect::route('status.index');
         }
     }
@@ -174,12 +164,12 @@ class StatusController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        if (!Auth::user()->can('status edit')) {
+        if (! Auth::user()->can('status edit')) {
             \Session::flash('flash_error_message', 'You do not have access to edit a Status.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('status.index');
@@ -192,9 +182,9 @@ class StatusController extends Controller
             return view('status.edit', compact('status'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Status to edit.');
+
             return Redirect::route('status.index');
         }
-
     }
 
     /**
@@ -215,32 +205,31 @@ class StatusController extends Controller
 //            }
 //        }
 
-        if (!$status = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Status to edit');
+        if (! $status = $this->sanitizeAndFind($id)) {
+            //     \Session::flash('flash_error_message', 'Unable to find Status to edit');
             return response()->json([
-                'message' => 'Not Found'
+                'message' => 'Not Found',
             ], 404);
         }
 
         $status->fill($request->all());
 
         if ($status->isDirty()) {
-
             try {
                 $status->save();
             } catch (\Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request'
+                    'message' => 'Unable to process request',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Status ' . $status->name . ' was changed');
+            \Session::flash('flash_success_message', 'Status '.$status->name.' was changed');
         } else {
             \Session::flash('flash_info_message', 'No changes were made');
         }
 
         return response()->json([
-            'message' => 'Changed record'
+            'message' => 'Changed record',
         ], 200);
     }
 
@@ -251,11 +240,10 @@ class StatusController extends Controller
      */
     public function destroy($id)
     {
-
-        if (!Auth::user()->can('status delete')) {
+        if (! Auth::user()->can('status delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Status.');
             if (Auth::user()->can('status index')) {
-                 return Redirect::route('status.index');
+                return Redirect::route('status.index');
             } else {
                 return Redirect::route('home');
             }
@@ -263,33 +251,29 @@ class StatusController extends Controller
 
         $status = $this->sanitizeAndFind($id);
 
-        if ( $status  && $status->canDelete()) {
-
+        if ($status && $status->canDelete()) {
             try {
                 $status->delete();
             } catch (\Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request.'
+                    'message' => 'Unable to process request.',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Invitation for ' . $status->name . ' was removed.');
+            \Session::flash('flash_success_message', 'Invitation for '.$status->name.' was removed.');
         } else {
             \Session::flash('flash_error_message', 'Unable to find Invite to delete.');
-
         }
 
         if (Auth::user()->can('status index')) {
-             return Redirect::route('status.index');
+            return Redirect::route('status.index');
         } else {
             return Redirect::route('home');
         }
-
-
     }
 
     /**
-     * Find by ID, sanitize the ID first
+     * Find by ID, sanitize the ID first.
      *
      * @param $id
      * @return Status or null
@@ -299,11 +283,9 @@ class StatusController extends Controller
         return \App\Status::find(intval($id));
     }
 
-
     public function download()
     {
-
-        if (!Auth::user()->can('status excel')) {
+        if (! Auth::user()->can('status excel')) {
             \Session::flash('flash_error_message', 'You do not have access to download Status.');
             if (Auth::user()->can('status index')) {
                 return Redirect::route('status.index');
@@ -321,7 +303,7 @@ class StatusController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         $dataQuery = Status::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());
@@ -331,13 +313,11 @@ class StatusController extends Controller
         return Excel::download(
             new StatusExport($dataQuery),
             'status.xlsx');
-
     }
 
-
-        public function print()
-{
-        if (!Auth::user()->can('status export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+    public function print()
+    {
+        if (! Auth::user()->can('status export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Status');
             if (Auth::user()->can('status index')) {
                 return Redirect::route('status.index');
@@ -352,7 +332,7 @@ class StatusController extends Controller
         $direction = session('status_direction', '-1');
         $column = $column ? $column : 'name';
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         // Get query data
         $columns = [
@@ -364,15 +344,16 @@ class StatusController extends Controller
         $data = $dataQuery->get();
 
         // Pass it to the view for html formatting:
-        $printHtml = view('status.print', compact( 'data' ) );
+        $printHtml = view('status.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
         $pdf = \App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
-        $pdf->setOptions(['isPhpEnabled' => TRUE]);
+        $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
         $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
-        return $pdf->stream('status-' . $currentDate->format('Ymd_Hi') . '.pdf');
+
+        return $pdf->stream('status-'.$currentDate->format('Ymd_Hi').'.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////
@@ -401,5 +382,4 @@ class StatusController extends Controller
         ///////////////////////////////////////////////////////////////////////
         */
     }
-
 }

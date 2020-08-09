@@ -42,17 +42,17 @@ class MakeFirstUser extends Command
         $user_name = 'Paul Barham';
         $user_email = 'paulb@savagesoft.com';
 
-        $user  = \App\User::where('email', $user_email)->first();
+        $user = \App\User::where('email', $user_email)->first();
 
-        if ( $user ) {
-            $this->error( "User |$user_name|$user_email| exists, cannot add");
+        if ($user) {
+            $this->error("User |$user_name|$user_email| exists, cannot add");
             die();
         }
 
         $user = \App\User::create([
             'email' => $user_email,
             'name' => $user_name,
-            'password' => bcrypt('secret')
+            'password' => bcrypt('secret'),
         ]);
     }
 }

@@ -5,8 +5,8 @@
 
 namespace App\Http\Middleware;
 
-use DB;
 use Closure;
+use DB;
 
 class InjectPasswordGrantCredentials
 {
@@ -20,7 +20,6 @@ class InjectPasswordGrantCredentials
      */
     public function handle($request, Closure $next, $guard = null)
     {
-
         info(__METHOD__);
         if ($request->grant_type == 'password') {
             $client = DB::table('oauth_clients')

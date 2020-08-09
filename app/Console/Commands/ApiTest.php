@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Console\Command;
 
 class ApiTest extends Command
 {
@@ -39,7 +39,6 @@ class ApiTest extends Command
      */
     public function handle()
     {
-
         $accessToken = env('TEST_API_TOKEN');
         $url = env('APP_URL');
 

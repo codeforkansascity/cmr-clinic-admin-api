@@ -2,18 +2,17 @@
 
 namespace App;
 
+use App\Traits\RecordSignature;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\RecordSignature;
 
 class StatutesEligibility extends Model
 {
-
     use SoftDeletes;
     use RecordSignature;
 
     /**
-     * fillable - attributes that can be mass-assigned
+     * fillable - attributes that can be mass-assigned.
      */
     protected $fillable = [
             'id',
@@ -33,14 +32,13 @@ class StatutesEligibility extends Model
 
     public function add($attributes)
     {
-
         try {
             $this->fill($attributes)->save();
         } catch (\Exception $e) {
-            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
+            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
             throw new \Exception($e->getMessage());
         } catch (\Illuminate\Database\QueryException $e) {
-            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
+            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
             throw new \Exception($e->getMessage());
         }
 
@@ -50,21 +48,19 @@ class StatutesEligibility extends Model
     public function canDelete()
     {
         $count = \App\Statute::select('id')->whereNotNull('statutes_eligibility_id')->count();
-        info(__METHOD__ . " count=$count|");
-        return !$count;
+        info(__METHOD__." count=$count|");
+
+        return ! $count;
     }
 
-
-
     /**
-     * Get "options" for HTML select tag
+     * Get "options" for HTML select tag.
      *
      * If flat return an array.
      * Otherwise, return an array of records.  Helps keep in proper order durring ajax calls to Chrome
      */
-    static public function getOptions($flat = false)
+    public static function getOptions($flat = false)
     {
-
         $thisModel = new static;
 
         $records = $thisModel::select('id',
@@ -72,18 +68,16 @@ class StatutesEligibility extends Model
             ->orderBy('name')
             ->get();
 
-        if (!$flat) {
+        if (! $flat) {
             return $records;
         } else {
             $data = [];
 
-            foreach ($records AS $rec) {
+            foreach ($records as $rec) {
                 $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
             }
 
             return $data;
         }
-
     }
-
 }
