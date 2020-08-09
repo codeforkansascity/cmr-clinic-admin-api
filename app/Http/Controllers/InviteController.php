@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use Illuminate\Support\Str;
 use DB;
 use App\Http\Middleware\TrimStrings;
 use App\User;
@@ -106,7 +107,7 @@ class InviteController extends Controller
 
         do {
             //generate a random string using Laravel's str_random helper
-            $token = str_random();
+            $token = Str::random();
         } //check if the token already exists and if it does, try again
         while (Invite::where('token', $token)->first());
 
