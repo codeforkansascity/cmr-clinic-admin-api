@@ -6,6 +6,7 @@ use App\Traits\RecordSignature;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use DateTimeInterface;
 
 class Conviction extends Model
 {
@@ -66,6 +67,17 @@ class Conviction extends Model
     public function sources()
     {
         return $this->belongsToMany(DataSource::class, 'conviction_source', 'conviction_id', 'data_source_id', 'id', 'id');
+    }
+
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param  \DateTimeInterface  $date
+     * @return string
+     */
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 
     // this is a recommended way to declare event handlers
