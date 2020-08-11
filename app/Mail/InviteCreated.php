@@ -4,9 +4,9 @@ namespace App\Mail;
 
 use App\Invite;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class InviteCreated extends Mailable
 {
@@ -14,9 +14,9 @@ class InviteCreated extends Mailable
 
     public $invite;
 
-    var $link = '';
-    var $name = '';
-    var $email = '';
+    public $link = '';
+    public $name = '';
+    public $email = '';
 
     /**
      * Create a new message instance.
@@ -38,7 +38,7 @@ class InviteCreated extends Mailable
      */
     public function build()
     {
-        return $this->subject('Invitation to use ' . config('app.name'))
+        return $this->subject('Invitation to use '.config('app.name'))
             ->markdown('emails.invite-user');
     }
 }

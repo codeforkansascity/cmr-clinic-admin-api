@@ -1,7 +1,7 @@
 <?php
 
-use App\Charge;
 use App\Applicant;
+use App\Charge;
 use App\Conviction;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
@@ -10,6 +10,7 @@ class ApplicantTableSeeder extends Seeder
 {
     protected $charges = [];
     protected $convictions = [];
+
     /**
      * Run the database seeds.
      *
@@ -17,8 +18,6 @@ class ApplicantTableSeeder extends Seeder
      */
     public function run()
     {
-
-
         $faker = Faker::create();
         $applicant = \App\Applicant::create([
             'id' => '2',
@@ -29,7 +28,7 @@ class ApplicantTableSeeder extends Seeder
             'race' => 'Black or African American',
             'dob' => '1970-11-20',
             'address_line_1' => $faker->address,
-            'address_line_2' => NULL,
+            'address_line_2' => null,
             'city' => $faker->city,
             'state' => 'Kansas',
             'zip_code' => $faker->postcode,
@@ -53,7 +52,7 @@ class ApplicantTableSeeder extends Seeder
             'purged_by' => '0',
             'created_at' => '2019-04-22',
             'updated_at' => '2019-04-27',
-            'previous_expungements' => NULL,
+            'previous_expungements' => null,
             'notes' => 'Check on parole release date.  If 2011 (per applicant), ready for expungement.  If 2013 (per records), wait 1 year on felony traficking. Assault on LEO not eligible',
 
         ]);
@@ -67,7 +66,7 @@ class ApplicantTableSeeder extends Seeder
                 'arrest_date' => '10/22/2003',
                 'case_number' => '16CR9996477',
                 'agency' => 'County',
-                'court_name' => NULL,
+                'court_name' => null,
                 'court_city_county' => 'Jackson',
                 'judge' => $faker->name,
                 'record_name' => 'Teresa Kuvalis',
@@ -80,7 +79,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'purged_by' => '0',
                 'created_at' => '2019-04-22',
                 'updated_at' => '2019-04-22',
-                'date_of_charge' => NULL,
+                'date_of_charge' => null,
             ],
             [
                 'id' => '3',
@@ -89,11 +88,11 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'arrest_date' => '11/03/2003',
                 'case_number' => '16CR039997-01',
                 'agency' => 'County',
-                'court_name' => NULL,
+                'court_name' => null,
                 'court_city_county' => 'Jackson',
                 'judge' => $faker->name,
                 'record_name' => 'Teresa Kuvalis',
-                'release_status' => NULL,
+                'release_status' => null,
                 // 'release_date' => '2013-05-02',
                 'notes' => 'Release date says "OCN 05/02/2013; assume this is a release date that is about seven years after sentencing.  Says released from parole in 2011. Advised that Assault on LEO is not expungable per statute',
 
@@ -102,16 +101,16 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'purged_by' => '0',
                 'created_at' => '2019-04-22',
                 'updated_at' => '2019-04-27',
-                'date_of_charge' => NULL,
+                'date_of_charge' => null,
             ],
             [
                 'id' => '4',
                 'applicant_id' => '2',
                 'name' => 'TraffickingDrugs/Attempt-2ndDegree',
-                'arrest_date' => NULL,
+                'arrest_date' => null,
                 'case_number' => '16CR030999-01',
                 'agency' => 'Circuit',
-                'court_name' => NULL,
+                'court_name' => null,
                 'court_city_county' => 'Jackson',
                 'judge' => $faker->name,
                 'record_name' => 'Teresa Kuvalis',
@@ -123,7 +122,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'purged_by' => '0',
                 'created_at' => '2019-04-22',
                 'updated_at' => '2019-04-23',
-                'date_of_charge' => NULL,
+                'date_of_charge' => null,
             ],
             [
                 'id' => '5',
@@ -132,7 +131,7 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'arrest_date' => '03/18/2004',
                 'case_number' => '02199940',
                 'agency' => 'Municipal',
-                'court_name' => NULL,
+                'court_name' => null,
                 'court_city_county' => 'Independence',
                 'judge' => $faker->name,
                 'record_name' => 'Teresa Kuvalis',
@@ -150,14 +149,14 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'id' => '6',
                 'applicant_id' => '2',
                 'name' => 'Driving with out a license plate',
-                'arrest_date' => NULL,
-                'case_number' => NULL,
+                'arrest_date' => null,
+                'case_number' => null,
                 'agency' => 'Municipal',
-                'court_name' => NULL,
+                'court_name' => null,
                 'court_city_county' => 'Kansas City',
                 'judge' => 'Payable without court appearance',
                 'record_name' => 'Teresa L .Kuvalis',
-                'release_status' => NULL,
+                'release_status' => null,
                 // 'release_date' => '2018-03-17',
                 'notes' => 'Appears a bench warrant was issued; picked up on bench warrant and paid the fine.  May not have appeared before the court. At one place, it identifieds the Court 2',
                 'created_by' => '0',
@@ -165,8 +164,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'purged_by' => '0',
                 'created_at' => '2019-04-23',
                 'updated_at' => '2019-04-23',
-                'date_of_charge' => NULL,
-            ]
+                'date_of_charge' => null,
+            ],
         ];
         collect($convictions)->each(function ($c) {
             \App\Conviction::create($c);
@@ -183,10 +182,10 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'conviction_charge_type' => 'felony',
                 'sentence' => 'Min',
                 'convicted' => '1',
-                'eligible' => NULL,
-                'please_expunge' => NULL,
-                'to_print' => NULL,
-                'notes' => NULL,
+                'eligible' => null,
+                'please_expunge' => null,
+                'to_print' => null,
+                'notes' => null,
                 'created_by' => '0',
                 'modified_by' => '0',
                 'purged_by' => '0',
@@ -204,8 +203,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'convicted' => '1',
                 'eligible' => '0',
                 'please_expunge' => '0',
-                'to_print' => NULL,
-                'notes' => NULL,
+                'to_print' => null,
+                'notes' => null,
                 'created_by' => '0',
                 'modified_by' => '0',
                 'purged_by' => '0',
@@ -223,8 +222,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'convicted' => '1',
                 'eligible' => '0',
                 'please_expunge' => '0',
-                'to_print' => NULL,
-                'notes' => NULL,
+                'to_print' => null,
+                'notes' => null,
                 'created_by' => '0',
                 'modified_by' => '0',
                 'purged_by' => '0',
@@ -242,8 +241,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'convicted' => '1',
                 'eligible' => '0',
                 'please_expunge' => '0',
-                'to_print' => NULL,
-                'notes' => NULL,
+                'to_print' => null,
+                'notes' => null,
                 'created_by' => '0',
                 'modified_by' => '0',
                 'purged_by' => '0',
@@ -261,8 +260,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'convicted' => '1',
                 'eligible' => '0',
                 'please_expunge' => '0',
-                'to_print' => NULL,
-                'notes' => NULL,
+                'to_print' => null,
+                'notes' => null,
                 'created_by' => '0',
                 'modified_by' => '0',
                 'purged_by' => '0',
@@ -280,8 +279,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'convicted' => '1',
                 'eligible' => '0',
                 'please_expunge' => '0',
-                'to_print' => NULL,
-                'notes' => NULL,
+                'to_print' => null,
+                'notes' => null,
                 'created_by' => '0',
                 'modified_by' => '0',
                 'purged_by' => '0',
@@ -300,8 +299,8 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                 'convicted' => '1',
                 'eligible' => '0',
                 'please_expunge' => '0',
-                'to_print' => NULL,
-                'notes' => NULL,
+                'to_print' => null,
+                'notes' => null,
                 'created_by' => '0',
                 'modified_by' => '0',
                 'purged_by' => '0',
@@ -312,45 +311,47 @@ Arrest may be tied to this original case. After transfer, this case was disposed
             [
                 'id' => '9',
                 'conviction_id' => '6',
-                'conviction_class_type' => NULL,
-                'conviction_charge_type' => NULL,
+                'conviction_class_type' => null,
+                'conviction_charge_type' => null,
                 'sentence' => '$72.50 in fees and fines',
                 'imported_citation' => '195.223',
                 'imported_statute' => 'Trafficking In Drugs In The Second Degree',
                 'convicted' => '1',
                 'eligible' => '0',
                 'please_expunge' => '0',
-                'to_print' => NULL,
+                'to_print' => null,
                 'notes' => 'Statute70-137',
                 'created_by' => '0',
                 'modified_by' => '0',
                 'purged_by' => '0',
                 'created_at' => '2019-04-23',
                 'updated_at' => '2019-04-23',
-            ]
+            ],
         ];
         \App\Charge::insert($charges);
 
         $start = microtime(1);
         dump('creating 100 applicants with convictions and charges ');
-        $index = Applicant::max('id')+1;
+        $index = Applicant::max('id') + 1;
         $applicants = factory(App\Applicant::class, 100)->make()
-            ->map(function ($applicant) use(&$index) {
+            ->map(function ($applicant) use (&$index) {
                 $applicant['id'] = $index++;
+
                 return $applicant;
             });
 
         Applicant::insert($applicants->toArray());
-        dump("Inserted Applicants in ". round(microtime(1) - $start, 2). ' seconds');
+        dump('Inserted Applicants in '.round(microtime(1) - $start, 2).' seconds');
 
         $start = microtime(1);
-        $index = (Conviction::max('id') ?? 1)+1;
+        $index = (Conviction::max('id') ?? 1) + 1;
 
-        $charges = collect($applicants)->each(function ($applicant) use (&$index){
+        $charges = collect($applicants)->each(function ($applicant) use (&$index) {
             $convictions = factory(\App\Conviction::class, rand(1, 5))
                 ->make(['applicant_id' => $applicant['id']])
-                ->map(function ($conviction) use(&$index) {
+                ->map(function ($conviction) use (&$index) {
                     $conviction['id'] = $index++;
+
                     return $conviction;
                 });
 
@@ -362,22 +363,19 @@ Arrest may be tied to this original case. After transfer, this case was disposed
                     $this->charges = array_merge($charges->toArray(), $this->charges);
                 }
             });
-
         });
 
-        dump("Build arrays in ". round(microtime(1) - $start, 2). ' seconds');
+        dump('Build arrays in '.round(microtime(1) - $start, 2).' seconds');
 
         $start = microtime(1);
         Conviction::insert($this->convictions);
-        dump('Inserted '. count($this->convictions). ' convictions');
-        dump("Inserted Convictions in ". round(microtime(1) - $start, 2). ' seconds');
+        dump('Inserted '.count($this->convictions).' convictions');
+        dump('Inserted Convictions in '.round(microtime(1) - $start, 2).' seconds');
 
         $start = microtime(1);
 
         Charge::insert($this->charges);
-        dump('Inserted '. count($this->charges). ' charges');
-        dump("Inserted Charges in ". round(microtime(1) - $start, 2). ' seconds');
-
-
+        dump('Inserted '.count($this->charges).' charges');
+        dump('Inserted Charges in '.round(microtime(1) - $start, 2).' seconds');
     }
 }

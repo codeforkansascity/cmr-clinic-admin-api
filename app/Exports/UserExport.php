@@ -2,8 +2,8 @@
 
 namespace App\Exports;
 
-use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
@@ -33,7 +33,7 @@ class UserExport implements FromQuery, WithHeadings, WithMapping
                         'name',
                         'email',
                         'active',
-                        'roles'/*,
+                        'roles', /*,
                         'email_verified_at',
                         'password',
                         'remember_token',*/
@@ -46,7 +46,7 @@ class UserExport implements FromQuery, WithHeadings, WithMapping
     public function map($user): array
     {
         $roles = [];
-        foreach($user->roles as $role) {
+        foreach ($user->roles as $role) {
             $roles[] = $role->name;
         }
         sort($roles);
@@ -58,7 +58,7 @@ class UserExport implements FromQuery, WithHeadings, WithMapping
                         $user->name,
                         $user->email,
                         $user->active ? 'Yes' : '',
-                        $roles
+                        $roles,
                         /*,
                         $user->email_verified_at,
                         $user->password,

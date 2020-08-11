@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class OauthPersonalAccessClientsTableSeeder extends Seeder
 {
@@ -12,7 +12,7 @@ class OauthPersonalAccessClientsTableSeeder extends Seeder
      */
     public function run()
     {
-        $sql = <<<EOM
+        $sql = <<<'EOM'
         INSERT INTO oauth_personal_access_clients  (`id`, `client_id`,`created_at`,`updated_at`)
         VALUES 
         ('1', '1', '2019-06-29', '2019-06-29');
@@ -21,12 +21,11 @@ EOM;
         try {
             DB::connection()->getPdo()->exec($sql);
         } catch (\Exception $e) {
-            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
+            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
             throw new \Exception($e->getMessage());
         } catch (\Illuminate\Database\QueryException $e) {
-            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
+            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
             throw new \Exception($e->getMessage());
         }
-
     }
 }

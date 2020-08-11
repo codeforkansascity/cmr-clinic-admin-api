@@ -217,18 +217,7 @@
                                     </template>
                                 </std-form-group>
                             </div>
-                            <div class="col-md-12">
-                                <std-form-group
-                                    label="Person Assigned"
-                                    label-for="assignment_id"
-                                    :errors="form_errors.assignment_id"
-                                >
-                                    <fld-input
-                                        name="assignment_id"
-                                        v-model="record.assignment_id"
-                                    />
-                                </std-form-group>
-                            </div>
+
                         </fieldset>
                     </div>
 

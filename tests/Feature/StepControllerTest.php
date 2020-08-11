@@ -2,32 +2,25 @@
 
 namespace Tests\Feature;
 
-use function MongoDB\BSON\toJSON;
-use Tests\TestCase;
-
 use App\Step;
+use App\User;
+use DB;
 use Faker;
-
 //use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-
-
-use DB;
-use App\User;
-use Spatie\Permission\Models\Role;
+use function MongoDB\BSON\toJSON;
 use Spatie\Permission\Exceptions\RoleDoesNotExist;
+use Spatie\Permission\Models\Role;
+use Tests\TestCase;
 
 /**
- * Class StepControllerTest
+ * Class StepControllerTest.
  *
  * 1. Test that you must be logged in to access any of the controller functions.
- *
- * @package Tests\Feature
  */
 class StepControllerTest extends TestCase
 {
-
     //use RefreshDatabase;
     //------------------------------------------------------------------------------
     // Test that you must be logged in to access any of the controller functions.
@@ -90,7 +83,6 @@ class StepControllerTest extends TestCase
         $response->assertRedirect('login');
     }
 
-
     /**
      * @test
      */
@@ -101,7 +93,6 @@ class StepControllerTest extends TestCase
         $this->withoutMiddleware();
         $response->assertRedirect('login');
     }
-
 
     /**
      * @test
@@ -120,13 +111,11 @@ class StepControllerTest extends TestCase
     // Test that you must have access any of the controller functions.
     //------------------------------------------------------------------------------
 
-
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_seeing_step_index()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->get('/step');
@@ -141,7 +130,6 @@ class StepControllerTest extends TestCase
      */
     public function prevent_users_without_permissions_from_creating_step()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->get(route('step.create'));
@@ -149,19 +137,16 @@ class StepControllerTest extends TestCase
         $response->assertRedirect('home');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_storing_step()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->post(route('step.store'));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
 
     /**
@@ -169,7 +154,6 @@ class StepControllerTest extends TestCase
      */
     public function prevent_users_without_permissions_from_showing_step()
     {
-
         $user = $this->getRandomUser('cant');
 
         // Should check for permisson before checking to see if record exists
@@ -183,7 +167,6 @@ class StepControllerTest extends TestCase
      */
     public function prevent_users_without_permissions_from_editing_step()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->get(route('step.edit', ['id' => 1]));
@@ -191,28 +174,23 @@ class StepControllerTest extends TestCase
         $response->assertRedirect('home');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_updateing_step()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->put(route('step.update', ['id' => 1]));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
-
 
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_destroying_step()
     {
-
         $user = $this->getRandomUser('cant');
 
         // Should check for permisson before checking to see if record exists
@@ -228,13 +206,11 @@ class StepControllerTest extends TestCase
     //   user does have access to index
     //------------------------------------------------------------------------------
 
-
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_creating_step()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->get(route('step.create'));
@@ -242,19 +218,16 @@ class StepControllerTest extends TestCase
         $response->assertRedirect('step');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_storing_step()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->post(route('step.store'));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
 
     /**
@@ -262,7 +235,6 @@ class StepControllerTest extends TestCase
      */
     public function prevent_users_withonly_index_permissions_from_showing_step()
     {
-
         $user = $this->getRandomUser('only index');
 
         // Should check for permisson before checking to see if record exists
@@ -276,7 +248,6 @@ class StepControllerTest extends TestCase
      */
     public function prevent_users_withonly_index_permissions_from_editing_step()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->get(route('step.edit', ['id' => 1]));
@@ -284,28 +255,23 @@ class StepControllerTest extends TestCase
         $response->assertRedirect('step');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_updating_step()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->put(route('step.update', ['id' => 1]));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
-
 
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_destroying_step()
     {
-
         $user = $this->getRandomUser('only index');
 
         // Should check for permisson before checking to see if record exists
@@ -320,6 +286,7 @@ class StepControllerTest extends TestCase
     // Now lets test that we have the functionality to add, change, delete, and
     //   catch validation errors
     //------------------------------------------------------------------------------
+
     /**
      * @test
      */
@@ -329,10 +296,9 @@ class StepControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         // act as the user we got and request the create_new_article route
-        $response = $this->actingAs($user)->get(route('step.show',['id' => 100]));
+        $response = $this->actingAs($user)->get(route('step.show', ['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Step to display.');
-
+        $response->assertSessionHas('flash_error_message', 'Unable to find Step to display.');
     }
 
     /**
@@ -344,14 +310,10 @@ class StepControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         // act as the user we got and request the create_new_article route
-        $response = $this->actingAs($user)->get(route('step.edit',['id' => 100]));
+        $response = $this->actingAs($user)->get(route('step.edit', ['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Step to edit.');
-
+        $response->assertSessionHas('flash_error_message', 'Unable to find Step to edit.');
     }
-
-
-
 
     /**
      * @test
@@ -367,7 +329,6 @@ class StepControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('step.create');
         $response->assertSee('step-form');
-
     }
 
     /**
@@ -379,10 +340,10 @@ class StepControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         $data = [
-            'id' => "",
-            'name' => "",
-            'client_id' => "",
-            'status_id' => "",
+            'id' => '',
+            'name' => '',
+            'client_id' => '',
+            'status_id' => '',
         ];
 
         $totalNumberOfStepsBefore = Step::count();
@@ -390,11 +351,10 @@ class StepControllerTest extends TestCase
         $response = $this->actingAs($user)->post(route('step.store'), $data);
 
         $totalNumberOfStepsAfter = Step::count();
-        $this->assertEquals($totalNumberOfStepsAfter, $totalNumberOfStepsBefore, "the number of total article is supposed to be the same ");
+        $this->assertEquals($totalNumberOfStepsAfter, $totalNumberOfStepsBefore, 'the number of total article is supposed to be the same ');
 
         $errors = session('errors');
-        $this->assertEquals($errors->get('name')[0],"The name field is required.");
-
+        $this->assertEquals($errors->get('name')[0], 'The name field is required.');
     }
 
     /**
@@ -408,10 +368,10 @@ class StepControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         $data = [
-            'id' => "",
-            'name' => "a",
-            'client_id' => "a",
-            'status_id' => "a",
+            'id' => '',
+            'name' => 'a',
+            'client_id' => 'a',
+            'status_id' => 'a',
         ];
 
         $totalNumberOfStepsBefore = Step::count();
@@ -419,12 +379,11 @@ class StepControllerTest extends TestCase
         $response = $this->actingAs($user)->post(route('step.store'), $data);
 
         $totalNumberOfStepsAfter = Step::count();
-        $this->assertEquals($totalNumberOfStepsAfter, $totalNumberOfStepsBefore, "the number of total article is supposed to be the same ");
+        $this->assertEquals($totalNumberOfStepsAfter, $totalNumberOfStepsBefore, 'the number of total article is supposed to be the same ');
 
         $errors = session('errors');
 
-        $this->assertEquals($errors->get('name')[0],"The name must be at least 3 characters.");
-
+        $this->assertEquals($errors->get('name')[0], 'The name must be at least 3 characters.');
     }
 
     /**
@@ -434,20 +393,19 @@ class StepControllerTest extends TestCase
      */
     public function create_a_step()
     {
-
         $faker = Faker\Factory::create();
         // get a random user
         $user = $this->getRandomUser('super-admin');
 
         $data = [
           'name' => $faker->name,
-          'client_id' => "",
-          'status_id' => "",
+          'client_id' => '',
+          'status_id' => '',
         ];
 
         info('--  Step  --');
-         info(print_r($data,true));
-          info('----');
+        info(print_r($data, true));
+        info('----');
 
         $totalNumberOfStepsBefore = Step::count();
 
@@ -455,25 +413,19 @@ class StepControllerTest extends TestCase
 
         $totalNumberOfStepsAfter = Step::count();
 
-
         $errors = session('errors');
 
-        info(print_r($errors,true));
+        info(print_r($errors, true));
 
-        $this->assertEquals($totalNumberOfStepsAfter, $totalNumberOfStepsBefore + 1, "the number of total step is supposed to be one more ");
+        $this->assertEquals($totalNumberOfStepsAfter, $totalNumberOfStepsBefore + 1, 'the number of total step is supposed to be one more ');
 
         $lastInsertedInTheDB = Step::orderBy('id', 'desc')->first();
 
+        $this->assertEquals($lastInsertedInTheDB->name, $data['name'], 'the name of the saved step is different from the input data');
 
-        $this->assertEquals($lastInsertedInTheDB->name, $data['name'], "the name of the saved step is different from the input data");
+        $this->assertEquals($lastInsertedInTheDB->client_id, $data['client_id'], 'the client_id of the saved step is different from the input data');
 
-
-        $this->assertEquals($lastInsertedInTheDB->client_id, $data['client_id'], "the client_id of the saved step is different from the input data");
-
-
-        $this->assertEquals($lastInsertedInTheDB->status_id, $data['status_id'], "the status_id of the saved step is different from the input data");
-
-
+        $this->assertEquals($lastInsertedInTheDB->status_id, $data['status_id'], 'the status_id of the saved step is different from the input data');
     }
 
     /**
@@ -483,32 +435,29 @@ class StepControllerTest extends TestCase
      */
     public function prevent_creating_a_duplicate_step()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
         $user = $this->getRandomUser('super-admin');
 
-
         $totalNumberOfStepsBefore = Step::count();
 
         $step = Step::get()->random();
         $data = [
-            'id' => "",
+            'id' => '',
             'name' => $step->name,
-            'client_id' => "",
-            'status_id' => "",
+            'client_id' => '',
+            'status_id' => '',
         ];
 
         $response = $this->actingAs($user)->post(route('step.store'), $data);
         $response->assertStatus(302);
 
         $errors = session('errors');
-        $this->assertEquals($errors->get('name')[0],"The name has already been taken.");
+        $this->assertEquals($errors->get('name')[0], 'The name has already been taken.');
 
         $totalNumberOfStepsAfter = Step::count();
-        $this->assertEquals($totalNumberOfStepsAfter, $totalNumberOfStepsBefore, "the number of total step should be the same ");
-
+        $this->assertEquals($totalNumberOfStepsAfter, $totalNumberOfStepsBefore, 'the number of total step should be the same ');
     }
 
     /**
@@ -518,7 +467,6 @@ class StepControllerTest extends TestCase
      */
     public function allow_changing_step()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
@@ -526,20 +474,17 @@ class StepControllerTest extends TestCase
 
         $data = Step::get()->random()->toArray();
 
-        $data['name'] = $data['name'] . '1';
+        $data['name'] = $data['name'].'1';
 
         $totalNumberOfStepsBefore = Step::count();
 
-        $response = $this->actingAs($user)->json('PATCH', 'step/' . $data['id'], $data);
+        $response = $this->actingAs($user)->json('PATCH', 'step/'.$data['id'], $data);
 
         $response->assertStatus(200);
 
         $totalNumberOfStepsAfter = Step::count();
-        $this->assertEquals($totalNumberOfStepsAfter, $totalNumberOfStepsBefore, "the number of total step should be the same ");
-
+        $this->assertEquals($totalNumberOfStepsAfter, $totalNumberOfStepsBefore, 'the number of total step should be the same ');
     }
-
-
 
     /**
      * @test
@@ -548,7 +493,6 @@ class StepControllerTest extends TestCase
      */
     public function prevent_creating_a_duplicate_by_changing_step()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
@@ -556,41 +500,37 @@ class StepControllerTest extends TestCase
 
         $data = Step::get()->random()->toArray();
 
-
-
         // Create one that we can duplicate the name for, at this point we only have one step record
         $step_dup = [
 
             'name' => $faker->name,
-            'client_id' => "",
-            'status_id' => "",
+            'client_id' => '',
+            'status_id' => '',
         ];
 
         $response = $this->actingAs($user)->post(route('step.store'), $step_dup);
-
 
         $data['name'] = $step_dup['name'];
 
         $totalNumberOfStepsBefore = Step::count();
 
-        $response = $this->actingAs($user)->json('PATCH', 'step/' . $data['id'], $data);
+        $response = $this->actingAs($user)->json('PATCH', 'step/'.$data['id'], $data);
         $response->assertStatus(422);  // From web page we get a 422
 
         $errors = session('errors');
 
-        info(print_r($errors,true));
+        info(print_r($errors, true));
 
         $response
             ->assertStatus(422)
             ->assertJson([
-                'message' => 'The given data was invalid.'
+                'message' => 'The given data was invalid.',
             ]);
 
         $response->assertJsonValidationErrors(['name']);
 
         $totalNumberOfStepsAfter = Step::count();
-        $this->assertEquals($totalNumberOfStepsAfter, $totalNumberOfStepsBefore, "the number of total step should be the same ");
-
+        $this->assertEquals($totalNumberOfStepsAfter, $totalNumberOfStepsBefore, 'the number of total step should be the same ');
     }
 
     /**
@@ -600,7 +540,6 @@ class StepControllerTest extends TestCase
      */
     public function allow_deleting_step()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
@@ -608,18 +547,16 @@ class StepControllerTest extends TestCase
 
         $data = Step::get()->random()->toArray();
 
-
         $totalNumberOfStepsBefore = Step::count();
 
-        $response = $this->actingAs($user)->json('DELETE', 'step/' . $data['id'], $data);
+        $response = $this->actingAs($user)->json('DELETE', 'step/'.$data['id'], $data);
 
         $totalNumberOfStepsAfter = Step::count();
-        $this->assertEquals($totalNumberOfStepsAfter, $totalNumberOfStepsBefore - 1, "the number of total step should be the same ");
-
+        $this->assertEquals($totalNumberOfStepsAfter, $totalNumberOfStepsBefore - 1, 'the number of total step should be the same ');
     }
 
     /**
-     * Get a random user with optional role and guard
+     * Get a random user with optional role and guard.
      *
      * @param null $role
      * @param string $guard
@@ -627,11 +564,10 @@ class StepControllerTest extends TestCase
      */
     public function getRandomUser($role = null, $guard = 'web')
     {
-
         if ($role) {
 
             // This should work but throws a 'Spatie\Permission\Exceptions\RoleDoesNotExist: There is no role named `super-admin`.
-            $role_id = Role::findByName($role,'web')->id;
+            $role_id = Role::findByName($role, 'web')->id;
 
             $sql = "SELECT model_id FROM model_has_roles WHERE model_type = 'App\\\User' AND role_id = $role_id ORDER BY RAND() LIMIT 1";
             $ret = DB::select($sql);
@@ -644,6 +580,4 @@ class StepControllerTest extends TestCase
 
         return $this->user;
     }
-
-
 }

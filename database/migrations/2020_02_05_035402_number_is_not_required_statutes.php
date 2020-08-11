@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class NumberIsNotRequiredStatutes extends Migration
 {
@@ -15,7 +15,6 @@ class NumberIsNotRequiredStatutes extends Migration
     {
         Schema::table('statutes', function (Blueprint $table) {
             $table->string('number')->nullable()->change();
-
         });
     }
 
@@ -27,8 +26,7 @@ class NumberIsNotRequiredStatutes extends Migration
     public function down()
     {
         Schema::table('statutes', function (Blueprint $table) {
-            $table->string('number')->change();;
-
+            $table->string('number')->change();
         });
     }
 }

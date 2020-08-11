@@ -23,7 +23,6 @@ class InviteEditRequest extends FormRequest
      */
     public function rules()
     {
-
         $id = $this->route('invite');
 
         return [
@@ -31,14 +30,11 @@ class InviteEditRequest extends FormRequest
          //   'email' => 'required|unique:members,email,' . $id . ',id|max:255',
 
             'id' => 'numeric',
-            'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
+            'email' => 'required|string|email|unique:invites,email,'.$id.'|unique:users|max:191',
             'name' => 'required|string|max:191',
             'role' => 'required|string|max:42|not_in:0',
             'token' => 'string|max:16',
 
-
         ];
     }
 }
-
-

@@ -50,6 +50,7 @@ class LoadStatutesFromScott extends Command
             $e['statutes_eligibility_id'] = \App\Statute::ELIGIBLE;
             $e['created_at'] = now();
             $e['updated_at'] = now();
+
             return $e;
         }, $eligibles);
         \App\Statute::insert($eligibles);
@@ -58,6 +59,7 @@ class LoadStatutesFromScott extends Command
             $i['statutes_eligibility_id'] = \App\Statute::INELIGIBLE;
             $i['created_at'] = now();
             $i['updated_at'] = now();
+
             return $i;
         }, $ineligibles);
         \App\Statute::insert($ineligibles);

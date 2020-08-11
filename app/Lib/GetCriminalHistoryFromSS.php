@@ -3,67 +3,62 @@
  * Created by PhpStorm.
  * User: paulb
  * Date: 2019-10-04
- * Time: 23:00
+ * Time: 23:00.
  */
 
 namespace App\Lib;
 
+use App\Imports\PaulImport;
+use App\Imports\PersonHistory;
 use Excel;
 use Exception;
-use App\Imports\PersonHistory;
-use App\Imports\PaulImport;
 
 class GetCriminalHistoryFromSS
 {
+    public $path = '';
+    public $file_name = '';
+    public $data = [];
 
-    var $path = '';
-    var $file_name = '';
-    var $data = [];
+    public $spread_sheet_data = null;
 
+    public $current_row_offset = 0;
+    public $current_row = [];
 
-    var $spread_sheet_data = null;
+    public $applicant_number;
 
-    var $current_row_offset = 0;
-    var $current_row = [];
+    public $applicant = [];
 
-    var $applicant_number;
+    public $current_type = 'CLIENT';
+    public $in = 'CLIENT';
+    public $record = [];
+    public $case = [];
 
-    var $applicant = [];
+    public $labels = [];
+    public $label_errors = 0;
 
+    public $label_map = [
+        'Full Name' => 'name',
+        'Date of Birth' => 'dob',
+        'Client ID' => 'cms_client_number',
+        'Case ID' => 'cms_matter_number',
 
-    var $current_type = 'CLIENT';
-    var $in = 'CLIENT';
-    var $record = [];
-    var $case = [];
+        'Case' => 'name',
+        'Case Number' => 'case_number',
+        'Name on Court Records' => 'record_name',
+        'Arresting Agency' => 'arresting_agency',
+        'Date of Arrest' => 'arrest_date',
+        'Date of Charge' => 'date_of_charge',
+        'Date of Disposition' => 'date_of_disposition',
+        'County/City' => 'court_city_county',
+        'Judge' => 'judge',
+        'Release Status' => 'release_status',
 
-    var $labels = [];
-    var $label_errors = 0;
-
-    var $label_map = [
-        "Full Name" => "name",
-        "Date of Birth" => "dob",
-        "Client ID" => "cms_client_number",
-        "Case ID" => "cms_matter_number",
-
-
-        "Case" => "name",
-        "Case Number" => "case_number",
-        "Name on Court Records" => "record_name",
-        "Arresting Agency" => "arresting_agency",
-        "Date of Arrest" => "arrest_date",
-        "Date of Charge" => "date_of_charge",
-        "Date of Disposition" => "date_of_disposition",
-        "County/City" => "court_city_county",
-        "Judge" => "judge",
-        "Release Status" => "release_status",
-
-        "Statute #" => "imported_citation",
-        "Level" => "level_text",
-        "Sentence" => "sentence",
-        "Release Date" => "release_date",
-        "Source" => "source",
+        'Statute #' => 'imported_citation',
+        'Level' => 'level_text',
+        'Sentence' => 'sentence',
+        'Release Date' => 'release_date',
+        'Source' => 'source',
     ];
-
 
     public function __construct($path, $file_name, $data)
     {
@@ -74,21 +69,17 @@ class GetCriminalHistoryFromSS
 
     public function processSpreadSheet()
     {
-
-        $this->readSpreadSheet($this->path . '/' . $this->file_name);
+        $this->readSpreadSheet($this->path.'/'.$this->file_name);
 
         $this->current_type = 'CLIENT';
         $this->in = 'CLIENT';
         $this->record = [];
         $this->case = [];
         while ($this->current_row) {
-
-
             $label = $this->current_row[0];
             $value = $this->current_row[1] ? $this->current_row[1] : '';
 
             $row_type = $this->getRowType($this->current_row);
-
 
             list($label, $value) = $this->cleanRow($this->current_row);
 
@@ -97,13 +88,9 @@ class GetCriminalHistoryFromSS
                 $this->case[$this->convertLable($label)] = $value;
             }
 
-
-
             // print "$this->current_row_offset \$this->in=|$this->in| \$row_type=|$row_type| \$label=|$label|=\$value=|$value|\n";
 
             if ($row_type) {
-
-
                 switch ($this->in) {
                     case 'CLIENT':
 
@@ -114,7 +101,7 @@ class GetCriminalHistoryFromSS
 
                     case 'CHARGE':
 
-                        if (!array_key_exists('CHARGES', $this->case)) {
+                        if (! array_key_exists('CHARGES', $this->case)) {
                             $this->case['CHARGES'] = [];
                         }
                         $this->case['CHARGES'][] = $this->record;
@@ -129,8 +116,6 @@ class GetCriminalHistoryFromSS
                 $this->record = [];
                 $this->current_type = $row_type;
                 $this->in = $row_type;
-
-
             }
 
             switch ($row_type) {
@@ -140,7 +125,6 @@ class GetCriminalHistoryFromSS
                     break;
 
                 default:
-
 
                     switch ($this->in) {
                         case 'CASE':
@@ -159,7 +143,6 @@ class GetCriminalHistoryFromSS
 
             }
 
-
             $this->getNextRow();
         }
 
@@ -173,24 +156,22 @@ class GetCriminalHistoryFromSS
             $this->applicant['CASES'][] = $this->case;
         }
 
-
         return $this->applicant;
-
-
     }
 
-    function convertLable($label)
+    public function convertLable($label)
     {
 
         //    return $label;
 
-        if (!array_key_exists($label, $this->label_map)) {
+        if (! array_key_exists($label, $this->label_map)) {
             return "ERROR $label";
         }
+
         return $this->label_map[$label];
     }
 
-    function cleanRow($row)
+    public function cleanRow($row)
     {
         $label = trim($row[0]);
         $value = $row[1] ? trim($row[1]) : '';
@@ -220,16 +201,13 @@ class GetCriminalHistoryFromSS
                     }
                     break;
 
-
-
             }
         }
 
         return [$label, $value];
-
     }
 
-    function getRowType(&$row)
+    public function getRowType(&$row)
     {
         $row_parts = [];
         $label = trim($row[0]);
@@ -247,14 +225,13 @@ class GetCriminalHistoryFromSS
         }
 
         return false;
-
     }
 
     private function getNextRow()
     {
-
-
-        if ($this->current_row == null) return null;
+        if ($this->current_row == null) {
+            return null;
+        }
 
         $this->current_row_offset++;
 
@@ -268,19 +245,18 @@ class GetCriminalHistoryFromSS
     }
 
     /**
-     * Load the spread sheet into memory $this->spread_sheet_data
+     * Load the spread sheet into memory $this->spread_sheet_data.
      *
      * @param $spread_sheet_file_name
      * @return bool
      */
     private function readSpreadSheet($spread_sheet_file_name)
     {
-
         $tmp = Excel::toArray(new PersonHistory, $spread_sheet_file_name);
 
         if (count($tmp)) {  // We have data
 
-            foreach ($tmp[0] AS $row) {
+            foreach ($tmp[0] as $row) {
                 // if (isset($row[0]) && !($row[0] == null && $row[1] == null)) {
                 $this->spread_sheet_data[] = $row;
                 // }
@@ -288,12 +264,8 @@ class GetCriminalHistoryFromSS
             if (count($this->spread_sheet_data)) {
                 $this->current_row = $this->spread_sheet_data[$this->current_row_offset];
             }
-
         }
 
         return true;
-
     }
-
-
 }

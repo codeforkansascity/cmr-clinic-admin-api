@@ -2,8 +2,8 @@
 
 namespace App\Exports;
 
-use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
@@ -54,7 +54,7 @@ class InviteExport implements FromQuery, WithHeadings, WithMapping
             $invite->expires_at,
             $invite->token,
             $invite->created_at,
-            $invite->updated_at
+            $invite->updated_at,
                     ];
     }
 }

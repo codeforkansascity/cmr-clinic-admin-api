@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use ZxcvbnPhp\Zxcvbn;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PasswordStrengthRequest;
+use Illuminate\Http\Request;
+use ZxcvbnPhp\Zxcvbn;
 
 class PasswordStrengthApi extends Controller
 {
     /**
-     * Check strength of the password with optional list of words to ignore
+     * Check strength of the password with optional list of words to ignore.
      *
      * See https://github.com/skegel13/vue-password and https://github.com/bjeavons/zxcvbn-php
      *
@@ -24,9 +24,10 @@ class PasswordStrengthApi extends Controller
                 $request->password,
                 $request->password_user_inputs
             );
+
             return $strength['score'];
         }
-        return 0;
 
+        return 0;
     }
 }

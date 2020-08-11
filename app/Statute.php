@@ -2,24 +2,22 @@
 
 namespace App;
 
+use App\Traits\RecordSignature;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\RecordSignature;
 use Illuminate\Database\QueryException;
 
 class Statute extends Model
 {
-
     use SoftDeletes;
     use RecordSignature;
 
-
-    CONST ELIGIBLE = '1';
-    CONST INELIGIBLE = '2';
-    CONST POSSIBLY = '3';
-    CONST UNDETERMINED = '4';
+    const ELIGIBLE = '1';
+    const INELIGIBLE = '2';
+    const POSSIBLY = '3';
+    const UNDETERMINED = '4';
     const ELIGIBLITY_STATUSES = [
         self::ELIGIBLE,
         self::INELIGIBLE,
@@ -28,7 +26,7 @@ class Statute extends Model
     ];
 
     /**
-     * fillable - attributes that can be mass-assigned
+     * fillable - attributes that can be mass-assigned.
      */
     protected $fillable = [
         'id',
@@ -53,7 +51,7 @@ class Statute extends Model
 
     public function superseded()
     {
-        return $this->belongsTo(Statute::class);
+        return $this->belongsTo(self::class);
     }
 
     public function jurisdiction()
@@ -71,7 +69,6 @@ class Statute extends Model
         return $this->belongsTo(StatutesEligibility::class);
     }
 
-
     public function comments()
     {
         return $this->morphMany(Comment::class, 'comments');
@@ -87,7 +84,6 @@ class Statute extends Model
 
     public function saveHistory($request)
     {
-
         $this->histories()->create([
             'old' => collect($this->getOriginal())->only($this->fillable),
             'new' => $request->only($this->fillable),
@@ -98,14 +94,13 @@ class Statute extends Model
 
     public function add($attributes)
     {
-
         try {
             $this->fill($attributes)->save();
         } catch (Exception $e) {
-            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
+            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
             throw new Exception($e->getMessage());
         } catch (QueryException $e) {
-            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
+            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
             throw new Exception($e->getMessage());
         }
 
@@ -116,22 +111,20 @@ class Statute extends Model
     {
         $recs = Charge::with(['conviction:id,case_number,name,applicant_id', 'conviction.applicant:id,name'])->where('statute_id', $id)->get();
         info(print_r($recs->toArray(), true));
-        return $recs;
 
+        return $recs;
     }
 
     public function canDelete()
     {
-
         $count = Charge::select('id')->whereNotNull('statute_id')->count();
-        info(__METHOD__ . " count=$count|");
-        return !$count;
+        info(__METHOD__." count=$count|");
 
+        return ! $count;
     }
 
-
     /**
-     * Get Grid/index data PAGINATED
+     * Get Grid/index data PAGINATED.
      *
      * @param $per_page
      * @param $column
@@ -139,7 +132,7 @@ class Statute extends Model
      * @param string $keyword
      * @return mixed
      */
-    static function indexData(
+    public static function indexData(
         $per_page,
         $column,
         $direction,
@@ -159,9 +152,8 @@ class Statute extends Model
             ->paginate($per_page);
     }
 
-
     /**
-     * Create base query to be used by Grid, Download, and PDF
+     * Create base query to be used by Grid, Download, and PDF.
      *
      * NOTE: to override the select you must supply all fields, ie you cannot add to the
      *       fields being selected.
@@ -172,8 +164,7 @@ class Statute extends Model
      * @param string|array $columns
      * @return mixed
      */
-
-    static function buildBaseGridQuery(
+    public static function buildBaseGridQuery(
         $column,
         $direction,
         $keyword = '',
@@ -197,12 +188,12 @@ class Statute extends Model
             $column = 'statutes_eligibilities.name';
         }
 
-        $query = Statute::select($columns)
+        $query = self::select($columns)
             ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('statutes.name', 'like', '%' . $keyword . '%');
-            $query->orWhere('statutes.number', 'like', '%' . $keyword . '%');
+            $query->where('statutes.name', 'like', '%'.$keyword.'%');
+            $query->orWhere('statutes.number', 'like', '%'.$keyword.'%');
         }
 
         if ($eligibility_id) {
@@ -212,11 +203,12 @@ class Statute extends Model
         $query->leftJoin('statutes_eligibilities', 'statutes.statutes_eligibility_id', '=', 'statutes_eligibilities.id');
         $query->leftJoin('jurisdictions', 'statutes.jurisdiction_id', '=', 'jurisdictions.id');
         $query->leftJoin('jurisdiction_types', 'jurisdictions.jurisdiction_type_id', '=', 'jurisdiction_types.id');
+
         return $query;
     }
 
     /**
-     * Get export/Excel/download data query to send to Excel download library
+     * Get export/Excel/download data query to send to Excel download library.
      *
      * @param $per_page
      * @param $column
@@ -224,46 +216,38 @@ class Statute extends Model
      * @param string $keyword
      * @return mixed
      */
-
-    static function exportDataQuery(
+    public static function exportDataQuery(
         $column,
         $direction,
         $keyword = '',
         $eligibility_id = 0,
         $columns = '*'
-    )
-    {
-
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+    ) {
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $eligibility_id, $columns);
-
     }
 
-    static function pdfDataQuery(
+    public static function pdfDataQuery(
         $column,
         $direction,
         $keyword = '',
         $eligibility_id = 0,
         $columns = '*')
     {
-
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $eligibility_id, $columns);
-
     }
 
-
     /**
-     * Get "options" for HTML select tag
+     * Get "options" for HTML select tag.
      *
      * If flat return an array.
      * Otherwise, return an array of records.  Helps keep in proper order durring ajax calls to Chrome
      */
-    static public function getOptions($flat = false)
+    public static function getOptions($flat = false)
     {
-
         $thisModel = new static;
 
         $records = $thisModel::select('id',
@@ -271,18 +255,17 @@ class Statute extends Model
             ->orderBy('name')
             ->get();
 
-        if (!$flat) {
+        if (! $flat) {
             return $records;
         } else {
             $data = [];
 
-            foreach ($records AS $rec) {
+            foreach ($records as $rec) {
                 $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
             }
 
             return $data;
         }
-
     }
 
     public function scopeWithEligibility($builder)
@@ -305,7 +288,7 @@ class Statute extends Model
             ->with([
                 'superseded' => function ($q) {
                     $q->withEligibility();
-                }
+                },
             ]);
     }
 
@@ -323,5 +306,4 @@ class Statute extends Model
 
         return $builder->selectSub($query->limit(1), 'jurisdiction_type');
     }
-
 }

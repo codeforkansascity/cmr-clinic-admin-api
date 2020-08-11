@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CleanUpCharges extends Migration
 {
@@ -34,7 +34,6 @@ class CleanUpCharges extends Migration
             $table->string('convicted_text', 64)->nullable();
             $table->string('eligible_text', 64)->nullable();
             $table->string('please_expunge_text', 64)->nullable();
-
         });
     }
 }

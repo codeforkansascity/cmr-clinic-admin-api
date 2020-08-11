@@ -7,6 +7,7 @@ use App\Conviction;
 class ConvictionObserver
 {
     protected $request;
+
     public function __construct()
     {
         $this->request = request();

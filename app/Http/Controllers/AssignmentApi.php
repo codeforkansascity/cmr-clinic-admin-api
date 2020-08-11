@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Assignment;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AssignmentIndexRequest;
+use Illuminate\Http\Request;
 
 class AssignmentApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +16,6 @@ class AssignmentApi extends Controller
      */
     public function index(AssignmentIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -31,7 +28,7 @@ class AssignmentApi extends Controller
             'assignment_page' => $page,
             'assignment_column' => $column,
             'assignment_direction' => $direction,
-            'assignment_keyword' => $keyword
+            'assignment_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -41,12 +38,11 @@ class AssignmentApi extends Controller
     }
 
     /**
-     * Returns "options" for HTML select
+     * Returns "options" for HTML select.
      * @return array
      */
     public function getOptions()
     {
-
         return Assignment::getOptions();
     }
 

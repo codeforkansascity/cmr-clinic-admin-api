@@ -2,10 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Mail;
 use App\Mail\EmailTest;
 use Illuminate\Console\Command;
-
+use Mail;
 
 class EmailTestCommand extends Command
 {
@@ -43,6 +42,6 @@ class EmailTestCommand extends Command
         Mail::to('paulb@savagesoft.com', 'Paul Barham')
             ->send(new EmailTest());
 
-        print "GOOD\n";
+        echo "GOOD\n";
     }
 }

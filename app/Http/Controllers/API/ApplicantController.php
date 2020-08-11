@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Applicant;
 use App\Assignment;
+use App\Conviction;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ApplicantFormRequest;
 use App\Step;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use App\Applicant;
-use App\Http\Requests\ApplicantFormRequest;
-use App\Conviction;
 
 class ApplicantController extends Controller
 {
-
-
-
     /**
      * Display a listing of the resource.
      *
@@ -24,8 +21,7 @@ class ApplicantController extends Controller
      */
     public function index()
     {
-
-        info(__METHOD__ );
+        info(__METHOD__);
 
         return Applicant::all();
     }
@@ -37,14 +33,13 @@ class ApplicantController extends Controller
      */
     public function index_v1_0_1(Request $request)
     {
-
-        if (!Auth::user()->can('applicant index')) {
+        if (! Auth::user()->can('applicant index')) {
             return response()->json([
-                'error' => 'Not authorized'
+                'error' => 'Not authorized',
             ], 403);
         }
 
-        info(__METHOD__ );
+        info(__METHOD__);
 
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
@@ -56,8 +51,6 @@ class ApplicantController extends Controller
 
         $status_filter = $request->get('status_filter', -1);
 
-
-
         $keyword = $keyword != 'null' ? $keyword : '';
         $column = $column ? mb_strtolower($column) : 'name';
 
@@ -66,11 +59,10 @@ class ApplicantController extends Controller
                 $column = 'users.name';
                 break;
             default:
-                $column = 'applicant.' . $column;
+                $column = 'applicant.'.$column;
                 break;
 
         }
-
 
         return Applicant::indexData(10, $column, $direction, $keyword, $assigned_filter, $status_filter);
     }
@@ -84,6 +76,7 @@ class ApplicantController extends Controller
     public function store(Request $request)
     {
         $newApplicant = Applicant::create($request->all());
+
         return $newApplicant->id;
     }
 
@@ -96,8 +89,7 @@ class ApplicantController extends Controller
     public function show($id)
     {
 //        $applicant =  Applicant::with('assignment','assignment.user','step', 'step.status')->find($id);
-        $applicant =  Applicant::find($id);
-
+        $applicant = Applicant::find($id);
 
         return $applicant;
     }
@@ -111,38 +103,31 @@ class ApplicantController extends Controller
      */
     public function update(ApplicantFormRequest $request, $id)
     {
-        $applicant = Applicant::with('assignment','assignment.user','step', 'step.status')->findOrFail($id);
+        $applicant = Applicant::with('assignment', 'assignment.user', 'step', 'step.status')->findOrFail($id);
         $user = Auth::user();
         $user_id = $user->id;
 
         $all_fields = $request->all();
 
-        if (!$applicant->step || ($applicant->step->status_id != $request->status_id)) {
-
-                $step = Step::create([
+        if (! $applicant->step || ($applicant->step->status_id != $request->status_id)) {
+            $step = Step::create([
                     'applicant_id' => intval($id),
                     'status_id' => $request->status_id,
                     'created_by' => $user_id,
-                    'modified_by' => $user_id
+                    'modified_by' => $user_id,
                 ]);
 
-                $all_fields['step_id'] = $step->id;
-
+            $all_fields['step_id'] = $step->id;
         }
 
         if ($applicant->assignment_id != $request->assignment_id) {
-
             Assignment::create([
                 'applicant_id' => intval($id),
                 'user_id' => $request->assignment_id,
                 'created_by' => $user_id,
-                'modified_by' => $user_id
+                'modified_by' => $user_id,
             ]);
-
         }
-
-
-
 
         $applicant->update($all_fields);
 

@@ -2,14 +2,14 @@
 
 namespace App;
 
+use App\Traits\RecordSignature;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\RecordSignature;
 use Illuminate\Notifications\Notifiable;
+use DateTimeInterface;
 
 class Conviction extends Model
 {
-
     use SoftDeletes;
     use RecordSignature;
 
@@ -44,12 +44,12 @@ class Conviction extends Model
 
     public function applicant()
     {
-        return $this->belongsTo('App\Applicant');
+        return $this->belongsTo(\App\Applicant::class);
     }
 
     public function charge()
     {
-        return $this->hasMany('App\Charge');
+        return $this->hasMany(\App\Charge::class);
     }
 
     public function histories()
@@ -69,6 +69,17 @@ class Conviction extends Model
         return $this->belongsToMany(DataSource::class, 'conviction_source', 'conviction_id', 'data_source_id', 'id', 'id');
     }
 
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param  \DateTimeInterface  $date
+     * @return string
+     */
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
+
     // this is a recommended way to declare event handlers
     public static function boot()
     {
@@ -83,14 +94,13 @@ class Conviction extends Model
 
     public function add($attributes)
     {
-
         try {
             $this->fill($attributes)->save();
         } catch (\Exception $e) {
-            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
+            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
             throw new \Exception($e->getMessage());
         } catch (\Illuminate\Database\QueryException $e) {
-            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
+            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
             throw new \Exception($e->getMessage());
         }
 
@@ -102,9 +112,8 @@ class Conviction extends Model
         return true;
     }
 
-
     /**
-     * Get Grid/index data PAGINATED
+     * Get Grid/index data PAGINATED.
      *
      * @param $per_page
      * @param $column
@@ -112,7 +121,7 @@ class Conviction extends Model
      * @param string $keyword
      * @return mixed
      */
-    static function indexData(
+    public static function indexData(
         $per_page,
         $column,
         $direction,
@@ -126,9 +135,8 @@ class Conviction extends Model
             ->paginate($per_page);
     }
 
-
     /**
-     * Create base query to be used by Grid, Download, and PDF
+     * Create base query to be used by Grid, Download, and PDF.
      *
      * NOTE: to override the select you must supply all fields, ie you cannot add to the
      *       fields being selected.
@@ -139,8 +147,7 @@ class Conviction extends Model
      * @param string|array $columns
      * @return mixed
      */
-
-    static function buildBaseGridQuery(
+    public static function buildBaseGridQuery(
         $column,
         $direction,
         $keyword = '',
@@ -159,17 +166,18 @@ class Conviction extends Model
                 break;
         }
 
-        $query = Conviction::select($columns)
+        $query = self::select($columns)
             ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('name', 'like', '%' . $keyword . '%');
+            $query->where('name', 'like', '%'.$keyword.'%');
         }
+
         return $query;
     }
 
     /**
-     * Get export/Excel/download data query to send to Excel download library
+     * Get export/Excel/download data query to send to Excel download library.
      *
      * @param $per_page
      * @param $column
@@ -177,43 +185,36 @@ class Conviction extends Model
      * @param string $keyword
      * @return mixed
      */
-
-    static function exportDataQuery(
+    public static function exportDataQuery(
         $column,
         $direction,
         $keyword = '',
         $columns = '*')
     {
-
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
-
     }
 
-    static function pdfDataQuery(
+    public static function pdfDataQuery(
         $column,
         $direction,
         $keyword = '',
         $columns = '*')
     {
-
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
-
     }
-
 
     /**
-     * Get "options" for HTML select tag
+     * Get "options" for HTML select tag.
      *
      * If flat return an array.
      * Otherwise, return an array of records.  Helps keep in proper order durring ajax calls to Chrome
      */
-    static public function getOptions($flat = false)
+    public static function getOptions($flat = false)
     {
-
         $thisModel = new static;
 
         $records = $thisModel::select('id',
@@ -221,18 +222,17 @@ class Conviction extends Model
             ->orderBy('name')
             ->get();
 
-        if (!$flat) {
+        if (! $flat) {
             return $records;
         } else {
             $data = [];
 
-            foreach ($records AS $rec) {
+            foreach ($records as $rec) {
                 $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
             }
 
             return $data;
         }
-
     }
 
     public function saveHistory($request, $action = 'updated')
@@ -240,7 +240,7 @@ class Conviction extends Model
         $data = [
             'user_id' => auth()->user()->id ?? 1,
             'reason_for_change' => $request->reason_for_change ?? null,
-            'action' => $action
+            'action' => $action,
         ];
 
         /*

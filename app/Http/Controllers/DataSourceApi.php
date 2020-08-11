@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\DataSource;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DataSourceIndexRequest;
+use Illuminate\Http\Request;
 
 class DataSourceApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +16,6 @@ class DataSourceApi extends Controller
      */
     public function index(DataSourceIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -31,7 +28,7 @@ class DataSourceApi extends Controller
             'data_source_page' => $page,
             'data_source_column' => $column,
             'data_source_direction' => $direction,
-            'data_source_keyword' => $keyword
+            'data_source_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -41,11 +38,11 @@ class DataSourceApi extends Controller
     }
 
     /**
-     * Returns "options" for HTML select
+     * Returns "options" for HTML select.
      * @return array
      */
-    public function getOptions() {
-
+    public function getOptions()
+    {
         return DataSource::getOptions();
     }
 

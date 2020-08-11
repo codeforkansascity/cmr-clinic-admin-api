@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Conviction;
 use App\Charge;
+use App\Conviction;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class ConvictionController extends Controller
 {
@@ -21,31 +21,29 @@ class ConvictionController extends Controller
 
     public function indexByClient(Request $request, $applicant_id)
     {
-        $convictions = Conviction::where('applicant_id',$applicant_id)->get();
+        $convictions = Conviction::where('applicant_id', $applicant_id)->get();
 
-        foreach ( $convictions AS $i => $conviction) {
+        foreach ($convictions as $i => $conviction) {
             $conviction_id = $conviction->id;
-            $charges = Charge::where('conviction_id',$conviction_id)->get();
+            $charges = Charge::where('conviction_id', $conviction_id)->get();
             if ($charges->count() > 0) {
                 $convictions[$i]['charges'] = $charges;
             }
         }
 
-
         return $convictions;
-
     }
 
     public function add(Request $request, $applicant_id)
     {
         info("convictions::add($applicant_id)");
-        info(print_r($request->toArray(),true));
+        info(print_r($request->toArray(), true));
 
         $data = $request->all();
         $data['applicant_id'] = $applicant_id;
 
+        $conviction = Conviction::create($data);
 
-        $conviction =  Conviction::create($data);
         return $conviction->id;
     }
 
@@ -95,8 +93,7 @@ class ConvictionController extends Controller
     public function destroy($id)
     {
         Conviction::find($id)->delete();
-        Charge::where('conviction_id',$id)->delete();
-
+        Charge::where('conviction_id', $id)->delete();
 
         return 204;
     }

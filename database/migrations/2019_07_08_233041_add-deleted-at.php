@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddDeletedAt extends Migration
 {
@@ -19,9 +19,6 @@ class AddDeletedAt extends Migration
         Schema::table('charges', function (Blueprint $table) {
             $table->unsignedBigInteger('deleted_at')->nullable();
         });
-
-
-
     }
 
     /**
@@ -37,6 +34,5 @@ class AddDeletedAt extends Migration
         Schema::table('charges', function (Blueprint $table) {
             $table->dropColumn('deleted_at')->default(0);
         });
-
     }
 }

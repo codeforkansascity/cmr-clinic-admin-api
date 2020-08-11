@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Status;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StatusIndexRequest;
+use App\Status;
+use Illuminate\Http\Request;
 
 class StatusApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +16,6 @@ class StatusApi extends Controller
      */
     public function index(StatusIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -31,7 +28,7 @@ class StatusApi extends Controller
             'status_page' => $page,
             'status_column' => $column,
             'status_direction' => $direction,
-            'status_keyword' => $keyword
+            'status_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -41,11 +38,11 @@ class StatusApi extends Controller
     }
 
     /**
-     * Returns "options" for HTML select
+     * Returns "options" for HTML select.
      * @return array
      */
-    public function getOptions() {
-
+    public function getOptions()
+    {
         return Status::getOptions();
     }
 

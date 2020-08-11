@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Conviction;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ConvictionIndexRequest;
+use Illuminate\Http\Request;
 
 class ConvictionApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +16,6 @@ class ConvictionApi extends Controller
      */
     public function index(ConvictionIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -31,7 +28,7 @@ class ConvictionApi extends Controller
             'conviction_page' => $page,
             'conviction_column' => $column,
             'conviction_direction' => $direction,
-            'conviction_keyword' => $keyword
+            'conviction_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -41,11 +38,11 @@ class ConvictionApi extends Controller
     }
 
     /**
-     * Returns "options" for HTML select
+     * Returns "options" for HTML select.
      * @return array
      */
-    public function getOptions() {
-
+    public function getOptions()
+    {
         return Conviction::getOptions();
     }
 
