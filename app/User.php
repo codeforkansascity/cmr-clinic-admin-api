@@ -298,4 +298,8 @@ class User extends Authenticatable
     }
 
 
+    public function applicants()
+    {
+        return $this->belongsToMany(Applicant::class, 'applicant_user','user_id', 'applicant_id', 'id', 'id');
+    }
 }
