@@ -3,6 +3,7 @@
 namespace App;
 
 use DB;
+use App\Traits\RecordSignature;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -142,10 +143,10 @@ class Applicant extends Model
             ])
             ->paginate($per_page);
 
-        $query = \DB::getQueryLog();
-        $lastQuery = end($query);
-
-        info(print_r($lastQuery, true));
+//        $query = \DB::getQueryLog();
+//        $lastQuery = end($query);
+//
+//        info(print_r($lastQuery, true));
 
         return $ret;
     }
@@ -191,7 +192,7 @@ class Applicant extends Model
             ->leftJoin('statuses', 'applicants.status_id', 'statuses.id')
             ->orderBy($column, $direction);
 
-        if(auth()->user()->can('Volunteer Lawyer')) {
+        if(auth()->user()->hasRole('Volunteer Lawyer')) {
             $query->join('applicant_user','applicants.id', 'applicant_user.applicant_id')
                 ->where('applicant_user.user_id', auth()->user()->id);
         }
