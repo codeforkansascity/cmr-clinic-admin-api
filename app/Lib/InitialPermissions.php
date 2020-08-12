@@ -355,6 +355,76 @@ class InitialPermissions
             'assignment view',
         ]);
 
+
+        try {
+            $role = Role::findByName('Volunteer Lawyer');
+        } catch (RoleDoesNotExist $e) {
+            $role = Role::create(['name' => 'Volunteer Lawyer']);
+        }
+
+        $role->givePermissionTo([
+
+            'applicant index',
+            'applicant add',
+            'applicant update',
+            'applicant view',
+            'applicant export-pdf',
+            'applicant export-excel',
+
+            'conviction index',
+            'conviction add',
+            'conviction update',
+            'conviction view',
+            'conviction delete',
+            'conviction export-pdf',
+            'conviction export-excel',
+
+            'charge index',
+            'charge add',
+            'charge update',
+            'charge view',
+            'charge delete',
+            'charge export-pdf',
+            'charge export-excel',
+
+            'data_source index',
+            'data_source add',
+            'data_source update',
+            'data_source view',
+            'data_source delete',
+            'data_source export-pdf',
+            'data_source export-excel',
+
+            'jurisdiction index',
+            'jurisdiction add',
+            'jurisdiction update',
+            'jurisdiction view',
+            'jurisdiction delete',
+            'jurisdiction export-pdf',
+            'jurisdiction export-excel',
+
+
+            'jurisdiction_type index',
+            'jurisdiction_type add',
+            'jurisdiction_type update',
+            'jurisdiction_type view',
+            'jurisdiction_type delete',
+            'jurisdiction_type export-pdf',
+            'jurisdiction_type export-excel',
+
+            'statute index',
+            'statute add',
+            'statute update',
+            'statute view',
+            'statute delete',
+            'statute export-pdf',
+            'statute export-excel',
+        ]);
+
+
+
+        info(__METHOD__ . 'END');
+
         info(__METHOD__.'END');
     }
 }

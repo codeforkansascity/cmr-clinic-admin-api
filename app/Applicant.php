@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Traits\RecordSignature;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -192,6 +191,11 @@ class Applicant extends Model
             ->leftJoin('statuses', 'applicants.status_id', 'statuses.id')
             ->orderBy($column, $direction);
 
+        if(auth()->user()->can('Volunteer Lawyer')) {
+            $query->join('applicant_user','applicants.id', 'applicant_user.applicant_id')
+                ->where('applicant_user.user_id', auth()->user()->id);
+        }
+
         if ($keyword) {
             $query->where('applicants.name', 'like', '%'.$keyword.'%');
         }
@@ -299,5 +303,11 @@ class Applicant extends Model
         }
 
         return $this->histories()->create($data);
+    }
+
+
+    public function lawyers()
+    {
+        return $this->belongsToMany(User::class, 'applicant_user','applicant_id', 'user_id', 'id', 'id');
     }
 }

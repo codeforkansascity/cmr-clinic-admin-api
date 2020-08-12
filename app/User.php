@@ -277,4 +277,10 @@ class User extends Authenticatable
 
         return $roles_is_dirty;
     }
+
+
+    public function applicants()
+    {
+        return $this->belongsToMany(Applicant::class, 'applicant_user','user_id', 'applicant_id', 'id', 'id');
+    }
 }
