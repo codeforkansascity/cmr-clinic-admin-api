@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\ServiceType;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ServiceTypeIndexRequest;
+use App\ServiceType;
+use Illuminate\Http\Request;
 
 class ServiceTypeApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +16,6 @@ class ServiceTypeApi extends Controller
      */
     public function index(ServiceTypeIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -31,7 +28,7 @@ class ServiceTypeApi extends Controller
             'service_type_page' => $page,
             'service_type_column' => $column,
             'service_type_direction' => $direction,
-            'service_type_keyword' => $keyword
+            'service_type_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -41,11 +38,11 @@ class ServiceTypeApi extends Controller
     }
 
     /**
-     * Returns "options" for HTML select
+     * Returns "options" for HTML select.
      * @return array
      */
-    public function getOptions() {
-
+    public function getOptions()
+    {
         return ServiceType::getOptions();
     }
 

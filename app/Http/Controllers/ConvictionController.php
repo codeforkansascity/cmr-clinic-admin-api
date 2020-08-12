@@ -2,27 +2,23 @@
 
 namespace App\Http\Controllers;
 
-
-
-use App\Http\Middleware\TrimStrings;
 use App\Conviction;
-use Illuminate\Http\Request;
-
+use App\Exports\ConvictionExport;
+use App\Http\Middleware\TrimStrings;
 use App\Http\Requests\ConvictionFormRequest;
 use App\Http\Requests\ConvictionIndexRequest;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-
-use App\Exports\ConvictionExport;
 use Maatwebsite\Excel\Facades\Excel;
+
 //use PDF; // TCPDF, not currently in use
 
 class ConvictionController extends Controller
 {
-
     /**
-     * Examples
+     * Examples.
      *
      * Vue component example.
      *
@@ -61,9 +57,7 @@ class ConvictionController extends Controller
              Permission::create(['name' => 'conviction destroy']);
              Permission::create(['name' => 'conviction export-pdf']);
              Permission::create(['name' => 'conviction export-excel']);
-
-    */
-
+     */
 
     /**
      * Display a listing of the resource.
@@ -72,9 +66,9 @@ class ConvictionController extends Controller
      */
     public function index(ConvictionIndexRequest $request)
     {
-
-        if (!Auth::user()->can('conviction index')) {
+        if (! Auth::user()->can('conviction index')) {
             \Session::flash('flash_error_message', 'You do not have access to Cases.');
+
             return Redirect::route('home');
         }
 
@@ -92,7 +86,6 @@ class ConvictionController extends Controller
         $can_pdf = Auth::user()->can('conviction pdf');
 
         return view('conviction.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
-
     }
 
     /**
@@ -100,10 +93,9 @@ class ConvictionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-	public function create()
-	{
-
-        if (!Auth::user()->can('conviction add')) {  // TODO: add -> create
+    public function create()
+    {
+        if (! Auth::user()->can('conviction add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Case.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('conviction.index');
@@ -112,9 +104,8 @@ class ConvictionController extends Controller
             }
         }
 
-	    return view('conviction.create');
-	}
-
+        return view('conviction.create');
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -124,9 +115,8 @@ class ConvictionController extends Controller
      */
     public function store(ConvictionFormRequest $request)
     {
-
         $conviction = Conviction::create($request->all());
-        if($request->sources) {
+        if ($request->sources) {
             $conviction->sources()->sync(collect($request->sources)->pluck('id'));
         }
         /// We need to return the id to the front end
@@ -139,25 +129,23 @@ class ConvictionController extends Controller
 //            ], 400);
 //        }
 
-        \Session::flash('flash_success_message', 'Vc Vendor ' . $conviction->name . ' was added');
+        \Session::flash('flash_success_message', 'Vc Vendor '.$conviction->name.' was added');
 
         return response()->json([
             'message' => 'Added record',
-            'record' => $conviction
+            'record' => $conviction,
         ], 200);
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-
-        if (!Auth::user()->can('conviction view')) {
+        if (! Auth::user()->can('conviction view')) {
             \Session::flash('flash_error_message', 'You do not have access to view a Case.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('conviction.index');
@@ -169,9 +157,11 @@ class ConvictionController extends Controller
         if ($conviction = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('conviction edit');
             $can_delete = Auth::user()->can('conviction delete');
-            return view('conviction.show', compact('conviction','can_edit', 'can_delete'));
+
+            return view('conviction.show', compact('conviction', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Case to display.');
+
             return Redirect::route('conviction.index');
         }
     }
@@ -179,12 +169,12 @@ class ConvictionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        if (!Auth::user()->can('conviction edit')) {
+        if (! Auth::user()->can('conviction edit')) {
             \Session::flash('flash_error_message', 'You do not have access to edit a Case.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('conviction.index');
@@ -197,9 +187,9 @@ class ConvictionController extends Controller
             return view('conviction.edit', compact('conviction'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Case to edit.');
+
             return Redirect::route('conviction.index');
         }
-
     }
 
     /**
@@ -210,8 +200,7 @@ class ConvictionController extends Controller
      */
     public function update(ConvictionFormRequest $request, $id)
     {
-
-        info(__METHOD__ . ' start');
+        info(__METHOD__.' start');
 
 //        if (!Auth::user()->can('conviction update')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Case.');
@@ -222,38 +211,38 @@ class ConvictionController extends Controller
 //            }
 //        }
 
-        if (!$conviction = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Case to edit');
+        if (! $conviction = $this->sanitizeAndFind($id)) {
+            //     \Session::flash('flash_error_message', 'Unable to find Case to edit');
             return response()->json([
-                'message' => 'Not Found'
+                'message' => 'Not Found',
             ], 404);
         }
 
         $conviction->fill($request->all());
-        if($request->sources) {
+        if ($request->sources) {
             $conviction->sources()->sync(collect($request->sources)->pluck('id'));
         }
 
         if ($conviction->isDirty()) {
-info(__METHOD__ . ' saving');
+            info(__METHOD__.' saving');
             try {
                 $conviction->save();
-
             } catch (\Exception $e) {
-                info(print_r($e->getMessage(),true));
+                info(print_r($e->getMessage(), true));
+
                 return response()->json([
                     'message' => 'Unable to process request',
 
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Case ' . $conviction->name . ' was changed');
+            \Session::flash('flash_success_message', 'Case '.$conviction->name.' was changed');
         } else {
             \Session::flash('flash_info_message', 'No changes were made');
         }
 
         return response()->json([
-            'message' => 'Changed record'
+            'message' => 'Changed record',
         ], 200);
     }
 
@@ -266,10 +255,10 @@ info(__METHOD__ . ' saving');
     {
 
         // TODO change this to return error response
-        if (!Auth::user()->can('conviction delete')) {
+        if (! Auth::user()->can('conviction delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Case.');
             if (Auth::user()->can('applicant index')) {
-                 return Redirect::route('applicant.index');
+                return Redirect::route('applicant.index');
             } else {
                 return Redirect::route('home');
             }
@@ -277,36 +266,32 @@ info(__METHOD__ . ' saving');
 
         $conviction = $this->sanitizeAndFind($id);
 
-        if ( $conviction  && $conviction->canDelete()) {
-
+        if ($conviction && $conviction->canDelete()) {
             try {
                 $conviction->delete();
             } catch (\Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request.'
+                    'message' => 'Unable to process request.',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Case ' . $conviction->name . ' was removed.');
+            \Session::flash('flash_success_message', 'Case '.$conviction->name.' was removed.');
         } else {
             \Session::flash('flash_error_message', 'Unable to find Case to delete.');
-
         }
 
         return response()->json('Success', 200);
         // TODO we cannot send a redirect from an ajax request
         // we should either use a form to submit the delete request or have the front end redirect if successful
         if (Auth::user()->can('conviction index')) {
-             return Redirect::route('conviction.index');
+            return Redirect::route('conviction.index');
         } else {
             return Redirect::route('home');
         }
-
-
     }
 
     /**
-     * Find by ID, sanitize the ID first
+     * Find by ID, sanitize the ID first.
      *
      * @param $id
      * @return Conviction or null
@@ -316,11 +301,9 @@ info(__METHOD__ . ' saving');
         return \App\Conviction::find(intval($id));
     }
 
-
     public function download()
     {
-
-        if (!Auth::user()->can('conviction excel')) {
+        if (! Auth::user()->can('conviction excel')) {
             \Session::flash('flash_error_message', 'You do not have access to download Case.');
             if (Auth::user()->can('conviction index')) {
                 return Redirect::route('conviction.index');
@@ -338,7 +321,7 @@ info(__METHOD__ . ' saving');
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         $dataQuery = Conviction::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());
@@ -348,13 +331,11 @@ info(__METHOD__ . ' saving');
         return Excel::download(
             new ConvictionExport($dataQuery),
             'conviction.xlsx');
-
     }
 
-
-        public function print()
-{
-        if (!Auth::user()->can('conviction export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+    public function print()
+    {
+        if (! Auth::user()->can('conviction export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Case');
             if (Auth::user()->can('conviction index')) {
                 return Redirect::route('conviction.index');
@@ -369,7 +350,7 @@ info(__METHOD__ . ' saving');
         $direction = session('conviction_direction', '-1');
         $column = $column ? $column : 'name';
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         // Get query data
         $columns = [
@@ -380,15 +361,16 @@ info(__METHOD__ . ' saving');
         $data = $dataQuery->get();
 
         // Pass it to the view for html formatting:
-        $printHtml = view('conviction.print', compact( 'data' ) );
+        $printHtml = view('conviction.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
         $pdf = \App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
-        $pdf->setOptions(['isPhpEnabled' => TRUE]);
+        $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
         $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
-        return $pdf->stream('conviction-' . $currentDate->format('Ymd_Hi') . '.pdf');
+
+        return $pdf->stream('conviction-'.$currentDate->format('Ymd_Hi').'.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////
@@ -417,5 +399,4 @@ info(__METHOD__ . ' saving');
         ///////////////////////////////////////////////////////////////////////
         */
     }
-
 }

@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Role;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class RoleApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +27,7 @@ class RoleApi extends Controller
             'role_page' => $page,
             'role_column' => $column,
             'role_direction' => $direction,
-            'role_keyword' => $keyword
+            'role_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -39,7 +37,7 @@ class RoleApi extends Controller
     }
 
     /**
-     * Returns "options" for HTML select
+     * Returns "options" for HTML select.
      * @return array
      */
     public function getOptions()

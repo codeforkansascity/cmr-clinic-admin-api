@@ -2,27 +2,23 @@
 
 namespace App\Http\Controllers;
 
-
-
+use App\Exports\ServiceExport;
 use App\Http\Middleware\TrimStrings;
-use App\Service;
-use Illuminate\Http\Request;
-
 use App\Http\Requests\ServiceFormRequest;
 use App\Http\Requests\ServiceIndexRequest;
-use Illuminate\Support\Facades\Redirect;
+use App\Service;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-
-use App\Exports\ServiceExport;
 use Maatwebsite\Excel\Facades\Excel;
+
 //use PDF; // TCPDF, not currently in use
 
 class ServiceController extends Controller
 {
-
     /**
-     * Examples
+     * Examples.
      *
      * Vue component example.
      *
@@ -62,9 +58,7 @@ class ServiceController extends Controller
              Permission::findOrCreate('service add');
              Permission::findOrCreate('service edit');
              Permission::findOrCreate('service delete');
-
-    */
-
+     */
 
     /**
      * Display a listing of the resource.
@@ -73,9 +67,9 @@ class ServiceController extends Controller
      */
     public function index(ServiceIndexRequest $request)
     {
-
-        if (!Auth::user()->can('service index')) {
+        if (! Auth::user()->can('service index')) {
             \Session::flash('flash_error_message', 'You do not have access to Servicess.');
+
             return Redirect::route('home');
         }
 
@@ -93,7 +87,6 @@ class ServiceController extends Controller
         $can_pdf = Auth::user()->can('service pdf');
 
         return view('service.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
-
     }
 
     /**
@@ -101,10 +94,9 @@ class ServiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-	public function create()
-	{
-
-        if (!Auth::user()->can('service add')) {  // TODO: add -> create
+    public function create()
+    {
+        if (! Auth::user()->can('service add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Services.');
             if (Auth::user()->can('service index')) {
                 return Redirect::route('service.index');
@@ -113,9 +105,8 @@ class ServiceController extends Controller
             }
         }
 
-	    return view('service.create');
-	}
-
+        return view('service.create');
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -125,35 +116,32 @@ class ServiceController extends Controller
      */
     public function store(ServiceFormRequest $request)
     {
-
         $service = new \App\Service;
 
         try {
             $service->add($request->validated());
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Unable to process request'
+                'message' => 'Unable to process request',
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Services ' . $service->name . ' was added.');
+        \Session::flash('flash_success_message', 'Services '.$service->name.' was added.');
 
         return response()->json([
-            'message' => 'Added record'
+            'message' => 'Added record',
         ], 200);
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-
-        if (!Auth::user()->can('service view')) {
+        if (! Auth::user()->can('service view')) {
             \Session::flash('flash_error_message', 'You do not have access to view a Services.');
             if (Auth::user()->can('service index')) {
                 return Redirect::route('service.index');
@@ -165,9 +153,11 @@ class ServiceController extends Controller
         if ($service = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('service edit');
             $can_delete = (Auth::user()->can('service delete') && $service->canDelete());
-            return view('service.show', compact('service','can_edit', 'can_delete'));
+
+            return view('service.show', compact('service', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Services to display.');
+
             return Redirect::route('service.index');
         }
     }
@@ -175,12 +165,12 @@ class ServiceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        if (!Auth::user()->can('service edit')) {
+        if (! Auth::user()->can('service edit')) {
             \Session::flash('flash_error_message', 'You do not have access to edit a Services.');
             if (Auth::user()->can('service index')) {
                 return Redirect::route('service.index');
@@ -193,9 +183,9 @@ class ServiceController extends Controller
             return view('service.edit', compact('service'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Services to edit.');
+
             return Redirect::route('service.index');
         }
-
     }
 
     /**
@@ -216,32 +206,31 @@ class ServiceController extends Controller
 //            }
 //        }
 
-        if (!$service = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Services to edit.');
+        if (! $service = $this->sanitizeAndFind($id)) {
+            //     \Session::flash('flash_error_message', 'Unable to find Services to edit.');
             return response()->json([
-                'message' => 'Not Found'
+                'message' => 'Not Found',
             ], 404);
         }
 
         $service->fill($request->all());
 
         if ($service->isDirty()) {
-
             try {
                 $service->save();
             } catch (\Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request'
+                    'message' => 'Unable to process request',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Services ' . $service->name . ' was changed.');
+            \Session::flash('flash_success_message', 'Services '.$service->name.' was changed.');
         } else {
             \Session::flash('flash_info_message', 'No changes were made.');
         }
 
         return response()->json([
-            'message' => 'Changed record'
+            'message' => 'Changed record',
         ], 200);
     }
 
@@ -252,11 +241,10 @@ class ServiceController extends Controller
      */
     public function destroy($id)
     {
-
-        if (!Auth::user()->can('service delete')) {
+        if (! Auth::user()->can('service delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Services.');
             if (Auth::user()->can('service index')) {
-                 return Redirect::route('service.index');
+                return Redirect::route('service.index');
             } else {
                 return Redirect::route('home');
             }
@@ -264,33 +252,29 @@ class ServiceController extends Controller
 
         $service = $this->sanitizeAndFind($id);
 
-        if ( $service  && $service->canDelete()) {
-
+        if ($service && $service->canDelete()) {
             try {
                 $service->delete();
             } catch (\Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request.'
+                    'message' => 'Unable to process request.',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Services ' . $service->name . ' was removed.');
+            \Session::flash('flash_success_message', 'Services '.$service->name.' was removed.');
         } else {
             \Session::flash('flash_error_message', 'Unable to find Services to delete.');
-
         }
 
         if (Auth::user()->can('service index')) {
-             return Redirect::route('service.index');
+            return Redirect::route('service.index');
         } else {
             return Redirect::route('home');
         }
-
-
     }
 
     /**
-     * Find by ID, sanitize the ID first
+     * Find by ID, sanitize the ID first.
      *
      * @param $id
      * @return Service or null
@@ -300,11 +284,9 @@ class ServiceController extends Controller
         return \App\Service::with('service_type')->find(intval($id));
     }
 
-
     public function download()
     {
-
-        if (!Auth::user()->can('service excel')) {
+        if (! Auth::user()->can('service excel')) {
             \Session::flash('flash_error_message', 'You do not have access to download Services.');
             if (Auth::user()->can('service index')) {
                 return Redirect::route('service.index');
@@ -322,7 +304,7 @@ class ServiceController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         $dataQuery = Service::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());
@@ -332,13 +314,11 @@ class ServiceController extends Controller
         return Excel::download(
             new ServiceExport($dataQuery),
             'service.xlsx');
-
     }
 
-
-        public function print()
-{
-        if (!Auth::user()->can('service export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+    public function print()
+    {
+        if (! Auth::user()->can('service export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Services.');
             if (Auth::user()->can('service index')) {
                 return Redirect::route('service.index');
@@ -353,7 +333,7 @@ class ServiceController extends Controller
         $direction = session('service_direction', '-1');
         $column = $column ? $column : 'name';
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         // Get query data
         $columns = [
@@ -364,15 +344,16 @@ class ServiceController extends Controller
         $data = $dataQuery->get();
 
         // Pass it to the view for html formatting:
-        $printHtml = view('service.print', compact( 'data' ) );
+        $printHtml = view('service.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
         $pdf = \App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
-        $pdf->setOptions(['isPhpEnabled' => TRUE]);
+        $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
         $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
-        return $pdf->stream('service-' . $currentDate->format('Ymd_Hi') . '.pdf');
+
+        return $pdf->stream('service-'.$currentDate->format('Ymd_Hi').'.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////
@@ -404,13 +385,12 @@ class ServiceController extends Controller
 
     public function all(Request $request)
     {
-
-        $services =  Service::query();
-        if($request->q) {
+        $services = Service::query();
+        if ($request->q) {
             $services = $services->where('name', 'like', '%'.$request->q.'%')
                 ->limit(20);
         }
+
         return $services->get();
     }
-
 }

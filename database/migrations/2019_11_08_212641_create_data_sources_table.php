@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateDataSourcesTable extends Migration
 {
@@ -26,24 +26,22 @@ class CreateDataSourcesTable extends Migration
         });
 
         \App\DataSource::create([
-            "id"=> "1",
-            "name"=> "Lexis",
-            "created_by"=> "1",
+            'id'=> '1',
+            'name'=> 'Lexis',
+            'created_by'=> '1',
         ]);
 
         \App\DataSource::create([
-            "id"=> "2",
-            "name"=> "CaseNet",
-            "created_by"=> "1",
+            'id'=> '2',
+            'name'=> 'CaseNet',
+            'created_by'=> '1',
         ]);
 
         \App\DataSource::create([
-            "id"=> "3",
-            "name"=> "MSHP",
-            "created_by"=> "1",
+            'id'=> '3',
+            'name'=> 'MSHP',
+            'created_by'=> '1',
         ]);
-
-
     }
 
     /**

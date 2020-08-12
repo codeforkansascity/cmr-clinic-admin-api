@@ -14,14 +14,14 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
   //      'App\Console\Commands\ConvertTextDatesCommand',
-        'App\Console\Commands\MakeFirstUser',
-        'App\Console\Commands\SetInitialPermissions',
-        'App\Console\Commands\SetYesNoCommand',
-        'App\Console\Commands\LoadStatutesFromScott',
-        'App\Console\Commands\LoadCriminalHistory',
-        'App\Console\Commands\EmailTestCommand',
-        'App\Console\Commands\ConvertChargeStatuteToFK',
-        'App\Console\Commands\ApiTest',
+        \App\Console\Commands\MakeFirstUser::class,
+        \App\Console\Commands\SetInitialPermissions::class,
+        \App\Console\Commands\SetYesNoCommand::class,
+        \App\Console\Commands\LoadStatutesFromScott::class,
+        \App\Console\Commands\LoadCriminalHistory::class,
+        \App\Console\Commands\EmailTestCommand::class,
+        \App\Console\Commands\ConvertChargeStatuteToFK::class,
+        \App\Console\Commands\ApiTest::class,
     ];
 
     /**

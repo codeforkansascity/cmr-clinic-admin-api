@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Lib\ChargeStatuteToFK;
+use Illuminate\Console\Command;
 
 class ConvertChargeStatuteToFK extends Command
 {

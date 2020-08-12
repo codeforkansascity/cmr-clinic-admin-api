@@ -19,7 +19,6 @@ class ApplicantRequest extends FormRequest
         } else {  // If not we must be adding one
             return Auth::user()->can('applicant add');
         }
-
     }
 
     /**
@@ -29,7 +28,6 @@ class ApplicantRequest extends FormRequest
      */
     public function rules()
     {
-
         $id = $this->route('applicant');
 
         $rules = [
@@ -72,12 +70,8 @@ class ApplicantRequest extends FormRequest
             'assignment_id' => 'numeric|nullable',
             'status_id' => 'nullable|numeric',
 
-
         ];
-
 
         return $rules;
     }
 }
-
-

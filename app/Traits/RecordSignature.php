@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 trait RecordSignature
 {
-
-
     protected static function boot()
     {
         parent::boot();
@@ -15,7 +13,7 @@ trait RecordSignature
         static::creating(function ($model) {
             $model->fillable[] = 'created_by';
             $user = \Auth::User();
-            if ( $user ) {
+            if ($user) {
                 $model->created_by = $user->id;
             } else {
                 $model->created_by = -1;
@@ -25,7 +23,7 @@ trait RecordSignature
         static::updating(function ($model) {
             $model->fillable[] = 'modified_by';
             $user = \Auth::User();
-            if ( $user ) {
+            if ($user) {
                 $model->modified_by = $user->id;
             } else {
                 $model->modified_by = -1;
@@ -36,7 +34,7 @@ trait RecordSignature
             $model->fillable[] = 'purged_by';
 
             $user = \Auth::User();
-            if ( $user ) {
+            if ($user) {
                 $model->purged_by = $user->id;
             } else {
                 $model->purged_by = -1;
@@ -44,7 +42,5 @@ trait RecordSignature
 
             $model->save();
         });
-
     }
-
 }

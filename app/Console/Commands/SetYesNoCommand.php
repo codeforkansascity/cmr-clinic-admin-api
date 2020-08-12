@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Lib\SetYesNoLib;
+use Illuminate\Console\Command;
 
 class SetYesNoCommand extends Command
 {
@@ -39,6 +39,5 @@ class SetYesNoCommand extends Command
     public function handle()
     {
         $a = new SetYesNoLib();
-
     }
 }

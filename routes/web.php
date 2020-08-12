@@ -17,7 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Auth::routes(['verify' => true, 'register' => false]);
 
 // {token} is a required parameter that will be exposed to us in the controller method
@@ -25,9 +24,7 @@ Route::get('accept/{token}', 'InviteController@accept')->name('accept');
 Route::post('create_password', 'InviteController@createPassword')->name('create_password');
 Route::post('/password-strength', 'PasswordStrengthApi@calc');
 
-
 Route::group(['middleware' => 'auth'], function () {
-
     Route::get('/api-user', 'UserApi@index');
     Route::get('/api-user/role-options', 'UserApi@getRoleOptions');
     Route::get('/api-user/options', 'UserApi@getOptions');
@@ -57,8 +54,6 @@ Route::group(['middleware' => 'auth'], function () {
     ///////////////////////////////////////////////////////////////////////////////
     Route::get('/change-password', 'ChangePasswordController@changePassword')->name('change_password');
     Route::post('/update-password', 'ChangePasswordController@updatePassword');
-
-
 
     Route::get('/api-applicant', 'ApplicantApi@index');
     Route::get('/api-applicant/options', 'ApplicantApi@getOptions');
@@ -141,13 +136,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('applicant/{client}', 'HistoryController@client');
     });
 
-
     Route::group(['prefix' => 'case/{case}/service'], function () {
         Route::post('/create', 'CaseServiceController@store')->name('case-service.store');
         Route::put('/{service}', 'CaseServiceController@update')->name('case-service.update');
         Route::delete('/{service}', 'CaseServiceController@destroy')->name('case-service.destroy');
     });
-
 
     Route::get('statutes/all', 'StatuteController@all');
     Route::get('services/all', 'ServiceController@all');
@@ -170,25 +163,23 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/applicant/download', 'ApplicantController@download')->name('applicant.download');
     Route::get('/applicant/print', 'ApplicantController@print')->name('applicant.print');
     Route::resource('/applicant', 'ApplicantController');
+
+    Route::get('/api-jurisdiction-type', 'JurisdictionTypeApi@index');
+    Route::get('/api-jurisdiction-type/options', 'JurisdictionTypeApi@getOptions');
+    Route::post('/api-jurisdiction-type', 'JurisdictionTypeApi@store');
+
+    Route::get('/jurisdiction-type/download', 'JurisdictionTypeController@download')->name('jurisdiction-type.download');
+    Route::get('/jurisdiction-type/print', 'JurisdictionTypeController@print')->name('jurisdiction-type.print');
+    Route::resource('/jurisdiction-type', 'JurisdictionTypeController');
+
+    Route::get('/api-jurisdiction', 'JurisdictionApi@index');
+    Route::get('/api-jurisdiction/options', 'JurisdictionApi@getOptions');
+    Route::post('/api-jurisdiction', 'JurisdictionApi@store');
+
+    Route::get('/jurisdiction/download', 'JurisdictionController@download')->name('jurisdiction.download');
+    Route::get('/jurisdiction/print', 'JurisdictionController@print')->name('jurisdiction.print');
+    Route::resource('/jurisdiction', 'JurisdictionController');
+
 });
 
 
-
-
-
-
-Route::get('/api-jurisdiction-type', 'JurisdictionTypeApi@index');
-Route::get('/api-jurisdiction-type/options', 'JurisdictionTypeApi@getOptions');
-Route::post('/api-jurisdiction-type', 'JurisdictionTypeApi@store');
-
-Route::get('/jurisdiction-type/download', 'JurisdictionTypeController@download')->name('jurisdiction-type.download');
-Route::get('/jurisdiction-type/print', 'JurisdictionTypeController@print')->name('jurisdiction-type.print');
-Route::resource('/jurisdiction-type', 'JurisdictionTypeController');
-
-Route::get('/api-jurisdiction', 'JurisdictionApi@index');
-Route::get('/api-jurisdiction/options', 'JurisdictionApi@getOptions');
-Route::post('/api-jurisdiction', 'JurisdictionApi@store');
-
-Route::get('/jurisdiction/download', 'JurisdictionController@download')->name('jurisdiction.download');
-Route::get('/jurisdiction/print', 'JurisdictionController@print')->name('jurisdiction.print');
-Route::resource('/jurisdiction', 'JurisdictionController');

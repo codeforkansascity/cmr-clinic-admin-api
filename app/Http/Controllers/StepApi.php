@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Step;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StepIndexRequest;
+use App\Step;
+use Illuminate\Http\Request;
 
 class StepApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +16,6 @@ class StepApi extends Controller
      */
     public function index(StepIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -31,7 +28,7 @@ class StepApi extends Controller
             'step_page' => $page,
             'step_column' => $column,
             'step_direction' => $direction,
-            'step_keyword' => $keyword
+            'step_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -41,11 +38,11 @@ class StepApi extends Controller
     }
 
     /**
-     * Returns "options" for HTML select
+     * Returns "options" for HTML select.
      * @return array
      */
-    public function getOptions() {
-
+    public function getOptions()
+    {
         return Step::getOptions();
     }
 

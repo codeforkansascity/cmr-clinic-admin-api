@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRoleDescriptionsTable extends Migration
 {
@@ -17,9 +17,9 @@ class CreateRoleDescriptionsTable extends Migration
             $table->increments('id');
 
             $table->integer('role_id')->default(0);
-            $table->string('role_name',191);
+            $table->string('role_name', 191);
 
-            $table->string('name',191);
+            $table->string('name', 191);
             $table->text('description')->nullable();
             $table->integer('sequence')->default(0);
             $table->string('roles_that_can_assign', 255)->nullable()->default('');

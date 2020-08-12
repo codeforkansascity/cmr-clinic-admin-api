@@ -4,19 +4,17 @@
 
 namespace App\Lib;
 
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
-
+use Illuminate\Support\Facades\Storage;
 
 class ApplicantHistoryUploader
 {
     const UPLOAD_DIR = '/tmp/';
 
-
-    var $storage_disk = 'local';
+    public $storage_disk = 'local';
 
     /**
-     * Uploader constructor
+     * Uploader constructor.
      */
     public function __construct()
     {
@@ -25,11 +23,10 @@ class ApplicantHistoryUploader
     }
 
     /**
-     * Opens up CORS access
+     * Opens up CORS access.
      */
     private function allowCors()
     {
-
         if (array_key_exists('HTTP_ORIGIN', $_SERVER)) {
             header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
         } else {
@@ -45,13 +42,12 @@ class ApplicantHistoryUploader
     }
 
     /**
-     * Saves the uploaded file
+     * Saves the uploaded file.
      *
      * @return [type] [description]
      */
-    public function saveUploadedFile($foreign_key_name, $foreign_key_value, $display_name = 'test', $storage_path = '', $uploaded_file_name=false)
+    public function saveUploadedFile($foreign_key_name, $foreign_key_value, $display_name = 'test', $storage_path = '', $uploaded_file_name = false)
     {
-
         $this->handleUploadError($_FILES['file']['error']);
 
         $target_file_name_and_path = $this->getTargetFileNameAndPath();
@@ -59,16 +55,12 @@ class ApplicantHistoryUploader
         $destination_directory = env('APPLICANT_HISTORIES_DIRECTORY', 'applicant_histories');
 
         if (move_uploaded_file($this->getSource(), $target_file_name_and_path)) {
-
             if ($this->isMultipartUpload()) {
-
-                $filename_path = self::UPLOAD_DIR . $_POST['filename'];
-                $this->mergeMultiUpload($filename_path, (int)$_POST['totalParts']);
+                $filename_path = self::UPLOAD_DIR.$_POST['filename'];
+                $this->mergeMultiUpload($filename_path, (int) $_POST['totalParts']);
 
                 $new_file_path = Storage::disk($this->storage_disk)->putFile($destination_directory, new File($filename_path));
-
             } else {
-
                 $resized_path_name = $target_file_name_and_path;
 
                 //$geo = $this->get_image_location($target_file_name_and_path);
@@ -78,9 +70,7 @@ class ApplicantHistoryUploader
                 //   $this->resize_image($target_file_name_and_path, $resized_path_name, $cols=400, $rows=300, $resolution=32);
 
                 $new_file_path = Storage::disk($this->storage_disk)->putFile($destination_directory, new File($target_file_name_and_path));
-
             }
-
 
             $fields_with_values['name'] = $display_name;
             $fields_with_values['uploaded_file_name'] = $uploaded_file_name ? $uploaded_file_name : $_FILES['file']['name'];
@@ -89,7 +79,7 @@ class ApplicantHistoryUploader
             $fields_with_values['active'] = 1;
             $fields_with_values[$foreign_key_name] = $foreign_key_value;
             $fields_with_values['local_file_name'] = basename($new_file_path);
-            $fields_with_values['url'] = $storage_path . basename($new_file_path);
+            $fields_with_values['url'] = $storage_path.basename($new_file_path);
 
 //            $record = new \App\VcVendorLogo;
 //            $record->fill($fields_with_values);
@@ -99,8 +89,8 @@ class ApplicantHistoryUploader
                 'message' => $this->getSuccessMessage(),
                 'local_file_name' => basename($new_file_path),
                 'meta' => [
-                    'remainingParts' => []
-                ]
+                    'remainingParts' => [],
+                ],
             ]);
         }
 
@@ -108,7 +98,7 @@ class ApplicantHistoryUploader
     }
 
     /**
-     * Format a success message
+     * Format a success message.
      *
      * @return string
      */
@@ -122,7 +112,7 @@ class ApplicantHistoryUploader
     }
 
     /**
-     * Get upload source
+     * Get upload source.
      *
      * @return string
      */
@@ -132,22 +122,21 @@ class ApplicantHistoryUploader
     }
 
     /**
-     * Get target destination
+     * Get target destination.
      *
      * @return string
      */
     private function getTargetFileNameAndPath()
     {
         if ($this->isMultipartUpload()) {
-            return self::UPLOAD_DIR . $_POST['filename'] . '.' . $_POST['currentPart'];
+            return self::UPLOAD_DIR.$_POST['filename'].'.'.$_POST['currentPart'];
         }
 
-        return self::UPLOAD_DIR . $_FILES['file']['name'];
+        return self::UPLOAD_DIR.$_FILES['file']['name'];
     }
 
     /**
-     *
-     *      NOT USED
+     *      NOT USED.
      *
      *
      * @return mixed
@@ -161,19 +150,18 @@ class ApplicantHistoryUploader
         return self::$_FILES['file']['name'];
     }
 
-
     /**
      * Is this a multipart upload?
      *
-     * @return boolean
+     * @return bool
      */
     private function isMultipartUpload()
     {
-        return !empty($_POST['multipart']);
+        return ! empty($_POST['multipart']);
     }
 
     /**
-     * Formats an error response
+     * Formats an error response.
      *
      * @param  int $uploadError
      */
@@ -215,23 +203,23 @@ class ApplicantHistoryUploader
 
         $this->response(422, [
             'error' => $error,
-            'message' => $message
+            'message' => $message,
         ]);
     }
 
     /**
-     * Get a list of uploaded parts
+     * Get a list of uploaded parts.
      *
      * @param  string $filename
      * @return array
      */
     private function getUploadedParts(string $filename): array
     {
-        return glob($filename . '.*');
+        return glob($filename.'.*');
     }
 
     /**
-     * Get a sorted list of uploaded file parts
+     * Get a sorted list of uploaded file parts.
      *
      * @param  string $filename
      * @return array
@@ -242,7 +230,7 @@ class ApplicantHistoryUploader
 
         $sortedFiles = [];
         array_walk($files, function ($value, $key) use (&$sortedFiles) {
-            $sortedFiles[(int)pathinfo($value)['extension']] = $value;
+            $sortedFiles[(int) pathinfo($value)['extension']] = $value;
         });
         ksort($sortedFiles);
 
@@ -250,7 +238,7 @@ class ApplicantHistoryUploader
     }
 
     /**
-     * Get a numeric array of the remaining parts to be uploaded
+     * Get a numeric array of the remaining parts to be uploaded.
      *
      * @param string $filename
      * @param int $totalParts
@@ -275,8 +263,8 @@ class ApplicantHistoryUploader
             return $this->response(200, [
                 'message' => $this->getSuccessMessage(),
                 'meta' => [
-                    'remainingParts' => $this->getRemainingParts($filename, $totalParts)
-                ]
+                    'remainingParts' => $this->getRemainingParts($filename, $totalParts),
+                ],
             ]);
         }
 
@@ -302,7 +290,7 @@ class ApplicantHistoryUploader
     }
 
     /**
-     * Sets json output response
+     * Sets json output response.
      *
      * @param  int $status
      * @param  array $data

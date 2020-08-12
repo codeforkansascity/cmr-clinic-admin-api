@@ -2,18 +2,17 @@
 
 namespace App;
 
+use App\Traits\RecordSignature;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\RecordSignature;
 
 class Jurisdiction extends Model
 {
-
     use SoftDeletes;
     use RecordSignature;
 
     /**
-     * fillable - attributes that can be mass-assigned
+     * fillable - attributes that can be mass-assigned.
      */
     protected $fillable = [
         'id',
@@ -34,19 +33,18 @@ class Jurisdiction extends Model
 
     public function type()
     {
-        return $this->belongsTo(JurisdictionType::class,'jurisdiction_type_id');
+        return $this->belongsTo(JurisdictionType::class, 'jurisdiction_type_id');
     }
 
     public function add($attributes)
     {
-
         try {
             $this->fill($attributes)->save();
         } catch (\Exception $e) {
-            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
+            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
             throw new \Exception($e->getMessage());
         } catch (\Illuminate\Database\QueryException $e) {
-            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
+            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
             throw new \Exception($e->getMessage());
         }
 
@@ -58,9 +56,8 @@ class Jurisdiction extends Model
         return true;
     }
 
-
     /**
-     * Get Grid/index data PAGINATED
+     * Get Grid/index data PAGINATED.
      *
      * @param $per_page
      * @param $column
@@ -68,7 +65,7 @@ class Jurisdiction extends Model
      * @param string $keyword
      * @return mixed
      */
-    static function indexData(
+    public static function indexData(
         $per_page,
         $column,
         $direction,
@@ -83,9 +80,8 @@ class Jurisdiction extends Model
             ->paginate($per_page);
     }
 
-
     /**
-     * Create base query to be used by Grid, Download, and PDF
+     * Create base query to be used by Grid, Download, and PDF.
      *
      * NOTE: to override the select you must supply all fields, ie you cannot add to the
      *       fields being selected.
@@ -96,8 +92,7 @@ class Jurisdiction extends Model
      * @param string|array $columns
      * @return mixed
      */
-
-    static function buildBaseGridQuery(
+    public static function buildBaseGridQuery(
         $column,
         $direction,
         $keyword = '',
@@ -116,18 +111,19 @@ class Jurisdiction extends Model
                 break;
         }
 
-        $query = Jurisdiction::select($columns)
+        $query = self::select($columns)
             ->withType()
             ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('name', 'like', '%' . $keyword . '%');
+            $query->where('name', 'like', '%'.$keyword.'%');
         }
+
         return $query;
     }
 
     /**
-     * Get export/Excel/download data query to send to Excel download library
+     * Get export/Excel/download data query to send to Excel download library.
      *
      * @param $per_page
      * @param $column
@@ -135,43 +131,36 @@ class Jurisdiction extends Model
      * @param string $keyword
      * @return mixed
      */
-
-    static function exportDataQuery(
+    public static function exportDataQuery(
         $column,
         $direction,
         $keyword = '',
         $columns = '*')
     {
-
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
-
     }
 
-    static function pdfDataQuery(
+    public static function pdfDataQuery(
         $column,
         $direction,
         $keyword = '',
         $columns = '*')
     {
-
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
-
     }
-
 
     /**
-     * Get "options" for HTML select tag
+     * Get "options" for HTML select tag.
      *
      * If flat return an array.
      * Otherwise, return an array of records.  Helps keep in proper order durring ajax calls to Chrome
      */
-    static public function getOptions($flat = false)
+    public static function getOptions($flat = false)
     {
-
         $thisModel = new static;
 
         $records = $thisModel::select('id',
@@ -179,18 +168,17 @@ class Jurisdiction extends Model
             ->orderBy('name')
             ->get();
 
-        if (!$flat) {
+        if (! $flat) {
             return $records;
         } else {
             $data = [];
 
-            foreach ($records AS $rec) {
+            foreach ($records as $rec) {
                 $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
             }
 
             return $data;
         }
-
     }
 
     public function scopeWithType($builder)
@@ -206,5 +194,4 @@ class Jurisdiction extends Model
 
         return $builder->selectSub($query->limit(1), 'jurisdiction_type');
     }
-
 }

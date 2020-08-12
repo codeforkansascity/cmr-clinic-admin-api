@@ -19,7 +19,6 @@ class JurisdictionFormRequest extends FormRequest
         } else {  // If not we must be adding one
             return Auth::user()->can('jurisdiction add');
         }
-
     }
 
     /**
@@ -29,13 +28,11 @@ class JurisdictionFormRequest extends FormRequest
      */
     public function rules()
     {
-
         $id = $this->route('jurisdiction');
 
         $rules = [
          //  Ignore duplicate email if it is this record
          //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
-
 
             'id' => 'numeric',
             'jurisdiction_type_id' => 'nullable|numeric',
@@ -44,14 +41,12 @@ class JurisdictionFormRequest extends FormRequest
 
         ];
 
-                if ($this->route('jurisdiction')) {  // If ID we must be changing an existing record
-                    $rules['name'] = 'required|min:3|nullable|string|max:191|unique:jurisdictions,name,' . $id;
-                } else {  // If not we must be adding one
-                    $rules['name'] = 'required|min:3|nullable|string|max:191|unique:jurisdictions';
-                }
+        if ($this->route('jurisdiction')) {  // If ID we must be changing an existing record
+            $rules['name'] = 'required|min:3|nullable|string|max:191|unique:jurisdictions,name,'.$id;
+        } else {  // If not we must be adding one
+            $rules['name'] = 'required|min:3|nullable|string|max:191|unique:jurisdictions';
+        }
 
         return $rules;
     }
 }
-
-

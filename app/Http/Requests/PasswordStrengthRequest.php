@@ -27,5 +27,3 @@ class PasswordStrengthRequest extends FormRequest
         return ['description' => 'nullable|string'];
     }
 }
-
-
