@@ -117,7 +117,7 @@ class InviteController extends Controller
         $invite = Invite::create([
             'email' => $request->get('email'),
             'name' => $request->get('name'),
-            'role' => 'Clinic Staff',  // $request->get('role'),  //FIX  Roles on Invite screen are not valid roles #242
+            'role' => $request->get('role'),
             'token' => $token,
             'expires_at' => $this->getExpiresAt()
         ]);
@@ -262,14 +262,13 @@ class InviteController extends Controller
     {
         $role_options = [];
 
-        $option = ['id' => 'read-only', 'name' => 'Read Only'];
+        $option = ['id' => 'cmr-admin', 'name' => 'Admin'];
         $role_options[] = (object)$option;
 
-        $option = ['id' => 'sales-rep', 'name' => 'Sales Rep'];
+        $option = ['id' => 'Clinic Staff', 'name' => 'Clinic Staff'];
         $role_options[] = (object)$option;
-        $option = ['id' => 'volume-admin', 'name' => 'Volume Administrator'];
-        $role_options[] = (object)$option;
-        $option = ['id' => 'aps-admin', 'name' => 'Administrator'];
+
+        $option = ['id' => 'Volunteer Lawyer', 'name' => 'Volunteer Lawyer'];
         $role_options[] = (object)$option;
 
         return $role_options;

@@ -30,7 +30,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/api-user/options', 'UserApi@getOptions');
     Route::get('/user/download', 'UserController@download')->name('user.download');
     Route::get('/user/print', 'UserController@print')->name('user.print');
-    Route::resource('/user', 'UserController');
+    Route::resource('/user', 'UserController')->except(['create', 'store']);
 
     Route::get('/api-role-description', 'RoleDescriptionApi@index');
     Route::get('/api-role-description/options', 'RoleDescriptionApi@getOptions');

@@ -1,11 +1,23 @@
 
 
 
-cat ../db-backup/drop-all-tables.sql | mysql -u root devcmr
+mysql -u root -e 'drop database tstcmr'
+mysql -u root -e 'create database tstcmr'
 
-gzcat ../db-backup/0431-cmr_20.sql.gz | mysql -u root devcmr
+gzcat ../db-backup/2020-08-12-2046-cmr_20.sql.gz | mysql -u root tstcmr
 
 php artisan migrate:status
 php artisan migrate
 
+COMPOSER_MEMORY_LIMIT=-1 composer dumpautoload
+php artisan auth:clear-resets
+php artisan permission:cache-reset
+php artisan route:clear
+php artisan view:clear
+php artisan config:clear;
+php artisan cache:clear
+php artisan clear-compiled
+php artisan config:cache
 
+php artisan cmr:set-initial-permissions
+php artisan cmr:set-test-passwords
