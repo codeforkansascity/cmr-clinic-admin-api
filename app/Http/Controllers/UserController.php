@@ -91,59 +91,20 @@ class UserController extends Controller
         $column = session('user_column', 'Name');
         $direction = session('user_direction', '-1');
 
-        $can_add = Auth::user()->can('user add');
-        $can_show = Auth::user()->can('user view');
-        $can_edit = Auth::user()->can('user edit');
-        $can_delete = Auth::user()->can('user delete');
-        $can_excel = Auth::user()->can('user export-excel');
-        $can_pdf = Auth::user()->can('user pdf');
+        dump($request->user()->can('user add'));
+//print "<pre>";
+//        print_r($request->user()->getAllPermissions()->toArray());
+//        print "</pre>";
+        $can_add = false;
+        $can_show = $request->user()->can('user view');
+        $can_edit = $request->user()->can('user edit');
+        $can_delete = $request->user()->can('user delete');
+        $can_excel = $request->user()->can('user export-excel');
+        $can_pdf = $request->user()->can('user pdf');
 
         return view('user.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        if (! Auth::user()->can('user add')) {  // TODO: add -> create
-            \Session::flash('flash_error_message', 'You do not have access to add a User.');
-            if (Auth::user()->can('user index')) {
-                return Redirect::route('user.index');
-            } else {
-                return Redirect::route('home');
-            }
-        }
-
-        return view('user.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(UserFormRequest $request)
-    {
-        $user = new \App\User;
-
-        try {
-            $user->add($request->validated(), $request->selected_roles);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Unable to process request',
-            ], 400);
-        }
-
-        \Session::flash('flash_success_message', 'User '.$user->name.' was added.');
-
-        return response()->json([
-            'message' => 'Added record',
-        ], 200);
-    }
 
     /**
      * Display the specified resource.
@@ -153,7 +114,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        if (! Auth::user()->can('user view')) {
+        if (!Auth::user()->can('user view')) {
             \Session::flash('flash_error_message', 'You do not have access to view a User.');
             if (Auth::user()->can('user index')) {
                 return Redirect::route('user.index');
