@@ -63,4 +63,17 @@
 
 3.1.8.0.0 2020-04-12 - Added Assigend to applicant with grid filter default being current user_id
                       
-                       
+3.1.8.0.1.demo  2020-08-15
+                     - Upgraded to Laravvel 7
+                       Changes after Shift to Laravel 7
+                       Update composer.lock 
+                       Added petitioin number, group, and sequence numbers to charges 
+                       Added cache and sessions tables 
+                       Cleanedup Invite email, blocked adding users since we are sending invites,
+                            added set testpassword, fixed roles in invite create 
+                       non Volunteer Lawyers can see all applicants 
+                       Change Cache and Session drivers from file to database #169 
+                       Moved some routs into Auth middleware 
+                       Applicant: assign a volunteer - only shows in edit screen. 
+                       filter query if user is volunteer attorney 
+                       add pivot migration for applicant user                        
