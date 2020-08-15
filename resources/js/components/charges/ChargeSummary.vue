@@ -19,6 +19,9 @@
 
         <div class="col-md-2">
             {{ display_charge_eligibility }}
+            <span v-if="record.please_expunge">
+                ({{ record.petition_number }},{{ record.group_number }},{{ record.group_sequence}})
+            </span>
         </div>
 
         <div class="col-md-1">

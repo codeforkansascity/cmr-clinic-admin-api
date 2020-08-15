@@ -62,6 +62,11 @@ Vue.component('fld-convicted', () => import(/* webpackChunkName:"fld-convicted" 
 Vue.component('fld-eligible', () => import(/* webpackChunkName:"fld-eligible" */ './components/SS/FldEligible.vue'));
 Vue.component('fld-expunge', () => import(/* webpackChunkName:"fld-expunge" */ './components/SS/FldExpunge.vue'));
 
+Vue.component('fld-petition-no', () => import(/* webpackChunkName:"fld-petition-no" */ './components/SS/FldPetitionNo.vue'));
+Vue.component('fld-group-no', () => import(/* webpackChunkName:"fld-group-no" */ './components/SS/FldGroupNo.vue'));
+Vue.component('fld-group-seq', () => import(/* webpackChunkName:"fld-group-seq" */ './components/SS/FldGroupSeq.vue'));
+
+
 // fld-service may be dead code.
 // Vue.component('fld-service', () => import(/* webpackChunkName:"fld-service" */ './components/SS/FldService.vue'));
 

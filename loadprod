@@ -18,6 +18,7 @@ php artisan config:clear;
 php artisan cache:clear
 php artisan clear-compiled
 php artisan config:cache
+php artisan optimize:clear
 
 php artisan cmr:set-initial-permissions
 php artisan cmr:set-test-passwords
