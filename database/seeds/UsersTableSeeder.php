@@ -23,6 +23,23 @@ class UsersTableSeeder extends Seeder
         $user->assignRole('super-admin');
 
         $user = \App\User::create([
+            'email' => 'motionl@icloud.com',
+            'name' => 'Scott Stockwell',
+            'password' => bcrypt(env('TEST_USER_PASSWORD', 'secret')),
+        ]);
+        $user->assignRole('super-admin');
+
+        $user->assignRole('super-admin');
+
+        $user = \App\User::create([
+            'email' => 'bob.smith@gmail.com',
+            'name' => 'Bob Smith',
+            'password' => bcrypt(env('TEST_USER_PASSWORD', 'secret')),
+        ]);
+        $user->assignRole('Volunteer Lawyer');
+
+
+        $user = \App\User::create([
             'email' => 'paulb+cant@savagesoft.com',
             'name' => 'No Access',
             'password' => bcrypt('secret'),
