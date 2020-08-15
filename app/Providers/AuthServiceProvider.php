@@ -42,7 +42,7 @@ class AuthServiceProvider extends ServiceProvider
         //  From: https://github.com/spatie/laravel-permission/wiki/Global-%22Admin%22-role
 
         Gate::after(function ($user, $ability) {
-            return true; //  $user->hasRole('super-admin'); // note this returns boolean
+            $user->hasRole('super-admin'); // note this returns boolean
         });
     }
 }
