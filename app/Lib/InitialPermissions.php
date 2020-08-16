@@ -155,7 +155,6 @@ class InitialPermissions
             'user add',
             'user update',
             'user view',
-            'user delete',
             'user export-pdf',
             'user export-excel',
 
@@ -314,47 +313,6 @@ class InitialPermissions
 
         ]);
 
-        try {
-            $role = Role::findByName('read-only');
-        } catch (RoleDoesNotExist $e) {
-            $role = Role::create(['name' => 'read-only']);
-        }
-
-        $role->givePermissionTo([
-
-            'user index',
-
-            'applicant index',
-            'applicant view',
-
-            'conviction index',
-            'conviction view',
-
-            'charge index',
-            'charge view',
-
-            'data_source index',
-            'data_source view',
-
-            'jurisdiction index',
-            'jurisdiction view',
-
-            'jurisdiction_type index',
-            'jurisdiction_type view',
-
-            'statute index',
-            'statute view',
-
-            'status index',
-            'status view',
-
-            'step index',
-            'step view',
-
-            'assignment index',
-            'assignment view',
-        ]);
-
 
         try {
             $role = Role::findByName('Volunteer Lawyer');
@@ -365,11 +323,8 @@ class InitialPermissions
         $role->givePermissionTo([
 
             'applicant index',
-            'applicant add',
             'applicant update',
             'applicant view',
-            'applicant export-pdf',
-            'applicant export-excel',
 
             'conviction index',
             'conviction add',
@@ -387,19 +342,10 @@ class InitialPermissions
             'charge export-pdf',
             'charge export-excel',
 
-            'data_source index',
-            'data_source add',
-            'data_source update',
-            'data_source view',
-            'data_source delete',
-            'data_source export-pdf',
-            'data_source export-excel',
-
             'jurisdiction index',
             'jurisdiction add',
             'jurisdiction update',
             'jurisdiction view',
-            'jurisdiction delete',
             'jurisdiction export-pdf',
             'jurisdiction export-excel',
 
@@ -408,7 +354,6 @@ class InitialPermissions
             'jurisdiction_type add',
             'jurisdiction_type update',
             'jurisdiction_type view',
-            'jurisdiction_type delete',
             'jurisdiction_type export-pdf',
             'jurisdiction_type export-excel',
 
@@ -416,7 +361,6 @@ class InitialPermissions
             'statute add',
             'statute update',
             'statute view',
-            'statute delete',
             'statute export-pdf',
             'statute export-excel',
         ]);
