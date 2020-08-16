@@ -15,7 +15,7 @@
         @if(Auth::check())
             <?php /* Left (main) menu items: */ ?>
             <ul class="navbar-nav mr-auto">
-                @canany(['organization index'])
+                @canany(['applicant index'])
                     <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'organizations') echo 'active'; @endphp">
                         <a class="nav-link" href="{{ route('applicant.index') }}">Applicants <span class="sr-only">(current)</span></a>
                     </li>
@@ -89,6 +89,9 @@
                         </a>
                     </div>
                 </li>
+                <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'version') echo 'active'; @endphp">
+                    <a class="nav-link" href="{{ route('version') }}">Version</a>
+                </li>
             </ul>
 
             <?php /* Apparently Laravel does logout route via post; get not accepted */ ?>
@@ -102,6 +105,7 @@
                 <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'login') echo 'active'; @endphp">
                     <a class="nav-link" href="{{ route('login') }}">Login</a>
                 </li>
+
             </ul>
         @endif
 

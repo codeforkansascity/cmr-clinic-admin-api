@@ -23,6 +23,7 @@ Auth::routes(['verify' => true, 'register' => false]);
 Route::get('accept/{token}', 'InviteController@accept')->name('accept');
 Route::post('create_password', 'InviteController@createPassword')->name('create_password');
 Route::post('/password-strength', 'PasswordStrengthApi@calc');
+Route::get('/version', 'VersionController@show')->name('version');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/api-user', 'UserApi@index');
