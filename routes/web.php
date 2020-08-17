@@ -181,6 +181,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/jurisdiction/print', 'JurisdictionController@print')->name('jurisdiction.print');
     Route::resource('/jurisdiction', 'JurisdictionController');
 
+    Route::get('/api-cdl-status/options', 'CdlStatusApi@getOptions');
+
 });
 
 

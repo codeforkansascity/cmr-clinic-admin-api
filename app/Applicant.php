@@ -74,6 +74,11 @@ class Applicant extends Model
         return $this->hasMany(\App\Conviction::class);
     }
 
+    public function cdl_status()
+    {
+        return $this->hasOne(\App\CdlStatus::class, 'id', 'cdl_status_id');
+    }
+
     public function histories()
     {
         return $this->morphMany(History::class, 'historyable');

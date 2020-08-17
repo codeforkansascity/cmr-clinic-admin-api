@@ -43,6 +43,9 @@
                     <tr is="tr-view" v-model="record.license_number">License number</tr>
                     <tr is="tr-view" v-model="record.license_issuing_state">Issuing state</tr>
                     <tr is="tr-view-date" v-model="record.license_expiration_date">Expiration date</tr>
+                    <tr is="tr-view" v-model="record.cdl_status.name">CDL License</tr>
+                    <tr is="tr-view" v-model="record.cdl_text">CDL Note</tr>
+
                 </table>
 
             </div>

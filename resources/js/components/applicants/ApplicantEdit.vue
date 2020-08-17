@@ -127,6 +127,37 @@
                                         style="width: 10em"/>
                                 </std-form-group>
                             </div>
+
+                            <div class="col-md-12">
+                                <std-form-group
+                                    label="CDL License"
+                                    label-for="cdl_status_id"
+                                    :errors="form_errors.cdl_status_id"
+                                >
+                                    <ui-select-pick-one
+                                        url="/api-cdl-status/options"
+                                        v-model="record.cdl_status_id"
+                                        name="cdl_status_id"
+                                        :selected_id="record.cdl_status_id"
+                                    >
+                                    </ui-select-pick-one>
+                                </std-form-group>
+                            </div>
+
+                            <div class="col-md-12">
+                                <std-form-group
+                                    label="When did you have your CDL License"
+                                    label-for="cdl_text"
+                                    :errors="form_errors.cdl_text"
+                                >
+                                    <fld-input
+                                        name="cdl_text"
+                                        v-model="record.cdl_text"
+                                    />
+                                </std-form-group>
+                            </div>
+
+
                         </fieldset>
                     </div>
                     <div class="col-md-6" style="padding-left: 1em;">
@@ -394,7 +425,9 @@
         },
         data() {
             return {
-                record: {},         // We will store v-model's input here to be reactive
+                record: {
+                    cdl: 2
+                },         // We will store v-model's input here to be reactive
                 form_errors: {
                     id: false,
                     name: false,
@@ -432,6 +465,8 @@
                     status_id: false,
                     dob: false,
                     license_expiration_date: false,
+                    cdl_status_id: false,
+                    cdl_text: false,
                     cms_client_number: false,
                     cms_matter_number: false,
                     assignment_id: false,

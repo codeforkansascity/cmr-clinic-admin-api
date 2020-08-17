@@ -14,11 +14,10 @@ Revision History
 @endsection
 @section('content')
 
-<h2>1.0.0</h2>
+<h2>3.1.8.0.1.demo</h2>
     <ol>
-        <li>Item 1</li>
-        <li>Item 2</li>
-        <li>Item 3</li>
+        <li>CDL Questions added, all existing applicants have been set to CDL Unknown</li>
+
     </ol>
 
 

@@ -371,6 +371,7 @@ class ApplicantController extends Controller
             'step',
             'status',
             'conviction.sources',
+            'cdl_status'
         ])->find(intval($id));
     }
 
