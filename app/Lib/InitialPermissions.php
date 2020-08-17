@@ -313,6 +313,47 @@ class InitialPermissions
 
         ]);
 
+        try {
+            $role = Role::findByName('read-only');
+        } catch (RoleDoesNotExist $e) {
+            $role = Role::create(['name' => 'read-only']);
+        }
+
+        $role->givePermissionTo([
+
+            'user index',
+
+            'applicant index',
+            'applicant view',
+
+            'conviction index',
+            'conviction view',
+
+            'charge index',
+            'charge view',
+
+            'data_source index',
+            'data_source view',
+
+            'jurisdiction index',
+            'jurisdiction view',
+
+            'jurisdiction_type index',
+            'jurisdiction_type view',
+
+            'statute index',
+            'statute view',
+
+            'status index',
+            'status view',
+
+            'step index',
+            'step view',
+
+            'assignment index',
+            'assignment view',
+        ]);
+
 
         try {
             $role = Role::findByName('Volunteer Lawyer');
