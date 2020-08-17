@@ -103,6 +103,12 @@ Vue.component('applicant-add', () => import(/* webpackChunkName:"applicant-add" 
 Vue.component('applicant-form', () => import(/* webpackChunkName:"applicant-form" */ './components/applicants/ApplicantForm.vue'));
 Vue.component('applicant-show', () => import(/* webpackChunkName:"applicant-show" */ './components/applicants/ApplicantShow.vue'));
 
+
+Vue.component('preview', () => import(/* webpackChunkName:"preview" */ './components/preview/Preview.vue'));
+Vue.component('pre-field', () => import(/* webpackChunkName:"pre-field" */ './components/preview/pre-field.vue'));
+Vue.component('pre-address-field', () => import(/* webpackChunkName:"pre-address-field" */ './components/preview/pre-address-field.vue'));
+Vue.component('pre-date-field', () => import(/* webpackChunkName:"pre-date-field" */ './components/preview/pre-date-field.vue'));
+
 //Vue.component('status-grid',       require('./components/StatusGrid.vue'));    // May need to add .default);
 //Vue.component('status-form',       require('./components/StatusForm.vue'));    // May need to add .default);
 Vue.component('status-grid', () => import(/* webpackChunkName:"status-grid" */ './components/statuses/StatusGrid.vue'));

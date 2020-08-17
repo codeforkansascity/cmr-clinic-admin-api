@@ -7,8 +7,8 @@ View {{$applicant->name}}
 View {{$applicant->name}}
 @endsection
 @section('page-header-title-action')
+    <a class="btn btn-secondary" href="{{ route('applicant.show', $applicant->id) }}">View</a>
     <a class="btn btn-secondary" href="{{ route('applicant.edit', $applicant->id) }}">Edit</a>
-    <a class="btn btn-secondary" href="{{ route('applicant.preview', $applicant->id) }}">Preview</a>
 @endsection
 @section('page-header-breadcrumbs')
 <ol class="breadcrumb">
@@ -19,7 +19,7 @@ View {{$applicant->name}}
 @endsection
 @section('content')
 
-    <applicant-show :data='@json($applicant)'></applicant-show>
+    <preview :data='@json($applicant)' :expungebles='@json($expungebles)'></preview>
 
     <div class="row">
         <div class="col-md-6">
@@ -30,16 +30,6 @@ View {{$applicant->name}}
 
         </div>
     </div>
-</div>
+
 @endsection
-@section('scripts')
-<script>
-    function ConfirmDelete() {
-        var x = confirm("Are you sure you want to delete this Applicants?");
-        if (x)
-            return true;
-        else
-            return false;
-    }
-</script>
-@endsection
+
