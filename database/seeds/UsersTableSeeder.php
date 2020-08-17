@@ -18,14 +18,14 @@ class UsersTableSeeder extends Seeder
         $user = \App\User::create([
             'email' => 'paulb@savagesoft.com',
             'name' => 'Paul Barham',
-            'password' => bcrypt(env('TEST_USER_PASSWORD', 'secret')),
+            'password' => bcrypt(env('TEST_USER_PASSWORD', 'bird-travel-car')),
         ]);
         $user->assignRole('super-admin');
 
         $user = \App\User::create([
             'email' => 'motionl@icloud.com',
             'name' => 'Scott Stockwell',
-            'password' => bcrypt(env('TEST_USER_PASSWORD', 'secret')),
+            'password' => bcrypt(env('TEST_USER_PASSWORD', 'bird-travel-car')),
         ]);
         $user->assignRole('super-admin');
 
@@ -34,7 +34,7 @@ class UsersTableSeeder extends Seeder
         $user = \App\User::create([
             'email' => 'bob.smith@gmail.com',
             'name' => 'Bob Smith',
-            'password' => bcrypt(env('TEST_USER_PASSWORD', 'secret')),
+            'password' => bcrypt(env('TEST_USER_PASSWORD', 'bird-travel-car')),
         ]);
         $user->assignRole('Volunteer Lawyer');
 
@@ -42,28 +42,28 @@ class UsersTableSeeder extends Seeder
         $user = \App\User::create([
             'email' => 'paulb+cant@savagesoft.com',
             'name' => 'No Access',
-            'password' => bcrypt('secret'),
+            'password' => bcrypt('bird-travel-car'),
         ]);
         $user->assignRole('cant');
 
         $user = \App\User::create([
             'email' => 'paulb+cmradmin@savagesoft.com',
             'name' => 'cmradmin',
-            'password' => bcrypt('secret'),
+            'password' => bcrypt('bird-travel-car'),
         ]);
         $user->assignRole('cmr-admin');
 
         $user = \App\User::create([
             'email' => 'paulb+onlyindex@savagesoft.com',
             'name' => 'onlyindex',
-            'password' => bcrypt('secret'),
+            'password' => bcrypt('bird-travel-car'),
         ]);
         $user->assignRole('only index');
 
         $user = \App\User::create([
             'email' => 'paulb+readonly@savagesoft.com',
             'name' => 'readonly',
-            'password' => bcrypt('secret'),
+            'password' => bcrypt('bird-travel-car'),
         ]);
         $user->assignRole('read-only');
 
