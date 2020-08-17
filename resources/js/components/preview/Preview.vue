@@ -6,9 +6,8 @@
         <!--  ------------------ -->
 
 
-        <h1>IN THE
-            <pre-field v-model="record.blank" capitalize="true" missing_prompt="«Case_Heading»"/>
-        </h1>
+        <p>IN THE <pre-input-field v-model="record.blank" capitalize="true" missing_prompt="«Case_Heading»"/>
+        </p>
         <p>
             <pre-field v-model="record.name" capitalize="true" missing_prompt="«Name»"/>
             ,<br>
@@ -183,19 +182,19 @@
         </p>
 
         <p>
-            <pre-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockHeading»"/>
+            <pre-input-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockHeading»"/>
         </p>
 
 
         ______________________
 
         <p>
-            <pre-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockName»"/><br>
-            <pre-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockBarNumberOrProSe»"/><br>
-            <pre-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockAddress»"/><br>
-            <pre-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockCitySTZIP»"/><br>
-            <pre-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockPhone»"/><br>
-            <pre-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockEmail»"/><br>
+            <pre-input-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockName»"/><br>
+            <pre-input-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockBarNumberOrProSe»"/><br>
+            <pre-input-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockAddress»"/><br>
+            <pre-input-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockCitySTZIP»"/><br>
+            <pre-input-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockPhone»"/><br>
+            <pre-input-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockEmail»"/><br>
         </p>
 
 
