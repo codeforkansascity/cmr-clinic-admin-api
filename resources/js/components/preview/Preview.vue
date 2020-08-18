@@ -169,6 +169,27 @@
 
         <h1>Charges not being expunged</h1>
 
+        <table class="table mb-0">
+            <thead>
+            <tr>
+
+                <th style="vertical-align: top;">Case Number</th>
+                <th style="vertical-align: top;">Approx. Date of Charge</th>
+                <th style="vertical-align: top;">Offense Description<br>(RSMo. Number and Common Name of Offense)</th>
+                <th style="vertical-align: top;">Status</th>
+            </tr>
+            </thead>
+
+
+            <tr v-for="row in this.notSelectedToExpunge" :key="row.id">
+
+                <td style="width: 9em">{{ row.case_number }}</td>
+                <td>{{ row.approximate_date_of_charge_text }}</td>
+                <td>{{ row.statue_number }} {{ row.statue_name }}</td>
+                <td>{{ row.convicted }}<br>{{ row.eligible }}</td>
+            </tr>
+        </table>
+
 
     </div>
 </template>
@@ -195,7 +216,15 @@
                         id: 0,
                     }
                 },
-            }
+            },
+            notSelectedToExpunge:{
+                type: [Boolean, Object, Array],
+                default: () => {
+                    return {
+                        id: 0,
+                    }
+                },
+            },
         },
         data() {
             return {

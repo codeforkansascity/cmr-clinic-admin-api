@@ -174,7 +174,7 @@ class ApplicantController extends Controller
             }
         }
 
-        $can_cms =  Auth::user()->can('CMS access');
+        $can_cms = Auth::user()->can('CMS access');
 
         return view('applicant.create', compact($can_cms));
     }
@@ -229,7 +229,7 @@ class ApplicantController extends Controller
         if ($applicant = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('applicant edit');
             $can_delete = (Auth::user()->can('applicant delete') && $applicant->canDelete());
-            $can_cms =  Auth::user()->can('CMS access');
+            $can_cms = Auth::user()->can('CMS access');
 
             return view('applicant.show', compact('applicant', 'can_edit', 'can_delete', 'can_cms'));
         } else {
@@ -237,6 +237,37 @@ class ApplicantController extends Controller
 
             return Redirect::route('applicant.index');
         }
+    }
+
+    /**
+     * Find by ID, sanitize the ID first.
+     *
+     * @param $id
+     * @return Applicant or null
+     */
+    private
+    function sanitizeAndFind($id)
+    {
+        return \App\Applicant::with([
+            'conviction' => function ($q) {
+                $q->orderBy('release_date', 'desc');
+            },
+            'conviction.services' => function ($q) {
+                $q->with('service_type');
+            },
+            'conviction.charge',
+            'conviction.charge.statute.jurisdiction',
+            'conviction.charge.statute.jurisdiction.type',
+            'conviction.charge.statute',
+            'conviction.charge.statute.statutes_eligibility',
+            'conviction.charge.statute.superseded',
+            //'conviction.charge.statute.superseded.statutes_eligibility',
+            'assignment',
+            'step',
+            'status',
+            'conviction.sources',
+            'cdl_status'
+        ])->find(intval($id));
     }
 
     /**
@@ -257,8 +288,8 @@ class ApplicantController extends Controller
         }
 
         if ($applicant = $this->sanitizeAndFind($id)) {
-            $can_cms =  Auth::user()->can('CMS access');
-            return view('applicant.edit', compact('applicant','can_cms'));
+            $can_cms = Auth::user()->can('CMS access');
+            return view('applicant.edit', compact('applicant', 'can_cms'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Applicants to edit.');
 
@@ -334,15 +365,77 @@ class ApplicantController extends Controller
         if ($applicant = $this->sanitizeAndFind($id)) {
 
             $expungebles = $this->getExpungebles($applicant->conviction);
+            $not_selected_to_expunge = $this->getNotExpungebles($applicant->conviction);
+
             $can_edit = Auth::user()->can('applicant edit');
             $can_delete = (Auth::user()->can('applicant delete') && $applicant->canDelete());
 
-            return view('applicant.preview', compact('applicant','expungebles', 'can_edit', 'can_delete'));
+            return view('applicant.preview', compact('applicant', 'expungebles', 'not_selected_to_expunge', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Applicants to display.');
 
             return Redirect::route('applicant.index');
         }
+    }
+
+    private function getExpungebles($convictions)
+    {
+
+        $to_expunge = [];
+        foreach ($convictions AS $conviction) {
+
+            if ($conviction->charge->count()) {
+                foreach ($conviction->charge AS $charge) {
+
+
+                    if ($charge->please_expunge) {
+
+                        $key = $charge->petition_number . ':';
+                        $key .= $charge->group_number . ':';
+                        $key .= $charge->group_sequence . ':';
+                        $key .= $charge->id;
+
+                        $to_expunge[$key] = $charge->toArray();
+                        $to_expunge[$key]['statue_number'] = $charge->statute->number;
+                        $to_expunge[$key]['statue_name'] = $charge->statute->name;
+                        $to_expunge[$key]['case_number'] = $conviction->case_number;
+                        $to_expunge[$key]['approximate_date_of_charge_text'] = $conviction->approximate_date_of_charge_text;
+
+                    }
+
+
+                }
+            }
+        }
+        ksort($to_expunge);
+        return $to_expunge;
+    }
+
+    private function getNotExpungebles($convictions)
+    {
+
+        $not_selected = [];
+        foreach ($convictions AS $conviction) {
+
+            if ($conviction->charge->count()) {
+                foreach ($conviction->charge AS $charge) {
+                    if ($charge->please_expunge != 1) {
+                        $key = $conviction->case_number . ':';
+                        $key .= $charge->id;
+                        $not_selected[$key] = [];
+                        $not_selected[$key]['statue_number'] = $charge->statute->number;
+                        $not_selected[$key]['statue_name'] = $charge->statute->name;
+                        $not_selected[$key]['case_number'] = $conviction->case_number;
+                        $not_selected[$key]['convicted'] = $conviction->convicted ? 'Convicted' : 'Not Convicted';
+                        $not_selected[$key]['eligible'] = $conviction->eligible ? 'Eligible' : 'Not Eligible';
+                        $not_selected[$key]['approximate_date_of_charge_text'] = $conviction->approximate_date_of_charge_text;
+
+                    }
+                }
+            }
+        }
+        ksort($not_selected);
+        return $not_selected;
     }
 
     /**
@@ -370,7 +463,7 @@ class ApplicantController extends Controller
             $can_edit = Auth::user()->can('applicant edit');
             $can_delete = (Auth::user()->can('applicant delete') && $applicant->canDelete());
 
-            return view('applicant.petition', compact('applicant','expungebles', 'can_edit', 'can_delete'));
+            return view('applicant.petition', compact('applicant', 'expungebles', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Applicants to display.');
 
@@ -378,142 +471,78 @@ class ApplicantController extends Controller
         }
     }
 
-    private function getExpungebles($convictions)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param \App\Applicant $applicant * @return \Illuminate\Http\Response
+     */
+    public
+    function destroy($id)
     {
-
-        $to_expunge = [];
-        foreach ($convictions AS $conviction) {
-
-            if ($conviction->charge->count()) {
-                foreach ($conviction->charge AS $charge) {
-
-
-                    if ($charge->please_expunge) {
-
-                            $key = $charge->petition_number . ':';
-                            $key .= $charge->group_number . ':';
-                            $key .= $charge->group_sequence . ':';
-                            $key .= $charge->id;
-
-                            $to_expunge[$key] = $charge->toArray();
-                            $to_expunge[$key]['statue_number'] = $charge->statute->number;
-                        $to_expunge[$key]['statue_name'] = $charge->statute->name;
-                        $to_expunge[$key]['case_number'] = $conviction->case_number;
-                        $to_expunge[$key]['approximate_date_of_charge_text'] = $conviction->approximate_date_of_charge_text;
-
-                    }
-
-
-                }
+        if (!Auth::user()->can('applicant delete')) {
+            \Session::flash('flash_error_message', 'You do not have access to remove a Applicants.');
+            if (Auth::user()->can('applicant index')) {
+                return Redirect::route('applicant.index');
+            } else {
+                return Redirect::route('home');
             }
         }
-        ksort($to_expunge);
-        return $to_expunge;
-    }
 
-/**
- * Remove the specified resource from storage.
- *
- * @param \App\Applicant $applicant * @return \Illuminate\Http\Response
- */
-public
-function destroy($id)
-{
-    if (!Auth::user()->can('applicant delete')) {
-        \Session::flash('flash_error_message', 'You do not have access to remove a Applicants.');
-        if (Auth::user()->can('applicant index')) {
-            return Redirect::route('applicant.index');
+        $applicant = $this->sanitizeAndFind($id);
+
+        if ($applicant && $applicant->canDelete()) {
+            try {
+                $applicant->delete();
+            } catch (\Exception $e) {
+                return response()->json([
+                    'message' => 'Unable to process request.',
+                ], 400);
+            }
         } else {
-            return Redirect::route('home');
-        }
-    }
-
-    $applicant = $this->sanitizeAndFind($id);
-
-    if ($applicant && $applicant->canDelete()) {
-        try {
-            $applicant->delete();
-        } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Unable to process request.',
-            ], 400);
+                'message' => 'Unable to find Applicants to delete.',
+            ], 404);
         }
-    } else {
-        return response()->json([
-            'message' => 'Unable to find Applicants to delete.',
-        ], 404);
+
+        return response()->json('Success', 200);
     }
 
-    return response()->json('Success', 200);
-}
-
-/**
- * Find by ID, sanitize the ID first.
- *
- * @param $id
- * @return Applicant or null
- */
-private
-function sanitizeAndFind($id)
-{
-    return \App\Applicant::with([
-        'conviction' => function ($q) {
-            $q->orderBy('release_date', 'desc');
-        },
-        'conviction.services' => function ($q) {
-            $q->with('service_type');
-        },
-        'conviction.charge',
-        'conviction.charge.statute.jurisdiction',
-        'conviction.charge.statute.jurisdiction.type',
-        'conviction.charge.statute',
-        'conviction.charge.statute.statutes_eligibility',
-        'conviction.charge.statute.superseded',
-        //'conviction.charge.statute.superseded.statutes_eligibility',
-        'assignment',
-        'step',
-        'status',
-        'conviction.sources',
-        'cdl_status'
-    ])->find(intval($id));
-}
-
-public
-function download()
-{
-    if (!Auth::user()->can('applicant excel')) {
-        \Session::flash('flash_error_message', 'You do not have access to download Applicants.');
-        if (Auth::user()->can('applicant index')) {
-            return Redirect::route('applicant.index');
-        } else {
-            return Redirect::route('home');
+    public
+    function download()
+    {
+        if (!Auth::user()->can('applicant excel')) {
+            \Session::flash('flash_error_message', 'You do not have access to download Applicants.');
+            if (Auth::user()->can('applicant index')) {
+                return Redirect::route('applicant.index');
+            } else {
+                return Redirect::route('home');
+            }
         }
+
+        // Remember the search parameters, we saved them in the Query
+        $search = session('applicant_keyword', '');
+        $column = session('applicant_column', 'name');
+        $direction = session('applicant_direction', '-1');
+
+        $column = $column ? $column : 'name';
+
+        // #TODO wrap in a try/catch and display english message on failuer.
+
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+
+        $dataQuery = Applicant::exportDataQuery($column, $direction, $search);
+        //dump($data->toArray());
+        //if ($data->count() > 0) {
+
+        // TODO: is it possible to do 0 check before query executes somehow? i think the query would have to be executed twice, once for count, once for excel library
+        return Excel::download(
+            new ApplicantExport($dataQuery),
+            'applicant.xlsx');
     }
 
-    // Remember the search parameters, we saved them in the Query
-    $search = session('applicant_keyword', '');
-    $column = session('applicant_column', 'name');
-    $direction = session('applicant_direction', '-1');
-
-    $column = $column ? $column : 'name';
-
-    // #TODO wrap in a try/catch and display english message on failuer.
-
-    info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
-
-    $dataQuery = Applicant::exportDataQuery($column, $direction, $search);
-    //dump($data->toArray());
-    //if ($data->count() > 0) {
-
-    // TODO: is it possible to do 0 check before query executes somehow? i think the query would have to be executed twice, once for count, once for excel library
-    return Excel::download(
-        new ApplicantExport($dataQuery),
-        'applicant.xlsx');
-}
-
-public
-function print()
-{
+    public
+    function print()
+    {
         if (!Auth::user()->can('applicant export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Applicants.');
             if (Auth::user()->can('applicant index')) {
