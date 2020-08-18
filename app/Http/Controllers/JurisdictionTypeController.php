@@ -54,7 +54,7 @@ class JurisdictionTypeController extends Controller
      * Permission::findOrCreate('jurisdiction_type export-pdf');
      * Permission::findOrCreate('jurisdiction_type export-excel');
      * Permission::findOrCreate('jurisdiction_type add');
-     * Permission::findOrCreate('jurisdiction_type update');
+     * Permission::findOrCreate('jurisdiction_type edit');
      * Permission::findOrCreate('jurisdiction_type destroy');
      */
 
@@ -195,7 +195,7 @@ class JurisdictionTypeController extends Controller
     public function update(JurisdictionTypeFormRequest $request, $id)
     {
 
-//        if (!Auth::user()->can('jurisdiction_type update')) {
+//        if (!Auth::user()->can('jurisdiction_type edit')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Jurisdiction Type.');
 //            if (!Auth::user()->can('jurisdiction_type index')) {
 //                return Redirect::route('jurisdiction-type.index');

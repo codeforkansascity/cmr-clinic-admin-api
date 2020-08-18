@@ -80,6 +80,7 @@ class ApplicantController extends Controller
         $status_id = session('status_id', '0');
         $assignment_id = session('assignment_id', Auth::id());
 
+        $can_access_all = Auth::user()->can('applicant access-all');
         $can_add = Auth::user()->can('applicant add');
         $can_show = Auth::user()->can('applicant view');
         $can_edit = Auth::user()->can('applicant edit');
@@ -91,7 +92,7 @@ class ApplicantController extends Controller
         info($can_add);
         info($can_edit);
 
-        return view('applicant.index', compact('page', 'column', 'direction', 'search', 'status_id', 'assignment_id', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
+        return view('applicant.index', compact('page', 'column', 'direction', 'search', 'status_id', 'assignment_id', 'can_access_all', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
     }
 
     /**
@@ -306,7 +307,7 @@ class ApplicantController extends Controller
     public function update(ApplicantFormRequest $request, $id)
     {
 
-//        if (!Auth::user()->can('applicant update')) {
+//        if (!Auth::user()->can('applicant edit')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Applicants.');
 //            if (!Auth::user()->can('applicant index')) {
 //                return Redirect::route('applicant.index');

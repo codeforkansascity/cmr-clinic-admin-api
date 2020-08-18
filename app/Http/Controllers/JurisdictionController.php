@@ -54,7 +54,7 @@ class JurisdictionController extends Controller
      * Permission::findOrCreate('jurisdiction export-pdf');
      * Permission::findOrCreate('jurisdiction export-excel');
      * Permission::findOrCreate('jurisdiction add');
-     * Permission::findOrCreate('jurisdiction update');
+     * Permission::findOrCreate('jurisdiction edit');
      * Permission::findOrCreate('jurisdiction destroy');
      */
 
@@ -195,7 +195,7 @@ class JurisdictionController extends Controller
     public function update(JurisdictionFormRequest $request, $id)
     {
 
-//        if (!Auth::user()->can('jurisdiction update')) {
+//        if (!Auth::user()->can('jurisdiction edit')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Jurisdiction.');
 //            if (!Auth::user()->can('jurisdiction index')) {
 //                return Redirect::route('jurisdiction.index');

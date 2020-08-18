@@ -21,6 +21,7 @@ class ApplicantTableSeeder extends Seeder
         $faker = Faker::create();
         $applicant = \App\Applicant::create([
             'id' => '2',
+            'assignment_id' => '3',
             'name' => 'Jane Eyre Doe',
             'phone' => $faker->phoneNumber,
             'email' => $faker->unique()->safeEmail,

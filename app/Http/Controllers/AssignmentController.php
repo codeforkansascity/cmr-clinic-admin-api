@@ -50,7 +50,7 @@ class AssignmentController extends Controller
      *
      * Permission::create(['name' => 'assignment index']);
      * Permission::create(['name' => 'assignment add']);
-     * Permission::create(['name' => 'assignment update']);
+     * Permission::create(['name' => 'assignment edit']);
      * Permission::create(['name' => 'assignment view']);
      * Permission::create(['name' => 'assignment destroy']);
      * Permission::create(['name' => 'assignment export-pdf']);
@@ -194,7 +194,7 @@ class AssignmentController extends Controller
     public function update(AssignmentFormRequest $request, $id)
     {
 
-//        if (!Auth::user()->can('assignment update')) {
+//        if (!Auth::user()->can('assignment edit')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Assignment.');
 //            if (!Auth::user()->can('assignment index')) {
 //                return Redirect::route('assignment.index');

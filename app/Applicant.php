@@ -211,8 +211,10 @@ class Applicant extends Model
             ->orderBy($column, $direction);
 
         if(auth()->user()->hasRole('Volunteer Lawyer')) {
-            $query->join('applicant_user','applicants.id', 'applicant_user.applicant_id')
-                ->where('applicant_user.user_id', auth()->user()->id);
+//            $query->join('applicant_user','applicants.id', 'applicant_user.applicant_id')
+//                ->where('applicant_user.user_id', auth()->user()->id);
+
+            $query->where('applicants.assignment_id', auth()->user()->id);
         }
 
         if ($keyword) {

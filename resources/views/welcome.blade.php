@@ -81,7 +81,8 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Clear My Record Backend
+                    Clear My Record<br>
+                    Clinic App
                 </div>
             </div>
         </div>

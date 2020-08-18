@@ -52,7 +52,7 @@ class StepController extends Controller
 
              Permission::create(['name' => 'step index']);
              Permission::create(['name' => 'step add']);
-             Permission::create(['name' => 'step update']);
+             Permission::create(['name' => 'step edit']);
              Permission::create(['name' => 'step view']);
              Permission::create(['name' => 'step destroy']);
              Permission::create(['name' => 'step export-pdf']);
@@ -196,7 +196,7 @@ class StepController extends Controller
     public function update(StepFormRequest $request, $id)
     {
 
-//        if (!Auth::user()->can('step update')) {
+//        if (!Auth::user()->can('step edit')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Step.');
 //            if (!Auth::user()->can('step index')) {
 //                return Redirect::route('step.index');

@@ -36,7 +36,7 @@ $statutes_eligibility_options = \App\StatutesEligibility::getOptions();
 
 Permission::create(['name' => 'statutes_eligibility index']);
 Permission::create(['name' => 'statutes_eligibility add']);
-Permission::create(['name' => 'statutes_eligibility update']);
+Permission::create(['name' => 'statutes_eligibility edit']);
 Permission::create(['name' => 'statutes_eligibility view']);
 Permission::create(['name' => 'statutes_eligibility destroy']);
 Permission::create(['name' => 'statutes_eligibility export-pdf']);
