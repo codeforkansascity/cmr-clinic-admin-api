@@ -14,7 +14,11 @@ For text
 <template>
     <span>
         <span v-show='toggle'>
-            <span>{{ this.val }}</span> <button @click='toggle = !toggle'> Change </button>
+            <span>{{ this.val }}</span>
+                    <img class="control-icon"
+                         :height="25"
+                         :src="icon"
+                         @click='toggle = !toggle'/>
         </span>
         <span v-show='!toggle'>
             <input
@@ -63,7 +67,8 @@ For text
         },
         data () {
             return {
-                toggle: true
+                toggle: true,
+                icon: "/img/icons/noun_Pencil_2768160.png",
             }
         },
         computed: {
