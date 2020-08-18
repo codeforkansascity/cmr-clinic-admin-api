@@ -16,6 +16,7 @@ class UsersTableSeeder extends Seeder
         $faker = Faker::create();
 
         $user = \App\User::create([
+            'id' => 1,
             'email' => 'paulb@savagesoft.com',
             'name' => 'Paul Barham',
             'password' => bcrypt(env('TEST_USER_PASSWORD', 'secret')),
@@ -23,15 +24,15 @@ class UsersTableSeeder extends Seeder
         $user->assignRole('super-admin');
 
         $user = \App\User::create([
+            'id' => 2,
             'email' => 'motionl@icloud.com',
             'name' => 'Scott Stockwell',
             'password' => bcrypt(env('TEST_USER_PASSWORD', 'secret')),
         ]);
         $user->assignRole('super-admin');
 
-        $user->assignRole('super-admin');
-
         $user = \App\User::create([
+            'id' => 3,
             'email' => 'bob.smith@gmail.com',
             'name' => 'Bob Smith',
             'password' => bcrypt(env('TEST_USER_PASSWORD', 'secret')),

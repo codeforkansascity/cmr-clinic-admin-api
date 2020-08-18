@@ -7,8 +7,9 @@ View {{$applicant->name}}
 View {{$applicant->name}}
 @endsection
 @section('page-header-title-action')
+    <a class="btn btn-secondary disabled" href="{{ route('applicant.show', $applicant->id) }}">View</a>
     <a class="btn btn-secondary" href="{{ route('applicant.edit', $applicant->id) }}">Edit</a>
-    <a class="btn btn-secondary" href="{{ route('applicant.preview', $applicant->id) }}">Preview</a>
+    <a class="btn btn-secondary" href="{{ route('applicant.preview', $applicant->id) }}">Review</a>
     <a class="btn btn-secondary" href="{{ route('applicant.petition', $applicant->id) }}">Petition</a>
 @endsection
 @section('page-header-breadcrumbs')

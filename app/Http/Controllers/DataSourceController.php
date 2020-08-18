@@ -197,7 +197,7 @@ class DataSourceController extends Controller
     public function update(DataSourceFormRequest $request, $id)
     {
 
-//        if (!Auth::user()->can('data_source update')) {
+//        if (!Auth::user()->can('data_source edit')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Sources.');
 //            if (!Auth::user()->can('data_source index')) {
 //                return Redirect::route('data-source.index');

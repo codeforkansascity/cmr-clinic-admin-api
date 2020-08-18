@@ -15,7 +15,7 @@ class ServiceFormRequest extends FormRequest
     public function authorize()
     {
         if ($this->route('service')) {  // If ID we must be changing an existing record
-            return Auth::user()->can('service update');
+            return Auth::user()->can('service edit');
         } else {  // If not we must be adding one
             return Auth::user()->can('service add');
         }

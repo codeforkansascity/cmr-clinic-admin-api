@@ -70,7 +70,7 @@
                 </table>
 
             </div>
-            <div v-if="canCms" class="col-md-6" style="padding-left: 1em;">
+            <div v-if="this.canCms" class="col-md-6" style="padding-left: 1em;">
 
                 <h5>CMS</h5>
 

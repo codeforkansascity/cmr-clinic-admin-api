@@ -15,7 +15,7 @@ class JurisdictionTypeFormRequest extends FormRequest
     public function authorize()
     {
         if ($this->route('jurisdiction_type')) {  // If ID we must be changing an existing record
-            return Auth::user()->can('jurisdiction_type update');
+            return Auth::user()->can('jurisdiction_type edit');
         } else {  // If not we must be adding one
             return Auth::user()->can('jurisdiction_type add');
         }

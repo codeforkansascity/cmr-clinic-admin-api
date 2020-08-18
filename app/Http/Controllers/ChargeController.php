@@ -50,7 +50,7 @@ class ChargeController extends Controller
      *
      * Permission::create(['name' => 'charge index']);
      * Permission::create(['name' => 'charge add']);
-     * Permission::create(['name' => 'charge update']);
+     * Permission::create(['name' => 'charge edit']);
      * Permission::create(['name' => 'charge view']);
      * Permission::create(['name' => 'charge destroy']);
      * Permission::create(['name' => 'charge export-pdf']);
@@ -200,7 +200,7 @@ class ChargeController extends Controller
     public function update(ChargeFormRequest $request, $id)
     {
 
-//        if (!Auth::user()->can('charge update')) {
+//        if (!Auth::user()->can('charge edit')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Charges.');
 //            if (!Auth::user()->can('charge index')) {
 //                return Redirect::route('charge.index');

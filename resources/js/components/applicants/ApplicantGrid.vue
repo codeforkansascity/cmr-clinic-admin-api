@@ -60,6 +60,7 @@
                     </search-form-group>
 
                     <search-form-group
+                        v-if="params.CanAccessAll"
                         class="mb-0"
                         :errors="form_errors.assignment"
                         label="Assigned"

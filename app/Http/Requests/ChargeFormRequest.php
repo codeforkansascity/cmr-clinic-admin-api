@@ -15,7 +15,7 @@ class ChargeFormRequest extends FormRequest
     public function authorize()
     {
         if ($this->route('charge')) {  // If ID we must be changing an existing record
-            return Auth::user()->can('charge update');
+            return Auth::user()->can('charge edit');
         } else {  // If not we must be adding one
             return Auth::user()->can('charge add');
         }

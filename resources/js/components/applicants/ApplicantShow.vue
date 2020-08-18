@@ -30,12 +30,16 @@
 <script>
     import ApplicantDetails from "./ApplicantDetails";
     import CasesShowList from "../cases/CasesShowList";
+    import PencilControl from "../controls/PencilControl";
+    import ChevronToggle from "../controls/ChevronToggle";
 
     export default {
         name: "applicant-show",
         components: {
             ApplicantDetails,
-            CasesShowList
+            CasesShowList,
+            PencilControl,
+            ChevronToggle
         },
         props: {
             data: {

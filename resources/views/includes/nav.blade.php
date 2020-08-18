@@ -71,6 +71,10 @@
                     </div>
                 </li>
 
+                    <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'version') echo 'active'; @endphp">
+                        <a class="nav-link" href="{{ route('version') }}">About</a>
+                    </li>
+
             </ul>
 
             <?php /* Right (auxiliary) menu items: */ ?>
@@ -89,9 +93,7 @@
                         </a>
                     </div>
                 </li>
-                <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'version') echo 'active'; @endphp">
-                    <a class="nav-link" href="{{ route('version') }}">Version</a>
-                </li>
+
             </ul>
 
             <?php /* Apparently Laravel does logout route via post; get not accepted */ ?>

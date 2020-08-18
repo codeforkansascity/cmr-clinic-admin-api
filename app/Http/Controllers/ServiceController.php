@@ -197,7 +197,7 @@ class ServiceController extends Controller
     public function update(ServiceFormRequest $request, $id)
     {
 
-//        if (!Auth::user()->can('service update')) {
+//        if (!Auth::user()->can('service edit')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Services.');
 //            if (!Auth::user()->can('service index')) {
 //                return Redirect::route('service.index');
