@@ -47,12 +47,7 @@
                         <option v-for="type in serviceTypes" :value="type.id">{{type.name}}</option>
                     </select>
                 </std-form-group>
-                <std-form-group :errors="form_errors.name">
-                    <label class="font-weight-bold">Attn Name</label>
-                    <input type="text" required class="form-control" placeholder="Attn Name"
-                           v-model="selectedService.pivot.name"
-                    >
-                </std-form-group>
+
 
                 <std-form-group :errors="form_errors.service.address">
                     <label class="font-weight-bold">Address</label>
@@ -61,22 +56,31 @@
                            :disabled="disableFields"
                     >
                 </std-form-group>
-                <std-form-group :errors="form_errors.service.phone">
-                    <label class="font-weight-bold">Phone</label>
-                    <input type="text" required class="form-control"
-                           placeholder="Phone Number"
-                           v-model="selectedService.phone"
-                           :disabled="disableFields"
-                    >
-                </std-form-group>
-                <std-form-group :errors="form_errors.service.email">
-                    <label class="font-weight-bold">Email</label>
-                    <input type="text" required class="form-control"
-                           placeholder="Email"
-                           v-model="selectedService.email"
-                           :disabled="disableFields"
-                    >
-                </std-form-group>
+
+                <div class="col-md-6">
+                    <std-form-group label="City" label-for="city" :errors="form_errors.city">
+                        <fld-input
+                            name="city"
+                            v-model="record.city"
+                        />
+                    </std-form-group>
+                </div>
+                <div class="col-md-2">
+                    <std-form-group label="State" label-for="state" :errors="form_errors.state">
+                        <fld-state
+                            name="state"
+                            v-model="record.state"
+                        />
+                    </std-form-group>
+                </div>
+                <div class="col-md-4">
+                    <std-form-group label="Zip" label-for="zip_code" :errors="form_errors.zip">
+                        <fld-input
+                            name="zip_code"
+                            v-model="record.zip_code"
+                        />
+                    </std-form-group>
+                </div>
                 <std-form-group :errors="form_errors.service.note">
                     <label class="font-weight-bold">Note</label>
                     <textarea type="text" required class="form-control"
@@ -130,6 +134,10 @@
                     id: null,
                     name: '',
                     address: null,
+                    address_line_2: null,
+                    city: null,
+                    state: null,
+                    zip: null,
                     phone: null,
                     email: null,
                     note: null,
