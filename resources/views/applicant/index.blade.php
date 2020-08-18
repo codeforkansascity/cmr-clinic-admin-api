@@ -15,6 +15,8 @@
         Search: '{{ $search }}',
         sortOrder: '{{ $direction }}',
         sortKey: '{{ $column }}',
+
+        CanAccessAll: '{{ $can_access_all }}',
         CanAdd: '{{ $can_add }}',
         CanEdit: '{{ $can_edit }}',
         CanShow: '{{ $can_show }}',

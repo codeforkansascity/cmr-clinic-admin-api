@@ -23,6 +23,7 @@ Auth::routes(['verify' => true, 'register' => false]);
 Route::get('accept/{token}', 'InviteController@accept')->name('accept');
 Route::post('create_password', 'InviteController@createPassword')->name('create_password');
 Route::post('/password-strength', 'PasswordStrengthApi@calc');
+Route::get('/version', 'VersionController@show')->name('version');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/api-user', 'UserApi@index');
@@ -57,11 +58,16 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/api-applicant', 'ApplicantApi@index');
     Route::get('/api-applicant/options', 'ApplicantApi@getOptions');
-    Route::get('/applicant/add', 'ApplicantController@add');
+
+    Route::get('/applicant/download', 'ApplicantController@download')->name('applicant.download');
+    Route::get('/applicant/print', 'ApplicantController@print')->name('applicant.print');
     Route::post('/applicant/add-from-ss', 'ApplicantController@add_from_ss');
     Route::post('/applicant/file-upload', 'ApplicantController@file_upload');
 
-    Route::get('/applicant/download', 'ApplicantController@download');
+    Route::get('/applicant/add', 'ApplicantController@add');
+    Route::get('/applicant/{applicant_id}/preview', 'ApplicantController@preview')->name('applicant.preview');
+    Route::get('/applicant/{applicant_id}/petition', 'ApplicantController@petition')->name('applicant.petition');
+
     Route::resource('/applicant', 'ApplicantController');
 
     Route::get('/home', 'HomeController@index')->name('home');
@@ -69,11 +75,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/changePassword', 'HomeController@showChangePasswordForm');
     Route::post('/changePassword', 'HomeController@changePassword')->name('changePassword');
 
-    Route::get('/api-applicant', 'ApplicantApi@index');
-    Route::get('/api-applicant/options', 'ApplicantApi@getOptions');
-    Route::get('/applicant/download', 'ApplicantController@download')->name('applicant.download');
-    Route::get('/applicant/print', 'ApplicantController@print')->name('applicant.print');
-    Route::resource('/applicant', 'ApplicantController');
+
 
     Route::get('/api-status', 'StatusApi@index');
     Route::get('/api-status/options', 'StatusApi@getOptions');
@@ -158,12 +160,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/service/print', 'ServiceController@print')->name('service.print');
     Route::resource('/service', 'ServiceController');
 
-    Route::get('/api-applicant', 'ApplicantApi@index');
-    Route::get('/api-applicant/options', 'ApplicantApi@getOptions');
-    Route::get('/applicant/download', 'ApplicantController@download')->name('applicant.download');
-    Route::get('/applicant/print', 'ApplicantController@print')->name('applicant.print');
-    Route::resource('/applicant', 'ApplicantController');
-
     Route::get('/api-jurisdiction-type', 'JurisdictionTypeApi@index');
     Route::get('/api-jurisdiction-type/options', 'JurisdictionTypeApi@getOptions');
     Route::post('/api-jurisdiction-type', 'JurisdictionTypeApi@store');
@@ -179,6 +175,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/jurisdiction/download', 'JurisdictionController@download')->name('jurisdiction.download');
     Route::get('/jurisdiction/print', 'JurisdictionController@print')->name('jurisdiction.print');
     Route::resource('/jurisdiction', 'JurisdictionController');
+
+    Route::get('/api-cdl-status/options', 'CdlStatusApi@getOptions');
 
 });
 

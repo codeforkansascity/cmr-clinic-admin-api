@@ -15,7 +15,7 @@ class ConvictionFormRequest extends FormRequest
     public function authorize()
     {
         if ($this->route('conviction')) {  // If ID we must be changing an existing record
-            return Auth::user()->can('conviction update');
+            return Auth::user()->can('conviction edit');
         } else {  // If not we must be adding one
             return Auth::user()->can('conviction add');
         }

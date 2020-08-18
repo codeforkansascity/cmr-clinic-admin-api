@@ -15,7 +15,7 @@ class CommentFormRequest extends FormRequest
     public function authorize()
     {
         if ($this->route('comment')) {  // If ID we must be changing an existing record
-            return Auth::user()->can('comment update');
+            return Auth::user()->can('comment edit');
         } else {  // If not we must be adding one
             return Auth::user()->can('comment add');
         }

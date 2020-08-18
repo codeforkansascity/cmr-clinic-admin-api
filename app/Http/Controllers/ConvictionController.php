@@ -52,7 +52,7 @@ class ConvictionController extends Controller
 
              Permission::create(['name' => 'conviction index']);
              Permission::create(['name' => 'conviction add']);
-             Permission::create(['name' => 'conviction update']);
+             Permission::create(['name' => 'conviction edit']);
              Permission::create(['name' => 'conviction view']);
              Permission::create(['name' => 'conviction destroy']);
              Permission::create(['name' => 'conviction export-pdf']);
@@ -202,7 +202,7 @@ class ConvictionController extends Controller
     {
         info(__METHOD__.' start');
 
-//        if (!Auth::user()->can('conviction update')) {
+//        if (!Auth::user()->can('conviction edit')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Case.');
 //            if (!Auth::user()->can('conviction index')) {
 //                return Redirect::route('conviction.index');

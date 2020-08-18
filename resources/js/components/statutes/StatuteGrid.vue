@@ -193,12 +193,12 @@
         <!-- Grid Actions Bottom -->
         <div class="grid-bottom row mb-0 align-items-center">
             <div class="col-lg-4 mb-2">
-                <a href="/statute/download" class="btn btn-primary mb-2 mr-2"
-                >Export to Excel</a
-                >
-                <a href="/statute/print" class="btn btn-primary mb-2 mr-2"
-                >Print PDF</a
-                >
+<!--                <a href="/statute/download" class="btn btn-primary mb-2 mr-2"-->
+<!--                >Export to Excel</a-->
+<!--                >-->
+<!--                <a href="/statute/print" class="btn btn-primary mb-2 mr-2"-->
+<!--                >Print PDF</a-->
+<!--                >-->
             </div>
             <ss-grid-pagination
                 class="col-lg-4 mb-2"

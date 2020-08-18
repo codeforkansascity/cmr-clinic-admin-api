@@ -33,7 +33,9 @@ class Charge extends Model
         'convicted',
         'eligible',
         'please_expunge',
-
+        'petition_number',
+        'group_number',
+        'group_sequence',
         'created_by',
         'modified_by',
         'purged_by',

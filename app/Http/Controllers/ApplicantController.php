@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Applicant;
 use App\Exports\ApplicantExport;
-use App\Http\Middleware\TrimStrings;
 use App\Http\Requests\ApplicantFormRequest;
 use App\Http\Requests\ApplicantIndexRequest;
 use App\Lib\AddApplicantFromCriminalHistory;
@@ -13,7 +12,6 @@ use App\Lib\GetCriminalHistoryFromSS;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 
 //use PDF; // TCPDF, not currently in use
@@ -68,7 +66,7 @@ class ApplicantController extends Controller
      */
     public function index(ApplicantIndexRequest $request)
     {
-        if (! Auth::user()->can('applicant index')) {
+        if (!Auth::user()->can('applicant index')) {
             \Session::flash('flash_error_message', 'You do not have access to Applicantss.');
 
             return Redirect::route('home');
@@ -82,6 +80,7 @@ class ApplicantController extends Controller
         $status_id = session('status_id', '0');
         $assignment_id = session('assignment_id', Auth::id());
 
+        $can_access_all = Auth::user()->can('applicant access-all');
         $can_add = Auth::user()->can('applicant add');
         $can_show = Auth::user()->can('applicant view');
         $can_edit = Auth::user()->can('applicant edit');
@@ -93,7 +92,7 @@ class ApplicantController extends Controller
         info($can_add);
         info($can_edit);
 
-        return view('applicant.index', compact('page', 'column', 'direction', 'search', 'status_id', 'assignment_id', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
+        return view('applicant.index', compact('page', 'column', 'direction', 'search', 'status_id', 'assignment_id', 'can_access_all', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
     }
 
     /**
@@ -103,7 +102,7 @@ class ApplicantController extends Controller
      */
     public function add()
     {
-        if (! Auth::user()->can('applicant add')) {  // TODO: add -> create
+        if (!Auth::user()->can('applicant add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Applicants.');
             if (Auth::user()->can('applicant index')) {
                 return Redirect::route('applicant.index');
@@ -117,20 +116,20 @@ class ApplicantController extends Controller
 
     public function file_upload(Request $request)
     {
-        info(__METHOD__.print_r($request->all(), true));
+        info(__METHOD__ . print_r($request->all(), true));
         $uploader = new ApplicantHistoryUploader();
         $uploader->saveUploadedFile('vc_vendor_id', $request->work_order_log_id, $request->display_name, '/download/vendor-logo/', $request->filename);
     }
 
     public function add_from_ss(Request $request)
     {
-        info(__METHOD__.print_r($request->all(), true));
+        info(__METHOD__ . print_r($request->all(), true));
 
         $data = [];
 
         $path = env('APPLICANT_HISTORIES_DIRECTORY', 'applicant_histories');
 
-        $ss = new GetCriminalHistoryFromSS($path, '/'.$request->local_file_name, $data);
+        $ss = new GetCriminalHistoryFromSS($path, '/' . $request->local_file_name, $data);
 //        try {
         $data = $ss->processSpreadSheet();
         info(print_r($data, true));
@@ -167,7 +166,7 @@ class ApplicantController extends Controller
      */
     public function create()
     {
-        if (! Auth::user()->can('applicant add')) {  // TODO: add -> create
+        if (!Auth::user()->can('applicant add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Applicants.');
             if (Auth::user()->can('applicant index')) {
                 return Redirect::route('applicant.index');
@@ -176,7 +175,9 @@ class ApplicantController extends Controller
             }
         }
 
-        return view('applicant.create');
+        $can_cms = Auth::user()->can('CMS access');
+
+        return view('applicant.create', compact($can_cms));
     }
 
     /**
@@ -199,7 +200,7 @@ class ApplicantController extends Controller
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Applicants '.$applicant->name.' was added.');
+        \Session::flash('flash_success_message', 'Applicants ' . $applicant->name . ' was added.');
 
         return response()->json([
             'message' => 'Added record',
@@ -217,7 +218,7 @@ class ApplicantController extends Controller
     {
         info(__METHOD__);
 
-        if (! Auth::user()->can('applicant view')) {
+        if (!Auth::user()->can('applicant view')) {
             \Session::flash('flash_error_message', 'You do not have access to view a Applicants.');
             if (Auth::user()->can('applicant index')) {
                 return Redirect::route('applicant.index');
@@ -229,13 +230,45 @@ class ApplicantController extends Controller
         if ($applicant = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('applicant edit');
             $can_delete = (Auth::user()->can('applicant delete') && $applicant->canDelete());
+            $can_cms = Auth::user()->can('CMS access');
 
-            return view('applicant.show', compact('applicant', 'can_edit', 'can_delete'));
+            return view('applicant.show', compact('applicant', 'can_edit', 'can_delete', 'can_cms'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Applicants to display.');
 
             return Redirect::route('applicant.index');
         }
+    }
+
+    /**
+     * Find by ID, sanitize the ID first.
+     *
+     * @param $id
+     * @return Applicant or null
+     */
+    private
+    function sanitizeAndFind($id)
+    {
+        return \App\Applicant::with([
+            'conviction' => function ($q) {
+                $q->orderBy('release_date', 'desc');
+            },
+            'conviction.services' => function ($q) {
+                $q->with('service_type');
+            },
+            'conviction.charge',
+            'conviction.charge.statute.jurisdiction',
+            'conviction.charge.statute.jurisdiction.type',
+            'conviction.charge.statute',
+            'conviction.charge.statute.statutes_eligibility',
+            'conviction.charge.statute.superseded',
+            //'conviction.charge.statute.superseded.statutes_eligibility',
+            'assignment',
+            'step',
+            'status',
+            'conviction.sources',
+            'cdl_status'
+        ])->find(intval($id));
     }
 
     /**
@@ -246,7 +279,7 @@ class ApplicantController extends Controller
      */
     public function edit($id)
     {
-        if (! Auth::user()->can('applicant edit')) {
+        if (!Auth::user()->can('applicant edit')) {
             \Session::flash('flash_error_message', 'You do not have access to edit a Applicants.');
             if (Auth::user()->can('applicant index')) {
                 return Redirect::route('applicant.index');
@@ -256,7 +289,8 @@ class ApplicantController extends Controller
         }
 
         if ($applicant = $this->sanitizeAndFind($id)) {
-            return view('applicant.edit', compact('applicant'));
+            $can_cms = Auth::user()->can('CMS access');
+            return view('applicant.edit', compact('applicant', 'can_cms'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Applicants to edit.');
 
@@ -273,7 +307,7 @@ class ApplicantController extends Controller
     public function update(ApplicantFormRequest $request, $id)
     {
 
-//        if (!Auth::user()->can('applicant update')) {
+//        if (!Auth::user()->can('applicant edit')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Applicants.');
 //            if (!Auth::user()->can('applicant index')) {
 //                return Redirect::route('applicant.index');
@@ -282,7 +316,7 @@ class ApplicantController extends Controller
 //            }
 //        }
 
-        if (! $applicant = $this->sanitizeAndFind($id)) {
+        if (!$applicant = $this->sanitizeAndFind($id)) {
             //     \Session::flash('flash_error_message', 'Unable to find Applicants to edit.');
             return response()->json([
                 'message' => 'Not Found',
@@ -300,7 +334,7 @@ class ApplicantController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Applicants '.$applicant->name.' was changed.');
+            \Session::flash('flash_success_message', 'Applicants ' . $applicant->name . ' was changed.');
         } else {
             \Session::flash('flash_info_message', 'No changes were made.');
         }
@@ -311,13 +345,165 @@ class ApplicantController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function preview($id)
+    {
+        info(__METHOD__);
+
+        if (!Auth::user()->can('applicant view')) {
+            \Session::flash('flash_error_message', 'You do not have access to view a Applicants.');
+            if (Auth::user()->can('applicant index')) {
+                return Redirect::route('applicant.index');
+            } else {
+                return Redirect::route('home');
+            }
+        }
+
+        if ($applicant = $this->sanitizeAndFind($id)) {
+
+            $expungebles = $this->getExpungebles($applicant->conviction);
+            $not_selected_to_expunge = $this->getNotExpungebles($applicant->conviction);
+            $service_list = $this->getServiceList($applicant->conviction);
+
+            $can_edit = Auth::user()->can('applicant edit');
+            $can_delete = (Auth::user()->can('applicant delete') && $applicant->canDelete());
+
+            return view('applicant.preview', compact('applicant', 'expungebles', 'not_selected_to_expunge', 'service_list', 'can_edit', 'can_delete'));
+        } else {
+            \Session::flash('flash_error_message', 'Unable to find Applicants to display.');
+
+            return Redirect::route('applicant.index');
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function petition($id)
+    {
+        info(__METHOD__);
+
+        if (!Auth::user()->can('applicant view')) {
+            \Session::flash('flash_error_message', 'You do not have access to view a Applicants.');
+            if (Auth::user()->can('applicant index')) {
+                return Redirect::route('applicant.index');
+            } else {
+                return Redirect::route('home');
+            }
+        }
+
+        if ($applicant = $this->sanitizeAndFind($id)) {
+
+            $expungebles = $this->getExpungebles($applicant->conviction);
+            $service_list = $this->getServiceList($applicant->conviction);
+            $can_edit = Auth::user()->can('applicant edit');
+            $can_delete = (Auth::user()->can('applicant delete') && $applicant->canDelete());
+
+            return view('applicant.petition', compact('applicant', 'expungebles', 'service_list', 'can_edit', 'can_delete'));
+        } else {
+            \Session::flash('flash_error_message', 'Unable to find Applicants to display.');
+
+            return Redirect::route('applicant.index');
+        }
+    }
+
+    private function getExpungebles($convictions)
+    {
+
+        $to_expunge = [];
+        foreach ($convictions AS $conviction) {
+            if ($conviction->charge->count()) {
+                foreach ($conviction->charge AS $charge) {
+
+
+                    if ($charge->please_expunge) {
+
+                        $key = $charge->petition_number . ':';
+                        $key .= $charge->group_number . ':';
+                        $key .= $charge->group_sequence . ':';
+                        $key .= $charge->id;
+
+                        $to_expunge[$key] = $charge->toArray();
+                        $to_expunge[$key]['statue_number'] = $charge->statute->number;
+                        $to_expunge[$key]['statue_name'] = $charge->statute->name;
+                        $to_expunge[$key]['case_number'] = $conviction->case_number;
+                        $to_expunge[$key]['date_of_charge'] = $conviction->date_of_charge;
+
+                    }
+                }
+            }
+        }
+        ksort($to_expunge);
+        return $to_expunge;
+    }
+
+    private function getNotExpungebles($convictions)
+    {
+
+        $not_selected = [];
+        foreach ($convictions AS $conviction) {
+
+            if ($conviction->charge->count()) {
+                foreach ($conviction->charge AS $charge) {
+                    if ($charge->please_expunge != 1) {
+                        $key = $conviction->case_number . ':';
+                        $key .= $charge->id;
+                        $not_selected[$key] = [];
+                        $not_selected[$key]['statue_number'] = $charge->statute->number;
+                        $not_selected[$key]['statue_name'] = $charge->statute->name;
+                        $not_selected[$key]['case_number'] = $conviction->case_number;
+                        $not_selected[$key]['convicted'] = $conviction->convicted ? 'Convicted' : 'Not Convicted';
+                        $not_selected[$key]['eligible'] = $conviction->eligible ? 'Eligible' : 'Not Eligible';
+                        $not_selected[$key]['date_of_charge'] = $conviction->date_of_charge;
+
+                    }
+                }
+            }
+        }
+        ksort($not_selected);
+        return $not_selected;
+    }
+
+    private function getServiceList($convictions)
+    {
+
+        $service_list = [];
+        foreach ($convictions AS $conviction) {
+
+            if ($conviction->services->count()) {
+                foreach ($conviction->services AS $service) {
+                    $key = $service->id;
+                    $service_list[$key]['name'] = $service->name;
+                    $service_list[$key]['address'] = $service->address;
+                    $service_list[$key]['address_line_2'] = $service->address_line_2;
+                    $service_list[$key]['city'] = $service->city;
+                    $service_list[$key]['state'] = $service->state;
+                    $service_list[$key]['zip'] = $service->zip;
+                }
+            }
+        }
+        ksort($service_list);
+        return $service_list;
+    }
+
+
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param \App\Applicant $applicant * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public
+    function destroy($id)
     {
-        if (! Auth::user()->can('applicant delete')) {
+        if (!Auth::user()->can('applicant delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Applicants.');
             if (Auth::user()->can('applicant index')) {
                 return Redirect::route('applicant.index');
@@ -345,38 +531,10 @@ class ApplicantController extends Controller
         return response()->json('Success', 200);
     }
 
-    /**
-     * Find by ID, sanitize the ID first.
-     *
-     * @param $id
-     * @return Applicant or null
-     */
-    private function sanitizeAndFind($id)
+    public
+    function download()
     {
-        return \App\Applicant::with([
-            'conviction' => function ($q) {
-                $q->orderBy('release_date', 'desc');
-            },
-            'conviction.services' => function ($q) {
-                $q->with('service_type');
-            },
-            'conviction.charge',
-            'conviction.charge.statute.jurisdiction',
-            'conviction.charge.statute.jurisdiction.type',
-            'conviction.charge.statute',
-            'conviction.charge.statute.statutes_eligibility',
-            'conviction.charge.statute.superseded',
-            //'conviction.charge.statute.superseded.statutes_eligibility',
-            'assignment',
-            'step',
-            'status',
-            'conviction.sources',
-        ])->find(intval($id));
-    }
-
-    public function download()
-    {
-        if (! Auth::user()->can('applicant excel')) {
+        if (!Auth::user()->can('applicant excel')) {
             \Session::flash('flash_error_message', 'You do not have access to download Applicants.');
             if (Auth::user()->can('applicant index')) {
                 return Redirect::route('applicant.index');
@@ -394,7 +552,7 @@ class ApplicantController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
         $dataQuery = Applicant::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());
@@ -406,9 +564,10 @@ class ApplicantController extends Controller
             'applicant.xlsx');
     }
 
-    public function print()
+    public
+    function print()
     {
-        if (! Auth::user()->can('applicant export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+        if (!Auth::user()->can('applicant export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Applicants.');
             if (Auth::user()->can('applicant index')) {
                 return Redirect::route('applicant.index');
@@ -423,7 +582,7 @@ class ApplicantController extends Controller
         $direction = session('applicant_direction', '-1');
         $column = $column ? $column : 'name';
 
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
         // Get query data
         $columns = [
@@ -443,7 +602,7 @@ class ApplicantController extends Controller
         $pdf->loadHTML($printHtml);
         $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
 
-        return $pdf->stream('applicant-'.$currentDate->format('Ymd_Hi').'.pdf');
+        return $pdf->stream('applicant-' . $currentDate->format('Ymd_Hi') . '.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////

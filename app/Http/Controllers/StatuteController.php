@@ -52,7 +52,7 @@ class StatuteController extends Controller
      *
      * Permission::create(['name' => 'statute index']);
      * Permission::create(['name' => 'statute add']);
-     * Permission::create(['name' => 'statute update']);
+     * Permission::create(['name' => 'statute edit']);
      * Permission::create(['name' => 'statute view']);
      * Permission::create(['name' => 'statute destroy']);
      * Permission::create(['name' => 'statute export-pdf']);
@@ -193,7 +193,7 @@ class StatuteController extends Controller
     public function update(StatuteFormRequest $request, $id)
     {
 
-//        if (!Auth::user()->can('statute update')) {
+//        if (!Auth::user()->can('statute edit')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Statutes.');
 //            if (!Auth::user()->can('statute index')) {
 //                return Redirect::route('statute.index');

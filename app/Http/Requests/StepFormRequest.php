@@ -15,7 +15,7 @@ class StepFormRequest extends FormRequest
     public function authorize()
     {
         if ($this->route('step')) {  // If ID we must be changing an existing record
-            return Auth::user()->can('step update');
+            return Auth::user()->can('step edit');
         } else {  // If not we must be adding one
             return Auth::user()->can('step add');
         }

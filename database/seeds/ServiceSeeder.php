@@ -28,7 +28,7 @@ class ServiceSeeder extends Seeder
         DB::unprepared('set FOREIGN_KEY_CHECKS=1');
 
         $start = microtime(1);
-        $service_types = ['County/City', 'Court', 'Arresting Agency'];
+        $service_types = ['County/City', 'Court', 'Arresting Agency', 'Jail', 'Prosecutor'];
 
         $index = 1;
         $service_types = collect($service_types)->map(function ($type) use (&$index) {
