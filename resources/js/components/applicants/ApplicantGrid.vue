@@ -94,6 +94,7 @@
                         v-on:selectedSort="sortColumn"
                         v-bind:selectedKey="sortKey"
                         title="Sort by Name"
+                        style="width:20%;"
                         :params="{
                                 sortField: 'applicant_name',
                                 InitialSortOrder: 'asc'
@@ -135,7 +136,7 @@
                         Status
                     </ss-grid-column-header>
                     <th>Assigned</th>
-                    <th style="width:20%;" class="text-center">Actions</th>
+                    <th  class="text-center">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -216,12 +217,12 @@
         <!-- Grid Actions Bottom -->
         <div class="grid-bottom row mb-0 align-items-center">
             <div class="col-lg-4 mb-2">
-                <a href="/applicant/download" class="btn btn-primary mb-2 mr-2"
-                >Export to Excel</a
-                >
-                <a href="/applicant/print" class="btn btn-primary mb-2 mr-2"
-                >Print PDF</a
-                >
+<!--                <a href="/applicant/download" class="btn btn-primary mb-2 mr-2"-->
+<!--                >Export to Excel</a-->
+<!--                >-->
+<!--                <a href="/applicant/print" class="btn btn-primary mb-2 mr-2"-->
+<!--                >Print PDF</a-->
+<!--                >-->
             </div>
             <ss-grid-pagination
                 class="col-lg-4 mb-2"

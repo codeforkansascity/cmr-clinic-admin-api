@@ -11,8 +11,6 @@
         <p>IN THE <pre-input-field v-model="record.case_heading" capitalize="true" missing_prompt="«Case_Heading»"/>
         </p>
 
-        <p style="color: red">ProSe question</p>
-
         <h1>Applicant Information</h1>
 
         <div style="margin-bottom: 1em">

@@ -24,7 +24,7 @@ class CaseServiceCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:191',
+            'service.name' => 'required|max:191',
             'service.address' => 'max:191',
             'service.address_line_2' => 'max:64',
             'service.city' => 'max:64',

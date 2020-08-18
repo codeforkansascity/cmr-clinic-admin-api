@@ -24,7 +24,7 @@
                 @canany(['statute index'])
                     <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'statute') echo 'active'; @endphp">
                         <a class="nav-link" href="{{ route('statute.index') }}">Statutes <span
-                                    class="sr-only">(current)</span></a>
+                                class="sr-only">(current)</span></a>
                     </li>
                 @endif
 
@@ -34,46 +34,48 @@
                         Mo Expungement Statute</a>
                 </li>
 
-                <li class="nav-item dropdown @php if(isset($nav_path[0]) && $nav_path[0] == 'admin') echo 'active'; @endphp">
-                    <a class="nav-link dropdown-toggle" href="#TODO" id="dropdown-admin" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">Admin</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown-admin">
-                        @canany(['user index'])
-                            <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'user') echo 'active'; @endphp"
-                               href="/user">Users</a>
-                        @endcanany
-                        @canany(['invite index'])
-                            <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'invite') echo 'active'; @endphp"
-                               href="/invite">Invite Users</a>
-                        @endcanany
-                        @canany(['data_source index'])
-                            <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'data-source') echo 'active'; @endphp"
-                               href="/data-source">Data Source</a>
-                        @endcanany
-                        @canany(['status index'])
-                            <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'status') echo 'active'; @endphp"
-                               href="/status">Applicant Statuses</a>
-                        @endcanany
-                        @canany(['service index'])
-                            <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'service') echo 'active'; @endphp"
-                               href="/service">Service</a>
-                        @endcanany
-                        @canany(['jurisdiction index'])
-                            <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'jurisdiction') echo 'active'; @endphp"
-                               href="/jurisdiction">Jurisdiction</a>
-                        @endcanany
-                        @canany(['jurisdiction_type index'])
-                            <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'jurisdiction-type') echo 'active'; @endphp"
-                               href="/jurisdiction-type">Jurisdiction Type</a>
-                        @endcanany
+                @canany(['user index','invite index','data_source index','status index','service index','jurisdiction index','jurisdiction_type index'])
+                    <li class="nav-item dropdown @php if(isset($nav_path[0]) && $nav_path[0] == 'admin') echo 'active'; @endphp">
+                        <a class="nav-link dropdown-toggle" href="#TODO" id="dropdown-admin" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">Admin</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown-admin">
+                            @canany(['user index'])
+                                <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'user') echo 'active'; @endphp"
+                                   href="/user">Users</a>
+                            @endcanany
+                            @canany(['invite index'])
+                                <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'invite') echo 'active'; @endphp"
+                                   href="/invite">Invite Users</a>
+                            @endcanany
+                            @canany(['data_source index'])
+                                <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'data-source') echo 'active'; @endphp"
+                                   href="/data-source">Data Source</a>
+                            @endcanany
+                            @canany(['status index'])
+                                <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'status') echo 'active'; @endphp"
+                                   href="/status">Applicant Statuses</a>
+                            @endcanany
+                            @canany(['service index'])
+                                <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'service') echo 'active'; @endphp"
+                                   href="/service">Service</a>
+                            @endcanany
+                            @canany(['jurisdiction index'])
+                                <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'jurisdiction') echo 'active'; @endphp"
+                                   href="/jurisdiction">Jurisdiction</a>
+                            @endcanany
+                            @canany(['jurisdiction_type index'])
+                                <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'jurisdiction-type') echo 'active'; @endphp"
+                                   href="/jurisdiction-type">Jurisdiction Type</a>
+                            @endcanany
 
 
-                    </div>
-                </li>
-
-                    <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'version') echo 'active'; @endphp">
-                        <a class="nav-link" href="{{ route('version') }}">About</a>
+                        </div>
                     </li>
+                @endcanany
+
+                <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'version') echo 'active'; @endphp">
+                    <a class="nav-link" href="{{ route('version') }}">About</a>
+                </li>
 
             </ul>
 

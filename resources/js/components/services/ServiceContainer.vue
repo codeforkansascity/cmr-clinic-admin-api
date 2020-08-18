@@ -13,7 +13,7 @@
                     </span>
                 </td>
                 <td>
-                    {{service.name}} Attn: {{service.pivot.name}}
+                    {{service.name}} 
                 </td>
                 <td>
                     <pencil-control height="25"
@@ -57,11 +57,13 @@
                     >
                 </std-form-group>
 
+                <div class="row">
                 <div class="col-md-6">
                     <std-form-group label="City" label-for="city" :errors="form_errors.city">
                         <fld-input
                             name="city"
-                            v-model="record.city"
+                            v-model="selectedService.city"
+                            :disabled="disableFields"
                         />
                     </std-form-group>
                 </div>
@@ -69,7 +71,8 @@
                     <std-form-group label="State" label-for="state" :errors="form_errors.state">
                         <fld-state
                             name="state"
-                            v-model="record.state"
+                            v-model="selectedService.state"
+                            :disabled="disableFields"
                         />
                     </std-form-group>
                 </div>
@@ -77,9 +80,11 @@
                     <std-form-group label="Zip" label-for="zip_code" :errors="form_errors.zip">
                         <fld-input
                             name="zip_code"
-                            v-model="record.zip_code"
+                            v-model="selectedService.zip_code"
+                            :disabled="disableFields"
                         />
                     </std-form-group>
+                </div>
                 </div>
                 <std-form-group :errors="form_errors.service.note">
                     <label class="font-weight-bold">Note</label>

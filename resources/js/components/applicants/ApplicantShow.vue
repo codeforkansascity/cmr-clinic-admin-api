@@ -6,12 +6,7 @@
 
 
                     <applicant-details :can-cms="this.canCms" v-model="record">
-                        <chevron-toggle class="float-right"
-                                        :show="true"
-                                        @click="setView('summary')"/>
-                        <pencil-control
-                                height="25"
-                                @click="setView('edit')"/>
+
                     </applicant-details>
 
                     <div class="row">
@@ -30,16 +25,12 @@
 <script>
     import ApplicantDetails from "./ApplicantDetails";
     import CasesShowList from "../cases/CasesShowList";
-    import PencilControl from "../controls/PencilControl";
-    import ChevronToggle from "../controls/ChevronToggle";
 
     export default {
         name: "applicant-show",
         components: {
             ApplicantDetails,
-            CasesShowList,
-            PencilControl,
-            ChevronToggle
+            CasesShowList
         },
         props: {
             data: {

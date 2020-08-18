@@ -130,13 +130,13 @@ class ApplicantTableSeeder extends Seeder
                 'sentence' => 'Min',
                 'convicted' => '1',
                 'eligible' => null,
-                'please_expunge' => 1,
+                'please_expunge' => 0,
                 'to_print' => null,
                 'notes' => 'Says this is the charge that has been causing them problems when applying for a job.',
 
-                'petition_number' => 1,
-                'group_number' => 1,
-                'group_sequence' => 1,
+                'petition_number' => 0,
+                'group_number' => 0,
+                'group_sequence' => 0,
 
 
                 'created_by' => '0',
@@ -156,13 +156,13 @@ class ApplicantTableSeeder extends Seeder
                 'sentence' => '',
                 'convicted' => '1',
                 'eligible' => '0',
-                'please_expunge' => '1',
+                'please_expunge' => '0',
                 'to_print' => null,
                 'notes' => null,
 
-                'petition_number' => 1,
-                'group_number' => 1,
-                'group_sequence' => 2,
+                'petition_number' => 0,
+                'group_number' => 0,
+                'group_sequence' => 0,
 
 
                 'created_by' => '0',
@@ -182,13 +182,14 @@ class ApplicantTableSeeder extends Seeder
                 'sentence' => 'Min',
                 'convicted' => '1',
                 'eligible' => '0',
-                'please_expunge' => '1',
+                'please_expunge' => '0',
                 'to_print' => null,
                 'notes' => null,
 
-                'petition_number' => 1,
-                'group_number' => 2,
-                'group_sequence' => 1,
+                'petition_number' => 0,
+                'group_number' => 0,
+                'group_sequence' => 0,
+
 
 
                 'created_by' => '0',
