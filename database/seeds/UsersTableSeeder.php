@@ -42,39 +42,39 @@ class UsersTableSeeder extends Seeder
         $user = \App\User::create([
             'email' => 'paulb+cant@savagesoft.com',
             'name' => 'No Access',
-            'password' => bcrypt('bird-travel-car'),
+            'password' => bcrypt(env('TEST_USER_PASSWORD', 'bird-travel-car')),
         ]);
         $user->assignRole('cant');
 
         $user = \App\User::create([
             'email' => 'paulb+cmradmin@savagesoft.com',
             'name' => 'cmradmin',
-            'password' => bcrypt('bird-travel-car'),
+            'password' => bcrypt(env('TEST_USER_PASSWORD', 'bird-travel-car')),
         ]);
         $user->assignRole('cmr-admin');
 
         $user = \App\User::create([
             'email' => 'paulb+onlyindex@savagesoft.com',
             'name' => 'onlyindex',
-            'password' => bcrypt('bird-travel-car'),
+            'password' => bcrypt(env('TEST_USER_PASSWORD', 'bird-travel-car')),
         ]);
         $user->assignRole('only index');
 
         $user = \App\User::create([
             'email' => 'paulb+readonly@savagesoft.com',
             'name' => 'readonly',
-            'password' => bcrypt('bird-travel-car'),
+            'password' => bcrypt(env('TEST_USER_PASSWORD', 'bird-travel-car')),
         ]);
         $user->assignRole('read-only');
 
         $user = \App\User::create([
             'email' => 'camilo.snapp@gmail.com',
             'name' => 'Camilo Snapp',
-            'password' => bcrypt(env('TEST_USER_PASSWORD', $faker->unique()->safeEmail)),
+            'password' => bcrypt(env('TEST_USER_PASSWORD', 'bird-travel-car')),
         ]);
         $user->assignRole('super-admin');
 
-        factory(App\User::class, 40)->create()->each(function ($user) {
+        factory(App\User::class, 4)->create()->each(function ($user) {
             $role = \App\Role::inRandomOrder()->first();
             $user->assignRole($role->name);
         });
