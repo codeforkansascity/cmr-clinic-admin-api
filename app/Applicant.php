@@ -43,6 +43,9 @@ class Applicant extends Model
         'cms_matter_number',
         'assignment_id',
         'step_id',
+        'cdl_status_id',
+        'cdl_text'
+
     ];
 
     protected $hidden = [
