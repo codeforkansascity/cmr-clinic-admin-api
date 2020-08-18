@@ -77,3 +77,32 @@
                        Applicant: assign a volunteer - only shows in edit screen. 
                        filter query if user is volunteer attorney 
                        add pivot migration for applicant user                        
+
+3.1.8.0.2.demo  2020-08-18
+                       Cleaned up add Service popup, and other demo things
+                       Fixed Pencil and Chevron controls in ApplicantShow 
+                       Demo cleanup and changed update -> edit 
+                       Cleanup of service 
+                       Added Petition 
+                       Improved seeders 
+                       Added cases not selected to be expunged to the end of the preview page 
+                       Added pencil icon to pre-input-field, and moved css to _cmr.scss 
+                       Added Patition fields to applicant for the demo 
+                       Added Jail and Prosecutor to Service Types seeder 
+                       Added a permission CMS access that restricts viewing and editing the CMS fields 
+                       Added Applicant petititon 
+                       Set Test Passwords is now the same as seeder 
+                       Applicant cannow save CDL info 
+                       Made the hard coded applicant the same as Scotts 
+                       Added some input fields to preview 
+                       Added read-only role back in 
+                       Changed seed password 
+                       Preview initial version 
+                       CDL Questions added, all existing applicants have been set to CDL Unknown 
+                       Added Version page 
+                       Resolved issue with can
+                       User Seeder: Added Scott as super admin, Bob Smith as Volunteer Lawyer 
+                       Resolved issue with can() always returning true.  Was debug code 
+                       Downgraded mockery so it would load on the server 
+
+
