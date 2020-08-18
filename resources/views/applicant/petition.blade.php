@@ -1,26 +1,27 @@
 @extends('layouts.master')
 @php $nav_path = ['applicant']; @endphp
 @section('page-title')
-View {{$applicant->name}}
+Petition {{$applicant->name}}
 @endsection
 @section('page-header-title')
-View {{$applicant->name}}
+Petition {{$applicant->name}}
 @endsection
 @section('page-header-title-action')
+    <a class="btn btn-secondary" href="{{ route('applicant.show', $applicant->id) }}">View</a>
     <a class="btn btn-secondary" href="{{ route('applicant.edit', $applicant->id) }}">Edit</a>
     <a class="btn btn-secondary" href="{{ route('applicant.preview', $applicant->id) }}">Preview</a>
-    <a class="btn btn-secondary" href="{{ route('applicant.petition', $applicant->id) }}">Petition</a>
+
 @endsection
 @section('page-header-breadcrumbs')
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
     <li class="breadcrumb-item"><a href="{{ route('applicant.index') }}">Applicants</a></li>
-    <li class="breadcrumb-item active" aria-current="location">View {{$applicant->name}}</li>
+    <li class="breadcrumb-item active" aria-current="location">Petition {{$applicant->name}}</li>
 </ol>
 @endsection
 @section('content')
 
-    <applicant-show :can-cms="$can_cms" :data='@json($applicant)'></applicant-show>
+    <petition :data='@json($applicant)' :expungebles='@json($expungebles)'></petition>
 
     <div class="row">
         <div class="col-md-6">
@@ -31,16 +32,6 @@ View {{$applicant->name}}
 
         </div>
     </div>
-</div>
+
 @endsection
-@section('scripts')
-<script>
-    function ConfirmDelete() {
-        var x = confirm("Are you sure you want to delete this Applicants?");
-        if (x)
-            return true;
-        else
-            return false;
-    }
-</script>
-@endsection
+

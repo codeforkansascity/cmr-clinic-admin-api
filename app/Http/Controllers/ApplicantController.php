@@ -174,7 +174,9 @@ class ApplicantController extends Controller
             }
         }
 
-        return view('applicant.create');
+        $can_cms =  Auth::user()->can('CMS access');
+
+        return view('applicant.create', compact($can_cms));
     }
 
     /**
@@ -227,8 +229,9 @@ class ApplicantController extends Controller
         if ($applicant = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('applicant edit');
             $can_delete = (Auth::user()->can('applicant delete') && $applicant->canDelete());
+            $can_cms =  Auth::user()->can('CMS access');
 
-            return view('applicant.show', compact('applicant', 'can_edit', 'can_delete'));
+            return view('applicant.show', compact('applicant', 'can_edit', 'can_delete', 'can_cms'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Applicants to display.');
 
@@ -254,7 +257,8 @@ class ApplicantController extends Controller
         }
 
         if ($applicant = $this->sanitizeAndFind($id)) {
-            return view('applicant.edit', compact('applicant'));
+            $can_cms =  Auth::user()->can('CMS access');
+            return view('applicant.edit', compact('applicant','can_cms'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Applicants to edit.');
 

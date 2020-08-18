@@ -218,7 +218,7 @@
                         </fieldset>
                     </div>
 
-                    <div class="col-md-6" style="padding-left: 1em;">
+                    <div v-if="canCms" class="col-md-6" style="padding-left: 1em;">
                         <fieldset>
                             <legend>CMS</legend>
                             <div class="col-md-12">
@@ -421,6 +421,10 @@
                         allowInput: true,
                     }
                 },
+            },
+            canCms: {
+                type: [Boolean, Number],
+                default: false
             }
         },
         data() {

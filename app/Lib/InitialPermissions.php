@@ -27,6 +27,9 @@ class InitialPermissions
 
         Permission::findOrCreate('always fail');
 
+
+        Permission::findOrCreate('CMS access');
+
         Permission::findOrCreate('user index');
         Permission::findOrCreate('user add');
         Permission::findOrCreate('user update');
@@ -151,6 +154,8 @@ class InitialPermissions
         }
 
         $role->givePermissionTo([
+            'CMS access',
+
             'user index',
             'user add',
             'user update',
@@ -255,6 +260,7 @@ class InitialPermissions
         }
 
         $role->givePermissionTo([
+            'CMS access',
 
             'applicant index',
             'applicant add',

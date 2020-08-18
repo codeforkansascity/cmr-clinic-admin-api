@@ -1,14 +1,15 @@
 @extends('layouts.master')
 @php $nav_path = ['applicant']; @endphp
 @section('page-title')
-View {{$applicant->name}}
+Preview {{$applicant->name}}
 @endsection
 @section('page-header-title')
-View {{$applicant->name}}
+    Preview {{$applicant->name}}
 @endsection
 @section('page-header-title-action')
     <a class="btn btn-secondary" href="{{ route('applicant.show', $applicant->id) }}">View</a>
     <a class="btn btn-secondary" href="{{ route('applicant.edit', $applicant->id) }}">Edit</a>
+    <a class="btn btn-secondary" href="{{ route('applicant.petition', $applicant->id) }}">Petition</a>
 @endsection
 @section('page-header-breadcrumbs')
 <ol class="breadcrumb">

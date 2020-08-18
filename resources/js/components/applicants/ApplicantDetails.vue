@@ -11,8 +11,11 @@
                 <slot></slot>
             </div>
 
-            <div class="col-md-12" style="padding-bottom: 1.25em;">
+            <div class="col-md-9" style="padding-bottom: 1.25em;">
                 <dsp-textarea v-model="record.notes"></dsp-textarea>
+            </div>
+            <div class="col-md-3" style="padding-bottom: 1.25em;">
+                {{ record.assignment }}
             </div>
         </div>
 
@@ -67,7 +70,7 @@
                 </table>
 
             </div>
-            <div class="col-md-6" style="padding-left: 1em;">
+            <div v-if="canCms" class="col-md-6" style="padding-left: 1em;">
 
                 <h5>CMS</h5>
 
@@ -104,6 +107,10 @@
             modelValue: {        // Need to define the v-model input value prop
                 type: Object,
             },
+            canCms: {
+                type: [Boolean, Number],
+                default: false
+            }
         },
         data() {
             return {
