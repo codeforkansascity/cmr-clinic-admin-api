@@ -54,7 +54,16 @@ class ApplicantTableSeeder extends Seeder
             'updated_at' => '2019-04-27',
             'previous_expungements' => null,
             'notes' => 'Check on parole release date.  If 2011 (per applicant), ready for expungement.  If 2013 (per records), wait 1 year on felony traficking. Assault on LEO not eligible',
-
+            'case_heading' => '16TH CIRCUIT JUDICIAL CIRCUIT, JACKSON COUNTY, MISSOURI',
+            'case_no' => '2020',
+            'counsel_or_pro_se_statment' => 'by and through counsel Pablo Picasso of Bangles and Jangles LC',
+            'signature_block_heading' => 'Bangles and Jangles LC',
+            'signature_block_name' => 'Pablo Picasso',
+            'signature_block_bar_number_or_pro_se' => 'Missouri Bar #54299',
+            'signature_block_address' => '4110 Madison Ave, Suite 200',
+            'signature_block_city_state_zip' => 'Kansas City, MO 64111',
+            'signature_block_phone' => '(816) 555-1212',
+            'signature_block_email' => 'pablo@bajlc.com',
         ]);
 
         dump('creating convictions for '.$applicant->name);

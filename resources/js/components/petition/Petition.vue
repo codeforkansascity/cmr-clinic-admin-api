@@ -6,7 +6,7 @@
         <!--  ------------------ -->
 
 
-        <p>IN THE <pre-field v-model="record.blank" capitalize="true" missing_prompt="«Case_Heading»"/>
+        <p>IN THE <pre-field v-model="record.case_heading" capitalize="true" missing_prompt="«Case_Heading»"/>
         </p>
         <p>
             <pre-field v-model="record.name" capitalize="true" missing_prompt="«Name»"/>
@@ -20,7 +20,7 @@
             </div>
 
             <div class="col-sm float-right">
-                <span class="float-right">Case No. «CaseYear»-CV</span>
+                <span class="float-right">Case No. <pre-field v-model="record.case_no" capitalize="true" missing_prompt="«CaseYear»"/>-CV</span>
             </div>
         </div>
 
@@ -78,7 +78,7 @@
         <div class="pro-se-dbl">
             <p>
                 COMES NOW Petitioner, <pre-field v-model="record.name" missing_prompt="«PetitionerCurrentNameFull»"/>,
-                <pre-field style="color: red" v-model="record.blank" missing_prompt="«CounselOrProSeStatement»"/>, and petitions the Court to
+                <pre-field v-model="record.counsel_or_pro_se_statment" missing_prompt="«CounselOrProSeStatement»"/>, and petitions the Court to
                 expunge records of arrest, plea, trial, or conviction and all related records pertaining to offenses,
                 violations, or infractions described below as provided for by § 610.140 RSMo. and for the issuance of an
                 order to expunge Petitioner’s records. In support of the petition, the Petitioner states:
@@ -91,7 +91,7 @@
                     <pre-date-field v-model="record.dob" missing_prompt="«DateOfBirth»"/>, gender is <pre-field v-model="record.sex" missing_prompt="«Gender»"/>, and race is <pre-field v-model="record.race" missing_prompt="«Race»"/>.</li>
                 <li> Petitioner’s driver’s license or other state issued identification was issued by
                     <pre-field v-model="record.license_issuing_state" missing_prompt="«DriversLicenseST»"/>, identifying number <pre-field v-model="record.license_number" missing_prompt="«DriversLicenseNumber»"/>, expiration date
-                    <pre-field style="color: red" v-model="record.blank" missing_prompt="«DriversLicenseExpiration»"/>.
+                    <pre-date-field v-model="record.license_expiration_date" missing_prompt="«DriversLicenseExpiration»"/>.
                 </li>
                 <li> Petitioner requests expungement of the following offenses, violations, or infractions, grouped
                     together where charged as counts in the same indictment, information, or ticket or where cases share
@@ -127,7 +127,7 @@
                 <li> None of the offenses, violations, or infractions for which Petitioner seeks expungement are
                     excluded by §610.140.2 RSMo.
                 </li>
-                <li v-if="has_previous_expungements"> <pre-field v-model="record.blank" missing_prompt="«PreviousExpungementLanguage»"/>
+                <li v-if="has_previous_expungements"> <pre-field v-model="record.previous_expungements" missing_prompt="«PreviousExpungementLanguage»"/>
                     [Petitioner was granted a previous expungement on (date of expungement) in ( ) County,
                     Missouri, of the following offense(s) (prior offenses), (a felony, misdemeanor, or infraction). If
                     granted expungement as sought in this case, Petitioner will not exceed the maximum limitations of
@@ -182,19 +182,19 @@
         </p>
 
         <p>
-            <pre-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockHeading»"/>
+            <pre-field v-model="record.signature_block_heading" missing_prompt="«SignatureBlockHeading»"/>
         </p>
 
 
         ______________________
 
         <p>
-            <pre-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockName»"/><br>
-            <pre-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockBarNumberOrProSe»"/><br>
-            <pre-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockAddress»"/><br>
-            <pre-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockCitySTZIP»"/><br>
-            <pre-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockPhone»"/><br>
-            <pre-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockEmail»"/><br>
+            <pre-field v-model="record.signature_block_name" missing_prompt="«SignatureBlockName»"/><br>
+            <pre-field v-model="record.signature_block_bar_number_or_pro_se" missing_prompt="«SignatureBlockBarNumberOrProSe»"/><br>
+            <pre-field v-model="record.signature_block_address" missing_prompt="«SignatureBlockAddress»"/><br>
+            <pre-field v-model="record.signature_block_city_state_zip" missing_prompt="«SignatureBlockCitySTZIP»"/><br>
+            <pre-field v-model="record.signature_block_phone" missing_prompt="«SignatureBlockPhone»"/><br>
+            <pre-field v-model="record.signature_block_email" missing_prompt="«SignatureBlockEmail»"/><br>
         </p>
 
 

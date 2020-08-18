@@ -8,7 +8,7 @@
 
         <h1>Petition Information</h1>
 
-        <p>IN THE <pre-input-field v-model="record.blank" capitalize="true" missing_prompt="«Case_Heading»"/>
+        <p>IN THE <pre-input-field v-model="record.case_heading" capitalize="true" missing_prompt="«Case_Heading»"/>
         </p>
 
         <p style="color: red">ProSe question</p>
@@ -152,19 +152,19 @@
         <h1>Signature Block</h1>
 
         <p>
-            <pre-input-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockHeading»"/>
+            <pre-input-field v-model="record.signature_block_heading" missing_prompt="«SignatureBlockHeading»"/>
         </p>
 
 
         ______________________
 
         <p>
-            <pre-input-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockName»"/><br>
-            <pre-input-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockBarNumberOrProSe»"/><br>
-            <pre-input-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockAddress»"/><br>
-            <pre-input-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockCitySTZIP»"/><br>
-            <pre-input-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockPhone»"/><br>
-            <pre-input-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockEmail»"/><br>
+            <pre-input-field v-model="record.signature_block_name" missing_prompt="«SignatureBlockName»"/><br>
+            <pre-input-field v-model="record.signature_block_bar_number_or_pro_se" missing_prompt="«SignatureBlockBarNumberOrProSe»"/><br>
+            <pre-input-field v-model="record.signature_block_address" missing_prompt="«SignatureBlockAddress»"/><br>
+            <pre-input-field v-model="record.signature_block_city_state_zip" missing_prompt="«SignatureBlockCitySTZIP»"/><br>
+            <pre-input-field v-model="record.signature_block_phone" missing_prompt="«SignatureBlockPhone»"/><br>
+            <pre-input-field v-model="record.signature_block_email" missing_prompt="«SignatureBlockEmail»"/><br>
         </p>
 
         <h1>Charges not being expunged</h1>

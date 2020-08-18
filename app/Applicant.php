@@ -44,7 +44,17 @@ class Applicant extends Model
         'assignment_id',
         'step_id',
         'cdl_status_id',
-        'cdl_text'
+        'cdl_text',
+        'case_heading',
+        'case_no',
+        'counsel_or_pro_se_statment',
+        'signature_block_heading',
+        'signature_block_name',
+        'signature_block_bar_number_or_pro_se',
+        'signature_block_address',
+        'signature_block_city_state_zip',
+        'signature_block_phone',
+        'signature_block_email',
 
     ];
 
