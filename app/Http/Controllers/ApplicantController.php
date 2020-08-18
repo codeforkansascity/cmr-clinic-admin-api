@@ -366,76 +366,17 @@ class ApplicantController extends Controller
 
             $expungebles = $this->getExpungebles($applicant->conviction);
             $not_selected_to_expunge = $this->getNotExpungebles($applicant->conviction);
+            $service_list = $this->getServiceList($applicant->conviction);
 
             $can_edit = Auth::user()->can('applicant edit');
             $can_delete = (Auth::user()->can('applicant delete') && $applicant->canDelete());
 
-            return view('applicant.preview', compact('applicant', 'expungebles', 'not_selected_to_expunge', 'can_edit', 'can_delete'));
+            return view('applicant.preview', compact('applicant', 'expungebles', 'not_selected_to_expunge', 'service_list', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Applicants to display.');
 
             return Redirect::route('applicant.index');
         }
-    }
-
-    private function getExpungebles($convictions)
-    {
-
-        $to_expunge = [];
-        foreach ($convictions AS $conviction) {
-
-            if ($conviction->charge->count()) {
-                foreach ($conviction->charge AS $charge) {
-
-
-                    if ($charge->please_expunge) {
-
-                        $key = $charge->petition_number . ':';
-                        $key .= $charge->group_number . ':';
-                        $key .= $charge->group_sequence . ':';
-                        $key .= $charge->id;
-
-                        $to_expunge[$key] = $charge->toArray();
-                        $to_expunge[$key]['statue_number'] = $charge->statute->number;
-                        $to_expunge[$key]['statue_name'] = $charge->statute->name;
-                        $to_expunge[$key]['case_number'] = $conviction->case_number;
-                        $to_expunge[$key]['approximate_date_of_charge_text'] = $conviction->approximate_date_of_charge_text;
-
-                    }
-
-
-                }
-            }
-        }
-        ksort($to_expunge);
-        return $to_expunge;
-    }
-
-    private function getNotExpungebles($convictions)
-    {
-
-        $not_selected = [];
-        foreach ($convictions AS $conviction) {
-
-            if ($conviction->charge->count()) {
-                foreach ($conviction->charge AS $charge) {
-                    if ($charge->please_expunge != 1) {
-                        $key = $conviction->case_number . ':';
-                        $key .= $charge->id;
-                        $not_selected[$key] = [];
-                        $not_selected[$key]['statue_number'] = $charge->statute->number;
-                        $not_selected[$key]['statue_name'] = $charge->statute->name;
-                        $not_selected[$key]['case_number'] = $conviction->case_number;
-                        $not_selected[$key]['convicted'] = $conviction->convicted ? 'Convicted' : 'Not Convicted';
-                        $not_selected[$key]['eligible'] = $conviction->eligible ? 'Eligible' : 'Not Eligible';
-                        $not_selected[$key]['approximate_date_of_charge_text'] = $conviction->approximate_date_of_charge_text;
-
-                    }
-                }
-            }
-        }
-        ksort($not_selected);
-        return $not_selected;
     }
 
     /**
@@ -460,16 +401,98 @@ class ApplicantController extends Controller
         if ($applicant = $this->sanitizeAndFind($id)) {
 
             $expungebles = $this->getExpungebles($applicant->conviction);
+            $service_list = $this->getServiceList($applicant->conviction);
             $can_edit = Auth::user()->can('applicant edit');
             $can_delete = (Auth::user()->can('applicant delete') && $applicant->canDelete());
 
-            return view('applicant.petition', compact('applicant', 'expungebles', 'can_edit', 'can_delete'));
+            return view('applicant.petition', compact('applicant', 'expungebles', 'service_list', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Applicants to display.');
 
             return Redirect::route('applicant.index');
         }
     }
+
+    private function getExpungebles($convictions)
+    {
+
+        $to_expunge = [];
+        foreach ($convictions AS $conviction) {
+            if ($conviction->charge->count()) {
+                foreach ($conviction->charge AS $charge) {
+
+
+                    if ($charge->please_expunge) {
+
+                        $key = $charge->petition_number . ':';
+                        $key .= $charge->group_number . ':';
+                        $key .= $charge->group_sequence . ':';
+                        $key .= $charge->id;
+
+                        $to_expunge[$key] = $charge->toArray();
+                        $to_expunge[$key]['statue_number'] = $charge->statute->number;
+                        $to_expunge[$key]['statue_name'] = $charge->statute->name;
+                        $to_expunge[$key]['case_number'] = $conviction->case_number;
+                        $to_expunge[$key]['date_of_charge'] = $conviction->date_of_charge;
+
+                    }
+                }
+            }
+        }
+        ksort($to_expunge);
+        return $to_expunge;
+    }
+
+    private function getNotExpungebles($convictions)
+    {
+
+        $not_selected = [];
+        foreach ($convictions AS $conviction) {
+
+            if ($conviction->charge->count()) {
+                foreach ($conviction->charge AS $charge) {
+                    if ($charge->please_expunge != 1) {
+                        $key = $conviction->case_number . ':';
+                        $key .= $charge->id;
+                        $not_selected[$key] = [];
+                        $not_selected[$key]['statue_number'] = $charge->statute->number;
+                        $not_selected[$key]['statue_name'] = $charge->statute->name;
+                        $not_selected[$key]['case_number'] = $conviction->case_number;
+                        $not_selected[$key]['convicted'] = $conviction->convicted ? 'Convicted' : 'Not Convicted';
+                        $not_selected[$key]['eligible'] = $conviction->eligible ? 'Eligible' : 'Not Eligible';
+                        $not_selected[$key]['date_of_charge'] = $conviction->date_of_charge;
+
+                    }
+                }
+            }
+        }
+        ksort($not_selected);
+        return $not_selected;
+    }
+
+    private function getServiceList($convictions)
+    {
+
+        $service_list = [];
+        foreach ($convictions AS $conviction) {
+
+            if ($conviction->services->count()) {
+                foreach ($conviction->services AS $service) {
+                    $key = $service->id;
+                    $service_list[$key]['name'] = $service->name;
+                    $service_list[$key]['address'] = $service->address;
+                    $service_list[$key]['address_line_2'] = $service->address_line_2;
+                    $service_list[$key]['city'] = $service->city;
+                    $service_list[$key]['state'] = $service->state;
+                    $service_list[$key]['zip'] = $service->zip;
+                }
+            }
+        }
+        ksort($service_list);
+        return $service_list;
+    }
+
+
 
     /**
      * Remove the specified resource from storage.

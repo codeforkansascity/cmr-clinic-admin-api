@@ -21,7 +21,7 @@ Petition {{$applicant->name}}
 @endsection
 @section('content')
 
-    <petition :data='@json($applicant)' :expungebles='@json($expungebles)'></petition>
+    <petition :data='@json($applicant)' :expungebles='@json($expungebles)' :service-list='@json($service_list)'></petition>
 
     <div class="row">
         <div class="col-md-6">

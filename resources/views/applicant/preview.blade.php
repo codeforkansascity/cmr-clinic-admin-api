@@ -20,7 +20,7 @@ Preview {{$applicant->name}}
 @endsection
 @section('content')
 
-    <preview :data='@json($applicant)' :expungebles='@json($expungebles)' :not-selected-to-expunge='@json($not_selected_to_expunge)'></preview>
+    <preview :data='@json($applicant)' :expungebles='@json($expungebles)' :not-selected-to-expunge='@json($not_selected_to_expunge)' :service-list='@json($service_list)'></preview>
 
     <div class="row">
         <div class="col-md-6">

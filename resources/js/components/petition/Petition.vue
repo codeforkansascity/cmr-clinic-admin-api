@@ -43,30 +43,16 @@
             P.O. Box 236</br>
             Jefferson City, MO 65102,
         </p>
-        <p>
-            «ArrestingAgency»</br>
-            «ArrestingAgencyServiceStreetAddress»</br>
-            «ArrestingAgencyCitySTZIP»
-        </p>
-        <p>
-            «JailEntity»</br>
-            «JailAgencyServiceStreetAddress»</br>
-            «JailAgencyServiceCitySTZIP»
-        </p>
-        <p>
-            «ServiceProsecutorOfficeName»</br>
-            «ProsecutorServiceStreetAddress»</br>
-            «ProsecutorCitySTZIP»
-        </p>
-        <p>
-            «CourtName»</br>
-            «CourtServiceStreetAddress»</br>
-            «CourtServiceCitySTZIP»
-        </p>
-        <p>
-            «OtherAgenciesWithRecords»</br>
-            «OtherPartyFullAddress»</br>
-        </p>
+
+        <div v-for="row in this.serviceList" :key="row.id">
+            <p>
+                {{ row.name }}<br>
+                {{ row.address }}<br>
+                <span v-if="row.address_line_2">{{ row.address_line_2}}<br></span>
+                {{ row.city }}, {{ row.state }} {{ row.zip }}<br>
+            </p>
+        </div>
+
         <p>
             Respondents.
         </p>
@@ -113,7 +99,7 @@
                     <tr v-for="row in this.expungebles" :key="row.id">
                         <td align="center">{{ row.group_number }}</td>
                         <td style="width: 9em">{{ row.case_number }}</td>
-                        <td>{{ row.approximate_date_of_charge_text }}</td>
+                        <td><dsp-date v-model="row.date_of_charge"></dsp-date></td>
                         <td>{{ row.statue_number }} {{ row.statue_name }}</td>
                         <td>
                             <span v-if="row.group_sequence == 1">Highest Offense - {{ row.conviction_charge_type }}</span>
@@ -223,7 +209,15 @@
                         id: 0,
                     }
                 },
-            }
+            },
+            serviceList:{
+                type: [Boolean, Object, Array],
+                default: () => {
+                    return {
+                        id: 0,
+                    }
+                },
+            },
         },
         data() {
             return {
