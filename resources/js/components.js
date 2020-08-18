@@ -105,6 +105,8 @@ Vue.component('applicant-show', () => import(/* webpackChunkName:"applicant-show
 
 
 Vue.component('preview', () => import(/* webpackChunkName:"preview" */ './components/preview/Preview.vue'));
+Vue.component('petition', () => import(/* webpackChunkName:"petition" */ './components/petition/Petition.vue'));
+
 Vue.component('pre-field', () => import(/* webpackChunkName:"pre-field" */ './components/preview/pre-field.vue'));
 
 Vue.component('pre-address-field', () => import(/* webpackChunkName:"pre-address-field" */ './components/preview/pre-address-field.vue'));

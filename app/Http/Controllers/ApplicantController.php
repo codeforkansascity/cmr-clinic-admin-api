@@ -330,11 +330,43 @@ class ApplicantController extends Controller
         if ($applicant = $this->sanitizeAndFind($id)) {
 
             $expungebles = $this->getExpungebles($applicant->conviction);
-            dump($expungebles);
             $can_edit = Auth::user()->can('applicant edit');
             $can_delete = (Auth::user()->can('applicant delete') && $applicant->canDelete());
 
             return view('applicant.preview', compact('applicant','expungebles', 'can_edit', 'can_delete'));
+        } else {
+            \Session::flash('flash_error_message', 'Unable to find Applicants to display.');
+
+            return Redirect::route('applicant.index');
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function petition($id)
+    {
+        info(__METHOD__);
+
+        if (!Auth::user()->can('applicant view')) {
+            \Session::flash('flash_error_message', 'You do not have access to view a Applicants.');
+            if (Auth::user()->can('applicant index')) {
+                return Redirect::route('applicant.index');
+            } else {
+                return Redirect::route('home');
+            }
+        }
+
+        if ($applicant = $this->sanitizeAndFind($id)) {
+
+            $expungebles = $this->getExpungebles($applicant->conviction);
+            $can_edit = Auth::user()->can('applicant edit');
+            $can_delete = (Auth::user()->can('applicant delete') && $applicant->canDelete());
+
+            return view('applicant.petition', compact('applicant','expungebles', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Applicants to display.');
 

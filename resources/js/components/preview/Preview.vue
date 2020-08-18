@@ -6,24 +6,105 @@
         <!--  ------------------ -->
 
 
+        <h1>Petition Information</h1>
+
         <p>IN THE <pre-input-field v-model="record.blank" capitalize="true" missing_prompt="«Case_Heading»"/>
         </p>
-        <p>
-            <pre-field v-model="record.name" capitalize="true" missing_prompt="«Name»"/>
-            ,<br>
-            Petitioner
-        </p>
 
-        <div class="row" style="margin-bottom: 2em;">
-            <div class="col-sm">
-                vs.
-            </div>
+        <p style="color: red">ProSe question</p>
 
-            <div class="col-sm float-right">
-                <span class="float-right">Case No. «CaseYear»-CV</span>
+        <h1>Applicant Information</h1>
+
+        <div style="margin-bottom: 1em">
+
+
+            <div class="row">
+                <div class="col-md-6" style="padding-left: 1em;">
+                    <table class="table  table-sm">
+                        <tr is="tr-view" v-model="record.name">Full Name</tr>
+                        <tr is="tr-view" v-model="record.sex">Sex</tr>
+                        <tr is="tr-view" v-model="record.race">Race</tr>
+                        <tr is="tr-view-date" v-model="record.dob">Date of birth?</tr>
+
+                    </table>
+                </div>
+                <div class="col-md-6" style="padding-left: 1em;">
+
+                    <h5>Driver’s License</h5>
+
+                    <table class="table  table-sm">
+                        <tr is="tr-view" v-model="record.license_number">License number</tr>
+                        <tr is="tr-view" v-model="record.license_issuing_state">Issuing state</tr>
+                        <tr is="tr-view-date" v-model="record.license_expiration_date">Expiration date</tr>
+                        <tr is="tr-view" v-model="record.cdl_status.name">CDL License</tr>
+                        <tr is="tr-view" v-model="record.cdl_text">CDL Note</tr>
+
+                    </table>
+
+                </div>
+                <div class="col-md-6" style="padding-left: 1em;">
+
+                    <h5>Current Address</h5>
+
+                    <table class="table  table-sm">
+                        <tr is="tr-view" v-model="record.address_line_1">Address Line 1</tr>
+                        <tr is="tr-view" v-model="record.address_line_2">Address Line 2</tr>
+                        <tr>
+                            <td style="width: 10em; color: darkgray">City/State/Zip</td>
+                            <td>
+                                {{ record.city }}
+                                {{ record.state }}
+                                {{ record.zip_code }}
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+
+                <div class="col-md-6" style="padding-left: 1em;">
+
+                    <h5>Previous Expungements</h5>
+
+                    <table class="table  table-sm">
+                        <tr is="tr-view" v-model="record.previous_felony_expungements">Felony</tr>
+                        <tr is="tr-view" v-model="record.previous_misdemeanor_expungements">Misdemeanor</tr>
+                        <tr is="tr-view" v-model="record.previous_expungements">Notes</tr>
+                    </table>
+
+                </div>
             </div>
         </div>
 
+        <h1>Charges to Expunge</h1>
+
+
+
+                <table class="table mb-0">
+                    <thead>
+                    <tr>
+                    <th style="vertical-align: top;">Group</th>
+                    <th style="vertical-align: top;">Case Number</th>
+                    <th style="vertical-align: top;">Approx. Date of Charge</th>
+                    <th style="vertical-align: top;">Offense Description<br>(RSMo. Number and Common Name of Offense)</th>
+                    <th style="vertical-align: top;">Reason Included in Group</th>
+                    </tr>
+                    </thead>
+
+
+                    <tr v-for="row in this.expungebles" :key="row.id">
+                        <td align="center">{{ row.group_number }}</td>
+                        <td style="width: 9em">{{ row.case_number }}</td>
+                        <td>{{ row.approximate_date_of_charge_text }}</td>
+                        <td>{{ row.statue_number }} {{ row.statue_name }}</td>
+                        <td>
+                            <span v-if="row.group_sequence == 1">Highest Offense - {{ row.conviction_charge_type }}</span>
+                            <span v-else>Lesser Charge</span>
+                        </td>
+                    </tr>
+                </table>
+
+
+        <h1>Service</h1>
 
         <p>
             MISSOURI DEPARTMENT OF REVENUE</br>
@@ -67,119 +148,8 @@
             «OtherAgenciesWithRecords»</br>
             «OtherPartyFullAddress»</br>
         </p>
-        <p>
-            Respondents.
-        </p>
 
-        <p style="text-decoration-line: underline; text-center">
-            PETITION FOR EXPUNGEMENT
-        </p>
-
-        <div class="pro-se-dbl">
-            <p>
-                COMES NOW Petitioner, <pre-field v-model="record.name" missing_prompt="«PetitionerCurrentNameFull»"/>,
-                <pre-field style="color: red" v-model="record.blank" missing_prompt="«CounselOrProSeStatement»"/>, and petitions the Court to
-                expunge records of arrest, plea, trial, or conviction and all related records pertaining to offenses,
-                violations, or infractions described below as provided for by § 610.140 RSMo. and for the issuance of an
-                order to expunge Petitioner’s records. In support of the petition, the Petitioner states:
-            </p>
-            <ol>
-                <li> Petitioner resides at
-                    <pre-address-field v-model="record" missing_prompt="«PetitionerAddressFull»"/>.
-                </li>
-                <li> Petitioner’s date of birth is
-                    <pre-date-field v-model="record.dob" missing_prompt="«DateOfBirth»"/>, gender is <pre-field v-model="record.sex" missing_prompt="«Gender»"/>, and race is <pre-field v-model="record.race" missing_prompt="«Race»"/>.</li>
-                <li> Petitioner’s driver’s license or other state issued identification was issued by
-                    <pre-field v-model="record.license_issuing_state" missing_prompt="«DriversLicenseST»"/>, identifying number <pre-field v-model="record.license_number" missing_prompt="«DriversLicenseNumber»"/>, expiration date
-                    <pre-field style="color: red" v-model="record.blank" missing_prompt="«DriversLicenseExpiration»"/>.
-                </li>
-                <li> Petitioner requests expungement of the following offenses, violations, or infractions, grouped
-                    together where charged as counts in the same indictment, information, or ticket or where cases share
-                    a common course of conduct:
-                </li>
-
-                <table class="table mb-0 pro-se">
-                    <thead>
-                    <tr>
-                    <th style="vertical-align: top;">Group</th>
-                    <th style="vertical-align: top;">Case Number</th>
-                    <th style="vertical-align: top;">Approx. Date of Charge</th>
-                    <th style="vertical-align: top;">Offense Description<br>(RSMo. Number and Common Name of Offense)</th>
-                    <th style="vertical-align: top;">Reason Included in Group</th>
-                    </tr>
-                    </thead>
-
-
-                    <tr v-for="row in this.expungebles" :key="row.id">
-                        <td align="center">{{ row.group_number }}</td>
-                        <td style="width: 9em">{{ row.case_number }}</td>
-                        <td>{{ row.approximate_date_of_charge_text }}</td>
-                        <td>{{ row.statue_number }} {{ row.statue_name }}</td>
-                        <td>
-                            <span v-if="row.group_sequence == 1">Highest Offense - {{ row.conviction_charge_type }}</span>
-                            <span v-else>Lesser Charge</span>
-                        </td>
-                    </tr>
-                </table>
-
-
-
-                <li> None of the offenses, violations, or infractions for which Petitioner seeks expungement are
-                    excluded by §610.140.2 RSMo.
-                </li>
-                <li v-if="has_previous_expungements"> <pre-field v-model="record.blank" missing_prompt="«PreviousExpungementLanguage»"/>
-                    [Petitioner was granted a previous expungement on (date of expungement) in ( ) County,
-                    Missouri, of the following offense(s) (prior offenses), (a felony, misdemeanor, or infraction). If
-                    granted expungement as sought in this case, Petitioner will not exceed the maximum limitations of
-                    §610.140.12 RSMo.
-                </li>
-                <li v-if="!has_previous_expungements"> Petitioner has not previously been granted an expungement in this
-                    state. Petitioner will not exceed the maximum limitations of
-                    §610.140.12 RSMo.
-                </li>
-                <li v-if="record.cdl_status_id == 1"> None of the aforesaid arrests or convictions involved the operation of a commercial vehicle and
-                    Petitioner is not a holder of a commercial driver’s license, nor is he required to possess a
-                    commercial driver’s license by this state or any other state.
-                </li>
-                <li> Petitioner completed the authorized disposition for the offense sought to be expunged on [Offense
-                    Completion Date] or Petitioner completed the authorized disposition for Offense A on [Offense A
-                    Completion Date] and for Offense B on [Offense B Completion Date].
-                </li>
-                <li> The appropriate amount of time has elapsed since [the arrest and/or ] completion of the authorized
-                    disposition imposed for each offense that Petitioner is seeking to have expunged, in that it has
-                    been at least seven years since completion of any felony offense or at least three years since
-                    completion of any misdemeanor, infraction, or ordinance violation.
-                </li>
-                <li> Petitioner has not been found guilty of any other misdemeanor or felony, not including violations
-                    of the traffic regulations provided under chapters 304 and 307, RSMo. during the time period
-                    specified for the underlying [offense violation, or infraction] in Section 610.140.1 RSMo.
-                </li>
-                <li> Petitioner has satisfied all obligations relating to any such disposition, including the payment of
-                    any fines and restitution.
-                </li>
-                <li> Petitioner does not have any charges pending.</li>
-                <li> Petitioner’s habits and conduct demonstrate that the petitioner is not a threat to the public
-                    safety of the state.
-                </li>
-                <li> This expungement is consistent with the public welfare and the interests of justice warrant the
-                    expungement.
-                </li>
-                <li> Petitioner has reason to believe that Respondents may possess records subject to expungement.</li>
-
-            </ol>
-            WHEREFORE, Petitioner respectfully requests that (1) the offenses, violations, or infractions set forth in
-            this petition be expunged pursuant to § 610.140 RSMo.; (2) that the Court enter an Order of Expungement of
-            all records and files maintained by any and all named Respondents related to those offenses, violations, or
-            infractions ; (3) that, pursuant to § 610.140 RSMo., the Court provide a certified copy of the Order of
-            Expungement to Petitioner and each named Respondent; (4) that, pursuant to § 610.140.7 RSMo., each named
-            Respondent be ordered to close any record in its possession relating to any offense, violation, or
-            infraction listed in this Petition; (5) that, consistent with § 610.140.8, RSMo., Petitioner be restored to
-            the status occupied prior to such arrest, plea, trial, and/or conviction[s] as if such had not taken place;
-            and (6) for such further relief as the Court deems proper.
-        </div>
-        <p>
-            Respectfully Submitted,
-        </p>
+        <h1>Signature Block</h1>
 
         <p>
             <pre-input-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockHeading»"/>
@@ -196,6 +166,8 @@
             <pre-input-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockPhone»"/><br>
             <pre-input-field style="color: red" v-model="record.blank" missing_prompt="«SignatureBlockEmail»"/><br>
         </p>
+
+        <h1>Charges not being expunged</h1>
 
 
     </div>

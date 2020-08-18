@@ -66,6 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/applicant/add', 'ApplicantController@add');
     Route::get('/applicant/{applicant_id}/preview', 'ApplicantController@preview')->name('applicant.preview');
+    Route::get('/applicant/{applicant_id}/petition', 'ApplicantController@petition')->name('applicant.petition');
 
     Route::resource('/applicant', 'ApplicantController');
 
