@@ -49,6 +49,8 @@ class StatuteSeeder extends Seeder
 
         $eligibles = array_map(function ($e) {
             $e['statutes_eligibility_id'] = \App\Statute::ELIGIBLE;
+            $e['jurisdiction_id'] = 1;
+
             $e['created_at'] = now();
             $e['updated_at'] = now();
 
@@ -58,6 +60,8 @@ class StatuteSeeder extends Seeder
 
         $ineligibles = array_map(function ($i) {
             $i['statutes_eligibility_id'] = \App\Statute::INELIGIBLE;
+            $e['jurisdiction_id'] = 1;
+
             $i['created_at'] = now();
             $i['updated_at'] = now();
 
