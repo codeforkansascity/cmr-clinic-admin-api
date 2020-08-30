@@ -105,4 +105,4 @@
                        Resolved issue with can() always returning true.  Was debug code 
                        Downgraded mockery so it would load on the server 
 
-
+3.1.8.0.3       2020-08-30 Dropped [the arrest and/or ] in the petition

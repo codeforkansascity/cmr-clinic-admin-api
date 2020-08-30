@@ -4,7 +4,7 @@
 mysql -u root -e 'drop database tstcmr'
 mysql -u root -e 'create database tstcmr'
 
-gzcat ../db-backup/2020-08-12-2046-cmr_20.sql.gz | mysql -u root tstcmr
+gzcat ../db-backup/2020-08-30-2016-cmr_20.sql.gz | mysql -u root tstcmr
 
 php artisan migrate:status
 php artisan migrate

@@ -131,7 +131,7 @@
                     Completion Date] or Petitioner completed the authorized disposition for Offense A on [Offense A
                     Completion Date] and for Offense B on [Offense B Completion Date].
                 </li>
-                <li> The appropriate amount of time has elapsed since [the arrest and/or ] completion of the authorized
+                <li> The appropriate amount of time has elapsed since completion of the authorized
                     disposition imposed for each offense that Petitioner is seeking to have expunged, in that it has
                     been at least seven years since completion of any felony offense or at least three years since
                     completion of any misdemeanor, infraction, or ordinance violation.
