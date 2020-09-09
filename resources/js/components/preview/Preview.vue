@@ -77,10 +77,11 @@
 
 
 
-                <table class="table mb-0">
+            <span v-for="(group, group_number) in this.expungebles[this.petition_index]" style="padding-top: 2em;">
+                <h5 class="text-center">Group {{ group_number }}</h5>
+                <table class="table mb-0 pro-se">
                     <thead>
                     <tr>
-                    <th style="vertical-align: top;">Group</th>
                     <th style="vertical-align: top;">Case Number</th>
                     <th style="vertical-align: top;">Approx. Date of Charge</th>
                     <th style="vertical-align: top;">Offense Description<br>(RSMo. Number and Common Name of Offense)</th>
@@ -89,17 +90,18 @@
                     </thead>
 
 
-                    <tr v-for="row in this.expungebles" :key="row.id">
-                        <td align="center">{{ row.group_number }}</td>
+                    <tr v-for="row in group" :key="row.id">
                         <td style="width: 9em">{{ row.case_number }}</td>
                         <td><dsp-date v-model="row.date_of_charge"></dsp-date></td>
                         <td>{{ row.statue_number }} {{ row.statue_name }}</td>
                         <td>
-                            <span v-if="row.group_sequence == 1">Highest Offense - {{ row.conviction_charge_type }}</span>
+                            <span
+                                v-if="row.group_sequence == 1">Highest Offense - {{ row.conviction_charge_type }}</span>
                             <span v-else>Lesser Charge</span>
                         </td>
                     </tr>
                 </table>
+            </span>
 
 
         <h1>Service</h1>
@@ -219,6 +221,7 @@
         },
         data() {
             return {
+                petition_index: 1,
                 record: {
                     blank: ''
                 }

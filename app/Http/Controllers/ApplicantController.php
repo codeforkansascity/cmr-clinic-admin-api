@@ -366,6 +366,7 @@ class ApplicantController extends Controller
         if ($applicant = $this->sanitizeAndFind($id)) {
 
             $expungebles = $this->getExpungebles($applicant->conviction);
+            $expungebles = $this->transformExpungebles($expungebles);
             $not_selected_to_expunge = $this->getNotExpungebles($applicant->conviction);
             $service_list = $this->getServiceList($applicant->conviction);
 
@@ -402,6 +403,7 @@ class ApplicantController extends Controller
         if ($applicant = $this->sanitizeAndFind($id)) {
 
             $expungebles = $this->getExpungebles($applicant->conviction);
+            $expungebles = $this->transformExpungebles($expungebles);
             $service_list = $this->getServiceList($applicant->conviction);
             $can_edit = Auth::user()->can('applicant edit');
             $can_delete = (Auth::user()->can('applicant delete') && $applicant->canDelete());
@@ -430,11 +432,12 @@ class ApplicantController extends Controller
                         $key .= $charge->group_sequence . ':';
                         $key .= $charge->id;
 
-                        $to_expunge[$key] = $charge->toArray();
+                        $to_expunge[$key] = []; //$charge->toArray();
                         $to_expunge[$key]['statue_number'] = $charge->statute->number;
                         $to_expunge[$key]['statue_name'] = $charge->statute->name;
                         $to_expunge[$key]['case_number'] = $conviction->case_number;
                         $to_expunge[$key]['date_of_charge'] = $conviction->date_of_charge;
+                        $to_expunge[$key]['group_sequence'] =$charge->group_sequence;
 
                     }
                 }
@@ -442,6 +445,25 @@ class ApplicantController extends Controller
         }
         ksort($to_expunge);
         return $to_expunge;
+    }
+
+    private function transformExpungebles($expungebles) {
+
+        $data[1] = [];
+
+        foreach ($expungebles AS $key => $record ) {
+            list($petition, $group, $seq, $id ) = explode(':',$key);
+            if (!array_key_exists($petition,$data)) {
+                $data[$petition] = [];
+            }
+            if (!array_key_exists($group,$data[$petition])) {
+                $data[$petition][$group] = [];
+            }
+            $data[$petition][$group][] = $record;
+        }
+
+        return $data;
+
     }
 
     private function getNotExpungebles($convictions)
