@@ -80,7 +80,11 @@
         },
         methods: {
             createService(s) {
-                this.record.services.push(s)
+                console.log("before", s,this.record.services)
+                let temp = Object.assign({}, s)
+                this.record.services.push(temp)
+                console.log("after",s, this.record.services)
+
             },
             updateService(s, i) {
                 for (let i in this.record.services) {
