@@ -5,19 +5,25 @@
         </h4>
         <table class="table  table-sm">
             <tr class="row" v-for="(service,i) in services"
-                :key="i"
+                :key="service.id + 'service-' + i"
             >
                 <td class="service-name-column">
                    <span class="service-name-field">
-                        {{service.service_type.name}}
+                        {{service.service_type ? service.service_type.name : ''}}
                     </span>
                 </td>
                 <td>
-                    {{service.name}} 
+                    {{service.name}}
                 </td>
-                <td>
+                <td class="d-inline-block">
                     <pencil-control height="25"
+                                    class="d-inline-flex"
                                     @click="editService(service, i)"/>
+                    <delete-control
+                        class="d-inline-flex"
+                        height="25"
+                        @click="deleteService(service, i)"
+                    ></delete-control>
                 </td>
             </tr>
         </table>
@@ -115,8 +121,9 @@
 <script>
     import PencilControl from "../controls/PencilControl";
 
+    import DeleteControl from "../controls/DeleteControl";
     export default {
-        components: {PencilControl},
+        components: {PencilControl, DeleteControl},
         name: "ServiceContainer",
         props: {
             services: {
@@ -235,6 +242,11 @@
                     }
 
                 })
+            },
+            deleteService(s, i) {
+                this.selectedIndex = i
+                Object.assign(this.selectedService, s)
+                this.submitDelete()
             },
             submitDelete() {
                 console.log('delete service')
