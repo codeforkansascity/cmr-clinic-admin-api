@@ -103,6 +103,15 @@ class InitialPermissions
         Permission::findOrCreate('jurisdiction_type edit');
         Permission::findOrCreate('jurisdiction_type delete');
 
+        Permission::findOrCreate('petition_field index');
+        Permission::findOrCreate('petition_field view');
+        Permission::findOrCreate('petition_field export-pdf');
+        Permission::findOrCreate('petition_field export-excel');
+        Permission::findOrCreate('petition_field add');
+        Permission::findOrCreate('petition_field update');
+        Permission::findOrCreate('petition_field destroy');
+
+
         Permission::findOrCreate('step index');
         Permission::findOrCreate('step add');
         Permission::findOrCreate('step edit');
@@ -221,6 +230,14 @@ class InitialPermissions
             'jurisdiction_type export-pdf',
             'jurisdiction_type export-excel',
 
+            'petition_field index',
+            'petition_field view',
+            'petition_field export-pdf',
+            'petition_field export-excel',
+            'petition_field add',
+            'petition_field update',
+            'petition_field destroy',
+
             'status index',
             'status add',
             'status edit',
@@ -312,6 +329,14 @@ class InitialPermissions
             'jurisdiction_type export-pdf',
             'jurisdiction_type export-excel',
 
+            'petition_field index',
+            'petition_field view',
+            'petition_field export-pdf',
+            'petition_field export-excel',
+            'petition_field add',
+            'petition_field update',
+            'petition_field destroy',
+
             'statute index',
             'statute add',
             'statute edit',
@@ -387,6 +412,14 @@ class InitialPermissions
             'charge edit',
             'charge view',
             'charge delete',
+
+            'petition_field index',
+            'petition_field view',
+            'petition_field export-pdf',
+            'petition_field export-excel',
+            'petition_field add',
+            'petition_field update',
+            'petition_field destroy',
 
             'statute index',
             'statute add',

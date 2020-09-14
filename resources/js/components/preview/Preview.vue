@@ -8,7 +8,12 @@
 
         <h1>Petition Information</h1>
 
-        <p>IN THE <pre-input-field v-model="record.case_heading" capitalize="true" missing_prompt="«Case_Heading»"/>
+        <p>IN THE <pre-api-input-field
+            :applicant-id="this.record.id"
+            :petition-number="1"
+            field="case_heading"
+            default-value="16TH CIRCUIT JUDICIAL CIRCUIT, JACKSON COUNTY, MISSOURI"
+        />
         </p>
 
         <h1>Applicant Information</h1>
@@ -77,10 +82,11 @@
 
 
 
-                <table class="table mb-0">
+            <span v-for="(group, group_number) in this.expungebles[this.petition_index]" style="padding-top: 2em;">
+                <h5 class="text-center">Group {{ group_number }}</h5>
+                <table class="table mb-0 pro-se">
                     <thead>
                     <tr>
-                    <th style="vertical-align: top;">Group</th>
                     <th style="vertical-align: top;">Case Number</th>
                     <th style="vertical-align: top;">Approx. Date of Charge</th>
                     <th style="vertical-align: top;">Offense Description<br>(RSMo. Number and Common Name of Offense)</th>
@@ -89,17 +95,18 @@
                     </thead>
 
 
-                    <tr v-for="row in this.expungebles" :key="row.id">
-                        <td align="center">{{ row.group_number }}</td>
+                    <tr v-for="row in group" :key="row.id">
                         <td style="width: 9em">{{ row.case_number }}</td>
                         <td><dsp-date v-model="row.date_of_charge"></dsp-date></td>
                         <td>{{ row.statue_number }} {{ row.statue_name }}</td>
                         <td>
-                            <span v-if="row.group_sequence == 1">Highest Offense - {{ row.conviction_charge_type }}</span>
+                            <span
+                                v-if="row.group_sequence == 1">Highest Offense - {{ row.conviction_charge_type }}</span>
                             <span v-else>Lesser Charge</span>
                         </td>
                     </tr>
                 </table>
+            </span>
 
 
         <h1>Service</h1>
@@ -135,19 +142,47 @@
         <h1>Signature Block</h1>
 
         <p>
-            <pre-input-field v-model="record.signature_block_heading" missing_prompt="«SignatureBlockHeading»"/>
+            <pre-api-input-field
+                :applicant-id="this.record.id"
+                :petition-number="1"
+                field="signature_block_name"
+                default-value="«SignatureBlockName»"
+            />
         </p>
 
 
         ______________________
 
         <p>
-            <pre-input-field v-model="record.signature_block_name" missing_prompt="«SignatureBlockName»"/><br>
-            <pre-input-field v-model="record.signature_block_bar_number_or_pro_se" missing_prompt="«SignatureBlockBarNumberOrProSe»"/><br>
-            <pre-input-field v-model="record.signature_block_address" missing_prompt="«SignatureBlockAddress»"/><br>
-            <pre-input-field v-model="record.signature_block_city_state_zip" missing_prompt="«SignatureBlockCitySTZIP»"/><br>
-            <pre-input-field v-model="record.signature_block_phone" missing_prompt="«SignatureBlockPhone»"/><br>
-            <pre-input-field v-model="record.signature_block_email" missing_prompt="«SignatureBlockEmail»"/><br>
+
+            <pre-api-input-field
+                :applicant-id="this.record.id"
+                :petition-number="1"
+                field="signature_block_bar_number_or_pro_se"
+                default-value="«SignatureBlockBarNumberOrProSe»"
+            />
+            <br/>
+            <pre-api-input-field
+                :applicant-id="this.record.id"
+                :petition-number="1"
+                field="signature_block_address"
+                default-value="«SignatureBlockAddress»"
+            />
+            <br/>
+            <pre-api-input-field
+                :applicant-id="this.record.id"
+                :petition-number="1"
+                field="signature_block_phone"
+                default-value="«SignatureBlockPhone»"
+            />
+            <br/>
+            <pre-api-input-field
+                :applicant-id="this.record.id"
+                :petition-number="1"
+                field="signature_block_email"
+                default-value="«SignatureBlockEmail»"
+            />
+
         </p>
 
         <h1>Charges not being expunged</h1>
@@ -219,6 +254,7 @@
         },
         data() {
             return {
+                petition_index: 1,
                 record: {
                     blank: ''
                 }

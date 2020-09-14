@@ -6,7 +6,8 @@
         <!--  ------------------ -->
 
 
-        <p>IN THE <pre-field v-model="record.case_heading" capitalize="true" missing_prompt="«Case_Heading»"/>
+        <p>IN THE
+            <pre-field v-model="record.case_heading" capitalize="true" missing_prompt="«Case_Heading»"/>
         </p>
         <p>
             <pre-field v-model="record.name" capitalize="true" missing_prompt="«Name»"/>
@@ -20,7 +21,8 @@
             </div>
 
             <div class="col-sm float-right">
-                <span class="float-right">Case No. <pre-field v-model="record.case_no" capitalize="true" missing_prompt="«CaseYear»"/>-CV</span>
+                <span class="float-right">Case No. <pre-field v-model="record.case_no" capitalize="true"
+                                                              missing_prompt="«CaseYear»"/>-CV</span>
             </div>
         </div>
 
@@ -63,67 +65,86 @@
 
         <div class="pro-se-dbl">
             <p>
-                COMES NOW Petitioner, <pre-field v-model="record.name" missing_prompt="«PetitionerCurrentNameFull»"/>,
-                <pre-field v-model="record.counsel_or_pro_se_statment" missing_prompt="«CounselOrProSeStatement»"/>, and petitions the Court to
+                COMES NOW Petitioner,
+                <pre-field v-model="record.name" missing_prompt="«PetitionerCurrentNameFull»"/>
+                ,
+                <pre-field v-model="record.counsel_or_pro_se_statment" missing_prompt="«CounselOrProSeStatement»"/>
+                , and petitions the Court to
                 expunge records of arrest, plea, trial, or conviction and all related records pertaining to offenses,
                 violations, or infractions described below as provided for by § 610.140 RSMo. and for the issuance of an
                 order to expunge Petitioner’s records. In support of the petition, the Petitioner states:
             </p>
             <ol>
                 <li> Petitioner resides at
-                    <pre-address-field v-model="record" missing_prompt="«PetitionerAddressFull»"/>.
+                    <pre-address-field v-model="record" missing_prompt="«PetitionerAddressFull»"/>
+                    .
                 </li>
                 <li> Petitioner’s date of birth is
-                    <pre-date-field v-model="record.dob" missing_prompt="«DateOfBirth»"/>, gender is <pre-field v-model="record.sex" missing_prompt="«Gender»"/>, and race is <pre-field v-model="record.race" missing_prompt="«Race»"/>.</li>
+                    <pre-date-field v-model="record.dob" missing_prompt="«DateOfBirth»"/>
+                    , gender is
+                    <pre-field v-model="record.sex" missing_prompt="«Gender»"/>
+                    , and race is
+                    <pre-field v-model="record.race" missing_prompt="«Race»"/>
+                    .
+                </li>
                 <li> Petitioner’s driver’s license or other state issued identification was issued by
-                    <pre-field v-model="record.license_issuing_state" missing_prompt="«DriversLicenseST»"/>, identifying number <pre-field v-model="record.license_number" missing_prompt="«DriversLicenseNumber»"/>, expiration date
-                    <pre-date-field v-model="record.license_expiration_date" missing_prompt="«DriversLicenseExpiration»"/>.
+                    <pre-field v-model="record.license_issuing_state" missing_prompt="«DriversLicenseST»"/>
+                    , identifying number
+                    <pre-field v-model="record.license_number" missing_prompt="«DriversLicenseNumber»"/>
+                    , expiration date
+                    <pre-date-field v-model="record.license_expiration_date"
+                                    missing_prompt="«DriversLicenseExpiration»"/>
+                    .
                 </li>
                 <li> Petitioner requests expungement of the following offenses, violations, or infractions, grouped
                     together where charged as counts in the same indictment, information, or ticket or where cases share
                     a common course of conduct:
                 </li>
 
-                <table class="table mb-0 pro-se">
-                    <thead>
-                    <tr>
-                    <th style="vertical-align: top;">Group</th>
-                    <th style="vertical-align: top;">Case Number</th>
-                    <th style="vertical-align: top;">Approx. Date of Charge</th>
-                    <th style="vertical-align: top;">Offense Description<br>(RSMo. Number and Common Name of Offense)</th>
-                    <th style="vertical-align: top;">Reason Included in Group</th>
-                    </tr>
-                    </thead>
+                <span v-for="(group, group_number) in this.expungebles[this.petition_index]" style="padding-top: 2em;">
+                    <h5 class="text-center">Group {{ group_number }}</h5>
+                    <table class="table mb-0 pro-se">
+                        <thead>
+                        <tr>
+                        <th style="vertical-align: top;">Case Number</th>
+                        <th style="vertical-align: top;">Approx. Date of Charge</th>
+                        <th style="vertical-align: top;">Offense Description<br>(RSMo. Number and Common Name of Offense)</th>
+                        <th style="vertical-align: top;">Reason Included in Group</th>
+                        </tr>
+                        </thead>
 
 
-                    <tr v-for="row in this.expungebles" :key="row.id">
-                        <td align="center">{{ row.group_number }}</td>
-                        <td style="width: 9em">{{ row.case_number }}</td>
-                        <td><dsp-date v-model="row.date_of_charge"></dsp-date></td>
-                        <td>{{ row.statue_number }} {{ row.statue_name }}</td>
-                        <td>
-                            <span v-if="row.group_sequence == 1">Highest Offense - {{ row.conviction_charge_type }}</span>
-                            <span v-else>Lesser Charge</span>
-                        </td>
-                    </tr>
-                </table>
-
+                        <tr v-for="row in group" :key="row.id">
+                            <td style="width: 9em">{{ row.case_number }}</td>
+                            <td><dsp-date v-model="row.date_of_charge"></dsp-date></td>
+                            <td>{{ row.statue_number }} {{ row.statue_name }}</td>
+                            <td>
+                                <span
+                                    v-if="row.group_sequence == 1">Highest Offense - {{ row.conviction_charge_type }}</span>
+                                <span v-else>Lesser Charge</span>
+                            </td>
+                        </tr>
+                    </table>
+                </span>
 
 
                 <li> None of the offenses, violations, or infractions for which Petitioner seeks expungement are
                     excluded by §610.140.2 RSMo.
                 </li>
-                <li v-if="has_previous_expungements"> <pre-field v-model="record.previous_expungements" missing_prompt="«PreviousExpungementLanguage»"/>
+                <li v-if="has_previous_expungements">
+                    <pre-field v-model="record.previous_expungements" missing_prompt="«PreviousExpungementLanguage»"/>
                     [Petitioner was granted a previous expungement on (date of expungement) in ( ) County,
                     Missouri, of the following offense(s) (prior offenses), (a felony, misdemeanor, or infraction). If
                     granted expungement as sought in this case, Petitioner will not exceed the maximum limitations of
                     §610.140.12 RSMo.
                 </li>
                 <li v-if="!has_previous_expungements"> Petitioner has not previously been granted an expungement in this
-                    state. Petitioner will not exceed the maximum limitations of
+                    state, and expungement of these, offenses, violations, or infractions will not exceed the maximum lifetime
+                    limitations of
                     §610.140.12 RSMo.
                 </li>
-                <li v-if="record.cdl_status_id == 1"> None of the aforesaid arrests or convictions involved the operation of a commercial vehicle and
+                <li v-if="record.cdl_status_id == 1"> None of the aforesaid arrests or convictions involved the
+                    operation of a commercial vehicle and
                     Petitioner is not a holder of a commercial driver’s license, nor is he required to possess a
                     commercial driver’s license by this state or any other state.
                 </li>
@@ -175,12 +196,19 @@
         ______________________
 
         <p>
-            <pre-field v-model="record.signature_block_name" missing_prompt="«SignatureBlockName»"/><br>
-            <pre-field v-model="record.signature_block_bar_number_or_pro_se" missing_prompt="«SignatureBlockBarNumberOrProSe»"/><br>
-            <pre-field v-model="record.signature_block_address" missing_prompt="«SignatureBlockAddress»"/><br>
-            <pre-field v-model="record.signature_block_city_state_zip" missing_prompt="«SignatureBlockCitySTZIP»"/><br>
-            <pre-field v-model="record.signature_block_phone" missing_prompt="«SignatureBlockPhone»"/><br>
-            <pre-field v-model="record.signature_block_email" missing_prompt="«SignatureBlockEmail»"/><br>
+            <pre-field v-model="record.signature_block_name" missing_prompt="«SignatureBlockName»"/>
+            <br>
+            <pre-field v-model="record.signature_block_bar_number_or_pro_se"
+                       missing_prompt="«SignatureBlockBarNumberOrProSe»"/>
+            <br>
+            <pre-field v-model="record.signature_block_address" missing_prompt="«SignatureBlockAddress»"/>
+            <br>
+            <pre-field v-model="record.signature_block_city_state_zip" missing_prompt="«SignatureBlockCitySTZIP»"/>
+            <br>
+            <pre-field v-model="record.signature_block_phone" missing_prompt="«SignatureBlockPhone»"/>
+            <br>
+            <pre-field v-model="record.signature_block_email" missing_prompt="«SignatureBlockEmail»"/>
+            <br>
         </p>
 
 
@@ -210,7 +238,7 @@
                     }
                 },
             },
-            serviceList:{
+            serviceList: {
                 type: [Boolean, Object, Array],
                 default: () => {
                     return {
@@ -221,8 +249,10 @@
         },
         data() {
             return {
+                petition_index: 1,
                 record: {
-                    blank: ''
+                    blank: '',
+
                 }
             }
         },

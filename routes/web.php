@@ -75,6 +75,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/changePassword', 'HomeController@showChangePasswordForm');
     Route::post('/changePassword', 'HomeController@changePassword')->name('changePassword');
 
+    Route::get('/api-petition-field-find/{applicant_id}/{petition_number}/{name}', 'PetitionFieldApi@show');
+
+    Route::get('/api-petition-field', 'PetitionFieldApi@index');
+    Route::get('/api-petition-field/options', 'PetitionFieldApi@getOptions');
+    Route::get('/petition-field/download', 'PetitionFieldController@download')->name('petition-field.download');
+    Route::get('/petition-field/print', 'PetitionFieldController@print')->name('petition-field.print');
+    Route::resource('/petition-field', 'PetitionFieldController');
 
 
     Route::get('/api-status', 'StatusApi@index');
@@ -181,3 +188,9 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 
+
+Route::get('/api-petition-field', 'PetitionFieldApi@index');
+Route::get('/api-petition-field/options', 'PetitionFieldApi@getOptions');
+Route::get('/petition-field/download', 'PetitionFieldController@download')->name('petition-field.download');
+Route::get('/petition-field/print', 'PetitionFieldController@print')->name('petition-field.print');
+Route::resource('/petition-field', 'PetitionFieldController');

@@ -106,3 +106,13 @@
                        Downgraded mockery so it would load on the server 
 
 3.1.8.0.3       2020-08-30 Dropped [the arrest and/or ] in the petition
+
+3.1.8.0.4-demo  2020-09-14 Wordage change from Ellen on para 6. 
+                       Now have preview fields saving and displaying, need to add select of petition
+                       Now have Petitioin Field table 
+                       add service delete fix service add 
+                       add service delete fix service add 
+                       Added petition #, start 
+                       Applicant note is now a text field 
+
+

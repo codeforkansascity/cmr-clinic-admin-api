@@ -49,7 +49,7 @@ class ApplicantFormRequest extends FormRequest
             'previous_expungements' => 'nullable|string',
             'previous_felony_expungements' => 'nullable|numeric',
             'previous_misdemeanor_expungements' => 'nullable|numeric',
-            'notes' => 'nullable|string|max:255',
+            'notes' => 'nullable|string',
             'external_ref' => 'nullable|string|max:42',
             'any_pending_cases' => 'nullable|string|max:255',
             'deleted_at' => 'nullable|string',
