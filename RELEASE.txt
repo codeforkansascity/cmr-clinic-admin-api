@@ -117,3 +117,7 @@
 
 3.1.8.0.5-demo  2020-09-14 Merged in upstream
 
+3.1.8.0.6-demo  2020-09-14 Fixed Merge issues and some JS errors
+
+
+
