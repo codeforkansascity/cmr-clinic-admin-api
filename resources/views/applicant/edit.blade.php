@@ -21,5 +21,5 @@
     </ol>
 @endsection
 @section('content')
-    <applicant-container csrf_token="{{ csrf_token() }}"  :can-cms="$can_cms" :data='@json($applicant)'></applicant-container>
+    <applicant-container csrf_token="{{ csrf_token() }}"  :can-cms="{{ $can_cms }}" :data='@json($applicant)'></applicant-container>
 @endsection

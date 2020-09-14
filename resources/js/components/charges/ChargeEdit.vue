@@ -246,9 +246,11 @@
                     convicted: false,
                     eligible: false,
                     please_expunge: false,
-                    petition_number: 0,
-                    group_number: 0,
-                    group_sequence: 0
+                    petition_number: false,
+                    group_number: false,
+                    group_sequence: false,
+                    reason_for_change: false,
+
                 },
                 server_message: false,
                 try_logging_in: false,

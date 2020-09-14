@@ -20,8 +20,8 @@ View {{$applicant->name}}
 </ol>
 @endsection
 @section('content')
-
-    <applicant-show :can-cms="$can_cms" :data='@json($applicant)'></applicant-show>
+<div>
+    <applicant-show :can-cms="{{ $can_cms }}" :data='@json($applicant)'></applicant-show>
 
     <div class="row">
         <div class="col-md-6">
