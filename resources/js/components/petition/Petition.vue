@@ -139,7 +139,8 @@
                     §610.140.12 RSMo.
                 </li>
                 <li v-if="!has_previous_expungements"> Petitioner has not previously been granted an expungement in this
-                    state. Petitioner will not exceed the maximum limitations of
+                    state, and expungement of these, offenses, violations, or infractions will not exceed the maximum lifetime
+                    limitations of
                     §610.140.12 RSMo.
                 </li>
                 <li v-if="record.cdl_status_id == 1"> None of the aforesaid arrests or convictions involved the
