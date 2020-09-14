@@ -18,7 +18,7 @@ class CreatePetitionFieldTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('applicant_id');
             $table->unsignedBigInteger('petition_number');
-            $table->string('field_name')->nullable();
+            $table->string('name')->nullable();
             $table->string('value')->nullable();
 
             $table->integer('created_by')->default(0)->nullable();
