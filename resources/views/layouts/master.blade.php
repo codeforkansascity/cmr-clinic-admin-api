@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('img/favicon.png') }}">
-    <link href="/css/app.css" rel="stylesheet">
+    <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
     <title>@yield('page-title') - CMR</title>
 </head>
 <body class="body-with-nav">

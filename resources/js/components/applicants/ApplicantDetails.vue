@@ -122,7 +122,7 @@
             Object.keys(this.modelValue).forEach(i =>
                 this.$set(this.record, i, this.modelValue[i])
             );
-            if (this.isDefined(this.record.status.name)) {
+            if (this.isDefined(this.record) && this.isDefined(this.record.status) && this.isDefined(this.record.status.name)) {
                 this.status_name = this.record.status.name;
             }
         },
