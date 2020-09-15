@@ -7,7 +7,12 @@
 
 
         <p>IN THE
-            <pre-field v-model="record.case_heading" capitalize="true" missing_prompt="«Case_Heading»"/>
+            <pre-api-field
+                :applicant-id="this.record.id"
+                :petition-number="1"
+                field="case_heading"
+                default-value="16TH CIRCUIT JUDICIAL CIRCUIT, JACKSON COUNTY, MISSOURI"
+            />
         </p>
         <p>
             <pre-field v-model="record.name" capitalize="true" missing_prompt="«Name»"/>
@@ -189,26 +194,47 @@
         </p>
 
         <p>
-            <pre-field v-model="record.signature_block_heading" missing_prompt="«SignatureBlockHeading»"/>
+            <pre-api-field
+                :applicant-id="this.record.id"
+                :petition-number="1"
+                field="signature_block_name"
+                default-value="«SignatureBlockName»"
+            />
         </p>
 
 
         ______________________
 
         <p>
-            <pre-field v-model="record.signature_block_name" missing_prompt="«SignatureBlockName»"/>
-            <br>
-            <pre-field v-model="record.signature_block_bar_number_or_pro_se"
-                       missing_prompt="«SignatureBlockBarNumberOrProSe»"/>
-            <br>
-            <pre-field v-model="record.signature_block_address" missing_prompt="«SignatureBlockAddress»"/>
-            <br>
-            <pre-field v-model="record.signature_block_city_state_zip" missing_prompt="«SignatureBlockCitySTZIP»"/>
-            <br>
-            <pre-field v-model="record.signature_block_phone" missing_prompt="«SignatureBlockPhone»"/>
-            <br>
-            <pre-field v-model="record.signature_block_email" missing_prompt="«SignatureBlockEmail»"/>
-            <br>
+
+            <pre-api-field
+                :applicant-id="this.record.id"
+                :petition-number="1"
+                field="signature_block_bar_number_or_pro_se"
+                default-value="«SignatureBlockBarNumberOrProSe»"
+            />
+            <br/>
+            <pre-api-field
+                :applicant-id="this.record.id"
+                :petition-number="1"
+                field="signature_block_address"
+                default-value="«SignatureBlockAddress»"
+            />
+            <br/>
+            <pre-api-field
+                :applicant-id="this.record.id"
+                :petition-number="1"
+                field="signature_block_phone"
+                default-value="«SignatureBlockPhone»"
+            />
+            <br/>
+            <pre-api-field
+                :applicant-id="this.record.id"
+                :petition-number="1"
+                field="signature_block_email"
+                default-value="«SignatureBlockEmail»"
+            />
+
         </p>
 
 
