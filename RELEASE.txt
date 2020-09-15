@@ -119,5 +119,10 @@
 
 3.1.8.0.6-demo  2020-09-14 Fixed Merge issues and some JS errors
 
+3.1.8.0.7-demo  2020-09-15 Fixed VueJS not being able to find a component 
+                        Displaying a field that is empty on the petition now displays *** MISSING...
+                        Petition fields can be changed on Review and displayed on Petition for only one petition
+
+
 
 
