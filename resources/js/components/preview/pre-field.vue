@@ -33,7 +33,7 @@ For text
         },
         computed: {
             val() {
-                if ( this.value != '') {
+                if ( this.isDefined(this.value)) {
                     if (this.capitalize) {
                         return this.value.toString().toUpperCase();
                     } else {
