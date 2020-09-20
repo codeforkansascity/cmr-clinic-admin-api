@@ -478,12 +478,12 @@ class ApplicantController extends Controller
                         $key = $conviction->case_number . ':';
                         $key .= $charge->id;
                         $not_selected[$key] = [];
-                        $not_selected[$key]['statue_number'] = $charge->statute->number;
-                        $not_selected[$key]['statue_name'] = $charge->statute->name;
-                        $not_selected[$key]['case_number'] = $conviction->case_number;
-                        $not_selected[$key]['convicted'] = $conviction->convicted ? 'Convicted' : 'Not Convicted';
-                        $not_selected[$key]['eligible'] = $conviction->eligible ? 'Eligible' : 'Not Eligible';
-                        $not_selected[$key]['date_of_charge'] = $conviction->date_of_charge;
+                        $not_selected[$key]['statue_number'] = data_get($charge->statute, 'number', '***');
+                        $not_selected[$key]['statue_name'] = data_get($charge->statute, 'name', '***');
+                        $not_selected[$key]['case_number'] = data_get($conviction, 'case_number' ,'***');
+                        $not_selected[$key]['convicted'] = data_get($conviction, 'convicted', false) ? 'Convicted' : 'Not Convicted';
+                        $not_selected[$key]['eligible'] = data_get($conviction, 'eligible', false) ? 'Eligible' : 'Not Eligible';
+                        $not_selected[$key]['date_of_charge'] = data_get($conviction,'date_of_charge', '0000-00-00');
 
                     }
                 }
