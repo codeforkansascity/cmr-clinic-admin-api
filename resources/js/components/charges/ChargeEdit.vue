@@ -134,7 +134,7 @@
                             label-for="group_number"
                             :errors="form_errors.group_number"
                         >
-                            <fld-petition-no
+                            <fld-group-no
                                 name="petition_number"
                                 v-model="record.group_number"
                             />
@@ -148,7 +148,7 @@
                             label-for="group_sequence"
                             :errors="form_errors.group_sequence"
                         >
-                            <fld-petition-no
+                            <fld-group-seq
                                 name="petition_number"
                                 v-model="record.group_sequence"
                             />

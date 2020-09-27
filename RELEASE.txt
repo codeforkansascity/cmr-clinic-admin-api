@@ -127,4 +127,12 @@
 3.2.0.0.0       2020-09-19 Prod install
 
 
+3.2.1.0.0       2020-09-27 Petition: Table now has logic not to show "Group #" if only one group and to drop Group column if only one charge.
+                               Included adding stub logic for the number of petitions, groups, and charges 
+                           Group and Charge pulldowns were corrected for Edit screen 
+                           Added ** to paragraphs to indicate to lawyers that they will want to modify the paragraph.
+                           Removed leading space in front of periods and commas. 
+                           Only allow one petition per applicant for now.      
+                               The database supports more than one,     
+                               Review and Petition UI needs to be modified to select which petition to work on if more than one.
 
