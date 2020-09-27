@@ -71,8 +71,10 @@
         <div class="pro-se-dbl">
             <p>
                 COMES NOW Petitioner,
-                <pre-field v-model="record.name" missing_prompt="«PetitionerCurrentNameFull»"/>,
-                <pre-field v-model="record.counsel_or_pro_se_statment" missing_prompt="«CounselOrProSeStatement»"/>,
+                <pre-field v-model="record.name" missing_prompt="«PetitionerCurrentNameFull»"/>
+                ,
+                <pre-field v-model="record.counsel_or_pro_se_statment" missing_prompt="«CounselOrProSeStatement»"/>
+                ,
                 and petitions the Court to
                 expunge records of arrest, plea, trial, or conviction and all related records pertaining to offenses,
                 violations, or infractions described below as provided for by § 610.140 RSMo. and for the issuance of an
@@ -80,22 +82,29 @@
             </p>
             <ol>
                 <li> Petitioner resides at
-                    <pre-address-field v-model="record" missing_prompt="«PetitionerAddressFull»"/>.
+                    <pre-address-field v-model="record" missing_prompt="«PetitionerAddressFull»"/>
+                    .
                 </li>
                 <li> Petitioner’s date of birth is
-                    <pre-date-field v-model="record.dob" missing_prompt="«DateOfBirth»"/>,
+                    <pre-date-field v-model="record.dob" missing_prompt="«DateOfBirth»"/>
+                    ,
                     gender is
-                    <pre-field v-model="record.sex" missing_prompt="«Gender»"/>,
+                    <pre-field v-model="record.sex" missing_prompt="«Gender»"/>
+                    ,
                     and race is
-                    <pre-field v-model="record.race" missing_prompt="«Race»"/>.
+                    <pre-field v-model="record.race" missing_prompt="«Race»"/>
+                    .
                 </li>
                 <li> Petitioner’s driver’s license or other state issued identification was issued by
-                    <pre-field v-model="record.license_issuing_state" missing_prompt="«DriversLicenseST»"/>,
+                    <pre-field v-model="record.license_issuing_state" missing_prompt="«DriversLicenseST»"/>
+                    ,
                     identifying number
-                    <pre-field v-model="record.license_number" missing_prompt="«DriversLicenseNumber»"/>,
+                    <pre-field v-model="record.license_number" missing_prompt="«DriversLicenseNumber»"/>
+                    ,
                     expiration date
                     <pre-date-field v-model="record.license_expiration_date"
-                                    missing_prompt="«DriversLicenseExpiration»"/>.
+                                    missing_prompt="«DriversLicenseExpiration»"/>
+                    .
                 </li>
                 <li> ** Petitioner requests expungement of the following offenses, violations, or infractions, grouped
                     together where charged as counts in the same indictment, information, or ticket or where cases share
@@ -103,14 +112,14 @@
                 </li>
 
                 <span v-for="(group, group_number) in this.expungebles[this.petition_index]" style="padding-top: 2em;">
-                    <h5 class="text-center">Group {{ group_number }}</h5>
+                    <h5 v-if="number_of_groups > 1" class="text-center">Group {{ group_number }}</h5>
                     <table class="table mb-0 pro-se">
                         <thead>
                         <tr>
                         <th style="vertical-align: top;">Case Number</th>
                         <th style="vertical-align: top;">Approx. Date of Charge</th>
                         <th style="vertical-align: top;">Offense Description<br>(RSMo. Number and Common Name of Offense)</th>
-                        <th style="vertical-align: top;">Reason Included in Group</th>
+                        <th v-if="number_of_cases>1" style="vertical-align: top;">Reason Included in Group</th>
                         </tr>
                         </thead>
 
@@ -119,7 +128,7 @@
                             <td style="width: 9em">{{ row.case_number }}</td>
                             <td><dsp-date v-model="row.date_of_charge"></dsp-date></td>
                             <td>{{ row.statue_number }} {{ row.statue_name }}</td>
-                            <td>
+                            <td v-if="number_of_cases>1">
                                 <span
                                     v-if="row.group_sequence == 1">Highest Offense - {{ row.conviction_charge_type }}</span>
                                 <span v-else>Lesser Charge</span>
@@ -133,7 +142,8 @@
                     excluded by §610.140.2 RSMo.
                 </li>
                 <li v-if="has_previous_expungements">
-                    ** <pre-field v-model="record.previous_expungements" missing_prompt="«PreviousExpungementLanguage»"/>
+                    **
+                    <pre-field v-model="record.previous_expungements" missing_prompt="«PreviousExpungementLanguage»"/>
                     [Petitioner was granted a previous expungement on (date of expungement) in ( ) County,
                     Missouri, of the following offense(s) (prior offenses), (a felony, misdemeanor, or infraction). If
                     granted expungement as sought in this case, Petitioner will not exceed the maximum limitations of
@@ -141,7 +151,8 @@
                 </li>
                 <li v-if="!has_previous_expungements">
                     ** Petitioner has not previously been granted an expungement in this
-                    state, and expungement of these, offenses, violations, or infractions will not exceed the maximum lifetime
+                    state, and expungement of these, offenses, violations, or infractions will not exceed the maximum
+                    lifetime
                     limitations of
                     §610.140.12 RSMo.
                 </li>
@@ -150,7 +161,8 @@
                     Petitioner is not a holder of a commercial driver’s license, nor is he required to possess a
                     commercial driver’s license by this state or any other state.
                 </li>
-                <li> ** Petitioner completed the authorized disposition for the offense sought to be expunged on [Offense
+                <li> ** Petitioner completed the authorized disposition for the offense sought to be expunged on
+                    [Offense
                     Completion Date] or Petitioner completed the authorized disposition for Offense A on [Offense A
                     Completion Date] and for Offense B on [Offense B Completion Date].
                 </li>
@@ -269,6 +281,18 @@
                     }
                 },
             },
+            petitionCount: {
+                type: [Number, String],
+                default: 0
+            },
+            groupCount: {
+                type: [Number, String],
+                default: 0
+            },
+            caseCount: {
+                type: [Number, String],
+                default: 0
+            }
         },
         data() {
             return {
@@ -287,6 +311,12 @@
         computed: {
             has_previous_expungements() {
                 return this.record.previous_felony_expungements + this.record.previous_misdemeanor_expungements;
+            },
+            number_of_groups() {
+                return this.groupCount;
+            },
+            number_of_cases() {
+                return this.caseCount;
             }
         },
     }

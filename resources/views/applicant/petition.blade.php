@@ -22,7 +22,8 @@ Petition {{$applicant->name}}
 @endsection
 @section('content')
 
-    <petition :data='@json($applicant)' :expungebles='@json($expungebles)' :service-list='@json($service_list)'></petition>
+    <petition :data='@json($applicant)' :expungebles='@json($expungebles)' :service-list='@json($service_list)'
+    petition-count="{{$petition_count}}" group-count="{{$group_count}}" case-count="{{$case_count}}"></petition>
 
     <div class="row">
         <div class="col-md-6">
