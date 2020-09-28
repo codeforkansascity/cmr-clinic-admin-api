@@ -407,7 +407,7 @@ class ApplicantController extends Controller
 
             $petition_count=  count($expungebles);
             $group_count=  count($expungebles[1]);
-            $case_count=  count($expungebles[1][1]);
+            $case_count=  2; // count($expungebles[1][1]);
             $service_list = $this->getServiceList($applicant->conviction);
             $can_edit = Auth::user()->can('applicant edit');
             $can_delete = (Auth::user()->can('applicant delete') && $applicant->canDelete());
