@@ -142,3 +142,5 @@
                            Fixed State, add address line 2, and extra space before punctuation at end of most sentence. 
                            UpperCase Service Name 
                            Petition minor text changes 
+
+3.2.1.3.0       2020-09-28 Added counsel name and firm to the "by and through counsel" statement
