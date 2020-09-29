@@ -149,7 +149,14 @@
                 default-value="«SignatureBlockName»"
             />
         </p>
-
+        <p>
+            <pre-api-input-field
+                :applicant-id="this.record.id"
+                :petition-number="1"
+                field="signature_block_firm"
+                default-value="«SignatureBlockFirm»"
+            />
+        </p>
 
         ______________________
 
