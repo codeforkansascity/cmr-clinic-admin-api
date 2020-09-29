@@ -36,7 +36,7 @@ For text
         computed: {
             val() {
                 if ( this.value != '') {
-                        return moment(String(this.value)).format('MMMM Do YYYY');
+                        return moment(String(this.value)).format('MMMM d YYYY');
                 } else {
                     return "*** MISSING " + this.missing_prompt + " ***";
                 }
