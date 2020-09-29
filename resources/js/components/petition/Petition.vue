@@ -72,7 +72,20 @@
             <p>
                 COMES NOW Petitioner,
                 <pre-field v-model="record.name" missing_prompt="«PetitionerCurrentNameFull»"/>,
-                <pre-field v-model="record.counsel_or_pro_se_statment" missing_prompt="«CounselOrProSeStatement»"/>,
+                by and through counsel
+                <pre-api-field
+                    :applicant-id="this.record.id"
+                    :petition-number="1"
+                    field="signature_block_name"
+                    default-value="«SignatureBlockName»"
+                />
+                of
+                <pre-api-field
+                    :applicant-id="this.record.id"
+                    :petition-number="1"
+                    field="signature_block_firm"
+                    default-value="«SignatureBlockFirm»"
+                />,
                 and petitions the Court to
                 expunge records of arrest, plea, trial, or conviction and all related records pertaining to offenses,
                 violations, or infractions described below as provided for by § 610.140 RSMo. and for the issuance of an
