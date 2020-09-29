@@ -71,10 +71,8 @@
         <div class="pro-se-dbl">
             <p>
                 COMES NOW Petitioner,
-                <pre-field v-model="record.name" missing_prompt="«PetitionerCurrentNameFull»"/>
-                ,
-                <pre-field v-model="record.counsel_or_pro_se_statment" missing_prompt="«CounselOrProSeStatement»"/>
-                ,
+                <pre-field v-model="record.name" missing_prompt="«PetitionerCurrentNameFull»"/>,
+                <pre-field v-model="record.counsel_or_pro_se_statment" missing_prompt="«CounselOrProSeStatement»"/>,
                 and petitions the Court to
                 expunge records of arrest, plea, trial, or conviction and all related records pertaining to offenses,
                 violations, or infractions described below as provided for by § 610.140 RSMo. and for the issuance of an
@@ -132,7 +130,7 @@
 
 
                 <li> ** None of the offenses, violations, or infractions for which Petitioner seeks expungement are
-                    excluded by §610.140.2 RSMo.
+                    excluded by § 610.140.2 RSMo.
                 </li>
                 <li v-if="has_previous_expungements">
                     **
@@ -140,14 +138,12 @@
                     [Petitioner was granted a previous expungement on (date of expungement) in ( ) County,
                     Missouri, of the following offense(s) (prior offenses), (a felony, misdemeanor, or infraction). If
                     granted expungement as sought in this case, Petitioner will not exceed the maximum limitations of
-                    §610.140.12 RSMo.
+                    § 610.140.12 RSMo.
                 </li>
                 <li v-if="!has_previous_expungements">
                     ** Petitioner has not previously been granted an expungement in this
-                    state, and expungement of these, offenses, violations, or infractions will not exceed the maximum
-                    lifetime
-                    limitations of
-                    §610.140.12 RSMo.
+                    state, and expungement of these offenses, violations, or infractions will not exceed the maximum
+                    lifetime limitations of § 610.140.12 RSMo.
                 </li>
                 <li v-if="record.cdl_status_id == 1"> None of the aforesaid arrests or convictions involved the
                     operation of a commercial vehicle and
@@ -156,24 +152,24 @@
                 </li>
                 <li> ** Petitioner completed the authorized disposition for the offense sought to be expunged on
                     [Offense
-                    Completion Date] or Petitioner completed the authorized disposition for Offense A on [Offense A
+                    Completion Date] [or] Petitioner completed the authorized disposition for Offense A on [Offense A
                     Completion Date] and for Offense B on [Offense B Completion Date].
                 </li>
                 <li> The appropriate amount of time has elapsed since completion of the authorized
                     disposition imposed for each offense that Petitioner is seeking to have expunged, in that it has
-                    been at least seven years since completion of any felony offense or at least three years since
+                    been at least seven (7) years since completion of any felony offense or at least three (3) years since
                     completion of any misdemeanor, infraction, or ordinance violation.
                 </li>
                 <li> Petitioner has not been found guilty of any other misdemeanor or felony, not including violations
                     of the traffic regulations provided under chapters 304 and 307, RSMo. during the time period
-                    specified for the underlying [offense violation, or infraction] in Section 610.140.1 RSMo.
+                    specified for the underlying [offense violation, or infraction] in § 610.140.1 RSMo.
                 </li>
                 <li> Petitioner has satisfied all obligations relating to any such disposition, including the payment of
                     any fines and restitution.
                 </li>
                 <li> Petitioner does not have any charges pending.</li>
-                <li> Petitioner’s habits and conduct demonstrate that the petitioner is not a threat to the public
-                    safety of the state.
+                <li> Petitioner’s habits and conduct demonstrate that the Petitioner is not a threat to the public
+                    safety of the State.
                 </li>
                 <li> This expungement is consistent with the public welfare and the interests of justice warrant the
                     expungement.
