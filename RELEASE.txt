@@ -137,3 +137,8 @@
                                Review and Petition UI needs to be modified to select which petition to work on if more than one.
 
 3.2.1.1.0       2020-09-28 Hardcoded # of charges in a case for petitioin
+
+3.2.1.2.0       2020-09-28 Day of dates now display as "5" instead of "5th" 
+                           Fixed State, add address line 2, and extra space before punctuation at end of most sentence. 
+                           UpperCase Service Name 
+                           Petition minor text changes 
