@@ -82,29 +82,22 @@
             </p>
             <ol>
                 <li> Petitioner resides at
-                    <pre-address-field v-model="record" missing_prompt="«PetitionerAddressFull»"/>
-                    .
+                    <pre-address-field v-model="record" missing_prompt="«PetitionerAddressFull»"/>.
                 </li>
                 <li> Petitioner’s date of birth is
-                    <pre-date-field v-model="record.dob" missing_prompt="«DateOfBirth»"/>
-                    ,
+                    <pre-date-field v-model="record.dob" missing_prompt="«DateOfBirth»"/>,
                     gender is
-                    <pre-field v-model="record.sex" missing_prompt="«Gender»"/>
-                    ,
+                    <pre-field v-model="record.sex" missing_prompt="«Gender»"/>,
                     and race is
-                    <pre-field v-model="record.race" missing_prompt="«Race»"/>
-                    .
+                    <pre-field v-model="record.race" missing_prompt="«Race»"/>.
                 </li>
                 <li> Petitioner’s driver’s license or other state issued identification was issued by
-                    <pre-field v-model="record.license_issuing_state" missing_prompt="«DriversLicenseST»"/>
-                    ,
+                    <pre-field v-model="record.license_issuing_state" missing_prompt="«DriversLicenseST»"/>,
                     identifying number
-                    <pre-field v-model="record.license_number" missing_prompt="«DriversLicenseNumber»"/>
-                    ,
+                    <pre-field v-model="record.license_number" missing_prompt="«DriversLicenseNumber»"/>,
                     expiration date
                     <pre-date-field v-model="record.license_expiration_date"
-                                    missing_prompt="«DriversLicenseExpiration»"/>
-                    .
+                                    missing_prompt="«DriversLicenseExpiration»"/>.
                 </li>
                 <li> ** Petitioner requests expungement of the following offenses, violations, or infractions, grouped
                     together where charged as counts in the same indictment, information, or ticket or where cases share

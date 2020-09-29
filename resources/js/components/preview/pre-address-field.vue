@@ -49,15 +49,17 @@ For text
         computed: {
             val() {
                 if (this.record.address_line_1 != '') {
-                    if (this.record.address_line_2 != '') {
+                    if (!this.isUndefinedOrEmpty(this.record.address_line_2)) {
                         return this.record.address_line_1 + ', ' +
                             this.record.address_line_2 + ', ' +
                             this.record.city + ', ' +
+                            this.record.state + ' ' +
                             this.record.zip_code
                             ;
                     } else {
                         return this.record.address_line_1 + ', ' +
                             this.record.city + ', ' +
+                            this.record.state + ' ' +
                             this.record.zip_code
                             ;
                     }
