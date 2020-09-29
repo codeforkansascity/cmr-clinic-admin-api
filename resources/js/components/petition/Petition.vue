@@ -53,7 +53,7 @@
 
         <div v-for="row in this.serviceList" :key="row.id">
             <p>
-                {{ row.name }}<br>
+                {{ row.name.toUpperCase() }}<br>
                 {{ row.address }}<br>
                 <span v-if="row.address_line_2">{{ row.address_line_2}}<br></span>
                 {{ row.city }}, {{ row.state }} {{ row.zip }}<br>
@@ -319,6 +319,11 @@
                 return this.caseCount;
             }
         },
+        methods: {
+            cap(a) {
+
+            }
+        }
     }
 </script>
 
