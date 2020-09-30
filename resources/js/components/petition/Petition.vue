@@ -89,7 +89,7 @@
                 and petitions the Court to
                 expunge records of arrest, plea, trial, or conviction and all related records pertaining to offenses,
                 violations, or infractions described below as provided for by § 610.140 RSMo. and for the issuance of an
-                order to expunge Petitioner’s records. In support of the petition, the Petitioner states:
+                order to expunge Petitioner’s records. In support of the petition, Petitioner states:
             </p>
             <ol>
                 <li> Petitioner resides at
