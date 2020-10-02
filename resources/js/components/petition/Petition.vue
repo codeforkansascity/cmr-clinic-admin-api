@@ -88,7 +88,7 @@
                 />,
                 and petitions the Court to
                 expunge records of arrest, plea, trial, or conviction and all related records pertaining to offenses,
-                violations, or infractions described below as provided for by § 610.140 RSMo. and for the issuance of an
+                violations, or infractions described below as provided for by § 610.140 RSMo. (2016 & Supp. 2019) (effective Aug. 28, 2019) and for the issuance of an
                 order to expunge Petitioner’s records. In support of the petition, Petitioner states:
             </p>
             <ol>
@@ -173,7 +173,7 @@
                     been at least seven (7) years since completion of any felony offense or at least three (3) years since
                     completion of any misdemeanor, infraction, or ordinance violation.
                 </li>
-                <li> Petitioner has not been found guilty of any other misdemeanor or felony, not including violations
+                <li> ** Petitioner has not been found guilty of any other misdemeanor or felony, not including violations
                     of the traffic regulations provided under chapters 304 and 307, RSMo. during the time period
                     specified for the underlying [offense violation, or infraction] in § 610.140.1 RSMo.
                 </li>
