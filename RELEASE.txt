@@ -147,3 +147,6 @@
 
 3.2.1.4.0       2020-09-29 Text change: removed the infront of Petitioner states of first para
 
+3.2.2.0.0       2020-10-02 Added (2016 & Supp. 2019) (effective Aug. 28, 2019) and ** Petitioner has not been found guilty ...
+
+
