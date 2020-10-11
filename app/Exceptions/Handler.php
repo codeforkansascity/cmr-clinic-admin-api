@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -50,6 +51,18 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        /// from https://gist.github.com/jrmadsen67/bd0f9ad0ef1ed6bb594e
+        /// intercepts mismatch token at login
+        ///  fixes Expired CSRF login token #191
+        if ($exception instanceof TokenMismatchException) {
+            return redirect()
+                ->back()
+                ->withInput($request->except('password'))
+                ->with([
+                    'message' => 'Validation Token was expired. Please try again',
+                    'message-type' => 'danger',]);
+        }
+
         return parent::render($request, $exception);
     }
 }

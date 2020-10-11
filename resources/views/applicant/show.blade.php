@@ -21,7 +21,7 @@ View {{$applicant->name}}
 @endsection
 @section('content')
 <div>
-    <applicant-show :can-cms="{{ $can_cms }}" :data='@json($applicant)'></applicant-show>
+    <applicant-show can-cms="{{ $can_cms }}" :data='@json($applicant)'></applicant-show>
 
     <div class="row">
         <div class="col-md-6">
