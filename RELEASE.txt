@@ -149,4 +149,6 @@
 
 3.2.2.0.0       2020-10-02 Added (2016 & Supp. 2019) (effective Aug. 28, 2019) and ** Petitioner has not been found guilty ...
 
+3.2.3.0.0       2020-10-11 Resolved bug that keeps Applicatn Show screen from working
+                           intercepts mismatch token at login, should prevent the Page Expired by taking them to login
 
