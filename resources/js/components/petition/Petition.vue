@@ -123,7 +123,7 @@
                         <th style="vertical-align: top;">Case Number</th>
                         <th style="vertical-align: top;">Approx. Date of Charge</th>
                         <th style="vertical-align: top;">Offense Description<br>(RSMo. Number and Common Name of Offense)</th>
-                        <th v-if="number_of_cases>1" style="vertical-align: top;">Reason Included in Group</th>
+                        <th v-if="group.length > 1" style="vertical-align: top;">Reason Included in Group</th>
                         </tr>
                         </thead>
 
@@ -132,7 +132,7 @@
                             <td style="width: 9em">{{ row.case_number }}</td>
                             <td><dsp-date v-model="row.date_of_charge"></dsp-date></td>
                             <td>{{ row.statue_number }} {{ row.statue_name }}</td>
-                            <td v-if="number_of_cases>1">
+                            <td v-if="group.length > 1">
                                 <span
                                     v-if="row.group_sequence == 1">Highest Offense - {{ row.conviction_charge_type }}</span>
                                 <span v-else>Lesser Charge</span>
