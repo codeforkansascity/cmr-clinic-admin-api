@@ -152,3 +152,7 @@
 3.2.3.0.0       2020-10-11 Resolved bug that keeps Applicatn Show screen from working
                            intercepts mismatch token at login, should prevent the Page Expired by taking them to login
 
+3.2.4.0.0       2020-10-12 If there is only one case in a group the 'Reason Included in Group' column is not displayed
+                           Cannow upload .xlsx files
+
+3.2.4.1.0       2020-10-19 Resolves light blue background when pasting into Word on Windows
