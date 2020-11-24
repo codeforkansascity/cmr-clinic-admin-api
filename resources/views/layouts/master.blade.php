@@ -34,14 +34,6 @@
 
 <!-- Page title and breadcrumbs -->
     <div class="page-header">
-        @if($__env->yieldContent('page-header-title'))
-            <div>
-                <h1 class="mb-0" style="display: inline-block">@yield('page-header-title')</h1>
-                @if($__env->yieldContent('page-header-title-action'))
-                    <span style="float: right">@yield('page-header-title-action')</span>
-                @endif
-            </div>
-        @endif
         @if($__env->yieldContent('page-header-breadcrumbs'))
             <nav class="breadcrumb-wrap mt-1" aria-label="breadcrumb">
                 <img src="{{ asset('img/icons/square.svg') }}"
@@ -50,6 +42,15 @@
                 @yield('page-header-breadcrumbs')
             </nav>
         @endif
+        @if($__env->yieldContent('page-header-title'))
+            <div>
+                <h1 class="mb-0" style="display: inline-block">@yield('page-header-title')</h1>
+                @if($__env->yieldContent('page-header-title-action'))
+                    <span style="float: right">@yield('page-header-title-action')</span>
+                @endif
+            </div>
+        @endif
+
     </div>
 
     <!-- Session message(s) (global) -->
