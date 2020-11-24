@@ -4,7 +4,7 @@
             Service <span @click="addService" class="add-button">+</span>
         </h4>
         <table class="table  table-sm">
-            <tr class="row" v-for="(service,i) in services"
+            <tr  v-for="(service,i) in services"
                 :key="service.id + 'service-' + i"
             >
                 <td class="service-name-column">
