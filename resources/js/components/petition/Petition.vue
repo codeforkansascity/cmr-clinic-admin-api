@@ -2,10 +2,10 @@
     <div>
         <div class="row  my-5" >
             <div id="download-area" class="mx-auto"></div>
-<!--            <button class="btn btn-primary" @click="handleExport">export</button>-->
+            <button class="btn btn-primary" @click="handleExport">export</button>
         </div>
 
-    <div class="container pro-se" id="petitionDocument">
+    <div class="container pro-se" id="petitionDocument" style="font-family: Arial;font-size: 12pt;line-height: 2;">
 
         <!--  ------------------ -->
         <!--  T H E    T H I N G -->
@@ -74,7 +74,7 @@
             PETITION FOR EXPUNGEMENT
         </p>
 
-        <div class="pro-se-dbl">
+        <div class="pro-se-dbl"  style="font-family: Arial;font-size: 12pt;line-height: 2;">
             <p>
                 COMES NOW Petitioner,
                 <pre-field v-model="record.name" missing_prompt="«PetitionerCurrentNameFull»"/>,
@@ -261,7 +261,6 @@
 
 <script>
 // import htmlDocx from 'html-docx-js/dist/html-docx';
-
     var htmlDocx = require('html-docx-js/dist/html-docx');
 
     export default {
@@ -332,7 +331,6 @@
             }
         },
         mounted() {
-            this.handleExport()
         },
         methods: {
             cap(a) {
@@ -340,17 +338,21 @@
             },
             handleExport() {
                 let doc = document.getElementById('petitionDocument')
-                let converted = htmlDocx.asBlob(doc.innerHTML)
-
+                let style = `<link href="/css/app.css" rel="stylesheet">`;
+                let converted = htmlDocx.asBlob(style + doc.innerHTML)
+                this.createDownload(converted)
+            },
+            createDownload(file) {
                 let link = document.createElement('a');
-                link.href = URL.createObjectURL(converted);
+                link.href = URL.createObjectURL(file);
                 link.download = 'document.docx';
                 link.appendChild(
                     document.createTextNode('Export as Word Doc'));
 
                 let downloadArea = document.getElementById('download-area');
                 downloadArea.appendChild(link);
-            }
+                link.click()
+            },
         }
     }
 </script>
