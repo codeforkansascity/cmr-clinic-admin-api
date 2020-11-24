@@ -15,7 +15,7 @@ class AssignmentFormRequest extends FormRequest
     public function authorize()
     {
         if ($this->route('assignment')) {  // If ID we must be changing an existing record
-            return Auth::user()->can('assignment update');
+            return Auth::user()->can('assignment edit');
         } else {  // If not we must be adding one
             return Auth::user()->can('assignment add');
         }

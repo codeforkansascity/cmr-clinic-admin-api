@@ -43,6 +43,19 @@ class Applicant extends Model
         'cms_matter_number',
         'assignment_id',
         'step_id',
+        'cdl_status_id',
+        'cdl_text',
+        'case_heading',
+        'case_no',
+        'counsel_or_pro_se_statment',
+        'signature_block_heading',
+        'signature_block_name',
+        'signature_block_bar_number_or_pro_se',
+        'signature_block_address',
+        'signature_block_city_state_zip',
+        'signature_block_phone',
+        'signature_block_email',
+
     ];
 
     protected $hidden = [
@@ -72,6 +85,11 @@ class Applicant extends Model
     public function conviction()
     {
         return $this->hasMany(\App\Conviction::class);
+    }
+
+    public function cdl_status()
+    {
+        return $this->hasOne(\App\CdlStatus::class, 'id', 'cdl_status_id');
     }
 
     public function histories()
@@ -193,8 +211,10 @@ class Applicant extends Model
             ->orderBy($column, $direction);
 
         if(auth()->user()->hasRole('Volunteer Lawyer')) {
-            $query->join('applicant_user','applicants.id', 'applicant_user.applicant_id')
-                ->where('applicant_user.user_id', auth()->user()->id);
+//            $query->join('applicant_user','applicants.id', 'applicant_user.applicant_id')
+//                ->where('applicant_user.user_id', auth()->user()->id);
+
+            $query->where('applicants.assignment_id', auth()->user()->id);
         }
 
         if ($keyword) {

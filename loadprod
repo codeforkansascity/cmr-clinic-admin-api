@@ -4,7 +4,8 @@
 mysql -u root -e 'drop database tstcmr'
 mysql -u root -e 'create database tstcmr'
 
-gzcat ../db-backup/2020-08-12-2046-cmr_20.sql.gz | mysql -u root tstcmr
+#gzcat ../db-backup/2020-08-30-2016-cmr_20.sql.gz | mysql -u root tstcmr
+gzcat ../db-backup/2020-09-20-0231-cmr_02.sql.gz | mysql -u root tstcmr
 
 php artisan migrate:status
 php artisan migrate
@@ -18,6 +19,7 @@ php artisan config:clear;
 php artisan cache:clear
 php artisan clear-compiled
 php artisan config:cache
+php artisan optimize:clear
 
 php artisan cmr:set-initial-permissions
 php artisan cmr:set-test-passwords

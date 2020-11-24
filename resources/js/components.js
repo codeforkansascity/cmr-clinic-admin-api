@@ -62,6 +62,11 @@ Vue.component('fld-convicted', () => import(/* webpackChunkName:"fld-convicted" 
 Vue.component('fld-eligible', () => import(/* webpackChunkName:"fld-eligible" */ './components/SS/FldEligible.vue'));
 Vue.component('fld-expunge', () => import(/* webpackChunkName:"fld-expunge" */ './components/SS/FldExpunge.vue'));
 
+Vue.component('fld-petition-no', () => import(/* webpackChunkName:"fld-petition-no" */ './components/SS/FldPetitionNo.vue'));
+Vue.component('fld-group-no', () => import(/* webpackChunkName:"fld-group-no" */ './components/SS/FldGroupNo.vue'));
+Vue.component('fld-group-seq', () => import(/* webpackChunkName:"fld-group-seq" */ './components/SS/FldGroupSeq.vue'));
+
+
 // fld-service may be dead code.
 // Vue.component('fld-service', () => import(/* webpackChunkName:"fld-service" */ './components/SS/FldService.vue'));
 
@@ -97,6 +102,18 @@ Vue.component('applicant-container', () => import(/* webpackChunkName:"applicant
 Vue.component('applicant-add', () => import(/* webpackChunkName:"applicant-add" */ './components/applicants/ApplicantAdd.vue'));
 Vue.component('applicant-form', () => import(/* webpackChunkName:"applicant-form" */ './components/applicants/ApplicantForm.vue'));
 Vue.component('applicant-show', () => import(/* webpackChunkName:"applicant-show" */ './components/applicants/ApplicantShow.vue'));
+
+
+Vue.component('preview', () => import(/* webpackChunkName:"preview" */ './components/preview/Preview.vue'));
+Vue.component('petition', () => import(/* webpackChunkName:"petition" */ './components/petition/Petition.vue'));
+
+Vue.component('pre-api-field', () => import(/* webpackChunkName:"pre-api-field" */ './components/preview/pre-api-field.vue'));
+Vue.component('pre-api-input-field', () => import(/* webpackChunkName:"pre-api-input-field" */ './components/preview/pre-api-input-field.vue'));
+Vue.component('pre-field', () => import(/* webpackChunkName:"pre-field" */ './components/preview/pre-field.vue'));
+
+Vue.component('pre-address-field', () => import(/* webpackChunkName:"pre-address-field" */ './components/preview/pre-address-field.vue'));
+Vue.component('pre-date-field', () => import(/* webpackChunkName:"pre-date-field" */ './components/preview/pre-date-field.vue'));
+Vue.component('pre-input-field', () => import(/* webpackChunkName:"pre-input-field" */ './components/preview/pre-input-field.vue'));
 
 //Vue.component('status-grid',       require('./components/StatusGrid.vue'));    // May need to add .default);
 //Vue.component('status-form',       require('./components/StatusForm.vue'));    // May need to add .default);
@@ -172,3 +189,7 @@ Vue.component('jurisdiction-type-show', () => import(/* webpackChunkName:"jurisd
 
 Vue.component('jurisdiction-create-modal', () => import(/* webpackChunkName:"jurisdiction-create-modal" */ './components/jurisdiction/JurisdictionCreateModal'));
 
+
+Vue.component('petition-field-grid', () => import(/* webpackChunkName:"petition-field-grid" */ './components/petition_fields/PetitionFieldGrid.vue'));
+Vue.component('petition-field-form', () => import(/* webpackChunkName:"petition-field-form" */ './components/petition_fields/PetitionFieldForm.vue'));
+Vue.component('petition-field-show', () => import(/* webpackChunkName:"petition-field-Show" */ './components/petition_fields/PetitionFieldShow.vue'));

@@ -12,7 +12,7 @@
                         </applicant-summary>
                     </div>
                     <div v-if="view === 'details'">
-                        <applicant-details v-model="record">
+                        <applicant-details  :can-cms="this.canCms"  v-model="record">
                             <chevron-toggle class="float-right"
                                             :show="true"
                                             @click="setView('summary')"/>
@@ -22,7 +22,7 @@
                         </applicant-details>
                     </div>
                     <div v-if="view === 'edit'">
-                        <applicant-edit v-model="record">
+                        <applicant-edit  :can-cms="this.canCms"  v-model="record">
                             <delete-control class="float-right"
                                             height="30"
                                             @click="setView('summary')"/>
@@ -76,6 +76,10 @@
 
                     }
                 },
+            },
+            canCms: {
+                type: [Boolean, Number],
+                default: false
             }
         },
         data() {

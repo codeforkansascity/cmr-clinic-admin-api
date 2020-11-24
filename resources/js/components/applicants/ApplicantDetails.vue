@@ -11,8 +11,11 @@
                 <slot></slot>
             </div>
 
-            <div class="col-md-12" style="padding-bottom: 1.25em;">
+            <div class="col-md-9" style="padding-bottom: 1.25em;">
                 <dsp-textarea v-model="record.notes"></dsp-textarea>
+            </div>
+            <div class="col-md-3" style="padding-bottom: 1.25em;">
+                {{ record.assignment }}
             </div>
         </div>
 
@@ -43,6 +46,9 @@
                     <tr is="tr-view" v-model="record.license_number">License number</tr>
                     <tr is="tr-view" v-model="record.license_issuing_state">Issuing state</tr>
                     <tr is="tr-view-date" v-model="record.license_expiration_date">Expiration date</tr>
+                    <tr is="tr-view" v-model="record.cdl_status.name">CDL License</tr>
+                    <tr is="tr-view" v-model="record.cdl_text">CDL Note</tr>
+
                 </table>
 
             </div>
@@ -64,7 +70,7 @@
                 </table>
 
             </div>
-            <div class="col-md-6" style="padding-left: 1em;">
+            <div v-if="this.canCms" class="col-md-6" style="padding-left: 1em;">
 
                 <h5>CMS</h5>
 
@@ -101,6 +107,10 @@
             modelValue: {        // Need to define the v-model input value prop
                 type: Object,
             },
+            canCms: {
+                type: [Boolean, Number],
+                default: false
+            }
         },
         data() {
             return {
@@ -112,7 +122,7 @@
             Object.keys(this.modelValue).forEach(i =>
                 this.$set(this.record, i, this.modelValue[i])
             );
-            if (this.isDefined(this.record.status.name)) {
+            if (this.isDefined(this.record) && this.isDefined(this.record.status) && this.isDefined(this.record.status.name)) {
                 this.status_name = this.record.status.name;
             }
         },

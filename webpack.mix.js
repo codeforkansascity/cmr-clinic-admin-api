@@ -19,6 +19,9 @@ mix.webpackConfig({
         publicPath: '/',
         chunkFilename: 'js/components/[name].js',
     },
+    node: {
+        fs: "empty"
+    }
 });
 
 mix.js('resources/js/app.js', 'public/js')

@@ -15,7 +15,8 @@ class CaseServiceController extends Controller
     public function store(CaseServiceCreateRequest $request, Conviction $case)
     {
         $service = $request->service;
-        $name = $request->name;
+        info(print_r($service,true));
+        $name = $service['name'];
 
         if (! empty($service['id'])) {
             $service = Service::find($service['id']);

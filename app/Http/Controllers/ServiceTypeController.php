@@ -197,7 +197,7 @@ class ServiceTypeController extends Controller
     public function update(ServiceTypeFormRequest $request, $id)
     {
 
-//        if (!Auth::user()->can('service_type update')) {
+//        if (!Auth::user()->can('service_type edit')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Service Types.');
 //            if (!Auth::user()->can('service_type index')) {
 //                return Redirect::route('service-type.index');

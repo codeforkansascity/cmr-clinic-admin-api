@@ -45,7 +45,7 @@ class SetTestPasswords extends Command
     {
         foreach (User::get() as $user) {
             echo $user->email . "\n";
-            $user->password = bcrypt($this->password);
+            $user->password = bcrypt(env('TEST_USER_PASSWORD', 'bird-travel-car'));
             $user->save();
         }
     }

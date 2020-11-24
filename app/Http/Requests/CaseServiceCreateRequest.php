@@ -24,13 +24,16 @@ class CaseServiceCreateRequest extends FormRequest
     public function rules()
     {
         return [
-                    'name' => 'required|max:191',
-                    'service.name' => 'required|max:191',
-                    'service.address' => 'max:191',
-                    'service.phone' => 'max:20',
-                    'service.email' => 'nullable|email',
-                    'service.note' => 'max:600',
-                    'service.service_type_id' => 'required|exists:service_types,id',
+            'service.name' => 'required|max:191',
+            'service.address' => 'max:191',
+            'service.address_line_2' => 'max:64',
+            'service.city' => 'max:64',
+            'service.state' => 'max:24',
+            'service.zip' => 'max:15',
+            'service.phone' => 'max:20',
+            'service.email' => 'nullable|email',
+            'service.note' => 'max:600',
+            'service.service_type_id' => 'required|exists:service_types,id',
         ];
     }
 }

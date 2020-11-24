@@ -21,12 +21,36 @@ class StatuteSeeder extends Seeder
         \App\Statute::truncate();
         DB::unprepared('set FOREIGN_KEY_CHECKS=1');
 
+        $statute = \App\Statute::create([
+            'id' => 1,
+            'number' => '195.211',
+            'name' => 'Distribution, Delivery, Manufacture or Production of a Controlled Substance',
+            'note' => '',
+            'statutes_eligibility_id' => '4',
+        ]);
+        $statute = \App\Statute::create([
+            'id' => 2,
+            'number' => '195.223',
+            'name' => 'Posession of Drug Paraphernalia',
+            'note' => '',
+            'statutes_eligibility_id' => '4',
+        ]);
+        $statute = \App\Statute::create([
+            'id' => 3,
+            'number' => '2006-034',
+            'name' => 'Failing to Drive Within A Single Lane 304.015 R.S. Mo. deemed an Infraction',
+            'note' => '',
+            'statutes_eligibility_id' => '4',
+        ]);
+
         $eligibles = (new \App\Lib\ParseCrimes)($eligible_file);
 
         $ineligibles = (new \App\Lib\ParseCrimes)($ineligible_file);
 
         $eligibles = array_map(function ($e) {
             $e['statutes_eligibility_id'] = \App\Statute::ELIGIBLE;
+            $e['jurisdiction_id'] = 1;
+
             $e['created_at'] = now();
             $e['updated_at'] = now();
 
@@ -36,6 +60,8 @@ class StatuteSeeder extends Seeder
 
         $ineligibles = array_map(function ($i) {
             $i['statutes_eligibility_id'] = \App\Statute::INELIGIBLE;
+            $e['jurisdiction_id'] = 1;
+
             $i['created_at'] = now();
             $i['updated_at'] = now();
 

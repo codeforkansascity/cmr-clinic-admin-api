@@ -52,7 +52,7 @@ class StatusController extends Controller
 
              Permission::create(['name' => 'status index']);
              Permission::create(['name' => 'status add']);
-             Permission::create(['name' => 'status update']);
+             Permission::create(['name' => 'status edit']);
              Permission::create(['name' => 'status view']);
              Permission::create(['name' => 'status destroy']);
              Permission::create(['name' => 'status export-pdf']);
@@ -196,7 +196,7 @@ class StatusController extends Controller
     public function update(StatusFormRequest $request, $id)
     {
 
-//        if (!Auth::user()->can('status update')) {
+//        if (!Auth::user()->can('status edit')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Status.');
 //            if (!Auth::user()->can('status index')) {
 //                return Redirect::route('status.index');

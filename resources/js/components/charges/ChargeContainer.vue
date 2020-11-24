@@ -5,7 +5,7 @@
             <charge-summary v-model="record">
                 <chevron-toggle class="float-right"
                                 :show="false"
-                                @click="setView('details')"/>
+                                @click="setView('edit')"/>
             </charge-summary>
         </div>
         <div v-if="view === 'details'">

@@ -38,11 +38,10 @@ class AuthServiceProvider extends ServiceProvider
             'uses' => '\Laravel\Passport\Http\Controllers\TransientTokenController@refresh',
         ]);
 
-        // Give super-admin the ability to do anything
-        //  From: https://github.com/spatie/laravel-permission/wiki/Global-%22Admin%22-role
-
-        Gate::after(function ($user, $ability) {
-            return true; //  $user->hasRole('super-admin'); // note this returns boolean
+        // Implicitly grant "Super Admin" role all permissions
+        // This works in the app by using gate-related functions like auth()->user->can() and @can()
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole('super-admin') ? true : null;
         });
     }
 }

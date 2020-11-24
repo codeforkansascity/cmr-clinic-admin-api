@@ -15,7 +15,7 @@ class DataSourceFormRequest extends FormRequest
     public function authorize()
     {
         if ($this->route('data_source')) {  // If ID we must be changing an existing record
-            return Auth::user()->can('data_source update');
+            return Auth::user()->can('data_source edit');
         } else {  // If not we must be adding one
             return Auth::user()->can('data_source add');
         }

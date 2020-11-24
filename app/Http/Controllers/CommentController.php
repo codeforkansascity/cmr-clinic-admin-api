@@ -53,7 +53,7 @@ class CommentController extends Controller
 
              Permission::create(['name' => 'comment index']);
              Permission::create(['name' => 'comment add']);
-             Permission::create(['name' => 'comment update']);
+             Permission::create(['name' => 'comment edit']);
              Permission::create(['name' => 'comment view']);
              Permission::create(['name' => 'comment destroy']);
              Permission::create(['name' => 'comment export-pdf']);
@@ -197,7 +197,7 @@ class CommentController extends Controller
     public function update(CommentFormRequest $request, $id)
     {
 
-//        if (!Auth::user()->can('comment update')) {
+//        if (!Auth::user()->can('comment edit')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Comments.');
 //            if (!Auth::user()->can('comment index')) {
 //                return Redirect::route('comment.index');

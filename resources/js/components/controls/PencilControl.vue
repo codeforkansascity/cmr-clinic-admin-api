@@ -38,8 +38,3 @@
     }
 </script>
 
-<style scoped>
-.control-icon {
-    cursor: pointer;
-}
-</style>

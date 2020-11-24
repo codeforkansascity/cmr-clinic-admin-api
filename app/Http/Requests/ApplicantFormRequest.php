@@ -15,7 +15,7 @@ class ApplicantFormRequest extends FormRequest
     public function authorize()
     {
         if ($this->route('applicant')) {  // If ID we must be changing an existing record
-            return Auth::user()->can('applicant update');
+            return Auth::user()->can('applicant edit');
         } else {  // If not we must be adding one
             return Auth::user()->can('applicant add');
         }
@@ -49,7 +49,7 @@ class ApplicantFormRequest extends FormRequest
             'previous_expungements' => 'nullable|string',
             'previous_felony_expungements' => 'nullable|numeric',
             'previous_misdemeanor_expungements' => 'nullable|numeric',
-            'notes' => 'nullable|string|max:255',
+            'notes' => 'nullable|string',
             'external_ref' => 'nullable|string|max:42',
             'any_pending_cases' => 'nullable|string|max:255',
             'deleted_at' => 'nullable|string',

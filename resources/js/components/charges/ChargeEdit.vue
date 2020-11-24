@@ -80,7 +80,7 @@
 
                 <div class="row">
 
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <std-form-group
                                 label="Convicted"
                                 label-for="convicted"
@@ -90,7 +90,7 @@
                         </std-form-group>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <std-form-group
                                 label="Eligible"
                                 label-for="eligible"
@@ -100,7 +100,7 @@
                         </std-form-group>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <std-form-group
                                 label="Please Expunge"
                                 label-for="please_expunge"
@@ -109,6 +109,48 @@
                             <fld-expunge
                                     name="please_expunge"
                                     v-model="record.please_expunge"
+                            />
+                        </std-form-group>
+                    </div>
+
+                    <div class="col-md-2">
+                        <std-form-group
+                            v-if="record.please_expunge == 1"
+                            label="Petition #"
+                            label-for="petition_number"
+                            :errors="form_errors.petition_number"
+                        >
+                            <fld-petition-no
+                                name="petition_number"
+                                v-model="record.petition_number"
+                            />
+                        </std-form-group>
+                    </div>
+
+                    <div class="col-md-2">
+                        <std-form-group
+                            v-if="record.please_expunge == 1"
+                            label="Group #"
+                            label-for="group_number"
+                            :errors="form_errors.group_number"
+                        >
+                            <fld-group-no
+                                name="petition_number"
+                                v-model="record.group_number"
+                            />
+                        </std-form-group>
+                    </div>
+
+                    <div class="col-md-2">
+                        <std-form-group
+                            v-if="record.please_expunge == 1"
+                            label="Group Seq"
+                            label-for="group_sequence"
+                            :errors="form_errors.group_sequence"
+                        >
+                            <fld-group-seq
+                                name="petition_number"
+                                v-model="record.group_sequence"
                             />
                         </std-form-group>
                     </div>
@@ -203,7 +245,12 @@
                     notes: false,
                     convicted: false,
                     eligible: false,
-                    please_expunge: false
+                    please_expunge: false,
+                    petition_number: false,
+                    group_number: false,
+                    group_sequence: false,
+                    reason_for_change: false,
+
                 },
                 server_message: false,
                 try_logging_in: false,

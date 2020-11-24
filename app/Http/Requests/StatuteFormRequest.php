@@ -16,7 +16,7 @@ class StatuteFormRequest extends FormRequest
     public function authorize()
     {
         if ($this->route('statute')) {  // If ID we must be changing an existing record
-            return Auth::user()->can('statute update');
+            return Auth::user()->can('statute edit');
         } else {  // If not we must be adding one
             return Auth::user()->can('statute add');
         }
