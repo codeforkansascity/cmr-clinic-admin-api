@@ -10,7 +10,7 @@
             <a v-if="try_logging_in" href="/login">Login</a>
         </div>
 
-        <div>
+        <div class="charge-top">
             <form @submit.prevent="handleSubmit" class="form-horizontal">
                 <input type="hidden" ref="newCharge">
 
