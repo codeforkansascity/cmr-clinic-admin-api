@@ -1,5 +1,5 @@
 <template>
-    <div style="margin-bottom: 1em">
+    <div class="charge-top" style="margin-bottom: 1em">
         <div class="row">
 
             <div class="col-md-7">

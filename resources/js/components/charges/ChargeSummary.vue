@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div class="row charge-top">
         <div class="col-md-7">
             <h5 v-if="display_statute">
                 <dsp-statute v-model="record.statute"/>
