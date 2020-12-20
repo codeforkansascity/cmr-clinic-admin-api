@@ -25,15 +25,5 @@ Petition {{$applicant->name}}
     <petition :data='@json($applicant)' :expungebles='@json($expungebles)' :service-list='@json($service_list)'
     petition-count="{{$petition_count}}" group-count="{{$group_count}}" case-count="{{$case_count}}"></petition>
 
-    <div class="row">
-        <div class="col-md-6">
-
-                <div class="col-md-4 text-md-right mt-2 mt-md-0">
-                    <a href="{{ url('/applicant') }}" class="btn btn-default">Return to List</a>
-                </div>
-
-        </div>
-    </div>
-
 @endsection
 
