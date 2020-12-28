@@ -23,7 +23,6 @@ class RoleEditRequest extends FormRequest
      */
     public function rules()
     {
-
         $id = $this->route('role');
 
         return [
@@ -33,10 +32,7 @@ class RoleEditRequest extends FormRequest
                         'name' => 'string|max:64',
                         'alias' => 'string|max:16',
                         'on_master_roster' => 'numeric',
-            
 
         ];
     }
 }
-
-

@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 use App\ServiceType;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateServiceTypesTable extends Migration
 {
@@ -22,13 +22,11 @@ class CreateServiceTypesTable extends Migration
             $table->integer('purged_by')->default(0)->nullable();
             $table->timestamps();
             $table->softDeletes();
-
         });
 
         DB::connection()->getPdo()->exec('insert into service_types (name) values ("Arresting Agency") ;');
         DB::connection()->getPdo()->exec('insert into service_types (name) values ("County Court") ;');
         DB::connection()->getPdo()->exec('insert into service_types (name) values ("Municipal Court") ;');
-
     }
 
     /**

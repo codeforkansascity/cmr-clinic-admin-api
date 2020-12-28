@@ -15,11 +15,10 @@ class ChargeFormRequest extends FormRequest
     public function authorize()
     {
         if ($this->route('charge')) {  // If ID we must be changing an existing record
-            return Auth::user()->can('charge update');
+            return Auth::user()->can('charge edit');
         } else {  // If not we must be adding one
             return Auth::user()->can('charge add');
         }
-
     }
 
     /**
@@ -29,13 +28,11 @@ class ChargeFormRequest extends FormRequest
      */
     public function rules()
     {
-
         $id = $this->route('charge');
 
         $rules = [
          //  Ignore duplicate email if it is this record
          //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
-
 
             'id' => 'numeric',
             'conviction_id' => 'nullable|numeric',
@@ -55,16 +52,13 @@ class ChargeFormRequest extends FormRequest
 
         ];
 
-
         return $rules;
     }
 
     public function messages()
     {
         return [
-            'statute_id.validation.empty_with' => 'Please select one'
+            'statute_id.validation.empty_with' => 'Please select one',
         ];
     }
 }
-
-

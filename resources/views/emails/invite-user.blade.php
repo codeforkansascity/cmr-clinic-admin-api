@@ -15,7 +15,7 @@ To confirm your {{ config('app.name') }} account:
     Confirm Invitation
 @endcomponent
 
-If other members of your team need access, please contact APS.
+If other members of your team need access, please contact {{ config('app.contact') }}.
 
 Thanks,<br>
 {{ config('app.name') }}

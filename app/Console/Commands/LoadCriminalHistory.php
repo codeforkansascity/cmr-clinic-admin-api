@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use App\Lib\GetCriminalHistoryFromSS;
 use App\Lib\AddApplicantFromCriminalHistory;
+use App\Lib\GetCriminalHistoryFromSS;
+use Illuminate\Console\Command;
 
 class LoadCriminalHistory extends Command
 {
@@ -36,7 +36,6 @@ class LoadCriminalHistory extends Command
 
 //        $this->path = '/Users/paulb/Projects/code4kc/cmr/cmr-clinic-admin-api/storage/app/applicant_histories';
 //        $this->file_name = '1tddDwTHs2p73tzjatk0CderxpM1Xx4ej2VFL2FT.xls';
-
     }
 
     /**
@@ -46,7 +45,7 @@ class LoadCriminalHistory extends Command
      */
     public function handle()
     {
-        print "start\n";
+        echo "start\n";
 
         $data = [];
 
@@ -56,16 +55,10 @@ class LoadCriminalHistory extends Command
             $r = new AddApplicantFromCriminalHistory($data);
 
             $r->addHistory();
-
         } catch (\Exception $e) {
-            print $e->getMessage() . "\n";
-
+            echo $e->getMessage()."\n";
         }
 
-
-
-        print "end\n";
-
-
+        echo "end\n";
     }
 }

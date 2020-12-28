@@ -134,6 +134,35 @@
                                         style="width: 10em"/>
                             </std-form-group>
                         </div>
+
+                        <div class="col-md-12">
+                            <std-form-group
+                                label="CDL License"
+                                label-for="cdl"
+                                :errors="form_errors.cdl"
+                            >
+                                <fld-state
+                                    name="license_issuing_state"
+                                    v-model="form_data.cdl"
+                                />
+                            </std-form-group>
+                        </div>
+
+                        <div class="col-md-12">
+                            <std-form-group
+                                label="When did you have your CDL License"
+                                label-for="cdl_text"
+                                :errors="form_errors.cdl_text"
+                            >
+                                <fld-state
+                                    name="license_issuing_state"
+                                    v-model="form_data.cdl_text"
+                                />
+                            </std-form-group>
+                        </div>
+
+
+
                     </fieldset>
                 </div>
                 <div class="col-md-6" style="padding-left: 1em;">
@@ -418,6 +447,8 @@
                     status_id: 0,
                     dob: null,
                     license_expiration_date: null,
+                    cdl: 0,
+                    cdl_text: '',
                     cms_client_number: "",
                     cms_matter_number: "",
                     assignment_id: 0,
@@ -447,6 +478,8 @@
                     status_id: false,
                     dob: false,
                     license_expiration_date: false,
+                    cdl: false,
+                    cdl_text: false,
                     cms_client_number: false,
                     cms_matter_number: false,
                     assignment_id: false,

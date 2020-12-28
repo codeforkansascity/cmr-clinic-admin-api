@@ -2,27 +2,23 @@
 
 namespace App\Http\Controllers;
 
-
-
+use App\Exports\ServiceTypeExport;
 use App\Http\Middleware\TrimStrings;
-use App\ServiceType;
-use Illuminate\Http\Request;
-
 use App\Http\Requests\ServiceTypeFormRequest;
 use App\Http\Requests\ServiceTypeIndexRequest;
-use Illuminate\Support\Facades\Redirect;
+use App\ServiceType;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-
-use App\Exports\ServiceTypeExport;
 use Maatwebsite\Excel\Facades\Excel;
+
 //use PDF; // TCPDF, not currently in use
 
 class ServiceTypeController extends Controller
 {
-
     /**
-     * Examples
+     * Examples.
      *
      * Vue component example.
      *
@@ -62,9 +58,7 @@ class ServiceTypeController extends Controller
              Permission::findOrCreate('service_type add');
              Permission::findOrCreate('service_type edit');
              Permission::findOrCreate('service_type delete');
-
-    */
-
+     */
 
     /**
      * Display a listing of the resource.
@@ -73,9 +67,9 @@ class ServiceTypeController extends Controller
      */
     public function index(ServiceTypeIndexRequest $request)
     {
-
-        if (!Auth::user()->can('service_type index')) {
+        if (! Auth::user()->can('service_type index')) {
             \Session::flash('flash_error_message', 'You do not have access to Service Typess.');
+
             return Redirect::route('home');
         }
 
@@ -93,7 +87,6 @@ class ServiceTypeController extends Controller
         $can_pdf = Auth::user()->can('service_type pdf');
 
         return view('service-type.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
-
     }
 
     /**
@@ -101,10 +94,9 @@ class ServiceTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-	public function create()
-	{
-
-        if (!Auth::user()->can('service_type add')) {  // TODO: add -> create
+    public function create()
+    {
+        if (! Auth::user()->can('service_type add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Service Types.');
             if (Auth::user()->can('service_type index')) {
                 return Redirect::route('service-type.index');
@@ -113,9 +105,8 @@ class ServiceTypeController extends Controller
             }
         }
 
-	    return view('service-type.create');
-	}
-
+        return view('service-type.create');
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -125,35 +116,32 @@ class ServiceTypeController extends Controller
      */
     public function store(ServiceTypeFormRequest $request)
     {
-
         $service_type = new \App\ServiceType;
 
         try {
             $service_type->add($request->validated());
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Unable to process request'
+                'message' => 'Unable to process request',
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Service Types ' . $service_type->name . ' was added.');
+        \Session::flash('flash_success_message', 'Service Types '.$service_type->name.' was added.');
 
         return response()->json([
-            'message' => 'Added record'
+            'message' => 'Added record',
         ], 200);
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-
-        if (!Auth::user()->can('service_type view')) {
+        if (! Auth::user()->can('service_type view')) {
             \Session::flash('flash_error_message', 'You do not have access to view a Service Types.');
             if (Auth::user()->can('service_type index')) {
                 return Redirect::route('service-type.index');
@@ -165,9 +153,11 @@ class ServiceTypeController extends Controller
         if ($service_type = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('service_type edit');
             $can_delete = (Auth::user()->can('service_type delete') && $service_type->canDelete());
-            return view('service-type.show', compact('service_type','can_edit', 'can_delete'));
+
+            return view('service-type.show', compact('service_type', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Service Types to display.');
+
             return Redirect::route('service-type.index');
         }
     }
@@ -175,12 +165,12 @@ class ServiceTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        if (!Auth::user()->can('service_type edit')) {
+        if (! Auth::user()->can('service_type edit')) {
             \Session::flash('flash_error_message', 'You do not have access to edit a Service Types.');
             if (Auth::user()->can('service_type index')) {
                 return Redirect::route('service-type.index');
@@ -193,9 +183,9 @@ class ServiceTypeController extends Controller
             return view('service-type.edit', compact('service_type'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Service Types to edit.');
+
             return Redirect::route('service-type.index');
         }
-
     }
 
     /**
@@ -207,7 +197,7 @@ class ServiceTypeController extends Controller
     public function update(ServiceTypeFormRequest $request, $id)
     {
 
-//        if (!Auth::user()->can('service_type update')) {
+//        if (!Auth::user()->can('service_type edit')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Service Types.');
 //            if (!Auth::user()->can('service_type index')) {
 //                return Redirect::route('service-type.index');
@@ -216,32 +206,31 @@ class ServiceTypeController extends Controller
 //            }
 //        }
 
-        if (!$service_type = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Service Types to edit.');
+        if (! $service_type = $this->sanitizeAndFind($id)) {
+            //     \Session::flash('flash_error_message', 'Unable to find Service Types to edit.');
             return response()->json([
-                'message' => 'Not Found'
+                'message' => 'Not Found',
             ], 404);
         }
 
         $service_type->fill($request->all());
 
         if ($service_type->isDirty()) {
-
             try {
                 $service_type->save();
             } catch (\Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request'
+                    'message' => 'Unable to process request',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Service Types ' . $service_type->name . ' was changed.');
+            \Session::flash('flash_success_message', 'Service Types '.$service_type->name.' was changed.');
         } else {
             \Session::flash('flash_info_message', 'No changes were made.');
         }
 
         return response()->json([
-            'message' => 'Changed record'
+            'message' => 'Changed record',
         ], 200);
     }
 
@@ -252,11 +241,10 @@ class ServiceTypeController extends Controller
      */
     public function destroy($id)
     {
-
-        if (!Auth::user()->can('service_type delete')) {
+        if (! Auth::user()->can('service_type delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Service Types.');
             if (Auth::user()->can('service_type index')) {
-                 return Redirect::route('service-type.index');
+                return Redirect::route('service-type.index');
             } else {
                 return Redirect::route('home');
             }
@@ -264,33 +252,29 @@ class ServiceTypeController extends Controller
 
         $service_type = $this->sanitizeAndFind($id);
 
-        if ( $service_type  && $service_type->canDelete()) {
-
+        if ($service_type && $service_type->canDelete()) {
             try {
                 $service_type->delete();
             } catch (\Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request.'
+                    'message' => 'Unable to process request.',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Service Types ' . $service_type->name . ' was removed.');
+            \Session::flash('flash_success_message', 'Service Types '.$service_type->name.' was removed.');
         } else {
             \Session::flash('flash_error_message', 'Unable to find Service Types to delete.');
-
         }
 
         if (Auth::user()->can('service_type index')) {
-             return Redirect::route('service-type.index');
+            return Redirect::route('service-type.index');
         } else {
             return Redirect::route('home');
         }
-
-
     }
 
     /**
-     * Find by ID, sanitize the ID first
+     * Find by ID, sanitize the ID first.
      *
      * @param $id
      * @return ServiceType or null
@@ -300,11 +284,9 @@ class ServiceTypeController extends Controller
         return \App\ServiceType::find(intval($id));
     }
 
-
     public function download()
     {
-
-        if (!Auth::user()->can('service_type excel')) {
+        if (! Auth::user()->can('service_type excel')) {
             \Session::flash('flash_error_message', 'You do not have access to download Service Types.');
             if (Auth::user()->can('service_type index')) {
                 return Redirect::route('service-type.index');
@@ -322,7 +304,7 @@ class ServiceTypeController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         $dataQuery = ServiceType::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());
@@ -332,13 +314,11 @@ class ServiceTypeController extends Controller
         return Excel::download(
             new ServiceTypeExport($dataQuery),
             'service-type.xlsx');
-
     }
 
-
-        public function print()
-{
-        if (!Auth::user()->can('service_type export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+    public function print()
+    {
+        if (! Auth::user()->can('service_type export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Service Types.');
             if (Auth::user()->can('service_type index')) {
                 return Redirect::route('service-type.index');
@@ -353,7 +333,7 @@ class ServiceTypeController extends Controller
         $direction = session('service_type_direction', '-1');
         $column = $column ? $column : 'name';
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         // Get query data
         $columns = [
@@ -363,15 +343,16 @@ class ServiceTypeController extends Controller
         $data = $dataQuery->get();
 
         // Pass it to the view for html formatting:
-        $printHtml = view('service-type.print', compact( 'data' ) );
+        $printHtml = view('service-type.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
         $pdf = \App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
-        $pdf->setOptions(['isPhpEnabled' => TRUE]);
+        $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
         $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
-        return $pdf->stream('service-type-' . $currentDate->format('Ymd_Hi') . '.pdf');
+
+        return $pdf->stream('service-type-'.$currentDate->format('Ymd_Hi').'.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////
@@ -403,8 +384,7 @@ class ServiceTypeController extends Controller
 
     public function all()
     {
-
-        $service_type =  ServiceType::query();
+        $service_type = ServiceType::query();
 
         return $service_type->get();
     }

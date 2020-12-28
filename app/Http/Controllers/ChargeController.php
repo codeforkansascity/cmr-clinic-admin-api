@@ -2,27 +2,23 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Http\Middleware\TrimStrings;
 use App\Charge;
-use Illuminate\Http\Request;
-
+use App\Exports\ChargeExport;
+use App\Http\Middleware\TrimStrings;
 use App\Http\Requests\ChargeFormRequest;
 use App\Http\Requests\ChargeIndexRequest;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-
-use App\Exports\ChargeExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 //use PDF; // TCPDF, not currently in use
 
 class ChargeController extends Controller
 {
-
     /**
-     * Examples
+     * Examples.
      *
      * Vue component example.
      *
@@ -54,13 +50,12 @@ class ChargeController extends Controller
      *
      * Permission::create(['name' => 'charge index']);
      * Permission::create(['name' => 'charge add']);
-     * Permission::create(['name' => 'charge update']);
+     * Permission::create(['name' => 'charge edit']);
      * Permission::create(['name' => 'charge view']);
      * Permission::create(['name' => 'charge destroy']);
      * Permission::create(['name' => 'charge export-pdf']);
      * Permission::create(['name' => 'charge export-excel']);
      */
-
 
     /**
      * Display a listing of the resource.
@@ -69,9 +64,9 @@ class ChargeController extends Controller
      */
     public function index(ChargeIndexRequest $request)
     {
-
-        if (!Auth::user()->can('charge index')) {
+        if (! Auth::user()->can('charge index')) {
             \Session::flash('flash_error_message', 'You do not have access to Chargess.');
+
             return Redirect::route('home');
         }
 
@@ -89,7 +84,6 @@ class ChargeController extends Controller
         $can_pdf = Auth::user()->can('charge pdf');
 
         return view('charge.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
-
     }
 
     /**
@@ -99,8 +93,7 @@ class ChargeController extends Controller
      */
     public function create()
     {
-
-        if (!Auth::user()->can('charge add')) {  // TODO: add -> create
+        if (! Auth::user()->can('charge add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Charges.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('charge.index');
@@ -112,7 +105,6 @@ class ChargeController extends Controller
         return view('charge.create');
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -121,7 +113,6 @@ class ChargeController extends Controller
      */
     public function store(ChargeFormRequest $request)
     {
-
         $charge = Charge::create($request->all());
 
 //          We need to see the real error
@@ -134,28 +125,26 @@ class ChargeController extends Controller
 //            ], 400);
 //        }
 
-        \Session::flash('flash_success_message', 'Charge ' . $charge->name . ' was added');
+        \Session::flash('flash_success_message', 'Charge '.$charge->name.' was added');
 
         $charge = $this->sanitizeAndFind($charge->id);      // Get all of the things we need to display
-                                                            // associated with a charge
+        // associated with a charge
 
         return response()->json([
             'message' => 'Added record',
-            'charge' => $charge
+            'charge' => $charge,
         ], 200);
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-
-        if (!Auth::user()->can('charge view')) {
+        if (! Auth::user()->can('charge view')) {
             \Session::flash('flash_error_message', 'You do not have access to view a Charges.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('charge.index');
@@ -167,9 +156,11 @@ class ChargeController extends Controller
         if ($charge = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('charge edit');
             $can_delete = Auth::user()->can('charge delete');
+
             return view('charge.show', compact('charge', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Charges to display.');
+
             return Redirect::route('charge.index');
         }
     }
@@ -177,12 +168,12 @@ class ChargeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        if (!Auth::user()->can('charge edit')) {
+        if (! Auth::user()->can('charge edit')) {
             \Session::flash('flash_error_message', 'You do not have access to edit a Charges.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('charge.index');
@@ -195,9 +186,9 @@ class ChargeController extends Controller
             return view('charge.edit', compact('charge'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Charges to edit.');
+
             return Redirect::route('charge.index');
         }
-
     }
 
     /**
@@ -209,7 +200,7 @@ class ChargeController extends Controller
     public function update(ChargeFormRequest $request, $id)
     {
 
-//        if (!Auth::user()->can('charge update')) {
+//        if (!Auth::user()->can('charge edit')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Charges.');
 //            if (!Auth::user()->can('charge index')) {
 //                return Redirect::route('charge.index');
@@ -218,17 +209,16 @@ class ChargeController extends Controller
 //            }
 //        }
 
-        if (!$charge = $this->sanitizeAndFind($id)) {
+        if (! $charge = $this->sanitizeAndFind($id)) {
             //     \Session::flash('flash_error_message', 'Unable to find Charges to edit');
             return response()->json([
-                'message' => 'Not Found'
+                'message' => 'Not Found',
             ], 404);
         }
 
         /// save history
         /// This was moved to ChargeObserver
         //$charge->saveHistory($request);
-
 
         $request_fields = $request->all();
 
@@ -240,36 +230,33 @@ class ChargeController extends Controller
         $charge->fill($request_fields);
 
         if ($charge->isDirty()) {
-
             try {
                 $charge->save();
             } catch (\Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request'
+                    'message' => 'Unable to process request',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Charges ' . $charge->name . ' was changed');
+            \Session::flash('flash_success_message', 'Charges '.$charge->name.' was changed');
 
             if ($statute) {
                 return response()->json([
                     'message' => 'Changed record',
-                    'statute' => $statute
+                    'statute' => $statute,
                 ], 200);
             } else {
                 return response()->json([
-                    'message' => 'Changed record'
+                    'message' => 'Changed record',
                 ], 200);
             }
-
         } else {
             \Session::flash('flash_info_message', 'No changes were made');
+
             return response()->json([
-                'message' => 'No Changes'
+                'message' => 'No Changes',
             ], 200);
         }
-
-
     }
 
     /**
@@ -279,32 +266,27 @@ class ChargeController extends Controller
      */
     public function destroy(Charge $charge)
     {
-
-        if (!Auth::user()->can('charge delete')) {
+        if (! Auth::user()->can('charge delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Charges.');
             if (Auth::user()->can('charge index')) {
-                 return Redirect::route('charge.index');
+                return Redirect::route('charge.index');
             } else {
                 return Redirect::route('home');
             }
         }
 
-
         if ($charge && $charge->canDelete()) {
-
             try {
                 $charge->delete();
             } catch (\Exception $e) {
                 return $e;
             }
 
-            \Session::flash('flash_success_message', 'Invitation for ' . $charge->name . ' was removed.');
+            \Session::flash('flash_success_message', 'Invitation for '.$charge->name.' was removed.');
             // send success response
             return response()->json(['success' => 'Record Deleted'], 200);
-
         } else {
             \Session::flash('flash_error_message', 'Unable to find Invite to delete.');
-
         }
 
 //        if (Auth::user()->can('charge index')) {
@@ -312,12 +294,10 @@ class ChargeController extends Controller
 //        } else {
 //            return Redirect::route('home');
 //        }
-
-
     }
 
     /**
-     * Find by ID, sanitize the ID first
+     * Find by ID, sanitize the ID first.
      *
      * @param $id
      * @return Charge or null
@@ -327,11 +307,9 @@ class ChargeController extends Controller
         return \App\Charge::with('statute', 'statute.statutes_eligibility', 'statute.superseded')->find(intval($id));
     }
 
-
     public function download()
     {
-
-        if (!Auth::user()->can('charge excel')) {
+        if (! Auth::user()->can('charge excel')) {
             \Session::flash('flash_error_message', 'You do not have access to download Charges.');
             if (Auth::user()->can('charge index')) {
                 return Redirect::route('charge.index');
@@ -349,7 +327,7 @@ class ChargeController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         $dataQuery = Charge::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());
@@ -359,13 +337,11 @@ class ChargeController extends Controller
         return Excel::download(
             new ChargeExport($dataQuery),
             'charge.xlsx');
-
     }
-
 
     public function print()
     {
-        if (!Auth::user()->can('charge export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+        if (! Auth::user()->can('charge export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Charges');
             if (Auth::user()->can('charge index')) {
                 return Redirect::route('charge.index');
@@ -380,7 +356,7 @@ class ChargeController extends Controller
         $direction = session('charge_direction', '-1');
         $column = $column ? $column : 'name';
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         // Get query data
         $columns = [
@@ -395,10 +371,11 @@ class ChargeController extends Controller
         // Begin DOMPDF/laravel-dompdf
         $pdf = \App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
-        $pdf->setOptions(['isPhpEnabled' => TRUE]);
+        $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
         $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
-        return $pdf->stream('charge-' . $currentDate->format('Ymd_Hi') . '.pdf');
+
+        return $pdf->stream('charge-'.$currentDate->format('Ymd_Hi').'.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////
@@ -427,5 +404,4 @@ class ChargeController extends Controller
         ///////////////////////////////////////////////////////////////////////
         */
     }
-
 }

@@ -5,13 +5,8 @@
                 <div class=" charge-container">
 
 
-                    <applicant-details v-model="record">
-                        <chevron-toggle class="float-right"
-                                        :show="true"
-                                        @click="setView('summary')"/>
-                        <pencil-control
-                                height="25"
-                                @click="setView('edit')"/>
+                    <applicant-details :can-cms="this.canCms" v-model="record">
+
                     </applicant-details>
 
                     <div class="row">
@@ -47,6 +42,10 @@
                         step_id: null
                     }
                 },
+            },
+            canCms: {
+                type: [Boolean, Number],
+                default: false
             }
         },
         data() {

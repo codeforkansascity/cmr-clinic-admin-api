@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 class ChargeObserver
 {
     protected $request;
+
     public function __construct()
     {
         $this->request = request();
@@ -51,7 +52,6 @@ class ChargeObserver
 //            $charge->purged_by = -1;
 //        }
 //        $charge->save();
-
     }
 
     /**
@@ -63,7 +63,6 @@ class ChargeObserver
     public function deleted(Charge $charge)
     {
         $charge->saveHistory($this->request, __FUNCTION__);
-
     }
 
     /**

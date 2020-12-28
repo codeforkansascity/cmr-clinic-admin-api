@@ -46,20 +46,21 @@ $charge_list = [
 
 ];
 
-$factory->define(\App\Charge::class, function (Faker $faker) use ($charge_list){
+$factory->define(\App\Charge::class, function (Faker $faker) use ($charge_list) {
     $data = [
         'conviction_id' => \App\Conviction::inRandomOrder()->first()->id ?? 1,
         'convicted' => 0,
         'eligible' => 0,
         'please_expunge' => 0,
-        'to_print' => NULL,
-        'notes' => NULL,
+        'to_print' => null,
+        'notes' => null,
         'created_by' => '0',
         'modified_by' => '0',
         'purged_by' => '0',
         'created_at' => '2019-04-23',
         'updated_at' => '2019-04-23',
-        'statute_id' => Statute::inRandomOrder()->first()->id ?? 1
+        'statute_id' => Statute::inRandomOrder()->first()->id ?? 1,
     ];
+
     return array_merge($data, $charge_list[array_rand($charge_list)]);
 });

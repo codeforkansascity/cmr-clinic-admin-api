@@ -1,24 +1,31 @@
 <template>
     <div>
-        <h4>
-            Service <span @click="addService" class="add-button">+</span>
-        </h4>
+        <h5>
+            Service List
+<!--            <span @click="addService" class="add-button">+</span>-->
+        </h5>
         <table class="table  table-sm">
-            <tr class="row" v-for="(service,i) in services"
-                :key="i"
+            <tr  v-for="(service,i) in services"
+                :key="service.id + 'service-' + i"
             >
                 <td class="service-name-column">
                    <span class="service-name-field">
-                        {{service.service_type.name}}
+                        {{service.service_type ? service.service_type.name : ''}}
                     </span>
                 </td>
                 <td>
-                    {{service.name}} Attn: {{service.pivot.name}}
+                    {{service.name}}
                 </td>
-                <td>
-                    <pencil-control height="25"
-                                    @click="editService(service, i)"/>
-                </td>
+<!--                <td class="d-inline-block">-->
+<!--                    <pencil-control height="25"-->
+<!--                                    class="d-inline-flex"-->
+<!--                                    @click="editService(service, i)"/>-->
+<!--                    <delete-control-->
+<!--                        class="d-inline-flex"-->
+<!--                        height="25"-->
+<!--                        @click="deleteService(service, i)"-->
+<!--                    ></delete-control>-->
+<!--                </td>-->
             </tr>
         </table>
         <base-modal v-if="showServiceModal" @close="closeModal">
@@ -47,12 +54,7 @@
                         <option v-for="type in serviceTypes" :value="type.id">{{type.name}}</option>
                     </select>
                 </std-form-group>
-                <std-form-group :errors="form_errors.name">
-                    <label class="font-weight-bold">Attn Name</label>
-                    <input type="text" required class="form-control" placeholder="Attn Name"
-                           v-model="selectedService.pivot.name"
-                    >
-                </std-form-group>
+
 
                 <std-form-group :errors="form_errors.service.address">
                     <label class="font-weight-bold">Address</label>
@@ -61,22 +63,36 @@
                            :disabled="disableFields"
                     >
                 </std-form-group>
-                <std-form-group :errors="form_errors.service.phone">
-                    <label class="font-weight-bold">Phone</label>
-                    <input type="text" required class="form-control"
-                           placeholder="Phone Number"
-                           v-model="selectedService.phone"
-                           :disabled="disableFields"
-                    >
-                </std-form-group>
-                <std-form-group :errors="form_errors.service.email">
-                    <label class="font-weight-bold">Email</label>
-                    <input type="text" required class="form-control"
-                           placeholder="Email"
-                           v-model="selectedService.email"
-                           :disabled="disableFields"
-                    >
-                </std-form-group>
+
+                <div class="row">
+                <div class="col-md-6">
+                    <std-form-group label="City" label-for="city" :errors="form_errors.city">
+                        <fld-input
+                            name="city"
+                            v-model="selectedService.city"
+                            :disabled="disableFields"
+                        />
+                    </std-form-group>
+                </div>
+                <div class="col-md-2">
+                    <std-form-group label="State" label-for="state" :errors="form_errors.state">
+                        <fld-state
+                            name="state"
+                            v-model="selectedService.state"
+                            :disabled="disableFields"
+                        />
+                    </std-form-group>
+                </div>
+                <div class="col-md-4">
+                    <std-form-group label="Zip" label-for="zip_code" :errors="form_errors.zip">
+                        <fld-input
+                            name="zip_code"
+                            v-model="selectedService.zip_code"
+                            :disabled="disableFields"
+                        />
+                    </std-form-group>
+                </div>
+                </div>
                 <std-form-group :errors="form_errors.service.note">
                     <label class="font-weight-bold">Note</label>
                     <textarea type="text" required class="form-control"
@@ -106,8 +122,9 @@
 <script>
     import PencilControl from "../controls/PencilControl";
 
+    import DeleteControl from "../controls/DeleteControl";
     export default {
-        components: {PencilControl},
+        components: {PencilControl, DeleteControl},
         name: "ServiceContainer",
         props: {
             services: {
@@ -130,6 +147,10 @@
                     id: null,
                     name: '',
                     address: null,
+                    address_line_2: null,
+                    city: null,
+                    state: null,
+                    zip: null,
                     phone: null,
                     email: null,
                     note: null,
@@ -222,6 +243,11 @@
                     }
 
                 })
+            },
+            deleteService(s, i) {
+                this.selectedIndex = i
+                Object.assign(this.selectedService, s)
+                this.submitDelete()
             },
             submitDelete() {
                 console.log('delete service')

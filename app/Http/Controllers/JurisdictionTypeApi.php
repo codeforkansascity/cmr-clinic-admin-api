@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\JurisdictionType;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JurisdictionTypeIndexRequest;
+use App\JurisdictionType;
+use Illuminate\Http\Request;
 
 class JurisdictionTypeApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +16,6 @@ class JurisdictionTypeApi extends Controller
      */
     public function index(JurisdictionTypeIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -31,7 +28,7 @@ class JurisdictionTypeApi extends Controller
             'jurisdiction_type_page' => $page,
             'jurisdiction_type_column' => $column,
             'jurisdiction_type_direction' => $direction,
-            'jurisdiction_type_keyword' => $keyword
+            'jurisdiction_type_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -41,12 +38,11 @@ class JurisdictionTypeApi extends Controller
     }
 
     /**
-     * Returns "options" for HTML select
+     * Returns "options" for HTML select.
      * @return array
      */
     public function getOptions()
     {
-
         return JurisdictionType::getOptions();
     }
 

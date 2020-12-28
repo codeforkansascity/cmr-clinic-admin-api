@@ -1,8 +1,10 @@
 <template>
-    <div>
+    <div class="case-top">
         <div class="row">
             <div class="col-md-1 text-center" style="padding-left: 1em">
+
                 <dsp-case-badge :data="record"/>
+
             </div>
             <div class="col-md-11">
 

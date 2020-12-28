@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div class="row charge-top">
         <div class="col-md-7">
             <h5 v-if="display_statute">
                 <dsp-statute v-model="record.statute"/>
@@ -19,13 +19,16 @@
 
         <div class="col-md-2">
             {{ display_charge_eligibility }}
+            <span v-if="record.please_expunge">
+                ({{ record.petition_number }},{{ record.group_number }},{{ record.group_sequence}})
+            </span>
         </div>
 
         <div class="col-md-1">
             <slot></slot>
         </div>
 
-        <div class="col-md-12" style="padding-left: 4em; padding-bottom: 1.25em;">
+        <div class="col-md-12" style="padding-left: 8em; padding-right: 8em; padding-bottom: 1.25em;">
             <dsp-textarea v-model="record.notes"></dsp-textarea>
         </div>
 

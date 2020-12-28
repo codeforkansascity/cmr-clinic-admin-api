@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateConvictions extends Migration
 {
@@ -17,16 +17,16 @@ class CreateConvictions extends Migration
             $table->bigIncrements('id');
 
             $table->unsignedBigInteger('client_id')->default(0);
-            $table->string('name',64)->nullable();
-            $table->string('arrest_date',64)->nullable();
+            $table->string('name', 64)->nullable();
+            $table->string('arrest_date', 64)->nullable();
 
-            $table->string('case_number',64)->nullable();
-            $table->string('agency',64)->nullable();
-            $table->string('court_name',64)->nullable();
-            $table->string('court_city_county',64)->nullable();
-            $table->string('judge',64)->nullable();
-            $table->string('record_name',64)->nullable();
-            $table->string('release_status',64)->nullable();
+            $table->string('case_number', 64)->nullable();
+            $table->string('agency', 64)->nullable();
+            $table->string('court_name', 64)->nullable();
+            $table->string('court_city_county', 64)->nullable();
+            $table->string('judge', 64)->nullable();
+            $table->string('record_name', 64)->nullable();
+            $table->string('release_status', 64)->nullable();
 
             $table->date('release_date')->nullable();
             $table->text('notes')->nullable();
@@ -37,11 +37,8 @@ class CreateConvictions extends Migration
 
             $table->timestamps();
 
-         //   $table->foreign('client_id')->references('id')->on('clients');
-
+            //   $table->foreign('client_id')->references('id')->on('clients');
         });
-
-
     }
 
     /**
@@ -51,7 +48,6 @@ class CreateConvictions extends Migration
      */
     public function down()
     {
-
         Schema::dropIfExists('conviction');
     }
 }

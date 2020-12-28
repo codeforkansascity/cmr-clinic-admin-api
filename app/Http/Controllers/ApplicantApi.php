@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Applicant;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ApplicantIndexRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ApplicantApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +17,6 @@ class ApplicantApi extends Controller
      */
     public function index(ApplicantIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'applicant_name');
@@ -36,7 +33,7 @@ class ApplicantApi extends Controller
             'applicant_direction' => $direction,
             'applicant_keyword' => $keyword,
             'status_id' => $status_id,
-            'assignment_id' => $assignment_id
+            'assignment_id' => $assignment_id,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -46,12 +43,11 @@ class ApplicantApi extends Controller
     }
 
     /**
-     * Returns "options" for HTML select
+     * Returns "options" for HTML select.
      * @return array
      */
     public function getOptions()
     {
-
         return Applicant::getOptions();
     }
 

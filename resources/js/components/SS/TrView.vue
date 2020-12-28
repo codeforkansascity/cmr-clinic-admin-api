@@ -1,9 +1,9 @@
 <template>
     <tr>
-    <td style="width: 10em; color: darkgray">
+    <td style="width: 10em; color: darkgray; padding: 0rem;">
         <slot></slot>
     </td>
-    <td>
+    <td style="padding: 0rem;">
         {{ value }}
     </td>
     </tr>

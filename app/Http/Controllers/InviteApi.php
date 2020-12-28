@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Invite;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class InviteApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +15,6 @@ class InviteApi extends Controller
      */
     public function index(Request $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -30,7 +27,7 @@ class InviteApi extends Controller
             'invite_page' => $page,
             'invite_column' => $column,
             'invite_direction' => $direction,
-            'invite_keyword' => $keyword
+            'invite_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -40,11 +37,11 @@ class InviteApi extends Controller
     }
 
     /**
-     * Returns "options" for HTML select
+     * Returns "options" for HTML select.
      * @return array
      */
-    public function getOptions() {
-
+    public function getOptions()
+    {
         return Invite::getOptions();
     }
 

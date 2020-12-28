@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Charge;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChargeIndexRequest;
+use Illuminate\Http\Request;
 
 class ChargeApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +16,6 @@ class ChargeApi extends Controller
      */
     public function index(ChargeIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -31,7 +28,7 @@ class ChargeApi extends Controller
             'charge_page' => $page,
             'charge_column' => $column,
             'charge_direction' => $direction,
-            'charge_keyword' => $keyword
+            'charge_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -41,12 +38,11 @@ class ChargeApi extends Controller
     }
 
     /**
-     * Returns "options" for HTML select
+     * Returns "options" for HTML select.
      * @return array
      */
     public function getOptions()
     {
-
         return Charge::getOptions();
     }
 

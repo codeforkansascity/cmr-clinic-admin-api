@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateCharges extends Migration
 {
@@ -18,18 +18,17 @@ class CreateCharges extends Migration
 
             $table->unsignedBigInteger('conviction_id')->default(0);
 
-            $table->string('charge',64)->nullable();
-            $table->string('citation',64)->nullable();
-            $table->string('conviction_class_type',64)->nullable();
-            $table->string('conviction_charge_type',64)->nullable();
-            $table->string('sentence',64)->nullable();
-            $table->string('convicted',64)->nullable();
-            $table->string('eligible',64)->nullable();
-            $table->string('please_expunge',64)->nullable();
-            $table->string('to_print',64)->nullable();
+            $table->string('charge', 64)->nullable();
+            $table->string('citation', 64)->nullable();
+            $table->string('conviction_class_type', 64)->nullable();
+            $table->string('conviction_charge_type', 64)->nullable();
+            $table->string('sentence', 64)->nullable();
+            $table->string('convicted', 64)->nullable();
+            $table->string('eligible', 64)->nullable();
+            $table->string('please_expunge', 64)->nullable();
+            $table->string('to_print', 64)->nullable();
 
             $table->text('notes')->nullable();
-
 
             $table->integer('created_by')->default(0)->nullable();
             $table->integer('modified_by')->default(0)->nullable();
@@ -37,8 +36,7 @@ class CreateCharges extends Migration
 
             $table->timestamps();
 
-         //   $table->foreign('conviction_id')->references('id')->on('convictions');
-
+            //   $table->foreign('conviction_id')->references('id')->on('convictions');
         });
     }
 

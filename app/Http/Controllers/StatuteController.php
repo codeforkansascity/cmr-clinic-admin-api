@@ -2,28 +2,24 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Exports\StatuteExport;
 use App\Http\Middleware\TrimStrings;
+use App\Http\Requests\StatuteFormRequest;
+use App\Http\Requests\StatuteIndexRequest;
 use App\Statute;
 use App\StatutesEligibility;
 use Illuminate\Http\Request;
-
-use App\Http\Requests\StatuteFormRequest;
-use App\Http\Requests\StatuteIndexRequest;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-
-use App\Exports\StatuteExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 //use PDF; // TCPDF, not currently in use
 
 class StatuteController extends Controller
 {
-
     /**
-     * Examples
+     * Examples.
      *
      * Vue component example.
      *
@@ -56,13 +52,12 @@ class StatuteController extends Controller
      *
      * Permission::create(['name' => 'statute index']);
      * Permission::create(['name' => 'statute add']);
-     * Permission::create(['name' => 'statute update']);
+     * Permission::create(['name' => 'statute edit']);
      * Permission::create(['name' => 'statute view']);
      * Permission::create(['name' => 'statute destroy']);
      * Permission::create(['name' => 'statute export-pdf']);
      * Permission::create(['name' => 'statute export-excel']);
      */
-
 
     /**
      * Display a listing of the resource.
@@ -71,9 +66,9 @@ class StatuteController extends Controller
      */
     public function index(StatuteIndexRequest $request)
     {
-
-        if (!Auth::user()->can('statute index')) {
+        if (! Auth::user()->can('statute index')) {
             \Session::flash('flash_error_message', 'You do not have access to Statutess.');
+
             return Redirect::route('home');
         }
 
@@ -91,7 +86,6 @@ class StatuteController extends Controller
         $can_pdf = Auth::user()->can('statute pdf');
 
         return view('statute.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
-
     }
 
     /**
@@ -101,8 +95,7 @@ class StatuteController extends Controller
      */
     public function create()
     {
-
-        if (!Auth::user()->can('statute add')) {  // TODO: add -> create
+        if (! Auth::user()->can('statute add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Statutes.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('statute.index');
@@ -114,7 +107,6 @@ class StatuteController extends Controller
         return view('statute.create');
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -123,7 +115,6 @@ class StatuteController extends Controller
      */
     public function store(StatuteFormRequest $request)
     {
-
         $statute = Statute::create($request->only([
             'number',
             'name',
@@ -131,7 +122,7 @@ class StatuteController extends Controller
             'statutes_eligibility_id',
             'superseded_id',
             'superseded_on',
-            'jurisdiction_id'
+            'jurisdiction_id',
         ]));
 
         return response()->json($statute, 200);
@@ -140,13 +131,12 @@ class StatuteController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-
-        if (!Auth::user()->can('statute view')) {
+        if (! Auth::user()->can('statute view')) {
             \Session::flash('flash_error_message', 'You do not have access to view a Statutes.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('statute.index');
@@ -163,6 +153,7 @@ class StatuteController extends Controller
             return view('statute.show', compact('charges', 'statute', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Statutes to display.');
+
             return Redirect::route('statute.index');
         }
     }
@@ -170,12 +161,12 @@ class StatuteController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        if (!Auth::user()->can('statute edit')) {
+        if (! Auth::user()->can('statute edit')) {
             \Session::flash('flash_error_message', 'You do not have access to edit a Statutes.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('statute.index');
@@ -188,9 +179,9 @@ class StatuteController extends Controller
             return view('statute.edit', compact('statute'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Statutes to edit.');
+
             return Redirect::route('statute.index');
         }
-
     }
 
     /**
@@ -202,7 +193,7 @@ class StatuteController extends Controller
     public function update(StatuteFormRequest $request, $id)
     {
 
-//        if (!Auth::user()->can('statute update')) {
+//        if (!Auth::user()->can('statute edit')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Statutes.');
 //            if (!Auth::user()->can('statute index')) {
 //                return Redirect::route('statute.index');
@@ -211,32 +202,31 @@ class StatuteController extends Controller
 //            }
 //        }
 
-        if (!$statute = $this->sanitizeAndFind($id)) {
+        if (! $statute = $this->sanitizeAndFind($id)) {
             //     \Session::flash('flash_error_message', 'Unable to find Statutes to edit');
             return response()->json([
-                'message' => 'Not Found'
+                'message' => 'Not Found',
             ], 404);
         }
 
         $statute->fill($request->all());
 
         if ($statute->isDirty()) {
-
             try {
                 $statute->save();
             } catch (\Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request' . $e->getMessage()
+                    'message' => 'Unable to process request'.$e->getMessage(),
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Statutes ' . $statute->name . ' was changed');
+            \Session::flash('flash_success_message', 'Statutes '.$statute->name.' was changed');
         } else {
             \Session::flash('flash_info_message', 'No changes were made');
         }
 
         return response()->json([
-            'message' => 'Changed record'
+            'message' => 'Changed record',
         ], 200);
     }
 
@@ -247,8 +237,7 @@ class StatuteController extends Controller
      */
     public function destroy($id)
     {
-
-        if (!Auth::user()->can('statute delete')) {
+        if (! Auth::user()->can('statute delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Statutes.');
             if (Auth::user()->can('statute index')) {
                 return Redirect::route('statute.index');
@@ -260,19 +249,17 @@ class StatuteController extends Controller
         $statute = $this->sanitizeAndFind($id);
 
         if ($statute && $statute->canDelete()) {
-
             try {
                 $statute->delete();
             } catch (\Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request.'
+                    'message' => 'Unable to process request.',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Invitation for ' . $statute->name . ' was removed.');
+            \Session::flash('flash_success_message', 'Invitation for '.$statute->name.' was removed.');
         } else {
             \Session::flash('flash_error_message', 'Unable to find Invite to delete.');
-
         }
 
         if (Auth::user()->can('statute index')) {
@@ -280,12 +267,10 @@ class StatuteController extends Controller
         } else {
             return Redirect::route('home');
         }
-
-
     }
 
     /**
-     * Find by ID, sanitize the ID first
+     * Find by ID, sanitize the ID first.
      *
      * @param $id
      * @return Statute or null
@@ -298,16 +283,14 @@ class StatuteController extends Controller
             'jurisdiction.type',
             'superseded' => function ($q) {
                 $q->with('statutes_eligibility');
-            }
+            },
         ])
             ->find(intval($id));
     }
 
-
     public function download()
     {
-
-        if (!Auth::user()->can('statute excel')) {
+        if (! Auth::user()->can('statute excel')) {
             \Session::flash('flash_error_message', 'You do not have access to download Statutes.');
             if (Auth::user()->can('statute index')) {
                 return Redirect::route('statute.index');
@@ -326,7 +309,7 @@ class StatuteController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         $dataQuery = Statute::exportDataQuery($column, $direction, $search, $eligibility_id, ['statutes.id as id',
             'statutes.number as number',
@@ -340,13 +323,11 @@ class StatuteController extends Controller
         return Excel::download(
             new StatuteExport($dataQuery),
             'statute.xlsx');
-
     }
-
 
     public function print()
     {
-        if (!Auth::user()->can('statute export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+        if (! Auth::user()->can('statute export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Statutes');
             if (Auth::user()->can('statute index')) {
                 return Redirect::route('statute.index');
@@ -362,7 +343,7 @@ class StatuteController extends Controller
         $eligibility_id = session('eligibility_id', '0');
         $column = $column ? $column : 'name';
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         // Get query data
         $columns = ['statutes.id as id',
@@ -379,10 +360,11 @@ class StatuteController extends Controller
         // Begin DOMPDF/laravel-dompdf
         $pdf = \App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
-        $pdf->setOptions(['isPhpEnabled' => TRUE]);
+        $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
         $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
-        return $pdf->stream('statute-' . $currentDate->format('Ymd_Hi') . '.pdf');
+
+        return $pdf->stream('statute-'.$currentDate->format('Ymd_Hi').'.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////
@@ -412,17 +394,14 @@ class StatuteController extends Controller
         */
     }
 
-
     public function all(Request $request)
     {
-
-        $statutes =  Statute::query();
-        if($request->q) {
+        $statutes = Statute::query();
+        if ($request->q) {
             $statutes = $statutes->where('number', 'like', $request->q.'%')
                 ->limit(20);
         }
+
         return $statutes->get();
     }
-
-
 }

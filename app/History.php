@@ -15,7 +15,7 @@ class History extends Model
      */
     protected $casts = [
         'old' => 'json',
-        'new' => 'json'
+        'new' => 'json',
     ];
 
     /**
@@ -34,7 +34,6 @@ class History extends Model
         return $this->morphTo('historyable');
     }
 
-
     /**
      * @return array
      *  Example
@@ -45,11 +44,10 @@ class History extends Model
      */
     public function diff()
     {
-
         $diff = [];
         if ($this->old && $this->new) {
             foreach ($this->new as $column => $value) {
-                if($value !== $this->old[$column]) {
+                if ($value !== $this->old[$column]) {
                     $diff[$column] = ['old' => $this->old[$column], 'new' => $value];
                 }
             }

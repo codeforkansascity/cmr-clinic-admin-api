@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class RenameTables extends Migration
 {
@@ -21,7 +21,6 @@ class RenameTables extends Migration
             $table->renameColumn('full_name', 'name');
             $table->softDeletes();
         });
-
     }
 
     /**
@@ -31,7 +30,6 @@ class RenameTables extends Migration
      */
     public function down()
     {
-
         Schema::table('clients', function (Blueprint $table) {
             $table->renameColumn('name', 'full_name');
             $table->dropColumn('deleted_at');

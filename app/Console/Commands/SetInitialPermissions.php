@@ -2,9 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Lib\InitialPermissions;
-
+use Illuminate\Console\Command;
 
 class SetInitialPermissions extends Command
 {
@@ -40,6 +39,5 @@ class SetInitialPermissions extends Command
     public function handle()
     {
         $perms = new InitialPermissions();
-
     }
 }

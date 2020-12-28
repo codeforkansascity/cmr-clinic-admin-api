@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Status;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StatusController extends Controller
 {
-
     /**
      * Display a listing of the resource with pagination.
      *
@@ -17,7 +16,6 @@ class StatusController extends Controller
      */
     public function index(Request $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -39,6 +37,7 @@ class StatusController extends Controller
     public function store(Request $request)
     {
         $newStatus = Status::create($request->all());
+
         return $newStatus->id;
     }
 
@@ -50,7 +49,7 @@ class StatusController extends Controller
      */
     public function show($id)
     {
-        $status =  Status::find($id);
+        $status = Status::find($id);
 
         return $status;
     }
@@ -84,24 +83,25 @@ class StatusController extends Controller
     }
 
     /**
-     * Returns "options" for HTML select
+     * Returns "options" for HTML select.
      * @return array
      */
-    public function options() {
-        if (!Auth::user()->can('status index')) {
+    public function options()
+    {
+        if (! Auth::user()->can('status index')) {
             return response()->json([
-                'error' => 'Not authorized'
+                'error' => 'Not authorized',
             ], 403);
         }
 
-        $data =  Status::getOptions()->toArray();
+        $data = Status::getOptions()->toArray();
 
-        info(print_r($data,true));
+        info(print_r($data, true));
 
         array_unshift($data, ['id' => '-1', 'name' => 'All Status']);
-        array_unshift($data, ['id' => '0', 'name' => 'Unassigned'] );
+        array_unshift($data, ['id' => '0', 'name' => 'Unassigned']);
 
-        info(print_r($data,true));
+        info(print_r($data, true));
 
         return $data;
     }

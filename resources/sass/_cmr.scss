@@ -9,6 +9,22 @@ body {
   color: $black;
 }
 
+.pro-se {
+    font-family: Arial;
+    font-size: 12pt;
+    line-height: 1.2;
+}
+
+.pro-se-dbl {
+    font-family: Arial;
+    font-size: 12pt;
+    line-height: 2;
+}
+
+.control-icon {
+    cursor: pointer;
+}
+
 .body-with-nav {
   padding-top: 55px; /* Approx height of navbar */
   padding-bottom: 55px;

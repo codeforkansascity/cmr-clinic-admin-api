@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Charge;
 use App\Applicant;
+use App\Charge;
 use App\Conviction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,7 +28,7 @@ class HistoryController extends Controller
                 $q->with(['histories' => function ($q) {
                     $q->with(['user']);
                 }]);
-            }
+            },
         ]);
     }
 
@@ -46,9 +46,9 @@ class HistoryController extends Controller
                         $q->with(['histories' => function ($q) {
                             $q->with(['user']);
                         }]);
-                    }
+                    },
                 ]);
-            }
+            },
         ]);
 
         return [$history, DB::getQueryLog()];

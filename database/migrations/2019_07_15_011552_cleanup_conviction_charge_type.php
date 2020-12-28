@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CleanupConvictionChargeType extends Migration
 {
@@ -16,7 +16,6 @@ class CleanupConvictionChargeType extends Migration
         /// update charges set conviction_charge_type = 'Misdemeanor' where conviction_charge_type = 'misdemeanor';
 
         DB::connection()->getPdo()->exec('update charges set conviction_charge_type = \'Misdemeanor\' where conviction_charge_type = \'misdemeanor\';');
-
     }
 
     /**

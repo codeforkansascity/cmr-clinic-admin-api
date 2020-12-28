@@ -15,11 +15,10 @@ class ApplicantRequest extends FormRequest
     public function authorize()
     {
         if ($this->route('applicant')) {  // If ID we must be changing an existing record
-            return Auth::user()->can('applicant update');
+            return Auth::user()->can('applicant edit');
         } else {  // If not we must be adding one
             return Auth::user()->can('applicant add');
         }
-
     }
 
     /**
@@ -29,7 +28,6 @@ class ApplicantRequest extends FormRequest
      */
     public function rules()
     {
-
         $id = $this->route('applicant');
 
         $rules = [
@@ -72,12 +70,8 @@ class ApplicantRequest extends FormRequest
             'assignment_id' => 'numeric|nullable',
             'status_id' => 'nullable|numeric',
 
-
         ];
-
 
         return $rules;
     }
 }
-
-

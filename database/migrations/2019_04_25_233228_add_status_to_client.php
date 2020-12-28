@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddStatusToClient extends Migration
 {
@@ -14,7 +14,7 @@ class AddStatusToClient extends Migration
     public function up()
     {
         Schema::table('client', function (Blueprint $table) {
-            $table->string('status',255)->nullable();
+            $table->string('status', 255)->nullable();
         });
     }
 

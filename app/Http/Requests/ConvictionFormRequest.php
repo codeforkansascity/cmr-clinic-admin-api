@@ -15,11 +15,10 @@ class ConvictionFormRequest extends FormRequest
     public function authorize()
     {
         if ($this->route('conviction')) {  // If ID we must be changing an existing record
-            return Auth::user()->can('conviction update');
+            return Auth::user()->can('conviction edit');
         } else {  // If not we must be adding one
             return Auth::user()->can('conviction add');
         }
-
     }
 
     /**
@@ -29,13 +28,11 @@ class ConvictionFormRequest extends FormRequest
      */
     public function rules()
     {
-
         $id = $this->route('conviction');
 
         $rules = [
          //  Ignore duplicate email if it is this record
          //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
-
 
             'id' => 'numeric',
             'name' => 'nullable|string|max:64',
@@ -64,5 +61,3 @@ class ConvictionFormRequest extends FormRequest
         return $rules;
     }
 }
-
-

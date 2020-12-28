@@ -1,8 +1,7 @@
 <?php
 
-
 /**
- * Examples
+ * Examples.
  *
  * Vue component example.
  *
@@ -37,30 +36,28 @@ $statutes_eligibility_options = \App\StatutesEligibility::getOptions();
 
 Permission::create(['name' => 'statutes_eligibility index']);
 Permission::create(['name' => 'statutes_eligibility add']);
-Permission::create(['name' => 'statutes_eligibility update']);
+Permission::create(['name' => 'statutes_eligibility edit']);
 Permission::create(['name' => 'statutes_eligibility view']);
 Permission::create(['name' => 'statutes_eligibility destroy']);
 Permission::create(['name' => 'statutes_eligibility export-pdf']);
 Permission::create(['name' => 'statutes_eligibility export-excel']);
-
  */
 
 namespace App\Http\Controllers;
 
-use App\StatutesEligibility;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StatutesEligibilityIndexRequest;
+use App\StatutesEligibility;
+use Illuminate\Http\Request;
 
 class StatutesEligibilityApi extends Controller
 {
     /**
-     * Returns "options" for HTML select
+     * Returns "options" for HTML select.
      * @return array
      */
-    public function getOptions() {
-
+    public function getOptions()
+    {
         return StatutesEligibility::getOptions();
     }
-
 }

@@ -16,11 +16,10 @@ class StatuteFormRequest extends FormRequest
     public function authorize()
     {
         if ($this->route('statute')) {  // If ID we must be changing an existing record
-            return Auth::user()->can('statute update');
+            return Auth::user()->can('statute edit');
         } else {  // If not we must be adding one
             return Auth::user()->can('statute add');
         }
-
     }
 
     /**
@@ -30,7 +29,6 @@ class StatuteFormRequest extends FormRequest
      */
     public function rules()
     {
-
         $id = $this->route('statute');
 
         $rules = [
@@ -73,8 +71,7 @@ class StatuteFormRequest extends FormRequest
                     return $query->where('number', $number)
                         ->where('name', $name)
                         ->where('jurisdiction_id', $jurisdiction_id);
-
-                })->ignore($id)
+                })->ignore($id),
             ];
         } else {  // If not we must be adding one
             $rules['name'] = [
@@ -90,5 +87,3 @@ class StatuteFormRequest extends FormRequest
         return $rules;
     }
 }
-
-

@@ -1,3 +1,19 @@
 .w-85 {
     width: 85% !important;
 }
+
+.case-top {
+    border-top-color: lightgrey;
+    border-top-width: 3px;
+    border-top-style: solid;
+    padding-top: .5em;
+    margin-top: .5em;
+}
+
+.charge-top {
+    border-top-color: lightgrey;
+    border-top-width: 1px;
+    border-top-style: solid;
+    padding-top: .25em;
+
+}

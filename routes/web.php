@@ -17,23 +17,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Auth::routes(['verify' => true, 'register' => false]);
 
 // {token} is a required parameter that will be exposed to us in the controller method
 Route::get('accept/{token}', 'InviteController@accept')->name('accept');
 Route::post('create_password', 'InviteController@createPassword')->name('create_password');
 Route::post('/password-strength', 'PasswordStrengthApi@calc');
-
+Route::get('/version', 'VersionController@show')->name('version');
 
 Route::group(['middleware' => 'auth'], function () {
-
     Route::get('/api-user', 'UserApi@index');
     Route::get('/api-user/role-options', 'UserApi@getRoleOptions');
     Route::get('/api-user/options', 'UserApi@getOptions');
     Route::get('/user/download', 'UserController@download')->name('user.download');
     Route::get('/user/print', 'UserController@print')->name('user.print');
-    Route::resource('/user', 'UserController');
+    Route::resource('/user', 'UserController')->except(['create', 'store']);
 
     Route::get('/api-role-description', 'RoleDescriptionApi@index');
     Route::get('/api-role-description/options', 'RoleDescriptionApi@getOptions');
@@ -58,15 +56,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/change-password', 'ChangePasswordController@changePassword')->name('change_password');
     Route::post('/update-password', 'ChangePasswordController@updatePassword');
 
-
-
     Route::get('/api-applicant', 'ApplicantApi@index');
     Route::get('/api-applicant/options', 'ApplicantApi@getOptions');
-    Route::get('/applicant/add', 'ApplicantController@add');
+
+    Route::get('/applicant/download', 'ApplicantController@download')->name('applicant.download');
+    Route::get('/applicant/print', 'ApplicantController@print')->name('applicant.print');
     Route::post('/applicant/add-from-ss', 'ApplicantController@add_from_ss');
     Route::post('/applicant/file-upload', 'ApplicantController@file_upload');
 
-    Route::get('/applicant/download', 'ApplicantController@download');
+    Route::get('/applicant/add', 'ApplicantController@add');
+    Route::get('/applicant/{applicant_id}/preview', 'ApplicantController@preview')->name('applicant.preview');
+    Route::get('/applicant/{applicant_id}/petition', 'ApplicantController@petition')->name('applicant.petition');
+
     Route::resource('/applicant', 'ApplicantController');
 
     Route::get('/home', 'HomeController@index')->name('home');
@@ -74,11 +75,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/changePassword', 'HomeController@showChangePasswordForm');
     Route::post('/changePassword', 'HomeController@changePassword')->name('changePassword');
 
-    Route::get('/api-applicant', 'ApplicantApi@index');
-    Route::get('/api-applicant/options', 'ApplicantApi@getOptions');
-    Route::get('/applicant/download', 'ApplicantController@download')->name('applicant.download');
-    Route::get('/applicant/print', 'ApplicantController@print')->name('applicant.print');
-    Route::resource('/applicant', 'ApplicantController');
+    Route::get('/api-petition-field-find/{applicant_id}/{petition_number}/{name}', 'PetitionFieldApi@show');
+
+    Route::get('/api-petition-field', 'PetitionFieldApi@index');
+    Route::get('/api-petition-field/options', 'PetitionFieldApi@getOptions');
+    Route::get('/petition-field/download', 'PetitionFieldController@download')->name('petition-field.download');
+    Route::get('/petition-field/print', 'PetitionFieldController@print')->name('petition-field.print');
+    Route::resource('/petition-field', 'PetitionFieldController');
+
 
     Route::get('/api-status', 'StatusApi@index');
     Route::get('/api-status/options', 'StatusApi@getOptions');
@@ -141,13 +145,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('applicant/{client}', 'HistoryController@client');
     });
 
-
     Route::group(['prefix' => 'case/{case}/service'], function () {
         Route::post('/create', 'CaseServiceController@store')->name('case-service.store');
         Route::put('/{service}', 'CaseServiceController@update')->name('case-service.update');
         Route::delete('/{service}', 'CaseServiceController@destroy')->name('case-service.destroy');
     });
-
 
     Route::get('statutes/all', 'StatuteController@all');
     Route::get('services/all', 'ServiceController@all');
@@ -165,30 +167,30 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/service/print', 'ServiceController@print')->name('service.print');
     Route::resource('/service', 'ServiceController');
 
-    Route::get('/api-applicant', 'ApplicantApi@index');
-    Route::get('/api-applicant/options', 'ApplicantApi@getOptions');
-    Route::get('/applicant/download', 'ApplicantController@download')->name('applicant.download');
-    Route::get('/applicant/print', 'ApplicantController@print')->name('applicant.print');
-    Route::resource('/applicant', 'ApplicantController');
+    Route::get('/api-jurisdiction-type', 'JurisdictionTypeApi@index');
+    Route::get('/api-jurisdiction-type/options', 'JurisdictionTypeApi@getOptions');
+    Route::post('/api-jurisdiction-type', 'JurisdictionTypeApi@store');
+
+    Route::get('/jurisdiction-type/download', 'JurisdictionTypeController@download')->name('jurisdiction-type.download');
+    Route::get('/jurisdiction-type/print', 'JurisdictionTypeController@print')->name('jurisdiction-type.print');
+    Route::resource('/jurisdiction-type', 'JurisdictionTypeController');
+
+    Route::get('/api-jurisdiction', 'JurisdictionApi@index');
+    Route::get('/api-jurisdiction/options', 'JurisdictionApi@getOptions');
+    Route::post('/api-jurisdiction', 'JurisdictionApi@store');
+
+    Route::get('/jurisdiction/download', 'JurisdictionController@download')->name('jurisdiction.download');
+    Route::get('/jurisdiction/print', 'JurisdictionController@print')->name('jurisdiction.print');
+    Route::resource('/jurisdiction', 'JurisdictionController');
+
+    Route::get('/api-cdl-status/options', 'CdlStatusApi@getOptions');
+
 });
 
 
 
-
-
-
-Route::get('/api-jurisdiction-type', 'JurisdictionTypeApi@index');
-Route::get('/api-jurisdiction-type/options', 'JurisdictionTypeApi@getOptions');
-Route::post('/api-jurisdiction-type', 'JurisdictionTypeApi@store');
-
-Route::get('/jurisdiction-type/download', 'JurisdictionTypeController@download')->name('jurisdiction-type.download');
-Route::get('/jurisdiction-type/print', 'JurisdictionTypeController@print')->name('jurisdiction-type.print');
-Route::resource('/jurisdiction-type', 'JurisdictionTypeController');
-
-Route::get('/api-jurisdiction', 'JurisdictionApi@index');
-Route::get('/api-jurisdiction/options', 'JurisdictionApi@getOptions');
-Route::post('/api-jurisdiction', 'JurisdictionApi@store');
-
-Route::get('/jurisdiction/download', 'JurisdictionController@download')->name('jurisdiction.download');
-Route::get('/jurisdiction/print', 'JurisdictionController@print')->name('jurisdiction.print');
-Route::resource('/jurisdiction', 'JurisdictionController');
+Route::get('/api-petition-field', 'PetitionFieldApi@index');
+Route::get('/api-petition-field/options', 'PetitionFieldApi@getOptions');
+Route::get('/petition-field/download', 'PetitionFieldController@download')->name('petition-field.download');
+Route::get('/petition-field/print', 'PetitionFieldController@print')->name('petition-field.print');
+Route::resource('/petition-field', 'PetitionFieldController');

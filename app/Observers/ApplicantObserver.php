@@ -7,10 +7,12 @@ use App\Applicant;
 class ApplicantObserver
 {
     protected $request;
+
     public function __construct()
     {
         $this->request = request();
     }
+
     /**
      * Handle the applicant "created" event.
      *

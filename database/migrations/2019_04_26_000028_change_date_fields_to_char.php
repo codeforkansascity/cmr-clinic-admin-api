@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class ChangeDateFieldsToChar extends Migration
 {
@@ -14,8 +14,7 @@ class ChangeDateFieldsToChar extends Migration
     public function up()
     {
         Schema::table('conviction', function (Blueprint $table) {
-            $table->string('release_date',64)->nullable()->change();
-
+            $table->string('release_date', 64)->nullable()->change();
         });
     }
 
@@ -28,7 +27,6 @@ class ChangeDateFieldsToChar extends Migration
     {
         Schema::table('conviction', function (Blueprint $table) {
             $table->date('release_date')->nullable()->change();
-
         });
     }
 }

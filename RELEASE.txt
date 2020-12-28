@@ -63,4 +63,106 @@
 
 3.1.8.0.0 2020-04-12 - Added Assigend to applicant with grid filter default being current user_id
                       
-                       
+3.1.8.0.1.demo  2020-08-15
+                     - Upgraded to Laravvel 7
+                       Changes after Shift to Laravel 7
+                       Update composer.lock 
+                       Added petitioin number, group, and sequence numbers to charges 
+                       Added cache and sessions tables 
+                       Cleanedup Invite email, blocked adding users since we are sending invites,
+                            added set testpassword, fixed roles in invite create 
+                       non Volunteer Lawyers can see all applicants 
+                       Change Cache and Session drivers from file to database #169 
+                       Moved some routs into Auth middleware 
+                       Applicant: assign a volunteer - only shows in edit screen. 
+                       filter query if user is volunteer attorney 
+                       add pivot migration for applicant user                        
+
+3.1.8.0.2.demo  2020-08-18
+                       Cleaned up add Service popup, and other demo things
+                       Fixed Pencil and Chevron controls in ApplicantShow 
+                       Demo cleanup and changed update -> edit 
+                       Cleanup of service 
+                       Added Petition 
+                       Improved seeders 
+                       Added cases not selected to be expunged to the end of the preview page 
+                       Added pencil icon to pre-input-field, and moved css to _cmr.scss 
+                       Added Patition fields to applicant for the demo 
+                       Added Jail and Prosecutor to Service Types seeder 
+                       Added a permission CMS access that restricts viewing and editing the CMS fields 
+                       Added Applicant petititon 
+                       Set Test Passwords is now the same as seeder 
+                       Applicant cannow save CDL info 
+                       Made the hard coded applicant the same as Scotts 
+                       Added some input fields to preview 
+                       Added read-only role back in 
+                       Changed seed password 
+                       Preview initial version 
+                       CDL Questions added, all existing applicants have been set to CDL Unknown 
+                       Added Version page 
+                       Resolved issue with can
+                       User Seeder: Added Scott as super admin, Bob Smith as Volunteer Lawyer 
+                       Resolved issue with can() always returning true.  Was debug code 
+                       Downgraded mockery so it would load on the server 
+
+3.1.8.0.3       2020-08-30 Dropped [the arrest and/or ] in the petition
+
+3.1.8.0.4-demo  2020-09-14 Wordage change from Ellen on para 6. 
+                       Now have preview fields saving and displaying, need to add select of petition
+                       Now have Petitioin Field table 
+                       add service delete fix service add 
+                       add service delete fix service add 
+                       Added petition #, start 
+                       Applicant note is now a text field 
+
+3.1.8.0.5-demo  2020-09-14 Merged in upstream
+
+3.1.8.0.6-demo  2020-09-14 Fixed Merge issues and some JS errors
+
+3.1.8.0.7-demo  2020-09-15 Fixed VueJS not being able to find a component 
+                        Displaying a field that is empty on the petition now displays *** MISSING...
+                        Petition fields can be changed on Review and displayed on Petition for only one petition
+
+
+3.2.0.0.0       2020-09-19 Prod install
+
+
+3.2.1.0.0       2020-09-27 Petition: Table now has logic not to show "Group #" if only one group and to drop Group column if only one charge.
+                               Included adding stub logic for the number of petitions, groups, and charges 
+                           Group and Charge pulldowns were corrected for Edit screen 
+                           Added ** to paragraphs to indicate to lawyers that they will want to modify the paragraph.
+                           Removed leading space in front of periods and commas. 
+                           Only allow one petition per applicant for now.      
+                               The database supports more than one,     
+                               Review and Petition UI needs to be modified to select which petition to work on if more than one.
+
+3.2.1.1.0       2020-09-28 Hardcoded # of charges in a case for petitioin
+
+3.2.1.2.0       2020-09-28 Day of dates now display as "5" instead of "5th" 
+                           Fixed State, add address line 2, and extra space before punctuation at end of most sentence. 
+                           UpperCase Service Name 
+                           Petition minor text changes 
+
+3.2.1.3.0       2020-09-28 Added counsel name and firm to the "by and through counsel" statement
+
+3.2.1.4.0       2020-09-29 Text change: removed the infront of Petitioner states of first para
+
+3.2.2.0.0       2020-10-02 Added (2016 & Supp. 2019) (effective Aug. 28, 2019) and ** Petitioner has not been found guilty ...
+
+3.2.3.0.0       2020-10-11 Resolved bug that keeps Applicatn Show screen from working
+                           intercepts mismatch token at login, should prevent the Page Expired by taking them to login
+
+3.2.4.0.0       2020-10-12 If there is only one case in a group the 'Reason Included in Group' column is not displayed
+                           Cannow upload .xlsx files
+
+3.2.4.1.0       2020-10-19 Resolves light blue background when pasting into Word on Windows
+
+3.2.4.2.0       2020-12-28 The petition can now be exported as a Word document.
+                           Spreadsheet 
+                              import now attempts to fix statute numbers missing the trailing zero
+                              both .xls and .xlsx can be imported
+                           UI cleanup, 
+                              added a rule above the case to visually separate them
+                              created horizontal alignments
+
+
