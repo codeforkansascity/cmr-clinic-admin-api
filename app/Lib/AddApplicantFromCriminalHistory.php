@@ -11,6 +11,7 @@ namespace App\Lib;
 use App\Applicant;
 use App\Charge;
 use App\Conviction;
+use Illuminate\Support\Facades\DB;
 use App\DataSource;
 use Exception;
 
@@ -26,6 +27,8 @@ class AddApplicantFromCriminalHistory
 
     public function addHistory()
     {
+
+
         $data = $this->data;
 
         if (! (array_key_exists('name', $data) && ! empty($data['name']))) {
@@ -47,7 +50,13 @@ class AddApplicantFromCriminalHistory
         }
 
         if (empty($this->errors)) {
+            DB::beginTransaction();
             $client = $this->addApplicant($data);
+            if (empty($this->errors)) {
+                DB::commit();
+            } else {
+                DB::rollBack();
+            }
         } else {
             $client = null;
         }
@@ -133,6 +142,7 @@ class AddApplicantFromCriminalHistory
     private function addCharge($charges, $conviction_id)
     {
         foreach ($charges as $charge) {
+
             $charge['conviction_id'] = $conviction_id;
             unset($charge['source']);
 
@@ -160,6 +170,12 @@ class AddApplicantFromCriminalHistory
 
                 if ($statute) {
                     $statute_id = $statute->id;
+                } elseif (preg_match('/^\d{3}\.\d{2}$/',$number)){
+                    $number = $number . "0";
+                    $statute = \App\Statute::where('number', $number)->first();
+                    if ($statute) {
+                        $statute_id = $statute->id;
+                    }
                 }
 
                 $charge['statute_id'] = $statute_id;
