@@ -1,8 +1,9 @@
 <template>
     <div>
-        <h4>
-            Service <span @click="addService" class="add-button">+</span>
-        </h4>
+        <h5>
+            Service List
+<!--            <span @click="addService" class="add-button">+</span>-->
+        </h5>
         <table class="table  table-sm">
             <tr  v-for="(service,i) in services"
                 :key="service.id + 'service-' + i"
@@ -15,16 +16,16 @@
                 <td>
                     {{service.name}}
                 </td>
-                <td class="d-inline-block">
-                    <pencil-control height="25"
-                                    class="d-inline-flex"
-                                    @click="editService(service, i)"/>
-                    <delete-control
-                        class="d-inline-flex"
-                        height="25"
-                        @click="deleteService(service, i)"
-                    ></delete-control>
-                </td>
+<!--                <td class="d-inline-block">-->
+<!--                    <pencil-control height="25"-->
+<!--                                    class="d-inline-flex"-->
+<!--                                    @click="editService(service, i)"/>-->
+<!--                    <delete-control-->
+<!--                        class="d-inline-flex"-->
+<!--                        height="25"-->
+<!--                        @click="deleteService(service, i)"-->
+<!--                    ></delete-control>-->
+<!--                </td>-->
             </tr>
         </table>
         <base-modal v-if="showServiceModal" @close="closeModal">
