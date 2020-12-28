@@ -177,7 +177,7 @@ class ApplicantController extends Controller
 
         $can_cms = Auth::user()->can('CMS access');
 
-        return view('applicant.create', compact($can_cms));
+        return view('applicant.create', compact('can_cms'));
     }
 
     /**
