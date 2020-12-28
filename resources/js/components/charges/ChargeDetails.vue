@@ -23,7 +23,7 @@
             <div class="col-md-1">
                 <slot></slot>
             </div>
-            <div class="col-md-12" style="padding-left: em; padding-bottom: 1.25em;">
+            <div class="col-md-12" style="padding-left: 8em; padding-right: 8em; padding-bottom: 1.25em;">
                 <dsp-textarea v-model="record.notes"></dsp-textarea>
             </div>
         </div>
