@@ -156,3 +156,13 @@
                            Cannow upload .xlsx files
 
 3.2.4.1.0       2020-10-19 Resolves light blue background when pasting into Word on Windows
+
+3.2.4.2.0       2020-12-28 The petition can now be exported as a Word document.
+                           Spreadsheet 
+                              import now attempts to fix statute numbers missing the trailing zero
+                              both .xls and .xlsx can be imported
+                           UI cleanup, 
+                              added a rule above the case to visually separate them
+                              created horizontal alignments
+
+
