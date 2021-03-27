@@ -106,8 +106,8 @@ class AddApplicantFromCriminalHistory
                 return;
             }
 
-            if (array_key_exists('Source', $case) && ! empty($case['Source'])) {
-                $this->addSources($conviction, $case['Source']);
+            if (array_key_exists('source', $case) && ! empty($case['source'])) {
+                $this->addSources($conviction, $case['source']);
             }
 
             if (array_key_exists('CHARGES', $case) && ! empty($case['CHARGES'])) {

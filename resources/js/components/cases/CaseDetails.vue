@@ -23,20 +23,22 @@
                     <tr is="tr-view" v-model="record.name">Case Description</tr>
                     <tr is="tr-view" v-model="record.record_name" style="line-height: 1; margin-bottom: 2em; padding-bottom: 2em;">
                         Applicant's name in <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;court's records?</tr>
-                    <tr is="tr-view" v-model="record.arresting_agency">Arresting Agency</tr>
-                    <tr is="tr-view" v-model="record.arrest_date">Date of Arrest</tr>
-                    <tr is="tr-view-date" v-model="record.date_of_charge">Date of Charge</tr>
+                    <tr is="tr-view" v-model="record.court_city_county">Court</tr>
+                    <tr is="tr-view" v-model="record.judge">Judge</tr>
+                    <tr is="tr-view-yn" v-model="record.sis">SIS</tr>
                     <tr is="tr-view" :value="mapNames(record.sources)">Sources</tr>
                 </table>
             </div>
             <div class="col-md-6" style="padding-left: 1em;">
                 <table class="table  table-sm table-borderless">
+                    <tr is="tr-view" v-model="record.arresting_agency">Arresting Agency</tr>
+                    <tr is="tr-view" v-model="record.arrest_date">Date of Arrest</tr>
+                    <tr is="tr-view-date" v-model="record.date_of_charge">Date of Charge</tr>
                     <tr is="tr-view" v-model="record.date_of_disposition">Date of Disposition</tr>
                     <tr is="tr-view" v-model="record.release_status">Relase Status</tr>
                     <tr is="tr-view-date" v-model="record.release_date">Release Date</tr>
-                    <tr is="tr-view" v-model="record.court_city_county">Court</tr>
-                    <tr is="tr-view" v-model="record.judge">Judge</tr>
-                    <tr is="tr-view-yn" v-model="record.sis">SIS</tr>
+                    <tr>Satisfy all obligations</tr>
+
                 </table>
             </div>
 
