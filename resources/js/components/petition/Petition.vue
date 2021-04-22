@@ -181,7 +181,7 @@
                                 <tr>
                                 <th style="width: 7em; vertical-align: bottom; horiz-align: center; border: 1px solid black; border-collapse: collapse; font-family: Arial; font-size: 12pt; padding-left: 0.25em; padding-right: 0.25em">Case Number</th>
                                 <th style="width: 7em; vertical-align: bottom; horiz-align: center; border: 1px solid black; border-collapse: collapse; font-family: Arial; font-size: 12pt; padding-left: 0.25em; padding-right: 0.25em">Approx. Date of Charge</th>
-                                <th style="vertical-align: bottom; horiz-align: center; border: 1px solid black; border-collapse: collapse; font-family: Arial; font-size: 12pt; padding-left: 0.25em; padding-right: 0.25em">Offense Description<br>(RSMo. Number and Common Name of Offense)</th>
+                                <th style="vertical-align: bottom; horiz-align: center; border: 1px solid black; border-collapse: collapse; font-family: Arial; font-size: 12pt; padding-left: 0.25em; padding-right: 0.25em">Offense Description</th>
                                 <th style="width: 10em; vertical-align: bottom; horiz-align: center; border: 1px solid black; border-collapse: collapse; font-family: Arial; font-size: 12pt; padding-left: 0.25em; padding-right: 0.25em"
                                     v-if="group.length > 1">Reason Included in Group</th>
                                 </tr>
