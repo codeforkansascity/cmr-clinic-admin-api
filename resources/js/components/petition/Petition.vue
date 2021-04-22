@@ -103,13 +103,9 @@
         </div>
 
         <div style="clear: both; padding-top:2em">
-
-            <br/>
-            <p style="font-family: Arial; font-size: 12pt;text-decoration-line: underline; text-align: center; padding-bottom: 2em">
+            <p style="font-family: Arial; font-size: 12pt;text-decoration-line: underline; text-align: center;">
                 PETITION FOR EXPUNGEMENT
             </p>
-            <br/>
-
             <div class="pro-se-dbl" style="font-family: Arial;font-size: 12pt;line-height: 2;">
                 <p>
                     COMES NOW Petitioner,
