@@ -167,4 +167,9 @@
 
 3.2.4.3.0       2021-03-27 Source: fixed spreadsheet upload and created program to fix sources in applicants
 
+3.2.4.4.0       2021-04-22 Petition: removed "(RSMo. Number and Common Name of Offense)" from the charge table header 
+                           Petition: reduced spacing around "PETITION..." 
+                           Petition: added Div 
+                           Service: restored ability to add/remove 
+
 

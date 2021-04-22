@@ -91,10 +91,10 @@
 
                     <td border="0" width="50%" style="padding-left: 2em">
                         <p style="font-family: Arial;font-size: 12pt;line-height: 1.2;">
-                            <pre-field v-model="record.case_no" capitalize="true"
-                                       style="font-family: Arial;font-size: 12pt;line-height: 1.2;"
-                                       missing_prompt="«CaseYear»"/>
-                            -CV
+                            Case No.:
+                        </p>
+                        <p style="font-family: Arial;font-size: 12pt;line-height: 1.2;">
+                            Div. 00
                         </p>
                     </td>
                 </tr>
@@ -103,13 +103,9 @@
         </div>
 
         <div style="clear: both; padding-top:2em">
-
-            <br/>
-            <p style="font-family: Arial; font-size: 12pt;text-decoration-line: underline; text-align: center; padding-bottom: 2em">
+            <p style="font-family: Arial; font-size: 12pt;text-decoration-line: underline; text-align: center;">
                 PETITION FOR EXPUNGEMENT
             </p>
-            <br/>
-
             <div class="pro-se-dbl" style="font-family: Arial;font-size: 12pt;line-height: 2;">
                 <p>
                     COMES NOW Petitioner,
@@ -185,7 +181,7 @@
                                 <tr>
                                 <th style="width: 7em; vertical-align: bottom; horiz-align: center; border: 1px solid black; border-collapse: collapse; font-family: Arial; font-size: 12pt; padding-left: 0.25em; padding-right: 0.25em">Case Number</th>
                                 <th style="width: 7em; vertical-align: bottom; horiz-align: center; border: 1px solid black; border-collapse: collapse; font-family: Arial; font-size: 12pt; padding-left: 0.25em; padding-right: 0.25em">Approx. Date of Charge</th>
-                                <th style="vertical-align: bottom; horiz-align: center; border: 1px solid black; border-collapse: collapse; font-family: Arial; font-size: 12pt; padding-left: 0.25em; padding-right: 0.25em">Offense Description<br>(RSMo. Number and Common Name of Offense)</th>
+                                <th style="vertical-align: bottom; horiz-align: center; border: 1px solid black; border-collapse: collapse; font-family: Arial; font-size: 12pt; padding-left: 0.25em; padding-right: 0.25em">Offense Description</th>
                                 <th style="width: 10em; vertical-align: bottom; horiz-align: center; border: 1px solid black; border-collapse: collapse; font-family: Arial; font-size: 12pt; padding-left: 0.25em; padding-right: 0.25em"
                                     v-if="group.length > 1">Reason Included in Group</th>
                                 </tr>
