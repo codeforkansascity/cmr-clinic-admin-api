@@ -91,10 +91,10 @@
 
                     <td border="0" width="50%" style="padding-left: 2em">
                         <p style="font-family: Arial;font-size: 12pt;line-height: 1.2;">
-                            <pre-field v-model="record.case_no" capitalize="true"
-                                       style="font-family: Arial;font-size: 12pt;line-height: 1.2;"
-                                       missing_prompt="«CaseYear»"/>
-                            -CV
+                            Case No.:
+                        </p>
+                        <p style="font-family: Arial;font-size: 12pt;line-height: 1.2;">
+                            Div. 00
                         </p>
                     </td>
                 </tr>
