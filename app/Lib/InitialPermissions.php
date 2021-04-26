@@ -87,6 +87,14 @@ class InitialPermissions
         Permission::findOrCreate('data_source edit');
         Permission::findOrCreate('data_source delete');
 
+        Permission::findOrCreate('exception index');
+        Permission::findOrCreate('exception view');
+        Permission::findOrCreate('exception export-pdf');
+        Permission::findOrCreate('exception export-excel');
+        Permission::findOrCreate('exception add');
+        Permission::findOrCreate('exception edit');
+        Permission::findOrCreate('exception delete');
+
         Permission::findOrCreate('jurisdiction index');
         Permission::findOrCreate('jurisdiction view');
         Permission::findOrCreate('jurisdiction export-pdf');
@@ -214,6 +222,14 @@ class InitialPermissions
             'data_source export-pdf',
             'data_source export-excel',
 
+            'exception index',
+            'exception view',
+            'exception export-pdf',
+            'exception export-excel',
+            'exception add',
+            'exception edit',
+            'exception delete',
+
             'jurisdiction index',
             'jurisdiction add',
             'jurisdiction edit',
@@ -313,6 +329,14 @@ class InitialPermissions
             'data_source export-pdf',
             'data_source export-excel',
 
+            'exception index',
+            'exception view',
+            'exception export-pdf',
+            'exception export-excel',
+            'exception add',
+            'exception edit',
+            'exception delete',
+
             'jurisdiction index',
             'jurisdiction add',
             'jurisdiction edit',
@@ -368,6 +392,9 @@ class InitialPermissions
 
             'data_source index',
             'data_source view',
+
+            'exception index',
+            'exception view',
 
             'jurisdiction index',
             'jurisdiction view',

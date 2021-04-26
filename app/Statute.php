@@ -32,6 +32,7 @@ class Statute extends Model
         'id',
         'number',
         'name',
+        'common_name',
         'note',
         'statutes_eligibility_id',
         'superseded_id',

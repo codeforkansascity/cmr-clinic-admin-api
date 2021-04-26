@@ -16,6 +16,7 @@ class CreateJurisdictionTypeTable extends Migration
         Schema::create('jurisdiction_types', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+
             $table->integer('display_sequence')->default(0)->nullable();
 
             $table->integer('created_by')->default(0)->nullable();

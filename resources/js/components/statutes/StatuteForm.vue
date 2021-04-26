@@ -80,6 +80,22 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-md-2">
+
+            </div>
+
+            <div class="col-md-10">
+                <std-form-group
+                    label="Common Name"
+                    label-for="common_name"
+                    :errors="form_errors.common_name"
+                >
+                    <fld-input name="name" v-model="form_data.common_name"/>
+                </std-form-group>
+            </div>
+        </div>
+
         <div class="row pb-3" v-if="selected_jurisdiction_type && selected_jurisdiction_type.name.toLowerCase() !== 'state'">
             <div class="col-md-9">
                 <label class="form-control-label">

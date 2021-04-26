@@ -118,6 +118,7 @@ class StatuteController extends Controller
         $statute = Statute::create($request->only([
             'number',
             'name',
+            'common_name',
             'note',
             'statutes_eligibility_id',
             'superseded_id',

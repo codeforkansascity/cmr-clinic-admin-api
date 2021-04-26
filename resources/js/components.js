@@ -193,3 +193,7 @@ Vue.component('jurisdiction-create-modal', () => import(/* webpackChunkName:"jur
 Vue.component('petition-field-grid', () => import(/* webpackChunkName:"petition-field-grid" */ './components/petition_fields/PetitionFieldGrid.vue'));
 Vue.component('petition-field-form', () => import(/* webpackChunkName:"petition-field-form" */ './components/petition_fields/PetitionFieldForm.vue'));
 Vue.component('petition-field-show', () => import(/* webpackChunkName:"petition-field-Show" */ './components/petition_fields/PetitionFieldShow.vue'));
+
+Vue.component('exception-grid', () => import(/* webpackChunkName:"exception-grid" */ './components/exceptions/ExceptionGrid.vue'));
+Vue.component('exception-form', () => import(/* webpackChunkName:"exception-form" */ './components/exceptions/ExceptionForm.vue'));
+Vue.component('exception-show', () => import(/* webpackChunkName:"exception-Show" */ './components/exceptions/ExceptionShow.vue'));
