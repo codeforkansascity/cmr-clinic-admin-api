@@ -27,7 +27,7 @@ class AddCdlQuestions extends Migration
     public function down()
     {
         Schema::table('applicants', function (Blueprint $table) {
-            $table->dropColumn('cdl');
+            $table->dropColumn('cdl_status_id');
             $table->dropColumn('cdl_text');
         });
     }

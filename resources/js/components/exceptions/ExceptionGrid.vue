@@ -24,7 +24,7 @@
                         href="#"
                         @click.default="goToNew"
                         class="btn btn-primary mb-3 mb-sm-2 mr-3"
-                        >Add Petition Fields</a
+                        >Add Exceptions</a
                     >
                     <search-form-group
                         class="mb-0"
@@ -75,16 +75,49 @@
                         >
                             Name
                         </ss-grid-column-header>
+<!--                        <ss-grid-column-header-->
+<!--                            v-on:selectedSort="sortColumn"-->
+<!--                            v-bind:selectedKey="sortKey"-->
+<!--                            title="Sort by Short Name"-->
+<!--                            :params="{-->
+<!--                                sortField: 'short_name',-->
+<!--                                InitialSortOrder: 'asc'-->
+<!--                            }"-->
+<!--                        >-->
+<!--                            Short Name-->
+<!--                        </ss-grid-column-header>-->
+<!--                        <ss-grid-column-header-->
+<!--                            v-on:selectedSort="sortColumn"-->
+<!--                            v-bind:selectedKey="sortKey"-->
+<!--                            title="Sort by Attorney Note"-->
+<!--                            :params="{-->
+<!--                                sortField: 'attorney_note',-->
+<!--                                InitialSortOrder: 'asc'-->
+<!--                            }"-->
+<!--                        >-->
+<!--                            Attorney Note-->
+<!--                        </ss-grid-column-header>-->
+<!--                        <ss-grid-column-header-->
+<!--                            v-on:selectedSort="sortColumn"-->
+<!--                            v-bind:selectedKey="sortKey"-->
+<!--                            title="Sort by Dyi Note"-->
+<!--                            :params="{-->
+<!--                                sortField: 'dyi_note',-->
+<!--                                InitialSortOrder: 'asc'-->
+<!--                            }"-->
+<!--                        >-->
+<!--                            Dyi Note-->
+<!--                        </ss-grid-column-header>-->
                         <ss-grid-column-header
                             v-on:selectedSort="sortColumn"
                             v-bind:selectedKey="sortKey"
-                            title="Sort by Short Name"
+                            title="Sort by Logic"
                             :params="{
-                                sortField: 'short_name',
+                                sortField: 'logic',
                                 InitialSortOrder: 'asc'
                             }"
                         >
-                            Short Name
+                            Logic
                         </ss-grid-column-header>
                         <th style="width:20%;" class="text-lg-center">
                             Actions
@@ -93,14 +126,14 @@
                 </thead>
                 <tbody>
                     <tr v-if="gridState == 'wait'">
-                        <td colspan="4" class="grid-alert">
+                        <td colspan="7" class="grid-alert">
                             <div class="alert alert-info" role="alert">
                                 Please wait.
                             </div>
                         </td>
                     </tr>
                     <tr v-if="gridState == 'error'">
-                        <td colspan="4" class="grid-alert">
+                        <td colspan="7" class="grid-alert">
                             <div class="alert alert-warning" role="alert">
                                 Error please try again.
                             </div>
@@ -108,7 +141,7 @@
                     </tr>
 
                     <tr v-if="gridState == 'good' && !gridData.length">
-                        <td colspan="4" class="grid-alert">
+                        <td colspan="7" class="grid-alert">
                             <div class="alert alert-warning" role="alert">
                                 No matching records found.
                             </div>
@@ -127,8 +160,14 @@
                             <span v-if="params.CanShow != '1'">
                                 {{ row.name }}
                             </span>
+                            <div class="indented-block">
+                                Short name: {{ row.short_name }}<br>
+                                Atty note: {{ row.attorney_note }}<br>
+                                DYI note: {{ row.dyi_note }}
+
+                            </div>
                         </td>
-                        <td data-title="Short Name">{{ row.short_name }}</td>
+                        <td data-title="Logic">{{ row.logic }}</td>
                         <td
                             data-title="Actions"
                             class="text-lg-center text-nowrap"

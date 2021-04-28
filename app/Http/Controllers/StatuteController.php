@@ -151,12 +151,40 @@ class StatuteController extends Controller
             $can_delete = Auth::user()->can('statute delete') && $statute->canDelete();
             $charges = $statute->getCharges($id);
 
-            return view('statute.show', compact('charges', 'statute', 'can_edit', 'can_delete'));
+            $exceptions = $this->create_exceptions($statute);
+
+            return view('statute.show', compact('charges', 'exceptions', 'statute', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Statutes to display.');
 
             return Redirect::route('statute.index');
         }
+    }
+
+    private function create_exceptions($statute) {
+        $exceptions = [];
+
+        if ($statute_exceptions = data_get($statute,'statute_exception',false)) {
+            foreach ($statute_exceptions AS $statute_exception) {
+                if ($exception = data_get($statute_exception, 'exception', false)) {
+                    $exceptions[] = [
+                        'statute_exception_id' => data_get($statute_exception,'id', 0),
+                        'statute_id' => data_get($statute_exception,'statute_id', 0),
+                        'exception_id' => data_get($statute_exception,'exception_id', 0),
+                        'exception_note' => data_get($statute_exception,'note', ''),
+                        'exception_section' => data_get($exception,'section', 'ERR S'),
+                        'exception_name' => data_get($exception,'name', 'ERR N'),
+                        'exception_attorney_note' => data_get($exception,'attorney_note', 'ERR N'),
+                        'exception_dyi_note' => data_get($exception,'dyi_note', 'ERR N'),
+                        'exception_logic' => data_get($exception,'logic', 'ERR N'),
+                        'exception_short_name' => data_get($exception,'short_name', 'ERR SN'),
+                    ];
+                }
+            }
+        }
+
+        return $exceptions;
+
     }
 
     /**
@@ -280,6 +308,7 @@ class StatuteController extends Controller
     {
         return \App\Statute::with([
             'statutes_eligibility',
+            'statute_exception',
             'jurisdiction',
             'jurisdiction.type',
             'superseded' => function ($q) {

@@ -201,3 +201,9 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 
+
+Route::get('/api-exception', 'ExceptionApi@index');
+Route::get('/api-exception/options', 'ExceptionApi@getOptions');
+Route::get('/exception/download', 'ExceptionController@download')->name('exception.download');
+Route::get('/exception/print', 'ExceptionController@print')->name('exception.print');
+Route::resource('/exception', 'ExceptionController');

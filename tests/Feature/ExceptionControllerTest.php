@@ -331,7 +331,7 @@ class ExceptionControllerTest extends TestCase
         // act as the user we got and request the create_new_article route
         $response = $this->actingAs($user)->get(route('exception.show',['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Petition Fields to display.');
+        $response->assertSessionHas('flash_error_message','Unable to find Exceptions to display.');
 
     }
 
@@ -346,7 +346,7 @@ class ExceptionControllerTest extends TestCase
         // act as the user we got and request the create_new_article route
         $response = $this->actingAs($user)->get(route('exception.edit',['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Petition Fields to edit.');
+        $response->assertSessionHas('flash_error_message','Unable to find Exceptions to edit.');
 
     }
 
@@ -383,6 +383,9 @@ class ExceptionControllerTest extends TestCase
             'section' => "",
             'name' => "",
             'short_name' => "",
+            'attorney_note' => "",
+            'dyi_note' => "",
+            'logic' => "",
         ];
 
         $totalNumberOfExceptionsBefore = Exception::count();
@@ -412,6 +415,9 @@ class ExceptionControllerTest extends TestCase
             'section' => "a",
             'name' => "a",
             'short_name' => "a",
+            'attorney_note' => "a",
+            'dyi_note' => "a",
+            'logic' => "a",
         ];
 
         $totalNumberOfExceptionsBefore = Exception::count();
@@ -443,6 +449,9 @@ class ExceptionControllerTest extends TestCase
           'section' => "",
           'name' => $faker->name,
           'short_name' => "",
+          'attorney_note' => "",
+          'dyi_note' => "",
+          'logic' => "",
         ];
 
         info('--  Exception  --');
@@ -474,6 +483,15 @@ class ExceptionControllerTest extends TestCase
         $this->assertEquals($lastInsertedInTheDB->short_name, $data['short_name'], "the short_name of the saved exception is different from the input data");
 
 
+        $this->assertEquals($lastInsertedInTheDB->attorney_note, $data['attorney_note'], "the attorney_note of the saved exception is different from the input data");
+
+
+        $this->assertEquals($lastInsertedInTheDB->dyi_note, $data['dyi_note'], "the dyi_note of the saved exception is different from the input data");
+
+
+        $this->assertEquals($lastInsertedInTheDB->logic, $data['logic'], "the logic of the saved exception is different from the input data");
+
+
     }
 
     /**
@@ -498,6 +516,9 @@ class ExceptionControllerTest extends TestCase
             'section' => "",
             'name' => $exception->name,
             'short_name' => "",
+            'attorney_note' => "",
+            'dyi_note' => "",
+            'logic' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('exception.store'), $data);
@@ -564,6 +585,9 @@ class ExceptionControllerTest extends TestCase
             'section' => "",
             'name' => $faker->name,
             'short_name' => "",
+            'attorney_note' => "",
+            'dyi_note' => "",
+            'logic' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('exception.store'), $exception_dup);

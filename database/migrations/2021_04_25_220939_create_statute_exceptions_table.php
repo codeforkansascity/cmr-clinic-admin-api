@@ -15,14 +15,17 @@ class CreateStatuteExceptionsTable extends Migration
     {
         Schema::create('statute_exceptions', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('statue_id');
+            $table->bigInteger('statute_id');
             $table->bigInteger('exception_id');
+            $table->text('note')->nullable();
 
             $table->integer('created_by')->default(0)->nullable();
             $table->integer('modified_by')->default(0)->nullable();
             $table->integer('purged_by')->default(0)->nullable();
             $table->timestamps();
         });
+
+
     }
 
     /**
@@ -34,4 +37,5 @@ class CreateStatuteExceptionsTable extends Migration
     {
         Schema::dropIfExists('statute_exceptions');
     }
+
 }

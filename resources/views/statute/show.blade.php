@@ -1,21 +1,21 @@
 @extends('layouts.master')
 @php $nav_path = ['statute']; @endphp
 @section('page-title')
-View {{$statute->name}}
+View {{$statute->number}} {{$statute->name}}
 @endsection
 @section('page-header-title')
-View {{$statute->name}}
+View  {{$statute->number}} {{$statute->name}}
 @endsection
 @section('page-header-breadcrumbs')
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
     <li class="breadcrumb-item"><a href="{{ route('statute.index') }}">Statutes</a></li>
-    <li class="breadcrumb-item active" aria-current="location">View {{$statute->name}}</li>
+    <li class="breadcrumb-item active" aria-current="location">View {{$statute->number}} {{$statute->name}}</li>
 </ol>
 @endsection
 @section('content')
 
-    <statute-show :record='@json($statute)' :charges='@json($charges)'></statute-show>
+    <statute-show :record='@json($statute)' :charges='@json($charges)' :exceptions='@json($exceptions)'></statute-show>
 
     <div class="row">
         <div class="col-md-12">

@@ -33,6 +33,11 @@ class ExceptionExport implements FromQuery, WithHeadings, WithMapping
                         'section',
                         'name',
                         'short_name',
+                        'attorney_note',
+                        'dyi_note',
+                        'logic',
+                        'sequence',
+                        'deleted_at',
                     ];
     }
 
@@ -47,6 +52,11 @@ class ExceptionExport implements FromQuery, WithHeadings, WithMapping
                         $exception->section,
                         $exception->name,
                         $exception->short_name,
+                        $exception->attorney_note,
+                        $exception->dyi_note,
+                        $exception->logic,
+                        $exception->sequence,
+                        $exception->deleted_at,
                     ];
     }
 }

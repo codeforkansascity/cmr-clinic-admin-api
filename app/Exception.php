@@ -20,6 +20,11 @@ class Exception extends Model
             'section',
             'name',
             'short_name',
+            'attorney_note',
+            'dyi_note',
+            'logic',
+            'sequence',
+            'deleted_at',
         ];
 
     protected $hidden = [
@@ -49,7 +54,7 @@ class Exception extends Model
 
     public function canDelete()
     {
-        return true;
+        return false;
     }
 
 
@@ -73,6 +78,9 @@ class Exception extends Model
                     'section',
                     'name',
                     'short_name',
+                    'attorney_note',
+                    'dyi_note',
+                    'logic',
             ])
         ->paginate($per_page);
     }

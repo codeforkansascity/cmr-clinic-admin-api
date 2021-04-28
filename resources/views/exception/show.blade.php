@@ -9,7 +9,7 @@ View {{$exception->name}}
 @section('page-header-breadcrumbs')
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('exception.index') }}">Petition Fields</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('exception.index') }}">Exceptions</a></li>
     <li class="breadcrumb-item active" aria-current="location">View {{$exception->name}}</li>
 </ol>
 @endsection
@@ -22,7 +22,7 @@ View {{$exception->name}}
             <div class="row mt-4">
                 <div class="col-md-4">
                     @if ($can_edit)
-                        <a href="/exception/{{ $exception->id }}/edit" class="btn btn-primary">Edit Petition Fields</a>
+                        <a href="/exception/{{ $exception->id }}/edit" class="btn btn-primary">Edit Exceptions</a>
                     @endif
                 </div>
                 <div class="col-md-4 text-md-center mt-2 mt-md-0">
@@ -31,7 +31,7 @@ View {{$exception->name}}
                             <input type="hidden" name="_method" value="delete">
                             {{ csrf_field() }}
 
-                            <input class="btn btn-danger" Onclick="return ConfirmDelete();" type="submit" value="Delete Petition Fields">
+                            <input class="btn btn-danger" Onclick="return ConfirmDelete();" type="submit" value="Delete Exceptions">
 
                         </form>
                     @endif
@@ -42,12 +42,17 @@ View {{$exception->name}}
             </div>
         </div>
     </div>
-</div>
+
+    <h2 class="mt-4">Statutes related to</h2>
+
+    <dsp-exception-statutes :statutes='@json($statutes)'></dsp-exception-statutes>
+
+
 @endsection
 @section('scripts')
 <script>
     function ConfirmDelete() {
-        var x = confirm("Are you sure you want to delete this Petition Fields?");
+        var x = confirm("Are you sure you want to delete this Exceptions?");
         if (x)
             return true;
         else

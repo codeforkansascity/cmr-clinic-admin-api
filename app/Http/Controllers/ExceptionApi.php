@@ -21,7 +21,7 @@ class ExceptionApi extends Controller
 
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
-        $column = $request->get('column', 'Name');
+        $column = $request->get('column', 'sequence');
         $direction = $request->get('direction', '-1');
         $keyword = $request->get('keyword', '');
 
@@ -37,7 +37,7 @@ class ExceptionApi extends Controller
         $keyword = $keyword != 'null' ? $keyword : '';
         $column = $column ? mb_strtolower($column) : 'name';
 
-        return Exception::indexData(10, $column, $direction, $keyword);
+        return Exception::indexData(20, $column, $direction, $keyword);
     }
 
     /**

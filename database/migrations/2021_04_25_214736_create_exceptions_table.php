@@ -18,8 +18,10 @@ class CreateExceptionsTable extends Migration
             $table->string('section');
             $table->string('name');
             $table->string('short_name');
+            $table->text('attorney_note')->nullable();
+            $table->text('dyi_note')->nullable();
+            $table->string('logic')->default('')->nullable();
             $table->integer('sequence')->default(0)->nullable();
-
 
             $table->integer('created_by')->default(0)->nullable();
             $table->integer('modified_by')->default(0)->nullable();
@@ -27,6 +29,8 @@ class CreateExceptionsTable extends Migration
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });
+
+
     }
 
     /**
@@ -38,4 +42,6 @@ class CreateExceptionsTable extends Migration
     {
         Schema::dropIfExists('exceptions');
     }
+
+
 }

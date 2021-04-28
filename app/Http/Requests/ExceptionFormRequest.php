@@ -40,6 +40,11 @@ class ExceptionFormRequest extends FormRequest
             'id' => 'numeric',
             'section' => 'nullable|string|max:191',
             'short_name' => 'nullable|string|max:191',
+            'attorney_note' => 'nullable|string',
+            'dyi_note' => 'nullable|string',
+            'logic' => 'nullable|string|max:191',
+            'sequence' => 'nullable|numeric',
+            'deleted_at' => 'nullable|string',
 
         ];
 

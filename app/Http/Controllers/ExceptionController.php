@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\TrimStrings;
 use App\Exception;
+use App\StatuteException;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\ExceptionFormRequest;
@@ -75,14 +76,14 @@ class ExceptionController extends Controller
     {
 
         if (!Auth::user()->can('exception index')) {
-            \Session::flash('flash_error_message', 'You do not have access to Petition Fieldss.');
+            \Session::flash('flash_error_message', 'You do not have access to Exceptionss.');
             return Redirect::route('home');
         }
 
         // Remember the search parameters, we saved them in the Query
         $page = session('exception_page', '');
         $search = session('exception_keyword', '');
-        $column = session('exception_column', 'Name');
+        $column = session('exception_column', 'sequence');
         $direction = session('exception_direction', '-1');
 
         $can_add = Auth::user()->can('exception add');
@@ -105,7 +106,7 @@ class ExceptionController extends Controller
 	{
 
         if (!Auth::user()->can('exception add')) {  // TODO: add -> create
-            \Session::flash('flash_error_message', 'You do not have access to add a Petition Fields.');
+            \Session::flash('flash_error_message', 'You do not have access to add a Exceptions.');
             if (Auth::user()->can('exception index')) {
                 return Redirect::route('exception.index');
             } else {
@@ -136,7 +137,7 @@ class ExceptionController extends Controller
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Petition Fields ' . $exception->name . ' was added.');
+        \Session::flash('flash_success_message', 'Exceptions ' . $exception->name . ' was added.');
 
         return response()->json([
             'message' => 'Added record'
@@ -154,7 +155,7 @@ class ExceptionController extends Controller
     {
 
         if (!Auth::user()->can('exception view')) {
-            \Session::flash('flash_error_message', 'You do not have access to view a Petition Fields.');
+            \Session::flash('flash_error_message', 'You do not have access to view a Exceptions.');
             if (Auth::user()->can('exception index')) {
                 return Redirect::route('exception.index');
             } else {
@@ -163,11 +164,12 @@ class ExceptionController extends Controller
         }
 
         if ($exception = $this->sanitizeAndFind($id)) {
+            $statutes = StatuteException::getStatutesForExceptions($exception->id);
             $can_edit = Auth::user()->can('exception edit');
             $can_delete = (Auth::user()->can('exception delete') && $exception->canDelete());
-            return view('exception.show', compact('exception','can_edit', 'can_delete'));
+            return view('exception.show', compact('exception','statutes', 'can_edit', 'can_delete'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Petition Fields to display.');
+            \Session::flash('flash_error_message', 'Unable to find Exceptions to display.');
             return Redirect::route('exception.index');
         }
     }
@@ -181,7 +183,7 @@ class ExceptionController extends Controller
     public function edit($id)
     {
         if (!Auth::user()->can('exception edit')) {
-            \Session::flash('flash_error_message', 'You do not have access to edit a Petition Fields.');
+            \Session::flash('flash_error_message', 'You do not have access to edit a Exceptions.');
             if (Auth::user()->can('exception index')) {
                 return Redirect::route('exception.index');
             } else {
@@ -192,7 +194,7 @@ class ExceptionController extends Controller
         if ($exception = $this->sanitizeAndFind($id)) {
             return view('exception.edit', compact('exception'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Petition Fields to edit.');
+            \Session::flash('flash_error_message', 'Unable to find Exceptions to edit.');
             return Redirect::route('exception.index');
         }
 
@@ -208,7 +210,7 @@ class ExceptionController extends Controller
     {
 
 //        if (!Auth::user()->can('exception update')) {
-//            \Session::flash('flash_error_message', 'You do not have access to update a Petition Fields.');
+//            \Session::flash('flash_error_message', 'You do not have access to update a Exceptions.');
 //            if (!Auth::user()->can('exception index')) {
 //                return Redirect::route('exception.index');
 //            } else {
@@ -217,7 +219,7 @@ class ExceptionController extends Controller
 //        }
 
         if (!$exception = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Petition Fields to edit.');
+       //     \Session::flash('flash_error_message', 'Unable to find Exceptions to edit.');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
@@ -235,7 +237,7 @@ class ExceptionController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Petition Fields ' . $exception->name . ' was changed.');
+            \Session::flash('flash_success_message', 'Exceptions ' . $exception->name . ' was changed.');
         } else {
             \Session::flash('flash_info_message', 'No changes were made.');
         }
@@ -254,7 +256,7 @@ class ExceptionController extends Controller
     {
 
         if (!Auth::user()->can('exception delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a Petition Fields.');
+            \Session::flash('flash_error_message', 'You do not have access to remove a Exceptions.');
             if (Auth::user()->can('exception index')) {
                  return Redirect::route('exception.index');
             } else {
@@ -274,9 +276,9 @@ class ExceptionController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Petition Fields ' . $exception->name . ' was removed.');
+            \Session::flash('flash_success_message', 'Exceptions ' . $exception->name . ' was removed.');
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Petition Fields to delete.');
+            \Session::flash('flash_error_message', 'Unable to find Exceptions to delete.');
 
         }
 
@@ -305,7 +307,7 @@ class ExceptionController extends Controller
     {
 
         if (!Auth::user()->can('exception excel')) {
-            \Session::flash('flash_error_message', 'You do not have access to download Petition Fields.');
+            \Session::flash('flash_error_message', 'You do not have access to download Exceptions.');
             if (Auth::user()->can('exception index')) {
                 return Redirect::route('exception.index');
             } else {
@@ -339,7 +341,7 @@ class ExceptionController extends Controller
         public function print()
 {
         if (!Auth::user()->can('exception export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print Petition Fields.');
+            \Session::flash('flash_error_message', 'You do not have access to print Exceptions.');
             if (Auth::user()->can('exception index')) {
                 return Redirect::route('exception.index');
             } else {
@@ -360,6 +362,9 @@ class ExceptionController extends Controller
             'section',
             'name',
             'short_name',
+            'attorney_note',
+            'dyi_note',
+            'logic',
         ];
         $dataQuery = Exception::pdfDataQuery($column, $direction, $search, $columns);
         $data = $dataQuery->get();

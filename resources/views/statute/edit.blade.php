@@ -1,10 +1,10 @@
 @extends('layouts.master')
 @php $nav_path = ['statute']; @endphp
 @section('page-title')
-    Edit {{$statute->name}}
+    Edit  {{$statute->number}} {{$statute->name}}
 @endsection
 @section('page-header-title')
-    Edit {{$statute->name}}
+    Edit  {{$statute->number}} {{$statute->name}}
 @endsection
 @section('page-help-link', '#TODO')
 @section('page-header-breadcrumbs')
