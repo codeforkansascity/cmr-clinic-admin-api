@@ -96,7 +96,7 @@
             </div>
         </div>
 
-        <div class="row pb-3" v-if="selected_jurisdiction_type && selected_jurisdiction_type.name.toLowerCase() !== 'state'">
+        <div class="row pb-3" v-if="selected_jurisdiction_type && selected_jurisdiction_type.name && selected_jurisdiction_type.name.toLowerCase() !== 'state'">
             <div class="col-md-9">
                 <label class="form-control-label">
                     Same As State Statute
@@ -268,6 +268,8 @@
             async handleSubmit() {
 
                 this.form_data.jurisdiction_id = this.selected_jurisdiction.id
+
+                this.form_data
                 this.server_message = false;
                 this.processing = true;
                 let url = "";
@@ -353,7 +355,11 @@
 
                         this.jurisdictions = this.all_jurisdictions
 
-                        this.selected_jurisdiction = this.jurisdictions.filter(j => j.id ===  this.form_data.jurisdiction_id)
+                        this.selected_jurisdiction = this.jurisdictions.find(j => j.id ===  this.form_data.jurisdiction_id)
+
+                        if(this.jurisdiction_types && !this.selected_jurisdiction_type) {
+                            this.selected_jurisdiction_type = this.jurisdiction_types.find(j => j.id ===  this.selected_jurisdiction.jurisdiction_type_id);
+                        }
                     })
                     .catch(e => console.error(e))
             },
@@ -362,6 +368,10 @@
                 axios.get('/api-jurisdiction-type')
                     .then((res) => {
                         this.jurisdiction_types = res.data.data
+                        if(!this.selected_jurisdiction_type && this.selected_jurisdiction) {
+                            this.selected_jurisdiction_type = this.jurisdiction_types.find(j => j.id ===  this.selected_jurisdiction.jurisdiction_type_id);
+                        }
+
                     })
                     .catch(e => console.error(e))
             }

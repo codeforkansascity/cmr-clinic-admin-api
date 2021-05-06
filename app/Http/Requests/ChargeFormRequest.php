@@ -43,7 +43,7 @@ class ChargeFormRequest extends FormRequest
             'imported_citation' => 'nullable|string|max:64',
             'conviction_class_type' => 'nullable|string|max:64',
             'conviction_charge_type' => 'nullable|string|max:64',
-            'sentence' => 'nullable|string|max:64',
+            'sentence' => 'nullable|string|max:255',
             'to_print' => 'nullable|string|max:64',
             'notes' => 'nullable|string',
             'convicted' => 'nullable|numeric',
