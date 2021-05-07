@@ -164,7 +164,7 @@ class StatuteController extends Controller
     private function create_exceptions($statute) {
         $exceptions = [];
 
-        if ($statute_exceptions = data_get($statute,'statute_exception',false)) {
+        if ($statute_exceptions = data_get($statute,'statute_exceptions',false)) {
             foreach ($statute_exceptions AS $statute_exception) {
                 if ($exception = data_get($statute_exception, 'exception', false)) {
                     $exceptions[] = [
@@ -221,7 +221,6 @@ class StatuteController extends Controller
      */
     public function update(StatuteFormRequest $request, $id)
     {
-
 //        if (!Auth::user()->can('statute edit')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Statutes.');
 //            if (!Auth::user()->can('statute index')) {
@@ -239,6 +238,10 @@ class StatuteController extends Controller
         }
 
         $statute->fill($request->all());
+
+        // remove
+        $this->syncExceptions($request, $statute);
+
 
         if ($statute->isDirty()) {
             try {
@@ -258,6 +261,7 @@ class StatuteController extends Controller
             'message' => 'Changed record',
         ], 200);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -308,7 +312,7 @@ class StatuteController extends Controller
     {
         return \App\Statute::with([
             'statutes_eligibility',
-            'statute_exception',
+            'statute_exceptions',
             'jurisdiction',
             'jurisdiction.type',
             'superseded' => function ($q) {
@@ -433,5 +437,33 @@ class StatuteController extends Controller
         }
 
         return $statutes->get();
+    }
+
+    /**
+     * @param $request
+     * @param Statute $statute
+     */
+    private function syncExceptions($request, Statute $statute): void
+    {
+        $requestIds = array_filter(
+            array_map(function ($exception) {
+                return $exception['id'] ?? null;
+            },
+                $request->statute_exceptions
+            )
+        );
+
+        // remove all statute exceptions ids not in the request
+        if (!empty($requestIds)) {
+            $statute->statute_exceptions()->whereNotIn('id', $requestIds)->delete();
+        } else if (empty($request->statute_exceptions)) {
+            $statute->statute_exceptions()->delete();
+        }
+
+        // add or update statute exceptions
+        foreach ($request->statute_exceptions as $statute_exception) {
+            if(empty($statute_exception['exception_id'])) continue;
+            $statute->statute_exceptions()->updateOrCreate(['id' => $statute_exception['id'] ?? null], $statute_exception);
+        }
     }
 }

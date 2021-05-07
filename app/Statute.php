@@ -66,7 +66,7 @@ class Statute extends Model
     {
         return $this->hasMany(Charge::class);
     }
-    public function statute_exception()
+    public function statute_exceptions()
     {
         return $this->hasMany(StatuteException::class)->with('exception');
     }
