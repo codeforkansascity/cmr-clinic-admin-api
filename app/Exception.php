@@ -178,9 +178,20 @@ class Exception extends Model
         $thisModel = new static;
 
         $records = $thisModel::select('id',
-            'name')
-            ->orderBy('name')
-            ->get();
+            'name','section','short_name')
+            ->orderBy('sequence')
+            ->get()
+            ->map(function ($record, $key) {
+                if (strlen($record->short_name) > 0) {
+                    $record->name = $record->section . ' ' . $record->short_name;
+                } else {
+                    $record->name = $record->section . ' ' . $record->name;
+                }
+
+
+                unset($record->section);
+                return $record;
+            });
 
         if (!$flat) {
             return $records;

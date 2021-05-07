@@ -156,8 +156,7 @@
                 :height="25"
             />
         </div>
-        <p>Can have multiple, need to add, change and delete.
-            Each one has a note. Like services but with a note.</p>
+        <p>Add Exceptions to indicate why the statute is not expungable.</p>
 
         <div class="row" v-for="(row, i) in form_data.statute_exceptions" :key="i">
             <div class="col-md-12">
@@ -228,7 +227,7 @@
 
                     <ui-select-pick-one
                         :optionsListData="[
-                            { text: 'UnKown', value: null },
+                            { text: 'UnKnown', value: null },
                             { text: 'Yes', value: 0 },
                             { text: 'No', value: 1 }
                         ]"
