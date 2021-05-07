@@ -149,8 +149,63 @@
             </div>
         </div>
 
+        <h3>Exceptions</h3>
+        <p>Can have multiple, need to add, change and delete.
+            Each one has a note. Like services but with a note.</p>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
+                <std-form-group
+                    label="Exception"
+                    label-for="exception_id"
+                    :errors="form_errors.exception_id">
+                    <ui-select-pick-one
+                        url="/api-exception/options"
+                        v-model="form_data.exception_id"
+                        :selected_id="form_data.exception_id"
+                        name="exception_id"
+                        :blank_value="0">
+                    </ui-select-pick-one>
+                </std-form-group>
+            </div>
+            <div class="col-md-6">
+                <std-form-group
+                    label="Exception Note"
+                    label-for="common_name"
+                    :errors="form_errors.exception_note"
+                >
+                <fld-input name="name" v-model="form_data.exception_note"/>
+                </std-form-group>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <std-form-group
+                    label="Exception"
+                    label-for="exception_id"
+                    :errors="form_errors.exception_id2">
+                    <ui-select-pick-one
+                        url="/api-exception/options"
+                        v-model="form_data.exception_id2"
+                        :selected_id="form_data.exception_id2"
+                        name="exception_id"
+                        :blank_value="0">
+                    </ui-select-pick-one>
+                </std-form-group>
+            </div>
+            <div class="col-md-6">
+                <std-form-group
+                    label="Exception Note"
+                    label-for="common_name"
+                    :errors="form_errors.exception_note2"
+                >
+                    <fld-input name="name" v-model="form_data.exception_note2"/>
+                </std-form-group>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
                 <std-form-group
                         label="Eligible"
                         label-for="eligible"
@@ -170,6 +225,30 @@
 
                 </std-form-group>
             </div>
+
+            <div class="col-md-3">
+                <std-form-group
+                    label="Blocks Time"
+                    label-for="blocks_time"
+                    :errors="form_errors.blocks_time"
+                >
+
+
+                    <ui-select-pick-one
+                        :optionsListData="[
+                            { text: 'UnKown', value: null },
+                            { text: 'Yes', value: 0 },
+                            { text: 'No', value: 1 }
+                        ]"
+                        v-model="form_data.blocks_time"
+                        name="blocks_time"
+                        :selected_id="form_data.blocks_time"
+                    >
+                    </ui-select-pick-one>
+                </std-form-group>
+            </div>
+
+
         </div>
 
         <div class="form-group mt-4">
@@ -233,6 +312,7 @@
                     deleted_at: "",
                     jurisdiction_id: null,
                     same_as_id: null,
+                    exception_note: null,  // Place holder delete
 
                 },
                 form_errors: {
@@ -243,6 +323,7 @@
                     statutes_eligibility_id: false,
                     deleted_at: false,
                     jurisdiction_id: false,
+
                 },
                 server_message: false,
                 try_logging_in: false,

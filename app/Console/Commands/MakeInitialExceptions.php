@@ -192,6 +192,16 @@ class MakeInitialExceptions extends Command
     "dyi_note": "",
     "logic": "conviction date and must review what the conviction ….",
     "sequence": 11
+},
+{
+    "id": 12,
+    "section": "5.2",
+    "name": "The person has not been found guilty of any other misdemeanor or felony, not including violations of the traffic regulations provided under chapters 304 and 307, during the time period specified for the underlying offense, violation, or infraction in subdivision (1) of this subsection;",
+    "short_name": "Trafic Offenses - Non Blocking",
+    "attorney_note": "These are expungable but do not block/count in the 3 or 7 years",
+    "dyi_note": "",
+    "logic": "non blocking",
+    "sequence": 11
 }
 ]
 EOM;

@@ -43,6 +43,7 @@ class StatuteFormRequest extends FormRequest
             'statutes_eligibility_id' => 'required|numeric',
             'superseded_id' => 'nullable|numeric',
             'superseded_on' => 'nullable|string',
+            'blocks_time' => 'nullable|numeric',
             'deleted_at' => 'nullable|string',
 
         ];

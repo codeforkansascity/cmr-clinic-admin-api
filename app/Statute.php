@@ -39,7 +39,8 @@ class Statute extends Model
         'superseded_on',
         'deleted_at',
         'jurisdiction_id',
-        'same_as_id'
+        'same_as_id',
+        'blocks_time'
     ];
 
     protected $hidden = [
