@@ -16,7 +16,7 @@ class CreateExceptionsTable extends Migration
         Schema::create('exceptions', function (Blueprint $table) {
             $table->id();
             $table->string('section');
-            $table->string('name');
+            $table->string('name', 600);
             $table->string('short_name');
             $table->text('attorney_note')->nullable();
             $table->text('dyi_note')->nullable();

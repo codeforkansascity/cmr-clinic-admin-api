@@ -149,62 +149,54 @@
             </div>
         </div>
 
-        <h3>Exceptions</h3>
+        <div class="d-flex">
+            <h3>Exceptions</h3>
+            <add-icon
+                @click="addException"
+                :height="25"
+            />
+        </div>
         <p>Can have multiple, need to add, change and delete.
             Each one has a note. Like services but with a note.</p>
-        <div class="row">
-            <div class="col-md-6">
+
+        <div class="row" v-for="(row, i) in form_data.statute_exceptions" :key="i">
+            <div class="col-md-12">
                 <std-form-group
                     label="Exception"
                     label-for="exception_id"
                     :errors="form_errors.exception_id">
                     <ui-select-pick-one
+                        :disabled="!!row.id"
                         url="/api-exception/options"
-                        v-model="form_data.exception_id"
-                        :selected_id="form_data.exception_id"
+                        v-model="row.exception_id"
+                        :selected_id="row.exception_id"
                         name="exception_id"
                         :blank_value="0">
                     </ui-select-pick-one>
                 </std-form-group>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-10">
                 <std-form-group
                     label="Exception Note"
                     label-for="common_name"
-                    :errors="form_errors.exception_note"
+                    :errors="form_errors.note"
                 >
-                <fld-input name="name" v-model="form_data.exception_note"/>
+                <fld-input name="name" v-model="row.note"/>
                 </std-form-group>
+            </div>
+            <div class="col-md-2 mt-auto mb-4">
+                <delete-control
+                    @click="removeExceptionAt(i)"
+                    :height="30"
+                />
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <std-form-group
-                    label="Exception"
-                    label-for="exception_id"
-                    :errors="form_errors.exception_id2">
-                    <ui-select-pick-one
-                        url="/api-exception/options"
-                        v-model="form_data.exception_id2"
-                        :selected_id="form_data.exception_id2"
-                        name="exception_id"
-                        :blank_value="0">
-                    </ui-select-pick-one>
-                </std-form-group>
-            </div>
-            <div class="col-md-6">
-                <std-form-group
-                    label="Exception Note"
-                    label-for="common_name"
-                    :errors="form_errors.exception_note2"
-                >
-                    <fld-input name="name" v-model="form_data.exception_note2"/>
-                </std-form-group>
-            </div>
+        <div v-if="!form_data.statute_exceptions || form_data.statute_exceptions.length < 1" class="mb-5 mt-3 text-center">
+            <h3>No Exceptions</h3>
         </div>
 
-        <div class="row">
+        <div class="row mt-3">
             <div class="col-md-3">
                 <std-form-group
                         label="Eligible"
@@ -275,11 +267,13 @@
     import axios from "axios";
     import UiSelectPickOne from "../SS/UiSelectPickOne";
     import AddIcon from "../controls/AddIcon";
+    import DeleteControl from "../controls/DeleteControl";
 
 
     export default {
         name: "statute-form",
         components: {
+            DeleteControl,
             UiSelectPickOne, AddIcon
         },
         props: {
@@ -312,8 +306,7 @@
                     deleted_at: "",
                     jurisdiction_id: null,
                     same_as_id: null,
-                    exception_note: null,  // Place holder delete
-
+                    statute_exceptions: [],
                 },
                 form_errors: {
                     id: false,
@@ -455,6 +448,14 @@
 
                     })
                     .catch(e => console.error(e))
+            },
+            addException() {
+                this.form_data.statute_exceptions.push({})
+            },
+            removeExceptionAt(index) {
+                if(this.form_data.statute_exceptions.length >= index+1) {
+                    this.form_data.statute_exceptions.splice(index, 1);
+                }
             }
         }
     };
