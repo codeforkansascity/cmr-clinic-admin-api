@@ -53,7 +53,7 @@ class MakeTrafficStatutes extends Command
     }
 
     private function getOrAddStatute($section, $name) {
-        
+
     }
 
     private function getStatutes()
