@@ -172,4 +172,10 @@
                            Petition: added Div 
                            Service: restored ability to add/remove 
 
+3.2.4.5.0       2021-05-07 Added blocks_time to statute table
+                           Changed size of sentence from 64 to 255
+                           Fix saving Statutes
+                           Fix saving Service
+                           Statute: added common_name, added Exception
+
 
