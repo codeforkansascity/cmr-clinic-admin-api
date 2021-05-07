@@ -118,12 +118,15 @@ class StatuteController extends Controller
         $statute = Statute::create($request->only([
             'number',
             'name',
+            'common_name',
             'note',
             'statutes_eligibility_id',
             'superseded_id',
             'superseded_on',
             'jurisdiction_id',
         ]));
+
+        $this->syncExceptions($request, $statute);
 
         return response()->json($statute, 200);
     }
@@ -150,12 +153,40 @@ class StatuteController extends Controller
             $can_delete = Auth::user()->can('statute delete') && $statute->canDelete();
             $charges = $statute->getCharges($id);
 
-            return view('statute.show', compact('charges', 'statute', 'can_edit', 'can_delete'));
+            $exceptions = $this->create_exceptions($statute);
+
+            return view('statute.show', compact('charges', 'exceptions', 'statute', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Statutes to display.');
 
             return Redirect::route('statute.index');
         }
+    }
+
+    private function create_exceptions($statute) {
+        $exceptions = [];
+
+        if ($statute_exceptions = data_get($statute,'statute_exceptions',false)) {
+            foreach ($statute_exceptions AS $statute_exception) {
+                if ($exception = data_get($statute_exception, 'exception', false)) {
+                    $exceptions[] = [
+                        'statute_exception_id' => data_get($statute_exception,'id', 0),
+                        'statute_id' => data_get($statute_exception,'statute_id', 0),
+                        'exception_id' => data_get($statute_exception,'exception_id', 0),
+                        'exception_note' => data_get($statute_exception,'note', ''),
+                        'exception_section' => data_get($exception,'section', 'ERR S'),
+                        'exception_name' => data_get($exception,'name', 'ERR N'),
+                        'exception_attorney_note' => data_get($exception,'attorney_note', 'ERR N'),
+                        'exception_dyi_note' => data_get($exception,'dyi_note', 'ERR N'),
+                        'exception_logic' => data_get($exception,'logic', 'ERR N'),
+                        'exception_short_name' => data_get($exception,'short_name', 'ERR SN'),
+                    ];
+                }
+            }
+        }
+
+        return $exceptions;
+
     }
 
     /**
@@ -192,7 +223,6 @@ class StatuteController extends Controller
      */
     public function update(StatuteFormRequest $request, $id)
     {
-
 //        if (!Auth::user()->can('statute edit')) {
 //            \Session::flash('flash_error_message', 'You do not have access to update a Statutes.');
 //            if (!Auth::user()->can('statute index')) {
@@ -210,6 +240,9 @@ class StatuteController extends Controller
         }
 
         $statute->fill($request->all());
+
+        $this->syncExceptions($request, $statute);
+
 
         if ($statute->isDirty()) {
             try {
@@ -229,6 +262,7 @@ class StatuteController extends Controller
             'message' => 'Changed record',
         ], 200);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -279,6 +313,7 @@ class StatuteController extends Controller
     {
         return \App\Statute::with([
             'statutes_eligibility',
+            'statute_exceptions',
             'jurisdiction',
             'jurisdiction.type',
             'superseded' => function ($q) {
@@ -403,5 +438,33 @@ class StatuteController extends Controller
         }
 
         return $statutes->get();
+    }
+
+    /**
+     * @param $request
+     * @param Statute $statute
+     */
+    private function syncExceptions($request, Statute $statute): void
+    {
+        $requestIds = array_filter(
+            array_map(function ($exception) {
+                return $exception['id'] ?? null;
+            },
+                $request->statute_exceptions
+            )
+        );
+
+        // remove all statute exceptions ids not in the request
+        if (!empty($requestIds)) {
+            $statute->statute_exceptions()->whereNotIn('id', $requestIds)->delete();
+        } else if (empty($request->statute_exceptions)) {
+            $statute->statute_exceptions()->delete();
+        }
+
+        // add or update statute exceptions
+        foreach ($request->statute_exceptions as $statute_exception) {
+            if(empty($statute_exception['exception_id'])) continue;
+            $statute->statute_exceptions()->updateOrCreate(['id' => $statute_exception['id'] ?? null], $statute_exception);
+        }
     }
 }

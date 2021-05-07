@@ -47,6 +47,6 @@ class CreatePetitionFieldTable extends Migration
      */
     public function down()
     {
-        chema::dropIfExists('petition_fields');
+        schema::dropIfExists('petition_fields');
     }
 }

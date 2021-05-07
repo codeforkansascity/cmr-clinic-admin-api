@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCdlQuestions extends Migration
+class ChangeSizeOfSentenceInChargesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddCdlQuestions extends Migration
      */
     public function up()
     {
-        Schema::table('applicants', function (Blueprint $table) {
-            $table->integer('cdl_status_id')->default(2);
-            $table->string('cdl_text')->nullable();
+        Schema::table('charges', function (Blueprint $table) {
+            $table->string('sentence', 255)->nullable()->change();
         });
     }
 
@@ -26,9 +25,8 @@ class AddCdlQuestions extends Migration
      */
     public function down()
     {
-        Schema::table('applicants', function (Blueprint $table) {
-            $table->dropColumn('cdl_status_id');
-            $table->dropColumn('cdl_text');
+        Schema::table('charges', function (Blueprint $table) {
+            $table->string('sentence', 64)->nullable()->change();
         });
     }
 }

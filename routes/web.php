@@ -185,12 +185,25 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/api-cdl-status/options', 'CdlStatusApi@getOptions');
 
+
+    Route::get('/api-petition-field', 'PetitionFieldApi@index');
+    Route::get('/api-petition-field/options', 'PetitionFieldApi@getOptions');
+    Route::get('/petition-field/download', 'PetitionFieldController@download')->name('petition-field.download');
+    Route::get('/petition-field/print', 'PetitionFieldController@print')->name('petition-field.print');
+    Route::resource('/petition-field', 'PetitionFieldController');
+
+    Route::get('/api-exception', 'ExceptionApi@index');
+    Route::get('/api-exception/options', 'ExceptionApi@getOptions');
+    Route::get('/exception/download', 'ExceptionController@download')->name('exception.download');
+    Route::get('/exception/print', 'ExceptionController@print')->name('exception.print');
+    Route::resource('/exception', 'ExceptionController');
+
 });
 
 
 
-Route::get('/api-petition-field', 'PetitionFieldApi@index');
-Route::get('/api-petition-field/options', 'PetitionFieldApi@getOptions');
-Route::get('/petition-field/download', 'PetitionFieldController@download')->name('petition-field.download');
-Route::get('/petition-field/print', 'PetitionFieldController@print')->name('petition-field.print');
-Route::resource('/petition-field', 'PetitionFieldController');
+Route::get('/api-exception', 'ExceptionApi@index');
+Route::get('/api-exception/options', 'ExceptionApi@getOptions');
+Route::get('/exception/download', 'ExceptionController@download')->name('exception.download');
+Route::get('/exception/print', 'ExceptionController@print')->name('exception.print');
+Route::resource('/exception', 'ExceptionController');

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCdlQuestions extends Migration
+class AddCommonNameToStatutesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddCdlQuestions extends Migration
      */
     public function up()
     {
-        Schema::table('applicants', function (Blueprint $table) {
-            $table->integer('cdl_status_id')->default(2);
-            $table->string('cdl_text')->nullable();
+        Schema::table('statutes', function (Blueprint $table) {
+            $table->string('common_name')->nullable();
         });
     }
 
@@ -26,9 +25,8 @@ class AddCdlQuestions extends Migration
      */
     public function down()
     {
-        Schema::table('applicants', function (Blueprint $table) {
-            $table->dropColumn('cdl_status_id');
-            $table->dropColumn('cdl_text');
+        Schema::table('statutes', function (Blueprint $table) {
+            $table->dropColumn('common_name');
         });
     }
 }

@@ -32,12 +32,15 @@ class Statute extends Model
         'id',
         'number',
         'name',
+        'common_name',
         'note',
         'statutes_eligibility_id',
         'superseded_id',
         'superseded_on',
         'deleted_at',
         'jurisdiction_id',
+        'same_as_id',
+        'blocks_time'
     ];
 
     protected $hidden = [
@@ -62,6 +65,10 @@ class Statute extends Model
     public function charge()
     {
         return $this->hasMany(Charge::class);
+    }
+    public function statute_exceptions()
+    {
+        return $this->hasMany(StatuteException::class)->with('exception');
     }
 
     public function statutes_eligibility()

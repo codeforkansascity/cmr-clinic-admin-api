@@ -85,6 +85,14 @@ class StatuteSeeder extends Seeder
             'superseded_on' => '2014',
         ]);
 
+        \App\Statute::create([
+            'number' => '565.020',
+            'name' => 'First degree murder, penalty — person under eighteen years of age, penalty',
+            'note' => '',
+            'statutes_eligibility_id' => \App\Statute::INELIGIBLE
+        ]);
+
+
         $statute_count = count($ineligibles) + count($eligibles);
         dump("Inserted $statute_count Statutes in ".round(microtime(1) - $start, 2).' seconds');
     }

@@ -10,6 +10,15 @@
                         {{record.number}} {{ record.name}}
                     </div>
                 </div>
+
+                <div class="form-group row mb-2 mb-md-0 text-only">
+                    <label class="col-md-4 col-form-label text-md-right">
+                        Common Name
+                    </label>
+                    <div class="col-md-8">
+                        {{record.common_name}}
+                    </div>
+                </div>
                 <div class="form-group row mb-2 mb-md-0 text-only">
                     <label class="col-md-4 col-form-label text-md-right">
                         Jurisdiction
@@ -34,6 +43,22 @@
                         <dsp-text v-model="record.statutes_eligibility.name"/>
                     </div>
                 </div>
+                <div class="form-group row mb-2 mb-md-0 text-only">
+                    <label class="col-md-4 col-form-label text-md-right">
+                        Exception
+                    </label>
+                    <div class="col-md-8">
+                       <ul style="list-style-type: none; padding: 0; margin: 0;">
+                           <li v-for="(exception,i)  in exceptions" :key="exception.id"
+                               >
+                               <dsp-exception :exception="exception"/>
+
+                           </li>
+                       </ul>
+
+                    </div>
+                </div>
+
                 <div class="form-group row mb-2 mb-md-0 text-only">
                     <label class="col-md-4 col-form-label text-md-right">
                         Note
@@ -79,7 +104,12 @@
             charges: {
                 type: [Boolean, Object, Array],
                 default: false
+            },
+            exceptions: {
+                type: [Boolean, Object, Array],
+                default: false
             }
+
         },
         computed: {
             jurisdiction: function () {
