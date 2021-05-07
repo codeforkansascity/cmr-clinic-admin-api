@@ -126,6 +126,8 @@ class StatuteController extends Controller
             'jurisdiction_id',
         ]));
 
+        $this->syncExceptions($request, $statute);
+
         return response()->json($statute, 200);
     }
 
@@ -239,7 +241,6 @@ class StatuteController extends Controller
 
         $statute->fill($request->all());
 
-        // remove
         $this->syncExceptions($request, $statute);
 
 
