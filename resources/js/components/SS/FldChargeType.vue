@@ -60,8 +60,8 @@ Example usage:
                         "abbreviation": "Infraction"
                     },
                     {
-                        "name": "Ordanace",
-                        "abbreviation": "Ordanace"
+                        "name": "Ordinance",
+                        "abbreviation": "Ordinance"
                     }
                 ]
             }
