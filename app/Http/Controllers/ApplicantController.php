@@ -409,11 +409,14 @@ class ApplicantController extends Controller
             $group_count=  count($expungebles[1]);
             $case_count=  2; // count($expungebles[1][1]);
             $service_list = $this->getServiceList($applicant->conviction);
+
+            $service_count = count($service_list);
+
             $can_edit = Auth::user()->can('applicant edit');
             $can_delete = (Auth::user()->can('applicant delete') && $applicant->canDelete());
 
             return view('applicant.petition', compact('applicant',
-                'expungebles', 'service_list', 'can_edit', 'can_delete', 'petition_count', 'group_count', 'case_count'
+                'expungebles', 'service_list', 'can_edit', 'can_delete', 'petition_count', 'service_count', 'group_count', 'case_count'
             ));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Applicants to display.');
