@@ -87,7 +87,7 @@ class StatuteException extends Model
             'exceptions.short_name AS exception_common_name',
             'exceptions.attorney_note AS exception_note',
             'exceptions.dyi_note AS exception_note',
-            'exceptions.logic AS exception_logic',
+            'exceptions.logic AS exception_logic'
         )
             ->leftJoin('exceptions', 'exceptions.id', '=', 'statute_exceptions.statute_id')
             ->orderBy('exceptions.section')
