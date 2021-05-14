@@ -127,7 +127,7 @@
                 newStatute: {
                     name: null,
                     number: null,
-                    statutes_eligibility_id: null,
+                    statutes_eligibility_id: 4,
                     jurisdiction_id: null,
                 },
                 selectedStatute: null,
