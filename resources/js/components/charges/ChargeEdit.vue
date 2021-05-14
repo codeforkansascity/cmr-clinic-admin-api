@@ -423,7 +423,7 @@
 
             resetExpungableFields(please_expunge) {
                 if (please_expunge < 1) {
-                    record.group_sequence = record.group_number = record.petition_number = ""
+                    this.record.group_sequence = this.record.group_number = this.record.petition_number = ""
                 }
             }
         }
