@@ -126,7 +126,9 @@ class StatuteController extends Controller
             'jurisdiction_id',
         ]));
 
-        $this->syncExceptions($request, $statute);
+        if($request->statute_exceptions) {
+            $this->syncExceptions($request, $statute);
+        }
 
         return response()->json($statute, 200);
     }
@@ -446,23 +448,24 @@ class StatuteController extends Controller
      */
     private function syncExceptions($request, Statute $statute): void
     {
+        $statute_exceptions = $request->statute_exceptions ?? [];
         $requestIds = array_filter(
             array_map(function ($exception) {
-                return $exception['id'] ?? null;
+                return $exception['id'] ?? [];
             },
-                $request->statute_exceptions
+                $statute_exceptions
             )
         );
 
         // remove all statute exceptions ids not in the request
         if (!empty($requestIds)) {
             $statute->statute_exceptions()->whereNotIn('id', $requestIds)->delete();
-        } else if (empty($request->statute_exceptions)) {
+        } else if (empty($statute_exceptions)) {
             $statute->statute_exceptions()->delete();
         }
 
         // add or update statute exceptions
-        foreach ($request->statute_exceptions as $statute_exception) {
+        foreach ($statute_exceptions as $statute_exception) {
             if(empty($statute_exception['exception_id'])) continue;
             $statute->statute_exceptions()->updateOrCreate(['id' => $statute_exception['id'] ?? null], $statute_exception);
         }
