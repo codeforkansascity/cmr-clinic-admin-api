@@ -9,20 +9,20 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "ext-zip": "*",
         "bjeavons/zxcvbn-php": "^1.1",
         "doctrine/dbal": "^2.9",
         "elibyy/tcpdf-laravel": "^7.0",
         "fideloper/proxy": "^4.4",
+        "fruitcake/laravel-cors": "^2.0",
+        "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.23",
         "laravel/passport": "^9.3",
         "laravel/tinker": "^2.0",
+        "laravel/ui": "^2.1",
         "maatwebsite/excel": "^3.1.19",
         "spatie/laravel-permission": "^3.13",
-        "ext-zip": "*",
-        "symfony/yaml": "^5.1",
-        "laravel/ui": "^2.1",
-        "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^6.3"
+        "symfony/yaml": "^5.2"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
