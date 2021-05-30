@@ -91,7 +91,7 @@ class UserController extends Controller
         $column = session('user_column', 'Name');
         $direction = session('user_direction', '-1');
 
-        dump($request->user()->can('user add'));
+
 //print "<pre>";
 //        print_r($request->user()->getAllPermissions()->toArray());
 //        print "</pre>";
