@@ -71,6 +71,13 @@ class Statute extends Model
         return $this->hasMany(StatuteException::class)->with('exception');
     }
 
+    public function exceptions()
+    {
+        return $this->belongsToMany(\App\Exception::class,'statute_exceptions');
+    }
+
+
+
     public function statutes_eligibility()
     {
         return $this->belongsTo(StatutesEligibility::class);

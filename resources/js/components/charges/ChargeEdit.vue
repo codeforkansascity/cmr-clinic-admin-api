@@ -109,6 +109,7 @@
                             <fld-expunge
                                     name="please_expunge"
                                     v-model="record.please_expunge"
+                                    @change="resetExpungableFields"
                             />
                         </std-form-group>
                     </div>
@@ -418,6 +419,12 @@
             statuteSelected(statute) {
                 console.log('selected')
                 this.record.imported_statute = null
+            },
+
+            resetExpungableFields(please_expunge) {
+                if (please_expunge < 1) {
+                    this.record.group_sequence = this.record.group_number = this.record.petition_number = ""
+                }
             }
         }
     };

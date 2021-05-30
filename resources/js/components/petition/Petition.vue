@@ -34,7 +34,7 @@
         <div style="margin-top: 3em">
             <table class="equalDivide" cellpadding="0" cellspacing="0" width="100%" border="0">
                 <tr border="0">
-                    <td style="vertical-align: top; border-right: 2px solid black; border-collapse: collapse; "
+                    <td style="vertical-align: top;  border-collapse: collapse; "
                         width="50%">
                         <div>
                             <p style="font-family: Arial;font-size: 12pt;line-height: 1;">
@@ -87,6 +87,10 @@
                                 Respondents.
                             </p>
                         </div>
+                    </td>
+                    <td>
+                    <td>
+                        <div v-for="index in this.number_of_service_lines" :key="index"  style="font-family: Arial;font-size: 12pt;line-height: 1;">)<br></div>
                     </td>
 
                     <td border="0" width="50%" style="padding-left: 2em">
@@ -395,6 +399,10 @@ export default {
         caseCount: {
             type: [Number, String],
             default: 0
+        },
+        serviceCount: {
+            type: [Number, String],
+            default: 0
         }
     },
     data() {
@@ -420,6 +428,9 @@ export default {
         },
         number_of_cases() {
             return this.caseCount;
+        },
+        number_of_service_lines() {
+            return (this.serviceCount * 6 ) + 35;
         }
     },
     methods: {

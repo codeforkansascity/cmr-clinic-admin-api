@@ -132,7 +132,7 @@ class InviteController extends Controller
     }
 
     private function getExpiresAt() {
-        return Carbon::now()->addDay(1);
+        return Carbon::now()->addDay(2);
     }
 
     public function resend(Request $request, $id)

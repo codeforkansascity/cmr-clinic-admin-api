@@ -17,6 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
+
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/me', 'UserController@me');
 
@@ -35,3 +37,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('statuses', 'API\StatusController');
     Route::apiResource('assignments', 'API\StatusController');
 });
+
+Route::get('/statute/{statute_number}', 'API\CmrController@show');
+
+Route::get('/statute', 'API\CmrController@show');

@@ -25,6 +25,7 @@ Route::post('create_password', 'InviteController@createPassword')->name('create_
 Route::post('/password-strength', 'PasswordStrengthApi@calc');
 Route::get('/version', 'VersionController@show')->name('version');
 
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/api-user', 'UserApi@index');
     Route::get('/api-user/role-options', 'UserApi@getRoleOptions');
@@ -198,12 +199,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/exception/print', 'ExceptionController@print')->name('exception.print');
     Route::resource('/exception', 'ExceptionController');
 
+    Route::get('/api-exception', 'ExceptionApi@index');
+    Route::get('/api-exception/options', 'ExceptionApi@getOptions');
+    Route::get('/exception/download', 'ExceptionController@download')->name('exception.download');
+    Route::get('/exception/print', 'ExceptionController@print')->name('exception.print');
+    Route::resource('/exception', 'ExceptionController');
 });
 
 
 
-Route::get('/api-exception', 'ExceptionApi@index');
-Route::get('/api-exception/options', 'ExceptionApi@getOptions');
-Route::get('/exception/download', 'ExceptionController@download')->name('exception.download');
-Route::get('/exception/print', 'ExceptionController@print')->name('exception.print');
-Route::resource('/exception', 'ExceptionController');
+
+

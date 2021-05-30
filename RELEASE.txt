@@ -179,3 +179,15 @@
                            Statute: added common_name, added Exception
 
 
+3.2.4.6.0       2021-05-30  Set mail from address to captain@codeforkc.org
+                            Changed invite life from 1 to 2 days. 
+                            Changed "indicate why the statute is not expungable" to "offense" 
+                            Removed debug line 
+                            WIP convert statutes to yaml 
+                            fix scope error 
+                            default is expungable Undetermined from modal 
+                            fix statute store from modal 
+                            WIP API for Prose 
+                            Exception - requires user to be authenticated 
+                            Replace vertical line with ) at the top of the petition 
+                            Corrected spelling of Ordinance 

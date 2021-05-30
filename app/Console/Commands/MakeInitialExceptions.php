@@ -138,8 +138,8 @@ class MakeInitialExceptions extends Command
     "section": "2.6",
     "name": "Any offense listed, or previously listed, in chapter 566 or section ...",
     "short_name": "Listed Offense",
-    "attorney_note": "",
-    "dyi_note": "",
+    "attorney_note": "Is an offense that is listed in 2(6) and cannot be expunged.",
+    "dyi_note": "Missouri Statute 610.140 Section 2(6) says this offense cannot be expunged.",
     "logic": "offense number",
     "sequence": 6
 },
