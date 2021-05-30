@@ -156,7 +156,7 @@
                 :height="25"
             />
         </div>
-        <p>Add Exceptions to indicate why the statute is not expungable.</p>
+        <p>Add Exceptions to indicate why the offense is not expungable.</p>
 
         <div class="row" v-for="(row, i) in form_data.statute_exceptions" :key="i">
             <div class="col-md-12">
