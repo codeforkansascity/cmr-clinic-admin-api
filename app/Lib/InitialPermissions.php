@@ -288,6 +288,8 @@ class InitialPermissions
 
         ]);
 
+        // Clinic Staff
+
         try {
             $role = Role::findByName('Clinic Staff');
         } catch (RoleDoesNotExist $e) {
@@ -366,6 +368,160 @@ class InitialPermissions
             'statute edit',
             'statute view',
             'statute delete',
+            'statute export-pdf',
+            'statute export-excel',
+
+        ]);
+
+        // Clinic Student
+
+        try {
+            $role = Role::findByName('Clinic Student');
+        } catch (RoleDoesNotExist $e) {
+            $role = Role::create(['name' => 'Clinic Student']);
+        }
+
+        $role->givePermissionTo([
+            'CMS access',
+
+            'applicant access-all',
+            'applicant index',
+            'applicant edit',
+            'applicant view',
+            'applicant export-pdf',
+            'applicant export-excel',
+
+            'conviction index',
+            'conviction add',
+            'conviction edit',
+            'conviction view',
+            'conviction export-pdf',
+            'conviction export-excel',
+
+            'charge index',
+            'charge add',
+            'charge edit',
+            'charge view',
+            'charge export-pdf',
+            'charge export-excel',
+
+            'data_source index',
+            'data_source add',
+            'data_source edit',
+            'data_source view',
+            'data_source export-pdf',
+            'data_source export-excel',
+
+            'exception index',
+            'exception view',
+            'exception export-pdf',
+            'exception export-excel',
+            'exception add',
+            'exception edit',
+
+            'jurisdiction index',
+            'jurisdiction add',
+            'jurisdiction edit',
+            'jurisdiction view',
+            'jurisdiction export-pdf',
+            'jurisdiction export-excel',
+
+            'jurisdiction_type index',
+            'jurisdiction_type add',
+            'jurisdiction_type edit',
+            'jurisdiction_type view',
+            'jurisdiction_type export-pdf',
+            'jurisdiction_type export-excel',
+
+            'petition_field index',
+            'petition_field view',
+            'petition_field export-pdf',
+            'petition_field export-excel',
+            'petition_field add',
+            'petition_field update',
+
+            'statute index',
+            'statute add',
+            'statute edit',
+            'statute view',
+            'statute export-pdf',
+            'statute export-excel',
+
+        ]);
+
+        // Clinic Student Level 2
+
+        try {
+            $role = Role::findByName('Clinic Student Level 2');
+        } catch (RoleDoesNotExist $e) {
+            $role = Role::create(['name' => 'Clinic Student Level 2']);
+        }
+
+        $role->givePermissionTo([
+            'CMS access',
+
+            'applicant access-all',
+            'applicant index',
+            'applicant add',
+            'applicant edit',
+            'applicant view',
+            'applicant export-pdf',
+            'applicant export-excel',
+
+
+            'conviction index',
+            'conviction add',
+            'conviction edit',
+            'conviction view',
+            'conviction export-pdf',
+            'conviction export-excel',
+
+            'charge index',
+            'charge add',
+            'charge edit',
+            'charge view',
+            'charge export-pdf',
+            'charge export-excel',
+
+            'data_source index',
+            'data_source add',
+            'data_source edit',
+            'data_source view',
+            'data_source export-pdf',
+            'data_source export-excel',
+
+            'exception index',
+            'exception view',
+            'exception export-pdf',
+            'exception export-excel',
+            'exception add',
+            'exception edit',
+
+            'jurisdiction index',
+            'jurisdiction add',
+            'jurisdiction edit',
+            'jurisdiction view',
+            'jurisdiction export-pdf',
+            'jurisdiction export-excel',
+
+            'jurisdiction_type index',
+            'jurisdiction_type add',
+            'jurisdiction_type edit',
+            'jurisdiction_type view',
+            'jurisdiction_type export-pdf',
+            'jurisdiction_type export-excel',
+
+            'petition_field index',
+            'petition_field view',
+            'petition_field export-pdf',
+            'petition_field export-excel',
+            'petition_field add',
+            'petition_field update',
+
+            'statute index',
+            'statute add',
+            'statute edit',
+            'statute view',
             'statute export-pdf',
             'statute export-excel',
 
