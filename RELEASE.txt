@@ -191,3 +191,8 @@
                             Exception - requires user to be authenticated 
                             Replace vertical line with ) at the top of the petition 
                             Corrected spelling of Ordinance 
+
+3.2.4.7.0       2021-06-07  MO Statutes complete list
+                            Statute Show: improved display
+                            Added Roles for Clinic Student (no add) and Clinic Student Level 2 (with add) - none have delete
+
