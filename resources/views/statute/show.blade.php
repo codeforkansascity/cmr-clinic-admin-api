@@ -4,7 +4,7 @@
 View {{$statute->number}} {{$statute->name}}
 @endsection
 @section('page-header-title')
-View  {{$statute->number}} {{$statute->name}}
+
 @endsection
 @section('page-header-breadcrumbs')
 <ol class="breadcrumb">

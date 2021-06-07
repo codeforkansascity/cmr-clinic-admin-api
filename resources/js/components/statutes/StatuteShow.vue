@@ -1,54 +1,46 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-md-12">
-                <div class="form-group row mb-2 mb-md-0 text-only">
-                    <label class="col-md-4 col-form-label text-md-right">
-                        Statute
-                    </label>
-                    <div class="col-md-8">
-                        {{record.number}} {{ record.name}}
-                    </div>
-                </div>
+            <div class="col-md-12 text-center2">
+                <h1 class="text-center">{{record.number}} {{ record.name}}</h1>
 
-                <div class="form-group row mb-2 mb-md-0 text-only">
-                    <label class="col-md-4 col-form-label text-md-right">
+
+            </div>
+
+            <div class="col-md-12 text-center2">
+                <h1 class="text-center">
+                    <span v-if="record.statutes_eligibility.name != 'Eligible'" style="color:red">
+                        {{record.statutes_eligibility.name}}
+                    </span>
+                    <span v-else>
+                        {{record.statutes_eligibility.name}}
+                    </span>
+
+                </h1>
+                <h5 class="text-center">{{ jurisdiction }}</h5>
+
+
+            </div>
+            <div class="col-md-12">
+
+
+                <div class=" row mb-2 mb-md-0 text-only">
+                    <label class="col-md-4  text-md-right" style="font-size: 1.1rem; color: darkgray" >
                         Common Name
                     </label>
-                    <div class="col-md-8">
+                    <div class="col-md-8"  style="font-size: 1.1rem">
                         {{record.common_name}}
                     </div>
                 </div>
-                <div class="form-group row mb-2 mb-md-0 text-only">
-                    <label class="col-md-4 col-form-label text-md-right">
-                        Jurisdiction
-                    </label>
-                    <div class="col-md-8">
-                        {{ jurisdiction }}
-                    </div>
-                </div>
-                <div v-if="isSuperseded" class="form-group row mb-2 mb-md-0 text-only">
-                    <label class="col-md-4 col-form-label text-md-right">
-                        Superseded by
-                    </label>
-                    <div class="col-md-8">
-                        {{ record.superseded.number}} {{ record.superseded.name}} on {{ record.superseded_on}}
-                    </div>
-                </div>
-                <div class="form-group row mb-2 mb-md-0 text-only">
-                    <label class="col-md-4 col-form-label text-md-right">
-                        Eligible
-                    </label>
-                    <div class="col-md-8">
-                        <dsp-text v-model="record.statutes_eligibility.name"/>
-                    </div>
-                </div>
-                <div class="form-group row mb-2 mb-md-0 text-only">
-                    <label class="col-md-4 col-form-label text-md-right">
+
+
+
+                <div class=" row mb-2 mb-md-0 text-only">
+                    <label class="col-md-4  text-md-right" style="font-size: 1.1rem; color: darkgray" >
                         Exception
                     </label>
                     <div class="col-md-8">
-                       <ul style="list-style-type: none; padding: 0; margin: 0;">
+                       <ul style="list-style-type: none; padding: 0; margin: 0; font-size: 1.1rem;">
                            <li v-for="(exception,i)  in exceptions" :key="exception.id"
                                >
                                <dsp-exception :exception="exception"/>
@@ -59,11 +51,21 @@
                     </div>
                 </div>
 
-                <div class="form-group row mb-2 mb-md-0 text-only">
-                    <label class="col-md-4 col-form-label text-md-right">
+                <div class=" row mb-2 mb-md-0 text-only">
+                    <label class="col-md-4  text-md-right" style="font-size: 1.1rem; color: darkgray" >
+                        Superseded by
+                    </label>
+                    <div v-if="isSuperseded" class="col-md-8" style="font-size: 1.1rem">
+                        {{ record.superseded.number}} {{ record.superseded.name}} on {{ record.superseded_on}}
+                    </div>
+
+                </div>
+
+                <div class=" row mb-2 mb-md-0 text-only">
+                    <label class="col-md-4  text-md-right" style="font-size: 1.1rem; color: darkgray" >
                         Note
                     </label>
-                    <div class="col-md-8">
+                    <div class="col-md-8" style="font-size: 1.1rem">
                         <dsp-textarea v-model="record.note"/>
                     </div>
                 </div>
