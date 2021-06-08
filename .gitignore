@@ -18,3 +18,4 @@ npm-debug.log
 yarn-error.log
 data
 .DS_Store
+/storage/framework/laravel-excel/
