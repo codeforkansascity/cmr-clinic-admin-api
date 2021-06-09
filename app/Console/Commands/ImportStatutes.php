@@ -91,7 +91,7 @@ class ImportStatutes extends Command
                 "name" => $statute['name'],
                 "note" => $statute['note'],
                 "statutes_eligibility_id" => $statute['statutes_eligibility_id'],
-                "superseded_id" => isset($superseded_id)? $superseded_id: null,
+                "superseded_id" => $superseded_id ?? null,
                 "superseded_on" => $statute['superseded_on'],
                 "deleted_at" => $statute['deleted_at'],
                 "jurisdiction_id" => $jurisdiction->id ?? null,
