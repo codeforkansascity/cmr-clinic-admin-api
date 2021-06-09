@@ -44,7 +44,7 @@ class LoadStatutes extends Command
      */
     public function handle()
     {
-        $this->info("Start: lbv:load-trash-contract-pricing");
+        $this->info("Start: lbv:cmr:load-statutes");
         $this->file_name = $this->option('file');
         $this->chapter = $this->option('chapter');
         $this->type = $this->option('type');
@@ -55,8 +55,15 @@ class LoadStatutes extends Command
             return !Statute::where('number', $r['number'])->exists();
         });
 
+        foreach($data AS $rec) {
+            $this->info(sprintf(" Adding %-10.10s %s",$rec['number'],$rec['name']));
+        }
+
+        $this->info("Inserting {$data->count()} Records");
+
         Statute::insert($data->toArray());
-        $this->info("Inserted {$data->count()} Records");
+
+        $this->info("End: lbv:cmr:load-statutes");
 
         return 0;
     }
