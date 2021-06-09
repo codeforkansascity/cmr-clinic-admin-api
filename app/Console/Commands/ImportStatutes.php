@@ -77,10 +77,10 @@ class ImportStatutes extends Command
     {
         $jurisdiction = !empty($statute['jurisdiction']) ? $this->matchJurisdiction($statute['jurisdiction']) : null;
 
-        if(isset($statute['jurisdiction']['superseded'])) {
-            $superseded = Statute::where('number', $statute['jurisdiction']['superseded']['number'])->first();
+        if(!empty($statute['superseded'])) {
+            $superseded = Statute::where('number', $statute['superseded']['number'])->first();
             if(!$superseded) {
-                $superseded = $this->createStatute($statute['jurisdiction']['superseded']);
+                $superseded = $this->createStatute($statute['superseded']);
             }
             $superseded_id = $superseded->id;
         }
