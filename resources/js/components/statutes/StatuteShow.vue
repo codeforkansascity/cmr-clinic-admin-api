@@ -9,7 +9,10 @@
 
             <div class="col-md-12 text-center2">
                 <h1 class="text-center">
-                    <span v-if="record.statutes_eligibility.name != 'Eligible'" style="color:red">
+                    <span v-if="record.statutes_eligibility_id = '0'">
+                        Undetermined Eligibility
+                    </span>
+                    <span v-else-if="record.statutes_eligibility.name != 'Eligible'" style="color:red">
                         {{record.statutes_eligibility.name}}
                     </span>
                     <span v-else>
