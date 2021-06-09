@@ -86,7 +86,7 @@ class ImportStatutes extends Command
                     $synced = [];
                     foreach ($statute['exceptions'] as $exception) {
                         $match = $this->matchException($exception);
-                        $synced []= ['id' => $match->id, 'note' => $exception['pivot']['note']];
+                        $synced []= ['id' => $match->id, 'note' => $exception['pivot']['note'] ?? null];
                     }
                     $record->exceptions()->sync($synced);
                 }
