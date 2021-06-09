@@ -5572,6 +5572,59 @@
         same_as_id: null
         common_name: null
         blocks_time: null
+        jurisdiction:
+            id: 1
+            jurisdiction_type_id: 1
+            name: Missouri
+            url: ''
+            deleted_at: null
+            type:
+                id: 1
+                name: State
+                display_sequence: 1
+                deleted_at: null
+        exceptions:
+            -
+                id: 6
+                section: '2.6'
+                name: 'Any offense listed, or previously listed, in chapter 566 or section ...'
+                short_name: 'Listed Offense'
+                attorney_note: ''
+                dyi_note: ''
+                logic: 'offense number'
+                sequence: 6
+                deleted_at: null
+                pivot:
+                    statute_id: 187
+                    exception_id: 6
+                    note: ''
+            -
+                id: 6
+                section: '2.6'
+                name: 'Any offense listed, or previously listed, in chapter 566 or section ...'
+                short_name: 'Listed Offense'
+                attorney_note: ''
+                dyi_note: ''
+                logic: 'offense number'
+                sequence: 6
+                deleted_at: null
+                pivot:
+                    statute_id: 187
+                    exception_id: 6
+                    note: ''
+        superseded:
+            id: 187
+            number: '570.025'
+            name: 'Robbery in the 2nd  degree'
+            note: null
+            statutes_eligibility_id: 2
+            superseded_id: 187
+            superseded_on: 1-01-17
+            deleted_at: null
+            jurisdiction_id: 1
+            same_as_id: null
+            common_name: null
+            blocks_time: null
 -
     id: 188
     number: '570.090'
@@ -7362,6 +7415,19 @@
         same_as_id: null
         common_name: null
         blocks_time: null
+        jurisdiction:
+            id: 1
+            jurisdiction_type_id: 1
+            name: Missouri
+            url: ''
+            deleted_at: null
+            type:
+                id: 1
+                name: State
+                display_sequence: 1
+                deleted_at: null
+        exceptions: {  }
+        superseded: null
 -
     id: 223
     number: '565.082'
@@ -7426,6 +7492,19 @@
         same_as_id: null
         common_name: null
         blocks_time: null
+        jurisdiction:
+            id: 1
+            jurisdiction_type_id: 1
+            name: Missouri
+            url: ''
+            deleted_at: null
+            type:
+                id: 1
+                name: State
+                display_sequence: 1
+                deleted_at: null
+        exceptions: {  }
+        superseded: null
 -
     id: 225
     number: '304.010'
@@ -8052,6 +8131,19 @@
         same_as_id: null
         common_name: null
         blocks_time: null
+        jurisdiction:
+            id: 1
+            jurisdiction_type_id: 1
+            name: Missouri
+            url: ''
+            deleted_at: null
+            type:
+                id: 1
+                name: State
+                display_sequence: 1
+                deleted_at: null
+        exceptions: {  }
+        superseded: null
 -
     id: 249
     number: '579.030'
@@ -8484,6 +8576,47 @@
         same_as_id: null
         common_name: null
         blocks_time: null
+        jurisdiction:
+            id: 1
+            jurisdiction_type_id: 1
+            name: Missouri
+            url: ''
+            deleted_at: null
+            type:
+                id: 1
+                name: State
+                display_sequence: 1
+                deleted_at: null
+        exceptions:
+            -
+                id: 6
+                section: '2.6'
+                name: 'Any offense listed, or previously listed, in chapter 566 or section ...'
+                short_name: 'Listed Offense'
+                attorney_note: ''
+                dyi_note: ''
+                logic: 'offense number'
+                sequence: 6
+                deleted_at: null
+                pivot:
+                    statute_id: 261
+                    exception_id: 6
+                    note: ''
+            -
+                id: 6
+                section: '2.6'
+                name: 'Any offense listed, or previously listed, in chapter 566 or section ...'
+                short_name: 'Listed Offense'
+                attorney_note: ''
+                dyi_note: ''
+                logic: 'offense number'
+                sequence: 6
+                deleted_at: null
+                pivot:
+                    statute_id: 261
+                    exception_id: 6
+                    note: ''
+        superseded: null
 -
     id: 263
     number: '566.068'
@@ -8544,8 +8677,8 @@
     name: 'First degree murder'
     note: null
     statutes_eligibility_id: 2
-    superseded_id: null
-    superseded_on: ''
+    superseded_id: 1
+    superseded_on: 2/2/2000
     deleted_at: null
     jurisdiction_id: 1
     same_as_id: null
@@ -8591,7 +8724,32 @@
                 statute_id: 264
                 exception_id: 4
                 note: 'Special Note about 2.4 and 565.020'
-    superseded: null
+    superseded:
+        id: 1
+        number: '570.030'
+        name: Stealing
+        note: null
+        statutes_eligibility_id: 1
+        superseded_id: null
+        superseded_on: ''
+        deleted_at: null
+        jurisdiction_id: 1
+        same_as_id: null
+        common_name: null
+        blocks_time: null
+        jurisdiction:
+            id: 1
+            jurisdiction_type_id: 1
+            name: Missouri
+            url: ''
+            deleted_at: null
+            type:
+                id: 1
+                name: State
+                display_sequence: 1
+                deleted_at: null
+        exceptions: {  }
+        superseded: null
 -
     id: 265
     number: '195.202'
@@ -8656,6 +8814,31 @@
         same_as_id: null
         common_name: null
         blocks_time: null
+        jurisdiction:
+            id: 1
+            jurisdiction_type_id: 1
+            name: Missouri
+            url: ''
+            deleted_at: null
+            type:
+                id: 1
+                name: State
+                display_sequence: 1
+                deleted_at: null
+        exceptions: {  }
+        superseded:
+            id: 221
+            number: '579.015'
+            name: 'Possession or control of a controlled substance'
+            note: ''
+            statutes_eligibility_id: 4
+            superseded_id: null
+            superseded_on: ''
+            deleted_at: null
+            jurisdiction_id: 1
+            same_as_id: null
+            common_name: null
+            blocks_time: null
 -
     id: 267
     number: '304.019'
@@ -8800,6 +8983,19 @@
         same_as_id: null
         common_name: null
         blocks_time: null
+        jurisdiction:
+            id: 1
+            jurisdiction_type_id: 1
+            name: Missouri
+            url: ''
+            deleted_at: null
+            type:
+                id: 1
+                name: State
+                display_sequence: 1
+                deleted_at: null
+        exceptions: {  }
+        superseded: null
 -
     id: 271
     number: '307.170'
@@ -8968,6 +9164,19 @@
         same_as_id: null
         common_name: null
         blocks_time: null
+        jurisdiction:
+            id: 1
+            jurisdiction_type_id: 1
+            name: Missouri
+            url: ''
+            deleted_at: null
+            type:
+                id: 1
+                name: State
+                display_sequence: 1
+                deleted_at: null
+        exceptions: {  }
+        superseded: null
 -
     id: 277
     number: 70-363
@@ -9578,6 +9787,19 @@
         same_as_id: null
         common_name: null
         blocks_time: null
+        jurisdiction:
+            id: 1
+            jurisdiction_type_id: 1
+            name: Missouri
+            url: ''
+            deleted_at: null
+            type:
+                id: 1
+                name: State
+                display_sequence: 1
+                deleted_at: null
+        exceptions: {  }
+        superseded: null
 -
     id: 300
     number: 70-524
