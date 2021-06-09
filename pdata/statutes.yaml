@@ -23,6 +23,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 2
     number: '570.039'
@@ -48,6 +49,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 3
     number: '570.053'
@@ -73,6 +75,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 4
     number: '570.057'
@@ -98,6 +101,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 5
     number: '570.085'
@@ -123,6 +127,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 6
     number: '570.100'
@@ -148,6 +153,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 7
     number: '570.120'
@@ -173,6 +179,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 8
     number: '570.125'
@@ -198,6 +205,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 9
     number: '570.10'
@@ -223,6 +231,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 10
     number: '570.130'
@@ -248,6 +257,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 11
     number: '570.140'
@@ -273,6 +283,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 12
     number: '570.145'
@@ -298,6 +309,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 13
     number: '570.150'
@@ -323,6 +335,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 14
     number: '570.210'
@@ -348,6 +361,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 15
     number: '570.217'
@@ -373,6 +387,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 16
     number: '570.220'
@@ -398,6 +413,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 17
     number: '570.225'
@@ -423,6 +439,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 18
     number: '570.300'
@@ -448,6 +465,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 19
     number: '570.302'
@@ -473,6 +491,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 20
     number: '570.350'
@@ -498,6 +517,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 21
     number: '570.375'
@@ -523,6 +543,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 22
     number: '570.380'
@@ -548,6 +569,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 23
     number: '570.400'
@@ -573,6 +595,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 24
     number: '570.402'
@@ -598,6 +621,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 25
     number: '570.404'
@@ -623,6 +647,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 26
     number: '570.408'
@@ -648,6 +673,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 27
     number: '571.015'
@@ -673,6 +699,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 28
     number: '571.045'
@@ -698,6 +725,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 29
     number: '571.050'
@@ -723,6 +751,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 30
     number: '574.020'
@@ -748,6 +777,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 31
     number: '574.035'
@@ -773,6 +803,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 32
     number: '574.040'
@@ -798,6 +829,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 33
     number: '574.050'
@@ -823,6 +855,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 34
     number: '574.060'
@@ -848,6 +881,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 35
     number: '574.160'
@@ -873,6 +907,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 36
     number: '579.015'
@@ -898,6 +933,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 37
     number: '579.020'
@@ -923,6 +959,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 38
     number: '579.040'
@@ -948,6 +985,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 39
     number: '579.045'
@@ -973,6 +1011,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 40
     number: '579.050'
@@ -998,6 +1037,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 41
     number: '579.055'
@@ -1023,6 +1063,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 42
     number: '579.060'
@@ -1048,6 +1089,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 43
     number: '579.065'
@@ -1073,6 +1115,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 44
     number: '579.070'
@@ -1098,6 +1141,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 45
     number: '579.072'
@@ -1123,6 +1167,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 46
     number: '579.074'
@@ -1148,6 +1193,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 47
     number: '579.076'
@@ -1173,6 +1219,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 48
     number: '579.078'
@@ -1198,6 +1245,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 49
     number: '579.080'
@@ -1223,6 +1271,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 50
     number: '579.082'
@@ -1248,6 +1297,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 51
     number: '579.084'
@@ -1273,6 +1323,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 52
     number: '579.086'
@@ -1298,6 +1349,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 53
     number: '579.090'
@@ -1323,6 +1375,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 54
     number: '579.095'
@@ -1348,6 +1401,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 55
     number: '579.097'
@@ -1373,6 +1427,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 56
     number: '579.099'
@@ -1398,6 +1453,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 57
     number: '579.101'
@@ -1423,6 +1479,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 58
     number: '579.103'
@@ -1448,6 +1505,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 59
     number: '579.105'
@@ -1473,6 +1531,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 60
     number: '579.110'
@@ -1498,6 +1557,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 61
     number: '579.115'
@@ -1523,6 +1583,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 62
     number: '579.150'
@@ -1548,6 +1609,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 63
     number: '579.155'
@@ -1573,6 +1635,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 64
     number: '569.075'
@@ -1598,6 +1661,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 65
     number: '569.080'
@@ -1623,6 +1687,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 66
     number: '569.090'
@@ -1648,6 +1713,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 67
     number: '569.095'
@@ -1673,6 +1739,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 68
     number: '569.097'
@@ -1698,6 +1765,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 69
     number: '569.099'
@@ -1723,6 +1791,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 70
     number: '569.100'
@@ -1748,6 +1817,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 71
     number: '569.120'
@@ -1773,6 +1843,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 72
     number: '569.135'
@@ -1798,6 +1869,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 73
     number: '569.137'
@@ -1823,6 +1895,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 74
     number: '569.140'
@@ -1848,6 +1921,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 75
     number: '569.150'
@@ -1873,6 +1947,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 76
     number: '569.155'
@@ -1898,6 +1973,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 77
     number: '569.170'
@@ -1923,6 +1999,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 78
     number: '569.180'
@@ -1948,6 +2025,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 79
     number: '565.090'
@@ -1973,6 +2051,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 80
     number: '565.091'
@@ -1998,6 +2077,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 81
     number: '565.150'
@@ -2023,6 +2103,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 82
     number: '565.153'
@@ -2048,6 +2129,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 83
     number: '565.188'
@@ -2073,6 +2155,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 84
     number: '565.189'
@@ -2098,6 +2181,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 85
     number: '565.184'
@@ -2123,6 +2207,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 86
     number: '565.225'
@@ -2148,6 +2233,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 87
     number: '565.227'
@@ -2173,6 +2259,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 88
     number: '565.240'
@@ -2198,6 +2285,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 89
     number: '565.252'
@@ -2223,6 +2311,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 90
     number: '568.040'
@@ -2248,6 +2337,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 91
     number: '575.030'
@@ -2273,6 +2363,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 92
     number: '575.050'
@@ -2298,6 +2389,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 93
     number: '575.060'
@@ -2323,6 +2415,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 94
     number: '575.080'
@@ -2348,6 +2441,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 95
     number: '575.090'
@@ -2373,6 +2467,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 96
     number: '575.100'
@@ -2398,6 +2493,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 97
     number: '575.110'
@@ -2423,6 +2519,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 98
     number: '575.120'
@@ -2448,6 +2545,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 99
     number: '575.130'
@@ -2473,6 +2571,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 100
     number: '575.133'
@@ -2498,6 +2597,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 101
     number: '575.150'
@@ -2523,6 +2623,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 102
     number: '575.160'
@@ -2548,6 +2649,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 103
     number: '575.170'
@@ -2573,6 +2675,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 104
     number: '575.180'
@@ -2598,6 +2701,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 105
     number: '575.190'
@@ -2623,6 +2727,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 106
     number: '575.205'
@@ -2648,6 +2753,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 107
     number: '575.206'
@@ -2673,6 +2779,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 108
     number: '575.250'
@@ -2698,6 +2805,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 109
     number: '575.260'
@@ -2723,6 +2831,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 110
     number: '575.270'
@@ -2748,6 +2857,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 111
     number: '575.280'
@@ -2773,6 +2883,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 112
     number: '575.290'
@@ -2798,6 +2909,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 113
     number: '575.300'
@@ -2823,6 +2935,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 114
     number: '575.320'
@@ -2848,6 +2961,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 115
     number: '577.010'
@@ -2873,6 +2987,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 116
     number: '577.013'
@@ -2898,6 +3013,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 117
     number: '577.014'
@@ -2923,6 +3039,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 118
     number: '577.017'
@@ -2948,6 +3065,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 119
     number: '577.024'
@@ -2973,6 +3091,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 120
     number: '577.025'
@@ -2998,6 +3117,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 121
     number: '577.060'
@@ -3023,6 +3143,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 122
     number: '577.068'
@@ -3048,6 +3169,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 123
     number: '577.073'
@@ -3073,6 +3195,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 124
     number: '577.076'
@@ -3098,6 +3221,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 125
     number: '577.100'
@@ -3123,6 +3247,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 126
     number: '577.155'
@@ -3148,6 +3273,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 127
     number: '577.161'
@@ -3173,6 +3299,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 128
     number: '577.300'
@@ -3198,6 +3325,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 129
     number: '577.599'
@@ -3223,6 +3351,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 130
     number: '577.600'
@@ -3248,6 +3377,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 131
     number: '577.605'
@@ -3273,6 +3403,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 132
     number: '577.612'
@@ -3298,6 +3429,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 133
     number: '577.675'
@@ -3323,6 +3455,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 134
     number: '577.685'
@@ -3348,6 +3481,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 135
     number: '577.709'
@@ -3373,6 +3507,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 136
     number: '577.718'
@@ -3398,6 +3533,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 137
     number: '578.009'
@@ -3423,6 +3559,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 138
     number: '578.011'
@@ -3448,6 +3585,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 139
     number: '578.012'
@@ -3473,6 +3611,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 140
     number: '578.013'
@@ -3498,6 +3637,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 141
     number: '578.029'
@@ -3523,6 +3663,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 142
     number: '578.028'
@@ -3548,6 +3689,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 143
     number: '578.025'
@@ -3573,6 +3715,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 144
     number: '578.026'
@@ -3598,6 +3741,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 145
     number: '578.025'
@@ -3623,6 +3767,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 146
     number: '578.024'
@@ -3648,6 +3793,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 147
     number: '578.023'
@@ -3673,6 +3819,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 148
     number: '578.050'
@@ -3698,6 +3845,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 149
     number: '578.095'
@@ -3723,6 +3871,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 150
     number: '578.150'
@@ -3748,6 +3897,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 151
     number: '578.173'
@@ -3773,6 +3923,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 152
     number: '578.176'
@@ -3798,6 +3949,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 153
     number: '578.398'
@@ -3823,6 +3975,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 154
     number: '578.423'
@@ -3848,6 +4001,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 155
     number: '578.520'
@@ -3873,6 +4027,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 156
     number: '578.525'
@@ -3898,6 +4053,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 157
     number: '610.140'
@@ -3923,6 +4079,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 158
     number: '375.997'
@@ -3948,6 +4105,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 159
     number: '389.653'
@@ -3986,6 +4144,7 @@
             pivot:
                 statute_id: 159
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -3999,6 +4158,8 @@
             pivot:
                 statute_id: 159
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 160
     number: '455.08'
@@ -4024,6 +4185,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 161
     number: '557.035'
@@ -4062,6 +4224,7 @@
             pivot:
                 statute_id: 161
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4075,6 +4238,8 @@
             pivot:
                 statute_id: 161
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 162
     number: '565.084'
@@ -4113,6 +4278,7 @@
             pivot:
                 statute_id: 162
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4126,6 +4292,8 @@
             pivot:
                 statute_id: 162
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 163
     number: '565.085'
@@ -4164,6 +4332,7 @@
             pivot:
                 statute_id: 163
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4177,6 +4346,8 @@
             pivot:
                 statute_id: 163
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 164
     number: '565.086'
@@ -4215,6 +4386,7 @@
             pivot:
                 statute_id: 164
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4228,6 +4400,8 @@
             pivot:
                 statute_id: 164
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 165
     number: '565.095'
@@ -4266,6 +4440,7 @@
             pivot:
                 statute_id: 165
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4279,6 +4454,8 @@
             pivot:
                 statute_id: 165
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 166
     number: '565.120'
@@ -4317,6 +4494,7 @@
             pivot:
                 statute_id: 166
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4330,6 +4508,8 @@
             pivot:
                 statute_id: 166
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 167
     number: '565.130'
@@ -4368,6 +4548,7 @@
             pivot:
                 statute_id: 167
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4381,6 +4562,8 @@
             pivot:
                 statute_id: 167
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 168
     number: '565.156'
@@ -4419,6 +4602,7 @@
             pivot:
                 statute_id: 168
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4432,6 +4616,8 @@
             pivot:
                 statute_id: 168
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 169
     number: '566.093'
@@ -4470,6 +4656,7 @@
             pivot:
                 statute_id: 169
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4483,6 +4670,7 @@
             pivot:
                 statute_id: 169
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4496,6 +4684,7 @@
             pivot:
                 statute_id: 169
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4509,6 +4698,8 @@
             pivot:
                 statute_id: 169
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 170
     number: '566.111'
@@ -4547,6 +4738,7 @@
             pivot:
                 statute_id: 170
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4560,6 +4752,8 @@
             pivot:
                 statute_id: 170
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 171
     number: '568'
@@ -4585,6 +4779,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 172
     number: '568.030'
@@ -4623,6 +4818,7 @@
             pivot:
                 statute_id: 172
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4636,6 +4832,8 @@
             pivot:
                 statute_id: 172
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 173
     number: '568.032'
@@ -4674,6 +4872,7 @@
             pivot:
                 statute_id: 173
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4687,6 +4886,8 @@
             pivot:
                 statute_id: 173
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 174
     number: '568.045'
@@ -4725,6 +4926,7 @@
             pivot:
                 statute_id: 174
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4738,6 +4940,8 @@
             pivot:
                 statute_id: 174
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 175
     number: '568.060'
@@ -4776,6 +4980,7 @@
             pivot:
                 statute_id: 175
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4789,6 +4994,8 @@
             pivot:
                 statute_id: 175
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 176
     number: '568.065'
@@ -4827,6 +5034,7 @@
             pivot:
                 statute_id: 176
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4840,6 +5048,8 @@
             pivot:
                 statute_id: 176
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 177
     number: '568.080'
@@ -4878,6 +5088,7 @@
             pivot:
                 statute_id: 177
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4891,6 +5102,8 @@
             pivot:
                 statute_id: 177
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 178
     number: '568.090'
@@ -4929,6 +5142,7 @@
             pivot:
                 statute_id: 178
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4942,6 +5156,8 @@
             pivot:
                 statute_id: 178
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 179
     number: '568.175'
@@ -4980,6 +5196,7 @@
             pivot:
                 statute_id: 179
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -4993,6 +5210,8 @@
             pivot:
                 statute_id: 179
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 180
     number: '569.030'
@@ -5031,6 +5250,7 @@
             pivot:
                 statute_id: 180
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -5044,6 +5264,8 @@
             pivot:
                 statute_id: 180
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 181
     number: '565.035'
@@ -5069,6 +5291,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 182
     number: '569.040'
@@ -5107,6 +5330,7 @@
             pivot:
                 statute_id: 182
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -5120,6 +5344,8 @@
             pivot:
                 statute_id: 182
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 183
     number: '569.055'
@@ -5158,6 +5384,7 @@
             pivot:
                 statute_id: 183
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -5171,6 +5398,8 @@
             pivot:
                 statute_id: 183
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 184
     number: '569.60'
@@ -5196,6 +5425,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 185
     number: '569.065'
@@ -5234,6 +5464,7 @@
             pivot:
                 statute_id: 185
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -5247,6 +5478,8 @@
             pivot:
                 statute_id: 185
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 186
     number: '569.100'
@@ -5272,6 +5505,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 187
     number: '570.025'
@@ -5310,6 +5544,7 @@
             pivot:
                 statute_id: 187
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -5323,6 +5558,20 @@
             pivot:
                 statute_id: 187
                 exception_id: 6
+                note: ''
+    superseded:
+        id: 187
+        number: '570.025'
+        name: 'Robbery in the 2nd  degree'
+        note: null
+        statutes_eligibility_id: 2
+        superseded_id: 187
+        superseded_on: 1-01-17
+        deleted_at: null
+        jurisdiction_id: 1
+        same_as_id: null
+        common_name: null
+        blocks_time: null
 -
     id: 188
     number: '570.090'
@@ -5361,6 +5610,7 @@
             pivot:
                 statute_id: 188
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -5374,6 +5624,8 @@
             pivot:
                 statute_id: 188
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 189
     number: '570.180'
@@ -5412,6 +5664,7 @@
             pivot:
                 statute_id: 189
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -5425,6 +5678,8 @@
             pivot:
                 statute_id: 189
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 190
     number: '570.224'
@@ -5463,6 +5718,7 @@
             pivot:
                 statute_id: 190
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -5476,6 +5732,8 @@
             pivot:
                 statute_id: 190
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 191
     number: '570.223'
@@ -5514,6 +5772,7 @@
             pivot:
                 statute_id: 191
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -5527,6 +5786,8 @@
             pivot:
                 statute_id: 191
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 192
     number: '570.310'
@@ -5565,6 +5826,7 @@
             pivot:
                 statute_id: 192
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -5578,6 +5840,8 @@
             pivot:
                 statute_id: 192
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 193
     number: '571.020'
@@ -5616,6 +5880,7 @@
             pivot:
                 statute_id: 193
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -5629,6 +5894,8 @@
             pivot:
                 statute_id: 193
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 194
     number: '571.030'
@@ -5654,6 +5921,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 195
     number: '571.060'
@@ -5692,6 +5960,7 @@
             pivot:
                 statute_id: 195
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -5705,6 +5974,8 @@
             pivot:
                 statute_id: 195
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 196
     number: '571.063'
@@ -5743,6 +6014,7 @@
             pivot:
                 statute_id: 196
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -5756,6 +6028,8 @@
             pivot:
                 statute_id: 196
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 197
     number: '571.070'
@@ -5794,6 +6068,7 @@
             pivot:
                 statute_id: 197
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -5807,6 +6082,8 @@
             pivot:
                 statute_id: 197
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 198
     number: '571.072'
@@ -5845,6 +6122,7 @@
             pivot:
                 statute_id: 198
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -5858,6 +6136,8 @@
             pivot:
                 statute_id: 198
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 199
     number: '571.150'
@@ -5896,6 +6176,7 @@
             pivot:
                 statute_id: 199
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -5909,6 +6190,8 @@
             pivot:
                 statute_id: 199
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 200
     number: '574.070'
@@ -5947,6 +6230,7 @@
             pivot:
                 statute_id: 200
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -5960,6 +6244,8 @@
             pivot:
                 statute_id: 200
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 201
     number: '574.105'
@@ -5998,6 +6284,7 @@
             pivot:
                 statute_id: 201
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -6011,6 +6298,8 @@
             pivot:
                 statute_id: 201
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 202
     number: '574.115'
@@ -6049,6 +6338,7 @@
             pivot:
                 statute_id: 202
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -6062,6 +6352,8 @@
             pivot:
                 statute_id: 202
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 203
     number: '574.120'
@@ -6100,6 +6392,7 @@
             pivot:
                 statute_id: 203
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -6113,6 +6406,8 @@
             pivot:
                 statute_id: 203
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 204
     number: '574.130'
@@ -6151,6 +6446,7 @@
             pivot:
                 statute_id: 204
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -6164,6 +6460,8 @@
             pivot:
                 statute_id: 204
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 205
     number: '575.095'
@@ -6202,6 +6500,7 @@
             pivot:
                 statute_id: 205
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -6215,6 +6514,8 @@
             pivot:
                 statute_id: 205
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 206
     number: '575.040'
@@ -6253,6 +6554,7 @@
             pivot:
                 statute_id: 206
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -6266,6 +6568,8 @@
             pivot:
                 statute_id: 206
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 207
     number: '575.153'
@@ -6304,6 +6608,7 @@
             pivot:
                 statute_id: 207
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -6317,6 +6622,8 @@
             pivot:
                 statute_id: 207
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 208
     number: '575.155'
@@ -6355,6 +6662,7 @@
             pivot:
                 statute_id: 208
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -6368,6 +6676,8 @@
             pivot:
                 statute_id: 208
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 209
     number: '575.157'
@@ -6406,6 +6716,7 @@
             pivot:
                 statute_id: 209
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -6419,6 +6730,8 @@
             pivot:
                 statute_id: 209
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 210
     number: '575.159'
@@ -6457,6 +6770,7 @@
             pivot:
                 statute_id: 210
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -6470,6 +6784,8 @@
             pivot:
                 statute_id: 210
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 211
     number: '575.195'
@@ -6508,6 +6824,7 @@
             pivot:
                 statute_id: 211
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -6521,6 +6838,8 @@
             pivot:
                 statute_id: 211
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 212
     number: '575.200'
@@ -6559,6 +6878,7 @@
             pivot:
                 statute_id: 212
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -6572,6 +6892,8 @@
             pivot:
                 statute_id: 212
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 213
     number: '575.210'
@@ -6610,6 +6932,7 @@
             pivot:
                 statute_id: 213
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -6623,6 +6946,8 @@
             pivot:
                 statute_id: 213
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 214
     number: '575.220'
@@ -6661,6 +6986,7 @@
             pivot:
                 statute_id: 214
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -6674,6 +7000,8 @@
             pivot:
                 statute_id: 214
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 215
     number: '575.230'
@@ -6712,6 +7040,7 @@
             pivot:
                 statute_id: 215
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -6725,6 +7054,8 @@
             pivot:
                 statute_id: 215
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 216
     number: '575.240'
@@ -6763,6 +7094,7 @@
             pivot:
                 statute_id: 216
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -6776,6 +7108,8 @@
             pivot:
                 statute_id: 216
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 217
     number: '575.353'
@@ -6814,6 +7148,7 @@
             pivot:
                 statute_id: 217
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -6827,6 +7162,8 @@
             pivot:
                 statute_id: 217
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 218
     number: '577.078'
@@ -6865,6 +7202,7 @@
             pivot:
                 statute_id: 218
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -6878,6 +7216,8 @@
             pivot:
                 statute_id: 218
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 219
     number: '577.703'
@@ -6916,6 +7256,7 @@
             pivot:
                 statute_id: 219
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -6929,6 +7270,8 @@
             pivot:
                 statute_id: 219
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 220
     number: '577.076'
@@ -6954,6 +7297,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 221
     number: '579.015'
@@ -6979,6 +7323,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 222
     number: '195.202'
@@ -7004,6 +7349,19 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded:
+        id: 221
+        number: '579.015'
+        name: 'Possession or control of a controlled substance'
+        note: ''
+        statutes_eligibility_id: 4
+        superseded_id: null
+        superseded_on: ''
+        deleted_at: null
+        jurisdiction_id: 1
+        same_as_id: null
+        common_name: null
+        blocks_time: null
 -
     id: 223
     number: '565.082'
@@ -7029,6 +7387,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 224
     number: '195.223'
@@ -7054,6 +7413,19 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded:
+        id: 260
+        number: '579.068'
+        name: 'Trafficking drugs, second degree'
+        note: null
+        statutes_eligibility_id: 1
+        superseded_id: null
+        superseded_on: ''
+        deleted_at: null
+        jurisdiction_id: 1
+        same_as_id: null
+        common_name: null
+        blocks_time: null
 -
     id: 225
     number: '304.010'
@@ -7079,6 +7451,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 226
     number: '195.211'
@@ -7104,6 +7477,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 227
     number: '304.009'
@@ -7129,6 +7503,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 228
     number: '565.070'
@@ -7154,6 +7529,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 229
     number: '565.050'
@@ -7179,6 +7555,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 230
     number: '195.233'
@@ -7204,6 +7581,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 231
     number: '301.020'
@@ -7229,6 +7607,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 232
     number: '307.170'
@@ -7254,6 +7633,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 233
     number: '304.015'
@@ -7279,6 +7659,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 234
     number: '302.020'
@@ -7304,6 +7685,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 235
     number: '307.400'
@@ -7329,6 +7711,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 236
     number: '302.321'
@@ -7354,6 +7737,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 237
     number: '307.178'
@@ -7379,6 +7763,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 238
     number: '307.173'
@@ -7404,6 +7789,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 239
     number: '304.351'
@@ -7429,6 +7815,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 240
     number: '303.025'
@@ -7454,6 +7841,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 241
     number: '301.130'
@@ -7479,6 +7867,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 242
     number: '565.074'
@@ -7504,6 +7893,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 243
     number: '195.020'
@@ -7529,6 +7919,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 244
     number: '570.321'
@@ -7554,6 +7945,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 245
     number: '565.083'
@@ -7579,6 +7971,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 246
     number: GENER.0-934Y19503699.0
@@ -7594,6 +7987,7 @@
     blocks_time: null
     jurisdiction: null
     exceptions: {  }
+    superseded: null
 -
     id: 247
     number: '567.020'
@@ -7619,6 +8013,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 248
     number: '195.214'
@@ -7644,6 +8039,19 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded:
+        id: 249
+        number: '579.030'
+        name: 'Distribution of a controlled substance in a protected location--penalty'
+        note: null
+        statutes_eligibility_id: 4
+        superseded_id: null
+        superseded_on: ''
+        deleted_at: null
+        jurisdiction_id: 1
+        same_as_id: null
+        common_name: null
+        blocks_time: null
 -
     id: 249
     number: '579.030'
@@ -7669,6 +8077,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 250
     number: '301.130'
@@ -7694,6 +8103,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 251
     number: 70-137
@@ -7719,6 +8129,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 252
     number: 70-131
@@ -7744,6 +8155,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 253
     number: 50-121
@@ -7769,6 +8181,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 254
     number: ORDIN.0-274N20005399.0
@@ -7794,6 +8207,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 255
     number: '210.230'
@@ -7819,6 +8233,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 256
     number: '210.670'
@@ -7844,6 +8259,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 257
     number: 36-119
@@ -7869,6 +8285,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 258
     number: '307.170'
@@ -7894,6 +8311,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 259
     number: '252.045'
@@ -7919,6 +8337,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 260
     number: '579.068'
@@ -7944,6 +8363,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 261
     number: '566.101'
@@ -7982,6 +8402,7 @@
             pivot:
                 statute_id: 261
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -7995,6 +8416,8 @@
             pivot:
                 statute_id: 261
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 262
     number: '566.090'
@@ -8033,6 +8456,7 @@
             pivot:
                 statute_id: 262
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -8046,6 +8470,20 @@
             pivot:
                 statute_id: 262
                 exception_id: 6
+                note: ''
+    superseded:
+        id: 261
+        number: '566.101'
+        name: 'Sexual abuse, second degree, penalties.'
+        note: null
+        statutes_eligibility_id: 3
+        superseded_id: null
+        superseded_on: ''
+        deleted_at: null
+        jurisdiction_id: 1
+        same_as_id: null
+        common_name: null
+        blocks_time: null
 -
     id: 263
     number: '566.068'
@@ -8084,6 +8522,7 @@
             pivot:
                 statute_id: 263
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -8097,6 +8536,8 @@
             pivot:
                 statute_id: 263
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 264
     number: '565.020'
@@ -8135,6 +8576,7 @@
             pivot:
                 statute_id: 264
                 exception_id: 4
+                note: 'Special Note about 2.4 and 565.020'
         -
             id: 4
             section: '2.4'
@@ -8148,6 +8590,8 @@
             pivot:
                 statute_id: 264
                 exception_id: 4
+                note: 'Special Note about 2.4 and 565.020'
+    superseded: null
 -
     id: 265
     number: '195.202'
@@ -8173,6 +8617,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 266
     number: '195.200'
@@ -8198,6 +8643,19 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded:
+        id: 222
+        number: '195.202'
+        name: 'Possession of Controlled Substance Except 35 Grams or Less of Marijuana'
+        note: null
+        statutes_eligibility_id: 1
+        superseded_id: 221
+        superseded_on: '2014'
+        deleted_at: null
+        jurisdiction_id: 1
+        same_as_id: null
+        common_name: null
+        blocks_time: null
 -
     id: 267
     number: '304.019'
@@ -8223,6 +8681,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 268
     number: '569.050'
@@ -8261,6 +8720,7 @@
             pivot:
                 statute_id: 268
                 exception_id: 6
+                note: ''
         -
             id: 6
             section: '2.6'
@@ -8274,6 +8734,8 @@
             pivot:
                 statute_id: 268
                 exception_id: 6
+                note: ''
+    superseded: null
 -
     id: 269
     number: '565.052'
@@ -8299,6 +8761,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 270
     number: '565.060'
@@ -8324,6 +8787,19 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded:
+        id: 269
+        number: '565.052'
+        name: 'Assault, 2nd degree'
+        note: null
+        statutes_eligibility_id: 2
+        superseded_id: null
+        superseded_on: ''
+        deleted_at: null
+        jurisdiction_id: 1
+        same_as_id: null
+        common_name: null
+        blocks_time: null
 -
     id: 271
     number: '307.170'
@@ -8349,6 +8825,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 272
     number: '304.012'
@@ -8374,6 +8851,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 273
     number: '311.325'
@@ -8399,6 +8877,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 274
     number: '304.017'
@@ -8424,6 +8903,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 275
     number: '307.179'
@@ -8449,6 +8929,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 276
     number: '210.104'
@@ -8474,6 +8955,19 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded:
+        id: 275
+        number: '307.179'
+        name: 'Definitions — transporting children under sixteen years of age, restraint systems'
+        note: null
+        statutes_eligibility_id: 4
+        superseded_id: null
+        superseded_on: ''
+        deleted_at: null
+        jurisdiction_id: 1
+        same_as_id: null
+        common_name: null
+        blocks_time: null
 -
     id: 277
     number: 70-363
@@ -8499,6 +8993,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 278
     number: 70-856
@@ -8524,6 +9019,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 279
     number: 50-164
@@ -8549,6 +9045,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 280
     number: 70-454
@@ -8574,6 +9071,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 281
     number: 70-303
@@ -8599,6 +9097,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 282
     number: 70-301
@@ -8624,6 +9123,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 283
     number: 70-831
@@ -8649,6 +9149,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 284
     number: 70-138
@@ -8674,6 +9175,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 285
     number: 70-362
@@ -8699,6 +9201,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 286
     number: 70-523
@@ -8724,6 +9227,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 287
     number: 70-961
@@ -8749,6 +9253,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 288
     number: 70-139
@@ -8774,6 +9279,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 289
     number: 20-270
@@ -8799,6 +9305,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 290
     number: 50-161
@@ -8824,6 +9331,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 291
     number: '303.370'
@@ -8849,6 +9357,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 292
     number: 70-270
@@ -8874,6 +9383,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 293
     number: 28-139
@@ -8899,6 +9409,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 294
     number: 62-89
@@ -8924,6 +9435,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 295
     number: 50-167
@@ -8949,6 +9461,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 296
     number: 70-953
@@ -8974,6 +9487,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 297
     number: 70-135
@@ -8999,6 +9513,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 298
     number: 58-656
@@ -9024,6 +9539,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 299
     number: '570.080'
@@ -9049,6 +9565,19 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded:
+        id: 1
+        number: '570.030'
+        name: Stealing
+        note: null
+        statutes_eligibility_id: 1
+        superseded_id: null
+        superseded_on: ''
+        deleted_at: null
+        jurisdiction_id: 1
+        same_as_id: null
+        common_name: null
+        blocks_time: null
 -
     id: 300
     number: 70-524
@@ -9074,6 +9603,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 301
     number: 70-304
@@ -9099,6 +9629,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 302
     number: '306.100'
@@ -9124,6 +9655,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 303
     number: 70-594
@@ -9149,6 +9681,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 304
     number: 50-106
@@ -9174,6 +9707,7 @@
             display_sequence: 3
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 305
     number: '574.010'
@@ -9199,6 +9733,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 306
     number: '304.001'
@@ -9224,6 +9759,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 307
     number: '304.005'
@@ -9249,6 +9785,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 308
     number: '304.011'
@@ -9274,6 +9811,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 309
     number: '304.013'
@@ -9299,6 +9837,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 310
     number: '304.014'
@@ -9324,6 +9863,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 311
     number: '304.016'
@@ -9349,6 +9889,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 312
     number: '304.022'
@@ -9374,6 +9915,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 313
     number: '304.023'
@@ -9399,6 +9941,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 314
     number: '304.024'
@@ -9424,6 +9967,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 315
     number: '304.025'
@@ -9449,6 +9993,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 316
     number: '304.027'
@@ -9474,6 +10019,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 317
     number: '304.028'
@@ -9499,6 +10045,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 318
     number: '304.029'
@@ -9524,6 +10071,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 319
     number: '304.030'
@@ -9549,6 +10097,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 320
     number: '304.031'
@@ -9574,6 +10123,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 321
     number: '304.032'
@@ -9599,6 +10149,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 322
     number: '304.033'
@@ -9624,6 +10175,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 323
     number: '304.034'
@@ -9649,6 +10201,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 324
     number: '304.035'
@@ -9674,6 +10227,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 325
     number: '304.040'
@@ -9699,6 +10253,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 326
     number: '304.044'
@@ -9724,6 +10279,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 327
     number: '304.050'
@@ -9749,6 +10305,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 328
     number: '304.060'
@@ -9774,6 +10331,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 329
     number: '304.070'
@@ -9799,6 +10357,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 330
     number: '304.075'
@@ -9824,6 +10383,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 331
     number: '304.076'
@@ -9849,6 +10409,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 332
     number: '304.079'
@@ -9874,6 +10435,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 333
     number: '304.080'
@@ -9899,6 +10461,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 334
     number: '304.110'
@@ -9924,6 +10487,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 335
     number: '304.120'
@@ -9949,6 +10513,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 336
     number: '304.125'
@@ -9974,6 +10539,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 337
     number: '304.130'
@@ -9999,6 +10565,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 338
     number: '304.140'
@@ -10024,6 +10591,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 339
     number: '304.151'
@@ -10049,6 +10617,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 340
     number: '304.152'
@@ -10074,6 +10643,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 341
     number: '304.153'
@@ -10099,6 +10669,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 342
     number: '304.154'
@@ -10124,6 +10695,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 343
     number: '304.155'
@@ -10149,6 +10721,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 344
     number: '304.156'
@@ -10174,6 +10747,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 345
     number: '304.157'
@@ -10199,6 +10773,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 346
     number: '304.158'
@@ -10224,6 +10799,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 347
     number: '304.159'
@@ -10249,6 +10825,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 348
     number: '304.160'
@@ -10274,6 +10851,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 349
     number: '304.170'
@@ -10299,6 +10877,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 350
     number: '304.172'
@@ -10324,6 +10903,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 351
     number: '304.174'
@@ -10349,6 +10929,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 352
     number: '304.180'
@@ -10374,6 +10955,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 353
     number: '304.181'
@@ -10399,6 +10981,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 354
     number: '304.184'
@@ -10424,6 +11007,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 355
     number: '304.190'
@@ -10449,6 +11033,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 356
     number: '304.200'
@@ -10474,6 +11059,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 357
     number: '304.210'
@@ -10499,6 +11085,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 358
     number: '304.220'
@@ -10524,6 +11111,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 359
     number: '304.230'
@@ -10549,6 +11137,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 360
     number: '304.232'
@@ -10574,6 +11163,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 361
     number: '304.235'
@@ -10599,6 +11189,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 362
     number: '304.240'
@@ -10624,6 +11215,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 363
     number: '304.250'
@@ -10649,6 +11241,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 364
     number: '304.260'
@@ -10674,6 +11267,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 365
     number: '304.271'
@@ -10699,6 +11293,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 366
     number: '304.281'
@@ -10724,6 +11319,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 367
     number: '304.285'
@@ -10749,6 +11345,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 368
     number: '304.289'
@@ -10774,6 +11371,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 369
     number: '304.291'
@@ -10799,6 +11397,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 370
     number: '304.301'
@@ -10824,6 +11423,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 371
     number: '304.311'
@@ -10849,6 +11449,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 372
     number: '304.321'
@@ -10874,6 +11475,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 373
     number: '304.331'
@@ -10899,6 +11501,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 374
     number: '304.341'
@@ -10924,6 +11527,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 375
     number: '304.361'
@@ -10949,6 +11553,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 376
     number: '304.373'
@@ -10974,6 +11579,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 377
     number: '304.570'
@@ -10999,6 +11605,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 378
     number: '304.580'
@@ -11024,6 +11631,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 379
     number: '304.582'
@@ -11049,6 +11657,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 380
     number: '304.585'
@@ -11074,6 +11683,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 381
     number: '304.590'
@@ -11099,6 +11709,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 382
     number: '304.665'
@@ -11124,6 +11735,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 383
     number: '304.670'
@@ -11149,6 +11761,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 384
     number: '304.678'
@@ -11174,6 +11787,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 385
     number: '304.705'
@@ -11199,6 +11813,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 386
     number: '304.725'
@@ -11224,6 +11839,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 387
     number: '304.820'
@@ -11249,6 +11865,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 388
     number: '304.890'
@@ -11274,6 +11891,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 389
     number: '304.892'
@@ -11299,6 +11917,7 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
 -
     id: 390
     number: '304.894'
@@ -11324,3 +11943,4 @@
             display_sequence: 1
             deleted_at: null
     exceptions: {  }
+    superseded: null
