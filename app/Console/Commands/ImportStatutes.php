@@ -31,6 +31,11 @@ class ImportStatutes extends Command
      */
     private $file_name;
     private $exceptions;
+    private $statuteIdIndex = [];
+    /**
+     * @var mixed
+     */
+    private $statutes;
 
     /**
      * Create a new command instance.
@@ -59,10 +64,15 @@ class ImportStatutes extends Command
     public function handle()
     {
         $this->file_name = $this->option('file');
-        $statutes = Yaml::parseFile(base_path('/data/') . $this->file_name);
+        $this->statutes = Yaml::parseFile(base_path('/data/') . $this->file_name);
+
+        // map previous statute id to current index in array
+        foreach($this->statutes as $key => $statute) {
+            $this->statuteIdIndex[$statute['id']] = $key;
+        }
 
         $this->info("Statutes before " . Statute::count());
-        foreach ($statutes as $statute) {
+        foreach ($this->statutes as $statute) {
             if (!Statute::where('number', $statute['number'])->exists()) {
                $this->createStatute($statute);
             }
@@ -77,12 +87,14 @@ class ImportStatutes extends Command
     {
         $jurisdiction = !empty($statute['jurisdiction']) ? $this->matchJurisdiction($statute['jurisdiction']) : null;
 
-        if(!empty($statute['superseded'])) {
-            $superseded = Statute::where('number', $statute['superseded']['number'])->first();
+        if(!empty($statute['superseded_id']) && ($supersededIndex = $this->findIndexById($statute['superseded_id']))) {
+            $supersededImport = $this->statutes[$supersededIndex];
+            $superseded = Statute::where('number', $supersededImport['number'])->first();
             if(!$superseded) {
-                $superseded = $this->createStatute($statute['superseded']);
+                $superseded = $this->createStatute($supersededImport);
             }
             $superseded_id = $superseded->id;
+            dump($statute['number'], $superseded->number);
         }
 
         $record = Statute::create(
@@ -192,5 +204,10 @@ class ImportStatutes extends Command
         $this->exceptions[$newException->section] = $newException;
 
         return $newException;
+    }
+
+    private function findIndexById($id)
+    {
+        return $this->statuteIdIndex[$id] ?? null;
     }
 }
