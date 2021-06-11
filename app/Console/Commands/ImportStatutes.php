@@ -7,6 +7,7 @@ use App\Jurisdiction;
 use App\JurisdictionType;
 use App\Statute;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\Yaml\Yaml;
 
 class ImportStatutes extends Command
@@ -71,7 +72,10 @@ class ImportStatutes extends Command
             $this->statuteIdIndex[$statute['id']] = $key;
         }
 
+        DB::unprepared('set FOREIGN_KEY_CHECKS=0');
+
         $this->info("Statutes before " . Statute::count());
+        dump("Statutes before " . Statute::count());
         foreach ($this->statutes as $statute) {
             if (!Statute::where('number', $statute['number'])->exists()) {
                $this->createStatute($statute);
@@ -79,6 +83,8 @@ class ImportStatutes extends Command
 
         }
         $this->info("Statutes after " . Statute::count());
+        dump("Statutes after " . Statute::count());
+        DB::unprepared('set FOREIGN_KEY_CHECKS=1');
 
         return 0;
     }
@@ -94,7 +100,6 @@ class ImportStatutes extends Command
                 $superseded = $this->createStatute($supersededImport);
             }
             $superseded_id = $superseded->id;
-            dump($statute['number'], $superseded->number);
         }
 
         $record = Statute::create(

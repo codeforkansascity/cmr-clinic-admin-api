@@ -16,8 +16,9 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class);
         $this->call(OauthPersonalAccessClientsTableSeeder::class);
         $this->call(OauthClientsTableSeeder::class);
-        $this->call([StatuteSeeder::class, ServiceSeeder::class]);
+        \Illuminate\Support\Facades\Artisan::call("cmr:import-statutes");
         $this->call(ApplicantTableSeeder::class);
+
 
         $total = round(microtime(1) - $start, 2);
         dump("Total seed time $total seconds");
