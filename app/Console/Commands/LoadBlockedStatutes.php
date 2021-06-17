@@ -83,7 +83,9 @@ class LoadStatutes extends Command
                     'name' => $r[3] ?? "",
                     'jurisdiction_id' => 1,
                     'blocks_time' => true,
-                    'statutes_eligibility_id' => Statute::UNDETERMINED
+                    'statutes_eligibility_id' => Statute::UNDETERMINED,
+                    'created_at' => now(),
+                    'updated_at' => now()
                 ];
             });
         }
