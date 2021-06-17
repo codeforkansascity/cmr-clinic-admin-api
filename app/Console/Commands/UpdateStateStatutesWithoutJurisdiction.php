@@ -12,14 +12,14 @@ class UpdateStateStatutesWithoutJurisdiction extends Command
      *
      * @var string
      */
-    protected $signature = 'cmr:update-state-statutes';
+    protected $signature = 'cmr:update-mo-jurisdiction';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Update MO Statutes that do not have their jurisdiction set.';
 
     /**
      * Create a new command instance.

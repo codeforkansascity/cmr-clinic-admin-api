@@ -73,7 +73,7 @@ class Statute extends Model
 
     public function exceptions()
     {
-        return $this->belongsToMany(\App\Exception::class,'statute_exceptions');
+        return $this->belongsToMany(\App\Exception::class,'statute_exceptions')->withPivot('note');
     }
 
 

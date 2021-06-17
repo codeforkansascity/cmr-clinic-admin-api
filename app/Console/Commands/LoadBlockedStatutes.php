@@ -7,7 +7,7 @@ use App\Statute;
 use Illuminate\Console\Command;
 use Maatwebsite\Excel\Facades\Excel;
 
-class LoadStatutes extends Command
+class LoadBlockedStatutes extends Command
 {
     public $chapter;
     public $file_name;
@@ -18,7 +18,7 @@ class LoadStatutes extends Command
      *
      * @var string
      */
-    protected $signature = 'cmr:load-statutes {--chapter=304} {--file=missouri-statutes-list.xlsx} {--type="traffic"}';
+    protected $signature = 'cmr:load-blocked-statutes {--chapter=565} {--file=missouri-statutes-list.xlsx}';
 
     /**
      * The console command description.
@@ -44,16 +44,15 @@ class LoadStatutes extends Command
      */
     public function handle()
     {
-        $this->info("Start: cmr:load-statutes");
+        $this->info("Start: lbv:cmr:load-blocked-statutes");
         $this->file_name = $this->option('file');
         $this->chapter = $this->option('chapter');
-        $this->type = $this->option('type');
 
         $data = $this->readSpreadSheet(base_path('data/') . $this->file_name);
 
         $data = $data->filter(function ($r) {
             return !Statute::where('number', $r['number'])->exists();
-        });
+        })->unique('number');
 
         foreach($data AS $rec) {
             $this->info(sprintf(" Adding %-10.10s %s",$rec['number'],$rec['name']));
@@ -63,7 +62,7 @@ class LoadStatutes extends Command
 
         Statute::insert($data->toArray());
 
-        $this->info("End: lbv:cmr:load-statutes");
+        $this->info("End: lbv:cmr:load-blocked-statutes");
 
         return 0;
     }
@@ -82,7 +81,10 @@ class LoadStatutes extends Command
                     'number' => sprintf("%0.3f", $r[2]),
                     'name' => $r[3] ?? "",
                     'jurisdiction_id' => 1,
-                    'blocks_time' => false,
+                    'blocks_time' => true,
+                    'statutes_eligibility_id' => Statute::UNDETERMINED,
+                    'created_at' => now(),
+                    'updated_at' => now()
                 ];
             });
         }

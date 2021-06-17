@@ -33,7 +33,7 @@ class UpdateCommonName extends Command
      */
     public function handle()
     {
-        $this->info("Start: lbv:load-trash-contract-pricing");
+        $this->info("Start: cmr:update-common");
         $this->file_name = $this->option('file');
         $this->chapters = explode(',', $this->option('chapters'));
 
@@ -56,6 +56,8 @@ class UpdateCommonName extends Command
             }
         }
         $this->info("Updated {$updateCount} Records");
+
+        $this->info("End: cmr:update-common");
 
 
         return 0;

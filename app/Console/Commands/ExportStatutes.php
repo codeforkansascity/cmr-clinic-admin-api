@@ -39,11 +39,11 @@ class ExportStatutes extends Command
      */
     public function handle()
     {
-        $statutes = Statute::with('jurisdiction', 'jurisdiction.type', 'exceptions')->get()->toArray();
+        $statutes = Statute::with(['jurisdiction', 'jurisdiction.type', 'exceptions','superseded'])->get()->toArray();
 
         $yaml = Yaml::dump($statutes, 6);
 
-        file_put_contents(base_path('/data/'. $this->option('file')), $yaml);
+        file_put_contents(base_path('/data/' . $this->option('file')), $yaml);
         return 0;
     }
 }

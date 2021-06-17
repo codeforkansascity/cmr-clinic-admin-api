@@ -7,6 +7,7 @@ use App\Jurisdiction;
 use App\JurisdictionType;
 use App\Statute;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\Yaml\Yaml;
 
 class ImportStatutes extends Command
@@ -31,6 +32,11 @@ class ImportStatutes extends Command
      */
     private $file_name;
     private $exceptions;
+    private $statuteIdIndex = [];
+    /**
+     * @var mixed
+     */
+    private $statutes;
 
     /**
      * Create a new command instance.
@@ -59,45 +65,81 @@ class ImportStatutes extends Command
     public function handle()
     {
         $this->file_name = $this->option('file');
-        $statutes = Yaml::parseFile(base_path('/data/') . $this->file_name);
+        $this->statutes = Yaml::parseFile(base_path('/data/') . $this->file_name);
+
+        // map previous statute id to current index in array
+        foreach($this->statutes as $key => $statute) {
+            $this->statuteIdIndex[$statute['id']] = $key;
+        }
+
+        DB::unprepared('set FOREIGN_KEY_CHECKS=0');
 
         $this->info("Statutes before " . Statute::count());
-        foreach ($statutes as $statute) {
+        dump("Statutes before " . Statute::count());
+        foreach ($this->statutes as $statute) {
+
+            print ".";
             if (!Statute::where('number', $statute['number'])->exists()) {
-                $jurisdiction = !empty($statute['jurisdiction']) ? $this->matchJurisdiction($statute['jurisdiction']) : null;
-
-                $record = Statute::create(
-                    [
-                        "number" => $statute['number'],
-                        "name" => $statute['name'],
-                        "note" => $statute['note'],
-                        "statutes_eligibility_id" => $statute['statutes_eligibility_id'],
-                        "superseded_id" => $statute['superseded_id'],
-                        "superseded_on" => $statute['superseded_on'],
-                        "deleted_at" => $statute['deleted_at'],
-                        "jurisdiction_id" => $jurisdiction->id ?? null,
-                        "same_as_id" => $statute['same_as_id'],
-                        "common_name" => $statute['common_name'],
-                        "blocks_time" => $statute['blocks_time'],
-                    ]
-                );
-
-                if(!empty($statute['exceptions'])) {
-                    $synced = [];
-                    foreach ($statute['exceptions'] as $exception) {
-                        $match = $this->matchException($exception);
-                        $synced []= $match->id;
-                    }
-                    $record->exceptions()->sync($synced);
-                }
+                print "+";
+               $this->createStatute($statute);
             }
 
         }
         $this->info("Statutes after " . Statute::count());
+        dump("Statutes after " . Statute::count());
+        DB::unprepared('set FOREIGN_KEY_CHECKS=1');
 
         return 0;
     }
 
+    private function createStatute($statute)
+    {
+
+        print("|" . $statute['number'] . "|\n");
+
+        $jurisdiction = !empty($statute['jurisdiction']) ? $this->matchJurisdiction($statute['jurisdiction']) : null;
+
+        if(!empty($statute['superseded_id'])
+            && $statute['superseded_id'] != $statute['id']
+            && ($supersededIndex = $this->findIndexById($statute['superseded_id']))
+        ) {
+            $supersededImport = $this->statutes[$supersededIndex];
+            $superseded = Statute::where('number', $supersededImport['number'])->first();
+            if(!$superseded) {
+                $superseded = $this->createStatute($supersededImport);
+            }
+            $superseded_id = $superseded->id;
+        }
+
+        $record = Statute::create(
+            [
+                "number" => $statute['number'],
+                "name" => $statute['name'],
+                "note" => $statute['note'],
+                "statutes_eligibility_id" => $statute['statutes_eligibility_id'],
+                "superseded_id" => $superseded_id ?? null,
+                "superseded_on" => $statute['superseded_on'],
+                "deleted_at" => $statute['deleted_at'],
+                "jurisdiction_id" => $jurisdiction->id ?? null,
+                "same_as_id" => $statute['same_as_id'],
+                "common_name" => $statute['common_name'],
+                "blocks_time" => $statute['blocks_time'],
+            ]
+        );
+
+
+
+        if(!empty($statute['exceptions'])) {
+            $synced = [];
+            foreach ($statute['exceptions'] as $exception) {
+                $match = $this->matchException($exception);
+                $synced [$match->id]= ['note' => $exception['pivot']['note'] ?? null];
+            }
+            $record->exceptions()->sync($synced);
+        }
+
+        return $record;
+    }
     private function matchJurisdiction($jurisdiction)
     {
         if (isset($this->jusrisdictions[$this->makeKey($jurisdiction)])) {
@@ -178,5 +220,10 @@ class ImportStatutes extends Command
         $this->exceptions[$newException->section] = $newException;
 
         return $newException;
+    }
+
+    private function findIndexById($id)
+    {
+        return $this->statuteIdIndex[$id] ?? null;
     }
 }
