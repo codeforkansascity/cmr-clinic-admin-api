@@ -77,7 +77,10 @@ class ImportStatutes extends Command
         $this->info("Statutes before " . Statute::count());
         dump("Statutes before " . Statute::count());
         foreach ($this->statutes as $statute) {
+
+            print ".";
             if (!Statute::where('number', $statute['number'])->exists()) {
+                print "+";
                $this->createStatute($statute);
             }
 
@@ -91,9 +94,15 @@ class ImportStatutes extends Command
 
     private function createStatute($statute)
     {
+
+        print("|" . $statute['number'] . "|\n");
+
         $jurisdiction = !empty($statute['jurisdiction']) ? $this->matchJurisdiction($statute['jurisdiction']) : null;
 
-        if(!empty($statute['superseded_id']) && ($supersededIndex = $this->findIndexById($statute['superseded_id']))) {
+        if(!empty($statute['superseded_id'])
+            && $statute['superseded_id'] != $statute['id']
+            && ($supersededIndex = $this->findIndexById($statute['superseded_id']))
+        ) {
             $supersededImport = $this->statutes[$supersededIndex];
             $superseded = Statute::where('number', $supersededImport['number'])->first();
             if(!$superseded) {
@@ -118,7 +127,7 @@ class ImportStatutes extends Command
             ]
         );
 
-        $this->info($statute['number'] . "\n");
+
 
         if(!empty($statute['exceptions'])) {
             $synced = [];
