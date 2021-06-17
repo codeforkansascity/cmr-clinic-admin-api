@@ -18,7 +18,7 @@ class LoadStatutes extends Command
      *
      * @var string
      */
-    protected $signature = 'cmr:load-blocked-statutes {--chapter=565} {--file=missouri-statutes-list.xlsx} {--type="traffic"}';
+    protected $signature = 'cmr:load-blocked-statutes {--chapter=565} {--file=missouri-statutes-list.xlsx}';
 
     /**
      * The console command description.
@@ -47,7 +47,6 @@ class LoadStatutes extends Command
         $this->info("Start: lbv:cmr:load-blocked-statutes");
         $this->file_name = $this->option('file');
         $this->chapter = $this->option('chapter');
-        $this->type = $this->option('type');
 
         $data = $this->readSpreadSheet(base_path('data/') . $this->file_name);
 
