@@ -118,6 +118,8 @@ class ImportStatutes extends Command
             ]
         );
 
+        $this->info($statute['number'] . "\n");
+
         if(!empty($statute['exceptions'])) {
             $synced = [];
             foreach ($statute['exceptions'] as $exception) {

@@ -7,7 +7,7 @@ use App\Statute;
 use Illuminate\Console\Command;
 use Maatwebsite\Excel\Facades\Excel;
 
-class LoadStatutes extends Command
+class LoadBlockedStatutes extends Command
 {
     public $chapter;
     public $file_name;

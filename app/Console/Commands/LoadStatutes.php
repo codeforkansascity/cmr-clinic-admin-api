@@ -44,7 +44,7 @@ class LoadStatutes extends Command
      */
     public function handle()
     {
-        $this->info("Start: lbv:cmr:load-statutes");
+        $this->info("Start: cmr:load-statutes");
         $this->file_name = $this->option('file');
         $this->chapter = $this->option('chapter');
         $this->type = $this->option('type');

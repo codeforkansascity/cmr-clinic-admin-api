@@ -13,8 +13,6 @@ php artisan cmr:make-initial-exceptions
 php artisan db:seed
 
 php artisan cmr:set-initial-permissions
-php artisan db:seed --class=StatuteSeeder
 
-php artisan cmr:apply-exceptions
 
 #vendor/bin/phpunit

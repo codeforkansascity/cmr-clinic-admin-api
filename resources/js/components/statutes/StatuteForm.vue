@@ -228,8 +228,8 @@
                     <ui-select-pick-one
                         :optionsListData="[
                             { text: 'UnKnown', value: null },
-                            { text: 'Yes', value: 0 },
-                            { text: 'No', value: 1 }
+                            { text: 'Yes', value: 1 },
+                            { text: 'No', value: 0 }
                         ]"
                         v-model="form_data.blocks_time"
                         name="blocks_time"
