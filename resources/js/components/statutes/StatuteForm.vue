@@ -241,6 +241,21 @@
 
 
         </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <std-form-group
+                    label="Reason For Change"
+                    label-for="reason_for_change"
+                    :errors="form_errors.reason_for_change"
+                >
+                    <textarea cols="30" rows="10" v-model="form_data.reason_for_change"
+                              class="form-control"
+                              @input="form_errors.reason_for_change = false">
+                    </textarea>
+                </std-form-group>
+            </div>
+
+        </div>
 
         <div class="form-group mt-4">
             <div class="row">
@@ -259,7 +274,23 @@
                 </div>
             </div>
         </div>
+        <div class="row mt-3" v-if="!!form_data.histories">
+            <div class="col-12">
+                <h3>Change History</h3>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" v-for="(history, index) in form_data.histories">
+                    <dsp-date-time :value="history.created_at" class="mr-2"></dsp-date-time>
+                    <strong class="mr-1">{{history.user? history.user.name: "Admin"}}: </strong>
+                    <span>{{history.reason_for_change}}</span>
+                </li>
+            </ul>
+        </div>
+
     </form>
+
+
 </template>
 
 <script>
@@ -306,6 +337,7 @@
                     jurisdiction_id: null,
                     same_as_id: null,
                     statute_exceptions: [],
+                    reason_for_change: null,
                 },
                 form_errors: {
                     id: false,
@@ -315,6 +347,7 @@
                     statutes_eligibility_id: false,
                     deleted_at: false,
                     jurisdiction_id: false,
+                    reason_for_change: false,
 
                 },
                 server_message: false,
@@ -339,10 +372,13 @@
                 this.getJurisdictionTypes()
             },
             async handleSubmit() {
+                if(!this.form_data.reason_for_change) {
+                    this.form_errors.reason_for_change = ["Reason for change is required."];
+                    return;
+                }
 
                 this.form_data.jurisdiction_id = this.selected_jurisdiction.id
 
-                this.form_data
                 this.server_message = false;
                 this.processing = true;
                 let url = "";

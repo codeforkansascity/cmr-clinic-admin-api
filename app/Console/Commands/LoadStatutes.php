@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\History;
 use App\Imports\CollectionImport;
 use App\Statute;
 use Illuminate\Console\Command;
@@ -63,6 +64,24 @@ class LoadStatutes extends Command
 
         Statute::insert($data->toArray());
 
+        // find newly inserted create histories
+        $statutes = Statute::whereDoesntHave('histories')
+            ->where('created_at', '>', now()->subMinute())
+            ->get();
+        $histories = [];
+        foreach ($statutes as $statute) {
+            $histories[] = [
+                'historyable_id' => $statute->id,
+                'historyable_type' => 'App\Statute',
+                'old' => '[]',
+                'new' => json_encode($statute),
+                'user_id' => 0,
+                'reason_for_change' => "New Record",
+                'created_at' => now()
+            ];
+        }
+        History::insert($histories);
+
         $this->info("End: lbv:cmr:load-statutes");
 
         return 0;
@@ -83,6 +102,7 @@ class LoadStatutes extends Command
                     'name' => $r[3] ?? "",
                     'jurisdiction_id' => 1,
                     'blocks_time' => false,
+                    'created_at' => now()
                 ];
             });
         }

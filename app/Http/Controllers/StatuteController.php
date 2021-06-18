@@ -321,6 +321,10 @@ class StatuteController extends Controller
             'superseded' => function ($q) {
                 $q->with('statutes_eligibility');
             },
+            'histories' => function ($q) {
+                $q->with('user')
+                    ->orderBy('created_at', 'asc');
+            }
         ])
             ->find(intval($id));
     }

@@ -14,7 +14,14 @@ class StatuteObserver
      */
     public function created(Statute $statute)
     {
-        $statute->saveHistory(request());
+
+        if(request()) {
+           $data = request();
+        } else {
+            $data = $statute;
+            $data->reason_for_change = "New";
+        }
+        $statute->saveHistory($data);
     }
 
     /**

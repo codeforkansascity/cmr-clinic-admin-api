@@ -75,6 +75,7 @@ Vue.component('dsp-textarea', () => import(/* webpackChunkName:"dsp-textarea" */
 Vue.component('dsp-text', () => import(/* webpackChunkName:"dsp-text" */ './components/SS/DspText.vue'));
 Vue.component('dsp-case-badge', () => import(/* webpackChunkName:"dsp-case-badge" */ './components/SS/DspCaseBadge.vue'));
 Vue.component('dsp-date', () => import(/* webpackChunkName:"dsp-date" */ './components/SS/DspDate.vue'));
+Vue.component('dsp-date-time', () => import(/* webpackChunkName:"dsp-date-time" */ './components/SS/DspDateTime.vue'));
 Vue.component('dsp-statute', () => import(/* webpackChunkName:"dsp-statute" */ './components/SS/DspStatute.vue'));
 Vue.component('dsp-exception', () => import(/* webpackChunkName:"dsp-statute" */ './components/SS/DspException.vue'));
 
