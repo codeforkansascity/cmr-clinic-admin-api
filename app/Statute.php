@@ -98,9 +98,12 @@ class Statute extends Model
 
     public function saveHistory($request)
     {
+        $this->exceptions;
+        $fields = $this->fillable;
+        $fields[] = 'exceptions';
         $this->histories()->create([
-            'old' => collect($this->getOriginal())->only($this->fillable),
-            'new' => $request->only($this->fillable),
+            'old' => collect($this->getOriginal())->only($fields),
+            'new' => array_merge($request->only($fields), ['exceptions' => $this->exceptions]),
             'user_id' => auth()->user() ? auth()->user()->id : 0,
             'reason_for_change' => $request->reason_for_change ?? null,
         ]);

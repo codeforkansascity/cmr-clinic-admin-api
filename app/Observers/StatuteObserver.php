@@ -19,7 +19,7 @@ class StatuteObserver
            $data = request();
         } else {
             $data = $statute;
-            $data->reason_for_change = "New";
+            $data->reason_for_change = "New Record";
         }
         $statute->saveHistory($data);
     }

@@ -243,7 +243,8 @@ class StatuteController extends Controller
 
         $statute->fill($request->all());
 
-        $this->syncExceptions($request, $statute);
+
+        $dirtyExceptions = $this->syncExceptions($request, $statute);
 
 
         if ($statute->isDirty()) {
@@ -256,6 +257,9 @@ class StatuteController extends Controller
             }
 
             \Session::flash('flash_success_message', 'Statutes '.$statute->name.' was changed');
+        } else if ($dirtyExceptions) {
+            $statute->saveHistory($request);
+            \Session::flash('flash_success_message', 'Exceptions for Statute'.$statute->name.' was changed');
         } else {
             \Session::flash('flash_info_message', 'No changes were made');
         }
@@ -449,10 +453,15 @@ class StatuteController extends Controller
     /**
      * @param $request
      * @param Statute $statute
+     * @throws \Exception
      */
-    private function syncExceptions($request, Statute $statute): void
+    private function syncExceptions($request, Statute $statute): bool
     {
+
         $statute_exceptions = $request->statute_exceptions ?? [];
+        $isChanged = false;
+        $originals = $statute->statute_exceptions;
+
         $requestIds = array_filter(
             array_map(function ($exception) {
                 return $exception['id'] ?? [];
@@ -463,15 +472,38 @@ class StatuteController extends Controller
 
         // remove all statute exceptions ids not in the request
         if (!empty($requestIds)) {
-            $statute->statute_exceptions()->whereNotIn('id', $requestIds)->delete();
+            $res = $statute->statute_exceptions()->whereNotIn('id', $requestIds)->delete();
+            $isChanged = $res ? true : $isChanged;
         } else if (empty($statute_exceptions)) {
             $statute->statute_exceptions()->delete();
+            $isChanged = true;
         }
 
         // add or update statute exceptions
         foreach ($statute_exceptions as $statute_exception) {
             if(empty($statute_exception['exception_id'])) continue;
-            $statute->statute_exceptions()->updateOrCreate(['id' => $statute_exception['id'] ?? null], $statute_exception);
+
+            $pivot_id = $statute_exception['id'] ?? null;
+            $exception_id = $statute_exception['exception_id'] ?? null;
+            if(empty($pivot_id)) {
+                $statute->statute_exceptions()->create([
+                    'exception_id' => $exception_id,
+                    'note' => $statute_exception['note'] ?? ""
+                ]);
+                $isChanged = true;
+            } else {
+                $originalException = $originals->firstWhere('id', $pivot_id);
+                if(!$originalException || $statute_exception['note'] !== $originalException->note) {
+                    $statute->statute_exceptions()
+                        ->where('id', $pivot_id)
+                        ->update(["note" => $statute_exception['note']]);
+                    $isChanged = true;
+                }
+            }
+
+
         }
+
+        return $isChanged;
     }
 }
