@@ -140,6 +140,8 @@ Vue.component('step-show', () => import(/* webpackChunkName:"step-show" */ './co
 Vue.component('statute-grid', () => import(/* webpackChunkName:"statute-grid" */ './components/statutes/StatuteGrid.vue'));
 Vue.component('statute-form', () => import(/* webpackChunkName:"statute-form" */ './components/statutes/StatuteForm.vue'));
 Vue.component('statute-show', () => import(/* webpackChunkName:"statute-show" */ './components/statutes/StatuteShow.vue'));
+Vue.component('statute-history-difference',
+    () => import(/* webpackChunkName:"statute-history-difference" */ './components/statutes/StatuteHistoryDifference.vue'));
 
 //Vue.component('comment-grid',       require('./components/CommentGrid.vue'));    // May need to add .default);
 //Vue.component('comment-form',       require('./components/CommentForm.vue'));    // May need to add .default);
