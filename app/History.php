@@ -53,9 +53,9 @@ class History extends Model
     {
         $diff = [];
         if ($this->old && $this->new) {
-            $diff[] = $this->arrayDiff($this->new, $this->old);
+            $diff['statute'] = $this->arrayDiff($this->new, $this->old);
             if(!empty($this->new['exceptions']) || !empty($this->old['exceptions'])) {
-                $diff[] = $this->exceptionsDiff($this->new['exceptions'] ?? [], $this->old['exceptions'] ?? []);
+                $diff['exceptions'] = $this->exceptionsDiff($this->new['exceptions'] ?? [], $this->old['exceptions'] ?? []);
             }
         }
 
@@ -78,36 +78,58 @@ class History extends Model
         return $diff;
     }
 
-    private function exceptionsDiff($array1, $array2)
+    private function exceptionsDiff($array_new, $array_old)
     {
+        $map_new=[];
+        foreach ($array_new as $exception) {
+            $map_new[$exception['id']] = $exception;
+        }
+        $map_old=[];
+        foreach ($array_old as $exception) {
+            $map_old[$exception['id']] = $exception;
+        }
 
         $diff = [];
-        foreach ($array1 as $column => $value) {
-
-            if($array1[$column]['pivot']['note'] ?? null !== data_get($array2, "$column.pivot.note", null) ) {
-                $diff[] = [
-                    'exception_name' => $array1[$column]['name'],
-                    'section' => $array1[$column]['section'],
-                    [
-                        'old' => $array1[$column]['pivot']['note'] ?? null,
-                        'new' => $array2[$column]['pivot']['note'] ?? null
+        foreach ($map_new as $id => $exception) {
+            if(!isset($map_old[$id])) {
+                $diff[$exception['short_name']] = [
+                    'exception_name' => $exception['name'],
+                    'section' => $exception['section'],
+                    'action' => 'Added',
+                    'note' => [
+                        'old' => null,
+                        'new' => $exception['pivot']['note'] ?? null
                     ]
                 ];
             }
-
-//            if (!is_array($value) && $value !== ($array2['pivot'][$column] ?? null)) {
-//                $diff[$column] = ['old' => $array2['pivot'][$column] ?? null, 'new' => $value];
-//            }
-//            if (is_array($value)) {
-//                // always exception
-//                $resDeep = $this->arrayDiff($value, $array2['pivot'][$column] ?? null);
-//                if ($resDeep) {
-//                    dd($resDeep, $value);
-//                    $resDeep['name'] = $value['name'];
-//                    $diff[$column] = $resDeep;
-//                }
-//            }
+            if ($exception['pivot']['note'] ?? null !== data_get($map_old[$id], "pivot.note", null)) {
+                $diff[$exception['short_name']] = [
+                    'exception_name' => $exception['name'],
+                    'section' => $exception['section'],
+                    'action' => 'Changed',
+                    'note' => [
+                        'old' => $map_old['pivot']['note'] ?? null,
+                        'new' => $exception['pivot']['note'] ?? null
+                    ]
+                ];
+            }
         }
+
+        // check for removed
+        foreach ($map_old as $id => $exception) {
+            if(!isset($map_new[$id])) {
+                $diff[$exception['short_name']] = [
+                    'exception_name' => $exception['name'],
+                    'section' => $exception['section'],
+                    'action' => 'Removed',
+                    'note' => [
+                        'old' => $exception['pivot']['note'] ?? null,
+                        'new' => null
+                    ]
+                ];
+            }
+        }
+
 
         return $diff;
     }
