@@ -18,6 +18,8 @@ class History extends Model
         'new' => 'json',
     ];
 
+    protected $appends = ['difference'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -34,6 +36,11 @@ class History extends Model
         return $this->morphTo('historyable');
     }
 
+    public function getDifferenceAttribute()
+    {
+        return $this->diff();
+    }
+
     /**
      * @return array
      *  Example
@@ -46,10 +53,27 @@ class History extends Model
     {
         $diff = [];
         if ($this->old && $this->new) {
-            foreach ($this->new as $column => $value) {
-                if ($value !== $this->old[$column]) {
-                    $diff[$column] = ['old' => $this->old[$column], 'new' => $value];
+            return $this->arrayDiff($this->new, $this->old);
+        }
+
+        return $diff;
+    }
+
+    private function arrayDiff($array1, $array2)
+    {
+        $skip_list = ['modified_by'];
+
+        $diff = [];
+        foreach ($array1 as $column => $value) {
+            if(in_array($column, $skip_list)) continue;
+
+            if (is_array($value)) {
+                $resDeep = $this->arrayDiff($value, $array2[$column] ?? null);
+                if ($resDeep) {
+                    $diff[$column] = $resDeep;
                 }
+            } elseif ($value !== ($array2[$column] ?? null)) {
+                $diff[$column] = ['old' => $array2[$column] ?? null, 'new' => $value];
             }
         }
 

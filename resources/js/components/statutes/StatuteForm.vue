@@ -284,6 +284,7 @@
                     <dsp-date-time :value="history.created_at" class="mr-2"></dsp-date-time>
                     <strong class="mr-1">{{history.user? history.user.name: "Admin"}}: </strong>
                     <span>{{history.reason_for_change}}</span>
+                    <statute-history-difference :value="history"></statute-history-difference>
                 </li>
             </ul>
         </div>
@@ -491,6 +492,9 @@
                 if(this.form_data.statute_exceptions.length >= index+1) {
                     this.form_data.statute_exceptions.splice(index, 1);
                 }
+            },
+            getDiff() {
+
             }
         }
     };
