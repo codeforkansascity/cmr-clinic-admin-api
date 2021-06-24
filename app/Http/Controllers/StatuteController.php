@@ -244,8 +244,8 @@ class StatuteController extends Controller
         $statute->fill($request->all());
 
 
+        $originalExceptions = $statute->exceptions;
         $dirtyExceptions = $this->syncExceptions($request, $statute);
-
 
         if ($statute->isDirty()) {
             try {
@@ -258,7 +258,7 @@ class StatuteController extends Controller
 
             \Session::flash('flash_success_message', 'Statutes '.$statute->name.' was changed');
         } else if ($dirtyExceptions) {
-            $statute->saveHistory($request);
+            $statute->saveHistory($request, $originalExceptions);
             \Session::flash('flash_success_message', 'Exceptions for Statute'.$statute->name.' was changed');
         } else {
             \Session::flash('flash_info_message', 'No changes were made');

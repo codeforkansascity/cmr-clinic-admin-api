@@ -96,14 +96,12 @@ class Statute extends Model
         return $this->morphMany(History::class, 'historyable');
     }
 
-    public function saveHistory($request)
+    public function saveHistory($request, $originalExceptions = [])
     {
-        $this->exceptions;
         $fields = $this->fillable;
-        $fields[] = 'exceptions';
         $this->histories()->create([
-            'old' => collect($this->getOriginal())->only($fields),
-            'new' => array_merge($request->only($fields), ['exceptions' => $this->exceptions]),
+            'old' => array_merge(collect($this->getOriginal())->only($fields)->toArray(), ['exceptions' => $originalExceptions]),
+            'new' => array_merge($request->only($fields), ['exceptions' => $this->exceptions()->get()]),
             'user_id' => auth()->user() ? auth()->user()->id : 0,
             'reason_for_change' => $request->reason_for_change ?? null,
         ]);

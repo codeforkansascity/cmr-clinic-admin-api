@@ -6,6 +6,9 @@ use App\Statute;
 
 class StatuteObserver
 {
+    static $originalExceptions = [];
+
+
     /**
      * Handle the statute "created" event.
      *
@@ -24,6 +27,11 @@ class StatuteObserver
         $statute->saveHistory($data);
     }
 
+    public function updating(Statute $statute)
+    {
+        static::$originalExceptions = $statute->exceptions;
+    }
+
     /**
      * Handle the statute "updated" event.
      *
@@ -32,7 +40,10 @@ class StatuteObserver
      */
     public function updated(Statute $statute)
     {
-        $statute->saveHistory(request());
+        info('original exceptions', [static::$originalExceptions]);
+        $statute->saveHistory(request(), static::$originalExceptions);
+
+        static::$originalExceptions = [];
     }
 
     /**
