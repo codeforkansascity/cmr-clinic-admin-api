@@ -204,7 +204,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/exception/download', 'ExceptionController@download')->name('exception.download');
     Route::get('/exception/print', 'ExceptionController@print')->name('exception.print');
     Route::resource('/exception', 'ExceptionController');
+
+    Route::get('/api-law', 'LawApi@index');
+    Route::get('/api-law/options', 'LawApi@getOptions');
+    Route::get('/law/download', 'LawController@download')->name('law.download');
+    Route::get('/law/print', 'LawController@print')->name('law.print');
+    Route::resource('/law', 'LawController');
+
+    Route::get('/api-law-version', 'LawVersionApi@index');
+    Route::get('/api-law-version/options', 'LawVersionApi@getOptions');
+    Route::get('/law-version/download', 'LawVersionController@download')->name('law-version.download');
+    Route::get('/law-version/print', 'LawVersionController@print')->name('law-version.print');
+    Route::resource('/law-version', 'LawVersionController');
 });
+
 
 
 

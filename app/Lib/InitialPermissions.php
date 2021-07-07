@@ -111,6 +111,22 @@ class InitialPermissions
         Permission::findOrCreate('jurisdiction_type edit');
         Permission::findOrCreate('jurisdiction_type delete');
 
+        Permission::findOrCreate('law index');
+        Permission::findOrCreate('law view');
+        Permission::findOrCreate('law export-pdf');
+        Permission::findOrCreate('law export-excel');
+        Permission::findOrCreate('law add');
+        Permission::findOrCreate('law edit');
+        Permission::findOrCreate('law delete');
+
+        Permission::findOrCreate('law_version index');
+        Permission::findOrCreate('law_version view');
+        Permission::findOrCreate('law_version export-pdf');
+        Permission::findOrCreate('law_version export-excel');
+        Permission::findOrCreate('law_version add');
+        Permission::findOrCreate('law_version edit');
+        Permission::findOrCreate('law_version delete');
+
         Permission::findOrCreate('petition_field index');
         Permission::findOrCreate('petition_field view');
         Permission::findOrCreate('petition_field export-pdf');
@@ -246,6 +262,20 @@ class InitialPermissions
             'jurisdiction_type export-pdf',
             'jurisdiction_type export-excel',
 
+            'law index',
+            'law view',
+            'law export-pdf',
+            'law export-excel',
+            'law add',
+            'law edit',
+
+            'law_version index',
+            'law_version view',
+            'law_version export-pdf',
+            'law_version export-excel',
+            'law_version add',
+            'law_version edit',
+
             'petition_field index',
             'petition_field view',
             'petition_field export-pdf',
@@ -363,6 +393,20 @@ class InitialPermissions
             'petition_field update',
             'petition_field destroy',
 
+            'law index',
+            'law view',
+            'law export-pdf',
+            'law export-excel',
+            'law add',
+            'law edit',
+
+            'law_version index',
+            'law_version view',
+            'law_version export-pdf',
+            'law_version export-excel',
+            'law_version add',
+            'law_version edit',
+
             'statute index',
             'statute add',
             'statute edit',
@@ -439,6 +483,20 @@ class InitialPermissions
             'petition_field export-excel',
             'petition_field add',
             'petition_field update',
+
+            'law index',
+            'law view',
+            'law export-pdf',
+            'law export-excel',
+            'law add',
+            'law edit',
+
+            'law_version index',
+            'law_version view',
+            'law_version export-pdf',
+            'law_version export-excel',
+            'law_version add',
+            'law_version edit',
 
             'statute index',
             'statute add',
@@ -518,6 +576,20 @@ class InitialPermissions
             'petition_field add',
             'petition_field update',
 
+            'law index',
+            'law view',
+            'law export-pdf',
+            'law export-excel',
+            'law add',
+            'law edit',
+
+            'law_version index',
+            'law_version view',
+            'law_version export-pdf',
+            'law_version export-excel',
+            'law_version add',
+            'law_version edit',
+
             'statute index',
             'statute add',
             'statute edit',
@@ -557,6 +629,12 @@ class InitialPermissions
 
             'jurisdiction_type index',
             'jurisdiction_type view',
+
+            'law index',
+            'law view',
+
+            'law_version index',
+            'law_version view',
 
             'statute index',
             'statute view',

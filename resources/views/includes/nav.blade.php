@@ -28,6 +28,22 @@
                     </li>
                 @endif
 
+                    @can(['law index'])
+                        <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'law') echo 'active' @endphp">
+                            <a class="nav-link" href="{{ route('law.index') }}">Laws <span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                    @endcan
+
+                    @can(['law_version index'])
+                        <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'law-version') echo 'active' @endphp">
+                            <a class="nav-link" href="{{ route('law-version.index') }}">Law Versions <span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                    @endcan
+
+
+
                 <li class="nav-item">
                     <a class="nav-link" target="_blank"
                        href="https://www.revisor.mo.gov/main/OneSection.aspx?section=610.140&bid=47676&hl=">

@@ -9,3 +9,5 @@ php artisan make:crud jurisdictions  --force --display-name="Jurisdiction" --gri
 php artisan make:crud petition_fields  --force --display-name="Petition Fields" --grid-columns="name:value:applicant_id:petition_number"
 
 php artisan make:crud exceptions  --force --display-name="Exceptions" --grid-columns="section:name:short_name:logic:attorney_note:dyi_note"
+php artisan make:crud laws  --force --display-name="Laws" --grid-columns="jurisdiction_type:jurisdiction:number:name:eligible" --force
+php artisan make:crud law_versions  --force --display-name="Law Versions" --grid-columns="jurisdiction_type:jurisdiction:number:name:eligible" --force
