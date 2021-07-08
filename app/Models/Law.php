@@ -12,15 +12,16 @@ class Law extends Model
 {
 //    use SoftDeletes;
     use RecordSignature;
+
 //    use HistoryTrait;
 
     /**
      * fillable - attributes that can be mass-assigned.
      */
     protected $fillable = [
-            'id',
-            'law_version_id',
-        ];
+        'id',
+        'law_version_id',
+    ];
 
     protected $hidden = [
         'active',
@@ -38,7 +39,7 @@ class Law extends Model
         } catch (Exception $e) {
             info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new Exception($e->getMessage());
-        } catch (\Illuminate\Database\QueryException $e) {
+        } catch (QueryException $e) {
             info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new Exception($e->getMessage());
         }
@@ -68,12 +69,10 @@ class Law extends Model
         $keyword = '')
     {
         return self::buildBaseGridQuery($column, $direction, $keyword,
-            [ 'id',
+            ['id',
             ])
-        ->paginate($per_page);
+            ->paginate($per_page);
     }
-
-
 
 
     /**
@@ -109,7 +108,7 @@ class Law extends Model
         }
 
         $query = self::select($columns)
-        ->orderBy($column, $direction);
+            ->orderBy($column, $direction);
 
         if ($keyword) {
             $query->where('name', 'like', '%' . $keyword . '%');
@@ -117,15 +116,15 @@ class Law extends Model
         return $query;
     }
 
-        /**
-         * Get export/Excel/download data query to send to Excel download library.
-         *
-         * @param $per_page
-         * @param $column
-         * @param $direction
-         * @param string $keyword
-         * @return mixed
-         */
+    /**
+     * Get export/Excel/download data query to send to Excel download library.
+     *
+     * @param $per_page
+     * @param $column
+     * @param $direction
+     * @param string $keyword
+     * @return mixed
+     */
 
     static function exportDataQuery(
         $column,
@@ -140,18 +139,18 @@ class Law extends Model
 
     }
 
-        static function pdfDataQuery(
-            $column,
-            $direction,
-            $keyword = '',
-            $columns = '*')
-        {
+    static function pdfDataQuery(
+        $column,
+        $direction,
+        $keyword = '',
+        $columns = '*')
+    {
 
-            info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
-            return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
+        return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
 
-        }
+    }
 
 
     /**
@@ -175,13 +174,65 @@ class Law extends Model
         } else {
             $data = [];
 
-            foreach ($records AS $rec) {
+            foreach ($records as $rec) {
                 $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
             }
 
             return $data;
         }
 
+    }
+
+    static public function findByNumber($number, $date = null)
+    {
+
+        $query = self::baseFindQuery();
+        $query->where('law_versions.number', $number);
+
+        if ($date) {
+            $query->whereRaw("'$date' between law_versions.start_date and law_versions.end_date");
+        } else {
+            $query->where('end_date', null);
+        }
+
+        return $query->first();
+    }
+
+    static public function findById($id, $date = null)
+    {
+
+        $query = self::baseFindQuery();
+        $query->where('law_versions.law_id', $id);
+
+        if ($date) {
+            $query->whereRaw("'$date' between law_versions.start_date and law_versions.end_date");
+        } else {
+            $query->where('end_date', null);
+        }
+
+        return $query->first();
+    }
+
+    static public function baseFindQuery()
+    {
+        $query = self::select('laws.id AS id',
+            'law_versions.id AS law_version_id',
+            'law_versions.start_date',
+            'law_versions.end_date',
+            'law_versions.number',
+            'law_versions.name',
+            'law_versions.common_name',
+            'law_versions.jurisdiction_id',
+            'law_versions.note',
+            'law_versions.statutes_eligibility_id',
+            'law_versions.blocks_time',
+            'law_versions.same_as_id',
+            'law_versions.superseded_id',
+            'law_versions.superseded_on'
+        )
+            ->leftJoin('law_versions', 'law_versions.law_id', '=', 'laws.id');
+
+        return $query;
     }
 
 }

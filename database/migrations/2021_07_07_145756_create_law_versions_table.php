@@ -15,7 +15,11 @@ class CreateLawVersionsTable extends Migration
     {
         Schema::create('law_versions', function (Blueprint $table) {
             $table->bigIncrements('id');
+
             $table->unsignedBigInteger('law_id')->nullable();
+            $table->dateTime('start_date')->default(now())->nullable();
+            $table->dateTime('end_date')->default(null)->nullable();
+
             $table->string('number')->nullable();
             $table->string('name', 500);
             $table->string('common_name')->nullable();
@@ -28,7 +32,6 @@ class CreateLawVersionsTable extends Migration
             $table->unsignedBigInteger('same_as_id')->nullable();
 
             $table->unsignedBigInteger('superseded_id')->nullable();
-
             $table->string('superseded_on')->default('')->nullable();
 
             $table->timestamps();

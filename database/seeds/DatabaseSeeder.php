@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(OauthPersonalAccessClientsTableSeeder::class);
         $this->call(OauthClientsTableSeeder::class);
         \Illuminate\Support\Facades\Artisan::call("cmr:import-statutes");
+        \Illuminate\Support\Facades\Artisan::call("cmr:import-laws");
         $this->call(ApplicantTableSeeder::class);
 
 

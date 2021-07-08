@@ -2,35 +2,46 @@
 
 namespace App\Models;
 
+use App\Charge;
+use App\Comment;
+use App\History;
+use App\Jurisdiction;
+use App\StatuteException;
+use App\StatutesEligibility;
 use App\Traits\HistoryTrait;
 use App\Traits\RecordSignature;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\QueryException;
 
 class LawVersion extends Model
 {
 //    use SoftDeletes;
     use RecordSignature;
+
 //    use HistoryTrait;
 
     /**
      * fillable - attributes that can be mass-assigned.
      */
     protected $fillable = [
-            'id',
-            'number',
-            'name',
-            'common_name',
-            'jurisdiction_id',
-            'note',
-            'statutes_eligibility_id',
-            'blocks_time',
-            'same_as_id',
-            'superseded_id',
-            'superseded_on',
-            'deleted_at',
-        ];
+        'id',
+        'law_id',
+        'start_date',
+        'end_date',
+        'number',
+        'name',
+        'common_name',
+        'jurisdiction_id',
+        'note',
+        'statutes_eligibility_id',
+        'blocks_time',
+        'same_as_id',
+        'superseded_id',
+        'superseded_on',
+        'deleted_at',
+    ];
 
     protected $hidden = [
         'active',
@@ -41,6 +52,50 @@ class LawVersion extends Model
         'updated_at',
     ];
 
+    public function superseded()
+    {
+        return $this->belongsTo(self::class);
+    }
+
+    public function jurisdiction()
+    {
+        return $this->belongsTo(Jurisdiction::class)->with('type');
+    }
+
+    public function charge()
+    {
+        return $this->hasMany(Charge::class);
+    }
+    public function statute_exceptions()
+    {
+        return $this->hasMany(StatuteException::class)->with('exception');
+    }
+
+    public function exceptions()
+    {
+        return $this->belongsToMany(\App\Exception::class,'law_version_exceptions')->withPivot('note');
+    }
+
+
+
+    public function statutes_eligibility()
+    {
+        return $this->belongsTo(StatutesEligibility::class);
+    }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'comments');
+    }
+
+    /**
+     * @return MorphMany
+     */
+    public function histories()
+    {
+        return $this->morphMany(History::class, 'historyable');
+    }
+
     public function add($attributes)
     {
         try {
@@ -48,7 +103,7 @@ class LawVersion extends Model
         } catch (Exception $e) {
             info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new Exception($e->getMessage());
-        } catch (\Illuminate\Database\QueryException $e) {
+        } catch (QueryException $e) {
             info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new Exception($e->getMessage());
         }
@@ -78,14 +133,12 @@ class LawVersion extends Model
         $keyword = '')
     {
         return self::buildBaseGridQuery($column, $direction, $keyword,
-            [ 'id',
-                    'number',
-                    'name',
+            ['id',
+                'number',
+                'name',
             ])
-        ->paginate($per_page);
+            ->paginate($per_page);
     }
-
-
 
 
     /**
@@ -121,7 +174,7 @@ class LawVersion extends Model
         }
 
         $query = self::select($columns)
-        ->orderBy($column, $direction);
+            ->orderBy($column, $direction);
 
         if ($keyword) {
             $query->where('name', 'like', '%' . $keyword . '%');
@@ -129,15 +182,15 @@ class LawVersion extends Model
         return $query;
     }
 
-        /**
-         * Get export/Excel/download data query to send to Excel download library.
-         *
-         * @param $per_page
-         * @param $column
-         * @param $direction
-         * @param string $keyword
-         * @return mixed
-         */
+    /**
+     * Get export/Excel/download data query to send to Excel download library.
+     *
+     * @param $per_page
+     * @param $column
+     * @param $direction
+     * @param string $keyword
+     * @return mixed
+     */
 
     static function exportDataQuery(
         $column,
@@ -152,18 +205,18 @@ class LawVersion extends Model
 
     }
 
-        static function pdfDataQuery(
-            $column,
-            $direction,
-            $keyword = '',
-            $columns = '*')
-        {
+    static function pdfDataQuery(
+        $column,
+        $direction,
+        $keyword = '',
+        $columns = '*')
+    {
 
-            info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
-            return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
+        return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
 
-        }
+    }
 
 
     /**
@@ -187,7 +240,7 @@ class LawVersion extends Model
         } else {
             $data = [];
 
-            foreach ($records AS $rec) {
+            foreach ($records as $rec) {
                 $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
             }
 
