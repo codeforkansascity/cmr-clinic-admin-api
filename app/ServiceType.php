@@ -5,6 +5,7 @@ namespace App;
 use App\Traits\RecordSignature;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\QueryException;
 
 class ServiceType extends Model
 {
@@ -15,10 +16,10 @@ class ServiceType extends Model
      * fillable - attributes that can be mass-assigned.
      */
     protected $fillable = [
-            'id',
-            'name',
-            'deleted_at',
-        ];
+        'id',
+        'name',
+        'deleted_at',
+    ];
 
     protected $hidden = [
         'active',
@@ -31,7 +32,7 @@ class ServiceType extends Model
 
     public function service()
     {
-        return $this->hasMany(\App\Service::class);
+        return $this->hasMany(Service::class);
     }
 
     public function add($attributes)
@@ -39,10 +40,10 @@ class ServiceType extends Model
         try {
             $this->fill($attributes)->save();
         } catch (\Exception $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
-        } catch (\Illuminate\Database\QueryException $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+        } catch (QueryException $e) {
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
         }
 
@@ -71,9 +72,9 @@ class ServiceType extends Model
     {
         return self::buildBaseGridQuery($column, $direction, $keyword,
             ['id',
-                    'name',
+                'name',
             ])
-        ->paginate($per_page);
+            ->paginate($per_page);
     }
 
     /**
@@ -108,10 +109,10 @@ class ServiceType extends Model
         }
 
         $query = self::select($columns)
-        ->orderBy($column, $direction);
+            ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('name', 'like', '%'.$keyword.'%');
+            $query->where('name', 'like', '%' . $keyword . '%');
         }
 
         return $query;
@@ -132,18 +133,18 @@ class ServiceType extends Model
         $keyword = '',
         $columns = '*')
     {
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
     }
 
     public static function pdfDataQuery(
-            $column,
-            $direction,
-            $keyword = '',
-            $columns = '*')
+        $column,
+        $direction,
+        $keyword = '',
+        $columns = '*')
     {
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
     }
@@ -163,7 +164,7 @@ class ServiceType extends Model
             ->orderBy('name')
             ->get();
 
-        if (! $flat) {
+        if (!$flat) {
             return $records;
         } else {
             $data = [];

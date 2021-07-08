@@ -29,10 +29,10 @@ class ServiceTypeExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'name',
-                        'deleted_at',
-                    ];
+            'id',
+            'name',
+            'deleted_at',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -42,9 +42,9 @@ class ServiceTypeExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
 
-                        $service_type->id,
-                        $service_type->name,
-                        $service_type->deleted_at,
-                    ];
+            $service_type->id,
+            $service_type->name,
+            $service_type->deleted_at,
+        ];
     }
 }

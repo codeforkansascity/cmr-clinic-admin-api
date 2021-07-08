@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\QueryException;
 
 class Invite extends Model
 {
@@ -17,13 +18,13 @@ class Invite extends Model
      * fillable - attributes that can be mass-assigned.
      */
     protected $fillable = [
-            'id',
-            'email',
-            'name',
-            'role',
-            'token',
-            'expires_at',
-        ];
+        'id',
+        'email',
+        'name',
+        'role',
+        'token',
+        'expires_at',
+    ];
 
     /**
      * Get Grid/index data PAGINATED.
@@ -49,11 +50,11 @@ class Invite extends Model
         try {
             $this->fill($attributes)->save();
         } catch (\Exception $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
 
             return false;
-        } catch (\Illuminate\Database\QueryException $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+        } catch (QueryException $e) {
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
 
             return false;
         }
@@ -101,7 +102,7 @@ class Invite extends Model
             ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('name', 'like', '%'.$keyword.'%');
+            $query->where('name', 'like', '%' . $keyword . '%');
         }
 
         return $query;
@@ -122,7 +123,7 @@ class Invite extends Model
         $keyword = '',
         $columns = '*')
     {
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
     }
@@ -133,7 +134,7 @@ class Invite extends Model
         $keyword = '',
         $columns = '*')
     {
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
     }
@@ -154,7 +155,7 @@ class Invite extends Model
             ->orderBy('name')
             ->get();
 
-        if (! $flat) {
+        if (!$flat) {
             return $records;
         } else {
             $data = [];

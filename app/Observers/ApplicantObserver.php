@@ -16,7 +16,7 @@ class ApplicantObserver
     /**
      * Handle the applicant "created" event.
      *
-     * @param  \App\Applicant  $applicant
+     * @param Applicant $applicant
      * @return void
      */
     public function created(Applicant $applicant)
@@ -27,7 +27,7 @@ class ApplicantObserver
     /**
      * Handle the applicant "updated" event.
      *
-     * @param  \App\Applicant  $applicant
+     * @param Applicant $applicant
      * @return void
      */
     public function updated(Applicant $applicant)
@@ -38,7 +38,7 @@ class ApplicantObserver
     /**
      * Handle the applicant "deleted" event.
      *
-     * @param  \App\Applicant  $applicant
+     * @param Applicant $applicant
      * @return void
      */
     public function deleted(Applicant $applicant)
@@ -49,7 +49,7 @@ class ApplicantObserver
     /**
      * Handle the applicant "restored" event.
      *
-     * @param  \App\Applicant  $applicant
+     * @param Applicant $applicant
      * @return void
      */
     public function restored(Applicant $applicant)
@@ -60,7 +60,7 @@ class ApplicantObserver
     /**
      * Handle the applicant "force deleted" event.
      *
-     * @param  \App\Applicant  $applicant
+     * @param Applicant $applicant
      * @return void
      */
     public function forceDeleted(Applicant $applicant)

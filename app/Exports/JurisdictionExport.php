@@ -29,12 +29,12 @@ class JurisdictionExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'jurisdiction_type_id',
-                        'name',
-                        'url',
-                        'deleted_at',
-                    ];
+            'id',
+            'jurisdiction_type_id',
+            'name',
+            'url',
+            'deleted_at',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -44,11 +44,11 @@ class JurisdictionExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
 
-                        $jurisdiction->id,
-                        $jurisdiction->jurisdiction_type_id,
-                        $jurisdiction->name,
-                        $jurisdiction->url,
-                        $jurisdiction->deleted_at,
-                    ];
+            $jurisdiction->id,
+            $jurisdiction->jurisdiction_type_id,
+            $jurisdiction->name,
+            $jurisdiction->url,
+            $jurisdiction->deleted_at,
+        ];
     }
 }

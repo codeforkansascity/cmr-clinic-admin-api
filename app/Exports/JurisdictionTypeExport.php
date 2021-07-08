@@ -29,11 +29,11 @@ class JurisdictionTypeExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'name',
-                        'display_sequence',
-                        'deleted_at',
-                    ];
+            'id',
+            'name',
+            'display_sequence',
+            'deleted_at',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -43,10 +43,10 @@ class JurisdictionTypeExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
 
-                        $jurisdiction_type->id,
-                        $jurisdiction_type->name,
-                        $jurisdiction_type->display_sequence,
-                        $jurisdiction_type->deleted_at,
-                    ];
+            $jurisdiction_type->id,
+            $jurisdiction_type->name,
+            $jurisdiction_type->display_sequence,
+            $jurisdiction_type->deleted_at,
+        ];
     }
 }

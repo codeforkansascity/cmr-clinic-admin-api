@@ -3,15 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ChangePasswordRequest;
+use App\Invite;
+use App\User;
 use DB;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Session;
 
 class ChangePasswordController extends Controller
 {
     /**
      * Show the form for changing the current user's own password.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function changePassword()
     {
@@ -31,14 +36,14 @@ class ChangePasswordController extends Controller
     /**
      * Update the user's password in the db.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Invite $invite * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Invite $invite * @return \Illuminate\Http\Response
      */
     public function updatePassword(ChangePasswordRequest $request)
     {
         $current_user = Auth::user();
 
-        if (! $user = $this->sanitizeAndFind($current_user->id)) {
+        if (!$user = $this->sanitizeAndFind($current_user->id)) {
             //\Session::flash('flash_error_message', 'Unable to find User to edit');
             return response()->json([
                 'message' => 'Not Found',
@@ -49,9 +54,9 @@ class ChangePasswordController extends Controller
 
         if ($user->isDirty()) {
             $user->save();
-            \Session::flash('flash_success_message', 'Password was changed');
+            Session::flash('flash_success_message', 'Password was changed');
         } else {
-            \Session::flash('flash_info_message', 'No changes were made');
+            Session::flash('flash_info_message', 'No changes were made');
         }
 
         //return Redirect::route('change_password'); // Don't redirect here or we'll lose the session message we just set
@@ -68,6 +73,6 @@ class ChangePasswordController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\User::find(intval($id));
+        return User::find(intval($id));
     }
 }

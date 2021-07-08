@@ -5,6 +5,7 @@ namespace App;
 use App\Traits\RecordSignature;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\QueryException;
 
 class RoleDescription extends Model
 {
@@ -16,15 +17,15 @@ class RoleDescription extends Model
      * fillable - attributes that can be mass-assigned.
      */
     protected $fillable = [
-            'id',
-            'role_id',
-            'role_name',
-            'name',
-            'description',
-            'sequence',
-            'roles_that_can_assign',
-            'deleted_at',
-        ];
+        'id',
+        'role_id',
+        'role_name',
+        'name',
+        'description',
+        'sequence',
+        'roles_that_can_assign',
+        'deleted_at',
+    ];
 
     protected $hidden = [
         'active',
@@ -40,10 +41,10 @@ class RoleDescription extends Model
         try {
             $this->fill($attributes)->save();
         } catch (\Exception $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
-        } catch (\Illuminate\Database\QueryException $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+        } catch (QueryException $e) {
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
         }
 
@@ -72,9 +73,9 @@ class RoleDescription extends Model
     {
         return self::buildBaseGridQuery($column, $direction, $keyword,
             ['id',
-                    'name',
+                'name',
             ])
-        ->paginate($per_page);
+            ->paginate($per_page);
     }
 
     /**
@@ -109,10 +110,10 @@ class RoleDescription extends Model
         }
 
         $query = self::select($columns)
-        ->orderBy($column, $direction);
+            ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('name', 'like', '%'.$keyword.'%');
+            $query->where('name', 'like', '%' . $keyword . '%');
         }
 
         return $query;
@@ -133,18 +134,18 @@ class RoleDescription extends Model
         $keyword = '',
         $columns = '*')
     {
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
     }
 
     public static function pdfDataQuery(
-            $column,
-            $direction,
-            $keyword = '',
-            $columns = '*')
+        $column,
+        $direction,
+        $keyword = '',
+        $columns = '*')
     {
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
     }
@@ -164,7 +165,7 @@ class RoleDescription extends Model
             ->orderBy('name')
             ->get();
 
-        if (! $flat) {
+        if (!$flat) {
             return $records;
         } else {
             $data = [];

@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\DataSource;
 use App\Exports\DataSourceExport;
-use App\Http\Middleware\TrimStrings;
 use App\Http\Requests\DataSourceFormRequest;
 use App\Http\Requests\DataSourceIndexRequest;
+use DateTime;
+use DateTimeZone;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
+use Session;
 
 //use PDF; // TCPDF, not currently in use
 
@@ -22,53 +26,51 @@ class DataSourceController extends Controller
      *
      * Vue component example.
      *
-        <ui-select-pick-one
-            url="/api-data-source/options"
-            v-model="data_sourceSelected"
-            :selected_id=data_sourceSelected"
-            name="data_source">
-        </ui-select-pick-one>
+     * <ui-select-pick-one
+     * url="/api-data-source/options"
+     * v-model="data_sourceSelected"
+     * :selected_id=data_sourceSelected"
+     * name="data_source">
+     * </ui-select-pick-one>
      *
      *
      * Blade component example.
      *
      *   In Controler
      *
-             $data_source_options = \App\DataSource::getOptions();
-
-
+     * $data_source_options = \App\DataSource::getOptions();
      *
      *   In View
-
-            @component('../components/select-pick-one', [
-                'fld' => 'data_source_id',
-                'selected_id' => $RECORD->data_source_id,
-                'first_option' => 'Select a DataSources',
-                'options' => $data_source_options
-            ])
-            @endcomponent
+     *
+     * @component('../components/select-pick-one', [
+     * 'fld' => 'data_source_id',
+     * 'selected_id' => $RECORD->data_source_id,
+     * 'first_option' => 'Select a DataSources',
+     * 'options' => $data_source_options
+     * ])
+     * @endcomponent
      *
      * Permissions
      *
-
-             Permission::findOrCreate('data_source index');
-             Permission::findOrCreate('data_source view');
-             Permission::findOrCreate('data_source export-pdf');
-             Permission::findOrCreate('data_source export-excel');
-             Permission::findOrCreate('data_source add');
-             Permission::findOrCreate('data_source edit');
-             Permission::findOrCreate('data_source delete');
+     *
+     * Permission::findOrCreate('data_source index');
+     * Permission::findOrCreate('data_source view');
+     * Permission::findOrCreate('data_source export-pdf');
+     * Permission::findOrCreate('data_source export-excel');
+     * Permission::findOrCreate('data_source add');
+     * Permission::findOrCreate('data_source edit');
+     * Permission::findOrCreate('data_source delete');
      */
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(DataSourceIndexRequest $request)
     {
-        if (! Auth::user()->can('data_source index')) {
-            \Session::flash('flash_error_message', 'You do not have access to Sourcess.');
+        if (!Auth::user()->can('data_source index')) {
+            Session::flash('flash_error_message', 'You do not have access to Sourcess.');
 
             return Redirect::route('home');
         }
@@ -92,12 +94,12 @@ class DataSourceController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
-        if (! Auth::user()->can('data_source add')) {  // TODO: add -> create
-            \Session::flash('flash_error_message', 'You do not have access to add a Sources.');
+        if (!Auth::user()->can('data_source add')) {  // TODO: add -> create
+            Session::flash('flash_error_message', 'You do not have access to add a Sources.');
             if (Auth::user()->can('data_source index')) {
                 return Redirect::route('data-source.index');
             } else {
@@ -111,22 +113,22 @@ class DataSourceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(DataSourceFormRequest $request)
     {
-        $data_source = new \App\DataSource;
+        $data_source = new DataSource;
 
         try {
             $data_source->add($request->validated());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'message' => 'Unable to process request',
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Sources '.$data_source->name.' was added.');
+        Session::flash('flash_success_message', 'Sources ' . $data_source->name . ' was added.');
 
         return response()->json([
             'message' => 'Added record',
@@ -136,13 +138,13 @@ class DataSourceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
-        if (! Auth::user()->can('data_source view')) {
-            \Session::flash('flash_error_message', 'You do not have access to view a Sources.');
+        if (!Auth::user()->can('data_source view')) {
+            Session::flash('flash_error_message', 'You do not have access to view a Sources.');
             if (Auth::user()->can('data_source index')) {
                 return Redirect::route('data-source.index');
             } else {
@@ -156,7 +158,7 @@ class DataSourceController extends Controller
 
             return view('data-source.show', compact('data_source', 'can_edit', 'can_delete'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Sources to display.');
+            Session::flash('flash_error_message', 'Unable to find Sources to display.');
 
             return Redirect::route('data-source.index');
         }
@@ -165,13 +167,13 @@ class DataSourceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function edit($id)
     {
-        if (! Auth::user()->can('data_source edit')) {
-            \Session::flash('flash_error_message', 'You do not have access to edit a Sources.');
+        if (!Auth::user()->can('data_source edit')) {
+            Session::flash('flash_error_message', 'You do not have access to edit a Sources.');
             if (Auth::user()->can('data_source index')) {
                 return Redirect::route('data-source.index');
             } else {
@@ -182,7 +184,7 @@ class DataSourceController extends Controller
         if ($data_source = $this->sanitizeAndFind($id)) {
             return view('data-source.edit', compact('data_source'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Sources to edit.');
+            Session::flash('flash_error_message', 'Unable to find Sources to edit.');
 
             return Redirect::route('data-source.index');
         }
@@ -191,8 +193,8 @@ class DataSourceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\DataSource $data_source     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param DataSource $data_source * @return \Illuminate\Http\Response
      */
     public function update(DataSourceFormRequest $request, $id)
     {
@@ -206,7 +208,7 @@ class DataSourceController extends Controller
 //            }
 //        }
 
-        if (! $data_source = $this->sanitizeAndFind($id)) {
+        if (!$data_source = $this->sanitizeAndFind($id)) {
             //     \Session::flash('flash_error_message', 'Unable to find Sources to edit.');
             return response()->json([
                 'message' => 'Not Found',
@@ -218,15 +220,15 @@ class DataSourceController extends Controller
         if ($data_source->isDirty()) {
             try {
                 $data_source->save();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Sources '.$data_source->name.' was changed.');
+            Session::flash('flash_success_message', 'Sources ' . $data_source->name . ' was changed.');
         } else {
-            \Session::flash('flash_info_message', 'No changes were made.');
+            Session::flash('flash_info_message', 'No changes were made.');
         }
 
         return response()->json([
@@ -237,12 +239,12 @@ class DataSourceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\DataSource $data_source     * @return \Illuminate\Http\Response
+     * @param DataSource $data_source * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        if (! Auth::user()->can('data_source delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a Sources.');
+        if (!Auth::user()->can('data_source delete')) {
+            Session::flash('flash_error_message', 'You do not have access to remove a Sources.');
             if (Auth::user()->can('data_source index')) {
                 return Redirect::route('data-source.index');
             } else {
@@ -255,15 +257,15 @@ class DataSourceController extends Controller
         if ($data_source && $data_source->canDelete()) {
             try {
                 $data_source->delete();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request.',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Sources '.$data_source->name.' was removed.');
+            Session::flash('flash_success_message', 'Sources ' . $data_source->name . ' was removed.');
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Sources to delete.');
+            Session::flash('flash_error_message', 'Unable to find Sources to delete.');
         }
 
         if (Auth::user()->can('data_source index')) {
@@ -281,13 +283,13 @@ class DataSourceController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\DataSource::find(intval($id));
+        return DataSource::find(intval($id));
     }
 
     public function download()
     {
-        if (! Auth::user()->can('data_source excel')) {
-            \Session::flash('flash_error_message', 'You do not have access to download Sources.');
+        if (!Auth::user()->can('data_source excel')) {
+            Session::flash('flash_error_message', 'You do not have access to download Sources.');
             if (Auth::user()->can('data_source index')) {
                 return Redirect::route('data-source.index');
             } else {
@@ -304,7 +306,7 @@ class DataSourceController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
         $dataQuery = DataSource::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());
@@ -318,8 +320,8 @@ class DataSourceController extends Controller
 
     public function print()
     {
-        if (! Auth::user()->can('data_source export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print Sources.');
+        if (!Auth::user()->can('data_source export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+            Session::flash('flash_error_message', 'You do not have access to print Sources.');
             if (Auth::user()->can('data_source index')) {
                 return Redirect::route('data-source.index');
             } else {
@@ -333,7 +335,7 @@ class DataSourceController extends Controller
         $direction = session('data_source_direction', '-1');
         $column = $column ? $column : 'name';
 
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
         // Get query data
         $columns = [
@@ -347,13 +349,13 @@ class DataSourceController extends Controller
         $printHtml = view('data-source.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
-        $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
+        $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
 
-        return $pdf->stream('data-source-'.$currentDate->format('Ymd_Hi').'.pdf');
+        return $pdf->stream('data-source-' . $currentDate->format('Ymd_Hi') . '.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////

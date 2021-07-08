@@ -56,8 +56,8 @@ class LoadStatutes extends Command
             return !Statute::where('number', $r['number'])->exists();
         });
 
-        foreach($data AS $rec) {
-            $this->info(sprintf(" Adding %-10.10s %s",$rec['number'],$rec['name']));
+        foreach ($data as $rec) {
+            $this->info(sprintf(" Adding %-10.10s %s", $rec['number'], $rec['name']));
         }
 
         $this->info("Inserting {$data->count()} Records");

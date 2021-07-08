@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Assignment;
 use App\Exports\AssignmentExport;
-use App\Http\Middleware\TrimStrings;
 use App\Http\Requests\AssignmentFormRequest;
 use App\Http\Requests\AssignmentIndexRequest;
+use DateTime;
+use DateTimeZone;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
+use Session;
 
 //use PDF; // TCPDF, not currently in use
 
@@ -60,12 +64,12 @@ class AssignmentController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(AssignmentIndexRequest $request)
     {
-        if (! Auth::user()->can('assignment index')) {
-            \Session::flash('flash_error_message', 'You do not have access to Assignments.');
+        if (!Auth::user()->can('assignment index')) {
+            Session::flash('flash_error_message', 'You do not have access to Assignments.');
 
             return Redirect::route('home');
         }
@@ -89,12 +93,12 @@ class AssignmentController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
-        if (! Auth::user()->can('assignment add')) {  // TODO: add -> create
-            \Session::flash('flash_error_message', 'You do not have access to add a Assignment.');
+        if (!Auth::user()->can('assignment add')) {  // TODO: add -> create
+            Session::flash('flash_error_message', 'You do not have access to add a Assignment.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('assignment.index');
             } else {
@@ -108,22 +112,22 @@ class AssignmentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(AssignmentFormRequest $request)
     {
-        $assignment = new \App\Assignment;
+        $assignment = new Assignment;
 
         try {
             $assignment->add($request->validated());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'message' => 'Unable to process request',
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Vc Vendor '.$assignment->name.' was added');
+        Session::flash('flash_success_message', 'Vc Vendor ' . $assignment->name . ' was added');
 
         return response()->json([
             'message' => 'Added record',
@@ -133,13 +137,13 @@ class AssignmentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
-        if (! Auth::user()->can('assignment view')) {
-            \Session::flash('flash_error_message', 'You do not have access to view a Assignment.');
+        if (!Auth::user()->can('assignment view')) {
+            Session::flash('flash_error_message', 'You do not have access to view a Assignment.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('assignment.index');
             } else {
@@ -153,7 +157,7 @@ class AssignmentController extends Controller
 
             return view('assignment.show', compact('assignment', 'can_edit', 'can_delete'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Assignment to display.');
+            Session::flash('flash_error_message', 'Unable to find Assignment to display.');
 
             return Redirect::route('assignment.index');
         }
@@ -162,13 +166,13 @@ class AssignmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function edit($id)
     {
-        if (! Auth::user()->can('assignment edit')) {
-            \Session::flash('flash_error_message', 'You do not have access to edit a Assignment.');
+        if (!Auth::user()->can('assignment edit')) {
+            Session::flash('flash_error_message', 'You do not have access to edit a Assignment.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('assignment.index');
             } else {
@@ -179,7 +183,7 @@ class AssignmentController extends Controller
         if ($assignment = $this->sanitizeAndFind($id)) {
             return view('assignment.edit', compact('assignment'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Assignment to edit.');
+            Session::flash('flash_error_message', 'Unable to find Assignment to edit.');
 
             return Redirect::route('assignment.index');
         }
@@ -188,8 +192,8 @@ class AssignmentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Assignment $assignment * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Assignment $assignment * @return \Illuminate\Http\Response
      */
     public function update(AssignmentFormRequest $request, $id)
     {
@@ -203,7 +207,7 @@ class AssignmentController extends Controller
 //            }
 //        }
 
-        if (! $assignment = $this->sanitizeAndFind($id)) {
+        if (!$assignment = $this->sanitizeAndFind($id)) {
             //     \Session::flash('flash_error_message', 'Unable to find Assignment to edit');
             return response()->json([
                 'message' => 'Not Found',
@@ -215,15 +219,15 @@ class AssignmentController extends Controller
         if ($assignment->isDirty()) {
             try {
                 $assignment->save();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Assignment '.$assignment->name.' was changed');
+            Session::flash('flash_success_message', 'Assignment ' . $assignment->name . ' was changed');
         } else {
-            \Session::flash('flash_info_message', 'No changes were made');
+            Session::flash('flash_info_message', 'No changes were made');
         }
 
         return response()->json([
@@ -234,12 +238,12 @@ class AssignmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Assignment $assignment * @return \Illuminate\Http\Response
+     * @param Assignment $assignment * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        if (! Auth::user()->can('assignment delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a Assignment.');
+        if (!Auth::user()->can('assignment delete')) {
+            Session::flash('flash_error_message', 'You do not have access to remove a Assignment.');
             if (Auth::user()->can('assignment index')) {
                 return Redirect::route('assignment.index');
             } else {
@@ -252,15 +256,15 @@ class AssignmentController extends Controller
         if ($assignment && $assignment->canDelete()) {
             try {
                 $assignment->delete();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request.',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Invitation for '.$assignment->name.' was removed.');
+            Session::flash('flash_success_message', 'Invitation for ' . $assignment->name . ' was removed.');
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Invite to delete.');
+            Session::flash('flash_error_message', 'Unable to find Invite to delete.');
         }
 
         if (Auth::user()->can('assignment index')) {
@@ -278,13 +282,13 @@ class AssignmentController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\Assignment::find(intval($id));
+        return Assignment::find(intval($id));
     }
 
     public function download()
     {
-        if (! Auth::user()->can('assignment excel')) {
-            \Session::flash('flash_error_message', 'You do not have access to download Assignment.');
+        if (!Auth::user()->can('assignment excel')) {
+            Session::flash('flash_error_message', 'You do not have access to download Assignment.');
             if (Auth::user()->can('assignment index')) {
                 return Redirect::route('assignment.index');
             } else {
@@ -301,7 +305,7 @@ class AssignmentController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
         $dataQuery = Assignment::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());
@@ -315,8 +319,8 @@ class AssignmentController extends Controller
 
     public function print()
     {
-        if (! Auth::user()->can('assignment export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print Assignment');
+        if (!Auth::user()->can('assignment export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+            Session::flash('flash_error_message', 'You do not have access to print Assignment');
             if (Auth::user()->can('assignment index')) {
                 return Redirect::route('assignment.index');
             } else {
@@ -330,7 +334,7 @@ class AssignmentController extends Controller
         $direction = session('assignment_direction', '-1');
         $column = $column ? $column : 'name';
 
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
         // Get query data
         $columns = [
@@ -345,13 +349,13 @@ class AssignmentController extends Controller
         $printHtml = view('assignment.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
-        $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
+        $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
 
-        return $pdf->stream('assignment-'.$currentDate->format('Ymd_Hi').'.pdf');
+        return $pdf->stream('assignment-' . $currentDate->format('Ymd_Hi') . '.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////

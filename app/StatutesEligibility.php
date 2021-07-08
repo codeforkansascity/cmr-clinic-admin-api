@@ -5,6 +5,7 @@ namespace App;
 use App\Traits\RecordSignature;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\QueryException;
 
 class StatutesEligibility extends Model
 {
@@ -15,11 +16,11 @@ class StatutesEligibility extends Model
      * fillable - attributes that can be mass-assigned.
      */
     protected $fillable = [
-            'id',
-            'name',
-            'sequence',
-            'deleted_at',
-        ];
+        'id',
+        'name',
+        'sequence',
+        'deleted_at',
+    ];
 
     protected $hidden = [
         'active',
@@ -35,10 +36,10 @@ class StatutesEligibility extends Model
         try {
             $this->fill($attributes)->save();
         } catch (\Exception $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
-        } catch (\Illuminate\Database\QueryException $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+        } catch (QueryException $e) {
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
         }
 
@@ -47,10 +48,10 @@ class StatutesEligibility extends Model
 
     public function canDelete()
     {
-        $count = \App\Statute::select('id')->whereNotNull('statutes_eligibility_id')->count();
-        info(__METHOD__." count=$count|");
+        $count = Statute::select('id')->whereNotNull('statutes_eligibility_id')->count();
+        info(__METHOD__ . " count=$count|");
 
-        return ! $count;
+        return !$count;
     }
 
     /**
@@ -68,7 +69,7 @@ class StatutesEligibility extends Model
             ->orderBy('name')
             ->get();
 
-        if (! $flat) {
+        if (!$flat) {
             return $records;
         } else {
             $data = [];

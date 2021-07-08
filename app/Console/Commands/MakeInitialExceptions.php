@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Exception;
 use Illuminate\Console\Command;
 
 class MakeInitialExceptions extends Command
@@ -40,7 +41,7 @@ class MakeInitialExceptions extends Command
 
         $records = $this->getExceptions();
 
-        foreach ($records AS $record) {
+        foreach ($records as $record) {
             $record = json_decode(json_encode($record), true);
 
             $this->getOrAddException(
@@ -61,11 +62,11 @@ class MakeInitialExceptions extends Command
     private function getOrAddException($id, $section, $name, $short_name, $attorney_note, $dyi_note, $logic, $sequence)
     {
 
-        if (!$rec = \App\Exception::where([
+        if (!$rec = Exception::where([
             'id' => $id,
         ])->first()
         ) {
-            $rec = \App\Exception::create([
+            $rec = Exception::create([
                 'id' => $id,
                 'section' => $section,
                 'name' => $name,
@@ -80,7 +81,8 @@ class MakeInitialExceptions extends Command
         return $rec;
     }
 
-    private function getExceptions() {
+    private function getExceptions()
+    {
         $var = <<< EOM
 [{
     "id": 1,
@@ -205,7 +207,6 @@ class MakeInitialExceptions extends Command
 }
 ]
 EOM;
-
 
 
         return json_decode($var);

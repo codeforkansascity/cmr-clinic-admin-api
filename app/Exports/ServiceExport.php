@@ -29,20 +29,20 @@ class ServiceExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'name',
-                        'address',
-                        'address_line_2',
-                        'city',
-                        'state',
-                        'zip',
-                        'county',
-                        'phone',
-                        'email',
-                        'note',
-                        'service_type_id',
-                        'deleted_at',
-                    ];
+            'id',
+            'name',
+            'address',
+            'address_line_2',
+            'city',
+            'state',
+            'zip',
+            'county',
+            'phone',
+            'email',
+            'note',
+            'service_type_id',
+            'deleted_at',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -52,19 +52,19 @@ class ServiceExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
 
-                        $service->id,
-                        $service->name,
-                        $service->address,
-                        $service->address_line_2,
-                        $service->city,
-                        $service->state,
-                        $service->zip,
-                        $service->county,
-                        $service->phone,
-                        $service->email,
-                        $service->note,
-                        $service->service_type_id,
-                        $service->deleted_at,
-                    ];
+            $service->id,
+            $service->name,
+            $service->address,
+            $service->address_line_2,
+            $service->city,
+            $service->state,
+            $service->zip,
+            $service->county,
+            $service->phone,
+            $service->email,
+            $service->note,
+            $service->service_type_id,
+            $service->deleted_at,
+        ];
     }
 }

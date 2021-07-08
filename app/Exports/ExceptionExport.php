@@ -2,8 +2,8 @@
 
 namespace App\Exports;
 
-use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
@@ -29,16 +29,16 @@ class ExceptionExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'section',
-                        'name',
-                        'short_name',
-                        'attorney_note',
-                        'dyi_note',
-                        'logic',
-                        'sequence',
-                        'deleted_at',
-                    ];
+            'id',
+            'section',
+            'name',
+            'short_name',
+            'attorney_note',
+            'dyi_note',
+            'logic',
+            'sequence',
+            'deleted_at',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -48,15 +48,15 @@ class ExceptionExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
 
-                        $exception->id,
-                        $exception->section,
-                        $exception->name,
-                        $exception->short_name,
-                        $exception->attorney_note,
-                        $exception->dyi_note,
-                        $exception->logic,
-                        $exception->sequence,
-                        $exception->deleted_at,
-                    ];
+            $exception->id,
+            $exception->section,
+            $exception->name,
+            $exception->short_name,
+            $exception->attorney_note,
+            $exception->dyi_note,
+            $exception->logic,
+            $exception->sequence,
+            $exception->deleted_at,
+        ];
     }
 }

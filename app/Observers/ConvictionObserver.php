@@ -16,7 +16,7 @@ class ConvictionObserver
     /**
      * Handle the conviction "created" event.
      *
-     * @param  \App\Conviction  $conviction
+     * @param Conviction $conviction
      * @return void
      */
     public function created(Conviction $conviction)
@@ -27,7 +27,7 @@ class ConvictionObserver
     /**
      * Handle the conviction "updated" event.
      *
-     * @param  \App\Conviction  $conviction
+     * @param Conviction $conviction
      * @return void
      */
     public function updated(Conviction $conviction)
@@ -38,7 +38,7 @@ class ConvictionObserver
     /**
      * Handle the conviction "deleted" event.
      *
-     * @param  \App\Conviction  $conviction
+     * @param Conviction $conviction
      * @return void
      */
     public function deleted(Conviction $conviction)
@@ -49,7 +49,7 @@ class ConvictionObserver
     /**
      * Handle the conviction "restored" event.
      *
-     * @param  \App\Conviction  $conviction
+     * @param Conviction $conviction
      * @return void
      */
     public function restored(Conviction $conviction)
@@ -60,7 +60,7 @@ class ConvictionObserver
     /**
      * Handle the conviction "force deleted" event.
      *
-     * @param  \App\Conviction  $conviction
+     * @param Conviction $conviction
      * @return void
      */
     public function forceDeleted(Conviction $conviction)

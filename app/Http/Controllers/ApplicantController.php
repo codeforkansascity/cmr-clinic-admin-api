@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Applicant;
 use App\Exports\ApplicantExport;
 use App\Http\Requests\ApplicantFormRequest;
@@ -9,10 +10,15 @@ use App\Http\Requests\ApplicantIndexRequest;
 use App\Lib\AddApplicantFromCriminalHistory;
 use App\Lib\ApplicantHistoryUploader;
 use App\Lib\GetCriminalHistoryFromSS;
+use DateTime;
+use DateTimeZone;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
+use Session;
 
 //use PDF; // TCPDF, not currently in use
 
@@ -62,12 +68,12 @@ class ApplicantController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(ApplicantIndexRequest $request)
     {
         if (!Auth::user()->can('applicant index')) {
-            \Session::flash('flash_error_message', 'You do not have access to Applicantss.');
+            Session::flash('flash_error_message', 'You do not have access to Applicantss.');
 
             return Redirect::route('home');
         }
@@ -98,12 +104,12 @@ class ApplicantController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function add()
     {
         if (!Auth::user()->can('applicant add')) {  // TODO: add -> create
-            \Session::flash('flash_error_message', 'You do not have access to add a Applicants.');
+            Session::flash('flash_error_message', 'You do not have access to add a Applicants.');
             if (Auth::user()->can('applicant index')) {
                 return Redirect::route('applicant.index');
             } else {
@@ -162,12 +168,12 @@ class ApplicantController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
         if (!Auth::user()->can('applicant add')) {  // TODO: add -> create
-            \Session::flash('flash_error_message', 'You do not have access to add a Applicants.');
+            Session::flash('flash_error_message', 'You do not have access to add a Applicants.');
             if (Auth::user()->can('applicant index')) {
                 return Redirect::route('applicant.index');
             } else {
@@ -183,24 +189,24 @@ class ApplicantController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(ApplicantFormRequest $request)
     {
-        $applicant = new \App\Applicant;
+        $applicant = new Applicant;
 
         try {
             $applicant->add($request->validated());
             $data = $applicant->toArray();
             info(print_r($data, true));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'message' => 'Unable to process request',
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Applicants ' . $applicant->name . ' was added.');
+        Session::flash('flash_success_message', 'Applicants ' . $applicant->name . ' was added.');
 
         return response()->json([
             'message' => 'Added record',
@@ -212,14 +218,14 @@ class ApplicantController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
         info(__METHOD__);
 
         if (!Auth::user()->can('applicant view')) {
-            \Session::flash('flash_error_message', 'You do not have access to view a Applicants.');
+            Session::flash('flash_error_message', 'You do not have access to view a Applicants.');
             if (Auth::user()->can('applicant index')) {
                 return Redirect::route('applicant.index');
             } else {
@@ -234,7 +240,7 @@ class ApplicantController extends Controller
 
             return view('applicant.show', compact('applicant', 'can_edit', 'can_delete', 'can_cms'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Applicants to display.');
+            Session::flash('flash_error_message', 'Unable to find Applicants to display.');
 
             return Redirect::route('applicant.index');
         }
@@ -249,7 +255,7 @@ class ApplicantController extends Controller
     private
     function sanitizeAndFind($id)
     {
-        return \App\Applicant::with([
+        return Applicant::with([
             'conviction' => function ($q) {
                 $q->orderBy('release_date', 'desc');
             },
@@ -275,12 +281,12 @@ class ApplicantController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
         if (!Auth::user()->can('applicant edit')) {
-            \Session::flash('flash_error_message', 'You do not have access to edit a Applicants.');
+            Session::flash('flash_error_message', 'You do not have access to edit a Applicants.');
             if (Auth::user()->can('applicant index')) {
                 return Redirect::route('applicant.index');
             } else {
@@ -292,7 +298,7 @@ class ApplicantController extends Controller
             $can_cms = Auth::user()->can('CMS access');
             return view('applicant.edit', compact('applicant', 'can_cms'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Applicants to edit.');
+            Session::flash('flash_error_message', 'Unable to find Applicants to edit.');
 
             return Redirect::route('applicant.index');
         }
@@ -301,8 +307,8 @@ class ApplicantController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Applicant $applicant * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Applicant $applicant * @return \Illuminate\Http\Response
      */
     public function update(ApplicantFormRequest $request, $id)
     {
@@ -328,15 +334,15 @@ class ApplicantController extends Controller
         if ($applicant->isDirty()) {
             try {
                 $applicant->save();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Applicants ' . $applicant->name . ' was changed.');
+            Session::flash('flash_success_message', 'Applicants ' . $applicant->name . ' was changed.');
         } else {
-            \Session::flash('flash_info_message', 'No changes were made.');
+            Session::flash('flash_info_message', 'No changes were made.');
         }
 
         return response()->json([
@@ -348,14 +354,14 @@ class ApplicantController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function preview($id)
     {
         info(__METHOD__);
 
         if (!Auth::user()->can('applicant view')) {
-            \Session::flash('flash_error_message', 'You do not have access to view a Applicants.');
+            Session::flash('flash_error_message', 'You do not have access to view a Applicants.');
             if (Auth::user()->can('applicant index')) {
                 return Redirect::route('applicant.index');
             } else {
@@ -375,7 +381,7 @@ class ApplicantController extends Controller
 
             return view('applicant.preview', compact('applicant', 'expungebles', 'not_selected_to_expunge', 'service_list', 'can_edit', 'can_delete'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Applicants to display.');
+            Session::flash('flash_error_message', 'Unable to find Applicants to display.');
 
             return Redirect::route('applicant.index');
         }
@@ -385,14 +391,14 @@ class ApplicantController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function petition($id)
     {
         info(__METHOD__);
 
         if (!Auth::user()->can('applicant view')) {
-            \Session::flash('flash_error_message', 'You do not have access to view a Applicants.');
+            Session::flash('flash_error_message', 'You do not have access to view a Applicants.');
             if (Auth::user()->can('applicant index')) {
                 return Redirect::route('applicant.index');
             } else {
@@ -405,9 +411,9 @@ class ApplicantController extends Controller
             $expungebles = $this->getExpungebles($applicant->conviction);
             $expungebles = $this->transformExpungebles($expungebles);
 
-            $petition_count=  count($expungebles);
-            $group_count=  count($expungebles[1]);
-            $case_count=  2; // count($expungebles[1][1]);
+            $petition_count = count($expungebles);
+            $group_count = count($expungebles[1]);
+            $case_count = 2; // count($expungebles[1][1]);
             $service_list = $this->getServiceList($applicant->conviction);
 
             $service_count = count($service_list);
@@ -419,7 +425,7 @@ class ApplicantController extends Controller
                 'expungebles', 'service_list', 'can_edit', 'can_delete', 'petition_count', 'service_count', 'group_count', 'case_count'
             ));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Applicants to display.');
+            Session::flash('flash_error_message', 'Unable to find Applicants to display.');
 
             return Redirect::route('applicant.index');
         }
@@ -429,9 +435,9 @@ class ApplicantController extends Controller
     {
 
         $to_expunge = [];
-        foreach ($convictions AS $conviction) {
+        foreach ($convictions as $conviction) {
             if ($conviction->charge->count()) {
-                foreach ($conviction->charge AS $charge) {
+                foreach ($conviction->charge as $charge) {
 
 
                     if ($charge->please_expunge) {
@@ -446,7 +452,7 @@ class ApplicantController extends Controller
                         $to_expunge[$key]['statue_name'] = $charge->statute->name;
                         $to_expunge[$key]['case_number'] = $conviction->case_number;
                         $to_expunge[$key]['date_of_charge'] = $conviction->date_of_charge;
-                        $to_expunge[$key]['group_sequence'] =$charge->group_sequence;
+                        $to_expunge[$key]['group_sequence'] = $charge->group_sequence;
 
                     }
                 }
@@ -456,21 +462,21 @@ class ApplicantController extends Controller
         return $to_expunge;
     }
 
-    private function transformExpungebles($expungebles) {
+    private function transformExpungebles($expungebles)
+    {
 
         $data[1] = [];
 
-        foreach ($expungebles AS $key => $record ) {
-            list($petition, $group, $seq, $id ) = explode(':',$key);
-            if (!array_key_exists($petition,$data)) {
+        foreach ($expungebles as $key => $record) {
+            list($petition, $group, $seq, $id) = explode(':', $key);
+            if (!array_key_exists($petition, $data)) {
                 $data[$petition] = [];
             }
-            if (!array_key_exists($group,$data[$petition])) {
+            if (!array_key_exists($group, $data[$petition])) {
                 $data[$petition][$group] = [];
             }
             $data[$petition][$group][] = $record;
         }
-
 
 
         return $data;
@@ -481,20 +487,20 @@ class ApplicantController extends Controller
     {
 
         $not_selected = [];
-        foreach ($convictions AS $conviction) {
+        foreach ($convictions as $conviction) {
 
             if ($conviction->charge->count()) {
-                foreach ($conviction->charge AS $charge) {
+                foreach ($conviction->charge as $charge) {
                     if ($charge->please_expunge != 1) {
                         $key = $conviction->case_number . ':';
                         $key .= $charge->id;
                         $not_selected[$key] = [];
                         $not_selected[$key]['statue_number'] = data_get($charge->statute, 'number', '***');
                         $not_selected[$key]['statue_name'] = data_get($charge->statute, 'name', '***');
-                        $not_selected[$key]['case_number'] = data_get($conviction, 'case_number' ,'***');
+                        $not_selected[$key]['case_number'] = data_get($conviction, 'case_number', '***');
                         $not_selected[$key]['convicted'] = data_get($conviction, 'convicted', false) ? 'Convicted' : 'Not Convicted';
                         $not_selected[$key]['eligible'] = data_get($conviction, 'eligible', false) ? 'Eligible' : 'Not Eligible';
-                        $not_selected[$key]['date_of_charge'] = data_get($conviction,'date_of_charge', '0000-00-00');
+                        $not_selected[$key]['date_of_charge'] = data_get($conviction, 'date_of_charge', '0000-00-00');
 
                     }
                 }
@@ -508,10 +514,10 @@ class ApplicantController extends Controller
     {
 
         $service_list = [];
-        foreach ($convictions AS $conviction) {
+        foreach ($convictions as $conviction) {
 
             if ($conviction->services->count()) {
-                foreach ($conviction->services AS $service) {
+                foreach ($conviction->services as $service) {
                     $key = $service->id;
                     $service_list[$key]['name'] = $service->name;
                     $service_list[$key]['address'] = $service->address;
@@ -527,17 +533,16 @@ class ApplicantController extends Controller
     }
 
 
-
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Applicant $applicant * @return \Illuminate\Http\Response
+     * @param Applicant $applicant * @return \Illuminate\Http\Response
      */
     public
     function destroy($id)
     {
         if (!Auth::user()->can('applicant delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a Applicants.');
+            Session::flash('flash_error_message', 'You do not have access to remove a Applicants.');
             if (Auth::user()->can('applicant index')) {
                 return Redirect::route('applicant.index');
             } else {
@@ -550,7 +555,7 @@ class ApplicantController extends Controller
         if ($applicant && $applicant->canDelete()) {
             try {
                 $applicant->delete();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request.',
                 ], 400);
@@ -568,7 +573,7 @@ class ApplicantController extends Controller
     function download()
     {
         if (!Auth::user()->can('applicant excel')) {
-            \Session::flash('flash_error_message', 'You do not have access to download Applicants.');
+            Session::flash('flash_error_message', 'You do not have access to download Applicants.');
             if (Auth::user()->can('applicant index')) {
                 return Redirect::route('applicant.index');
             } else {
@@ -601,7 +606,7 @@ class ApplicantController extends Controller
     function print()
     {
         if (!Auth::user()->can('applicant export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print Applicants.');
+            Session::flash('flash_error_message', 'You do not have access to print Applicants.');
             if (Auth::user()->can('applicant index')) {
                 return Redirect::route('applicant.index');
             } else {
@@ -629,11 +634,11 @@ class ApplicantController extends Controller
         $printHtml = view('applicant.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
-        $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
+        $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
 
         return $pdf->stream('applicant-' . $currentDate->format('Ymd_Hi') . '.pdf');
 

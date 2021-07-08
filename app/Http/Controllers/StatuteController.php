@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Exports\StatuteExport;
-use App\Http\Middleware\TrimStrings;
 use App\Http\Requests\StatuteFormRequest;
 use App\Http\Requests\StatuteIndexRequest;
 use App\Statute;
-use App\StatutesEligibility;
+use DateTime;
+use DateTimeZone;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
+use Session;
 
 //use PDF; // TCPDF, not currently in use
 
@@ -62,12 +65,12 @@ class StatuteController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(StatuteIndexRequest $request)
     {
-        if (! Auth::user()->can('statute index')) {
-            \Session::flash('flash_error_message', 'You do not have access to Statutess.');
+        if (!Auth::user()->can('statute index')) {
+            Session::flash('flash_error_message', 'You do not have access to Statutess.');
 
             return Redirect::route('home');
         }
@@ -91,12 +94,12 @@ class StatuteController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
-        if (! Auth::user()->can('statute add')) {  // TODO: add -> create
-            \Session::flash('flash_error_message', 'You do not have access to add a Statutes.');
+        if (!Auth::user()->can('statute add')) {  // TODO: add -> create
+            Session::flash('flash_error_message', 'You do not have access to add a Statutes.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('statute.index');
             } else {
@@ -110,8 +113,8 @@ class StatuteController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(StatuteFormRequest $request)
     {
@@ -126,7 +129,7 @@ class StatuteController extends Controller
             'jurisdiction_id',
         ]));
 
-        if($request->statute_exceptions) {
+        if ($request->statute_exceptions) {
             $this->syncExceptions($request, $statute);
         }
 
@@ -136,13 +139,13 @@ class StatuteController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
-        if (! Auth::user()->can('statute view')) {
-            \Session::flash('flash_error_message', 'You do not have access to view a Statutes.');
+        if (!Auth::user()->can('statute view')) {
+            Session::flash('flash_error_message', 'You do not have access to view a Statutes.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('statute.index');
             } else {
@@ -159,29 +162,30 @@ class StatuteController extends Controller
 
             return view('statute.show', compact('charges', 'exceptions', 'statute', 'can_edit', 'can_delete'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Statutes to display.');
+            Session::flash('flash_error_message', 'Unable to find Statutes to display.');
 
             return Redirect::route('statute.index');
         }
     }
 
-    private function create_exceptions($statute) {
+    private function create_exceptions($statute)
+    {
         $exceptions = [];
 
-        if ($statute_exceptions = data_get($statute,'statute_exceptions',false)) {
-            foreach ($statute_exceptions AS $statute_exception) {
+        if ($statute_exceptions = data_get($statute, 'statute_exceptions', false)) {
+            foreach ($statute_exceptions as $statute_exception) {
                 if ($exception = data_get($statute_exception, 'exception', false)) {
                     $exceptions[] = [
-                        'statute_exception_id' => data_get($statute_exception,'id', 0),
-                        'statute_id' => data_get($statute_exception,'statute_id', 0),
-                        'exception_id' => data_get($statute_exception,'exception_id', 0),
-                        'exception_note' => data_get($statute_exception,'note', ''),
-                        'exception_section' => data_get($exception,'section', 'ERR S'),
-                        'exception_name' => data_get($exception,'name', 'ERR N'),
-                        'exception_attorney_note' => data_get($exception,'attorney_note', 'ERR N'),
-                        'exception_dyi_note' => data_get($exception,'dyi_note', 'ERR N'),
-                        'exception_logic' => data_get($exception,'logic', 'ERR N'),
-                        'exception_short_name' => data_get($exception,'short_name', 'ERR SN'),
+                        'statute_exception_id' => data_get($statute_exception, 'id', 0),
+                        'statute_id' => data_get($statute_exception, 'statute_id', 0),
+                        'exception_id' => data_get($statute_exception, 'exception_id', 0),
+                        'exception_note' => data_get($statute_exception, 'note', ''),
+                        'exception_section' => data_get($exception, 'section', 'ERR S'),
+                        'exception_name' => data_get($exception, 'name', 'ERR N'),
+                        'exception_attorney_note' => data_get($exception, 'attorney_note', 'ERR N'),
+                        'exception_dyi_note' => data_get($exception, 'dyi_note', 'ERR N'),
+                        'exception_logic' => data_get($exception, 'logic', 'ERR N'),
+                        'exception_short_name' => data_get($exception, 'short_name', 'ERR SN'),
                     ];
                 }
             }
@@ -194,13 +198,13 @@ class StatuteController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function edit($id)
     {
-        if (! Auth::user()->can('statute edit')) {
-            \Session::flash('flash_error_message', 'You do not have access to edit a Statutes.');
+        if (!Auth::user()->can('statute edit')) {
+            Session::flash('flash_error_message', 'You do not have access to edit a Statutes.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('statute.index');
             } else {
@@ -211,7 +215,7 @@ class StatuteController extends Controller
         if ($statute = $this->sanitizeAndFind($id)) {
             return view('statute.edit', compact('statute'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Statutes to edit.');
+            Session::flash('flash_error_message', 'Unable to find Statutes to edit.');
 
             return Redirect::route('statute.index');
         }
@@ -220,8 +224,8 @@ class StatuteController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Statute $statute * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Statute $statute * @return \Illuminate\Http\Response
      */
     public function update(StatuteFormRequest $request, $id)
     {
@@ -234,7 +238,7 @@ class StatuteController extends Controller
 //            }
 //        }
 
-        if (! $statute = $this->sanitizeAndFind($id)) {
+        if (!$statute = $this->sanitizeAndFind($id)) {
             //     \Session::flash('flash_error_message', 'Unable to find Statutes to edit');
             return response()->json([
                 'message' => 'Not Found',
@@ -250,18 +254,18 @@ class StatuteController extends Controller
         if ($statute->isDirty()) {
             try {
                 $statute->save();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request'.$e->getMessage(),
+                    'message' => 'Unable to process request' . $e->getMessage(),
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Statutes '.$statute->name.' was changed');
+            Session::flash('flash_success_message', 'Statutes ' . $statute->name . ' was changed');
         } else if ($dirtyExceptions) {
             $statute->saveHistory($request, $originalExceptions);
-            \Session::flash('flash_success_message', 'Exceptions for Statute'.$statute->name.' was changed');
+            Session::flash('flash_success_message', 'Exceptions for Statute' . $statute->name . ' was changed');
         } else {
-            \Session::flash('flash_info_message', 'No changes were made');
+            Session::flash('flash_info_message', 'No changes were made');
         }
 
         return response()->json([
@@ -273,12 +277,12 @@ class StatuteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Statute $statute * @return \Illuminate\Http\Response
+     * @param Statute $statute * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        if (! Auth::user()->can('statute delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a Statutes.');
+        if (!Auth::user()->can('statute delete')) {
+            Session::flash('flash_error_message', 'You do not have access to remove a Statutes.');
             if (Auth::user()->can('statute index')) {
                 return Redirect::route('statute.index');
             } else {
@@ -291,15 +295,15 @@ class StatuteController extends Controller
         if ($statute && $statute->canDelete()) {
             try {
                 $statute->delete();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request.',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Invitation for '.$statute->name.' was removed.');
+            Session::flash('flash_success_message', 'Invitation for ' . $statute->name . ' was removed.');
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Invite to delete.');
+            Session::flash('flash_error_message', 'Unable to find Invite to delete.');
         }
 
         if (Auth::user()->can('statute index')) {
@@ -317,7 +321,7 @@ class StatuteController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\Statute::with([
+        return Statute::with([
             'statutes_eligibility',
             'statute_exceptions',
             'jurisdiction',
@@ -335,8 +339,8 @@ class StatuteController extends Controller
 
     public function download()
     {
-        if (! Auth::user()->can('statute excel')) {
-            \Session::flash('flash_error_message', 'You do not have access to download Statutes.');
+        if (!Auth::user()->can('statute excel')) {
+            Session::flash('flash_error_message', 'You do not have access to download Statutes.');
             if (Auth::user()->can('statute index')) {
                 return Redirect::route('statute.index');
             } else {
@@ -354,7 +358,7 @@ class StatuteController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
         $dataQuery = Statute::exportDataQuery($column, $direction, $search, $eligibility_id, ['statutes.id as id',
             'statutes.number as number',
@@ -372,8 +376,8 @@ class StatuteController extends Controller
 
     public function print()
     {
-        if (! Auth::user()->can('statute export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print Statutes');
+        if (!Auth::user()->can('statute export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+            Session::flash('flash_error_message', 'You do not have access to print Statutes');
             if (Auth::user()->can('statute index')) {
                 return Redirect::route('statute.index');
             } else {
@@ -388,7 +392,7 @@ class StatuteController extends Controller
         $eligibility_id = session('eligibility_id', '0');
         $column = $column ? $column : 'name';
 
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
         // Get query data
         $columns = ['statutes.id as id',
@@ -403,13 +407,13 @@ class StatuteController extends Controller
         $printHtml = view('statute.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
-        $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
+        $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
 
-        return $pdf->stream('statute-'.$currentDate->format('Ymd_Hi').'.pdf');
+        return $pdf->stream('statute-' . $currentDate->format('Ymd_Hi') . '.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////
@@ -443,7 +447,7 @@ class StatuteController extends Controller
     {
         $statutes = Statute::query();
         if ($request->q) {
-            $statutes = $statutes->where('number', 'like', $request->q.'%')
+            $statutes = $statutes->where('number', 'like', $request->q . '%')
                 ->limit(20);
         }
 
@@ -453,7 +457,7 @@ class StatuteController extends Controller
     /**
      * @param $request
      * @param Statute $statute
-     * @throws \Exception
+     * @throws Exception
      */
     private function syncExceptions($request, Statute $statute): bool
     {
@@ -481,11 +485,11 @@ class StatuteController extends Controller
 
         // add or update statute exceptions
         foreach ($statute_exceptions as $statute_exception) {
-            if(empty($statute_exception['exception_id'])) continue;
+            if (empty($statute_exception['exception_id'])) continue;
 
             $pivot_id = $statute_exception['id'] ?? null;
             $exception_id = $statute_exception['exception_id'] ?? null;
-            if(empty($pivot_id)) {
+            if (empty($pivot_id)) {
                 $statute->statute_exceptions()->create([
                     'exception_id' => $exception_id,
                     'note' => $statute_exception['note'] ?? ""
@@ -493,7 +497,7 @@ class StatuteController extends Controller
                 $isChanged = true;
             } else {
                 $originalException = $originals->firstWhere('id', $pivot_id);
-                if(!$originalException || $statute_exception['note'] !== $originalException->note) {
+                if (!$originalException || $statute_exception['note'] !== $originalException->note) {
                     $statute->statute_exceptions()
                         ->where('id', $pivot_id)
                         ->update(["note" => $statute_exception['note']]);

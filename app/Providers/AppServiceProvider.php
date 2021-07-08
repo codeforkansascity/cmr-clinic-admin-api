@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Applicant;
 use App\Charge;
-use App\Client;
 use App\Conviction;
 use App\Observers\ApplicantObserver;
 use App\Observers\ChargeObserver;
@@ -59,7 +58,7 @@ class AppServiceProvider extends ServiceProvider
                 if (empty($value) && empty(request($parameters[0]))) {
                     return false;
                 }
-                if (! empty($value) && ! empty(request($parameters[0]))) {
+                if (!empty($value) && !empty(request($parameters[0]))) {
                     return false;
                 }
 

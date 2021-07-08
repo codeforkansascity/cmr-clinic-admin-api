@@ -83,7 +83,7 @@ class UpdateCommonName extends Command
             });
         }
 
-        $this->info("Found {$tmp->count()} records matching ". implode(', ', $this->chapters));
+        $this->info("Found {$tmp->count()} records matching " . implode(', ', $this->chapters));
 
         return $tmp;
     }

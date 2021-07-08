@@ -44,11 +44,11 @@ class ApplyExceptions extends Command
         if ($exception = Exception::where('section', '2.6')->first()) {
             $numbers = $this->section_2_6();
 
-            $statutes = Statute::whereIn('number',$numbers)->get();
-            $this->applyException($exception,$statutes);
+            $statutes = Statute::whereIn('number', $numbers)->get();
+            $this->applyException($exception, $statutes);
 
-            $statutes = Statute::where('number','like', '566%')->get();
-            $this->applyException($exception,$statutes);
+            $statutes = Statute::where('number', 'like', '566%')->get();
+            $this->applyException($exception, $statutes);
 
         } else {
             $this->error('Exception 2.6 was not found');
@@ -56,8 +56,8 @@ class ApplyExceptions extends Command
 
         if ($exception = Exception::where('section', '2.4')->first()) {
 
-            $statutes = Statute::whereIn('number',['565.020'])->get();
-            $this->applyException($exception,$statutes,'Special Note about 2.4 and 565.020');
+            $statutes = Statute::whereIn('number', ['565.020'])->get();
+            $this->applyException($exception, $statutes, 'Special Note about 2.4 and 565.020');
 
         } else {
             $this->error('Exception 2.4 was not found');
@@ -65,8 +65,9 @@ class ApplyExceptions extends Command
         return 0;
     }
 
-    private function applyException($exception,$statutes,$note='') {
-        foreach ($statutes AS $statute) {
+    private function applyException($exception, $statutes, $note = '')
+    {
+        foreach ($statutes as $statute) {
             StatuteException::create([
                 'statute_id' => $statute->id,
                 'exception_id' => $exception->id,
@@ -75,7 +76,8 @@ class ApplyExceptions extends Command
         }
     }
 
-    private function section_2_6() {
+    private function section_2_6()
+    {
 
         return ['105.454', '105.478', '115.631', '130.028', '188.030', '188.080',
             '191.677', '194.425', '217.360', '217.385', '334.245', '375.991',

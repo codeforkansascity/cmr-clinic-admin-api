@@ -29,13 +29,13 @@ class CommentExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'user_id',
-                        'body',
-                        'commentable_type',
-                        'commentable_id',
-                        'deleted_at',
-                    ];
+            'id',
+            'user_id',
+            'body',
+            'commentable_type',
+            'commentable_id',
+            'deleted_at',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -45,12 +45,12 @@ class CommentExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
 
-                        $comment->id,
-                        $comment->user_id,
-                        $comment->body,
-                        $comment->commentable_type,
-                        $comment->commentable_id,
-                        $comment->deleted_at,
-                    ];
+            $comment->id,
+            $comment->user_id,
+            $comment->body,
+            $comment->commentable_type,
+            $comment->commentable_id,
+            $comment->deleted_at,
+        ];
     }
 }

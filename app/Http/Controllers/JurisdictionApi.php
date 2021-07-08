@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\JurisdictionCreateRequest;
 use App\Http\Requests\JurisdictionIndexRequest;
 use App\Jurisdiction;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class JurisdictionApi extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(JurisdictionIndexRequest $request)
     {
@@ -50,8 +50,8 @@ class JurisdictionApi extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(JurisdictionCreateRequest $request)
     {
@@ -65,8 +65,8 @@ class JurisdictionApi extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
@@ -76,9 +76,9 @@ class JurisdictionApi extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -88,8 +88,8 @@ class JurisdictionApi extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function destroy($id)
     {

@@ -5,6 +5,7 @@ namespace App;
 use App\Traits\RecordSignature;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\QueryException;
 
 class Role extends Model
 {
@@ -15,10 +16,10 @@ class Role extends Model
      * fillable - attributes that can be mass-assigned.
      */
     protected $fillable = [
-            'name',
-            'alias',
-            'on_master_roster',
-        ];
+        'name',
+        'alias',
+        'on_master_roster',
+    ];
 
     /**
      * Get Grid/index data PAGINATED.
@@ -44,11 +45,11 @@ class Role extends Model
         try {
             $this->fill($attributes)->save();
         } catch (\Exception $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
 
             return false;
-        } catch (\Illuminate\Database\QueryException $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+        } catch (QueryException $e) {
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
 
             return false;
         }
@@ -83,10 +84,10 @@ class Role extends Model
         }
 
         $query = self::select('*')
-        ->orderBy($column, $direction);
+            ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('name', 'like', '%'.$keyword.'%');
+            $query->where('name', 'like', '%' . $keyword . '%');
         }
 
         return $query;
@@ -106,7 +107,7 @@ class Role extends Model
         $direction,
         $keyword = '')
     {
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword);
     }
@@ -127,7 +128,7 @@ class Role extends Model
             ->orderBy('name')
             ->get();
 
-        if (! $flat) {
+        if (!$flat) {
             return $records;
         } else {
             $data = [];

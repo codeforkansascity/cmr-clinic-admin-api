@@ -16,7 +16,7 @@ class LawVersionObserver
     /**
      * Handle the charge "created" event.
      *
-     * @param LawVersion  $model
+     * @param LawVersion $model
      * @return void
      */
     public function created(LawVersion $model)
@@ -27,7 +27,7 @@ class LawVersionObserver
     /**
      * Handle the charge "updated" event.
      *
-     * @param LawVersion  $model
+     * @param LawVersion $model
      * @return void
      */
     public function updated(LawVersion $model)
@@ -38,7 +38,7 @@ class LawVersionObserver
     /**
      * Handle the charge "deleted" event.
      *
-     * @param LawVersion  $model
+     * @param LawVersion $model
      * @return void
      */
     public function deleting(LawVersion $model)
@@ -56,7 +56,7 @@ class LawVersionObserver
     /**
      * Handle the charge "deleted" event.
      *
-     * @param LawVersion  $model
+     * @param LawVersion $model
      * @return void
      */
     public function deleted(LawVersion $model)
@@ -67,7 +67,7 @@ class LawVersionObserver
     /**
      * Handle the charge "restored" event.
      *
-     * @param LawVersion  $model
+     * @param LawVersion $model
      * @return void
      */
     public function restored(LawVersion $model)
@@ -78,7 +78,7 @@ class LawVersionObserver
     /**
      * Handle the charge "force deleted" event.
      *
-     * @param LawVersion  $model
+     * @param LawVersion $model
      * @return void
      */
     public function forceDeleted(LawVersion $model)

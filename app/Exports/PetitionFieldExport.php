@@ -2,8 +2,8 @@
 
 namespace App\Exports;
 
-use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
@@ -29,12 +29,12 @@ class PetitionFieldExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'applicant_id',
-                        'petition_number',
-                        'field_name',
-                        'value',
-                    ];
+            'id',
+            'applicant_id',
+            'petition_number',
+            'field_name',
+            'value',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -44,11 +44,11 @@ class PetitionFieldExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
 
-                        $petition_field->id,
-                        $petition_field->applicant_id,
-                        $petition_field->petition_number,
-                        $petition_field->field_name,
-                        $petition_field->value,
-                    ];
+            $petition_field->id,
+            $petition_field->applicant_id,
+            $petition_field->petition_number,
+            $petition_field->field_name,
+            $petition_field->value,
+        ];
     }
 }

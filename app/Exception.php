@@ -2,9 +2,10 @@
 
 namespace App;
 
+use App\Traits\RecordSignature;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\RecordSignature;
+use Illuminate\Database\QueryException;
 
 class Exception extends Model
 {
@@ -16,16 +17,16 @@ class Exception extends Model
      * fillable - attributes that can be mass-assigned
      */
     protected $fillable = [
-            'id',
-            'section',
-            'name',
-            'short_name',
-            'attorney_note',
-            'dyi_note',
-            'logic',
-            'sequence',
-            'deleted_at',
-        ];
+        'id',
+        'section',
+        'name',
+        'short_name',
+        'attorney_note',
+        'dyi_note',
+        'logic',
+        'sequence',
+        'deleted_at',
+    ];
 
     protected $hidden = [
         'active',
@@ -44,7 +45,7 @@ class Exception extends Model
         } catch (\Exception $e) {
             info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
-        } catch (\Illuminate\Database\QueryException $e) {
+        } catch (QueryException $e) {
             info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
         }
@@ -74,18 +75,16 @@ class Exception extends Model
         $keyword = '')
     {
         return self::buildBaseGridQuery($column, $direction, $keyword,
-            [ 'id',
-                    'section',
-                    'name',
-                    'short_name',
-                    'attorney_note',
-                    'dyi_note',
-                    'logic',
+            ['id',
+                'section',
+                'name',
+                'short_name',
+                'attorney_note',
+                'dyi_note',
+                'logic',
             ])
-        ->paginate($per_page);
+            ->paginate($per_page);
     }
-
-
 
 
     /**
@@ -121,7 +120,7 @@ class Exception extends Model
         }
 
         $query = Exception::select($columns)
-        ->orderBy($column, $direction);
+            ->orderBy($column, $direction);
 
         if ($keyword) {
             $query->where('name', 'like', '%' . $keyword . '%');
@@ -129,15 +128,15 @@ class Exception extends Model
         return $query;
     }
 
-        /**
-         * Get export/Excel/download data query to send to Excel download library
-         *
-         * @param $per_page
-         * @param $column
-         * @param $direction
-         * @param string $keyword
-         * @return mixed
-         */
+    /**
+     * Get export/Excel/download data query to send to Excel download library
+     *
+     * @param $per_page
+     * @param $column
+     * @param $direction
+     * @param string $keyword
+     * @return mixed
+     */
 
     static function exportDataQuery(
         $column,
@@ -152,18 +151,18 @@ class Exception extends Model
 
     }
 
-        static function pdfDataQuery(
-            $column,
-            $direction,
-            $keyword = '',
-            $columns = '*')
-        {
+    static function pdfDataQuery(
+        $column,
+        $direction,
+        $keyword = '',
+        $columns = '*')
+    {
 
-            info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
-            return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
+        return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
 
-        }
+    }
 
 
     /**
@@ -178,7 +177,7 @@ class Exception extends Model
         $thisModel = new static;
 
         $records = $thisModel::select('id',
-            'name','section','short_name')
+            'name', 'section', 'short_name')
             ->orderBy('sequence')
             ->get()
             ->map(function ($record, $key) {
@@ -198,7 +197,7 @@ class Exception extends Model
         } else {
             $data = [];
 
-            foreach ($records AS $rec) {
+            foreach ($records as $rec) {
                 $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
             }
 

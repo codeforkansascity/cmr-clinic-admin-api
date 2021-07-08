@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Invite;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 use ZxcvbnPhp\Zxcvbn;
 
 class InvitePasswordRequest extends FormRequest
@@ -33,7 +34,7 @@ class InvitePasswordRequest extends FormRequest
                     $zxcvbn = new Zxcvbn();
                     $strength = $zxcvbn->passwordStrength($value, ['paul', 'barham', 'paulb@savagesoft.com', 'paulb+box@savagesoft.com']);
                     if (intval($strength['score']) < 3) {
-                        $fail($attribute.' is to weak.');
+                        $fail($attribute . ' is to weak.');
                     }
                 },
             ],
@@ -45,7 +46,7 @@ class InvitePasswordRequest extends FormRequest
     /**
      * Configure the validator instance.
      *
-     * @param  \Illuminate\Validation\Validator $validator
+     * @param Validator $validator
      * @return void
      */
     public function withValidator($validator)
@@ -62,7 +63,7 @@ class InvitePasswordRequest extends FormRequest
 
     public function checkPasswordStrength()
     {
-        if (! $invite = Invite::where('token', $this->token)->first()) {
+        if (!$invite = Invite::where('token', $this->token)->first()) {
             return true;
         }
 
@@ -87,7 +88,7 @@ class InvitePasswordRequest extends FormRequest
      */
     public function validEmail()
     {
-        if (! $invite = Invite::where('token', $this->token)->first()) {
+        if (!$invite = Invite::where('token', $this->token)->first()) {
             return true;
         }
 

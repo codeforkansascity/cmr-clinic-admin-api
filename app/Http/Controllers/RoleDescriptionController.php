@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Exports\RoleDescriptionExport;
-use App\Http\Middleware\TrimStrings;
 use App\Http\Requests\RoleDescriptionFormRequest;
 use App\Http\Requests\RoleDescriptionIndexRequest;
 use App\RoleDescription;
+use DateTime;
+use DateTimeZone;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
+use Session;
 
 //use PDF; // TCPDF, not currently in use
 
@@ -22,53 +26,51 @@ class RoleDescriptionController extends Controller
      *
      * Vue component example.
      *
-        <ui-select-pick-one
-            url="/api-role-description/options"
-            v-model="role_descriptionSelected"
-            :selected_id=role_descriptionSelected"
-            name="role_description">
-        </ui-select-pick-one>
+     * <ui-select-pick-one
+     * url="/api-role-description/options"
+     * v-model="role_descriptionSelected"
+     * :selected_id=role_descriptionSelected"
+     * name="role_description">
+     * </ui-select-pick-one>
      *
      *
      * Blade component example.
      *
      *   In Controler
      *
-             $role_description_options = \App\RoleDescription::getOptions();
-
-
+     * $role_description_options = \App\RoleDescription::getOptions();
      *
      *   In View
-
-            @component('../components/select-pick-one', [
-                'fld' => 'role_description_id',
-                'selected_id' => $RECORD->role_description_id,
-                'first_option' => 'Select a RoleDescriptions',
-                'options' => $role_description_options
-            ])
-            @endcomponent
+     *
+     * @component('../components/select-pick-one', [
+     * 'fld' => 'role_description_id',
+     * 'selected_id' => $RECORD->role_description_id,
+     * 'first_option' => 'Select a RoleDescriptions',
+     * 'options' => $role_description_options
+     * ])
+     * @endcomponent
      *
      * Permissions
      *
-
-             Permission::create(['name' => 'role_description index']);
-             Permission::create(['name' => 'role_description add']);
-             Permission::create(['name' => 'role_description edit']);
-             Permission::create(['name' => 'role_description view']);
-             Permission::create(['name' => 'role_description delete']);
-             Permission::create(['name' => 'role_description export-pdf']);
-             Permission::create(['name' => 'role_description export-excel']);
+     *
+     * Permission::create(['name' => 'role_description index']);
+     * Permission::create(['name' => 'role_description add']);
+     * Permission::create(['name' => 'role_description edit']);
+     * Permission::create(['name' => 'role_description view']);
+     * Permission::create(['name' => 'role_description delete']);
+     * Permission::create(['name' => 'role_description export-pdf']);
+     * Permission::create(['name' => 'role_description export-excel']);
      */
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(RoleDescriptionIndexRequest $request)
     {
-        if (! Auth::user()->can('role_description index')) {
-            \Session::flash('flash_error_message', 'You do not have access to Role Descriptionss.');
+        if (!Auth::user()->can('role_description index')) {
+            Session::flash('flash_error_message', 'You do not have access to Role Descriptionss.');
 
             return Redirect::route('home');
         }
@@ -92,12 +94,12 @@ class RoleDescriptionController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
-        if (! Auth::user()->can('role_description add')) {  // TODO: add -> create
-            \Session::flash('flash_error_message', 'You do not have access to add a Role Descriptions.');
+        if (!Auth::user()->can('role_description add')) {  // TODO: add -> create
+            Session::flash('flash_error_message', 'You do not have access to add a Role Descriptions.');
             if (Auth::user()->can('role_description index')) {
                 return Redirect::route('role-description.index');
             } else {
@@ -111,22 +113,22 @@ class RoleDescriptionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(RoleDescriptionFormRequest $request)
     {
-        $role_description = new \App\RoleDescription;
+        $role_description = new RoleDescription;
 
         try {
             $role_description->add($request->validated());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'message' => 'Unable to process request',
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Role Descriptions '.$role_description->name.' was added.');
+        Session::flash('flash_success_message', 'Role Descriptions ' . $role_description->name . ' was added.');
 
         return response()->json([
             'message' => 'Added record',
@@ -136,13 +138,13 @@ class RoleDescriptionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
-        if (! Auth::user()->can('role_description view')) {
-            \Session::flash('flash_error_message', 'You do not have access to view a Role Descriptions.');
+        if (!Auth::user()->can('role_description view')) {
+            Session::flash('flash_error_message', 'You do not have access to view a Role Descriptions.');
             if (Auth::user()->can('role_description index')) {
                 return Redirect::route('role-description.index');
             } else {
@@ -156,7 +158,7 @@ class RoleDescriptionController extends Controller
 
             return view('role-description.show', compact('role_description', 'can_edit', 'can_delete'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Role Descriptions to display.');
+            Session::flash('flash_error_message', 'Unable to find Role Descriptions to display.');
 
             return Redirect::route('role-description.index');
         }
@@ -165,13 +167,13 @@ class RoleDescriptionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function edit($id)
     {
-        if (! Auth::user()->can('role_description edit')) {
-            \Session::flash('flash_error_message', 'You do not have access to edit a Role Descriptions.');
+        if (!Auth::user()->can('role_description edit')) {
+            Session::flash('flash_error_message', 'You do not have access to edit a Role Descriptions.');
             if (Auth::user()->can('role_description index')) {
                 return Redirect::route('role-description.index');
             } else {
@@ -182,7 +184,7 @@ class RoleDescriptionController extends Controller
         if ($role_description = $this->sanitizeAndFind($id)) {
             return view('role-description.edit', compact('role_description'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Role Descriptions to edit.');
+            Session::flash('flash_error_message', 'Unable to find Role Descriptions to edit.');
 
             return Redirect::route('role-description.index');
         }
@@ -191,8 +193,8 @@ class RoleDescriptionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\RoleDescription $role_description     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param RoleDescription $role_description * @return \Illuminate\Http\Response
      */
     public function update(RoleDescriptionFormRequest $request, $id)
     {
@@ -206,7 +208,7 @@ class RoleDescriptionController extends Controller
 //            }
 //        }
 
-        if (! $role_description = $this->sanitizeAndFind($id)) {
+        if (!$role_description = $this->sanitizeAndFind($id)) {
             //     \Session::flash('flash_error_message', 'Unable to find Role Descriptions to edit.');
             return response()->json([
                 'message' => 'Not Found',
@@ -218,15 +220,15 @@ class RoleDescriptionController extends Controller
         if ($role_description->isDirty()) {
             try {
                 $role_description->save();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Role Descriptions '.$role_description->name.' was changed.');
+            Session::flash('flash_success_message', 'Role Descriptions ' . $role_description->name . ' was changed.');
         } else {
-            \Session::flash('flash_info_message', 'No changes were made.');
+            Session::flash('flash_info_message', 'No changes were made.');
         }
 
         return response()->json([
@@ -237,12 +239,12 @@ class RoleDescriptionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\RoleDescription $role_description     * @return \Illuminate\Http\Response
+     * @param RoleDescription $role_description * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        if (! Auth::user()->can('role_description delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a Role Descriptions.');
+        if (!Auth::user()->can('role_description delete')) {
+            Session::flash('flash_error_message', 'You do not have access to remove a Role Descriptions.');
             if (Auth::user()->can('role_description index')) {
                 return Redirect::route('role-description.index');
             } else {
@@ -255,15 +257,15 @@ class RoleDescriptionController extends Controller
         if ($role_description && $role_description->canDelete()) {
             try {
                 $role_description->delete();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request.',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Role Descriptions '.$role_description->name.' was removed.');
+            Session::flash('flash_success_message', 'Role Descriptions ' . $role_description->name . ' was removed.');
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Role Descriptions to delete.');
+            Session::flash('flash_error_message', 'Unable to find Role Descriptions to delete.');
         }
 
         if (Auth::user()->can('role_description index')) {
@@ -281,13 +283,13 @@ class RoleDescriptionController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\RoleDescription::find(intval($id));
+        return RoleDescription::find(intval($id));
     }
 
     public function download()
     {
-        if (! Auth::user()->can('role_description export-excel')) {
-            \Session::flash('flash_error_message', 'You do not have access to download Role Descriptions.');
+        if (!Auth::user()->can('role_description export-excel')) {
+            Session::flash('flash_error_message', 'You do not have access to download Role Descriptions.');
             if (Auth::user()->can('role_description index')) {
                 return Redirect::route('role-description.index');
             } else {
@@ -304,7 +306,7 @@ class RoleDescriptionController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
         $dataQuery = RoleDescription::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());
@@ -318,8 +320,8 @@ class RoleDescriptionController extends Controller
 
     public function print()
     {
-        if (! Auth::user()->can('role_description export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print Role Descriptions.');
+        if (!Auth::user()->can('role_description export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+            Session::flash('flash_error_message', 'You do not have access to print Role Descriptions.');
             if (Auth::user()->can('role_description index')) {
                 return Redirect::route('role-description.index');
             } else {
@@ -333,7 +335,7 @@ class RoleDescriptionController extends Controller
         $direction = session('role_description_direction', '-1');
         $column = $column ? $column : 'name';
 
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
         // Get query data
         $columns = [
@@ -346,13 +348,13 @@ class RoleDescriptionController extends Controller
         $printHtml = view('role-description.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
-        $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
+        $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
 
-        return $pdf->stream('role-description-'.$currentDate->format('Ymd_Hi').'.pdf');
+        return $pdf->stream('role-description-' . $currentDate->format('Ymd_Hi') . '.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////

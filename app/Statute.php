@@ -66,6 +66,7 @@ class Statute extends Model
     {
         return $this->hasMany(Charge::class);
     }
+
     public function statute_exceptions()
     {
         return $this->hasMany(StatuteException::class)->with('exception');
@@ -73,9 +74,8 @@ class Statute extends Model
 
     public function exceptions()
     {
-        return $this->belongsToMany(\App\Exception::class,'statute_exceptions')->withPivot('note');
+        return $this->belongsToMany(\App\Exception::class, 'statute_exceptions')->withPivot('note');
     }
-
 
 
     public function statutes_eligibility()
@@ -112,10 +112,10 @@ class Statute extends Model
         try {
             $this->fill($attributes)->save();
         } catch (Exception $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new Exception($e->getMessage());
         } catch (QueryException $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new Exception($e->getMessage());
         }
 
@@ -133,9 +133,9 @@ class Statute extends Model
     public function canDelete()
     {
         $count = Charge::select('id')->whereNotNull('statute_id')->count();
-        info(__METHOD__." count=$count|");
+        info(__METHOD__ . " count=$count|");
 
-        return ! $count;
+        return !$count;
     }
 
     /**
@@ -207,8 +207,8 @@ class Statute extends Model
             ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('statutes.name', 'like', '%'.$keyword.'%');
-            $query->orWhere('statutes.number', 'like', '%'.$keyword.'%');
+            $query->where('statutes.name', 'like', '%' . $keyword . '%');
+            $query->orWhere('statutes.number', 'like', '%' . $keyword . '%');
         }
 
         if ($eligibility_id) {
@@ -237,8 +237,9 @@ class Statute extends Model
         $keyword = '',
         $eligibility_id = 0,
         $columns = '*'
-    ) {
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
+    )
+    {
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $eligibility_id, $columns);
     }
@@ -250,7 +251,7 @@ class Statute extends Model
         $eligibility_id = 0,
         $columns = '*')
     {
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $eligibility_id, $columns);
     }
@@ -270,7 +271,7 @@ class Statute extends Model
             ->orderBy('name')
             ->get();
 
-        if (! $flat) {
+        if (!$flat) {
             return $records;
         } else {
             $data = [];
@@ -327,18 +328,18 @@ class Statute extends Model
 
         /**
          * with recursive cte (id,  superseded_id) as (
-                    select     id,
-                    superseded_id
-                    from       statutes
-                    where      id = 220
-                    union all
-                    select     p.id,
-                    p.superseded_id
-                    from       statutes p
-                    inner join cte
-                    on cte.superseded_id = p.id
-                )
-            select * from cte;
+         * select     id,
+         * superseded_id
+         * from       statutes
+         * where      id = 220
+         * union all
+         * select     p.id,
+         * p.superseded_id
+         * from       statutes p
+         * inner join cte
+         * on cte.superseded_id = p.id
+         * )
+         * select * from cte;
          */
     }
 }

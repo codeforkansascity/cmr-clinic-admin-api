@@ -29,12 +29,12 @@ class StatusExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'name',
-                        'alias',
-                        'sequence',
-                        'deleted_at',
-                    ];
+            'id',
+            'name',
+            'alias',
+            'sequence',
+            'deleted_at',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -44,11 +44,11 @@ class StatusExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
 
-                        $status->id,
-                        $status->name,
-                        $status->alias,
-                        $status->sequence,
-                        $status->deleted_at,
-                    ];
+            $status->id,
+            $status->name,
+            $status->alias,
+            $status->sequence,
+            $status->deleted_at,
+        ];
     }
 }

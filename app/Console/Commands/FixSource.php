@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Charge;
 use App\Conviction;
+use App\DataSource;
 use Illuminate\Console\Command;
 
 class FixSource extends Command
@@ -43,13 +43,13 @@ class FixSource extends Command
     {
 
         $convictons = Conviction::with('sources')
-            ->select('id','source')
-            ->where('source','<>','')
-      //      ->where('applicant_id', 88)
+            ->select('id', 'source')
+            ->where('source', '<>', '')
+            //      ->where('applicant_id', 88)
             ->get();
 //        print_r($convictons->toArray());
 
-        foreach ($convictons AS $conviction) {
+        foreach ($convictons as $conviction) {
             if ($conviction->sources->count()) {
                 print "Skipping " . $conviction->id . "\n";
             } else {
@@ -76,16 +76,16 @@ class FixSource extends Command
                 $source = 'MSHP';
             }
 
-            $rec = \App\DataSource::select('id')->where('name', $source)->first();
+            $rec = DataSource::select('id')->where('name', $source)->first();
 
-            if (! empty($rec)) {
+            if (!empty($rec)) {
                 $source_ids[] = $rec->id;
             } else {
                 $this->warnings[] = "Case source $source was not found";
             }
         }
 
-        if (! empty($source_ids)) {
+        if (!empty($source_ids)) {
             $conviction->sources()->sync($source_ids);
         }
     }

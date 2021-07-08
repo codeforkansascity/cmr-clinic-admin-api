@@ -9,6 +9,9 @@
 namespace App\Lib;
 
 use App\Charge;
+use App\Statute;
+use Exception;
+use Illuminate\Database\QueryException;
 
 class ChargeStatuteToFK
 {
@@ -23,48 +26,48 @@ class ChargeStatuteToFK
 
             $number = $charge->imported_citation;
             $statute_id = 0;
-            $statute = \App\Statute::where('number', $number)->first();
+            $statute = Statute::where('number', $number)->first();
 
             if ($statute) {
                 $statute_id = $statute->id;
             } else {
-                if (! $charge->imported_citation) {      // If we do not have a identifing number force them to look it up
+                if (!$charge->imported_citation) {      // If we do not have a identifing number force them to look it up
                     continue;
                 }
 
-                if (! $charge->imported_statute) {      // If we do not have a identifing description
+                if (!$charge->imported_statute) {      // If we do not have a identifing description
                     continue;
                 }
 
-                if (! preg_match('/^\d\d\d\.\d\d\d$/', $charge->imported_citation)) {  // Make sure citation is in MO  999.999 format
+                if (!preg_match('/^\d\d\d\.\d\d\d$/', $charge->imported_citation)) {  // Make sure citation is in MO  999.999 format
                     continue;
                 }
 
                 // Make sure we do not end up with any duplicate names in the statute list
-                $existing = \App\Statute::select('id', 'number', 'name')->whereRaw("LOWER('name')", strtolower($charge->imported_statute))->get();
+                $existing = Statute::select('id', 'number', 'name')->whereRaw("LOWER('name')", strtolower($charge->imported_statute))->get();
 
-                info('count='.$existing->count().' '.$charge->imported_citation.' -- '.strtolower($charge->imported_statute));
+                info('count=' . $existing->count() . ' ' . $charge->imported_citation . ' -- ' . strtolower($charge->imported_statute));
 
                 if ($existing->count() > 0) {
                     info(print_r($existing->toArray(), true));
                     continue;
                 }
 
-                $statute = new \App\Statute;
+                $statute = new Statute;
                 try {
                     $statute->add(
                         [
                             'number' => $charge->imported_citation,
                             'name' => $charge->imported_statute,
                             'note' => '',
-                            'statutes_eligibility_id' => \App\Statute::UNDETERMINED,
+                            'statutes_eligibility_id' => Statute::UNDETERMINED,
                         ]
                     );
-                } catch (\Exception $e) {
-                    echo __METHOD__.' line: '.__LINE__.':  '.$e->getMessage();
+                } catch (Exception $e) {
+                    echo __METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage();
                     continue;
-                } catch (\Illuminate\Database\QueryException $e) {
-                    echo __METHOD__.' line: '.__LINE__.':  '.$e->getMessage();
+                } catch (QueryException $e) {
+                    echo __METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage();
                     continue;
                 }
 

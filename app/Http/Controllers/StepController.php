@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Exports\StepExport;
-use App\Http\Middleware\TrimStrings;
 use App\Http\Requests\StepFormRequest;
 use App\Http\Requests\StepIndexRequest;
 use App\Step;
+use DateTime;
+use DateTimeZone;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
+use Session;
 
 //use PDF; // TCPDF, not currently in use
 
@@ -22,52 +26,50 @@ class StepController extends Controller
      *
      * Vue component example.
      *
-        <ui-select-pick-one
-            url="/api-step/options"
-            v-model="stepSelected"
-            :selected_id=stepSelected">
-        </ui-select-pick-one>
+     * <ui-select-pick-one
+     * url="/api-step/options"
+     * v-model="stepSelected"
+     * :selected_id=stepSelected">
+     * </ui-select-pick-one>
      *
      *
      * Blade component example.
      *
      *   In Controler
      *
-             $step_options = \App\Step::getOptions();
-
-
+     * $step_options = \App\Step::getOptions();
      *
      *   In View
-
-            @component('../components/select-pick-one', [
-                'fld' => 'step_id',
-                'selected_id' => $RECORD->step_id,
-                'first_option' => 'Select a Steps',
-                'options' => $step_options
-            ])
-            @endcomponent
+     *
+     * @component('../components/select-pick-one', [
+     * 'fld' => 'step_id',
+     * 'selected_id' => $RECORD->step_id,
+     * 'first_option' => 'Select a Steps',
+     * 'options' => $step_options
+     * ])
+     * @endcomponent
      *
      * Permissions
      *
-
-             Permission::create(['name' => 'step index']);
-             Permission::create(['name' => 'step add']);
-             Permission::create(['name' => 'step edit']);
-             Permission::create(['name' => 'step view']);
-             Permission::create(['name' => 'step destroy']);
-             Permission::create(['name' => 'step export-pdf']);
-             Permission::create(['name' => 'step export-excel']);
+     *
+     * Permission::create(['name' => 'step index']);
+     * Permission::create(['name' => 'step add']);
+     * Permission::create(['name' => 'step edit']);
+     * Permission::create(['name' => 'step view']);
+     * Permission::create(['name' => 'step destroy']);
+     * Permission::create(['name' => 'step export-pdf']);
+     * Permission::create(['name' => 'step export-excel']);
      */
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(StepIndexRequest $request)
     {
-        if (! Auth::user()->can('step index')) {
-            \Session::flash('flash_error_message', 'You do not have access to Steps.');
+        if (!Auth::user()->can('step index')) {
+            Session::flash('flash_error_message', 'You do not have access to Steps.');
 
             return Redirect::route('home');
         }
@@ -91,12 +93,12 @@ class StepController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
-        if (! Auth::user()->can('step add')) {  // TODO: add -> create
-            \Session::flash('flash_error_message', 'You do not have access to add a Step.');
+        if (!Auth::user()->can('step add')) {  // TODO: add -> create
+            Session::flash('flash_error_message', 'You do not have access to add a Step.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('step.index');
             } else {
@@ -110,22 +112,22 @@ class StepController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(StepFormRequest $request)
     {
-        $step = new \App\Step;
+        $step = new Step;
 
         try {
             $step->add($request->validated());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'message' => 'Unable to process request',
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Vc Vendor '.$step->name.' was added');
+        Session::flash('flash_success_message', 'Vc Vendor ' . $step->name . ' was added');
 
         return response()->json([
             'message' => 'Added record',
@@ -135,13 +137,13 @@ class StepController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
-        if (! Auth::user()->can('step view')) {
-            \Session::flash('flash_error_message', 'You do not have access to view a Step.');
+        if (!Auth::user()->can('step view')) {
+            Session::flash('flash_error_message', 'You do not have access to view a Step.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('step.index');
             } else {
@@ -155,7 +157,7 @@ class StepController extends Controller
 
             return view('step.show', compact('step', 'can_edit', 'can_delete'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Step to display.');
+            Session::flash('flash_error_message', 'Unable to find Step to display.');
 
             return Redirect::route('step.index');
         }
@@ -164,13 +166,13 @@ class StepController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function edit($id)
     {
-        if (! Auth::user()->can('step edit')) {
-            \Session::flash('flash_error_message', 'You do not have access to edit a Step.');
+        if (!Auth::user()->can('step edit')) {
+            Session::flash('flash_error_message', 'You do not have access to edit a Step.');
             if (Auth::user()->can('vc_vendor index')) {
                 return Redirect::route('step.index');
             } else {
@@ -181,7 +183,7 @@ class StepController extends Controller
         if ($step = $this->sanitizeAndFind($id)) {
             return view('step.edit', compact('step'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Step to edit.');
+            Session::flash('flash_error_message', 'Unable to find Step to edit.');
 
             return Redirect::route('step.index');
         }
@@ -190,8 +192,8 @@ class StepController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Step $step     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Step $step * @return \Illuminate\Http\Response
      */
     public function update(StepFormRequest $request, $id)
     {
@@ -205,7 +207,7 @@ class StepController extends Controller
 //            }
 //        }
 
-        if (! $step = $this->sanitizeAndFind($id)) {
+        if (!$step = $this->sanitizeAndFind($id)) {
             //     \Session::flash('flash_error_message', 'Unable to find Step to edit');
             return response()->json([
                 'message' => 'Not Found',
@@ -217,15 +219,15 @@ class StepController extends Controller
         if ($step->isDirty()) {
             try {
                 $step->save();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Step '.$step->name.' was changed');
+            Session::flash('flash_success_message', 'Step ' . $step->name . ' was changed');
         } else {
-            \Session::flash('flash_info_message', 'No changes were made');
+            Session::flash('flash_info_message', 'No changes were made');
         }
 
         return response()->json([
@@ -236,12 +238,12 @@ class StepController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Step $step     * @return \Illuminate\Http\Response
+     * @param Step $step * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        if (! Auth::user()->can('step delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a Step.');
+        if (!Auth::user()->can('step delete')) {
+            Session::flash('flash_error_message', 'You do not have access to remove a Step.');
             if (Auth::user()->can('step index')) {
                 return Redirect::route('step.index');
             } else {
@@ -254,15 +256,15 @@ class StepController extends Controller
         if ($step && $step->canDelete()) {
             try {
                 $step->delete();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request.',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Invitation for '.$step->name.' was removed.');
+            Session::flash('flash_success_message', 'Invitation for ' . $step->name . ' was removed.');
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Invite to delete.');
+            Session::flash('flash_error_message', 'Unable to find Invite to delete.');
         }
 
         if (Auth::user()->can('step index')) {
@@ -280,13 +282,13 @@ class StepController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\Step::find(intval($id));
+        return Step::find(intval($id));
     }
 
     public function download()
     {
-        if (! Auth::user()->can('step excel')) {
-            \Session::flash('flash_error_message', 'You do not have access to download Step.');
+        if (!Auth::user()->can('step excel')) {
+            Session::flash('flash_error_message', 'You do not have access to download Step.');
             if (Auth::user()->can('step index')) {
                 return Redirect::route('step.index');
             } else {
@@ -303,7 +305,7 @@ class StepController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
         $dataQuery = Step::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());
@@ -317,8 +319,8 @@ class StepController extends Controller
 
     public function print()
     {
-        if (! Auth::user()->can('step export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print Step');
+        if (!Auth::user()->can('step export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+            Session::flash('flash_error_message', 'You do not have access to print Step');
             if (Auth::user()->can('step index')) {
                 return Redirect::route('step.index');
             } else {
@@ -332,7 +334,7 @@ class StepController extends Controller
         $direction = session('step_direction', '-1');
         $column = $column ? $column : 'name';
 
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
         // Get query data
         $columns = [
@@ -347,13 +349,13 @@ class StepController extends Controller
         $printHtml = view('step.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
-        $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
+        $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
 
-        return $pdf->stream('step-'.$currentDate->format('Ymd_Hi').'.pdf');
+        return $pdf->stream('step-' . $currentDate->format('Ymd_Hi') . '.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////

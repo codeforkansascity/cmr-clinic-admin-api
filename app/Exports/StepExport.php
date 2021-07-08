@@ -29,12 +29,12 @@ class StepExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'name',
-                        'applicant_id',
-                        'status_id',
-                        'deleted_at',
-                    ];
+            'id',
+            'name',
+            'applicant_id',
+            'status_id',
+            'deleted_at',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -44,11 +44,11 @@ class StepExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
 
-                        $step->id,
-                        $step->name,
-                        $step->applicant_id,
-                        $step->status_id,
-                        $step->deleted_at,
-                    ];
+            $step->id,
+            $step->name,
+            $step->applicant_id,
+            $step->status_id,
+            $step->deleted_at,
+        ];
     }
 }

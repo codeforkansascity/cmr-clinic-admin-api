@@ -56,8 +56,8 @@ class ApplicantHistoryUploader
 
         if (move_uploaded_file($this->getSource(), $target_file_name_and_path)) {
             if ($this->isMultipartUpload()) {
-                $filename_path = self::UPLOAD_DIR.$_POST['filename'];
-                $this->mergeMultiUpload($filename_path, (int) $_POST['totalParts']);
+                $filename_path = self::UPLOAD_DIR . $_POST['filename'];
+                $this->mergeMultiUpload($filename_path, (int)$_POST['totalParts']);
 
                 $new_file_path = Storage::disk($this->storage_disk)->putFile($destination_directory, new File($filename_path));
             } else {
@@ -79,7 +79,7 @@ class ApplicantHistoryUploader
             $fields_with_values['active'] = 1;
             $fields_with_values[$foreign_key_name] = $foreign_key_value;
             $fields_with_values['local_file_name'] = basename($new_file_path);
-            $fields_with_values['url'] = $storage_path.basename($new_file_path);
+            $fields_with_values['url'] = $storage_path . basename($new_file_path);
 
 //            $record = new \App\VcVendorLogo;
 //            $record->fill($fields_with_values);
@@ -129,10 +129,10 @@ class ApplicantHistoryUploader
     private function getTargetFileNameAndPath()
     {
         if ($this->isMultipartUpload()) {
-            return self::UPLOAD_DIR.$_POST['filename'].'.'.$_POST['currentPart'];
+            return self::UPLOAD_DIR . $_POST['filename'] . '.' . $_POST['currentPart'];
         }
 
-        return self::UPLOAD_DIR.$_FILES['file']['name'];
+        return self::UPLOAD_DIR . $_FILES['file']['name'];
     }
 
     /**
@@ -157,13 +157,13 @@ class ApplicantHistoryUploader
      */
     private function isMultipartUpload()
     {
-        return ! empty($_POST['multipart']);
+        return !empty($_POST['multipart']);
     }
 
     /**
      * Formats an error response.
      *
-     * @param  int $uploadError
+     * @param int $uploadError
      */
     private function handleUploadError(int $uploadError)
     {
@@ -210,18 +210,18 @@ class ApplicantHistoryUploader
     /**
      * Get a list of uploaded parts.
      *
-     * @param  string $filename
+     * @param string $filename
      * @return array
      */
     private function getUploadedParts(string $filename): array
     {
-        return glob($filename.'.*');
+        return glob($filename . '.*');
     }
 
     /**
      * Get a sorted list of uploaded file parts.
      *
-     * @param  string $filename
+     * @param string $filename
      * @return array
      */
     private function getSortedParts(string $filename): array
@@ -230,7 +230,7 @@ class ApplicantHistoryUploader
 
         $sortedFiles = [];
         array_walk($files, function ($value, $key) use (&$sortedFiles) {
-            $sortedFiles[(int) pathinfo($value)['extension']] = $value;
+            $sortedFiles[(int)pathinfo($value)['extension']] = $value;
         });
         ksort($sortedFiles);
 
@@ -254,8 +254,8 @@ class ApplicantHistoryUploader
     /**
      * Combines the parts of a multipart upload into a single file.
      *
-     * @param  string $filename
-     * @param  int $totalParts
+     * @param string $filename
+     * @param int $totalParts
      */
     private function mergeMultiUpload(string $filename, int $totalParts)
     {
@@ -292,8 +292,8 @@ class ApplicantHistoryUploader
     /**
      * Sets json output response.
      *
-     * @param  int $status
-     * @param  array $data
+     * @param int $status
+     * @param array $data
      */
     private function response(int $status, array $data)
     {

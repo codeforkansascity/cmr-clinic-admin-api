@@ -69,7 +69,7 @@ class ImportLaws extends Command
         $this->laws = Yaml::parseFile(base_path('/data/') . $this->file_name);
 
         // map previous law id to current index in array
-        foreach($this->laws as $key => $law) {
+        foreach ($this->laws as $key => $law) {
             $this->lawIdIndex[$law['id']] = $key;
         }
 
@@ -84,7 +84,7 @@ class ImportLaws extends Command
 //            print_r($test->toArray());
             if (!Law::findByNumber($law['number'])) {
                 print "+";
-               $this->createLaw($law);
+                $this->createLaw($law);
             }
 
         }
@@ -102,13 +102,13 @@ class ImportLaws extends Command
 
         $jurisdiction = !empty($law['jurisdiction']) ? $this->matchJurisdiction($law['jurisdiction']) : null;
 
-        if(!empty($law['superseded_id'])
+        if (!empty($law['superseded_id'])
             && $law['superseded_id'] != $law['id']
             && ($supersededIndex = $this->findIndexById($law['superseded_id']))
         ) {
             $supersededImport = $this->laws[$supersededIndex];
             $superseded = Law::findByNumber($supersededImport['number']);
-            if(!$superseded) {
+            if (!$superseded) {
                 $superseded = $this->createLaw($supersededImport);
             }
             $superseded_id = $superseded->id;
@@ -137,12 +137,11 @@ class ImportLaws extends Command
         $record->save();
 
 
-
-        if(!empty($law['exceptions'])) {
+        if (!empty($law['exceptions'])) {
             $synced = [];
             foreach ($law['exceptions'] as $exception) {
                 $match = $this->matchException($exception);
-                $synced [$match->id]= ['note' => $exception['pivot']['note'] ?? null];
+                $synced [$match->id] = ['note' => $exception['pivot']['note'] ?? null];
             }
             $version_record->exceptions()->sync($synced);
         }
@@ -151,6 +150,7 @@ class ImportLaws extends Command
 
         return $record;
     }
+
     private function matchJurisdiction($jurisdiction)
     {
         if (isset($this->jusrisdictions[$this->makeKey($jurisdiction)])) {

@@ -2,9 +2,6 @@
 
 namespace App\Http\Requests\Api;
 
-use App\Http\Requests\Api\FormRequest;
-use Illuminate\Support\Facades\Auth;
-
 class CmrRequest extends FormRequest
 {
     /**

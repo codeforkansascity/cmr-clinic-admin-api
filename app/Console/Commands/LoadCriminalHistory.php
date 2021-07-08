@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Lib\AddApplicantFromCriminalHistory;
 use App\Lib\GetCriminalHistoryFromSS;
+use Exception;
 use Illuminate\Console\Command;
 
 class LoadCriminalHistory extends Command
@@ -55,8 +56,8 @@ class LoadCriminalHistory extends Command
             $r = new AddApplicantFromCriminalHistory($data);
 
             $r->addHistory();
-        } catch (\Exception $e) {
-            echo $e->getMessage()."\n";
+        } catch (Exception $e) {
+            echo $e->getMessage() . "\n";
         }
 
         echo "end\n";

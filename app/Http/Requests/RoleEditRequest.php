@@ -27,11 +27,11 @@ class RoleEditRequest extends FormRequest
 
         return [
 
-         //   'email' => 'required|unique:members,email,' . $id . ',id|max:255',
+            //   'email' => 'required|unique:members,email,' . $id . ',id|max:255',
 
-                        'name' => 'string|max:64',
-                        'alias' => 'string|max:16',
-                        'on_master_roster' => 'numeric',
+            'name' => 'string|max:64',
+            'alias' => 'string|max:16',
+            'on_master_roster' => 'numeric',
 
         ];
     }

@@ -12,14 +12,14 @@ class StatuteObserver
     /**
      * Handle the statute "created" event.
      *
-     * @param  \App\Statute  $statute
+     * @param Statute $statute
      * @return void
      */
     public function created(Statute $statute)
     {
 
-        if(request()) {
-           $data = request();
+        if (request()) {
+            $data = request();
         } else {
             $data = $statute;
             $data->reason_for_change = "New Record";
@@ -35,7 +35,7 @@ class StatuteObserver
     /**
      * Handle the statute "updated" event.
      *
-     * @param  \App\Statute  $statute
+     * @param Statute $statute
      * @return void
      */
     public function updated(Statute $statute)
@@ -49,7 +49,7 @@ class StatuteObserver
     /**
      * Handle the statute "deleted" event.
      *
-     * @param  \App\Statute  $statute
+     * @param Statute $statute
      * @return void
      */
     public function deleted(Statute $statute)
@@ -60,7 +60,7 @@ class StatuteObserver
     /**
      * Handle the statute "restored" event.
      *
-     * @param  \App\Statute  $statute
+     * @param Statute $statute
      * @return void
      */
     public function restored(Statute $statute)
@@ -71,7 +71,7 @@ class StatuteObserver
     /**
      * Handle the statute "force deleted" event.
      *
-     * @param  \App\Statute  $statute
+     * @param Statute $statute
      * @return void
      */
     public function forceDeleted(Statute $statute)

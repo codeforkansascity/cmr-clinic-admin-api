@@ -2,6 +2,8 @@
 
 namespace App\Lib;
 
+use Exception;
+
 class ParseCrimes
 {
     protected $filename;
@@ -10,12 +12,12 @@ class ParseCrimes
     /**
      * @param $filename
      * @return array|bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function __invoke($filename)
     {
-        if (! $filename || ! file_exists($filename)) {
-            throw new \Exception("File $filename doesn't exist");
+        if (!$filename || !file_exists($filename)) {
+            throw new Exception("File $filename doesn't exist");
         }
         $this->filename = $filename;
 
@@ -23,7 +25,7 @@ class ParseCrimes
         ///
         $content = '';
         $zip = zip_open($this->filename);
-        if (! $zip || is_numeric($zip)) {
+        if (!$zip || is_numeric($zip)) {
             return false;
         }
 
@@ -56,7 +58,7 @@ class ParseCrimes
             ///  but there is no good way to determine if they are multiline
             $row = trim($row);
             $row = preg_replace('/\s{2,}/', ' ', $row);
-            $isStatute = (preg_match('/[\dA-z\.]+\s+\d{3}\.?\d{0,3}/', $row) && ! preg_match('/\d{3}\.\d{3}[.]+ [\w\d]*/', $row));
+            $isStatute = (preg_match('/[\dA-z\.]+\s+\d{3}\.?\d{0,3}/', $row) && !preg_match('/\d{3}\.\d{3}[.]+ [\w\d]*/', $row));
 
             return $isStatute;
         });

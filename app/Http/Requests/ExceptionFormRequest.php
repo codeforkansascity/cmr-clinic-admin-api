@@ -33,8 +33,8 @@ class ExceptionFormRequest extends FormRequest
         $id = $this->route('exception');
 
         $rules = [
-         //  Ignore duplicate email if it is this record
-         //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
+            //  Ignore duplicate email if it is this record
+            //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
 
 
             'id' => 'numeric',
@@ -48,11 +48,11 @@ class ExceptionFormRequest extends FormRequest
 
         ];
 
-                if ($this->route('exception')) {  // If ID we must be changing an existing record
-                    $rules['name'] = 'required|min:3|nullable|string|max:191|unique:exceptions,name,' . $id;
-                } else {  // If not we must be adding one
-                    $rules['name'] = 'required|min:3|nullable|string|max:191|unique:exceptions';
-                }
+        if ($this->route('exception')) {  // If ID we must be changing an existing record
+            $rules['name'] = 'required|min:3|nullable|string|max:191|unique:exceptions,name,' . $id;
+        } else {  // If not we must be adding one
+            $rules['name'] = 'required|min:3|nullable|string|max:191|unique:exceptions';
+        }
 
         return $rules;
     }

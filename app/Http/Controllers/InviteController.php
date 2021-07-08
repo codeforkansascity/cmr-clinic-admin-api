@@ -3,25 +3,30 @@
 namespace App\Http\Controllers;
 
 
-use Illuminate\Support\Str;
-use DB;
-use App\Http\Middleware\TrimStrings;
-use App\User;
-use App\Invite;
-use Carbon\Carbon;
-use App\Mail\InviteCreated;
-use Illuminate\Http\Request;
-use App\Http\Requests\InviteStoreRequest;
+use App;
+use App\Exports\InviteExport;
 use App\Http\Requests\InviteEditRequest;
 use App\Http\Requests\InvitePasswordRequest;
-use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\InviteStoreRequest;
+use App\Invite;
+use App\Mail\InviteCreated;
+use App\User;
+use Carbon\Carbon;
+use DateTime;
+use DateTimeZone;
+use DB;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
-
-
-use App\Exports\InviteExport;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
+use Illuminate\View\View;
 use Maatwebsite\Excel\Facades\Excel;
+use Session;
+
 
 class InviteController extends Controller
 {
@@ -61,7 +66,7 @@ class InviteController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(Request $request)
     {
@@ -85,7 +90,7 @@ class InviteController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create(Request $request)
     {
@@ -99,8 +104,8 @@ class InviteController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(InviteStoreRequest $request)
     {
@@ -110,7 +115,6 @@ class InviteController extends Controller
             $token = Str::random();
         } //check if the token already exists and if it does, try again
         while (Invite::where('token', $token)->first());
-
 
 
         //create a new invite record
@@ -125,13 +129,14 @@ class InviteController extends Controller
         // send the email
         Mail::to($request->get('email'))->queue(new InviteCreated($invite));
 
-        \Session::flash('flash_success_message', 'Invited ' . $request->get('name') . ' ' . $request->get('email'));
+        Session::flash('flash_success_message', 'Invited ' . $request->get('name') . ' ' . $request->get('email'));
 
         return Redirect::route('invite.index');
 
     }
 
-    private function getExpiresAt() {
+    private function getExpiresAt()
+    {
         return Carbon::now()->addDay(2);
     }
 
@@ -144,10 +149,10 @@ class InviteController extends Controller
             $invite->update(['expires_at' => $this->getExpiresAt()]);
             // send the email
             Mail::to($invite->email)->queue(new InviteCreated($invite));
-            \Session::flash('flash_success_message', 'Resent Invite for  ' . $invite->name . ' ' . $invite->email);
+            Session::flash('flash_success_message', 'Resent Invite for  ' . $invite->name . ' ' . $invite->email);
 
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Invite');
+            Session::flash('flash_error_message', 'Unable to find Invite');
         }
 
         return Redirect::route('invite.index');
@@ -159,19 +164,19 @@ class InviteController extends Controller
      * This is where the link in the email ends up at.
      *
      * @param $token
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @return Factory|RedirectResponse|View
      */
     public function accept($token)
     {
         // Look up the invite
-        if (!$invite = Invite::select('token','expires_at','name','email','role')->where('token', $token)->first()) {
+        if (!$invite = Invite::select('token', 'expires_at', 'name', 'email', 'role')->where('token', $token)->first()) {
             //if the invite doesn't exist do something more graceful than this
-            \Session::flash('flash_error_message', 'Unable to find your invitation.');
+            Session::flash('flash_error_message', 'Unable to find your invitation.');
             return Redirect::route('login');
         }
 
-        if ( $invite->hasExpired()) {
-            \Session::flash('flash_error_message', 'You invitation has expired.');
+        if ($invite->hasExpired()) {
+            Session::flash('flash_error_message', 'You invitation has expired.');
             return Redirect::route('login');
         }
 
@@ -187,12 +192,12 @@ class InviteController extends Controller
 
         // Do we sill have an invite?
         if (!$invite = Invite::where('token', $request->token)->first()) {
-            \Session::flash('flash_error_message', 'Unable to find your invitation.');
+            Session::flash('flash_error_message', 'Unable to find your invitation.');
             return Redirect::route('login');
         }
 
-        if ( $invite->hasExpired()) {
-            \Session::flash('flash_success_message', 'Your invitation has expired.');
+        if ($invite->hasExpired()) {
+            Session::flash('flash_success_message', 'Your invitation has expired.');
             return Redirect::route('login');
         }
 
@@ -212,7 +217,7 @@ class InviteController extends Controller
         DB::commit();
 
         // here you would probably log the user in and show them the dashboard, but we'll just prove it worked
-        \Session::flash('flash_success_message', 'Please login with your email and password.');
+        Session::flash('flash_success_message', 'Please login with your email and password.');
         //return Redirect::route('login');
         return response()->json([
             'message' => 'Changed record'
@@ -223,8 +228,8 @@ class InviteController extends Controller
     /**
      * Display the specified resource.
      *d
-     * @param  integer $id
-     * @return \Illuminate\Http\Response
+     * @param integer $id
+     * @return Response
      */
     public function show($id)
     {
@@ -233,7 +238,7 @@ class InviteController extends Controller
             $can_delete = (Auth::user()->can('invite delete') && $invite->canDelete());
             return view('invite.show', compact('invite', 'user_inputs', 'can_edit', 'can_delete'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find the invitation to display');
+            Session::flash('flash_error_message', 'Unable to find the invitation to display');
             return Redirect::route('invite.index');
         }
     }
@@ -241,8 +246,8 @@ class InviteController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  integer $id
-     * @return \Illuminate\Http\Response
+     * @param integer $id
+     * @return Response
      */
     public function edit($id)
     {
@@ -252,7 +257,7 @@ class InviteController extends Controller
         if ($invite = $this->find($id)) {
             return view('invite.edit', compact('invite', 'role_options'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find the invitation to edit');
+            Session::flash('flash_error_message', 'Unable to find the invitation to edit');
             return Redirect::route('invite.index');
         }
 
@@ -277,13 +282,13 @@ class InviteController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Invite $invite * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Invite $invite * @return \Illuminate\Http\Response
      */
     public function update(InviteEditRequest $request, $id)
     {
         if (!$invite = $this->find($id)) {
-            \Session::flash('flash_error_message', 'Unable to find the invitation to update.');
+            Session::flash('flash_error_message', 'Unable to find the invitation to update.');
             return Redirect::route('invite.index');
         }
 
@@ -293,9 +298,9 @@ class InviteController extends Controller
 
             $invite->save();
 
-            \Session::flash('flash_success_message', 'Invite ' . $invite->name . ' was changed');
+            Session::flash('flash_success_message', 'Invite ' . $invite->name . ' was changed');
         } else {
-            \Session::flash('flash_info_message', 'No changes were made');
+            Session::flash('flash_info_message', 'No changes were made');
         }
 
         return Redirect::route('invite.index');
@@ -304,16 +309,16 @@ class InviteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Invite $invite * @return \Illuminate\Http\Response
+     * @param Invite $invite * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $invite = $this->find($id);
         if ($invite) {
             $invite->delete();
-            \Session::flash('flash_success_message', 'Invitation for ' . $invite->name . ' was removed.');
+            Session::flash('flash_success_message', 'Invitation for ' . $invite->name . ' was removed.');
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Invite to delete');
+            Session::flash('flash_error_message', 'Unable to find Invite to delete');
 
         }
 
@@ -329,7 +334,7 @@ class InviteController extends Controller
      */
     private function find($id)
     {
-        return \App\Invite::find(intval($id));
+        return Invite::find(intval($id));
     }
 
 
@@ -367,7 +372,7 @@ class InviteController extends Controller
     public function print()
     {
         if (!Auth::user()->can('invite export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print Invite');
+            Session::flash('flash_error_message', 'You do not have access to print Invite');
             if (Auth::user()->can('invite index')) {
                 return Redirect::route('invite.index');
             } else {
@@ -393,14 +398,14 @@ class InviteController extends Controller
         $data = $dataQuery->get();
 
         // Pass it to the view for html formatting:
-        $printHtml = view('invite.print', compact( 'data' ) );
+        $printHtml = view('invite.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => TRUE]);
         $pdf->loadHTML($printHtml);
-        $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
+        $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
         return $pdf->stream('invite-' . $currentDate->format('Ymd_Hi') . '.pdf');
 
         /*

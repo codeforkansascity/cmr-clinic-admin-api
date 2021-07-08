@@ -29,15 +29,15 @@ class UserExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'name',
-                        'email',
-                        'active',
-                        'roles', /*,
+            'id',
+            'name',
+            'email',
+            'active',
+            'roles', /*,
                         'email_verified_at',
                         'password',
                         'remember_token',*/
-                    ];
+        ];
     }
 
     // Map/format each field that's being exported
@@ -54,15 +54,15 @@ class UserExport implements FromQuery, WithHeadings, WithMapping
 
         return [
 
-                        $user->id,
-                        $user->name,
-                        $user->email,
-                        $user->active ? 'Yes' : '',
-                        $roles,
-                        /*,
-                        $user->email_verified_at,
-                        $user->password,
-                        $user->remember_token,*/
-                    ];
+            $user->id,
+            $user->name,
+            $user->email,
+            $user->active ? 'Yes' : '',
+            $roles,
+            /*,
+            $user->email_verified_at,
+            $user->password,
+            $user->remember_token,*/
+        ];
     }
 }

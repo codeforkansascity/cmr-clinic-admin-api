@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Exports\RoleExport;
-use App\Http\Middleware\TrimStrings;
 use App\Http\Requests\RoleEditRequest;
 use App\Http\Requests\RoleStoreRequest;
 use App\Role;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
+use Session;
 
 class RoleController extends Controller
 {
@@ -20,38 +19,36 @@ class RoleController extends Controller
      *
      * Vue component example.
      *
-        <ui-select-pick-one
-            label="My Label"
-            url="/api-role/options"
-            class="form-group"
-            v-model="roleSelected"
-            v-on:input="getData">
-        </ui-select-pick-one>
+     * <ui-select-pick-one
+     * label="My Label"
+     * url="/api-role/options"
+     * class="form-group"
+     * v-model="roleSelected"
+     * v-on:input="getData">
+     * </ui-select-pick-one>
      *
      *
      * Blade component example.
      *
      *   In Controler
      *
-             $role_options = \App\Role::getOptions();
-
-
+     * $role_options = \App\Role::getOptions();
      *
      *   In View
-
-            @component('../components/select-pick-one', [
-                'fld' => 'role_id',
-                'selected_id' => $RECORD->role_id,
-                'first_option' => 'Select a Roles',
-                'options' => $role_options
-            ])
-            @endcomponent
+     *
+     * @component('../components/select-pick-one', [
+     * 'fld' => 'role_id',
+     * 'selected_id' => $RECORD->role_id,
+     * 'first_option' => 'Select a Roles',
+     * 'options' => $role_options
+     * ])
+     * @endcomponent
      */
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(Request $request)
     {
@@ -74,7 +71,7 @@ class RoleController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create(Request $request)
     {
@@ -84,22 +81,22 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(RoleStoreRequest $request)
     {
-        $role = new \App\Role;
+        $role = new Role;
 
-        if (! $role->add($request->all())) {
-            \Session::flash('flash_error_message', 'Member could not be added.  Try again.');
+        if (!$role->add($request->all())) {
+            Session::flash('flash_error_message', 'Member could not be added.  Try again.');
 
             return redirect('role/create')
                 ->withErrors($request->validator)
                 ->withInput();
         }
 
-        \Session::flash('flash_success_message', 'Role '.$role->name.' was added');
+        Session::flash('flash_success_message', 'Role ' . $role->name . ' was added');
 
         return Redirect::route('role.index');
     }
@@ -107,15 +104,15 @@ class RoleController extends Controller
     /**
      * Display the specified resource.
      *d.
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
         if ($role = $this->find($id)) {
             return view('role.show', compact('role'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find role to display');
+            Session::flash('flash_error_message', 'Unable to find role to display');
 
             return Redirect::route('role.index');
         }
@@ -124,15 +121,15 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function edit($id)
     {
         if ($role = $this->find($id)) {
             return view('role.edit', compact('role'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find role to edit');
+            Session::flash('flash_error_message', 'Unable to find role to edit');
 
             return Redirect::route('role.index');
         }
@@ -141,13 +138,13 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Role $role     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Role $role * @return \Illuminate\Http\Response
      */
     public function update(RoleEditRequest $request, $id)
     {
-        if (! $role = $this->find($id)) {
-            \Session::flash('flash_error_message', 'Unable to find role to edit');
+        if (!$role = $this->find($id)) {
+            Session::flash('flash_error_message', 'Unable to find role to edit');
 
             return Redirect::route('role.index');
         }
@@ -157,9 +154,9 @@ class RoleController extends Controller
         if ($role->isDirty()) {
             $role->save();
 
-            \Session::flash('flash_success_message', 'Role '.$role->name.' was changed');
+            Session::flash('flash_success_message', 'Role ' . $role->name . ' was changed');
         } else {
-            \Session::flash('flash_info_message', 'No changes were made');
+            Session::flash('flash_info_message', 'No changes were made');
         }
 
         return Redirect::route('role.index');
@@ -168,7 +165,7 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Role $role     * @return \Illuminate\Http\Response
+     * @param Role $role * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -183,7 +180,7 @@ class RoleController extends Controller
      */
     private function find($id)
     {
-        return \App\Role::find(intval($id));
+        return Role::find(intval($id));
     }
 
     public function download()
@@ -198,7 +195,7 @@ class RoleController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
         $dataQuery = Role::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());

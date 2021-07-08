@@ -11,13 +11,14 @@ namespace App\Lib;
 use Spatie\Permission\Exceptions\RoleDoesNotExist;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class InitialPermissions
 {
     public function __construct()
     {
-        info(__METHOD__.'START');
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        info(__METHOD__ . 'START');
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         try {
             $role = Role::findByName('super-admin');
@@ -691,9 +692,8 @@ class InitialPermissions
         ]);
 
 
-
         info(__METHOD__ . 'END');
 
-        info(__METHOD__.'END');
+        info(__METHOD__ . 'END');
     }
 }

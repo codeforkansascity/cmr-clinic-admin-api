@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Exports\JurisdictionTypeExport;
-use App\Http\Middleware\TrimStrings;
 use App\Http\Requests\JurisdictionTypeFormRequest;
 use App\Http\Requests\JurisdictionTypeIndexRequest;
 use App\JurisdictionType;
+use DateTime;
+use DateTimeZone;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
+use Session;
 
 //use PDF; // TCPDF, not currently in use
 
@@ -61,12 +65,12 @@ class JurisdictionTypeController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(JurisdictionTypeIndexRequest $request)
     {
-        if (! Auth::user()->can('jurisdiction_type index')) {
-            \Session::flash('flash_error_message', 'You do not have access to Jurisdiction Types.');
+        if (!Auth::user()->can('jurisdiction_type index')) {
+            Session::flash('flash_error_message', 'You do not have access to Jurisdiction Types.');
 
             return Redirect::route('home');
         }
@@ -90,12 +94,12 @@ class JurisdictionTypeController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
-        if (! Auth::user()->can('jurisdiction_type add')) {  // TODO: add -> create
-            \Session::flash('flash_error_message', 'You do not have access to add a Jurisdiction Type.');
+        if (!Auth::user()->can('jurisdiction_type add')) {  // TODO: add -> create
+            Session::flash('flash_error_message', 'You do not have access to add a Jurisdiction Type.');
             if (Auth::user()->can('jurisdiction_type index')) {
                 return Redirect::route('jurisdiction-type.index');
             } else {
@@ -109,22 +113,22 @@ class JurisdictionTypeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(JurisdictionTypeFormRequest $request)
     {
-        $jurisdiction_type = new \App\JurisdictionType;
+        $jurisdiction_type = new JurisdictionType;
 
         try {
             $jurisdiction_type->add($request->validated());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'message' => 'Unable to process request',
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Jurisdiction Type '.$jurisdiction_type->name.' was added.');
+        Session::flash('flash_success_message', 'Jurisdiction Type ' . $jurisdiction_type->name . ' was added.');
 
         return response()->json([
             'message' => 'Added record',
@@ -134,13 +138,13 @@ class JurisdictionTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
-        if (! Auth::user()->can('jurisdiction_type view')) {
-            \Session::flash('flash_error_message', 'You do not have access to view a Jurisdiction Type.');
+        if (!Auth::user()->can('jurisdiction_type view')) {
+            Session::flash('flash_error_message', 'You do not have access to view a Jurisdiction Type.');
             if (Auth::user()->can('jurisdiction_type index')) {
                 return Redirect::route('jurisdiction-type.index');
             } else {
@@ -154,7 +158,7 @@ class JurisdictionTypeController extends Controller
 
             return view('jurisdiction-type.show', compact('jurisdiction_type', 'can_edit', 'can_delete'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Jurisdiction Type to display.');
+            Session::flash('flash_error_message', 'Unable to find Jurisdiction Type to display.');
 
             return Redirect::route('jurisdiction-type.index');
         }
@@ -163,13 +167,13 @@ class JurisdictionTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function edit($id)
     {
-        if (! Auth::user()->can('jurisdiction_type edit')) {
-            \Session::flash('flash_error_message', 'You do not have access to edit a Jurisdiction Type.');
+        if (!Auth::user()->can('jurisdiction_type edit')) {
+            Session::flash('flash_error_message', 'You do not have access to edit a Jurisdiction Type.');
             if (Auth::user()->can('jurisdiction_type index')) {
                 return Redirect::route('jurisdiction-type.index');
             } else {
@@ -180,7 +184,7 @@ class JurisdictionTypeController extends Controller
         if ($jurisdiction_type = $this->sanitizeAndFind($id)) {
             return view('jurisdiction-type.edit', compact('jurisdiction_type'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Jurisdiction Type to edit.');
+            Session::flash('flash_error_message', 'Unable to find Jurisdiction Type to edit.');
 
             return Redirect::route('jurisdiction-type.index');
         }
@@ -189,8 +193,8 @@ class JurisdictionTypeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\JurisdictionType $jurisdiction_type * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param JurisdictionType $jurisdiction_type * @return \Illuminate\Http\Response
      */
     public function update(JurisdictionTypeFormRequest $request, $id)
     {
@@ -204,7 +208,7 @@ class JurisdictionTypeController extends Controller
 //            }
 //        }
 
-        if (! $jurisdiction_type = $this->sanitizeAndFind($id)) {
+        if (!$jurisdiction_type = $this->sanitizeAndFind($id)) {
             //     \Session::flash('flash_error_message', 'Unable to find Jurisdiction Type to edit.');
             return response()->json([
                 'message' => 'Not Found',
@@ -216,15 +220,15 @@ class JurisdictionTypeController extends Controller
         if ($jurisdiction_type->isDirty()) {
             try {
                 $jurisdiction_type->save();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Jurisdiction Type '.$jurisdiction_type->name.' was changed.');
+            Session::flash('flash_success_message', 'Jurisdiction Type ' . $jurisdiction_type->name . ' was changed.');
         } else {
-            \Session::flash('flash_info_message', 'No changes were made.');
+            Session::flash('flash_info_message', 'No changes were made.');
         }
 
         return response()->json([
@@ -235,12 +239,12 @@ class JurisdictionTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\JurisdictionType $jurisdiction_type * @return \Illuminate\Http\Response
+     * @param JurisdictionType $jurisdiction_type * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        if (! Auth::user()->can('jurisdiction_type delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a Jurisdiction Type.');
+        if (!Auth::user()->can('jurisdiction_type delete')) {
+            Session::flash('flash_error_message', 'You do not have access to remove a Jurisdiction Type.');
             if (Auth::user()->can('jurisdiction_type index')) {
                 return Redirect::route('jurisdiction-type.index');
             } else {
@@ -253,15 +257,15 @@ class JurisdictionTypeController extends Controller
         if ($jurisdiction_type && $jurisdiction_type->canDelete()) {
             try {
                 $jurisdiction_type->delete();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request.',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Jurisdiction Type '.$jurisdiction_type->name.' was removed.');
+            Session::flash('flash_success_message', 'Jurisdiction Type ' . $jurisdiction_type->name . ' was removed.');
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Jurisdiction Type to delete.');
+            Session::flash('flash_error_message', 'Unable to find Jurisdiction Type to delete.');
         }
 
         if (Auth::user()->can('jurisdiction_type index')) {
@@ -279,13 +283,13 @@ class JurisdictionTypeController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\JurisdictionType::find(intval($id));
+        return JurisdictionType::find(intval($id));
     }
 
     public function download()
     {
-        if (! Auth::user()->can('jurisdiction_type excel')) {
-            \Session::flash('flash_error_message', 'You do not have access to download Jurisdiction Types.');
+        if (!Auth::user()->can('jurisdiction_type excel')) {
+            Session::flash('flash_error_message', 'You do not have access to download Jurisdiction Types.');
             if (Auth::user()->can('jurisdiction_type index')) {
                 return Redirect::route('jurisdiction-type.index');
             } else {
@@ -302,7 +306,7 @@ class JurisdictionTypeController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
         $dataQuery = JurisdictionType::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());
@@ -316,8 +320,8 @@ class JurisdictionTypeController extends Controller
 
     public function print()
     {
-        if (! Auth::user()->can('jurisdiction_type export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print Jurisdiction Types.');
+        if (!Auth::user()->can('jurisdiction_type export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+            Session::flash('flash_error_message', 'You do not have access to print Jurisdiction Types.');
             if (Auth::user()->can('jurisdiction_type index')) {
                 return Redirect::route('jurisdiction-type.index');
             } else {
@@ -331,7 +335,7 @@ class JurisdictionTypeController extends Controller
         $direction = session('jurisdiction_type_direction', '-1');
         $column = $column ? $column : 'name';
 
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
         // Get query data
         $columns = [
@@ -345,13 +349,13 @@ class JurisdictionTypeController extends Controller
         $printHtml = view('jurisdiction-type.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
-        $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
+        $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
 
-        return $pdf->stream('jurisdiction-type-'.$currentDate->format('Ymd_Hi').'.pdf');
+        return $pdf->stream('jurisdiction-type-' . $currentDate->format('Ymd_Hi') . '.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////

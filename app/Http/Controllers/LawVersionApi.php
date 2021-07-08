@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\LawVersionIndexRequest;
 use App\Models\LawVersion;
 use Illuminate\Http\Request;
@@ -55,7 +54,7 @@ class LawVersionApi extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request  $request
+     * @param Request $request
      * @return Response
      */
     public function store(Request $request)
@@ -66,7 +65,7 @@ class LawVersionApi extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int  $id
+     * @param int $id
      * @return Response
      */
     public function show($id)
@@ -77,8 +76,8 @@ class LawVersionApi extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request  $request
-     * @param int  $id
+     * @param Request $request
+     * @param int $id
      * @return Response
      */
     public function update(Request $request, $id)
@@ -89,7 +88,7 @@ class LawVersionApi extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int  $id
+     * @param int $id
      * @return Response
      */
     public function destroy($id)

@@ -25,9 +25,9 @@ class RoleStoreRequest extends FormRequest
     {
         return [
 
-                        'name' => 'string|max:64',
-                        'alias' => 'string|max:16',
-                        'on_master_roster' => 'numeric',
+            'name' => 'string|max:64',
+            'alias' => 'string|max:16',
+            'on_master_roster' => 'numeric',
 
         ];
     }

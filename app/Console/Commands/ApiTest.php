@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Command;
 
 class ApiTest extends Command
@@ -50,7 +49,7 @@ class ApiTest extends Command
         $response = $client->request('GET', 'user', [
                 'headers' => [
                     'Accept' => 'application/json',
-                    'Authorization' => 'Bearer '.$accessToken,
+                    'Authorization' => 'Bearer ' . $accessToken,
                 ],
             ]
         );

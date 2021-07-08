@@ -5,6 +5,7 @@ namespace App;
 use App\Traits\RecordSignature;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\QueryException;
 
 class Comment extends Model
 {
@@ -15,13 +16,13 @@ class Comment extends Model
      * fillable - attributes that can be mass-assigned.
      */
     protected $fillable = [
-            'id',
-            'user_id',
-            'body',
-            'commentable_type',
-            'commentable_id',
-            'deleted_at',
-        ];
+        'id',
+        'user_id',
+        'body',
+        'commentable_type',
+        'commentable_id',
+        'deleted_at',
+    ];
 
     protected $hidden = [
         'active',
@@ -47,10 +48,10 @@ class Comment extends Model
         try {
             $this->fill($attributes)->save();
         } catch (\Exception $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
-        } catch (\Illuminate\Database\QueryException $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+        } catch (QueryException $e) {
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
         }
 

@@ -7,18 +7,17 @@ use App\Http\Requests\CaseServiceCreateRequest;
 use App\Http\Requests\CaseServiceUpdateRequest;
 use App\Service;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
+use Session;
 
 class CaseServiceController extends Controller
 {
     public function store(CaseServiceCreateRequest $request, Conviction $case)
     {
         $service = $request->service;
-        info(print_r($service,true));
+        info(print_r($service, true));
         $name = $service['name'];
 
-        if (! empty($service['id'])) {
+        if (!empty($service['id'])) {
             $service = Service::find($service['id']);
             $case->services()->attach($service, ['name' => $name]);
         } else {
@@ -27,7 +26,7 @@ class CaseServiceController extends Controller
 
         $service = $service->load('service_type');
 
-        \Session::flash('flash_success_message', 'Vc Vendor '.$service->name.' was added');
+        Session::flash('flash_success_message', 'Vc Vendor ' . $service->name . ' was added');
 
         return response()->json($service, 200);
     }

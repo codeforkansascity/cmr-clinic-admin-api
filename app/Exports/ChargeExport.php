@@ -29,22 +29,22 @@ class ChargeExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'conviction_id',
-                        'charge',
-                        'citation',
-                        'conviction_class_type',
-                        'conviction_charge_type',
-                        'sentence',
-                        'convicted_text',
-                        'eligible_text',
-                        'please_expunge_text',
-                        'to_print',
-                        'notes',
-                        'convicted',
-                        'eligible',
-                        'please_expunge',
-                    ];
+            'id',
+            'conviction_id',
+            'charge',
+            'citation',
+            'conviction_class_type',
+            'conviction_charge_type',
+            'sentence',
+            'convicted_text',
+            'eligible_text',
+            'please_expunge_text',
+            'to_print',
+            'notes',
+            'convicted',
+            'eligible',
+            'please_expunge',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -54,21 +54,21 @@ class ChargeExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
 
-                        $charge->id,
-                        $charge->conviction_id,
-                        $charge->charge,
-                        $charge->citation,
-                        $charge->conviction_class_type,
-                        $charge->conviction_charge_type,
-                        $charge->sentence,
-                        $charge->convicted_text,
-                        $charge->eligible_text,
-                        $charge->please_expunge_text,
-                        $charge->to_print,
-                        $charge->notes,
-                        $charge->convicted,
-                        $charge->eligible,
-                        $charge->please_expunge,
-                    ];
+            $charge->id,
+            $charge->conviction_id,
+            $charge->charge,
+            $charge->citation,
+            $charge->conviction_class_type,
+            $charge->conviction_charge_type,
+            $charge->sentence,
+            $charge->convicted_text,
+            $charge->eligible_text,
+            $charge->please_expunge_text,
+            $charge->to_print,
+            $charge->notes,
+            $charge->convicted,
+            $charge->eligible,
+            $charge->please_expunge,
+        ];
     }
 }

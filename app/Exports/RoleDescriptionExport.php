@@ -29,15 +29,15 @@ class RoleDescriptionExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'role_id',
-                        'role_name',
-                        'name',
-                        'description',
-                        'sequence',
-                        'roles_that_can_assign',
-                        'deleted_at',
-                    ];
+            'id',
+            'role_id',
+            'role_name',
+            'name',
+            'description',
+            'sequence',
+            'roles_that_can_assign',
+            'deleted_at',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -47,14 +47,14 @@ class RoleDescriptionExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
 
-                        $role_description->id,
-                        $role_description->role_id,
-                        $role_description->role_name,
-                        $role_description->name,
-                        $role_description->description,
-                        $role_description->sequence,
-                        $role_description->roles_that_can_assign,
-                        $role_description->deleted_at,
-                    ];
+            $role_description->id,
+            $role_description->role_id,
+            $role_description->role_name,
+            $role_description->name,
+            $role_description->description,
+            $role_description->sequence,
+            $role_description->roles_that_can_assign,
+            $role_description->deleted_at,
+        ];
     }
 }

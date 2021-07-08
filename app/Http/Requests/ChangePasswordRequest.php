@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Validator;
 use ZxcvbnPhp\Zxcvbn;
 
 class ChangePasswordRequest extends FormRequest
@@ -38,7 +39,7 @@ class ChangePasswordRequest extends FormRequest
     /**
      * Configure the validator instance.
      *
-     * @param  \Illuminate\Validation\Validator $validator
+     * @param Validator $validator
      * @return void
      */
     public function withValidator($validator)
@@ -58,7 +59,7 @@ class ChangePasswordRequest extends FormRequest
         // Verify auth user's current password before resetting password
         $current_user = Auth::user();
 
-        return ! password_verify($this->current_password, $current_user->password);
+        return !password_verify($this->current_password, $current_user->password);
     }
 
     public function checkPasswordStrength()

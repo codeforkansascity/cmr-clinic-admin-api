@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\PasswordStrengthRequest;
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use ZxcvbnPhp\Zxcvbn;
 
 class PasswordStrengthApi extends Controller
@@ -14,7 +13,7 @@ class PasswordStrengthApi extends Controller
      *
      * See https://github.com/skegel13/vue-password and https://github.com/bjeavons/zxcvbn-php
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function calc(PasswordStrengthRequest $request)
     {

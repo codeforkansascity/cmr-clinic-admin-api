@@ -4,7 +4,6 @@ namespace App;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\QueryException;
 
 class CdlStatus extends Model
@@ -41,10 +40,10 @@ class CdlStatus extends Model
         try {
             $this->fill($attributes)->save();
         } catch (Exception $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new Exception($e->getMessage());
         } catch (QueryException $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new Exception($e->getMessage());
         }
 
@@ -66,7 +65,7 @@ class CdlStatus extends Model
             ->orderBy('name')
             ->get();
 
-        if (! $flat) {
+        if (!$flat) {
             return $records;
         } else {
             $data = [];

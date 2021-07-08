@@ -4,12 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Applicant;
 use App\Assignment;
-use App\Conviction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ApplicantFormRequest;
 use App\Step;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class ApplicantController extends Controller
@@ -17,7 +16,7 @@ class ApplicantController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -29,11 +28,11 @@ class ApplicantController extends Controller
     /**
      * Display a listing of the resource with pagination.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index_v1_0_1(Request $request)
     {
-        if (! Auth::user()->can('applicant index')) {
+        if (!Auth::user()->can('applicant index')) {
             return response()->json([
                 'error' => 'Not authorized',
             ], 403);
@@ -59,7 +58,7 @@ class ApplicantController extends Controller
                 $column = 'users.name';
                 break;
             default:
-                $column = 'applicant.'.$column;
+                $column = 'applicant.' . $column;
                 break;
 
         }
@@ -70,8 +69,8 @@ class ApplicantController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -83,8 +82,8 @@ class ApplicantController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
@@ -97,9 +96,9 @@ class ApplicantController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return Response
      */
     public function update(ApplicantFormRequest $request, $id)
     {
@@ -109,13 +108,13 @@ class ApplicantController extends Controller
 
         $all_fields = $request->all();
 
-        if (! $applicant->step || ($applicant->step->status_id != $request->status_id)) {
+        if (!$applicant->step || ($applicant->step->status_id != $request->status_id)) {
             $step = Step::create([
-                    'applicant_id' => intval($id),
-                    'status_id' => $request->status_id,
-                    'created_by' => $user_id,
-                    'modified_by' => $user_id,
-                ]);
+                'applicant_id' => intval($id),
+                'status_id' => $request->status_id,
+                'created_by' => $user_id,
+                'modified_by' => $user_id,
+            ]);
 
             $all_fields['step_id'] = $step->id;
         }
@@ -137,8 +136,8 @@ class ApplicantController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function destroy($id)
     {

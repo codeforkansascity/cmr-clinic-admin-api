@@ -4,7 +4,6 @@ namespace App\Mail;
 
 use App\Invite;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -38,7 +37,7 @@ class InviteCreated extends Mailable
      */
     public function build()
     {
-        return $this->subject('Invitation to use '.config('app.name'))
+        return $this->subject('Invitation to use ' . config('app.name'))
             ->markdown('emails.invite-user');
     }
 }

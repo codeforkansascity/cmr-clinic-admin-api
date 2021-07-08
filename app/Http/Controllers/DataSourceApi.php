@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\DataSource;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\DataSourceIndexRequest;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class DataSourceApi extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(DataSourceIndexRequest $request)
     {
@@ -49,8 +49,8 @@ class DataSourceApi extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -60,8 +60,8 @@ class DataSourceApi extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
@@ -71,9 +71,9 @@ class DataSourceApi extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -83,8 +83,8 @@ class DataSourceApi extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function destroy($id)
     {

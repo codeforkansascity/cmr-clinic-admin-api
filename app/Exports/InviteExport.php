@@ -29,15 +29,15 @@ class InviteExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'email',
-                        'name',
-                        'role',
-                        'expires_at',
-                        'token',
-                        'created_at',
-                        'updated_at',
-                    ];
+            'id',
+            'email',
+            'name',
+            'role',
+            'expires_at',
+            'token',
+            'created_at',
+            'updated_at',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -55,6 +55,6 @@ class InviteExport implements FromQuery, WithHeadings, WithMapping
             $invite->token,
             $invite->created_at,
             $invite->updated_at,
-                    ];
+        ];
     }
 }

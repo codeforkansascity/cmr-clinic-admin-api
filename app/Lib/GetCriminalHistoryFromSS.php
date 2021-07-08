@@ -11,7 +11,7 @@ namespace App\Lib;
 use App\Imports\PaulImport;
 use App\Imports\PersonHistory;
 use Excel;
-use Exception;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class GetCriminalHistoryFromSS
 {
@@ -69,7 +69,7 @@ class GetCriminalHistoryFromSS
 
     public function processSpreadSheet()
     {
-        $this->readSpreadSheet($this->path.'/'.$this->file_name);
+        $this->readSpreadSheet($this->path . '/' . $this->file_name);
 
         $this->current_type = 'CLIENT';
         $this->in = 'CLIENT';
@@ -101,7 +101,7 @@ class GetCriminalHistoryFromSS
 
                     case 'CHARGE':
 
-                        if (! array_key_exists('CHARGES', $this->case)) {
+                        if (!array_key_exists('CHARGES', $this->case)) {
                             $this->case['CHARGES'] = [];
                         }
                         $this->case['CHARGES'][] = $this->record;
@@ -164,7 +164,7 @@ class GetCriminalHistoryFromSS
 
         //    return $label;
 
-        if (! array_key_exists($label, $this->label_map)) {
+        if (!array_key_exists($label, $this->label_map)) {
             return "ERROR $label";
         }
 
@@ -187,7 +187,7 @@ class GetCriminalHistoryFromSS
                 case 'Date of Charge':
                 case 'Release Date':
                     if (is_numeric($value)) {
-                        $value = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(intval($value))->format('Y-m-d');
+                        $value = Date::excelToDateTimeObject(intval($value))->format('Y-m-d');
                     } else {
                         $value = null;
                     }
@@ -197,7 +197,7 @@ class GetCriminalHistoryFromSS
                 case 'Date of Arrest':
                 case 'Date of Disposition':
                     if (is_numeric($value)) {
-                        $value = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(intval($value))->format('m/d/Y');
+                        $value = Date::excelToDateTimeObject(intval($value))->format('m/d/Y');
                     }
                     break;
 

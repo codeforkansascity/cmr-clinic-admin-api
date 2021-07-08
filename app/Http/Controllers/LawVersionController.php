@@ -3,25 +3,21 @@
 namespace App\Http\Controllers;
 
 
-
+use App;
+use App\Exports\LawVersionExport;
 use App\Http\Requests\LawVersionFormRequest;
 use App\Http\Requests\LawVersionIndexRequest;
-use App\Http\Middleware\TrimStrings;
 use App\Models\LawVersion;
-
-use App\Exports\LawVersionExport;
-
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
-
 use Maatwebsite\Excel\Facades\Excel;
+
 //use PDF; // TCPDF, not currently in use
 
 class LawVersionController extends Controller
 {
-
 
 
     /**
@@ -59,8 +55,8 @@ class LawVersionController extends Controller
      *
      * @return Response;
      */
-	public function create(Request $request)
-	{
+    public function create(Request $request)
+    {
 
         if (!$request->user()->can('law_version add')) {  // TODO: add -> create
             $request->session()->flash('flash_error_message', 'You do not have access to add a Law Versions.');
@@ -71,8 +67,8 @@ class LawVersionController extends Controller
             }
         }
 
-	    return view('law-version.create');
-	}
+        return view('law-version.create');
+    }
 
 
     /**
@@ -105,7 +101,7 @@ class LawVersionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  integer $id
+     * @param integer $id
      * @return Response
      */
     public function show(Request $request, $id)
@@ -123,7 +119,7 @@ class LawVersionController extends Controller
         if ($law_version = $this->sanitizeAndFind($id)) {
             $can_edit = $request->user()->can('law_version edit');
             $can_delete = ($request->user()->can('law_version delete') && $law_version->canDelete());
-            return view('law-version.show', compact('law_version','can_edit', 'can_delete'));
+            return view('law-version.show', compact('law_version', 'can_edit', 'can_delete'));
         } else {
             $request->session()->flash('flash_error_message', 'Unable to find Law Versions to display.');
             return Redirect::route('law-version.index');
@@ -133,7 +129,7 @@ class LawVersionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return Response;
      */
     public function edit(Request $request, $id)
@@ -160,7 +156,7 @@ class LawVersionController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param  \App\LawVersion $law_version     * @return Response;
+     * @param \App\LawVersion $law_version * @return Response;
      */
     public function update(LawVersionFormRequest $request, $id)
     {
@@ -175,7 +171,7 @@ class LawVersionController extends Controller
 //        }
 
         if (!$law_version = $this->sanitizeAndFind($id)) {
-       //     $request->session()->flash('flash_error_message', 'Unable to find Law Versions to edit.');
+            //     $request->session()->flash('flash_error_message', 'Unable to find Law Versions to edit.');
             return response()->json([
                 'message' => 'Not Found',
             ], 404);
@@ -206,7 +202,7 @@ class LawVersionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\LawVersion $law_version     * @return Response;
+     * @param \App\LawVersion $law_version * @return Response;
      */
     public function destroy(Request $request, $id)
     {
@@ -214,7 +210,7 @@ class LawVersionController extends Controller
         if (!$request->user()->can('law_version delete')) {
             $request->session()->flash('flash_error_message', 'You do not have access to remove a Law Versions.');
             if ($request->user()->can('law_version index')) {
-                 return Redirect::route('law-version.index');
+                return Redirect::route('law-version.index');
             } else {
                 return Redirect::route('home');
             }
@@ -222,7 +218,7 @@ class LawVersionController extends Controller
 
         $law_version = $this->sanitizeAndFind($id);
 
-        if ( $law_version  && $law_version->canDelete()) {
+        if ($law_version && $law_version->canDelete()) {
 
             try {
                 $law_version->delete();
@@ -239,7 +235,7 @@ class LawVersionController extends Controller
         }
 
         if ($request->user()->can('law_version index')) {
-             return Redirect::route('law-version.index');
+            return Redirect::route('law-version.index');
         } else {
             return Redirect::route('home');
         }
@@ -292,8 +288,8 @@ class LawVersionController extends Controller
     }
 
 
-        public function print(Request $request)
-{
+    public function print(Request $request)
+    {
         if (!$request->user()->can('law_version export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             $request->session()->flash('flash_error_message', 'You do not have access to print Law Versions.');
             if ($request->user()->can('law_version index')) {
@@ -320,14 +316,14 @@ class LawVersionController extends Controller
         $data = $dataQuery->get();
 
         // Pass it to the view for html formatting:
-        $printHtml = view('law-version.print', compact( 'data' ) );
+        $printHtml = view('law-version.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
-        $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
+        $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
         return $pdf->stream('law-version-' . $currentDate->format('Ymd_Hi') . '.pdf');
 
         /*

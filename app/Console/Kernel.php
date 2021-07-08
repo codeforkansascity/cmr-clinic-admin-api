@@ -2,6 +2,14 @@
 
 namespace App\Console;
 
+use App\Console\Commands\ApiTest;
+use App\Console\Commands\ConvertChargeStatuteToFK;
+use App\Console\Commands\EmailTestCommand;
+use App\Console\Commands\LoadCriminalHistory;
+use App\Console\Commands\LoadStatutesFromScott;
+use App\Console\Commands\MakeFirstUser;
+use App\Console\Commands\SetInitialPermissions;
+use App\Console\Commands\SetYesNoCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,21 +21,21 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-  //      'App\Console\Commands\ConvertTextDatesCommand',
-        \App\Console\Commands\MakeFirstUser::class,
-        \App\Console\Commands\SetInitialPermissions::class,
-        \App\Console\Commands\SetYesNoCommand::class,
-        \App\Console\Commands\LoadStatutesFromScott::class,
-        \App\Console\Commands\LoadCriminalHistory::class,
-        \App\Console\Commands\EmailTestCommand::class,
-        \App\Console\Commands\ConvertChargeStatuteToFK::class,
-        \App\Console\Commands\ApiTest::class,
+        //      'App\Console\Commands\ConvertTextDatesCommand',
+        MakeFirstUser::class,
+        SetInitialPermissions::class,
+        SetYesNoCommand::class,
+        LoadStatutesFromScott::class,
+        LoadCriminalHistory::class,
+        EmailTestCommand::class,
+        ConvertChargeStatuteToFK::class,
+        ApiTest::class,
     ];
 
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
@@ -43,7 +51,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

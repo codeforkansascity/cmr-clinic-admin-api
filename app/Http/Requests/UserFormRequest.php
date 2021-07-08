@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Validator;
 use ZxcvbnPhp\Zxcvbn;
 
 class UserFormRequest extends FormRequest
@@ -32,8 +33,8 @@ class UserFormRequest extends FormRequest
         $id = $this->route('user');
 
         $rules = [
-         //  Ignore duplicate email if it is this record
-         //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
+            //  Ignore duplicate email if it is this record
+            //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
 
             'id' => 'numeric',
             //'email' => 'required|string|max:191|unique:users',
@@ -44,8 +45,8 @@ class UserFormRequest extends FormRequest
         ];
 
         if ($this->route('user')) {  // If ID we must be changing an existing record
-            $rules['name'] = 'required|min:3|string|max:191|unique:users,name,'.$id;
-            $rules['email'] = 'required|min:3|string|max:191|unique:users,email,'.$id;
+            $rules['name'] = 'required|min:3|string|max:191|unique:users,name,' . $id;
+            $rules['email'] = 'required|min:3|string|max:191|unique:users,email,' . $id;
             $rules['password'] = 'nullable|string|min:8|max:191';
             $rules['confirm_password'] = 'nullable|string|min:8|max:191|required_with:password|same:password';
         } else {  // If not we must be adding one
@@ -61,12 +62,12 @@ class UserFormRequest extends FormRequest
     /**
      * Configure the validator instance.
      *
-     * @param  \Illuminate\Validation\Validator $validator
+     * @param Validator $validator
      * @return void
      */
     public function withValidator($validator)
     {
-        if (! empty($this->input('password'))) {
+        if (!empty($this->input('password'))) {
             $validator->after(function ($validator) {
                 if ($this->checkPasswordStrength()) {
                     $validator->errors()->add('password', 'Password is not strong!');

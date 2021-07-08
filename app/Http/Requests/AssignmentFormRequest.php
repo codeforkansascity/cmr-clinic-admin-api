@@ -31,8 +31,8 @@ class AssignmentFormRequest extends FormRequest
         $id = $this->route('assignment');
 
         $rules = [
-         //  Ignore duplicate email if it is this record
-         //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
+            //  Ignore duplicate email if it is this record
+            //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
 
             'id' => 'numeric',
             'applicant_id' => 'nullable|numeric',
@@ -42,7 +42,7 @@ class AssignmentFormRequest extends FormRequest
         ];
 
         if ($this->route('assignment')) {  // If ID we must be changing an existing record
-            $rules['name'] = 'required|min:3|nullable|string|max:64|unique:assignments,name,'.$id;
+            $rules['name'] = 'required|min:3|nullable|string|max:64|unique:assignments,name,' . $id;
         } else {  // If not we must be adding one
             $rules['name'] = 'required|min:3|nullable|string|max:64|unique:assignments';
         }

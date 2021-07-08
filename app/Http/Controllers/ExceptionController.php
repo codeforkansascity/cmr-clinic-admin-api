@@ -3,20 +3,21 @@
 namespace App\Http\Controllers;
 
 
-
-use App\Http\Middleware\TrimStrings;
+use App;
 use App\Exception;
-use App\StatuteException;
-use Illuminate\Http\Request;
-
+use App\Exports\ExceptionExport;
 use App\Http\Requests\ExceptionFormRequest;
 use App\Http\Requests\ExceptionIndexRequest;
-use Illuminate\Support\Facades\Redirect;
+use App\StatuteException;
+use DateTime;
+use DateTimeZone;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-
-use App\Exports\ExceptionExport;
+use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
+use Session;
+
 //use PDF; // TCPDF, not currently in use
 
 class ExceptionController extends Controller
@@ -27,56 +28,53 @@ class ExceptionController extends Controller
      *
      * Vue component example.
      *
-        <ui-select-pick-one
-            url="/api-exception/options"
-            v-model="exceptionSelected"
-            :selected_id=exceptionSelected"
-            name="exception">
-        </ui-select-pick-one>
+     * <ui-select-pick-one
+     * url="/api-exception/options"
+     * v-model="exceptionSelected"
+     * :selected_id=exceptionSelected"
+     * name="exception">
+     * </ui-select-pick-one>
      *
      *
      * Blade component example.
      *
      *   In Controler
      *
-             $exception_options = \App\Exception::getOptions();
-
-
+     * $exception_options = \App\Exception::getOptions();
      *
      *   In View
-
-            @component('../components/select-pick-one', [
-                'fld' => 'exception_id',
-                'selected_id' => $RECORD->exception_id,
-                'first_option' => 'Select a Exceptions',
-                'options' => $exception_options
-            ])
-            @endcomponent
+     *
+     * @component('../components/select-pick-one', [
+     * 'fld' => 'exception_id',
+     * 'selected_id' => $RECORD->exception_id,
+     * 'first_option' => 'Select a Exceptions',
+     * 'options' => $exception_options
+     * ])
+     * @endcomponent
      *
      * Permissions
      *
-
-             Permission::findOrCreate('exception index');
-             Permission::findOrCreate('exception view');
-             Permission::findOrCreate('exception export-pdf');
-             Permission::findOrCreate('exception export-excel');
-             Permission::findOrCreate('exception add');
-             Permission::findOrCreate('exception update');
-             Permission::findOrCreate('exception destroy');
-
-    */
+     *
+     * Permission::findOrCreate('exception index');
+     * Permission::findOrCreate('exception view');
+     * Permission::findOrCreate('exception export-pdf');
+     * Permission::findOrCreate('exception export-excel');
+     * Permission::findOrCreate('exception add');
+     * Permission::findOrCreate('exception update');
+     * Permission::findOrCreate('exception destroy');
+     */
 
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(ExceptionIndexRequest $request)
     {
 
         if (!Auth::user()->can('exception index')) {
-            \Session::flash('flash_error_message', 'You do not have access to Exceptionss.');
+            Session::flash('flash_error_message', 'You do not have access to Exceptionss.');
             return Redirect::route('home');
         }
 
@@ -100,13 +98,13 @@ class ExceptionController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-	public function create()
-	{
+    public function create()
+    {
 
         if (!Auth::user()->can('exception add')) {  // TODO: add -> create
-            \Session::flash('flash_error_message', 'You do not have access to add a Exceptions.');
+            Session::flash('flash_error_message', 'You do not have access to add a Exceptions.');
             if (Auth::user()->can('exception index')) {
                 return Redirect::route('exception.index');
             } else {
@@ -114,20 +112,20 @@ class ExceptionController extends Controller
             }
         }
 
-	    return view('exception.create');
-	}
+        return view('exception.create');
+    }
 
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(ExceptionFormRequest $request)
     {
 
-        $exception = new \App\Exception;
+        $exception = new Exception;
 
         try {
             $exception->add($request->validated());
@@ -137,7 +135,7 @@ class ExceptionController extends Controller
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Exceptions ' . $exception->name . ' was added.');
+        Session::flash('flash_success_message', 'Exceptions ' . $exception->name . ' was added.');
 
         return response()->json([
             'message' => 'Added record'
@@ -148,14 +146,14 @@ class ExceptionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  integer $id
-     * @return \Illuminate\Http\Response
+     * @param integer $id
+     * @return Response
      */
     public function show($id)
     {
 
         if (!Auth::user()->can('exception view')) {
-            \Session::flash('flash_error_message', 'You do not have access to view a Exceptions.');
+            Session::flash('flash_error_message', 'You do not have access to view a Exceptions.');
             if (Auth::user()->can('exception index')) {
                 return Redirect::route('exception.index');
             } else {
@@ -167,9 +165,9 @@ class ExceptionController extends Controller
             $statutes = StatuteException::getStatutesForExceptions($exception->id);
             $can_edit = Auth::user()->can('exception edit');
             $can_delete = (Auth::user()->can('exception delete') && $exception->canDelete());
-            return view('exception.show', compact('exception','statutes', 'can_edit', 'can_delete'));
+            return view('exception.show', compact('exception', 'statutes', 'can_edit', 'can_delete'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Exceptions to display.');
+            Session::flash('flash_error_message', 'Unable to find Exceptions to display.');
             return Redirect::route('exception.index');
         }
     }
@@ -177,13 +175,13 @@ class ExceptionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  integer $id
-     * @return \Illuminate\Http\Response
+     * @param integer $id
+     * @return Response
      */
     public function edit($id)
     {
         if (!Auth::user()->can('exception edit')) {
-            \Session::flash('flash_error_message', 'You do not have access to edit a Exceptions.');
+            Session::flash('flash_error_message', 'You do not have access to edit a Exceptions.');
             if (Auth::user()->can('exception index')) {
                 return Redirect::route('exception.index');
             } else {
@@ -194,7 +192,7 @@ class ExceptionController extends Controller
         if ($exception = $this->sanitizeAndFind($id)) {
             return view('exception.edit', compact('exception'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Exceptions to edit.');
+            Session::flash('flash_error_message', 'Unable to find Exceptions to edit.');
             return Redirect::route('exception.index');
         }
 
@@ -203,8 +201,8 @@ class ExceptionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Exception $exception     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Exception $exception * @return \Illuminate\Http\Response
      */
     public function update(ExceptionFormRequest $request, $id)
     {
@@ -219,7 +217,7 @@ class ExceptionController extends Controller
 //        }
 
         if (!$exception = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Exceptions to edit.');
+            //     \Session::flash('flash_error_message', 'Unable to find Exceptions to edit.');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
@@ -237,9 +235,9 @@ class ExceptionController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Exceptions ' . $exception->name . ' was changed.');
+            Session::flash('flash_success_message', 'Exceptions ' . $exception->name . ' was changed.');
         } else {
-            \Session::flash('flash_info_message', 'No changes were made.');
+            Session::flash('flash_info_message', 'No changes were made.');
         }
 
         return response()->json([
@@ -250,15 +248,15 @@ class ExceptionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Exception $exception     * @return \Illuminate\Http\Response
+     * @param Exception $exception * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
 
         if (!Auth::user()->can('exception delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a Exceptions.');
+            Session::flash('flash_error_message', 'You do not have access to remove a Exceptions.');
             if (Auth::user()->can('exception index')) {
-                 return Redirect::route('exception.index');
+                return Redirect::route('exception.index');
             } else {
                 return Redirect::route('home');
             }
@@ -266,7 +264,7 @@ class ExceptionController extends Controller
 
         $exception = $this->sanitizeAndFind($id);
 
-        if ( $exception  && $exception->canDelete()) {
+        if ($exception && $exception->canDelete()) {
 
             try {
                 $exception->delete();
@@ -276,14 +274,14 @@ class ExceptionController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Exceptions ' . $exception->name . ' was removed.');
+            Session::flash('flash_success_message', 'Exceptions ' . $exception->name . ' was removed.');
         } else {
-            \Session::flash('flash_error_message', 'Unable to find Exceptions to delete.');
+            Session::flash('flash_error_message', 'Unable to find Exceptions to delete.');
 
         }
 
         if (Auth::user()->can('exception index')) {
-             return Redirect::route('exception.index');
+            return Redirect::route('exception.index');
         } else {
             return Redirect::route('home');
         }
@@ -299,7 +297,7 @@ class ExceptionController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\Exception::find(intval($id));
+        return Exception::find(intval($id));
     }
 
 
@@ -307,7 +305,7 @@ class ExceptionController extends Controller
     {
 
         if (!Auth::user()->can('exception excel')) {
-            \Session::flash('flash_error_message', 'You do not have access to download Exceptions.');
+            Session::flash('flash_error_message', 'You do not have access to download Exceptions.');
             if (Auth::user()->can('exception index')) {
                 return Redirect::route('exception.index');
             } else {
@@ -338,10 +336,10 @@ class ExceptionController extends Controller
     }
 
 
-        public function print()
-{
+    public function print()
+    {
         if (!Auth::user()->can('exception export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print Exceptions.');
+            Session::flash('flash_error_message', 'You do not have access to print Exceptions.');
             if (Auth::user()->can('exception index')) {
                 return Redirect::route('exception.index');
             } else {
@@ -370,14 +368,14 @@ class ExceptionController extends Controller
         $data = $dataQuery->get();
 
         // Pass it to the view for html formatting:
-        $printHtml = view('exception.print', compact( 'data' ) );
+        $printHtml = view('exception.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => TRUE]);
         $pdf->loadHTML($printHtml);
-        $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
+        $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
         return $pdf->stream('exception-' . $currentDate->format('Ymd_Hi') . '.pdf');
 
         /*

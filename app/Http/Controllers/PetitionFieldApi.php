@@ -70,19 +70,18 @@ class PetitionFieldApi extends Controller
      */
     public function show(PetitionFieldFormRequest $request)
     {
-        $query = PetitionField::select('id','value')
+        $query = PetitionField::select('id', 'value')
             ->where('name', '=', $request->name)
-            ->where('applicant_id',$request->applicant_id)
-            ->where('petition_number',$request->petition_number)
-            ;
+            ->where('applicant_id', $request->applicant_id)
+            ->where('petition_number', $request->petition_number);
 
-        info(print_r($request->all(),true));
-        info(print_r($query->toSql(),true));
+        info(print_r($request->all(), true));
+        info(print_r($query->toSql(), true));
 
         $data = $query->first();
 
         info('--11---');
-        info(print_r($data,true));
+        info(print_r($data, true));
         info('--22---');
 
         if ($data) {

@@ -31,8 +31,8 @@ class LawVersionFormRequest extends FormRequest
         $id = $this->route('law_version');
 
         $rules = [
-         //  Ignore duplicate email if it is this record
-         //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
+            //  Ignore duplicate email if it is this record
+            //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
 
 
             'id' => 'numeric',
@@ -49,11 +49,11 @@ class LawVersionFormRequest extends FormRequest
 
         ];
 
-                if ($this->route('law_version')) {  // If ID we must be changing an existing record
-                    $rules['name'] = 'required|min:3|nullable|string|max:500|unique:law_versions,name,' . $id;
-                } else {  // If not we must be adding one
-                    $rules['name'] = 'required|min:3|nullable|string|max:500|unique:law_versions';
-                }
+        if ($this->route('law_version')) {  // If ID we must be changing an existing record
+            $rules['name'] = 'required|min:3|nullable|string|max:500|unique:law_versions,name,' . $id;
+        } else {  // If not we must be adding one
+            $rules['name'] = 'required|min:3|nullable|string|max:500|unique:law_versions';
+        }
 
         return $rules;
     }

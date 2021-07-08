@@ -31,8 +31,8 @@ class RoleDescriptionFormRequest extends FormRequest
         $id = $this->route('role_description');
 
         $rules = [
-         //  Ignore duplicate email if it is this record
-         //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
+            //  Ignore duplicate email if it is this record
+            //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
 
             'id' => 'numeric',
             'role_id' => 'nullable|numeric',
@@ -45,7 +45,7 @@ class RoleDescriptionFormRequest extends FormRequest
         ];
 
         if ($this->route('role_description')) {  // If ID we must be changing an existing record
-            $rules['name'] = 'required|min:3|nullable|string|max:191|unique:role_descriptions,name,'.$id;
+            $rules['name'] = 'required|min:3|nullable|string|max:191|unique:role_descriptions,name,' . $id;
         } else {  // If not we must be adding one
             $rules['name'] = 'required|min:3|nullable|string|max:191|unique:role_descriptions';
         }

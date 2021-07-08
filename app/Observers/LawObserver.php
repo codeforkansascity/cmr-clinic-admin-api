@@ -16,7 +16,7 @@ class LawObserver
     /**
      * Handle the charge "created" event.
      *
-     * @param Law  $model
+     * @param Law $model
      * @return void
      */
     public function created(Law $model)
@@ -27,7 +27,7 @@ class LawObserver
     /**
      * Handle the charge "updated" event.
      *
-     * @param Law  $model
+     * @param Law $model
      * @return void
      */
     public function updated(Law $model)
@@ -38,7 +38,7 @@ class LawObserver
     /**
      * Handle the charge "deleted" event.
      *
-     * @param Law  $model
+     * @param Law $model
      * @return void
      */
     public function deleting(Law $model)
@@ -56,7 +56,7 @@ class LawObserver
     /**
      * Handle the charge "deleted" event.
      *
-     * @param Law  $model
+     * @param Law $model
      * @return void
      */
     public function deleted(Law $model)
@@ -67,7 +67,7 @@ class LawObserver
     /**
      * Handle the charge "restored" event.
      *
-     * @param Law  $model
+     * @param Law $model
      * @return void
      */
     public function restored(Law $model)
@@ -78,7 +78,7 @@ class LawObserver
     /**
      * Handle the charge "force deleted" event.
      *
-     * @param Law  $model
+     * @param Law $model
      * @return void
      */
     public function forceDeleted(Law $model)

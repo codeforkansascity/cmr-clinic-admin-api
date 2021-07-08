@@ -3,7 +3,6 @@
 namespace App\Observers;
 
 use App\Charge;
-use Illuminate\Support\Facades\Log;
 
 class ChargeObserver
 {
@@ -17,7 +16,7 @@ class ChargeObserver
     /**
      * Handle the charge "created" event.
      *
-     * @param  Charge  $charge
+     * @param Charge $charge
      * @return void
      */
     public function created(Charge $charge)
@@ -28,7 +27,7 @@ class ChargeObserver
     /**
      * Handle the charge "updated" event.
      *
-     * @param  Charge  $charge
+     * @param Charge $charge
      * @return void
      */
     public function updated(Charge $charge)
@@ -39,7 +38,7 @@ class ChargeObserver
     /**
      * Handle the charge "deleted" event.
      *
-     * @param  Charge  $charge
+     * @param Charge $charge
      * @return void
      */
     public function deleting(Charge $charge)
@@ -57,7 +56,7 @@ class ChargeObserver
     /**
      * Handle the charge "deleted" event.
      *
-     * @param  Charge  $charge
+     * @param Charge $charge
      * @return void
      */
     public function deleted(Charge $charge)
@@ -68,7 +67,7 @@ class ChargeObserver
     /**
      * Handle the charge "restored" event.
      *
-     * @param  Charge  $charge
+     * @param Charge $charge
      * @return void
      */
     public function restored(Charge $charge)
@@ -79,7 +78,7 @@ class ChargeObserver
     /**
      * Handle the charge "force deleted" event.
      *
-     * @param  Charge  $charge
+     * @param Charge $charge
      * @return void
      */
     public function forceDeleted(Charge $charge)

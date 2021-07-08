@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Assignment;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class AssignmentController extends Controller
@@ -12,11 +13,11 @@ class AssignmentController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
-        if (! Auth::user()->can('assignment index')) {  // TODO: add -> create
+        if (!Auth::user()->can('assignment index')) {  // TODO: add -> create
             return response()->json([
                 'error' => 'Not authorized',
             ], 403);
@@ -27,7 +28,7 @@ class AssignmentController extends Controller
 
     public function indexByClient(Request $request, $applicant_id)
     {
-        if (! Auth::user()->can('assignment index')) {
+        if (!Auth::user()->can('assignment index')) {
             return response()->json([
                 'error' => 'Not authorized',
             ], 403);
@@ -54,8 +55,8 @@ class AssignmentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -65,8 +66,8 @@ class AssignmentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
@@ -76,9 +77,9 @@ class AssignmentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -91,8 +92,8 @@ class AssignmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function destroy($id)
     {

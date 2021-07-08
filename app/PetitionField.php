@@ -4,6 +4,8 @@ namespace App;
 
 use App\Traits\RecordSignature;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\QueryException;
+
 //use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PetitionField extends Model
@@ -154,7 +156,7 @@ class PetitionField extends Model
         } else {
             $data = [];
 
-            foreach ($records AS $rec) {
+            foreach ($records as $rec) {
                 $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
             }
 
@@ -171,7 +173,7 @@ class PetitionField extends Model
         } catch (\Exception $e) {
             info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
-        } catch (\Illuminate\Database\QueryException $e) {
+        } catch (QueryException $e) {
             info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
         }

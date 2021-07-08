@@ -31,8 +31,8 @@ class ApplicantRequest extends FormRequest
         $id = $this->route('applicant');
 
         $rules = [
-         //  Ignore duplicate email if it is this record
-         //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
+            //  Ignore duplicate email if it is this record
+            //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
 
             'id' => 'numeric',
             'name' => 'nullable|string|max:64',

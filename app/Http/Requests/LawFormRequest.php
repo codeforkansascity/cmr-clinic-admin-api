@@ -31,8 +31,8 @@ class LawFormRequest extends FormRequest
         $id = $this->route('law');
 
         $rules = [
-         //  Ignore duplicate email if it is this record
-         //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
+            //  Ignore duplicate email if it is this record
+            //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
 
 
             'id' => 'numeric',

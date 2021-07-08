@@ -2,10 +2,11 @@
 
 namespace App;
 
-use DB;
 use App\Traits\RecordSignature;
+use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\QueryException;
 
 class Applicant extends Model
 {
@@ -69,27 +70,27 @@ class Applicant extends Model
 
     public function assignment()
     {
-        return $this->hasOne(\App\Assignment::class, 'id', 'assignment_id');
+        return $this->hasOne(Assignment::class, 'id', 'assignment_id');
     }
 
     public function step()
     {
-        return $this->hasOne(\App\Step::class, 'id', 'step_id');
+        return $this->hasOne(Step::class, 'id', 'step_id');
     }
 
     public function status()
     {
-        return $this->hasOne(\App\Status::class, 'id', 'status_id');
+        return $this->hasOne(Status::class, 'id', 'status_id');
     }
 
     public function conviction()
     {
-        return $this->hasMany(\App\Conviction::class);
+        return $this->hasMany(Conviction::class);
     }
 
     public function cdl_status()
     {
-        return $this->hasOne(\App\CdlStatus::class, 'id', 'cdl_status_id');
+        return $this->hasOne(CdlStatus::class, 'id', 'cdl_status_id');
     }
 
     public function histories()
@@ -114,10 +115,10 @@ class Applicant extends Model
         try {
             $this->fill($attributes)->save();
         } catch (\Exception $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
-        } catch (\Illuminate\Database\QueryException $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+        } catch (QueryException $e) {
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
         }
 
@@ -147,7 +148,7 @@ class Applicant extends Model
         $status_filter = 0,
         $assignment_filter = 0)
     {
-        \DB::connection()->enableQueryLog();
+        DB::connection()->enableQueryLog();
 
         $ret = self::buildBaseGridQuery($column, $direction, $keyword, $status_filter, $assignment_filter,
             ['applicants.id',
@@ -210,7 +211,7 @@ class Applicant extends Model
             ->leftJoin('statuses', 'applicants.status_id', 'statuses.id')
             ->orderBy($column, $direction);
 
-        if(auth()->user()->hasRole('Volunteer Lawyer')) {
+        if (auth()->user()->hasRole('Volunteer Lawyer')) {
 //            $query->join('applicant_user','applicants.id', 'applicant_user.applicant_id')
 //                ->where('applicant_user.user_id', auth()->user()->id);
 
@@ -218,7 +219,7 @@ class Applicant extends Model
         }
 
         if ($keyword) {
-            $query->where('applicants.name', 'like', '%'.$keyword.'%');
+            $query->where('applicants.name', 'like', '%' . $keyword . '%');
         }
 
         switch ($status_filter) {
@@ -259,7 +260,7 @@ class Applicant extends Model
         $keyword = '',
         $columns = '*')
     {
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
     }
@@ -270,7 +271,7 @@ class Applicant extends Model
         $keyword = '',
         $columns = '*')
     {
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
     }
@@ -290,7 +291,7 @@ class Applicant extends Model
             ->orderBy('name')
             ->get();
 
-        if (! $flat) {
+        if (!$flat) {
             return $records;
         } else {
             $data = [];
@@ -329,6 +330,6 @@ class Applicant extends Model
 
     public function lawyers()
     {
-        return $this->belongsToMany(User::class, 'applicant_user','applicant_id', 'user_id', 'id', 'id');
+        return $this->belongsToMany(User::class, 'applicant_user', 'applicant_id', 'user_id', 'id', 'id');
     }
 }

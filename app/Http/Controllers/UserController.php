@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Exports\UserExport;
-use App\Http\Middleware\TrimStrings;
 use App\Http\Requests\UserFormRequest;
 use App\Http\Requests\UserIndexRequest;
 use App\User;
+use DateTime;
+use DateTimeZone;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
+use Session;
 
 //use PDF; // TCPDF, not currently in use
 
@@ -48,7 +52,6 @@ class UserController extends Controller
      *
      * Permissions
      *
-
      *
      * Permission::create(['name' => 'user index']);
      * Permission::create(['name' => 'user add']);
@@ -75,12 +78,12 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(UserIndexRequest $request)
     {
-        if (! Auth::user()->can('user index')) {
-            \Session::flash('flash_error_message', 'You do not have access to Users.');
+        if (!Auth::user()->can('user index')) {
+            Session::flash('flash_error_message', 'You do not have access to Users.');
 
             return Redirect::route('home');
         }
@@ -109,13 +112,13 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
         if (!Auth::user()->can('user view')) {
-            \Session::flash('flash_error_message', 'You do not have access to view a User.');
+            Session::flash('flash_error_message', 'You do not have access to view a User.');
             if (Auth::user()->can('user index')) {
                 return Redirect::route('user.index');
             } else {
@@ -129,7 +132,7 @@ class UserController extends Controller
 
             return view('user.show', compact('user', 'can_edit', 'can_delete'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find User to display.');
+            Session::flash('flash_error_message', 'Unable to find User to display.');
 
             return Redirect::route('user.index');
         }
@@ -138,13 +141,13 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function edit($id)
     {
-        if (! Auth::user()->can('user edit')) {
-            \Session::flash('flash_error_message', 'You do not have access to edit a User.');
+        if (!Auth::user()->can('user edit')) {
+            Session::flash('flash_error_message', 'You do not have access to edit a User.');
             if (Auth::user()->can('user index')) {
                 return Redirect::route('user.index');
             } else {
@@ -157,7 +160,7 @@ class UserController extends Controller
 
             return view('user.edit', compact('user', 'role_name'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find User to edit.');
+            Session::flash('flash_error_message', 'Unable to find User to edit.');
 
             return Redirect::route('user.index');
         }
@@ -166,8 +169,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\User $user     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param User $user * @return \Illuminate\Http\Response
      */
     public function update(UserFormRequest $request, $id)
     {
@@ -181,7 +184,7 @@ class UserController extends Controller
 //            }
 //        }
 
-        if (! $user = $this->sanitizeAndFind($id)) {
+        if (!$user = $this->sanitizeAndFind($id)) {
             //     \Session::flash('flash_error_message', 'Unable to find User to edit.');
             return response()->json([
                 'message' => 'Not Found',
@@ -193,7 +196,7 @@ class UserController extends Controller
         $user->fill($request->all());
 
         // Hash the pw (but only if a new one has been set)
-        if (! empty($request->password)) {
+        if (!empty($request->password)) {
             // Reset
             $user->password = bcrypt($request->password);
         } else {
@@ -206,7 +209,7 @@ class UserController extends Controller
                 $user->save();
                 $user->syncRoles($request->selected_roles);
                 info('roles');
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request',
                 ], 400);
@@ -217,12 +220,12 @@ class UserController extends Controller
             $current_role_name = $user->getRoleNames();
 
             if ($current_role_name != $user->role_name) {
-                info('new role = '.$user->role_name);
+                info('new role = ' . $user->role_name);
             }
 
-            \Session::flash('flash_success_message', 'User '.$user->name.' was changed.');
+            Session::flash('flash_success_message', 'User ' . $user->name . ' was changed.');
         } else {
-            \Session::flash('flash_info_message', 'No changes were made.');
+            Session::flash('flash_info_message', 'No changes were made.');
         }
 
         return response()->json([
@@ -233,12 +236,12 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\User $user     * @return \Illuminate\Http\Response
+     * @param User $user * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        if (! Auth::user()->can('user delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a User.');
+        if (!Auth::user()->can('user delete')) {
+            Session::flash('flash_error_message', 'You do not have access to remove a User.');
             if (Auth::user()->can('user index')) {
                 return Redirect::route('user.index');
             } else {
@@ -251,15 +254,15 @@ class UserController extends Controller
         if ($user && $user->canDelete()) {
             try {
                 $user->delete();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request.',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'User '.$user->name.' was removed.');
+            Session::flash('flash_success_message', 'User ' . $user->name . ' was removed.');
         } else {
-            \Session::flash('flash_error_message', 'Unable to find User to delete.');
+            Session::flash('flash_error_message', 'Unable to find User to delete.');
         }
 
         if (Auth::user()->can('user index')) {
@@ -277,7 +280,7 @@ class UserController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\User::find(intval($id));
+        return User::find(intval($id));
     }
 
     /**
@@ -286,7 +289,7 @@ class UserController extends Controller
      */
     public function assignee_options()
     {
-        if (! Auth::user()->can('user index')) {
+        if (!Auth::user()->can('user index')) {
             return response()->json([
                 'error' => 'Not authorized',
             ], 403);
@@ -302,8 +305,8 @@ class UserController extends Controller
 
     public function download()
     {
-        if (! Auth::user()->can('user export-excel')) {
-            \Session::flash('flash_error_message', 'You do not have access to download Users.');
+        if (!Auth::user()->can('user export-excel')) {
+            Session::flash('flash_error_message', 'You do not have access to download Users.');
             if (Auth::user()->can('user index')) {
                 return Redirect::route('user.index');
             } else {
@@ -320,7 +323,7 @@ class UserController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
         $dataQuery = User::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());
@@ -334,8 +337,8 @@ class UserController extends Controller
 
     public function print()
     {
-        if (! Auth::user()->can('user export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print Users.');
+        if (!Auth::user()->can('user export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+            Session::flash('flash_error_message', 'You do not have access to print Users.');
             if (Auth::user()->can('user index')) {
                 return Redirect::route('user.index');
             } else {
@@ -349,7 +352,7 @@ class UserController extends Controller
         $direction = session('user_direction', '-1');
         $column = $column ? $column : 'name';
 
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
 
         // Get query data
         $columns = [
@@ -364,13 +367,13 @@ class UserController extends Controller
         $printHtml = view('user.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
-        $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
+        $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
 
-        return $pdf->stream('user-'.$currentDate->format('Ymd_Hi').'.pdf');
+        return $pdf->stream('user-' . $currentDate->format('Ymd_Hi') . '.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////

@@ -66,6 +66,7 @@ class LawVersion extends Model
     {
         return $this->hasMany(Charge::class);
     }
+
     public function statute_exceptions()
     {
         return $this->hasMany(StatuteException::class)->with('exception');
@@ -73,9 +74,8 @@ class LawVersion extends Model
 
     public function exceptions()
     {
-        return $this->belongsToMany(\App\Exception::class,'law_version_exceptions')->withPivot('note');
+        return $this->belongsToMany(\App\Exception::class, 'law_version_exceptions')->withPivot('note');
     }
-
 
 
     public function statutes_eligibility()

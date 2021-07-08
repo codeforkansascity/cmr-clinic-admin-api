@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Response;
+
 class VersionController extends Controller
 {
     /**
      * Display the specified resource.
      *d.
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show()
     {

@@ -3,25 +3,21 @@
 namespace App\Http\Controllers;
 
 
-
+use App;
+use App\Exports\LawExport;
 use App\Http\Requests\LawFormRequest;
 use App\Http\Requests\LawIndexRequest;
-use App\Http\Middleware\TrimStrings;
 use App\Models\Law;
-
-use App\Exports\LawExport;
-
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
-
 use Maatwebsite\Excel\Facades\Excel;
+
 //use PDF; // TCPDF, not currently in use
 
 class LawController extends Controller
 {
-
 
 
     /**
@@ -59,8 +55,8 @@ class LawController extends Controller
      *
      * @return Response;
      */
-	public function create(Request $request)
-	{
+    public function create(Request $request)
+    {
 
         if (!$request->user()->can('law add')) {  // TODO: add -> create
             $request->session()->flash('flash_error_message', 'You do not have access to add a Laws.');
@@ -71,8 +67,8 @@ class LawController extends Controller
             }
         }
 
-	    return view('law.create');
-	}
+        return view('law.create');
+    }
 
 
     /**
@@ -105,7 +101,7 @@ class LawController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  integer $id
+     * @param integer $id
      * @return Response
      */
     public function show(Request $request, $id)
@@ -123,7 +119,7 @@ class LawController extends Controller
         if ($law = $this->sanitizeAndFind($id)) {
             $can_edit = $request->user()->can('law edit');
             $can_delete = ($request->user()->can('law delete') && $law->canDelete());
-            return view('law.show', compact('law','can_edit', 'can_delete'));
+            return view('law.show', compact('law', 'can_edit', 'can_delete'));
         } else {
             $request->session()->flash('flash_error_message', 'Unable to find Laws to display.');
             return Redirect::route('law.index');
@@ -133,7 +129,7 @@ class LawController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return Response;
      */
     public function edit(Request $request, $id)
@@ -160,7 +156,7 @@ class LawController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param  \App\Law $law     * @return Response;
+     * @param \App\Law $law * @return Response;
      */
     public function update(LawFormRequest $request, $id)
     {
@@ -175,7 +171,7 @@ class LawController extends Controller
 //        }
 
         if (!$law = $this->sanitizeAndFind($id)) {
-       //     $request->session()->flash('flash_error_message', 'Unable to find Laws to edit.');
+            //     $request->session()->flash('flash_error_message', 'Unable to find Laws to edit.');
             return response()->json([
                 'message' => 'Not Found',
             ], 404);
@@ -206,7 +202,7 @@ class LawController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Law $law     * @return Response;
+     * @param \App\Law $law * @return Response;
      */
     public function destroy(Request $request, $id)
     {
@@ -214,7 +210,7 @@ class LawController extends Controller
         if (!$request->user()->can('law delete')) {
             $request->session()->flash('flash_error_message', 'You do not have access to remove a Laws.');
             if ($request->user()->can('law index')) {
-                 return Redirect::route('law.index');
+                return Redirect::route('law.index');
             } else {
                 return Redirect::route('home');
             }
@@ -222,7 +218,7 @@ class LawController extends Controller
 
         $law = $this->sanitizeAndFind($id);
 
-        if ( $law  && $law->canDelete()) {
+        if ($law && $law->canDelete()) {
 
             try {
                 $law->delete();
@@ -239,7 +235,7 @@ class LawController extends Controller
         }
 
         if ($request->user()->can('law index')) {
-             return Redirect::route('law.index');
+            return Redirect::route('law.index');
         } else {
             return Redirect::route('home');
         }
@@ -292,8 +288,8 @@ class LawController extends Controller
     }
 
 
-        public function print(Request $request)
-{
+    public function print(Request $request)
+    {
         if (!$request->user()->can('law export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             $request->session()->flash('flash_error_message', 'You do not have access to print Laws.');
             if ($request->user()->can('law index')) {
@@ -318,14 +314,14 @@ class LawController extends Controller
         $data = $dataQuery->get();
 
         // Pass it to the view for html formatting:
-        $printHtml = view('law.print', compact( 'data' ) );
+        $printHtml = view('law.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
-        $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
+        $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
         return $pdf->stream('law-' . $currentDate->format('Ymd_Hi') . '.pdf');
 
         /*

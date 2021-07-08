@@ -31,8 +31,8 @@ class ServiceFormRequest extends FormRequest
         $id = $this->route('service');
 
         $rules = [
-         //  Ignore duplicate email if it is this record
-         //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
+            //  Ignore duplicate email if it is this record
+            //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
 
             'id' => 'numeric',
             'address' => 'nullable|string|max:191',
@@ -50,7 +50,7 @@ class ServiceFormRequest extends FormRequest
         ];
 
         if ($this->route('service')) {  // If ID we must be changing an existing record
-            $rules['name'] = 'required|min:3|nullable|string|max:191|unique:services,name,'.$id;
+            $rules['name'] = 'required|min:3|nullable|string|max:191|unique:services,name,' . $id;
         } else {  // If not we must be adding one
             $rules['name'] = 'required|min:3|nullable|string|max:191|unique:services';
         }

@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 trait RecordSignature
 {
@@ -12,7 +12,7 @@ trait RecordSignature
 
         static::creating(function ($model) {
             $model->fillable[] = 'created_by';
-            $user = \Auth::User();
+            $user = Auth::User();
             if ($user) {
                 $model->created_by = $user->id;
             } else {
@@ -22,7 +22,7 @@ trait RecordSignature
 
         static::updating(function ($model) {
             $model->fillable[] = 'modified_by';
-            $user = \Auth::User();
+            $user = Auth::User();
             if ($user) {
                 $model->modified_by = $user->id;
             } else {
@@ -33,7 +33,7 @@ trait RecordSignature
         static::deleting(function ($model) {
             $model->fillable[] = 'purged_by';
 
-            $user = \Auth::User();
+            $user = Auth::User();
             if ($user) {
                 $model->purged_by = $user->id;
             } else {

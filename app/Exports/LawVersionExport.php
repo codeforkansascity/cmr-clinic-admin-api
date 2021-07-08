@@ -2,8 +2,8 @@
 
 namespace App\Exports;
 
-use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
@@ -32,19 +32,19 @@ class LawVersionExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                'id',
-                'number',
-                'name',
-                'common_name',
-                'jurisdiction_id',
-                'note',
-                'statutes_eligibility_id',
-                'blocks_time',
-                'same_as_id',
-                'superseded_id',
-                'superseded_on',
-                'deleted_at',
-                ];
+            'id',
+            'number',
+            'name',
+            'common_name',
+            'jurisdiction_id',
+            'note',
+            'statutes_eligibility_id',
+            'blocks_time',
+            'same_as_id',
+            'superseded_id',
+            'superseded_on',
+            'deleted_at',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -53,18 +53,18 @@ class LawVersionExport implements FromQuery, WithHeadings, WithMapping
     public function map($law_version): array
     {
         return [
-                $law_version->id,
-                $law_version->number,
-                $law_version->name,
-                $law_version->common_name,
-                $law_version->jurisdiction_id,
-                $law_version->note,
-                $law_version->statutes_eligibility_id,
-                $law_version->blocks_time,
-                $law_version->same_as_id,
-                $law_version->superseded_id,
-                $law_version->superseded_on,
-                $law_version->deleted_at,
-                ];
+            $law_version->id,
+            $law_version->number,
+            $law_version->name,
+            $law_version->common_name,
+            $law_version->jurisdiction_id,
+            $law_version->note,
+            $law_version->statutes_eligibility_id,
+            $law_version->blocks_time,
+            $law_version->same_as_id,
+            $law_version->superseded_id,
+            $law_version->superseded_on,
+            $law_version->deleted_at,
+        ];
     }
 }

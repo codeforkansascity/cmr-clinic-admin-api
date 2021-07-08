@@ -68,7 +68,7 @@ class ImportStatutes extends Command
         $this->statutes = Yaml::parseFile(base_path('/data/') . $this->file_name);
 
         // map previous statute id to current index in array
-        foreach($this->statutes as $key => $statute) {
+        foreach ($this->statutes as $key => $statute) {
             $this->statuteIdIndex[$statute['id']] = $key;
         }
 
@@ -81,7 +81,7 @@ class ImportStatutes extends Command
             print ".";
             if (!Statute::where('number', $statute['number'])->exists()) {
                 print "+";
-               $this->createStatute($statute);
+                $this->createStatute($statute);
             }
 
         }
@@ -99,13 +99,13 @@ class ImportStatutes extends Command
 
         $jurisdiction = !empty($statute['jurisdiction']) ? $this->matchJurisdiction($statute['jurisdiction']) : null;
 
-        if(!empty($statute['superseded_id'])
+        if (!empty($statute['superseded_id'])
             && $statute['superseded_id'] != $statute['id']
             && ($supersededIndex = $this->findIndexById($statute['superseded_id']))
         ) {
             $supersededImport = $this->statutes[$supersededIndex];
             $superseded = Statute::where('number', $supersededImport['number'])->first();
-            if(!$superseded) {
+            if (!$superseded) {
                 $superseded = $this->createStatute($supersededImport);
             }
             $superseded_id = $superseded->id;
@@ -128,18 +128,18 @@ class ImportStatutes extends Command
         );
 
 
-
-        if(!empty($statute['exceptions'])) {
+        if (!empty($statute['exceptions'])) {
             $synced = [];
             foreach ($statute['exceptions'] as $exception) {
                 $match = $this->matchException($exception);
-                $synced [$match->id]= ['note' => $exception['pivot']['note'] ?? null];
+                $synced [$match->id] = ['note' => $exception['pivot']['note'] ?? null];
             }
             $record->exceptions()->sync($synced);
         }
 
         return $record;
     }
+
     private function matchJurisdiction($jurisdiction)
     {
         if (isset($this->jusrisdictions[$this->makeKey($jurisdiction)])) {

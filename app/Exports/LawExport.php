@@ -2,8 +2,8 @@
 
 namespace App\Exports;
 
-use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
@@ -32,9 +32,9 @@ class LawExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                'id',
-                'law_version_id',
-                ];
+            'id',
+            'law_version_id',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -43,8 +43,8 @@ class LawExport implements FromQuery, WithHeadings, WithMapping
     public function map($law): array
     {
         return [
-                $law->id,
-                $law->law_version_id,
-                ];
+            $law->id,
+            $law->law_version_id,
+        ];
     }
 }

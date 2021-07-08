@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class History extends Model
 {
@@ -21,7 +23,7 @@ class History extends Model
     protected $appends = ['difference'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function user()
     {
@@ -29,7 +31,7 @@ class History extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     * @return MorphTo
      */
     public function historyable()
     {
@@ -54,7 +56,7 @@ class History extends Model
         $diff = [];
         if ($this->old && $this->new) {
             $diff['statute'] = $this->arrayDiff($this->new, $this->old);
-            if(!empty($this->new['exceptions']) || !empty($this->old['exceptions'])) {
+            if (!empty($this->new['exceptions']) || !empty($this->old['exceptions'])) {
                 $diff['exceptions'] = $this->exceptionsDiff($this->new['exceptions'] ?? [], $this->old['exceptions'] ?? []);
             }
         }
@@ -68,7 +70,7 @@ class History extends Model
 
         $diff = [];
         foreach ($array1 as $column => $value) {
-            if(in_array($column, $skip_list)) continue;
+            if (in_array($column, $skip_list)) continue;
 
             if (!is_array($value) && $value !== ($array2[$column] ?? null)) {
                 $diff[$column] = ['old' => $array2[$column] ?? null, 'new' => $value];
@@ -80,18 +82,18 @@ class History extends Model
 
     private function exceptionsDiff($array_new, $array_old)
     {
-        $map_new=[];
+        $map_new = [];
         foreach ($array_new as $exception) {
             $map_new[$exception['id']] = $exception;
         }
-        $map_old=[];
+        $map_old = [];
         foreach ($array_old as $exception) {
             $map_old[$exception['id']] = $exception;
         }
 
         $diff = [];
         foreach ($map_new as $id => $exception) {
-            if(!isset($map_old[$id])) {
+            if (!isset($map_old[$id])) {
                 $diff[$exception['short_name']] = [
                     'exception_name' => $exception['name'],
                     'section' => $exception['section'],
@@ -117,7 +119,7 @@ class History extends Model
 
         // check for removed
         foreach ($map_old as $id => $exception) {
-            if(!isset($map_new[$id])) {
+            if (!isset($map_new[$id])) {
                 $diff[$exception['short_name']] = [
                     'exception_name' => $exception['name'],
                     'section' => $exception['section'],

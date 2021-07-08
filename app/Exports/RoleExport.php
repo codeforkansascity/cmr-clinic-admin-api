@@ -29,10 +29,10 @@ class RoleExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'name',
-                        'alias',
-                        'on_master_roster',
-                    ];
+            'name',
+            'alias',
+            'on_master_roster',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -42,9 +42,9 @@ class RoleExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
 
-                        $role->name,
-                        $role->alias,
-                        $role->on_master_roster,
-                    ];
+            $role->name,
+            $role->alias,
+            $role->on_master_roster,
+        ];
     }
 }

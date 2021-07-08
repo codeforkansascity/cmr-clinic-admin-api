@@ -40,7 +40,7 @@ class MakeTrafficStatutes extends Command
 
         $records = $this->getStatutes();
 
-        foreach ($records AS $record) {
+        foreach ($records as $record) {
             $record = json_decode(json_encode($record), true);
 
             $this->getOrAddStatute(
@@ -52,7 +52,8 @@ class MakeTrafficStatutes extends Command
         return 0;
     }
 
-    private function getOrAddStatute($section, $name) {
+    private function getOrAddStatute($section, $name)
+    {
 
     }
 

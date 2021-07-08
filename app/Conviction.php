@@ -3,10 +3,10 @@
 namespace App;
 
 use App\Traits\RecordSignature;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
-use DateTimeInterface;
+use Illuminate\Database\QueryException;
 
 class Conviction extends Model
 {
@@ -44,12 +44,12 @@ class Conviction extends Model
 
     public function applicant()
     {
-        return $this->belongsTo(\App\Applicant::class);
+        return $this->belongsTo(Applicant::class);
     }
 
     public function charge()
     {
-        return $this->hasMany(\App\Charge::class);
+        return $this->hasMany(Charge::class);
     }
 
     public function histories()
@@ -72,7 +72,7 @@ class Conviction extends Model
     /**
      * Prepare a date for array / JSON serialization.
      *
-     * @param  \DateTimeInterface  $date
+     * @param DateTimeInterface $date
      * @return string
      */
     protected function serializeDate(DateTimeInterface $date)
@@ -97,10 +97,10 @@ class Conviction extends Model
         try {
             $this->fill($attributes)->save();
         } catch (\Exception $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
-        } catch (\Illuminate\Database\QueryException $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+        } catch (QueryException $e) {
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
         }
 
@@ -170,7 +170,7 @@ class Conviction extends Model
             ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('name', 'like', '%'.$keyword.'%');
+            $query->where('name', 'like', '%' . $keyword . '%');
         }
 
         return $query;
@@ -191,7 +191,7 @@ class Conviction extends Model
         $keyword = '',
         $columns = '*')
     {
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
     }
@@ -202,7 +202,7 @@ class Conviction extends Model
         $keyword = '',
         $columns = '*')
     {
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
     }
@@ -222,7 +222,7 @@ class Conviction extends Model
             ->orderBy('name')
             ->get();
 
-        if (! $flat) {
+        if (!$flat) {
             return $records;
         } else {
             $data = [];

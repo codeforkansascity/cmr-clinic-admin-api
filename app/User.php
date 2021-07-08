@@ -4,11 +4,13 @@ namespace App;
 
 use App\Traits\RecordSignature;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-// From crud generator:
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+
+// From crud generator:
 
 class User extends Authenticatable
 {
@@ -20,14 +22,14 @@ class User extends Authenticatable
      * fillable - attributes that can be mass-assigned.
      */
     protected $fillable = [
-            'id',
-            'name',
-            'email',
-            'active',
-            'email_verified_at',
-            'password',
-            'remember_token',
-        ];
+        'id',
+        'name',
+        'email',
+        'active',
+        'email_verified_at',
+        'password',
+        'remember_token',
+    ];
 
     protected $hidden = [
         /*'created_by',
@@ -57,10 +59,10 @@ class User extends Authenticatable
             $this->save();
             $this->syncRoles($selected_roles);
         } catch (\Exception $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
-        } catch (\Illuminate\Database\QueryException $e) {
-            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+        } catch (QueryException $e) {
+            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
         }
 
@@ -89,11 +91,11 @@ class User extends Authenticatable
     {
         return self::buildBaseGridQuery($column, $direction, $keyword,
             ['id',
-                    'name',
-                    'email',
-                    'active',
+                'name',
+                'email',
+                'active',
             ])
-        ->paginate($per_page);
+            ->paginate($per_page);
     }
 
     /**
@@ -133,8 +135,8 @@ class User extends Authenticatable
 
         if ($keyword) {
             $query->where(function ($query) use ($keyword) {
-                $query->where('name', 'like', '%'.$keyword.'%')
-                    ->orWhere('email', 'like', '%'.$keyword.'%');
+                $query->where('name', 'like', '%' . $keyword . '%')
+                    ->orWhere('email', 'like', '%' . $keyword . '%');
             });
         }
 
@@ -156,18 +158,18 @@ class User extends Authenticatable
         $keyword = '',
         $columns = '*')
     {
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
     }
 
     public static function pdfDataQuery(
-            $column,
-            $direction,
-            $keyword = '',
-            $columns = '*')
+        $column,
+        $direction,
+        $keyword = '',
+        $columns = '*')
     {
-        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
     }
@@ -187,7 +189,7 @@ class User extends Authenticatable
             ->orderBy('name')
             ->get();
 
-        if (! $flat) {
+        if (!$flat) {
             return $records;
         } else {
             $data = [];
@@ -215,7 +217,7 @@ class User extends Authenticatable
             ->orderBy('name')
             ->get();
 
-        if (! $flat) {
+        if (!$flat) {
             return $records;
         } else {
             $data = [];
@@ -238,12 +240,12 @@ class User extends Authenticatable
     {
         $thisModel = new static;
 
-        $records = \App\Role::select('id',
+        $records = Role::select('id',
             'name')
             ->orderBy('name')
             ->get();
 
-        if (! $flat) {
+        if (!$flat) {
             $data = [];
 
             foreach ($records as $rec) {
@@ -281,6 +283,6 @@ class User extends Authenticatable
 
     public function applicants()
     {
-        return $this->belongsToMany(Applicant::class, 'applicant_user','user_id', 'applicant_id', 'id', 'id');
+        return $this->belongsToMany(Applicant::class, 'applicant_user', 'user_id', 'applicant_id', 'id', 'id');
     }
 }

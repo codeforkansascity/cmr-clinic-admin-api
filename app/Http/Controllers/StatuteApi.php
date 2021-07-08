@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StatuteIndexRequest;
 use App\Statute;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class StatuteApi extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(StatuteIndexRequest $request)
     {
@@ -50,14 +50,14 @@ class StatuteApi extends Controller
 
     public function get($id)
     {
-        return \App\Statute::with('statutes_eligibility', 'superseded')->find(intval($id));
+        return Statute::with('statutes_eligibility', 'superseded')->find(intval($id));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -67,8 +67,8 @@ class StatuteApi extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
@@ -78,9 +78,9 @@ class StatuteApi extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -90,8 +90,8 @@ class StatuteApi extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function destroy($id)
     {

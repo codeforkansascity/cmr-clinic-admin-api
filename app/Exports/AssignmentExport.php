@@ -29,12 +29,12 @@ class AssignmentExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'name',
-                        'applicant_id',
-                        'user_id',
-                        'deleted_at',
-                    ];
+            'id',
+            'name',
+            'applicant_id',
+            'user_id',
+            'deleted_at',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -44,11 +44,11 @@ class AssignmentExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
 
-                        $assignment->id,
-                        $assignment->name,
-                        $assignment->applicant_id,
-                        $assignment->user_id,
-                        $assignment->deleted_at,
-                    ];
+            $assignment->id,
+            $assignment->name,
+            $assignment->applicant_id,
+            $assignment->user_id,
+            $assignment->deleted_at,
+        ];
     }
 }

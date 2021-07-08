@@ -54,7 +54,7 @@ class ConvertTextDates
         if ($d) {
             $mysql_date = preg_replace('#(\d{1,2})-(\d{1,2})-(\d{4,4})#', '${3}-${1}-${2}', $mysql_date);
             $mysql_date = date('Y-m-d', strtotime($mysql_date));
-        //$mysql_date = preg_replace('#(\d+)/(\d+)/(\d+)#', '${3}-${1}-${2}', $d);
+            //$mysql_date = preg_replace('#(\d+)/(\d+)/(\d+)#', '${3}-${1}-${2}', $d);
         } else {
             $mysql_date = null;
         }

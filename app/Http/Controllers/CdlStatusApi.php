@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\CdlStatus;
-use Illuminate\Http\Request;
 
 class CdlStatusApi extends Controller
 {

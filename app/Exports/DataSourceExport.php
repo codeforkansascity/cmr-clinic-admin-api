@@ -29,12 +29,12 @@ class DataSourceExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'name',
-                        'description',
-                        'url',
-                        'deleted_at',
-                    ];
+            'id',
+            'name',
+            'description',
+            'url',
+            'deleted_at',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -44,11 +44,11 @@ class DataSourceExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
 
-                        $data_source->id,
-                        $data_source->name,
-                        $data_source->description,
-                        $data_source->url,
-                        $data_source->deleted_at,
-                    ];
+            $data_source->id,
+            $data_source->name,
+            $data_source->description,
+            $data_source->url,
+            $data_source->deleted_at,
+        ];
     }
 }
