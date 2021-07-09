@@ -67,9 +67,9 @@ class LawVersion extends Model
         return $this->hasMany(Charge::class);
     }
 
-    public function statute_exceptions()
+    public function law_version_exceptions()
     {
-        return $this->hasMany(StatuteException::class)->with('exception');
+        return $this->hasMany(LawVersionException::class)->with('exception');
     }
 
     public function exceptions()
@@ -248,5 +248,41 @@ class LawVersion extends Model
         }
 
     }
+
+    static public function baseFindQuery()
+    {
+        $query = self::with([
+            'statutes_eligibility',
+            'law_version_exceptions',
+            'jurisdiction',
+            'jurisdiction.type',
+            'superseded' => function ($q) {
+                $q->with('statutes_eligibility');
+            },
+            'histories' => function ($q) {
+                $q->with('user')
+                    ->orderBy('created_at', 'asc');
+            }
+        ])
+            ->select('laws.id AS id',
+                'law_versions.id AS law_version_id',
+                'law_versions.start_date',
+                'law_versions.end_date',
+                'law_versions.number',
+                'law_versions.name',
+                'law_versions.common_name',
+                'law_versions.jurisdiction_id',
+                'law_versions.note',
+                'law_versions.statutes_eligibility_id',
+                'law_versions.blocks_time',
+                'law_versions.same_as_id',
+                'law_versions.superseded_id',
+                'law_versions.superseded_on'
+            )
+            ->leftJoin('laws', 'laws.id', '=', 'law_versions.id');
+
+        return $query;
+    }
+
 
 }

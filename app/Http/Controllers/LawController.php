@@ -117,13 +117,46 @@ class LawController extends Controller
         }
 
         if ($law = $this->sanitizeAndFind($id)) {
+            dump($law);
             $can_edit = $request->user()->can('law edit');
             $can_delete = ($request->user()->can('law delete') && $law->canDelete());
-            return view('law.show', compact('law', 'can_edit', 'can_delete'));
+
+            $charges = Law::getCharges($id);
+            $charges = [];
+            $exceptions = $this->create_exceptions($law);
+
+            return view('law.show', compact('law', 'charges', 'exceptions', 'can_edit', 'can_delete'));
         } else {
             $request->session()->flash('flash_error_message', 'Unable to find Laws to display.');
             return Redirect::route('law.index');
         }
+    }
+
+    private function create_exceptions($law_version)
+    {
+        $exceptions = [];
+
+        if ($law_version_exceptions = data_get($law_version, 'law_version_exceptions', false)) {
+            foreach ($law_version_exceptions as $law_version_exception) {
+                if ($exception = data_get($law_version_exception, 'exception', false)) {
+                    $exceptions[] = [
+                        'statute_exception_id' => data_get($law_version_exception, 'id', 0),
+                        'statute_id' => data_get($law_version_exception, 'statute_id', 0),
+                        'exception_id' => data_get($law_version_exception, 'exception_id', 0),
+                        'exception_note' => data_get($law_version_exception, 'note', ''),
+                        'exception_section' => data_get($exception, 'section', 'ERR S'),
+                        'exception_name' => data_get($exception, 'name', 'ERR N'),
+                        'exception_attorney_note' => data_get($exception, 'attorney_note', 'ERR N'),
+                        'exception_dyi_note' => data_get($exception, 'dyi_note', 'ERR N'),
+                        'exception_logic' => data_get($exception, 'logic', 'ERR N'),
+                        'exception_short_name' => data_get($exception, 'short_name', 'ERR SN'),
+                    ];
+                }
+            }
+        }
+
+        return $exceptions;
+
     }
 
     /**
@@ -251,7 +284,7 @@ class LawController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return Law::find(intval($id));
+        return Law::findById(intval($id));
     }
 
     public function download(Request $request)

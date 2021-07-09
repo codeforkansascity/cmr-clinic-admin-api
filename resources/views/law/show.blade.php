@@ -15,7 +15,7 @@ View {{$law->name}}
 @endsection
 @section('content')
 
-    <law-show :record='@json($law)'></law-show>
+    <law-show :record='@json($law)'  :charges='@json($charges)' :exceptions='@json($exceptions)'></law-show>
 
     <div class="row">
         <div class="col-md-12">

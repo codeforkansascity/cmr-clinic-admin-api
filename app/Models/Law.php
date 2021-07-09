@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Charge;
 use App\Traits\HistoryTrait;
 use App\Traits\RecordSignature;
 use Exception;
@@ -186,7 +187,7 @@ class Law extends Model
     static public function findByNumber($number, $date = null)
     {
 
-        $query = self::baseFindQuery();
+        $query = LawVersion::baseFindQuery();
         $query->where('law_versions.number', $number);
 
         if ($date) {
@@ -201,7 +202,7 @@ class Law extends Model
     static public function findById($id, $date = null)
     {
 
-        $query = self::baseFindQuery();
+        $query = LawVersion::baseFindQuery();
         $query->where('law_versions.law_id', $id);
 
         if ($date) {
@@ -213,26 +214,13 @@ class Law extends Model
         return $query->first();
     }
 
-    static public function baseFindQuery()
+    static public function getCharges($id)
     {
-        $query = self::select('laws.id AS id',
-            'law_versions.id AS law_version_id',
-            'law_versions.start_date',
-            'law_versions.end_date',
-            'law_versions.number',
-            'law_versions.name',
-            'law_versions.common_name',
-            'law_versions.jurisdiction_id',
-            'law_versions.note',
-            'law_versions.statutes_eligibility_id',
-            'law_versions.blocks_time',
-            'law_versions.same_as_id',
-            'law_versions.superseded_id',
-            'law_versions.superseded_on'
-        )
-            ->leftJoin('law_versions', 'law_versions.law_id', '=', 'laws.id');
+        $recs = Charge::with(['conviction:id,case_number,name,applicant_id', 'conviction.applicant:id,name'])->where('id', $id)->get();
+        info(print_r($recs->toArray(), true));
 
-        return $query;
+        return $recs;
     }
+
 
 }
