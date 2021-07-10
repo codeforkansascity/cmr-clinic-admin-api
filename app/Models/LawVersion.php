@@ -6,8 +6,6 @@ use App\Charge;
 use App\Comment;
 use App\History;
 use App\Jurisdiction;
-use App\StatuteException;
-use App\Models\LawEligibility;
 use App\Traits\HistoryTrait;
 use App\Traits\RecordSignature;
 use Exception;
@@ -35,7 +33,7 @@ class LawVersion extends Model
         'common_name',
         'jurisdiction_id',
         'note',
-        'statutes_eligibility_id',
+        'law_eligibility_id',
         'blocks_time',
         'same_as_id',
         'superseded_id',
@@ -51,8 +49,6 @@ class LawVersion extends Model
         'created_at',
         'updated_at',
     ];
-
-
 
 
     const REQUESTED = 1;
@@ -144,12 +140,17 @@ class LawVersion extends Model
         $per_page,
         $column,
         $direction,
-        $keyword = '')
+        $keyword = '',
+        $eligibility_id = 0)
     {
-        return self::buildBaseGridQuery($column, $direction, $keyword,
-            ['id',
-                'number',
-                'name',
+        return self::buildBaseGridQuery($column, $direction, $keyword, $eligibility_id,
+            ['law_versions.id as id',
+                'law_versions.number as number',
+                'law_versions.name as name',
+                'law_versions.note as note',
+                'law_eligibilities.name AS eligible',
+                'jurisdiction_types.name AS jurisdiction_type',
+                'jurisdictions.name AS jurisdiction',
             ])
             ->paginate($per_page);
     }
@@ -172,6 +173,7 @@ class LawVersion extends Model
         $column,
         $direction,
         $keyword = '',
+        $eligibility_id = 0,
         $columns = '*')
     {
         // Map sort direction from 1/-1 integer to asc/desc sql keyword
@@ -187,33 +189,32 @@ class LawVersion extends Model
                 break;
         }
 
-        $query = self::with([
-            'law_eligibility',
-            'law_version_exceptions',
-            'jurisdiction',
-            'jurisdiction.type',
-            'superseded' => function ($q) {
-                $q->with('statutes_eligibility');
-            },
-            'histories' => function ($q) {
-                $q->with('user')
-                    ->orderBy('created_at', 'asc');
-            }
-        ])
-            ->select('laws.id AS id',
-                'law_versions.id AS law_version_id',
-                'law_versions.number',
-                'law_versions.name',
-                'law_versions.statutes_eligibility_id',
-            )
-            ->leftJoin('laws', 'laws.id', '=', 'law_versions.id');
+        if ($column == 'eligible') {
+            $column = 'law_eligibilities.name';
+        }
 
-
-        $query = $query->orderBy($column, $direction);
+        $query = self::select($columns)
+            ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('name', 'like', '%' . $keyword . '%');
+            $query->where('law_versions.name', 'like', '%' . $keyword . '%');
+            $query->orWhere('law_versions.number', 'like', '%' . $keyword . '%');
         }
+
+        if ($eligibility_id) {
+            $query->where('law_versions.law_eligibility_id', $eligibility_id);
+        }
+
+        $query->leftJoin('law_eligibilities', 'law_versions.law_eligibility_id', '=', 'law_eligibilities.id');
+        $query->leftJoin('jurisdictions', 'law_versions.jurisdiction_id', '=', 'jurisdictions.id');
+        $query->leftJoin('jurisdiction_types', 'jurisdictions.jurisdiction_type_id', '=', 'jurisdiction_types.id');
+
+
+        // Show only current ones
+
+        $query->whereIn('version_status', [LawVersion::APPROVED]);
+        $query->where('end_date', null);
+
         return $query;
     }
 
@@ -299,8 +300,8 @@ class LawVersion extends Model
                     ->orderBy('created_at', 'asc');
             }
         ])
-            ->select('laws.id AS id',
-                'law_versions.id AS law_version_id',
+            ->select('law_versions.id AS id',
+                'law_versions.law_id AS law_id',
                 'law_versions.version_status',
                 'law_versions.start_date',
                 'law_versions.end_date',
@@ -315,9 +316,49 @@ class LawVersion extends Model
                 'law_versions.superseded_id',
                 'law_versions.superseded_on'
             )
-            ->leftJoin('laws', 'laws.id', '=', 'law_versions.id');
+            ->leftJoin('laws', 'laws.id', '=', 'law_versions.law_id');
 
         return $query;
+    }
+
+    static public function findByNumber($number, $version_status = LawVersion::APPROVED,  $date = null)
+    {
+
+        $query = self::baseFindQuery();
+        $query->where('law_versions.number', $number);
+
+        if ($version_status) {
+            $version_status = !is_array($version_status) ? [$version_status] : $version_status;
+            $query->whereIn('version_status', $version_status);
+        }
+
+        if ($date) {
+            $query->whereRaw("'$date' between law_versions.start_date and law_versions.end_date");
+        } else {
+            $query->where('end_date', null);
+        }
+
+        return $query->first();
+    }
+
+    static public function findById($id, $version_status = LawVersion::APPROVED, $date = null)
+    {
+
+        $query = self::baseFindQuery();
+        $query->where('law_versions.law_id', $id);
+
+        if ($version_status) {
+            $version_status = !is_array($version_status) ? [$version_status] : $version_status;
+            $query->whereIn('version_status', $version_status);
+        }
+
+        if ($date) {
+            $query->whereRaw("'$date' between law_versions.start_date and law_versions.end_date");
+        } else {
+            $query->where('end_date', null);
+        }
+
+        return $query->first();
     }
 
 

@@ -36,7 +36,7 @@ class LawController extends Controller
         // Remember the search parameters, we saved them in the Query
         $page = session('law_page', '');
         $search = session('law_keyword', '');
-        $column = session('law_column', 'Name');
+        $column = session('law_column', 'number');
         $direction = session('law_direction', '-1');
 
         $can_add = $request->user()->can('law add');

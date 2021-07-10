@@ -195,31 +195,11 @@ class Law extends Model
 
     }
 
-    static public function findByNumber($number, $version_status = LawVersion::APPROVED,  $date = null)
-    {
-
-        $query = LawVersion::baseFindQuery();
-        $query->where('law_versions.number', $number);
-
-        if ($version_status) {
-            $version_status = !is_array($version_status) ? [$version_status] : $version_status;
-            $query->whereIn('version_status', $version_status);
-        }
-
-        if ($date) {
-            $query->whereRaw("'$date' between law_versions.start_date and law_versions.end_date");
-        } else {
-            $query->where('end_date', null);
-        }
-
-        return $query->first();
-    }
-
     static public function findById($id, $version_status = LawVersion::APPROVED, $date = null)
     {
 
         $query = LawVersion::baseFindQuery();
-        $query->where('law_versions.law_id', $id);
+        $query->where('laws.id', $id);
 
         if ($version_status) {
             $version_status = !is_array($version_status) ? [$version_status] : $version_status;

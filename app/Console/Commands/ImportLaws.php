@@ -80,9 +80,9 @@ class ImportLaws extends Command
         foreach ($this->laws as $law) {
 //print_r($law);
             print ".";
-            $test = Law::findByNumber($law['number']);
+            $test = LawVersion::findByNumber($law['number']);
 //            print_r($test->toArray());
-            if (!Law::findByNumber($law['number'])) {
+            if (!LawVersion::findByNumber($law['number'])) {
                 print "+";
                 $this->createLaw($law);
             }
@@ -107,7 +107,7 @@ class ImportLaws extends Command
             && ($supersededIndex = $this->findIndexById($law['superseded_id']))
         ) {
             $supersededImport = $this->laws[$supersededIndex];
-            $superseded = Law::findByNumber($supersededImport['number']);
+            $superseded = LawVersion::findByNumber($supersededImport['number']);
             if (!$superseded) {
                 $superseded = $this->createLaw($supersededImport);
             }

@@ -11,14 +11,14 @@
 @endsection
 @section('content')
     <law-grid :params="{
-            Page: '{{ $page }}',
-            Search: '{{ $search }}',
-            sortOrder: '{{ $direction }}',
-            sortKey: '{{ $column }}',
-            CanAdd: '{{ $can_add }}',
-            CanEdit: '{{ $can_edit }}',
-            CanShow: '{{ $can_show }}',
-            CanDelete: '{{ $can_delete }}',
-            CanExcel: '{{ $can_excel }}'
+        Page: '{{ $page }}',
+        Search: '{{ $search }}',
+        sortOrder: '{{ $direction }}',
+        sortKey: '{{ $column }}',
+        CanAdd: '{{ $can_add }}',
+        CanEdit: '{{ $can_edit }}',
+        CanShow: '{{ $can_show }}',
+        CanDelete: '{{ $can_delete }}',
+        CanExcel: '{{ $can_excel }}'
         }"></law-grid>
 @endsection

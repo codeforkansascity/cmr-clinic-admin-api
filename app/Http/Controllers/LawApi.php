@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LawIndexRequest;
 use App\Models\Law;
+use App\Models\LawVersion;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -22,9 +23,10 @@ class LawApi extends Controller
 
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
-        $column = $request->get('column', 'Name');
+        $column = $request->get('column', 'number');
         $direction = $request->get('direction', '-1');
         $keyword = $request->get('keyword', '');
+        $eligibility_id = $request->get('eligibility_id', '');
 
         // Save the search parameters so we can remember when we go back to the index
         //   The page is being done by Laravel
@@ -33,12 +35,13 @@ class LawApi extends Controller
             'law_column' => $column,
             'law_direction' => $direction,
             'law_keyword' => $keyword,
+            'eligibility_id' => $eligibility_id,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
         $column = $column ? mb_strtolower($column) : 'name';
 
-        return Law::indexData(10, $column, $direction, $keyword);
+        return LawVersion::indexData(10, $column, $direction, $keyword, $eligibility_id);
     }
 
     /**
