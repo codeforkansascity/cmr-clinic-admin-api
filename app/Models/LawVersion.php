@@ -7,7 +7,7 @@ use App\Comment;
 use App\History;
 use App\Jurisdiction;
 use App\StatuteException;
-use App\StatutesEligibility;
+use App\Models\LawEligibility;
 use App\Traits\HistoryTrait;
 use App\Traits\RecordSignature;
 use Exception;
@@ -52,6 +52,20 @@ class LawVersion extends Model
         'updated_at',
     ];
 
+
+
+
+    const REQUESTED = 1;
+    const CANCELED = 2;
+    const REFUSED = 3;
+    const APPROVED = 4;
+    const LAW_VERSION_STATUSES = [
+        self::REQUESTED,
+        self::CANCELED,
+        self::REFUSED,
+        self::APPROVED,
+    ];
+
     public function superseded()
     {
         return $this->belongsTo(self::class);
@@ -78,9 +92,9 @@ class LawVersion extends Model
     }
 
 
-    public function statutes_eligibility()
+    public function law_eligibility()
     {
-        return $this->belongsTo(StatutesEligibility::class);
+        return $this->belongsTo(LawEligibility::class);
     }
 
     public function comments()
@@ -173,8 +187,29 @@ class LawVersion extends Model
                 break;
         }
 
-        $query = self::select($columns)
-            ->orderBy($column, $direction);
+        $query = self::with([
+            'law_eligibility',
+            'law_version_exceptions',
+            'jurisdiction',
+            'jurisdiction.type',
+            'superseded' => function ($q) {
+                $q->with('statutes_eligibility');
+            },
+            'histories' => function ($q) {
+                $q->with('user')
+                    ->orderBy('created_at', 'asc');
+            }
+        ])
+            ->select('laws.id AS id',
+                'law_versions.id AS law_version_id',
+                'law_versions.number',
+                'law_versions.name',
+                'law_versions.statutes_eligibility_id',
+            )
+            ->leftJoin('laws', 'laws.id', '=', 'law_versions.id');
+
+
+        $query = $query->orderBy($column, $direction);
 
         if ($keyword) {
             $query->where('name', 'like', '%' . $keyword . '%');
@@ -252,12 +287,12 @@ class LawVersion extends Model
     static public function baseFindQuery()
     {
         $query = self::with([
-            'statutes_eligibility',
+            'law_eligibility',
             'law_version_exceptions',
             'jurisdiction',
             'jurisdiction.type',
             'superseded' => function ($q) {
-                $q->with('statutes_eligibility');
+                $q->with('law_eligibility');
             },
             'histories' => function ($q) {
                 $q->with('user')
@@ -266,6 +301,7 @@ class LawVersion extends Model
         ])
             ->select('laws.id AS id',
                 'law_versions.id AS law_version_id',
+                'law_versions.version_status',
                 'law_versions.start_date',
                 'law_versions.end_date',
                 'law_versions.number',
@@ -273,7 +309,7 @@ class LawVersion extends Model
                 'law_versions.common_name',
                 'law_versions.jurisdiction_id',
                 'law_versions.note',
-                'law_versions.statutes_eligibility_id',
+                'law_versions.law_eligibility_id',
                 'law_versions.blocks_time',
                 'law_versions.same_as_id',
                 'law_versions.superseded_id',

@@ -12,14 +12,14 @@
 
                 <div class="col-md-12 text-center2">
                     <h1 class="text-center">
-                    <span v-if="record.statutes_eligibility_id == '0'">
+                    <span v-if="record.law_eligibility_id == '0'">
                         Undetermined Eligibility
                     </span>
-                        <span v-else-if="record.statutes_eligibility.name != 'Eligible'" style="color:red">
-                        {{ record.statutes_eligibility.name }}
+                        <span v-else-if="record.law_eligibility.name != 'Eligible'" style="color:red">
+                        {{ record.law_eligibility.name }}
                     </span>
                         <span v-else>
-                        {{ record.statutes_eligibility.name }}
+                        {{ record.law_eligibility.name }}
                     </span>
 
                     </h1>

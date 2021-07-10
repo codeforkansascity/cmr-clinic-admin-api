@@ -17,6 +17,7 @@ class CreateLawVersionsTable extends Migration
             $table->bigIncrements('id');
 
             $table->unsignedBigInteger('law_id')->nullable();
+            $table->integer('version_status')->nullable();
             $table->dateTime('start_date')->default(now())->nullable();
             $table->dateTime('end_date')->default(null)->nullable();
 
@@ -25,7 +26,7 @@ class CreateLawVersionsTable extends Migration
             $table->string('common_name')->nullable();
             $table->unsignedBigInteger('jurisdiction_id')->nullable();
             $table->text('note')->nullable();
-            $table->integer('statutes_eligibility_id')->default(0)->nullable();
+            $table->integer('law_eligibility_id')->default(0)->nullable();
             $table->integer('blocks_time')->default(null)->nullable();
 
 
@@ -40,7 +41,7 @@ class CreateLawVersionsTable extends Migration
             $table->integer('purged_by')->default(0)->nullable();
             $table->softDeletes();
 
-            $table->index(['statutes_eligibility_id']);
+            $table->index(['law_eligibility_id']);
 
             $table->foreign('jurisdiction_id')
                 ->references('id')->on('jurisdictions')->onDelete('set null');

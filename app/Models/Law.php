@@ -16,6 +16,17 @@ class Law extends Model
 
 //    use HistoryTrait;
 
+    const ELIGIBLE = '1';
+    const INELIGIBLE = '2';
+    const POSSIBLY = '3';
+    const UNDETERMINED = '4';
+    const ELIGIBLITY_STATUSES = [
+        self::ELIGIBLE,
+        self::INELIGIBLE,
+        self::POSSIBLY,
+        self::UNDETERMINED,
+    ];
+
     /**
      * fillable - attributes that can be mass-assigned.
      */
@@ -184,11 +195,16 @@ class Law extends Model
 
     }
 
-    static public function findByNumber($number, $date = null)
+    static public function findByNumber($number, $version_status = LawVersion::APPROVED,  $date = null)
     {
 
         $query = LawVersion::baseFindQuery();
         $query->where('law_versions.number', $number);
+
+        if ($version_status) {
+            $version_status = !is_array($version_status) ? [$version_status] : $version_status;
+            $query->whereIn('version_status', $version_status);
+        }
 
         if ($date) {
             $query->whereRaw("'$date' between law_versions.start_date and law_versions.end_date");
@@ -199,11 +215,16 @@ class Law extends Model
         return $query->first();
     }
 
-    static public function findById($id, $date = null)
+    static public function findById($id, $version_status = LawVersion::APPROVED, $date = null)
     {
 
         $query = LawVersion::baseFindQuery();
         $query->where('law_versions.law_id', $id);
+
+        if ($version_status) {
+            $version_status = !is_array($version_status) ? [$version_status] : $version_status;
+            $query->whereIn('version_status', $version_status);
+        }
 
         if ($date) {
             $query->whereRaw("'$date' between law_versions.start_date and law_versions.end_date");

@@ -117,7 +117,7 @@ class LawController extends Controller
         }
 
         if ($law = $this->sanitizeAndFind($id)) {
-            dump($law);
+
             $can_edit = $request->user()->can('law edit');
             $can_delete = ($request->user()->can('law delete') && $law->canDelete());
 

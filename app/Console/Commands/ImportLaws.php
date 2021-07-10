@@ -119,10 +119,11 @@ class ImportLaws extends Command
         $version_record = LawVersion::create(
             [
                 "law_id" => $record->id,
+                "version_status" => LawVersion::APPROVED,
                 "number" => $law['number'],
                 "name" => $law['name'],
                 "note" => $law['note'],
-                "statutes_eligibility_id" => $law['statutes_eligibility_id'],
+                "law_eligibility_id" => $law['statutes_eligibility_id'],
                 "superseded_id" => $superseded_id ?? null,
                 "superseded_on" => $law['superseded_on'],
                 "deleted_at" => $law['deleted_at'],
