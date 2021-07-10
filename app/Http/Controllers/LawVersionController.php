@@ -67,7 +67,22 @@ class LawVersionController extends Controller
             }
         }
 
-        return view('law-version.create');
+
+        $version_id = intval(data_get($request,'version_id',-1));
+
+        if ($law_version = LawVersion::sanitizeAndFind($version_id)) {
+            $law_version->based_on_law_version_id = $law_version->id;
+            $law_version->id = 0;
+            $law_version->verison_status = LawVersion::REQUESTED;
+
+            info(__METHOD__);
+            info(print_r($law_version->toArray(),true));
+
+            return view('law-version.create', compact('law_version'));
+        } else {
+            $request->session()->flash('flash_error_message', 'Unable to find Law Versions to edit.');
+            return Redirect::route('law-version.index');
+        }
     }
 
 
@@ -82,8 +97,15 @@ class LawVersionController extends Controller
 
         $law_version = new LawVersion;
 
+
+
         try {
-            $law_version->add($request->validated());
+            $attributes = $request->validated();
+            $attributes['version_status'] = LawVersion::REQUESTED;
+            $law_version->add($attributes);
+            info(__METHOD__);
+            info(print_r($law_version->toArray(),true));
+
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Unable to process request',
@@ -116,7 +138,7 @@ class LawVersionController extends Controller
             }
         }
 
-        if ($law_version = $this->sanitizeAndFind($id)) {
+        if ($law_version = LawVersion::sanitizeAndFind($id)) {
             $can_edit = $request->user()->can('law_version edit');
             $can_delete = ($request->user()->can('law_version delete') && $law_version->canDelete());
             return view('law-version.show', compact('law_version', 'can_edit', 'can_delete'));
@@ -143,7 +165,7 @@ class LawVersionController extends Controller
             }
         }
 
-        if ($law_version = $this->sanitizeAndFind($id)) {
+        if ($law_version = LawVersion::sanitizeAndFind($id)) {
             return view('law-version.edit', compact('law_version'));
         } else {
             $request->session()->flash('flash_error_message', 'Unable to find Law Versions to edit.');
@@ -170,7 +192,7 @@ class LawVersionController extends Controller
 //            }
 //        }
 
-        if (!$law_version = $this->sanitizeAndFind($id)) {
+        if (!$law_version = LawVersion::sanitizeAndFind($id)) {
             //     $request->session()->flash('flash_error_message', 'Unable to find Law Versions to edit.');
             return response()->json([
                 'message' => 'Not Found',
@@ -216,7 +238,7 @@ class LawVersionController extends Controller
             }
         }
 
-        $law_version = $this->sanitizeAndFind($id);
+        $law_version = LawVersion::sanitizeAndFind($id);
 
         if ($law_version && $law_version->canDelete()) {
 
@@ -243,16 +265,7 @@ class LawVersionController extends Controller
 
     }
 
-    /**
-     * Find by ID, sanitize the ID first.
-     *
-     * @param $id
-     * @return LawVersion or null
-     */
-    private function sanitizeAndFind($id)
-    {
-        return LawVersion::find(intval($id));
-    }
+
 
     public function download(Request $request)
     {

@@ -86,6 +86,18 @@ class Law extends Model
             ->paginate($per_page);
     }
 
+    /**
+     * Find by ID, sanitize the ID first.
+     *
+     * @param $id
+     * @return Law or null
+     */
+    static public function sanitizeAndFind($id)
+    {
+        return self::findById(intval($id));
+    }
+
+
 
     /**
      * Create base query to be used by Grid, Download, and PDF.

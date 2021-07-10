@@ -26,6 +26,8 @@ class LawVersion extends Model
     protected $fillable = [
         'id',
         'law_id',
+        'based_on_law_version_id',
+        'version_status',
         'start_date',
         'end_date',
         'number',
@@ -155,6 +157,16 @@ class LawVersion extends Model
             ->paginate($per_page);
     }
 
+    /**
+     * Find by ID, sanitize the ID first.
+     *
+     * @param $id
+     * @return LawVersion or null
+     */
+    static public function sanitizeAndFind($id)
+    {
+        return self::find(intval($id));
+    }
 
     /**
      * Create base query to be used by Grid, Download, and PDF.

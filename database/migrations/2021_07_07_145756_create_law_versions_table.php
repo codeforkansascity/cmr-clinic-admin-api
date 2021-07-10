@@ -17,6 +17,7 @@ class CreateLawVersionsTable extends Migration
             $table->bigIncrements('id');
 
             $table->unsignedBigInteger('law_id')->nullable();
+            $table->unsignedBigInteger('based_on_law_version_id')->nullable();
             $table->integer('version_status')->nullable();
             $table->dateTime('start_date')->default(now())->nullable();
             $table->dateTime('end_date')->default(null)->nullable();

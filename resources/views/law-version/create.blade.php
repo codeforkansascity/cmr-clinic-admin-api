@@ -15,5 +15,5 @@
     </ol>
 @endsection
 @section('content')
-    <law-version-form csrf_token="{{ csrf_token() }}"></law-version-form>
+    <law-version-form :record='@json($law_version)' csrf_token="{{ csrf_token() }}"></law-version-form>
 @endsection

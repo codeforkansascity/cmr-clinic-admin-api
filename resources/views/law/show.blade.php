@@ -22,7 +22,7 @@ View {{$law->name}}
             <div class="row mt-4">
                 <div class="col-md-4">
                     @if ($can_edit)
-                        <a href="/law/{{ $law->id }}/edit" class="btn btn-primary">Edit Laws</a>
+                        <a href="/law-version/create/{{ $law->id }}" class="btn btn-primary">Edit Laws</a>
                     @endif
                 </div>
                 <div class="col-md-4 text-md-center mt-2 mt-md-0">

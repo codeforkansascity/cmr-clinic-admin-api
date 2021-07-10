@@ -116,7 +116,7 @@ class LawController extends Controller
             }
         }
 
-        if ($law = $this->sanitizeAndFind($id)) {
+        if ($law = Law::sanitizeAndFind($id)) {
 
             $can_edit = $request->user()->can('law edit');
             $can_delete = ($request->user()->can('law delete') && $law->canDelete());
@@ -176,7 +176,7 @@ class LawController extends Controller
             }
         }
 
-        if ($law = $this->sanitizeAndFind($id)) {
+        if ($law = Law::sanitizeAndFind($id)) {
             return view('law.edit', compact('law'));
         } else {
             $request->session()->flash('flash_error_message', 'Unable to find Laws to edit.');
@@ -203,7 +203,7 @@ class LawController extends Controller
 //            }
 //        }
 
-        if (!$law = $this->sanitizeAndFind($id)) {
+        if (!$law = Law::sanitizeAndFind($id)) {
             //     $request->session()->flash('flash_error_message', 'Unable to find Laws to edit.');
             return response()->json([
                 'message' => 'Not Found',
@@ -249,7 +249,7 @@ class LawController extends Controller
             }
         }
 
-        $law = $this->sanitizeAndFind($id);
+        $law = Law::sanitizeAndFind($id);
 
         if ($law && $law->canDelete()) {
 
@@ -276,16 +276,6 @@ class LawController extends Controller
 
     }
 
-    /**
-     * Find by ID, sanitize the ID first.
-     *
-     * @param $id
-     * @return Law or null
-     */
-    private function sanitizeAndFind($id)
-    {
-        return Law::findById(intval($id));
-    }
 
     public function download(Request $request)
     {
