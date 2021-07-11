@@ -208,6 +208,9 @@ Vue.component('dsp-exception-statutes', () => import(/* webpackChunkName:"dsp-ex
 Vue.component('law-grid', () => import(/* webpackChunkName:"law-grid" */ './components/laws/LawGrid.vue'));
 Vue.component('law-form', () => import(/* webpackChunkName:"law-form" */ './components/laws/LawForm.vue'));
 Vue.component('law-show', () => import(/* webpackChunkName:"law-Show" */ './components/laws/LawShow.vue'));
+Vue.component('law-changes-pending-review', () => import(/* webpackChunkName:"law-changes-pending-review" */ './components/laws/LawChangesPendingReview.vue'));
+
 Vue.component('law-version-grid', () => import(/* webpackChunkName:"law-version-grid" */ './components/law_versions/LawVersionGrid.vue'));
 Vue.component('law-version-form', () => import(/* webpackChunkName:"law-version-form" */ './components/law_versions/LawVersionForm.vue'));
 Vue.component('law-version-show', () => import(/* webpackChunkName:"law-version-Show" */ './components/law_versions/LawVersionShow.vue'));
+

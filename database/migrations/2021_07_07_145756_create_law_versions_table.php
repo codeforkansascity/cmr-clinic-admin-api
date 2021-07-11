@@ -17,13 +17,18 @@ class CreateLawVersionsTable extends Migration
             $table->bigIncrements('id');
 
             $table->unsignedBigInteger('law_id')->nullable();
+            $table->string('number')->nullable();
+            $table->string('name', 500);
+            $table->foreign('jurisdiction_id')
+                ->references('id')->on('jurisdictions')->onDelete('set null');
+
+            $table->text('reason_for_change')->nullable();
             $table->unsignedBigInteger('based_on_law_version_id')->nullable();
             $table->integer('version_status')->nullable();
             $table->dateTime('start_date')->default(now())->nullable();
             $table->dateTime('end_date')->default(null)->nullable();
 
-            $table->string('number')->nullable();
-            $table->string('name', 500);
+
             $table->string('common_name')->nullable();
             $table->unsignedBigInteger('jurisdiction_id')->nullable();
             $table->text('note')->nullable();
@@ -44,8 +49,6 @@ class CreateLawVersionsTable extends Migration
 
             $table->index(['law_eligibility_id']);
 
-            $table->foreign('jurisdiction_id')
-                ->references('id')->on('jurisdictions')->onDelete('set null');
 
             $table->foreign('same_as_id')
                 ->references('id')->on('statutes')->onDelete('set null');

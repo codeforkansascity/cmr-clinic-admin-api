@@ -129,6 +129,8 @@ class StatuteController extends Controller
             'jurisdiction_id',
         ]));
 
+
+
         if ($request->statute_exceptions) {
             $this->syncExceptions($request, $statute);
         }
@@ -244,6 +246,9 @@ class StatuteController extends Controller
                 'message' => 'Not Found',
             ], 404);
         }
+
+        info(__METHOD__);
+        info(print_r($request->all(),true));
 
         $statute->fill($request->all());
 

@@ -117,6 +117,10 @@ export default {
         exceptions: {
             type: [Boolean, Object, Array],
             default: false
+        },
+        versions: {
+            type: [Boolean, Object, Array],
+            default: false
         }
 
     },

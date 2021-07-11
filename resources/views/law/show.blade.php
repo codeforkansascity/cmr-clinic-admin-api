@@ -15,14 +15,14 @@ View {{$law->name}}
 @endsection
 @section('content')
 
-    <law-show :record='@json($law)'  :charges='@json($charges)' :exceptions='@json($exceptions)'></law-show>
+    <law-show :record='@json($law)'  :charges='@json($charges)' :exceptions='@json($exceptions)' :versions='@json($versions)'></law-show>
 
-    <div class="row">
+    <div class="row mb-5">
         <div class="col-md-12">
             <div class="row mt-4">
                 <div class="col-md-4">
                     @if ($can_edit)
-                        <a href="/law-version/create/{{ $law->id }}" class="btn btn-primary">Edit Laws</a>
+                        <a href="/law-version/create/{{ $law->id }}" class="btn btn-primary">Suggest Changes</a>
                     @endif
                 </div>
                 <div class="col-md-4 text-md-center mt-2 mt-md-0">
@@ -40,6 +40,37 @@ View {{$law->name}}
                     <a href="{{ url('/law') }}" class="btn btn-default">Return to List</a>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h4>Changes Pending Review</h4>
+
+            <law-changes-pending-review :versions='@json($versions)'></law-changes-pending-review>
+
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h4>History of Changes</h4>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h4>Notice</h4>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h4>Relevant Statutes</h4>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h4>Versions</h4>
         </div>
     </div>
 </div>

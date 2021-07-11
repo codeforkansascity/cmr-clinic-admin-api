@@ -15,7 +15,7 @@ View {{$law_version->name}}
 @endsection
 @section('content')
 
-    <law-version-show :record='@json($law_version)'></law-version-show>
+    <law-version-show :record='@json($law_version)' :exceptions='@json($exceptions)'></law-version-show>
 
     <div class="row">
         <div class="col-md-12">

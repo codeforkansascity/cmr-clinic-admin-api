@@ -124,8 +124,9 @@ class LawController extends Controller
             $charges = Law::getCharges($id);
             $charges = [];
             $exceptions = $this->create_exceptions($law);
+            $versions = App\Models\LawVersion::getNonApprovedVersions($law->id);
 
-            return view('law.show', compact('law', 'charges', 'exceptions', 'can_edit', 'can_delete'));
+            return view('law.show', compact('law', 'charges', 'exceptions', 'versions', 'can_edit', 'can_delete'));
         } else {
             $request->session()->flash('flash_error_message', 'Unable to find Laws to display.');
             return Redirect::route('law.index');

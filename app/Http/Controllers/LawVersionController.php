@@ -78,7 +78,9 @@ class LawVersionController extends Controller
             info(__METHOD__);
             info(print_r($law_version->toArray(),true));
 
-            return view('law-version.create', compact('law_version'));
+            $exceptions = $this->create_exceptions($law_version);
+
+            return view('law-version.create', compact('law_version','exceptions'));
         } else {
             $request->session()->flash('flash_error_message', 'Unable to find Law Versions to edit.');
             return Redirect::route('law-version.index');
@@ -95,17 +97,27 @@ class LawVersionController extends Controller
     public function store(LawVersionFormRequest $request)
     {
 
-        $law_version = new LawVersion;
+
 
 
 
         try {
             $attributes = $request->validated();
+
+
             $attributes['version_status'] = LawVersion::REQUESTED;
-            $law_version->add($attributes);
+
             info(__METHOD__);
+            info(print_r($attributes,true));
+
+            $law_version = LawVersion::create($attributes);
+
+
             info(print_r($law_version->toArray(),true));
 
+            if ($request->law_version_exceptions) {
+                $this->syncExceptions($request, $law_version, $law_version_id = $law_version->id);
+            }
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Unable to process request',
@@ -141,7 +153,8 @@ class LawVersionController extends Controller
         if ($law_version = LawVersion::sanitizeAndFind($id)) {
             $can_edit = $request->user()->can('law_version edit');
             $can_delete = ($request->user()->can('law_version delete') && $law_version->canDelete());
-            return view('law-version.show', compact('law_version', 'can_edit', 'can_delete'));
+            $exceptions = $this->create_exceptions($law_version);
+            return view('law-version.show', compact('law_version', 'exceptions', 'can_edit', 'can_delete'));
         } else {
             $request->session()->flash('flash_error_message', 'Unable to find Law Versions to display.');
             return Redirect::route('law-version.index');
@@ -365,6 +378,99 @@ class LawVersionController extends Controller
         /// End TCPDF/tcpdf-laravel test
         ///////////////////////////////////////////////////////////////////////
         */
+    }
+
+    private function create_exceptions($law_version)
+    {
+        $exceptions = [];
+
+        if ($law_version_exceptions = data_get($law_version, 'law_version_exceptions', false)) {
+            foreach ($law_version_exceptions as $law_version_exception) {
+                if ($exception = data_get($law_version_exception, 'exception', false)) {
+                    $exceptions[] = [
+                        'statute_exception_id' => data_get($law_version_exception, 'id', 0),
+                        'statute_id' => data_get($law_version_exception, 'statute_id', 0),
+                        'exception_id' => data_get($law_version_exception, 'exception_id', 0),
+                        'exception_note' => data_get($law_version_exception, 'note', ''),
+                        'exception_section' => data_get($exception, 'section', 'ERR S'),
+                        'exception_name' => data_get($exception, 'name', 'ERR N'),
+                        'exception_attorney_note' => data_get($exception, 'attorney_note', 'ERR N'),
+                        'exception_dyi_note' => data_get($exception, 'dyi_note', 'ERR N'),
+                        'exception_logic' => data_get($exception, 'logic', 'ERR N'),
+                        'exception_short_name' => data_get($exception, 'short_name', 'ERR SN'),
+                    ];
+                }
+            }
+        }
+
+        return $exceptions;
+
+    }
+
+    private function syncExceptions($request, LawVersion $law_version, $law_version_id=null): bool
+    {
+info(__METHOD__);
+        $law_version_exceptions = $request->law_version_exceptions ?? [];
+        $isChanged = false;
+        $originals = $law_version->law_version_exceptions;
+
+        $requestIds = array_filter(
+            array_map(function ($exception) {
+                return $exception['id'] ?? [];
+            },
+                $law_version_exceptions
+            )
+        );
+
+        // remove all law_version exceptions ids not in the request
+        if (!empty($requestIds)) {
+            $res = $law_version->law_version_exceptions()->whereNotIn('id', $requestIds)->delete();
+            $isChanged = $res ? true : $isChanged;
+        } else if (empty($law_version_exceptions)) {
+            $law_version->law_version_exceptions()->delete();
+            $isChanged = true;
+        }
+
+        // add or update law_version exceptions
+        foreach ($law_version_exceptions as $law_version_exception) {
+            if (empty($law_version_exception['exception_id'])) continue;
+
+            $pivot_id = $law_version_exception['id'] ?? null;
+
+            if ($law_version_id) {
+                $pivot_id = null;
+            }
+
+
+            $exception_id = $law_version_exception['exception_id'] ?? null;
+            if (empty($pivot_id)) {
+                $attributes = [
+                    'exception_id' => $exception_id,
+
+                    'note' => $law_version_exception['note'] ?? ""
+                ];
+                if ($law_version_id) {
+                    $attributes['law_version_id'] = $law_version_id;
+                }
+
+                info(__METHOD__);
+            //    info(print_r($attributes,true));
+                $law_version->law_version_exceptions()->create($attributes);
+                $isChanged = true;
+            } else {
+                $originalException = $originals->firstWhere('id', $pivot_id);
+                if (!$originalException || $law_version_exception['note'] !== $originalException->note) {
+                    $law_version->law_version_exceptions()
+                        ->where('id', $pivot_id)
+                        ->update(["note" => $law_version_exception['note']]);
+                    $isChanged = true;
+                }
+            }
+
+
+        }
+
+        return $isChanged;
     }
 
 }

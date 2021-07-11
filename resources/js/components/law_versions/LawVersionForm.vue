@@ -5,7 +5,22 @@
         {{ this.server_message }} <a v-if="try_logging_in" href="/login">Login</a>
     </div>
 
+    <div class="row">
+        <div class="col-md-12">
+            <std-form-group
+                label="Reason for change:"
+                label-for="reason_for_change"
+                :errors="form_errors.reason_for_change"
+            >
 
+                <fld-text-editor
+                    name="reason_for_change"
+                    v-model="form_data.reason_for_change"
+                />
+
+            </std-form-group>
+        </div>
+    </div>
     <div class="row">
 
         <div class="col-md-4">
@@ -155,7 +170,7 @@
     </div>
     <p>Add Exceptions to indicate why the offense is not expungable.</p>
 
-    <div class="row" v-for="(row, i) in form_data.statute_exceptions" :key="i">
+    <div class="row" v-for="(row, i) in form_data.law_version_exceptions" :key="i">
         <div class="col-md-12">
             <std-form-group
                 label="Exception"
@@ -188,7 +203,7 @@
         </div>
     </div>
 
-    <div v-if="!form_data.statute_exceptions || form_data.statute_exceptions.length < 1" class="mb-5 mt-3 text-center">
+    <div v-if="!form_data.law_version_exceptions || form_data.law_version_exceptions.length < 1" class="mb-5 mt-3 text-center">
         <h3>No Exceptions</h3>
     </div>
 
@@ -203,9 +218,9 @@
 
                 <ui-select-pick-one
                     url="/api-statutes-eligibility/options"
-                    v-model="form_data.statutes_eligibility_id"
-                    :selected_id="form_data.statutes_eligibility_id"
-                    name="statutes_eligibility"
+                    v-model="form_data.law_eligibility_id"
+                    :selected_id="form_data.law_eligibility_id"
+                    name="law_versions_eligibility"
                     blank_value="0"
                     additional_classes="mb-2 grid-filter"
                     styleAttr="max-width: 175px;"
@@ -327,11 +342,15 @@ export default {
                 _token: this.csrf_token,
                 id: 0,
                 law_id: 0,
-                based_on_law_version_id: 0,
                 number: '',
                 name: '',
-                common_name: '',
                 jurisdiction_id: 0,
+                law_version_exceptions: [],
+                reason_for_change: '',
+                based_on_law_version_id: 0,
+
+                common_name: '',
+
                 note: '',
                 statutes_eligibility_id: 0,
                 blocks_time: 0,
@@ -365,12 +384,11 @@ export default {
         if (this.record !== false) {
             // this.form_data._method = 'patch';
             Object.keys(this.record).forEach(
-                i => (this.$set(this.form_data, i, this.record[i]))
-            )
+                i => (this.form_data[i] = this.record[i])
+            );
         } else {
             // this.form_data._method = 'post';
         }
-
         this.getData()
 
     },
@@ -380,6 +398,13 @@ export default {
             this.getJurisdictionTypes()
         },
         async handleSubmit() {
+
+            if(!this.form_data.reason_for_change) {
+                this.form_errors.reason_for_change = ["Reason for change is required."];
+                return;
+            }
+
+            this.form_data.jurisdiction_id = this.selected_jurisdiction.id
 
             this.server_message = false;
             this.processing = true;
@@ -479,11 +504,11 @@ export default {
                 .catch(e => console.error(e))
         },
         addException() {
-            this.form_data.statute_exceptions.push({})
+            this.form_data.law_version_exceptions.push({})
         },
         removeExceptionAt(index) {
-            if (this.form_data.statute_exceptions.length >= index + 1) {
-                this.form_data.statute_exceptions.splice(index, 1);
+            if (this.form_data.law_version_exceptions.length >= index + 1) {
+                this.form_data.law_version_exceptions.splice(index, 1);
             }
         },
         getDiff() {

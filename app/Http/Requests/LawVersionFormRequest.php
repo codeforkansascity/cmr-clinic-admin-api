@@ -36,15 +36,20 @@ class LawVersionFormRequest extends FormRequest
 
             'id' => 'numeric',
             'law_id' => 'numeric',
+            'number' => 'nullable|string|max:191',
+            'name' => 'required|min:3|nullable|string|max:500',
+            'jurisdiction_id' => 'nullable|numeric',
+
+            'reason_for_change' => 'nullable|string',
             'based_on_law_version_id' => 'numeric',
+
             'version_status' => 'numeric',
             'start_date'  => 'date',
             'end_date' => 'nullable',
 
-            'number' => 'nullable|string|max:191',
-            'name' => 'required|min:3|nullable|string|max:500',
+            'law_version_exceptions' => 'nullable',
+
             'common_name' => 'nullable|string|max:191',
-            'jurisdiction_id' => 'nullable|numeric',
             'note' => 'nullable|string',
             'law_eligibility_id' => 'nullable|numeric',
             'blocks_time' => 'nullable|numeric',

@@ -30,6 +30,7 @@ class LawVersion extends Model
         'version_status',
         'start_date',
         'end_date',
+        'reason_for_change',
         'number',
         'name',
         'common_name',
@@ -165,7 +166,21 @@ class LawVersion extends Model
      */
     static public function sanitizeAndFind($id)
     {
-        return self::find(intval($id));
+
+        return self::with([
+            'law_eligibility',
+            'law_version_exceptions',
+            'jurisdiction',
+            'jurisdiction.type',
+            'superseded' => function ($q) {
+                $q->with('law_eligibility');
+            },
+            'histories' => function ($q) {
+                $q->with('user')
+                    ->orderBy('created_at', 'asc');
+            }
+        ])
+            ->find(intval($id));
     }
 
     /**
@@ -333,7 +348,7 @@ class LawVersion extends Model
         return $query;
     }
 
-    static public function findByNumber($number, $version_status = LawVersion::APPROVED,  $date = null)
+    static public function findByNumber($number, $version_status = LawVersion::APPROVED, $date = null)
     {
 
         $query = self::baseFindQuery();
@@ -371,6 +386,27 @@ class LawVersion extends Model
         }
 
         return $query->first();
+    }
+
+    static public function getNonApprovedVersions($law_id)
+    {
+        $query = self::select(
+            'law_versions.id AS id',
+            'start_date',
+            'reason_for_change',
+            'version_status',
+            'law_versions.created_at',
+            'law_versions.updated_at',
+            'users.name AS created_by_name',
+            'updated_users.name AS updated_by_name'
+        )
+            ->leftJoin('users', 'users.id', '=', 'law_versions.created_by')
+            ->leftJoin('users AS updated_users', 'updated_users.id', '=', 'law_versions.created_by')
+            ->where('law_versions.version_status', '<>', self::APPROVED)
+            ->where('law_versions.law_id', $law_id)
+            ->orderBy('law_versions.created_at');
+
+        return $query->get();
     }
 
 
