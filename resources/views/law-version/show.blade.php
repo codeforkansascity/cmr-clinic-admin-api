@@ -26,14 +26,8 @@ View {{$law_version->name}}
                     @endif
                 </div>
                 <div class="col-md-4 text-md-center mt-2 mt-md-0">
-                    @if ($can_delete)
-                        <form class="form" role="form" method="POST" action="/law-version/{{ $law_version->id }}">
-                            @method('delete')
-                            @csrf
-
-                            <input class="btn btn-danger" Onclick="return ConfirmDelete();" type="submit" value="Delete Law Versions">
-
-                        </form>
+                    @if ($can_edit)
+                        <a href="/law-version/{{ $law_version->id }}/approve" class="btn btn-primary">Approve</a>
                     @endif
                 </div>
                 <div class="col-md-4 text-md-right mt-2 mt-md-0">

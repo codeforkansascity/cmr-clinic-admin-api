@@ -1,4 +1,4 @@
-@extends('layouts.master
+@extends('layouts.master')
 @php $nav_path = ['law-version']; @endphp
 @section('page-title')
     Edit {{$law_version->name}}

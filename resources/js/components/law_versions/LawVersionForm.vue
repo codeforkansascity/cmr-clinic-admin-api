@@ -282,7 +282,7 @@
                 </button>
             </div>
             <div class="col-md-6 text-md-right mt-2 mt-md-0">
-                <a href="/statute" class="btn btn-default">Cancel</a>
+                <a href="/law" class="btn btn-default">Cancel</a>
             </div>
         </div>
     </div>

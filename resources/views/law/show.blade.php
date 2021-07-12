@@ -26,15 +26,7 @@ View {{$law->name}}
                     @endif
                 </div>
                 <div class="col-md-4 text-md-center mt-2 mt-md-0">
-                    @if ($can_delete)
-                        <form class="form" role="form" method="POST" action="/law/{{ $law->id }}">
-                            @method('delete')
-                            @csrf
 
-                            <input class="btn btn-danger" Onclick="return ConfirmDelete();" type="submit" value="Delete Laws">
-
-                        </form>
-                    @endif
                 </div>
                 <div class="col-md-4 text-md-right mt-2 mt-md-0">
                     <a href="{{ url('/law') }}" class="btn btn-default">Return to List</a>

@@ -11,6 +11,8 @@ use App\Models\LawVersion;
 use DateTime;
 use DateTimeZone;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -75,9 +77,6 @@ class LawVersionController extends Controller
             $law_version->id = 0;
             $law_version->verison_status = LawVersion::REQUESTED;
 
-            info(__METHOD__);
-            info(print_r($law_version->toArray(),true));
-
             $exceptions = $this->create_exceptions($law_version);
 
             return view('law-version.create', compact('law_version','exceptions'));
@@ -104,16 +103,10 @@ class LawVersionController extends Controller
         try {
             $attributes = $request->validated();
 
-
             $attributes['version_status'] = LawVersion::REQUESTED;
-
-            info(__METHOD__);
-            info(print_r($attributes,true));
 
             $law_version = LawVersion::create($attributes);
 
-
-            info(print_r($law_version->toArray(),true));
 
             if ($request->law_version_exceptions) {
                 $this->syncExceptions($request, $law_version, $law_version_id = $law_version->id);
@@ -232,6 +225,49 @@ class LawVersionController extends Controller
         return response()->json([
             'message' => 'Changed record',
         ], 200);
+    }
+
+    public function approve(Request $request,$id) {
+        if (!$request->user()->can('law_version edit')) {
+            $request->session()->flash('flash_error_message', 'You do not have access to approve a Law Versions.');
+            if ($request->user()->can('law index')) {
+                return Redirect::route('law.index');
+            } else {
+                return Redirect::route('home');
+            }
+        }
+
+
+        if ($changed_law_version = LawVersion::sanitizeAndFind($id)) {
+            if ($current_law_version = LawVersion::sanitizeAndFind($changed_law_version->based_on_law_version_id)) {
+                DB::beginTransaction();
+                $law = App\Models\Law::find($changed_law_version->law_id);
+                $law->law_version_id = $changed_law_version->id;
+                $law->save();
+
+
+                $now = Carbon::now();
+
+                $changed_law_version->version_status = LawVersion::APPROVED;
+                $changed_law_version->start_date = $now;
+                $changed_law_version->save();
+
+                $current_law_version->end_date = $now;
+                $current_law_version->save();
+
+                DB::commit();
+
+                $request->session()->flash('flash_success_message', 'Law Versions ' . $changed_law_version->number . ' ' . $changed_law_version->name . ' was approved.');
+                return Redirect::route('law.index');
+            } else {
+                $request->session()->flash('flash_error_message', 'Unable to find Law Versions to edit.');
+                return Redirect::route('law.index');
+            }
+
+        } else {
+            $request->session()->flash('flash_error_message', 'Unable to find Law Versions to edit.');
+            return Redirect::route('law.index');
+        }
     }
 
     /**
@@ -409,7 +445,7 @@ class LawVersionController extends Controller
 
     private function syncExceptions($request, LawVersion $law_version, $law_version_id=null): bool
     {
-info(__METHOD__);
+
         $law_version_exceptions = $request->law_version_exceptions ?? [];
         $isChanged = false;
         $originals = $law_version->law_version_exceptions;
