@@ -50,53 +50,6 @@ class LawController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response;
-     */
-    public function create(Request $request)
-    {
-
-        if (!$request->user()->can('law add')) {  // TODO: add -> create
-            $request->session()->flash('flash_error_message', 'You do not have access to add a Laws.');
-            if ($request->user()->can('law index')) {
-                return Redirect::route('law.index');
-            } else {
-                return Redirect::route('home');
-            }
-        }
-
-        return view('law.create');
-    }
-
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @paramRequest $request
-     * @return Response;
-     */
-    public function store(LawFormRequest $request)
-    {
-
-        $law = new Law;
-
-        try {
-            $law->add($request->validated());
-        } catch (Exception $e) {
-            return response()->json([
-                'message' => 'Unable to process request',
-            ], 400);
-        }
-
-        $request->session()->flash('flash_success_message', 'Laws ' . $law->name . ' was added.');
-
-        return response()->json([
-            'message' => 'Added record',
-        ], 200);
-
-    }
 
     /**
      * Display the specified resource.
@@ -158,79 +111,6 @@ class LawController extends Controller
 
         return $exceptions;
 
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return Response;
-     */
-    public function edit(Request $request, $id)
-    {
-        if (!$request->user()->can('law edit')) {
-            $request->session()->flash('flash_error_message', 'You do not have access to edit a Laws.');
-            if ($request->user()->can('law index')) {
-                return Redirect::route('law.index');
-            } else {
-                return Redirect::route('home');
-            }
-        }
-
-        if ($law = Law::sanitizeAndFind($id)) {
-            return view('law.edit', compact('law'));
-        } else {
-            $request->session()->flash('flash_error_message', 'Unable to find Laws to edit.');
-            return Redirect::route('law.index');
-        }
-
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param \App\Law $law * @return Response;
-     */
-    public function update(LawFormRequest $request, $id)
-    {
-
-//        if (!$request->user()->can('law update')) {
-//            $request->session()->flash('flash_error_message', 'You do not have access to update a Laws.');
-//            if (!$request->user()->can('law index')) {
-//                return Redirect::route('law.index');
-//            } else {
-//                return Redirect::route('home');
-//            }
-//        }
-
-        if (!$law = Law::sanitizeAndFind($id)) {
-            //     $request->session()->flash('flash_error_message', 'Unable to find Laws to edit.');
-            return response()->json([
-                'message' => 'Not Found',
-            ], 404);
-        }
-
-        $law->fill($request->all());
-
-        if ($law->isDirty()) {
-
-            try {
-                $law->save();
-            } catch (Exception $e) {
-                return response()->json([
-                    'message' => 'Unable to process request',
-                ], 400);
-            }
-
-            $request->session()->flash('flash_success_message', 'Laws ' . $law->name . ' was changed.');
-        } else {
-            $request->session()->flash('flash_info_message', 'No changes were made.');
-        }
-
-        return response()->json([
-            'message' => 'Changed record',
-        ], 200);
     }
 
     /**
