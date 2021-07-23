@@ -46,15 +46,7 @@ class ImportStatutes extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->jusrisdictions = Jurisdiction::with('type')->get()->flatMap(function ($j) {
-            return [$this->makeKey($j) => $j];
-        });
-        $this->jusrisdiction_types = JurisdictionType::get()->flatMap(function ($j) {
-            return [$this->makeKey($j) => $j];
-        });
-        $this->exceptions = Exception::get()->flatMap(function ($e) {
-            return [$e->section => $e];
-        });
+
     }
 
     /**
@@ -64,6 +56,17 @@ class ImportStatutes extends Command
      */
     public function handle()
     {
+
+        $this->jusrisdictions = Jurisdiction::with('type')->get()->flatMap(function ($j) {
+            return [$this->makeKey($j) => $j];
+        });
+        $this->jusrisdiction_types = JurisdictionType::get()->flatMap(function ($j) {
+            return [$this->makeKey($j) => $j];
+        });
+        $this->exceptions = Exception::get()->flatMap(function ($e) {
+            return [$e->section => $e];
+        });
+
         $this->file_name = $this->option('file');
         $this->statutes = Yaml::parseFile(base_path('/data/') . $this->file_name);
 

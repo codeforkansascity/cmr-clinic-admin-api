@@ -212,6 +212,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/law-version/create/{version_id}', 'LawVersionController@create');
     Route::get('/law-version/{version_id}/approve', 'LawVersionController@approve');
     Route::resource('/law-version', 'LawVersionController')->except(['create']);
+
 });
 
 
