@@ -72,25 +72,7 @@ class ImportMSHPData extends Command
                 'filename' => 'data/ChargeCodeCSV2021-5-3.csv',
                 'table' => (new ImportChargeCode())->getTable(),
                 'callback' => null,
-                'header' => [
-                    'ncic_category',
-                    'ncic_modifier',
-                    'category_description',
-                    'modifier_description',
-                    'caution',
-                ]
-            ],
-
-            [
-                'filename' => 'data/NCICCSV2021-5-3.csv',
-                'table' => (new ImportNcic())->getTable(),
-                'callback' => function($row) {
-
-                    $row['effective_date'] = $this->parseDate($row['effective_date']);
-                    $row['inactive_date'] = $this->parseDate($row['inactive_date']);
-                    return $row;
-                },
-                'header' => [
+                'header' =>  [
                     'charge_type',
                     'classification',
                     'effective_date',
@@ -110,6 +92,24 @@ class ImportMSHPData extends Command
                     'case_type',
                     'charge_code',
                     'dna_at_arrest',
+                ]
+            ],
+
+            [
+                'filename' => 'data/NCICCSV2021-5-3.csv',
+                'table' => (new ImportNcic())->getTable(),
+                'callback' => function($row) {
+
+                    $row['effective_date'] = $this->parseDate($row['effective_date']);
+                    $row['inactive_date'] = $this->parseDate($row['inactive_date']);
+                    return $row;
+                },
+                'header' => [
+                    'ncic_category',
+                    'ncic_modifier',
+                    'category_description',
+                    'modifier_description',
+                    'caution',
                 ]
 
             ],
