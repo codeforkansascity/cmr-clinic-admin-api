@@ -49,7 +49,7 @@ class ImportMSHPData extends Command
             [
                 'filename' => 'data/May2021ChargeCodeManual.csv',
                 'table' => (new ImportMshpChargeCodeManual())->getTable(),
-                'callback' => function($row) {
+                'callback' => function ($row) {
                     $row['effective_date'] = $this->parseDate($row['effective_date']);
                     return $row;
                 },
@@ -71,8 +71,13 @@ class ImportMSHPData extends Command
             [
                 'filename' => 'data/ChargeCodeCSV2021-5-3.csv',
                 'table' => (new ImportChargeCode())->getTable(),
-                'callback' => null,
-                'header' =>  [
+                'callback' => function ($row) {
+
+                    $row['effective_date'] = $this->parseDate($row['effective_date']);
+                    $row['inactive_date'] = $this->parseDate($row['inactive_date']);
+                    return $row;
+                },
+                'header' => [
                     'charge_type',
                     'classification',
                     'effective_date',
@@ -98,12 +103,7 @@ class ImportMSHPData extends Command
             [
                 'filename' => 'data/NCICCSV2021-5-3.csv',
                 'table' => (new ImportNcic())->getTable(),
-                'callback' => function($row) {
-
-                    $row['effective_date'] = $this->parseDate($row['effective_date']);
-                    $row['inactive_date'] = $this->parseDate($row['inactive_date']);
-                    return $row;
-                },
+                'callback' => null,
                 'header' => [
                     'ncic_category',
                     'ncic_modifier',
@@ -128,10 +128,10 @@ class ImportMSHPData extends Command
 
         ];
 
-        foreach($imports as $import) {
+        foreach ($imports as $import) {
             $this->info("Importing {$import['filename']} to {$import['table']}");
 
-            $importer =  new CsvImporter(base_path('/'.$import['filename']), $import['header']);
+            $importer = new CsvImporter(base_path('/' . $import['filename']), $import['header']);
             $importer->toDatabase($import['table'], $import['callback']);
         }
 
