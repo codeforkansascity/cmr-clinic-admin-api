@@ -47,7 +47,7 @@ class ImportMSHPData extends Command
     {
         $imports = [
             [
-                'filename' => 'data/May2021ChargeCodeManual.csv',
+                'filename' => 'pdata/May2021ChargeCodeManual.csv',
                 'table' => (new ImportMshpChargeCodeManual())->getTable(),
                 'callback' => function ($row) {
                     $row['effective_date'] = $this->parseDate($row['effective_date']);
@@ -69,7 +69,7 @@ class ImportMSHPData extends Command
             ],
 
             [
-                'filename' => 'data/ChargeCodeCSV2021-5-3.csv',
+                'filename' => 'pdata/ChargeCodeCSV2021-5-3.csv',
                 'table' => (new ImportChargeCode())->getTable(),
                 'callback' => function ($row) {
 
@@ -101,7 +101,7 @@ class ImportMSHPData extends Command
             ],
 
             [
-                'filename' => 'data/NCICCSV2021-5-3.csv',
+                'filename' => 'pdata/NCICCSV2021-5-3.csv',
                 'table' => (new ImportNcic())->getTable(),
                 'callback' => null,
                 'header' => [
@@ -115,7 +115,7 @@ class ImportMSHPData extends Command
             ],
 
             [
-                'filename' => 'data/NCICModifiersCSV2021-5-3.csv',
+                'filename' => 'pdata/NCICModifiersCSV2021-5-3.csv',
                 'table' => (new ImportNcicModifier())->getTable(),
                 'callback' => null,
                 'header' => [
