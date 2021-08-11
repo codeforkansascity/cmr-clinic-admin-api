@@ -27,7 +27,7 @@ class CsvImporter
             $data = array_map($callback, $data);
         }
 
-        $chunks = array_chunk($data, 500);
+        $chunks = array_chunk($data, 1);
         foreach ($chunks as $chunk) {
             DB::table($table)->insert($chunk);
         }

@@ -14,5 +14,6 @@ php artisan db:seed
 
 php artisan cmr:set-initial-permissions
 
+php artisan cmr:import-mshp-data
 
 #vendor/bin/phpunit

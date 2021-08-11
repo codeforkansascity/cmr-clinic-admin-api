@@ -15,6 +15,8 @@ class CreateImportChargeCodesTable extends Migration
     {
         Schema::create('import_charge_codes', function (Blueprint $table) {
             $table->id();
+            $table->string('cmr_law_number')->default(null)->nullable();
+            $table->string('cmr_chapter')->default(null)->nullable();
             $table->string('charge_type');
             $table->string('classification');
             $table->date('effective_date')->nullable();
@@ -35,6 +37,8 @@ class CreateImportChargeCodesTable extends Migration
             $table->string('charge_code');
             $table->string('dna_at_arrest');
             $table->timestamps();
+
+            $table->index('cmr_law_number');
         });
     }
 

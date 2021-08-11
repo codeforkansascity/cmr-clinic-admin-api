@@ -47,10 +47,17 @@ class ImportMSHPData extends Command
     {
         $imports = [
             [
-                'filename' => 'pdata/May2021ChargeCodeManual.csv',
+                'filename' => 'pdata/May2021ChargeCodeManual-cleaned.csv',
                 'table' => (new ImportMshpChargeCodeManual())->getTable(),
                 'callback' => function ($row) {
                     $row['effective_date'] = $this->parseDate($row['effective_date']);
+
+                    $charge_code = explode("-", $row['charge_code']);
+                    $row['cmr_law_number'] = $charge_code[0];
+
+                    $chapter = explode(".", $charge_code[0]);
+                    $row['cmr_chapter'] = $chapter[0];
+
                     return $row;
                 },
                 'header' => [
@@ -75,6 +82,13 @@ class ImportMSHPData extends Command
 
                     $row['effective_date'] = $this->parseDate($row['effective_date']);
                     $row['inactive_date'] = $this->parseDate($row['inactive_date']);
+
+                    $charge_code = explode("-", $row['charge_code']);
+                    $row['cmr_law_number'] = $charge_code[0];
+
+                    $chapter = explode(".", $charge_code[0]);
+                    $row['cmr_chapter'] = $chapter[0];
+
                     return $row;
                 },
                 'header' => [
@@ -117,7 +131,16 @@ class ImportMSHPData extends Command
             [
                 'filename' => 'pdata/NCICModifiersCSV2021-5-3.csv',
                 'table' => (new ImportNcicModifier())->getTable(),
-                'callback' => null,
+                'callback' => function ($row) {
+
+                    $charge_code = explode("-", $row['charge_code']);
+                    $row['cmr_law_number'] = $charge_code[0];
+
+                    $chapter = explode(".", $charge_code[0]);
+                    $row['cmr_chapter'] = $chapter[0];
+
+                    return $row;
+                },
                 'header' => [
                     'ncic_category',
                     'ncic_range',

@@ -16,6 +16,8 @@ class CreateImportMshpChargeCodeManualsTable extends Migration
 
         Schema::create('import_mshp_charge_code_manuals', function (Blueprint $table) {
             $table->id();
+            $table->string('cmr_law_number')->default(null)->nullable();
+            $table->string('cmr_chapter')->default(null)->nullable();
             $table->string('charge_code');
             $table->string('ncic_mod');
             $table->string('state_mod');
@@ -27,6 +29,8 @@ class CreateImportMshpChargeCodeManualsTable extends Migration
             $table->string('case_type');
             $table->date('effective_date')->nullable();
             $table->timestamps();
+
+            $table->index('cmr_law_number');
         });
     }
 
