@@ -47,6 +47,16 @@ class CsvImporter
                 if (!$this->header) {
                     $this->header = $row;
                 } else {
+                    // Handel condition where row has fewer columns than the header
+                    $header_count = count($this->header);
+                    $row_count = count($row);
+
+                    if ($header_count > $row_count) {
+                        for ($i = $row_count; $i < $header_count; $i++ ) {
+                            $row[] = '';
+                        }
+                    }
+
                     $data[] = array_combine($this->header, $row);
                 }
 
