@@ -15,5 +15,6 @@ php artisan db:seed
 php artisan cmr:set-initial-permissions
 
 php artisan cmr:import-mshp-data
+php artisan cmr:import-mo-revisor-statute-data
 
 #vendor/bin/phpunit
