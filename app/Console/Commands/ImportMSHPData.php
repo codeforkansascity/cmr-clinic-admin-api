@@ -28,6 +28,8 @@ class ImportMSHPData extends Command
      */
     protected $description = 'Import Missouri State Highway Patrol Data';
 
+    protected $directory = '/';
+
     /**
      * Create a new command instance.
      *
@@ -36,6 +38,8 @@ class ImportMSHPData extends Command
     public function __construct()
     {
         parent::__construct();
+
+        $this->directory = 'pdata/mo-charge-code/2021-2022-08-05/';
     }
 
     /**
@@ -45,12 +49,17 @@ class ImportMSHPData extends Command
      */
     public function handle()
     {
+
+    //    'filename' => 'ChargeCodeManual-cleaned.csv',
         $imports = [
             [
-                'filename' => 'pdata/May2021ChargeCodeManual-cleaned.csv',
+                'filename' => 'ChargeCodeManual-cleaned.csv',
                 'table' => (new ImportMshpChargeCodeManual())->getTable(),
                 'callback' => function ($row) {
+
                     $row['effective_date'] = $this->parseDate($row['effective_date']);
+
+                    $row['charge_code'] = preg_replace('/[\x00-\x1F\x7F-\xFF]/', ' ', $row['charge_code']);
 
                     $charge_code = explode("-", $row['charge_code']);
                     $row['cmr_law_number'] = $charge_code[0];
@@ -71,12 +80,14 @@ class ImportMSHPData extends Command
                     'roc',
                     'case_type',
                     'effective_date',
+                    'cmr_law_number',
+                    'cmr_chapter',
                 ]
 
             ],
 
             [
-                'filename' => 'pdata/ChargeCodeCSV2021-5-3.csv',
+                'filename' => 'ChargeCodeCSV.csv',
                 'table' => (new ImportChargeCode())->getTable(),
                 'callback' => function ($row) {
 
@@ -115,7 +126,7 @@ class ImportMSHPData extends Command
             ],
 
             [
-                'filename' => 'pdata/NCICCSV2021-5-3.csv',
+                'filename' => 'NCICCSV.csv',
                 'table' => (new ImportNcic())->getTable(),
                 'callback' => null,
                 'header' => [
@@ -129,7 +140,7 @@ class ImportMSHPData extends Command
             ],
 
             [
-                'filename' => 'pdata/NCICModifiersCSV2021-5-3.csv',
+                'filename' => 'NCICModifiersCSV.csv',
                 'table' => (new ImportNcicModifier())->getTable(),
                 'callback' => function ($row) {
 
@@ -154,7 +165,7 @@ class ImportMSHPData extends Command
         foreach ($imports as $import) {
             $this->info("Importing {$import['filename']} to {$import['table']}");
 
-            $importer = new CsvImporter(base_path('/' . $import['filename']), $import['header']);
+            $importer = new CsvImporter(base_path('/' . $this->directory . $import['filename']), $import['header']);
             $importer->toDatabase($import['table'], $import['callback']);
         }
 

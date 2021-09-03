@@ -23,6 +23,10 @@ class CsvImporter
     {
         $data = $this->toArray();
 
+        if (empty($data)) {
+            return true;
+        }
+
         if ($callback && is_callable($callback)) {
             $data = array_map($callback, $data);
         }
@@ -55,6 +59,16 @@ class CsvImporter
                         for ($i = $row_count; $i < $header_count; $i++ ) {
                             $row[] = '';
                         }
+//                    } elseif ($header_count < $row_count) {
+//                        $tmp = $row;
+//                        $row = [];
+//
+//                        foreach ($tmp AS $i => $value) {
+//                            if ($i >= $header_count) {
+//                                break;
+//                            }
+//                           $row[] = $value;
+//                        }
                     }
 
                     $data[] = array_combine($this->header, $row);
