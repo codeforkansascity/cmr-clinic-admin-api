@@ -4,7 +4,7 @@ For text area
 Example usage:
 =====================
 
-<fld-text-editor
+<fld-text-area
     name="description"
     v-model="form_data.description"
     required
