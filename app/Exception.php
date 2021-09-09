@@ -24,6 +24,7 @@ class Exception extends Model
             'dyi_note',
             'logic',
             'sequence',
+            'instructions',
             'deleted_at',
         ];
 
