@@ -44,7 +44,7 @@ Vue.component('role-grid', () => import(/* webpackChunkName:"role-grid" */ './co
 Vue.component('VuePassword', () => import('vue-password'));
 
 // CKEditor
-import CKEditor from '@ckeditor/ckeditor5-vue';
+import CKEditor from '@ckeditor/ckeditor5-vue2';
 
 Vue.use(CKEditor);
 

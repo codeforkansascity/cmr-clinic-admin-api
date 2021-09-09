@@ -63,7 +63,7 @@ For text editor
                         "numberedList",
                         //"ckfinder",
                         //"imageTextAlternative",
-                        // TODO: turn this on later: "imageUpload",
+                        //"imageUpload",
                         //"imageStyle:full",
                         //"imageStyle:side",
                         "blockQuote",
@@ -71,7 +71,7 @@ For text editor
                         //"tableColumn",
                         //"tableRow",
                         //"mergeTableCells",
-                        // TODO: turn this on later: "mediaEmbed",
+                        //"mediaEmbed",
                         "undo",
                         "redo",
                     ]

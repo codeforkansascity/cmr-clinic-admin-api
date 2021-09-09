@@ -103,6 +103,18 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-md-12">
+                <std-form-group
+                    label="Instructions"
+                    label-for="instructions"
+                    :errors="form_errors.instructions"
+                >
+                    <fld-text-editor name="instructions" v-model="form_data.instructions" rows="5"/>
+                </std-form-group>
+            </div>
+        </div>
+
         <div class="form-group mt-4">
             <div class="row">
                 <div class="col-md-6">
@@ -151,6 +163,7 @@ export default {
                 dyi_note: "",
                 logic: "",
                 sequence: 0,
+                instructions: null,
                 deleted_at: ""
             },
             form_errors: {
@@ -162,6 +175,7 @@ export default {
                 dyi_note: false,
                 logic: false,
                 sequence: false,
+                instructions: false,
                 deleted_at: false
             },
             server_message: false,
