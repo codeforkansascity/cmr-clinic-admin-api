@@ -1,0 +1,188 @@
+<?php
+
+namespace App\Console\Commands;
+
+use App\ImportChargeCode;
+use App\ImportMshpChargeCodeManual;
+use App\ImportNcic;
+use App\ImportNcicModifier;
+use App\Lib\CsvImporter;
+use Carbon\Carbon;
+use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Model;
+use mysql_xdevapi\Exception;
+
+class ImportMSHPData extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'cmr:import-mshp-data';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Import Missouri State Highway Patrol Data';
+
+    protected $directory = '/';
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->directory = 'pdata/mo-charge-code/2021-2022-08-05/';
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
+    public function handle()
+    {
+
+    //    'filename' => 'ChargeCodeManual-cleaned.csv',
+        $imports = [
+            [
+                'filename' => 'ChargeCodeManual-cleaned.csv',
+                'table' => (new ImportMshpChargeCodeManual())->getTable(),
+                'callback' => function ($row) {
+
+                    $row['effective_date'] = $this->parseDate($row['effective_date']);
+
+                    $row['charge_code'] = preg_replace('/[\x00-\x1F\x7F-\xFF]/', ' ', $row['charge_code']);
+
+                    $charge_code = explode("-", $row['charge_code']);
+                    $row['cmr_law_number'] = $charge_code[0];
+
+                    $chapter = explode(".", $charge_code[0]);
+                    $row['cmr_chapter'] = $chapter[0];
+
+                    return $row;
+                },
+                'header' => [
+                    'charge_code',
+                    'ncic_mod',
+                    'state_mod',
+                    'description',
+                    'type_class',
+                    'dna',
+                    'sor',
+                    'roc',
+                    'case_type',
+                    'effective_date',
+                    'cmr_law_number',
+                    'cmr_chapter',
+                ]
+
+            ],
+
+            [
+                'filename' => 'ChargeCodeCSV.csv',
+                'table' => (new ImportChargeCode())->getTable(),
+                'callback' => function ($row) {
+
+                    $row['effective_date'] = $this->parseDate($row['effective_date']);
+                    $row['inactive_date'] = $this->parseDate($row['inactive_date']);
+
+                    $charge_code = explode("-", $row['charge_code']);
+                    $row['cmr_law_number'] = $charge_code[0];
+
+                    $chapter = explode(".", $charge_code[0]);
+                    $row['cmr_chapter'] = $chapter[0];
+
+                    return $row;
+                },
+                'header' => [
+                    'charge_type',
+                    'classification',
+                    'effective_date',
+                    'inactive_date',
+                    'reportable',
+                    'short_description',
+                    'not_applicable',
+                    'attempt',
+                    'accessory',
+                    'conspiracy',
+                    'code_category',
+                    'ncic_category',
+                    'statute',
+                    'long_description',
+                    'uniform_citation_ind',
+                    'rec_of_conviction',
+                    'case_type',
+                    'charge_code',
+                    'dna_at_arrest',
+                ]
+            ],
+
+            [
+                'filename' => 'NCICCSV.csv',
+                'table' => (new ImportNcic())->getTable(),
+                'callback' => null,
+                'header' => [
+                    'ncic_category',
+                    'ncic_modifier',
+                    'category_description',
+                    'modifier_description',
+                    'caution',
+                ]
+
+            ],
+
+            [
+                'filename' => 'NCICModifiersCSV.csv',
+                'table' => (new ImportNcicModifier())->getTable(),
+                'callback' => function ($row) {
+
+                    $charge_code = explode("-", $row['charge_code']);
+                    $row['cmr_law_number'] = $charge_code[0];
+
+                    $chapter = explode(".", $charge_code[0]);
+                    $row['cmr_chapter'] = $chapter[0];
+
+                    return $row;
+                },
+                'header' => [
+                    'ncic_category',
+                    'ncic_range',
+                    'misc',
+                    'charge_code',
+                ]
+            ],
+
+        ];
+
+        foreach ($imports as $import) {
+            $this->info("Importing {$import['filename']} to {$import['table']}");
+
+            $importer = new CsvImporter(base_path('/' . $this->directory . $import['filename']), $import['header']);
+            $importer->toDatabase($import['table'], $import['callback']);
+        }
+
+
+        return 0;
+    }
+
+    protected function parseDate($value)
+    {
+        try {
+            $date = !empty($value) && (new Carbon())->isValid($value) ? Carbon::parse($value) : null;
+        } catch (\Exception $e) {
+
+            return null;
+        }
+
+        return $date;
+
+    }
+}
