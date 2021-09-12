@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateImportNcicsTable extends Migration
+class CreateImportMshpNcicsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class CreateImportNcicsTable extends Migration
      */
     public function up()
     {
-        Schema::create('import_ncics', function (Blueprint $table) {
+        Schema::create('import_mshp_ncics', function (Blueprint $table) {
             $table->id();
+            $table->integer('mshp_version_id');
             $table->string('ncic_category');
             $table->string('ncic_modifier');
             $table->string('category_description');
@@ -31,6 +32,6 @@ class CreateImportNcicsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('import_ncics');
+        Schema::dropIfExists('import_mshp_ncics');
     }
 }

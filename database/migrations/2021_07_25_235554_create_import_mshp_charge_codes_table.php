@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateImportChargeCodesTable extends Migration
+class CreateImportMshpChargeCodesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateImportChargeCodesTable extends Migration
      */
     public function up()
     {
-        Schema::create('import_charge_codes', function (Blueprint $table) {
+        Schema::create('import_mshp_charge_codes', function (Blueprint $table) {
             $table->id();
+            $table->integer('mshp_version_id');
             $table->string('cmr_law_number')->default(null)->nullable();
             $table->string('cmr_chapter')->default(null)->nullable();
+            $table->string('legacy_charge_code')->default(null)->nullable();  // Added in 2021
             $table->string('charge_type');
             $table->string('classification');
             $table->date('effective_date')->nullable();
@@ -49,6 +51,6 @@ class CreateImportChargeCodesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('import_charge_codes');
+        Schema::dropIfExists('import_mshp_charge_codes');
     }
 }

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ImportNcicModifier extends Model
+class ImportMshpChargeCode extends Model
 {
     //
 }

@@ -17,6 +17,7 @@ class CsvImporter
         $this->filename = $filename;
         $this->header = $header;
         $this->delimiter = $delimiter;
+
     }
 
     public function toDatabase($table, $callback = null)
@@ -59,16 +60,16 @@ class CsvImporter
                         for ($i = $row_count; $i < $header_count; $i++ ) {
                             $row[] = '';
                         }
-//                    } elseif ($header_count < $row_count) {
-//                        $tmp = $row;
-//                        $row = [];
-//
-//                        foreach ($tmp AS $i => $value) {
-//                            if ($i >= $header_count) {
-//                                break;
-//                            }
-//                           $row[] = $value;
-//                        }
+                    } elseif ($header_count < $row_count) {
+                        $tmp = $row;
+                        $row = [];
+
+                        foreach ($tmp AS $i => $value) {
+                            if ($i >= $header_count) {
+                                break;
+                            }
+                           $row[] = $value;
+                        }
                     }
 
                     $data[] = array_combine($this->header, $row);

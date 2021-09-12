@@ -2,31 +2,31 @@
 
 namespace App\Console\Commands;
 
-use App\ImportChargeCode;
+use App\ImportMshpChargeCode;
 use App\ImportMshpChargeCodeManual;
-use App\ImportNcic;
-use App\ImportNcicModifier;
+use App\ImportMshpNcic;
+use App\ImportMshpNcicModifier;
 use App\Lib\CsvImporter;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 use mysql_xdevapi\Exception;
 
-class ImportMSHPData extends Command
+class Import2020MSHPChargeCodeFiles extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'cmr:import-mshp-data';
+    protected $signature = 'cmr:import-2020-mshp-charge-code-files';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Import Missouri State Highway Patrol Data';
+    protected $description = '2020 Import Missouri State Highway Patrol Data';
 
     protected $directory = '/';
 
@@ -39,7 +39,6 @@ class ImportMSHPData extends Command
     {
         parent::__construct();
 
-        $this->directory = 'pdata/mo-charge-code/2021-2022-08-05/';
     }
 
     /**
@@ -50,12 +49,17 @@ class ImportMSHPData extends Command
     public function handle()
     {
 
-    //    'filename' => 'ChargeCodeManual-cleaned.csv',
+        $this->directory = 'pdata/mo-charge-code/2020-2021-May/';
+        $mshp_version_id = 1;
+
+        //    'filename' => 'ChargeCodeManual-cleaned.csv',
         $imports = [
             [
                 'filename' => 'ChargeCodeManual-cleaned.csv',
                 'table' => (new ImportMshpChargeCodeManual())->getTable(),
-                'callback' => function ($row) {
+                'callback' => function ($row) use ($mshp_version_id) {
+
+                    $row['mshp_version_id'] = $mshp_version_id;
 
                     $row['effective_date'] = $this->parseDate($row['effective_date']);
 
@@ -88,8 +92,10 @@ class ImportMSHPData extends Command
 
             [
                 'filename' => 'ChargeCodeCSV.csv',
-                'table' => (new ImportChargeCode())->getTable(),
-                'callback' => function ($row) {
+                'table' => (new ImportMshpChargeCode())->getTable(),
+                'callback' => function ($row) use ($mshp_version_id) {
+
+                    $row['mshp_version_id'] = $mshp_version_id;
 
                     $row['effective_date'] = $this->parseDate($row['effective_date']);
                     $row['inactive_date'] = $this->parseDate($row['inactive_date']);
@@ -127,8 +133,13 @@ class ImportMSHPData extends Command
 
             [
                 'filename' => 'NCICCSV.csv',
-                'table' => (new ImportNcic())->getTable(),
-                'callback' => null,
+                'table' => (new ImportMshpNcic())->getTable(),
+                'callback' => function ($row)  use ($mshp_version_id){
+
+                    $row['mshp_version_id'] = $mshp_version_id;
+
+                    return $row;
+                },
                 'header' => [
                     'ncic_category',
                     'ncic_modifier',
@@ -141,8 +152,10 @@ class ImportMSHPData extends Command
 
             [
                 'filename' => 'NCICModifiersCSV.csv',
-                'table' => (new ImportNcicModifier())->getTable(),
-                'callback' => function ($row) {
+                'table' => (new ImportMshpNcicModifier())->getTable(),
+                'callback' => function ($row)  use ($mshp_version_id){
+
+                    $row['mshp_version_id'] = $mshp_version_id;
 
                     $charge_code = explode("-", $row['charge_code']);
                     $row['cmr_law_number'] = $charge_code[0];
@@ -165,8 +178,14 @@ class ImportMSHPData extends Command
         foreach ($imports as $import) {
             $this->info("Importing {$import['filename']} to {$import['table']}");
 
-            $importer = new CsvImporter(base_path('/' . $this->directory . $import['filename']), $import['header']);
-            $importer->toDatabase($import['table'], $import['callback']);
+            $filename = base_path('/' . $this->directory . $import['filename']);
+
+            if (file_exists($filename)) {
+                $importer = new CsvImporter($filename, $import['header']);
+                $importer->toDatabase($import['table'], $import['callback']);
+            } else {
+                $this->error('File does not exist ' . $filename);
+            }
         }
 
 

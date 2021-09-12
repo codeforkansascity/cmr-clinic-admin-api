@@ -1,0 +1,76 @@
+composer dumpautoload
+
+php artisan auth:clear-resets
+php artisan route:clear
+php artisan view:clear
+php artisan clear-compiled
+php artisan cache:clear
+php artisan config:clear;
+
+php artisan migrate:fresh
+php artisan migrate
+
+#
+# Load Exceptions - only if they do not exist
+#
+php artisan cmr:make-initial-exceptions
+
+#
+# Load Current Laws from Clinic App
+#
+php artisan cmr:import-statutes
+
+#
+# Import MO Revisor Statutes - for chapter and law name
+#
+
+php artisan cmr:import-mo-revisor-statute-data
+
+#
+# Load 2021-2022 Charge Codes
+#
+php artisan cmr:import-2020-mshp-charge-code-files
+php artisan cmr:import-2021-mshp-charge-code-files
+
+#
+# Add missing statutes from Charge Codes
+#
+
+# See cmr:make-traffic-stautes has function to add statu
+
+#
+# Apply exceptions that we can
+#    2(6)
+#    2(4)
+#
+php artisan cmr:apply-exceptions
+
+
+#
+# Mark Traffic Offences as non-blocking
+#
+# Input should be chapters, and loop through laws and mark them
+
+
+
+
+#
+# Update MO Jurisdictions
+#
+php artisan cmr:update-mo-jurisdiction
+
+exit
+
+# Dead code
+#   cmr:load-statutes
+#   cmr:make-traffic-stautes
+#   cmr:load-blocked-statutes
+
+
+php artisan db:seed
+
+php artisan cmr:set-initial-permissions
+
+
+
+#vendor/bin/phpunit

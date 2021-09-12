@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateImportNcicModifiersTable extends Migration
+class CreateImportMshpNcicModifiersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class CreateImportNcicModifiersTable extends Migration
      */
     public function up()
     {
-        Schema::create('import_ncic_modifiers', function (Blueprint $table) {
+        Schema::create('import_mshp_ncic_modifiers', function (Blueprint $table) {
             $table->id();
+            $table->integer('mshp_version_id');
             $table->string('cmr_law_number')->default(null)->nullable();
             $table->string('cmr_chapter')->default(null)->nullable();
             $table->string('ncic_category');
@@ -34,6 +35,6 @@ class CreateImportNcicModifiersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('import_ncic_modifiers');
+        Schema::dropIfExists('import_mshp_ncic_modifiers');
     }
 }
