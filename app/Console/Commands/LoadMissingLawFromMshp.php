@@ -68,7 +68,8 @@ class LoadMissingLawFromMshp extends Command
 
         $this->info('Laws to add Count=|' . $laws_to_add->count() . '|');
 
-        print_r($laws_to_add->toArray());
+
+        $this->addLaws($laws_to_add);
 
 
 
@@ -78,6 +79,21 @@ class LoadMissingLawFromMshp extends Command
         return 0;
     }
 
+    private function addLaws($laws_to_add) {
+
+        foreach ($laws_to_add AS $law) {
+            Statute::create(
+                [
+                    'number' => trim($law['cmr_law_number']),
+                    'name' => trim($law['cmr_law_title']),
+                    'jurisdiction_id' => 1,
+                    'statutes_eligibility_id' => Statute::UNDETERMINED,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]
+            );
+        }
+    }
 
     private function getMissingLawNumbers() {
         $missing_law_query = ImportMshpChargeCodeManual::select('cmr_law_number')

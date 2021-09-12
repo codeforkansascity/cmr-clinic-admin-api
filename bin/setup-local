@@ -64,7 +64,7 @@ php artisan cmr:apply-exceptions
 #
 php artisan cmr:update-mo-jurisdiction
 
-exit
+
 
 # Dead code
 #   cmr:load-statutes
