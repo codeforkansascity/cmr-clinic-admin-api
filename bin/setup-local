@@ -36,6 +36,11 @@ php artisan cmr:import-2021-mshp-charge-code-files
 # Add missing statutes from Charge Codes
 #
 
+php artisan cmr:load-missing-law-from-mshp
+
+
+
+
 # See cmr:make-traffic-stautes has function to add statu
 
 #
