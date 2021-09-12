@@ -44,17 +44,18 @@ class ImportMoRevisorStatuteData extends Command
     {
         $imports = [
             [
-                'filename' => 'pdata/missouri-statutes-list.csv',
+                'filename' => 'pdata/missouri-statutes-list-cleaned.csv',
                 'table' => (new ImportMoRevisorStatute())->getTable(),
                 'callback' => function ($row) {
                     $row['amended_date'] = $this->parseDate($row['amended_date']);
 
                     // Clean up  '\x97', https://stackoverflow.com/questions/1176904/how-to-remove-all-non-printable-characters-in-a-string
+                //    $row['charge_code'] = preg_replace('/[\x00-\x1F\x7F-\xFF]/', ' ', $row['charge_code']);
 
-                    $row['title'] = preg_replace('/[\x00-\x1F\x7F]/u', '', $row['title']);
-                    $row['chapter_name'] = preg_replace('/[\x00-\x1F\x7F]/u', '', $row['chapter_name']);
-                    $row['rsmo_section'] = preg_replace('/[\x00-\x1F\x7F]/u', '', $row['rsmo_section']);
-                    $row['section_title'] = preg_replace('/[\x00-\x1F\x7F]/u', '', $row['section_title']);
+                    $row['title'] = preg_replace('/[\x00-\x1F\x7F-\xFF]/u', '', $row['title']);
+                    $row['chapter_name'] = preg_replace('/[\x00-\x1F\x7F-\xFF]/u', '', $row['chapter_name']);
+                    $row['rsmo_section'] = preg_replace('/[\x00-\x1F\x7F-\xFF]/u', '', $row['rsmo_section']);
+                    $row['section_title'] = preg_replace('/[\x00-\x1F\x7F-\xFF]/u', '', $row['section_title']);
 
                     $row['cmr_law_number'] = $row['rsmo_section'];
                     $row['cmr_law_title'] = $row['section_title'];
