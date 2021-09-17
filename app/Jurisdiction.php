@@ -11,6 +11,11 @@ class Jurisdiction extends Model
     use SoftDeletes;
     use RecordSignature;
 
+    const JURISDICTION_MO = 1;
+    const JURISDICTION = [
+        self::JURISDICTION_MO,
+    ];
+
     /**
      * fillable - attributes that can be mass-assigned.
      */

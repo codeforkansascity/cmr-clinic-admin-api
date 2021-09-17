@@ -18,6 +18,12 @@ class CreateImportMshpNcicModifiersTable extends Migration
             $table->integer('mshp_version_id');
             $table->string('cmr_law_number')->default(null)->nullable();
             $table->string('cmr_chapter')->default(null)->nullable();
+            $table->string('cmr_charge_code_seq')->default(null)->nullable();
+            $table->string('cmr_charge_code_fingerprintable')->default(null)->nullable();
+            $table->string('cmr_charge_code_effective_year')->default(null)->nullable();
+            $table->string('cmr_charge_code_ncic_category')->default(null)->nullable();
+            $table->string('cmr_charge_code_ncic_modifier')->default(null)->nullable();
+
             $table->string('ncic_category');
             $table->string('ncic_range');
             $table->string('misc');

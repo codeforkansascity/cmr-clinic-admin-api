@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\ImportMoRevisorActiveSection;
 use App\ImportMoRevisorStatute;
 use App\ImportMshpChargeCodeManual;
+use App\Jurisdiction;
 use App\Statute;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -60,23 +62,55 @@ class LoadMissingLawFromMshp extends Command
 
 
         $missing_law_numbers = $this->getMissingLawNumbers();
-
         $this->info('Missing Law Count=|' . $missing_law_numbers->count() . '|');
 
 
-        $laws_to_add = $this->getLawsToAdd($missing_law_numbers);
-
+        $laws_to_add = $this->getLawsMoRevisorDataToAdd($missing_law_numbers);
         $this->info('Laws to add Count=|' . $laws_to_add->count() . '|');
-
-
         $this->addLaws($laws_to_add);
 
+
+
+
+        $final_missing_law_numbers = $this->getMissingLawNumbers();
+        $this->info('Final Missing Count=|' . $final_missing_law_numbers->count() . '|');
+        $this->addFinalMissingLaws($final_missing_law_numbers);
 
 
 
         $this->info($this->createAndLogEndMessage());
 
         return 0;
+    }
+
+    private function addFinalMissingLaws($final_missing_law_numbers) {
+
+        foreach ($final_missing_law_numbers AS $law_number) {
+
+            $law_number = trim($law_number);
+
+            $rec = ImportMoRevisorActiveSection::select('description')
+                ->where('jurisdiction_id',Jurisdiction::JURISDICTION_MO)
+                ->where('number', $law_number)
+                ->first();
+
+            if ($rec) {
+                $name = $rec->description;
+            } else {
+                $name = "Please add title from MO Revisor";
+                print "$law_number is missing Title\n";
+            }
+            Statute::create(
+                [
+                    'number' => trim($law_number),
+                    'name' => $name,
+                    'jurisdiction_id' => Jurisdiction::JURISDICTION_MO,
+                    'statutes_eligibility_id' => Statute::UNDETERMINED,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]
+            );
+        }
     }
 
     private function addLaws($laws_to_add) {
@@ -105,9 +139,8 @@ class LoadMissingLawFromMshp extends Command
 
     }
 
-    private function getLawsToAdd ($missing_law_numbers) {
+    private function getLawsMoRevisorDataToAdd ($missing_law_numbers) {
 
-        print_r($missing_law_numbers->toArray());
         $laws_to_add_query = ImportMoRevisorStatute::select(
             'cmr_chapter',
             'chapter_name',
@@ -116,11 +149,10 @@ class LoadMissingLawFromMshp extends Command
             'amended_date'
         )->whereIn('cmr_law_number',$missing_law_numbers);
 
-        $this->info($laws_to_add_query->toSql());
-
         return $laws_to_add_query->get();
 
     }
+
     /**
      * Create and Log End message with run time
      */

@@ -68,6 +68,15 @@ class Import2021MSHPChargeCodeFiles extends Command
                     $charge_code = explode("-", $row['charge_code']);
                     $row['cmr_law_number'] = $charge_code[0];
 
+                    $parts = [];
+                    preg_match('/(...)(.)(....)(..)(..)/',$charge_code[1],$parts);
+
+                    $row['cmr_charge_code_seq'] = $parts[1];
+                    $row['cmr_charge_code_fingerprintable'] = $parts[2];
+                    $row['cmr_charge_code_effective_year'] = $parts[3];
+                    $row['cmr_charge_code_ncic_category'] = $parts[4];
+                    $row['cmr_charge_code_ncic_modifier'] = $parts[5];
+
                     $chapter = explode(".", $charge_code[0]);
                     $row['cmr_chapter'] = $chapter[0];
 
@@ -163,6 +172,18 @@ class Import2021MSHPChargeCodeFiles extends Command
 
                     $chapter = explode(".", $charge_code[0]);
                     $row['cmr_chapter'] = $chapter[0];
+
+                    $parts = [];
+                    if (preg_match('/(...)(.)(....)/',$charge_code[1],$parts)) {
+                        $row['cmr_charge_code_seq'] = $parts[1];
+                        $row['cmr_charge_code_fingerprintable'] = $parts[2];
+                        $row['cmr_charge_code_effective_year'] = $parts[3];
+                        //   $row['cmr_charge_code_ncic_category'] = $parts[4];
+                        //   $row['cmr_charge_code_ncic_modifier'] = $parts[5];
+                    } else {
+
+                        print ('cannot parse ' . $charge_code . "\n");
+                    }
 
                     return $row;
                 },

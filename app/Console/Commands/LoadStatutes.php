@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\History;
 use App\Imports\CollectionImport;
+use App\Jurisdiction;
 use App\Statute;
 use Illuminate\Console\Command;
 use Maatwebsite\Excel\Facades\Excel;
@@ -100,7 +101,7 @@ class LoadStatutes extends Command
                 return [
                     'number' => sprintf("%0.3f", $r[2]),
                     'name' => $r[3] ?? "",
-                    'jurisdiction_id' => 1,
+                    'jurisdiction_id' => Jurisdiction::JURISDICTION_MO,
                     'blocks_time' => false,
                     'created_at' => now()
                 ];

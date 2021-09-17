@@ -25,6 +25,13 @@ php artisan cmr:import-statutes
 #
 
 php artisan cmr:import-mo-revisor-statute-data
+php artisan cmr:make-mo-law-chapter
+
+#
+# Import MO Revisor  list of active sections with headnotes(tab delimited) - for law name
+#   On Publications page
+#
+php artisan cmr:import-mo-revisor-active-sections
 
 #
 # Load 2021-2022 Charge Codes
@@ -34,11 +41,13 @@ php artisan cmr:import-2021-mshp-charge-code-files
 
 #
 # Add missing statutes from Charge Codes
+#  use MO Revisor  list of active sections with headnotes to
+#    find titles
 #
 
 php artisan cmr:load-missing-law-from-mshp
 
-
+php artisan cmr:add-chapter-number-to-statutes
 
 
 # See cmr:make-traffic-stautes has function to add statu
