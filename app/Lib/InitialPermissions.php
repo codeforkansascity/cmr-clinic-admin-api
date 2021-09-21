@@ -38,6 +38,14 @@ class InitialPermissions
         Permission::findOrCreate('user export-pdf');
         Permission::findOrCreate('user export-excel');
 
+        Permission::findOrCreate('import_mshp_charge_code_manual index');
+        Permission::findOrCreate('import_mshp_charge_code_manual view');
+        Permission::findOrCreate('import_mshp_charge_code_manual export-pdf');
+        Permission::findOrCreate('import_mshp_charge_code_manual export-excel');
+        Permission::findOrCreate('import_mshp_charge_code_manual add');
+        Permission::findOrCreate('import_mshp_charge_code_manual update');
+        Permission::findOrCreate('import_mshp_charge_code_manual destroy');
+
         Permission::findOrCreate('invite index');
         Permission::findOrCreate('invite add');
         Permission::findOrCreate('invite edit');
@@ -189,6 +197,9 @@ class InitialPermissions
             'invite export-pdf',
             'invite export-excel',
 
+            'import_mshp_charge_code_manual index',
+            'import_mshp_charge_code_manual view',
+
             'applicant access-all',
             'applicant index',
             'applicant add',
@@ -339,6 +350,9 @@ class InitialPermissions
             'exception edit',
             'exception delete',
 
+            'import_mshp_charge_code_manual index',
+            'import_mshp_charge_code_manual view',
+
             'jurisdiction index',
             'jurisdiction add',
             'jurisdiction edit',
@@ -419,6 +433,10 @@ class InitialPermissions
             'exception add',
             'exception edit',
 
+            'import_mshp_charge_code_manual index',
+            'import_mshp_charge_code_manual view',
+
+
             'jurisdiction index',
             'jurisdiction add',
             'jurisdiction edit',
@@ -497,6 +515,10 @@ class InitialPermissions
             'exception add',
             'exception edit',
 
+            'import_mshp_charge_code_manual index',
+            'import_mshp_charge_code_manual view',
+
+
             'jurisdiction index',
             'jurisdiction add',
             'jurisdiction edit',
@@ -551,6 +573,9 @@ class InitialPermissions
 
             'exception index',
             'exception view',
+
+            'import_mshp_charge_code_manual index',
+            'import_mshp_charge_code_manual view',
 
             'jurisdiction index',
             'jurisdiction view',

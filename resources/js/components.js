@@ -202,3 +202,7 @@ Vue.component('exception-show', () => import(/* webpackChunkName:"exception-show
 
 Vue.component('dsp-exception-statutes', () => import(/* webpackChunkName:"dsp-exception-statutes" */ './components/statute_exceptions/DspExceptionStatutes.vue'));
 
+
+Vue.component('import-mshp-charge-code-manual-grid', () => import(/* webpackChunkName:"import-mshp-charge-code-manual-grid" */ './components/import_mshp_charge_code_manuals/ImportMshpChargeCodeManualGrid.vue'));
+Vue.component('import-mshp-charge-code-manual-form', () => import(/* webpackChunkName:"import-mshp-charge-code-manual-form" */ './components/import_mshp_charge_code_manuals/ImportMshpChargeCodeManualForm.vue'));
+Vue.component('import-mshp-charge-code-manual-show', () => import(/* webpackChunkName:"import-mshp-charge-code-manual-Show" */ './components/import_mshp_charge_code_manuals/ImportMshpChargeCodeManualShow.vue'));

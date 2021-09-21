@@ -21,14 +21,20 @@
                     </li>
                 @endif
 
-                @canany(['statute index'])
-                    <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'statute') echo 'active'; @endphp">
-                        <a class="nav-link" href="{{ route('statute.index') }}">Statutes <span
-                                class="sr-only">(current)</span></a>
-                    </li>
-                @endif
+                    @canany(['statute index'])
+                        <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'statute') echo 'active'; @endphp">
+                            <a class="nav-link" href="{{ route('statute.index') }}">Statutes <span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                    @endif
+                    @canany(['import_mshp_charge_code_manual index'])
+                        <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'statute') echo 'active'; @endphp">
+                            <a class="nav-link" href="{{ route('import-mshp-charge-code-manual.index') }}">Charge Code <span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                    @endif
 
-                <li class="nav-item">
+                    <li class="nav-item">
                     <a class="nav-link" target="_blank"
                        href="https://www.revisor.mo.gov/main/OneSection.aspx?section=610.140&bid=47676&hl=">
                         Mo Expungement Statute</a>

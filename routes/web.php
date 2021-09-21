@@ -210,3 +210,9 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
+
+Route::get('/api-import-mshp-charge-code-manual', 'ImportMshpChargeCodeManualApi@index');
+Route::get('/api-import-mshp-charge-code-manual/options', 'ImportMshpChargeCodeManualApi@getOptions');
+Route::get('/import-mshp-charge-code-manual/download', 'ImportMshpChargeCodeManualController@download')->name('import-mshp-charge-code-manual.download');
+Route::get('/import-mshp-charge-code-manual/print', 'ImportMshpChargeCodeManualController@print')->name('import-mshp-charge-code-manual.print');
+Route::resource('/import-mshp-charge-code-manual', 'ImportMshpChargeCodeManualController');
