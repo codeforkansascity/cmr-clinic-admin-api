@@ -18,7 +18,12 @@ class StatuteException extends Model
         'id',
         'statute_id',
         'exception_id',
-        'note'
+        'note',
+        'attorney_note',
+        'dyi_note',
+        'source',
+        'exception_code_id',
+
     ];
 
     protected $hidden = [
@@ -34,6 +39,12 @@ class StatuteException extends Model
     {
         return $this->belongsTo(Exception::class);
     }
+
+    public function exception_code()
+    {
+        return $this->belongsTo(ExceptionCodes::class);
+    }
+
 
     public function add($attributes)
     {

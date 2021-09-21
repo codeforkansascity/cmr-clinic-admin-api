@@ -47,7 +47,6 @@ class FixSource extends Command
             ->where('source','<>','')
       //      ->where('applicant_id', 88)
             ->get();
-//        print_r($convictons->toArray());
 
         foreach ($convictons AS $conviction) {
             if ($conviction->sources->count()) {

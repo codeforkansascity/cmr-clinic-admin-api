@@ -58,8 +58,6 @@ class MakeMoLawChapters extends Command
 
         $chapters = $query->get();
 
-        print_r($chapters->toArray());
-
         foreach ($chapters AS $chapter) {
             if (!($rec = LawChapter::where('chapter_number',$chapter->cmr_chapter)->first())) {
                 LawChapter::create([

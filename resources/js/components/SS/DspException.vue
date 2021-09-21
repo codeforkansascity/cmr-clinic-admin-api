@@ -11,7 +11,11 @@ For text area
 <template>
 
     <span class="form-text">
-        {{ exception.exception_section }} {{ exception.exception_name }}
+        {{ exception.exception_section }}
+
+        [{{ exception.code }}]
+
+        {{ exception.exception_name }}
         <div v-if="exception.exception_note" class="indented-block ml-4">
             {{ exception.exception_note }}
         </div>

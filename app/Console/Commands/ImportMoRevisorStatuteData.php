@@ -62,9 +62,6 @@ class ImportMoRevisorStatuteData extends Command
                     $chapter = explode(".", $row['rsmo_section']);
                     $row['cmr_chapter'] = intval($chapter[0]);
 
-
-
-
                     return $row;
                 },
                 'header' => [

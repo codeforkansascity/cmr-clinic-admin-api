@@ -68,7 +68,7 @@ class Statute extends Model
     }
     public function statute_exceptions()
     {
-        return $this->hasMany(StatuteException::class)->with('exception');
+        return $this->hasMany(StatuteException::class)->with('exception','exception_code');
     }
 
     public function exceptions()
@@ -339,5 +339,17 @@ class Statute extends Model
                 )
             select * from cte;
          */
+    }
+
+    public static function getIdByNumber($number,$jurisdiction_id) {
+        $thisModel = new static;
+
+        $statute =  $thisModel::select('id')
+            ->where('number', $number)
+            ->where('jurisdiction_id', $jurisdiction_id)
+            ->first();
+
+        return data_get($statute,'id',null);
+
     }
 }

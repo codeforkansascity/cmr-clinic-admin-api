@@ -79,13 +79,9 @@ class ImportStatutes extends Command
         $this->info("Statutes before " . Statute::count());
         dump("Statutes before " . Statute::count());
         foreach ($this->statutes as $statute) {
-
-            print ".";
             if (!Statute::where('number', $statute['number'])->exists()) {
-                print "+";
                $this->createStatute($statute);
             }
-
         }
         $this->info("Statutes after " . Statute::count());
         dump("Statutes after " . Statute::count());
@@ -96,8 +92,6 @@ class ImportStatutes extends Command
 
     private function createStatute($statute)
     {
-
-        print("|" . $statute['number'] . "|\n");
 
         $jurisdiction = !empty($statute['jurisdiction']) ? $this->matchJurisdiction($statute['jurisdiction']) : null;
 

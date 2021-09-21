@@ -69,7 +69,6 @@ class ImportMoRevisorActiveSections extends Command
 
             ],
 
-
         ];
 
         foreach ($imports as $import) {

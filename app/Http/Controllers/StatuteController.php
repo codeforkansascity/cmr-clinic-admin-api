@@ -171,6 +171,16 @@ class StatuteController extends Controller
         if ($statute_exceptions = data_get($statute,'statute_exceptions',false)) {
             foreach ($statute_exceptions AS $statute_exception) {
                 if ($exception = data_get($statute_exception, 'exception', false)) {
+
+                    if (!$dyi_note = data_get($statute_exception,'dyi_note','')) {
+                        $dyi_note = data_get($exception,'dyi_note', 'ERR N');
+                    }
+
+                    if (!$attorney_note = data_get($statute_exception,'attorney_note','')) {
+                        $attorney_note = data_get($exception,'attorney_note', 'ERR N');
+                    }
+
+
                     $exceptions[] = [
                         'statute_exception_id' => data_get($statute_exception,'id', 0),
                         'statute_id' => data_get($statute_exception,'statute_id', 0),
@@ -178,10 +188,11 @@ class StatuteController extends Controller
                         'exception_note' => data_get($statute_exception,'note', ''),
                         'exception_section' => data_get($exception,'section', 'ERR S'),
                         'exception_name' => data_get($exception,'name', 'ERR N'),
-                        'exception_attorney_note' => data_get($exception,'attorney_note', 'ERR N'),
-                        'exception_dyi_note' => data_get($exception,'dyi_note', 'ERR N'),
+                        'exception_attorney_note' => $attorney_note,
+                        'exception_dyi_note' => $dyi_note,
                         'exception_logic' => data_get($exception,'logic', 'ERR N'),
                         'exception_short_name' => data_get($exception,'short_name', 'ERR SN'),
+                        'code' => data_get($statute_exception,'exception_code.name', ''),
                     ];
                 }
             }

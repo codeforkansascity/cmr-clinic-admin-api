@@ -108,8 +108,8 @@ class MakeInitialExceptions extends Command
     "section": "2.3",
     "name": "Any offense that requires registration as a sex offender;",
     "short_name": "Registration Sex Offender",
-    "attorney_note": "",
-    "dyi_note": "",
+    "attorney_note": "Requires registration as a sex offender and cannot be expunged.",
+    "dyi_note": "Requires registration as a sex offender and cannot be expunged.",
     "logic": "offense number; possibly victims age",
     "sequence": 3
 },

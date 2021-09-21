@@ -63,13 +63,6 @@ class ConvertStatutesToYaml extends Command
             ->leftJoin('statutes_eligibilities','statutes_eligibilities.id','=','statutes_eligibility_id')
             ->get();
 
-        print_r($data->toArray());
-
-        print Yaml::dump($data->toArray(), 4, 4);
-
-
-
-
         return 0;
     }
 }
