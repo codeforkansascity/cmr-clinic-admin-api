@@ -71,11 +71,17 @@ class StatuteException extends Model
             'statute_exceptions.statute_id',
             'statute_exceptions.exception_id',
             'statute_exceptions.note',
+            'statute_exceptions.attorney_note',
+            'statute_exceptions.dyi_note',
+            'statute_exceptions.source',
+            'exception_codes.name AS exception_code',
+
             'statutes.id AS statute_id',
             'statutes.number AS statute_number',
             'statutes.name AS statute_name',
             'statutes.common_name AS statute_common_name',
             'statutes.note AS statute_note')
+            ->leftJoin('exception_codes', 'exception_codes.id', '=', 'statute_exceptions.exception_code_id')
             ->leftJoin('statutes', 'statutes.id', '=', 'statute_exceptions.statute_id')
             ->orderBy('statutes.name')
             ->where('statute_exceptions.exception_id', $exception_id)

@@ -54,10 +54,11 @@ php artisan cmr:add-chapter-number-to-statutes
 
 #
 # Apply exceptions that we can
-#    2(6)
+#    2(1)
 #    2(4)
+#    2(6)
 #
-php artisan cmr:apply-exceptions
+#php artisan cmr:apply-exceptions
 
 
 #

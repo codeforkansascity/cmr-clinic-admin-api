@@ -4,7 +4,8 @@
         <table class="table table-striped table-hover mb-0">
             <thead>
             <tr>
-                <th>Statute</th>
+                <th>Statute  [{{ statutes.length }}]</th>
+                <th>Excption</br>Applies</th>
             </tr>
             </thead>
             <tbody>
@@ -24,6 +25,9 @@
                     <div v-if="row.statute_note" class="indented-block">
                         {{ row.statute_note }}
                     </div>
+                </td>
+                <td>
+                    {{ row.exception_code }}
                 </td>
             </tr>
             </tbody>

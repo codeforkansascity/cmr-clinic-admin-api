@@ -138,7 +138,11 @@ class ImportMshpChargeCodeManual extends Model
         ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('description', 'like', '%' . $keyword . '%');
+            $query->where(function ($query) use ($keyword) {
+                $query->where('description', 'like', '%' . strtolower($keyword) . '%')
+                    ->orWhere('charge_code', 'like', '%' . strtolower($keyword) . '%');
+                    });
+
         }
         return $query;
     }
