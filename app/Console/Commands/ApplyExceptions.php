@@ -45,137 +45,17 @@ class ApplyExceptions extends Command
     public function handle()
     {
 
-        if ($exception = Exception::where('section', '2.1')->first()) {
-
-            $this->applySection_2_1($exception);
-
-        } else {
-            $this->error('Exception 2.1 was not found');
-        }
-
-        if ($exception = Exception::where('section', '2.2')->first()) {
-            $numbers = [
-                '569.040',
-                '569.050',
-                '569.053',
-                '569.055',
-                '569.060',
-                '569.065',
-            ];
-
-            $statutes = Statute::whereIn('number',$numbers)->get();
-            $this->applyException($exception,$statutes,'Please Research and assign exception code',ExceptionCodes::RESEARCH);
-
-        } else {
-            $this->error('Exception 2.2 was not found');
-        }
-
-
-        if ($exception = Exception::where('section', '2.3')->first()) {
-
-            $this->applySection_2_3($exception);
-
-        } else {
-            $this->error('Exception 2.3 was not found');
-        }
-
-        if ($exception = Exception::where('section', '2.4')->first()) {
-
-            $numbers = [
-                '565.020',
-                '565.021',
-                '565.023',
-                '565.024',
-                '565.027',
-                ];
-
-            $statutes = Statute::whereIn('number',$numbers)->get();
-            $this->applyException($exception,$statutes,'Please Research and assign exception code',ExceptionCodes::RESEARCH);
-
-            $numbers = [
-                '198.070',
-                '304.050',
-                '389.653',
-                '566.203',
-                '566.206',
-                '566.209',
-                '568.030',
-                '568.032',
-                '568.045',
-                '568.045',
-                '568.060',
-                '568.060',
-                '569.040',
-                '569.040',
-                '569.050',
-                '571.030',
-                '575.150',
-                '575.353',
-                '577.010',
-                '577.010',
-                '577.010',
-                '577.010',
-                '577.013',
-                '577.013',
-                '577.060',
-                '577.075',
-                '577.078',
-                '578.024',
-                '579.055',
-                '650.520',
-            ];
-
-            $statutes = Statute::whereIn('number',$numbers)->get();
-            $this->applyException($exception,$statutes,'Please Research and assign exception code, DEATH was in Charge Code Description',ExceptionCodes::RESEARCH);
-
-
-        } else {
-            $this->error('Exception 2.4 was not found');
-        }
-
-        if ($exception = Exception::where('section', '2.5')->first()) {
-
-            $numbers = [
-                '565.052',
-                '565.054',
-                '565.056',
-                '565.072',
-                '565.073',
-                '565.074',
-                '565.076',
-                '565.110',
-                '565.115',
-                '565.120',
-                '565.130',
-                '565.140',
-                '565.150',
-                '565.153',
-                '565.156',
-                '565.160',
-                '565.163',
-                '565.167',
-            ];
-
-            $statutes = Statute::whereIn('number',$numbers)->get();
-            $this->applyException($exception,$statutes,'Please Research and assign exception code',ExceptionCodes::RESEARCH);
-
-        } else {
-            $this->error('Exception 2.5 was not found');
-        }
-
-
-        if ($exception = Exception::where('section', '2.6')->first()) {
-            $numbers = $this->section_2_6();
-
-            $statutes = Statute::whereIn('number',$numbers)->get();
-            $this->applyException($exception,$statutes,'',ExceptionCodes::APPLIES);
-
-            $statutes = Statute::where('number','like', '566%')->get();
-            $this->applyException($exception,$statutes,'',ExceptionCodes::APPLIES);
-        } else {
-            $this->error('Exception 2.6 was not found');
-        }
-
+	$this->do2_1();
+	$this->do2_2();
+	$this->do2_3();
+	$this->do2_4();
+	$this->do2_5();
+	$this->do2_6();
+//	$this->do2_7();
+//	$this->do2_8();
+//	$this->do2_9();
+//	$this->do2_10();
+//	$this->do2_11();
 
         return 0;
     }
@@ -301,4 +181,173 @@ EOM;
             '577.078', '577.703', '577.706', '578.008', '578.305', '578.310',
             '632.520'];
     }
+
+    private function do2_1() {
+        $this->info('Section 2.1');
+
+        if ($exception = Exception::where('section', '2.1')->first()) {
+
+            $this->applySection_2_1($exception);
+
+        } else {
+            $this->error('Exception 2.1 was not found');
+        }
+
+
+
+    }
+    private function do2_2() {
+        $this->info('Section 2.2');
+        if ($exception = Exception::where('section', '2.2')->first()) {
+            $numbers = [
+                '569.040',
+                '569.050',
+                '569.053',
+                '569.055',
+                '569.060',
+                '569.065',
+            ];
+
+            $statutes = Statute::whereIn('number',$numbers)->get();
+            $this->applyException($exception,$statutes,'Please Research and assign exception code',ExceptionCodes::RESEARCH);
+
+        } else {
+            $this->error('Exception 2.2 was not found');
+        }
+    }
+    private function do2_3() {
+        $this->info('Section 2.3');
+        if ($exception = Exception::where('section', '2.3')->first()) {
+
+            $this->applySection_2_3($exception);
+
+        } else {
+            $this->error('Exception 2.3 was not found');
+        }
+    }
+    private function do2_4() {
+        $this->info('Section 2.4');
+        if ($exception = Exception::where('section', '2.4')->first()) {
+
+            $numbers = [
+                '565.020',
+                '565.021',
+                '565.023',
+                '565.024',
+                '565.027',
+            ];
+
+            $statutes = Statute::whereIn('number',$numbers)->get();
+            $this->applyException($exception,$statutes,'Please Research and assign exception code',ExceptionCodes::RESEARCH);
+
+            $numbers = [
+                '198.070',
+                '304.050',
+                '389.653',
+                '566.203',
+                '566.206',
+                '566.209',
+                '568.030',
+                '568.032',
+                '568.045',
+                '568.045',
+                '568.060',
+                '568.060',
+                '569.040',
+                '569.040',
+                '569.050',
+                '571.030',
+                '575.150',
+                '575.353',
+                '577.010',
+                '577.010',
+                '577.010',
+                '577.010',
+                '577.013',
+                '577.013',
+                '577.060',
+                '577.075',
+                '577.078',
+                '578.024',
+                '579.055',
+                '650.520',
+            ];
+
+            $statutes = Statute::whereIn('number',$numbers)->get();
+            $this->applyException($exception,$statutes,'Please Research and assign exception code, DEATH was in Charge Code Description',ExceptionCodes::RESEARCH);
+
+
+        } else {
+            $this->error('Exception 2.4 was not found');
+        }
+    }
+    private function do2_5() {
+        $this->info('Section 2.5');
+        if ($exception = Exception::where('section', '2.5')->first()) {
+
+            $numbers = [
+                '565.052',
+                '565.054',
+                '565.056',
+                '565.072',
+                '565.073',
+                '565.074',
+                '565.076',
+                '565.110',
+                '565.115',
+                '565.120',
+                '565.130',
+                '565.140',
+                '565.150',
+                '565.153',
+                '565.156',
+                '565.160',
+                '565.163',
+                '565.167',
+            ];
+
+            $statutes = Statute::whereIn('number',$numbers)->get();
+            $this->applyException($exception,$statutes,'Please Research and assign exception code',ExceptionCodes::RESEARCH);
+
+        } else {
+            $this->error('Exception 2.5 was not found');
+        }
+    }
+    private function do2_6() {
+        $this->info('Section 2.6');
+
+        if ($exception = Exception::where('section', '2.6')->first()) {
+            $numbers = $this->section_2_6();
+
+            $statutes = Statute::whereIn('number',$numbers)->get();
+            $this->applyException($exception,$statutes,'',ExceptionCodes::APPLIES);
+
+            $statutes = Statute::where('number','like', '566%')->get();
+            $this->applyException($exception,$statutes,'',ExceptionCodes::APPLIES);
+        } else {
+            $this->error('Exception 2.6 was not found');
+        }
+
+    }
+    private function do2_7() {
+        $this->info('Section 2.7');
+
+    }
+    private function do2_8() {
+        $this->info('Section 2.8');
+
+    }
+    private function do2_9() {
+        $this->info('Section 2.9');
+
+    }
+    private function do2_10() {
+        $this->info('Section 2.10');
+
+    }
+    private function do2_11() {
+        $this->info('Section 2.11');
+
+    }
+
 }
