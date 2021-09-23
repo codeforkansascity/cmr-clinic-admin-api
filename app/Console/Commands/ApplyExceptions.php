@@ -62,10 +62,10 @@ class ApplyExceptions extends Command
 
     private function applyException($exception,$statutes,$note='',$exception_code_id=null) {
         foreach ($statutes AS $statute) {
-            StatuteException::create([
+            StatuteException::updateOrCreate([
                 'statute_id' => $statute->id,
-                'exception_id' => $exception->id,
-                'note' => $note,
+                'exception_id' => $exception->id],
+                ['note' => $note,
                 'exception_code_id' => $exception_code_id
             ]);
         }
@@ -95,18 +95,18 @@ EOM;
             $statute_id = Statute::getIdByNumber($rec->cmr_law_number, Jurisdiction::JURISDICTION_MO);
 
             if ($rec->cnt == 1) {
-                StatuteException::create([
+                StatuteException::updateOrCreate([
                     'statute_id' => $statute_id,
-                    'exception_id' => $exception->id,
-                    'source' => 'Charge Code Manule 2021-2022',
+                    'exception_id' => $exception->id],
+                    ['source' => 'Charge Code Manule 2021-2022',
                     'exception_code_id' => ExceptionCodes::APPLIES
                 ]);
 
             } else {
-                StatuteException::create([
+                StatuteException::updateOrCreate([
                     'statute_id' => $statute_id,
-                    'exception_id' => $exception->id,
-                    'source' => 'Charge Code Manule 2021-2022',
+                    'exception_id' => $exception->id],
+                    ['source' => 'Charge Code Manule 2021-2022',
                     'exception_code_id' => ExceptionCodes::POSSIBLY_APPLIES,
                     'attorney_note' => 'To determine if this is expungable or not use Charge code or research using the conviction Date and Level',
                     'dyi_note' => 'Use the Charge Code of the conviction to determine elegibility',
@@ -133,27 +133,26 @@ EOM;
             ->orderBy('effective_date')
             ->having('sor_cnt','>',0);
 
-        print $query->toSql() . "\n\n";
+//        print $query->toSql() . "\n\n";
 
         $records = $query->get();
 
-        $y = $p = 0;
         foreach ($records AS $rec) {
             $statute_id = Statute::getIdByNumber($rec->cmr_law_number, Jurisdiction::JURISDICTION_MO);
 
             if ($rec->cnt == $rec->sor_cnt) {
-                StatuteException::create([
+                StatuteException::updateOrCreate([
                     'statute_id' => $statute_id,
-                    'exception_id' => $exception->id,
-                    'source' => 'Charge Code Manule 2021-2022 SOR Field',
+                    'exception_id' => $exception->id],
+                    ['source' => 'Charge Code Manule 2021-2022 SOR Field',
                     'exception_code_id' => ExceptionCodes::APPLIES
                 ]);
 
             } else {
-                StatuteException::create([
+                StatuteException::updateOrCreate([
                     'statute_id' => $statute_id,
-                    'exception_id' => $exception->id,
-                    'source' => 'Charge Code Manule 2021-2022 SOR Field',
+                    'exception_id' => $exception->id],
+                    ['source' => 'Charge Code Manule 2021-2022 SOR Field',
                     'exception_code_id' => ExceptionCodes::POSSIBLY_APPLIES,
                     'attorney_note' => 'To determine if this is expungable or not use Charge code or research using the conviction Date and Level',
                     'dyi_note' => 'Use the Charge Code of the conviction to determine elegibility',
