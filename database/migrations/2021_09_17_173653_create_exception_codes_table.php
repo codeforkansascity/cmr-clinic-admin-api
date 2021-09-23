@@ -46,12 +46,21 @@ class CreateExceptionCodesTable extends Migration
         ]);
 
         $status = \App\ExceptionCodes::create([
+            'id' => \App\ExceptionCodes::RESEARCH,
+            'name' => 'Research',
+            'code' => 'R',
+            'system_name' => 'research',
+            'sequence' => 40,
+        ]);
+
+        $status = \App\ExceptionCodes::create([
             'id' => \App\ExceptionCodes::UNDETERMINED,
             'name' => 'Undetermined',
             'code' => 'U',
             'system_name' => 'undetermined',
-            'sequence' => 40,
+            'sequence' => 50,
         ]);
+
     }
 
     /**

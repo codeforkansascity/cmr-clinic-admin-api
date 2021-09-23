@@ -82,7 +82,7 @@ class ImportMshpChargeCodeManualController extends Controller
         // Remember the search parameters, we saved them in the Query
         $page = session('import_mshp_charge_code_manual_page', '');
         $search = session('import_mshp_charge_code_manual_keyword', '');
-        $column = session('import_mshp_charge_code_manual_column', 'Name');
+        $column = session('import_mshp_charge_code_manual_column', 'charge_code');
         $direction = session('import_mshp_charge_code_manual_direction', '-1');
 
         $can_add = false; //Auth::user()->can('import_mshp_charge_code_manual add');

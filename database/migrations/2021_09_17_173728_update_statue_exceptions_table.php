@@ -19,6 +19,7 @@ class UpdateStatueExceptionsTable extends Migration
             $table->text('source')->default(null)->nullable();
             $table->integer('exception_code_id')->default(null)->nullable();
 
+            $table->unique(['statute_id', 'exception_id']);
         });
     }
 

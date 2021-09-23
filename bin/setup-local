@@ -53,12 +53,15 @@ php artisan cmr:add-chapter-number-to-statutes
 # See cmr:make-traffic-stautes has function to add statu
 
 #
-# Apply exceptions that we can
+# Apply exceptions for, but clear out first
 #    2(1)
 #    2(4)
 #    2(6)
 #
-#php artisan cmr:apply-exceptions
+php artisan cmr:delete-all-from-statute_exceptions
+
+
+php artisan cmr:apply-exceptions
 
 
 #

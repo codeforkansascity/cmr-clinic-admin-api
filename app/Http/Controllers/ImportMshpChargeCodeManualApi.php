@@ -21,7 +21,7 @@ class ImportMshpChargeCodeManualApi extends Controller
 
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
-        $column = $request->get('column', 'description');
+        $column = $request->get('column', 'charge_code');
         $direction = $request->get('direction', '-1');
         $keyword = $request->get('keyword', '');
 
