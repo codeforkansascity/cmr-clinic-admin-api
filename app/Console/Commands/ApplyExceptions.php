@@ -53,7 +53,7 @@ class ApplyExceptions extends Command
 	$this->do2_6();
 //	$this->do2_7();
 //	$this->do2_8();
-//	$this->do2_9();
+	$this->do2_9();
 //	$this->do2_10();
 //	$this->do2_11();
 
@@ -68,6 +68,24 @@ class ApplyExceptions extends Command
                 ['note' => $note,
                 'exception_code_id' => $exception_code_id
             ]);
+        }
+    }
+
+
+
+
+
+
+
+    private function do2_1() {
+        $this->info('Section 2.1');
+
+        if ($exception = Exception::where('section', '2.1')->first()) {
+
+            $this->applySection_2_1($exception);
+
+        } else {
+            $this->error('Exception 2.1 was not found');
         }
     }
 
@@ -91,6 +109,8 @@ EOM;
 
         $records = DB::select($sql);
 
+        $applied_ids = [];
+
         foreach ($records AS $rec) {
             $statute_id = Statute::getIdByNumber($rec->cmr_law_number, Jurisdiction::JURISDICTION_MO);
 
@@ -99,25 +119,111 @@ EOM;
                     'statute_id' => $statute_id,
                     'exception_id' => $exception->id],
                     ['source' => 'Charge Code Manule 2021-2022',
-                    'exception_code_id' => ExceptionCodes::APPLIES
-                ]);
+                        'exception_code_id' => ExceptionCodes::APPLIES
+                    ]);
+
+                $applied_ids[] = $statute_id;
 
             } else {
                 StatuteException::updateOrCreate([
                     'statute_id' => $statute_id,
                     'exception_id' => $exception->id],
                     ['source' => 'Charge Code Manule 2021-2022',
-                    'exception_code_id' => ExceptionCodes::POSSIBLY_APPLIES,
-                    'attorney_note' => 'To determine if this is expungable or not use Charge code or research using the conviction Date and Level',
-                    'dyi_note' => 'Use the Charge Code of the conviction to determine elegibility',
-                ]);
+                        'exception_code_id' => ExceptionCodes::POSSIBLY_APPLIES,
+                        'attorney_note' => 'Use charge code or research using the conviction Date and Level to determine eligibility',
+                        'dyi_note' => 'Use the Charge Code of the conviction to determine elegibility',
+                    ]);
+
+                $applied_ids[] = $statute_id;
             }
         }
 
+        $this->inverse($exception->id, $applied_ids, 'Charge Code Manule 2021-2022', 'Cannot be charged as a Felony A per Charge Code Manule');
 
     }
 
+    private function inverse($exception_id, $applied_ids, $source, $note) {
+        $records = Statute::select('id')
+            ->whereNotIn('id',$applied_ids)
+            ->where('jurisdiction_id',Jurisdiction::JURISDICTION_MO)
+            ->get();
 
+        foreach ($records AS $rec) {
+
+            StatuteException::updateOrCreate([
+                'statute_id' => $rec->id,
+                'exception_id' => $exception_id],
+                ['source' => $source,
+                    'exception_code_id' => ExceptionCodes::DOES_NOT_APPLY,
+                    'attorney_note' => $note,
+                    'dyi_note' => '--',
+                ]);
+        }
+    }
+
+    private function do2_2() {
+        $this->info('Section 2.2');
+        if ($exception = Exception::where('section', '2.2')->first()) {
+            $numbers = [
+                '569.040',
+//                '569.050',
+//                '569.053',
+//                '569.055',
+//                '569.060',
+//                '569.065',
+            ];
+
+            $statutes = Statute::whereIn('number',$numbers)->get();
+            $this->applyException($exception,$statutes,'Please Research and assign exception code',ExceptionCodes::RESEARCH);
+
+            $felonyALawNumbers = $this->hasFelonyA()->pluck('cmr_law_number');
+
+            $this->applyNotFelonyA2_2($exception->id, $felonyALawNumbers);
+
+        } else {
+            $this->error('Exception 2.2 was not found');
+        }
+    }
+
+    private function hasFelonyA() {
+
+        return ImportMshpChargeCodeManual::select('cmr_law_number')
+            ->where('type_class','F / A')
+            ->groupBy('cmr_law_number')
+            ->get();
+    }
+
+    private function applyNotFelonyA2_2($exception_id,$felonyALawNumbers) {
+
+        $records = Statute::select('id')
+            ->whereNotIn('number',$felonyALawNumbers)
+            ->where('jurisdiction_id',Jurisdiction::JURISDICTION_MO)
+            ->get();
+
+        foreach ($records AS $rec) {
+
+            StatuteException::updateOrCreate([
+                'statute_id' => $rec->id,
+                'exception_id' => $exception_id],
+                ['source' => 'Charge Code Manule 2021-2022',
+                    'exception_code_id' => ExceptionCodes::DOES_NOT_APPLY,
+                    'dyi_note' => '--',
+                    'attorney_note' => 'Cannot be charged as a Felony A per Charge Code Manule',
+                ]);
+        }
+    }
+
+
+    private function do2_3() {
+        $this->info('Section 2.3');
+        if ($exception = Exception::where('section', '2.3')->first()) {
+
+            $this->applySection_2_3($exception);
+
+        } else {
+            $this->error('Exception 2.3 was not found');
+        }
+    }
 
     private function applySection_2_3($exception) {
 
@@ -136,7 +242,8 @@ EOM;
 //        print $query->toSql() . "\n\n";
 
         $records = $query->get();
-
+        $applied_ids = [];
+        $source = 'Charge Code Manule 2021-2022 SOR Field';
         foreach ($records AS $rec) {
             $statute_id = Statute::getIdByNumber($rec->cmr_law_number, Jurisdiction::JURISDICTION_MO);
 
@@ -144,86 +251,30 @@ EOM;
                 StatuteException::updateOrCreate([
                     'statute_id' => $statute_id,
                     'exception_id' => $exception->id],
-                    ['source' => 'Charge Code Manule 2021-2022 SOR Field',
-                    'exception_code_id' => ExceptionCodes::APPLIES
-                ]);
+                    ['source' => $source,
+                        'exception_code_id' => ExceptionCodes::APPLIES
+                    ]);
+
+                $applied_ids[] = $statute_id;
 
             } else {
                 StatuteException::updateOrCreate([
                     'statute_id' => $statute_id,
                     'exception_id' => $exception->id],
-                    ['source' => 'Charge Code Manule 2021-2022 SOR Field',
-                    'exception_code_id' => ExceptionCodes::POSSIBLY_APPLIES,
-                    'attorney_note' => 'To determine if this is expungable or not use Charge code or research using the conviction Date and Level',
-                    'dyi_note' => 'Use the Charge Code of the conviction to determine elegibility',
-                ]);
+                    ['source' => $source,
+                        'exception_code_id' => ExceptionCodes::POSSIBLY_APPLIES,
+                        'attorney_note' => 'To determine if this is expungable or not use Charge code or research using the conviction Date and Level',
+                        'dyi_note' => 'Use the Charge Code of the conviction to determine elegibility',
+                    ]);
+
+                $applied_ids[] = $statute_id;
             }
         }
 
-    }
-
-    private function section_2_6() {
-
-        return ['105.454', '105.478', '115.631', '130.028', '188.030', '188.080',
-            '191.677', '194.425', '217.360', '217.385', '334.245', '375.991',
-            '389.653', '455.085', '455.538', '557.035', '565.084', '565.085',
-            '565.086', '565.095', '565.120', '565.130', '565.156', '565.200',
-            '565.214', '566.093', '566.115', '568.020', '568.030',
-            '568.032', '568.045', '568.060', '568.065', '568.080', '568.090',
-            '568.175', '569.030', '569.035', '569.040', '569.050', '569.055',
-            '569.060', '569.065', '569.067', '569.072', '569.160', '570.025',
-            '570.090', '570.180', '570.223', '570.224', '570.310', '571.020',
-            '571.060', '571.063', '571.070', '571.072', '571.150', '574.070',
-            '574.105', '574.115', '574.120', '574.130', '575.040', '575.095',
-            '575.153', '575.155', '575.157', '575.159', '575.195', '575.200',
-            '575.210', '575.220', '575.230', '575.240', '575.350', '575.353',
-            '577.078', '577.703', '577.706', '578.008', '578.305', '578.310',
-            '632.520'];
-    }
-
-    private function do2_1() {
-        $this->info('Section 2.1');
-
-        if ($exception = Exception::where('section', '2.1')->first()) {
-
-            $this->applySection_2_1($exception);
-
-        } else {
-            $this->error('Exception 2.1 was not found');
-        }
-
-
+        $this->inverse($exception->id, $applied_ids, $source, 'Does not require registration on sex offendor list');
 
     }
-    private function do2_2() {
-        $this->info('Section 2.2');
-        if ($exception = Exception::where('section', '2.2')->first()) {
-            $numbers = [
-                '569.040',
-                '569.050',
-                '569.053',
-                '569.055',
-                '569.060',
-                '569.065',
-            ];
 
-            $statutes = Statute::whereIn('number',$numbers)->get();
-            $this->applyException($exception,$statutes,'Please Research and assign exception code',ExceptionCodes::RESEARCH);
-
-        } else {
-            $this->error('Exception 2.2 was not found');
-        }
-    }
-    private function do2_3() {
-        $this->info('Section 2.3');
-        if ($exception = Exception::where('section', '2.3')->first()) {
-
-            $this->applySection_2_3($exception);
-
-        } else {
-            $this->error('Exception 2.3 was not found');
-        }
-    }
     private function do2_4() {
         $this->info('Section 2.4');
         if ($exception = Exception::where('section', '2.4')->first()) {
@@ -275,6 +326,9 @@ EOM;
             $statutes = Statute::whereIn('number',$numbers)->get();
             $this->applyException($exception,$statutes,'Please Research and assign exception code, DEATH was in Charge Code Description',ExceptionCodes::RESEARCH);
 
+            $felonyALawNumbers = $this->hasFelonyA()->pluck('cmr_law_number');
+
+            $this->applyNotFelonyA2_2($exception->id, $felonyALawNumbers);
 
         } else {
             $this->error('Exception 2.4 was not found');
@@ -328,6 +382,26 @@ EOM;
         }
 
     }
+
+    private function section_2_6() {
+
+        return ['105.454', '105.478', '115.631', '130.028', '188.030', '188.080',
+            '191.677', '194.425', '217.360', '217.385', '334.245', '375.991',
+            '389.653', '455.085', '455.538', '557.035', '565.084', '565.085',
+            '565.086', '565.095', '565.120', '565.130', '565.156', '565.200',
+            '565.214', '566.093', '566.115', '568.020', '568.030',
+            '568.032', '568.045', '568.060', '568.065', '568.080', '568.090',
+            '568.175', '569.030', '569.035', '569.040', '569.050', '569.055',
+            '569.060', '569.065', '569.067', '569.072', '569.160', '570.025',
+            '570.090', '570.180', '570.223', '570.224', '570.310', '571.020',
+            '571.060', '571.063', '571.070', '571.072', '571.150', '574.070',
+            '574.105', '574.115', '574.120', '574.130', '575.040', '575.095',
+            '575.153', '575.155', '575.157', '575.159', '575.195', '575.200',
+            '575.210', '575.220', '575.230', '575.240', '575.350', '575.353',
+            '577.078', '577.703', '577.706', '578.008', '578.305', '578.310',
+            '632.520'];
+    }
+
     private function do2_7() {
         $this->info('Section 2.7');
 
@@ -339,7 +413,29 @@ EOM;
     private function do2_9() {
         $this->info('Section 2.9');
 
+        if ($exception = Exception::where('section', '2.9')->first()) {
+
+            $records = Statute::select('id')
+                ->where('jurisdiction_id',Jurisdiction::JURISDICTION_MO)
+            ->get();
+
+            foreach ($records AS $rec) {
+
+                StatuteException::updateOrCreate([
+                    'statute_id' => $rec->id,
+                    'exception_id' => $exception->id],
+                    ['source' => 'All MO Statutes',
+                        'exception_code_id' => ExceptionCodes::DOES_NOT_APPLY,
+                        'attorney_note' => 'Cannot be an ordinance violation since it is a Missouri Statute',
+                        'dyi_note' => '--',
+                    ]);
+            }
+
+        } else {
+            $this->error('Exception 2.9 was not found');
+        }
     }
+
     private function do2_10() {
         $this->info('Section 2.10');
 
