@@ -75,17 +75,17 @@
                         >
                             Charge Code
                         </ss-grid-column-header>
-                        <ss-grid-column-header
-                            v-on:selectedSort="sortColumn"
-                            v-bind:selectedKey="sortKey"
-                            title="Sort by Ncic Mod"
-                            :params="{
-                                sortField: 'ncic_mod',
-                                InitialSortOrder: 'asc'
-                            }"
-                        >
-                            Ncic Mod
-                        </ss-grid-column-header>
+<!--                        <ss-grid-column-header-->
+<!--                            v-on:selectedSort="sortColumn"-->
+<!--                            v-bind:selectedKey="sortKey"-->
+<!--                            title="Sort by Ncic Mod"-->
+<!--                            :params="{-->
+<!--                                sortField: 'ncic_mod',-->
+<!--                                InitialSortOrder: 'asc'-->
+<!--                            }"-->
+<!--                        >-->
+<!--                            Ncic Mod-->
+<!--                        </ss-grid-column-header>-->
                         <ss-grid-column-header
                             v-on:selectedSort="sortColumn"
                             v-bind:selectedKey="sortKey"
@@ -189,7 +189,7 @@
                             ><tt>{{ row.charge_code }}</tt>
                             </a>
                         </td>
-                        <td data-title="Ncic Mod">{{ row.ncic_mod }}</td>
+<!--                        <td data-title="Ncic Mod">{{ row.ncic_mod }}</td>-->
                         <td data-title="State Mod">{{ row.state_mod }}</td>
                         <td data-title="Description">{{ row.description }}</td>
                         <td data-title="Type Class">{{ row.type_class }}</td>

@@ -4,12 +4,9 @@ namespace App;
 
 use App\Traits\RecordSignature;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RoleDescription extends Model
 {
-    use RecordSignature;
-    use SoftDeletes;
     use RecordSignature;
 
     /**

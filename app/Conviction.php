@@ -4,13 +4,11 @@ namespace App;
 
 use App\Traits\RecordSignature;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use DateTimeInterface;
 
 class Conviction extends Model
 {
-    use SoftDeletes;
     use RecordSignature;
 
     /**

@@ -5,11 +5,9 @@ namespace App;
 use DB;
 use App\Traits\RecordSignature;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Applicant extends Model
 {
-    use SoftDeletes;
     use RecordSignature;
 
     /**

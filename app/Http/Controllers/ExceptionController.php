@@ -164,7 +164,7 @@ class ExceptionController extends Controller
         }
 
         if ($exception = $this->sanitizeAndFind($id)) {
-            $statutes = StatuteException::getStatutesForExceptions($exception->id);
+            $statutes = StatuteException::getStatutesForExceptionsPossible($exception->id);
             $can_edit = Auth::user()->can('exception edit');
             $can_delete = (Auth::user()->can('exception delete') && $exception->canDelete());
             return view('exception.show', compact('exception','statutes', 'can_edit', 'can_delete'));

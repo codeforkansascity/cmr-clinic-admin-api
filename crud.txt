@@ -11,3 +11,7 @@ php artisan make:crud petition_fields  --force --display-name="Petition Fields" 
 php artisan make:crud exceptions  --force --display-name="Exceptions" --grid-columns="section:name:short_name:logic:attorney_note:dyi_note"
 
 php artisan make:crud import_mshp_charge_code_manuals  --force --display-name="Charge Codes" --grid-columns="mshp_version_id:charge_code:description:type_class:ncic_mod:state_mod:dna:sor:roc"
+
+
+php artisan make:crud import_mshp_charge_codes  --force --display-name="Charge Codes" --grid-columns="mshp_version_id:legacy_charge_code:charge_code:short_description:charge_type:classification:effective_date:inactive_date"
+

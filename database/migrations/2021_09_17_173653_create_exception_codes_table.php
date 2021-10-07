@@ -30,21 +30,21 @@ class CreateExceptionCodesTable extends Migration
         ]);
 
         $status = \App\ExceptionCodes::create([
-            'id' => \App\ExceptionCodes::DOES_NOT_APPLY,
-            'name' => 'Does Not Apply',
-            'code' => 'D',
-            'system_name' => 'does_not_apply',
-            'sequence' => 20,
-        ]);
-
-        $status = \App\ExceptionCodes::create([
             'id' => \App\ExceptionCodes::POSSIBLY_APPLIES,
             'name' => 'Possibly Applies',
             'code' => 'P',
             'system_name' => 'possibly_applies',
-            'sequence' => 30,
+            'sequence' => 20,
         ]);
 
+        $status = \App\ExceptionCodes::create([
+            'id' => \App\ExceptionCodes::DOES_NOT_APPLY,
+            'name' => 'Does Not Apply',
+            'code' => 'D',
+            'system_name' => 'does_not_apply',
+            'sequence' => 30,
+        ]);
+        
         $status = \App\ExceptionCodes::create([
             'id' => \App\ExceptionCodes::RESEARCH,
             'name' => 'Research',

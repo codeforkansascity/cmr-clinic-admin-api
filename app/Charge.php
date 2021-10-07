@@ -4,14 +4,12 @@ namespace App;
 
 use App\Traits\RecordSignature;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Log;
 use DateTimeInterface;
 
 class Charge extends Model
 {
-    use SoftDeletes;
     use RecordSignature;
     use Notifiable;
 

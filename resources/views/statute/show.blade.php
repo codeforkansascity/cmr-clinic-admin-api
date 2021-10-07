@@ -15,7 +15,7 @@ View {{$statute->number}} {{$statute->name}}
 @endsection
 @section('content')
 
-    <statute-show :record='@json($statute)' :charges='@json($charges)' :exceptions='@json($exceptions)'></statute-show>
+    <statute-show :record='@json($statute)' :charges='@json($charges)' :charge-codes='@json($charge_codes)' :exceptions='@json($exceptions)'></statute-show>
 
     <div class="row">
         <div class="col-md-12">

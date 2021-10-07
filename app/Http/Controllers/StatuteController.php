@@ -6,6 +6,7 @@ use App\Exports\StatuteExport;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Requests\StatuteFormRequest;
 use App\Http\Requests\StatuteIndexRequest;
+use App\ImportMshpChargeCodeManual;
 use App\Statute;
 use App\StatutesEligibility;
 use Illuminate\Http\Request;
@@ -156,13 +157,25 @@ class StatuteController extends Controller
             $charges = $statute->getCharges($id);
 
             $exceptions = $this->create_exceptions($statute);
+            $charge_codes = $this->create_charge_codes($statute);
 
-            return view('statute.show', compact('charges', 'exceptions', 'statute', 'can_edit', 'can_delete'));
+            return view('statute.show', compact('charges', 'exceptions', 'charge_codes', 'statute', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Statutes to display.');
 
             return Redirect::route('statute.index');
         }
+    }
+
+    private function create_charge_codes($statute) {
+        $charge_codes = ImportMshpChargeCodeManual::where('cmr_law_number',$statute->number)
+            ->where('mshp_version_id',2)
+            ->orderBy('cmr_law_number')
+            ->orderBy('cmr_charge_code_effective_year')
+            ->orderBy('cmr_charge_code_seq')
+            ->get();
+
+        return $charge_codes;
     }
 
     private function create_exceptions($statute) {

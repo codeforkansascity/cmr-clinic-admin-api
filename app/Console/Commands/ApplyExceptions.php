@@ -45,39 +45,36 @@ class ApplyExceptions extends Command
     public function handle()
     {
 
-	$this->do2_1();
-	$this->do2_2();
-	$this->do2_3();
-	$this->do2_4();
-	$this->do2_5();
-	$this->do2_6();
-//	$this->do2_7();
-//	$this->do2_8();
-	$this->do2_9();
-//	$this->do2_10();
-//	$this->do2_11();
+        $this->do2_1();
+        $this->do2_2();
+        $this->do2_3();
+        $this->do2_4();
+        $this->do2_5();
+        $this->do2_6();
+//	    $this->do2_7();
+//	    $this->do2_8();
+        $this->do2_9();
+//	    $this->do2_10();
+	    $this->do2_11();
 
         return 0;
     }
 
-    private function applyException($exception,$statutes,$note='',$exception_code_id=null) {
-        foreach ($statutes AS $statute) {
+    private function applyException($exception, $statutes, $note = '', $exception_code_id = null)
+    {
+        foreach ($statutes as $statute) {
             StatuteException::updateOrCreate([
                 'statute_id' => $statute->id,
                 'exception_id' => $exception->id],
                 ['note' => $note,
-                'exception_code_id' => $exception_code_id
-            ]);
+                    'exception_code_id' => $exception_code_id
+                ]);
         }
     }
 
 
-
-
-
-
-
-    private function do2_1() {
+    private function do2_1()
+    {
         $this->info('Section 2.1');
 
         if ($exception = Exception::where('section', '2.1')->first()) {
@@ -89,7 +86,8 @@ class ApplyExceptions extends Command
         }
     }
 
-    private function applySection_2_1($exception) {
+    private function applySection_2_1($exception)
+    {
 
         $sql = <<<EOM
             select count(*) as cnt, cmr_law_number
@@ -111,7 +109,7 @@ EOM;
 
         $applied_ids = [];
 
-        foreach ($records AS $rec) {
+        foreach ($records as $rec) {
             $statute_id = Statute::getIdByNumber($rec->cmr_law_number, Jurisdiction::JURISDICTION_MO);
 
             if ($rec->cnt == 1) {
@@ -142,13 +140,14 @@ EOM;
 
     }
 
-    private function inverse($exception_id, $applied_ids, $source, $note) {
+    private function inverse($exception_id, $applied_ids, $source, $note)
+    {
         $records = Statute::select('id')
-            ->whereNotIn('id',$applied_ids)
-            ->where('jurisdiction_id',Jurisdiction::JURISDICTION_MO)
+            ->whereNotIn('id', $applied_ids)
+            ->where('jurisdiction_id', Jurisdiction::JURISDICTION_MO)
             ->get();
 
-        foreach ($records AS $rec) {
+        foreach ($records as $rec) {
 
             StatuteException::updateOrCreate([
                 'statute_id' => $rec->id,
@@ -161,7 +160,8 @@ EOM;
         }
     }
 
-    private function do2_2() {
+    private function do2_2()
+    {
         $this->info('Section 2.2');
         if ($exception = Exception::where('section', '2.2')->first()) {
             $numbers = [
@@ -173,10 +173,10 @@ EOM;
 //                '569.065',
             ];
 
-            $statutes = Statute::whereIn('number',$numbers)->get();
-            $this->applyException($exception,$statutes,'Please Research and assign exception code',ExceptionCodes::RESEARCH);
+            $statutes = Statute::whereIn('number', $numbers)->get();
+            $this->applyException($exception, $statutes, 'Please Research and assign exception code', ExceptionCodes::RESEARCH);
 
-            $felonyALawNumbers = $this->hasFelonyA()->pluck('cmr_law_number');
+            $felonyALawNumbers = $this->hasFelony()->pluck('cmr_law_number');
 
             $this->applyNotFelonyA2_2($exception->id, $felonyALawNumbers);
 
@@ -185,22 +185,24 @@ EOM;
         }
     }
 
-    private function hasFelonyA() {
+    private function hasFelony()
+    {
 
         return ImportMshpChargeCodeManual::select('cmr_law_number')
-            ->where('type_class','F / A')
+            ->where('type_class', 'like', 'F%')
             ->groupBy('cmr_law_number')
             ->get();
     }
 
-    private function applyNotFelonyA2_2($exception_id,$felonyALawNumbers) {
+    private function applyNotFelonyA2_2($exception_id, $felonyALawNumbers)
+    {
 
         $records = Statute::select('id')
-            ->whereNotIn('number',$felonyALawNumbers)
-            ->where('jurisdiction_id',Jurisdiction::JURISDICTION_MO)
+            ->whereNotIn('number', $felonyALawNumbers)
+            ->where('jurisdiction_id', Jurisdiction::JURISDICTION_MO)
             ->get();
 
-        foreach ($records AS $rec) {
+        foreach ($records as $rec) {
 
             StatuteException::updateOrCreate([
                 'statute_id' => $rec->id,
@@ -214,7 +216,8 @@ EOM;
     }
 
 
-    private function do2_3() {
+    private function do2_3()
+    {
         $this->info('Section 2.3');
         if ($exception = Exception::where('section', '2.3')->first()) {
 
@@ -225,7 +228,8 @@ EOM;
         }
     }
 
-    private function applySection_2_3($exception) {
+    private function applySection_2_3($exception)
+    {
 
         $query = ImportMshpChargeCodeManual::select(
             'cmr_law_number',
@@ -234,17 +238,17 @@ EOM;
             DB::raw("sum(if (sor = 'Y', 1, 0)) as sor_cnt")
         )
             ->where('mshp_version_id', 2)
-            ->groupBy('cmr_law_number','effective_date')
+            ->groupBy('cmr_law_number', 'effective_date')
             ->orderBy('cmr_law_number')
             ->orderBy('effective_date')
-            ->having('sor_cnt','>',0);
+            ->having('sor_cnt', '>', 0);
 
 //        print $query->toSql() . "\n\n";
 
         $records = $query->get();
         $applied_ids = [];
         $source = 'Charge Code Manule 2021-2022 SOR Field';
-        foreach ($records AS $rec) {
+        foreach ($records as $rec) {
             $statute_id = Statute::getIdByNumber($rec->cmr_law_number, Jurisdiction::JURISDICTION_MO);
 
             if ($rec->cnt == $rec->sor_cnt) {
@@ -275,7 +279,8 @@ EOM;
 
     }
 
-    private function do2_4() {
+    private function do2_4()
+    {
         $this->info('Section 2.4');
         if ($exception = Exception::where('section', '2.4')->first()) {
 
@@ -287,8 +292,8 @@ EOM;
                 '565.027',
             ];
 
-            $statutes = Statute::whereIn('number',$numbers)->get();
-            $this->applyException($exception,$statutes,'Please Research and assign exception code',ExceptionCodes::RESEARCH);
+            $statutes = Statute::whereIn('number', $numbers)->get();
+            $this->applyException($exception, $statutes, 'Please Research and assign exception code', ExceptionCodes::RESEARCH);
 
             $numbers = [
                 '198.070',
@@ -323,10 +328,10 @@ EOM;
                 '650.520',
             ];
 
-            $statutes = Statute::whereIn('number',$numbers)->get();
-            $this->applyException($exception,$statutes,'Please Research and assign exception code, DEATH was in Charge Code Description',ExceptionCodes::RESEARCH);
+            $statutes = Statute::whereIn('number', $numbers)->get();
+            $this->applyException($exception, $statutes, 'Please Research and assign exception code, DEATH was in Charge Code Description', ExceptionCodes::RESEARCH);
 
-            $felonyALawNumbers = $this->hasFelonyA()->pluck('cmr_law_number');
+            $felonyALawNumbers = $this->hasFelony()->pluck('cmr_law_number');
 
             $this->applyNotFelonyA2_2($exception->id, $felonyALawNumbers);
 
@@ -334,7 +339,9 @@ EOM;
             $this->error('Exception 2.4 was not found');
         }
     }
-    private function do2_5() {
+
+    private function do2_5()
+    {
         $this->info('Section 2.5');
         if ($exception = Exception::where('section', '2.5')->first()) {
 
@@ -350,40 +357,52 @@ EOM;
                 '565.115',
                 '565.120',
                 '565.130',
-                '565.140',
+//                '565.140',
                 '565.150',
                 '565.153',
                 '565.156',
-                '565.160',
-                '565.163',
-                '565.167',
+//                '565.160',
+//                '565.163',
+//                '565.167',
             ];
 
-            $statutes = Statute::whereIn('number',$numbers)->get();
-            $this->applyException($exception,$statutes,'Please Research and assign exception code',ExceptionCodes::RESEARCH);
+            $statutes = Statute::whereIn('number', $numbers)->get();
+            $this->applyException($exception, $statutes, 'Please Research and assign exception code', ExceptionCodes::RESEARCH);
 
         } else {
             $this->error('Exception 2.5 was not found');
         }
     }
-    private function do2_6() {
+
+    private function do2_6()
+    {
         $this->info('Section 2.6');
 
         if ($exception = Exception::where('section', '2.6')->first()) {
             $numbers = $this->section_2_6();
 
-            $statutes = Statute::whereIn('number',$numbers)->get();
-            $this->applyException($exception,$statutes,'',ExceptionCodes::APPLIES);
+            $statutes = Statute::whereIn('number', $numbers)->get();
+            $listed_numbers = $statutes->pluck('number')->toArray();
+            $this->applyException($exception, $statutes, '', ExceptionCodes::APPLIES);
 
-            $statutes = Statute::where('number','like', '566%')->get();
-            $this->applyException($exception,$statutes,'',ExceptionCodes::APPLIES);
+            $statutes = Statute::where('number', 'like', '566%')->get();
+            $in_566 = $statutes->pluck('number')->toArray();
+            $this->applyException($exception, $statutes, '', ExceptionCodes::APPLIES);
+
+            $query = Statute::whereNotIn('number', array_merge($listed_numbers, $in_566))
+                ->where('jurisdiction_id', Jurisdiction::JURISDICTION_MO);
+
+            $statutes = $query->get();
+            $this->applyException($exception, $statutes, '', ExceptionCodes::DOES_NOT_APPLY);
+
         } else {
             $this->error('Exception 2.6 was not found');
         }
 
     }
 
-    private function section_2_6() {
+    private function section_2_6()
+    {
 
         return ['105.454', '105.478', '115.631', '130.028', '188.030', '188.080',
             '191.677', '194.425', '217.360', '217.385', '334.245', '375.991',
@@ -402,24 +421,29 @@ EOM;
             '632.520'];
     }
 
-    private function do2_7() {
+    private function do2_7()
+    {
         $this->info('Section 2.7');
 
     }
-    private function do2_8() {
+
+    private function do2_8()
+    {
         $this->info('Section 2.8');
 
     }
-    private function do2_9() {
+
+    private function do2_9()
+    {
         $this->info('Section 2.9');
 
         if ($exception = Exception::where('section', '2.9')->first()) {
 
             $records = Statute::select('id')
-                ->where('jurisdiction_id',Jurisdiction::JURISDICTION_MO)
-            ->get();
+                ->where('jurisdiction_id', Jurisdiction::JURISDICTION_MO)
+                ->get();
 
-            foreach ($records AS $rec) {
+            foreach ($records as $rec) {
 
                 StatuteException::updateOrCreate([
                     'statute_id' => $rec->id,
@@ -436,12 +460,30 @@ EOM;
         }
     }
 
-    private function do2_10() {
+    private function do2_10()
+    {
         $this->info('Section 2.10');
 
     }
-    private function do2_11() {
+
+    private function do2_11()
+    {
         $this->info('Section 2.11');
+
+        if ($exception = Exception::where('section', '2.11')->first()) {
+
+            $statutes = Statute::where('number', '571.030')->get();
+            $this->applyException($exception, $statutes, '', ExceptionCodes::APPLIES);
+
+            $query = Statute::where('number', '<>', '571.030')
+                ->where('jurisdiction_id', Jurisdiction::JURISDICTION_MO);
+
+            $statutes = $query->get();
+            $this->applyException($exception, $statutes, '', ExceptionCodes::DOES_NOT_APPLY);
+
+        } else {
+            $this->error('Exception 2.11 was not found');
+        }
 
     }
 

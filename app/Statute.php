@@ -6,12 +6,10 @@ use App\Traits\RecordSignature;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\QueryException;
 
 class Statute extends Model
 {
-    use SoftDeletes;
     use RecordSignature;
 
     const ELIGIBLE = '1';

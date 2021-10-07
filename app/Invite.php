@@ -6,11 +6,9 @@ use App\Traits\RecordSignature;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Invite extends Model
 {
-    use SoftDeletes;
     use RecordSignature;
 
     /**

@@ -4,11 +4,9 @@ namespace App;
 
 use App\Traits\RecordSignature;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Jurisdiction extends Model
 {
-    use SoftDeletes;
     use RecordSignature;
 
     const JURISDICTION_MO = 1;

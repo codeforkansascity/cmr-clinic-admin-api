@@ -36,24 +36,6 @@
                     </div>
                 </div>
 
-
-
-                <div class=" row mb-2 mb-md-0 text-only">
-                    <label class="col-md-4  text-md-right" style="font-size: 1.1rem; color: darkgray" >
-                        Exception
-                    </label>
-                    <div class="col-md-8">
-                       <ul style="list-style-type: none; padding: 0; margin: 0; font-size: 1.1rem;">
-                           <li v-for="(exception,i)  in exceptions" :key="exception.id"
-                               >
-                               <dsp-exception :exception="exception"/>
-
-                           </li>
-                       </ul>
-
-                    </div>
-                </div>
-
                 <div class=" row mb-2 mb-md-0 text-only">
                     <label class="col-md-4  text-md-right" style="font-size: 1.1rem; color: darkgray" >
                         Superseded by
@@ -72,6 +54,85 @@
                         <dsp-textarea v-model="record.note"/>
                     </div>
                 </div>
+                <div class=" row mb-2 mb-md-0 text-only">
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-10">
+                        <h3>Charge Codes</h3>
+                        <table class="table">
+                            <tr>
+                                <th>Charge Code</th>
+                                <th>Level</th>
+                                <th>Description</th>
+                                <th>sor</th>
+                                <th>FPrint</th>
+                            </tr>
+                            <tbody>
+                            <tr v-for="(code,i)  in chargeCodes" :key="chargeCodes.id">
+                                <td>{{ code.charge_code }}</td>
+                                <td>{{ code.type_class }}</td>
+                                <td>{{ code.description  }}</td>
+                                <td>{{ code.sor }}</td>
+                                <td>{{ code.cmr_charge_code_fingerprintable }}</td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+                <div class=" row mb-2 mb-md-0 text-only">
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-10">
+                        <h3>Exceptions</h3>
+                       <dl style="list-style-type: none; padding: 0; margin: 0; font-size: 1.1rem;" v-for="(exception,i)  in exceptions" :key="exception.id"
+                               >
+
+                           <dt>
+                               {{ exception.exception_section }}
+
+                               <span v-if="exception.code == 'Applies'" style="color:red">
+                                   {{ exception.code }}
+                               </span>
+
+                               <span v-else-if="exception.code == 'Does Not Apply'" style="color:green">
+                                   {{ exception.code }}
+                               </span>
+
+                               <span v-else-if="exception.code == 'Undetermined'" style="color:darkgrey">
+                                   {{ exception.code }}
+                               </span>
+
+
+                               <span v-else>
+                                   {{ exception.code }}
+                               </span>
+
+                           </dt>
+                           <dd>
+
+                               {{ exception.exception_name }}
+                               <div v-if="exception.exception_note" class="indented-block ml-4">
+                                   {{ exception.exception_note }}
+                               </div>
+                               <div v-if="exception.exception_attorney_note" class="indented-block ml-4">
+                                   <span style="color: lightgray;">Atty Instructions:</span> {{ exception.exception_attorney_note }}
+                               </div>
+
+                               <div v-if="exception.exception_dyi_note" class="indented-block ml-4">
+                                   <span style="color: lightgray;">DYI Instructions:</span> {{ exception.exception_dyi_note }}
+                               </div>
+
+                           </dd>
+
+                       </dl>
+
+                    </div>
+                </div>
+
+
 
 
             </div>
@@ -92,6 +153,8 @@
                             {{ row.conviction_class_type}}
                         </td>
                     </tr>
+
+
                 </table>
             </div>
         </div>
@@ -107,6 +170,10 @@
                 default: false
             },
             charges: {
+                type: [Boolean, Object, Array],
+                default: false
+            },
+            chargeCodes: {
                 type: [Boolean, Object, Array],
                 default: false
             },
@@ -145,3 +212,31 @@
 
     };
 </script>
+<style>
+
+dl {
+    padding-left: 200px;
+}
+
+dt {
+    display: inline-block;
+    margin-right: 5px;
+    text-indent: -200px;
+}
+
+dd {
+    display: inline;
+    word-break: break-all;
+    margin-inline-start: 0;
+}
+
+dd::after {
+    content: "\a";
+    white-space: pre;
+    display: block;
+}
+
+dd:last-child::after {
+    content: "";
+}
+</style>

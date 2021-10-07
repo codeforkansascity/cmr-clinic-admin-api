@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Traits\RecordSignature;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 // From crud generator:
@@ -13,7 +12,6 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable, HasRoles;
-    use SoftDeletes;
     use RecordSignature;
 
     /**

@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class ExceptionCodes extends Model
 {
     const APPLIES = '1';
-    const DOES_NOT_APPLY = '2';
-    const POSSIBLY_APPLIES = '3';
+    const POSSIBLY_APPLIES = '2';
+    const DOES_NOT_APPLY = '3';
     const RESEARCH = '4';
     const UNDETERMINED = '5';
     const ELIGIBLITY_STATUSES = [
         self::APPLIES,
-        self::DOES_NOT_APPLY,
         self::POSSIBLY_APPLIES,
+        self::DOES_NOT_APPLY,
         self::RESEARCH,
         self::UNDETERMINED,
     ];

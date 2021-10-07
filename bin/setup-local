@@ -63,6 +63,8 @@ php artisan cmr:delete-all-from-statute_exceptions
 
 php artisan cmr:apply-exceptions
 
+php artisan cmr:add-undetermined-exceptions
+
 
 #
 # Mark Traffic Offences as non-blocking
