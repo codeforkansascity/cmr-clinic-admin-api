@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    Please goto <a href="/applicant">Applicants</a>
+
 
 
                 </div>

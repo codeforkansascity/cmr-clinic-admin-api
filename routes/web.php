@@ -204,15 +204,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/exception/download', 'ExceptionController@download')->name('exception.download');
     Route::get('/exception/print', 'ExceptionController@print')->name('exception.print');
     Route::resource('/exception', 'ExceptionController');
+
+    Route::get('/api-import-mshp-charge-code-manual', 'ImportMshpChargeCodeManualApi@index');
+    Route::get('/api-import-mshp-charge-code-manual/options', 'ImportMshpChargeCodeManualApi@getOptions');
+    Route::get('/import-mshp-charge-code-manual/download', 'ImportMshpChargeCodeManualController@download')->name('import-mshp-charge-code-manual.download');
+    Route::get('/import-mshp-charge-code-manual/print', 'ImportMshpChargeCodeManualController@print')->name('import-mshp-charge-code-manual.print');
+    Route::resource('/import-mshp-charge-code-manual', 'ImportMshpChargeCodeManualController');
+
+    Route::get('/api-import-mshp-charge-code', 'ImportMshpChargeCodeApi@index');
+    Route::get('/api-import-mshp-charge-code/options', 'ImportMshpChargeCodeApi@getOptions');
+    Route::get('/import-mshp-charge-code/download', 'ImportMshpChargeCodeController@download')->name('import-mshp-charge-code.download');
+    Route::get('/import-mshp-charge-code/print', 'ImportMshpChargeCodeController@print')->name('import-mshp-charge-code.print');
+    Route::resource('/import-mshp-charge-code', 'ImportMshpChargeCodeController');
+
 });
-
-
-
-
-
-
-Route::get('/api-import-mshp-charge-code-manual', 'ImportMshpChargeCodeManualApi@index');
-Route::get('/api-import-mshp-charge-code-manual/options', 'ImportMshpChargeCodeManualApi@getOptions');
-Route::get('/import-mshp-charge-code-manual/download', 'ImportMshpChargeCodeManualController@download')->name('import-mshp-charge-code-manual.download');
-Route::get('/import-mshp-charge-code-manual/print', 'ImportMshpChargeCodeManualController@print')->name('import-mshp-charge-code-manual.print');
-Route::resource('/import-mshp-charge-code-manual', 'ImportMshpChargeCodeManualController');

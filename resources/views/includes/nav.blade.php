@@ -15,11 +15,11 @@
         @if(Auth::check())
             <?php /* Left (main) menu items: */ ?>
             <ul class="navbar-nav mr-auto">
-                @canany(['applicant index'])
-                    <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'organizations') echo 'active'; @endphp">
-                        <a class="nav-link" href="{{ route('applicant.index') }}">Applicants <span class="sr-only">(current)</span></a>
-                    </li>
-                @endif
+{{--                @canany(['applicant index'])--}}
+{{--                    <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'organizations') echo 'active'; @endphp">--}}
+{{--                        <a class="nav-link" href="{{ route('applicant.index') }}">Applicants <span class="sr-only">(current)</span></a>--}}
+{{--                    </li>--}}
+{{--                @endif--}}
 
                     @canany(['statute index'])
                         <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'statute') echo 'active'; @endphp">
@@ -33,6 +33,14 @@
                                     class="sr-only">(current)</span></a>
                         </li>
                     @endif
+
+                    @canany(['import_mshp_charge_code index'])
+                        <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'statute') echo 'active'; @endphp">
+                            <a class="nav-link" href="{{ route('import-mshp-charge-code.index') }}">Charge Code CSV<span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                    @endif
+
 
                     <li class="nav-item">
                     <a class="nav-link" target="_blank"

@@ -46,6 +46,14 @@ class InitialPermissions
         Permission::findOrCreate('import_mshp_charge_code_manual update');
         Permission::findOrCreate('import_mshp_charge_code_manual destroy');
 
+        Permission::findOrCreate('import_mshp_charge_code index');
+        Permission::findOrCreate('import_mshp_charge_code view');
+        Permission::findOrCreate('import_mshp_charge_code export-pdf');
+        Permission::findOrCreate('import_mshp_charge_code export-excel');
+        Permission::findOrCreate('import_mshp_charge_code add');
+        Permission::findOrCreate('import_mshp_charge_code update');
+        Permission::findOrCreate('import_mshp_charge_code destroy');
+
         Permission::findOrCreate('invite index');
         Permission::findOrCreate('invite add');
         Permission::findOrCreate('invite edit');
@@ -200,6 +208,9 @@ class InitialPermissions
             'import_mshp_charge_code_manual index',
             'import_mshp_charge_code_manual view',
 
+            'import_mshp_charge_code index',
+            'import_mshp_charge_code view',
+
             'applicant access-all',
             'applicant index',
             'applicant add',
@@ -352,6 +363,8 @@ class InitialPermissions
 
             'import_mshp_charge_code_manual index',
             'import_mshp_charge_code_manual view',
+            'import_mshp_charge_code index',
+            'import_mshp_charge_code view',
 
             'jurisdiction index',
             'jurisdiction add',
@@ -435,6 +448,8 @@ class InitialPermissions
 
             'import_mshp_charge_code_manual index',
             'import_mshp_charge_code_manual view',
+            'import_mshp_charge_code index',
+            'import_mshp_charge_code view',
 
 
             'jurisdiction index',
@@ -518,6 +533,9 @@ class InitialPermissions
             'import_mshp_charge_code_manual index',
             'import_mshp_charge_code_manual view',
 
+            'import_mshp_charge_code index',
+            'import_mshp_charge_code view',
+
 
             'jurisdiction index',
             'jurisdiction add',
@@ -576,6 +594,9 @@ class InitialPermissions
 
             'import_mshp_charge_code_manual index',
             'import_mshp_charge_code_manual view',
+
+            'import_mshp_charge_code index',
+            'import_mshp_charge_code view',
 
             'jurisdiction index',
             'jurisdiction view',

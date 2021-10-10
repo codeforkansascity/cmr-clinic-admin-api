@@ -51,10 +51,10 @@ class ApplyExceptions extends Command
         $this->do2_4();
         $this->do2_5();
         $this->do2_6();
-//	    $this->do2_7();
-//	    $this->do2_8();
+	    $this->do2_7();
+	    $this->do2_8();
         $this->do2_9();
-//	    $this->do2_10();
+	    $this->do2_10();
 	    $this->do2_11();
 
         return 0;
@@ -425,11 +425,66 @@ EOM;
     {
         $this->info('Section 2.7');
 
+        if ($exception = Exception::where('section', '2.7')->first()) {
+
+
+
+            $traffic_numbers = $this->getTraffic();
+
+
+            $query = Statute::whereNotIn('number', $traffic_numbers)
+                ->where('jurisdiction_id', Jurisdiction::JURISDICTION_MO);
+
+            $statutes = $query->get();
+            $this->applyException($exception, $statutes, '', ExceptionCodes::DOES_NOT_APPLY);
+
+        } else {
+            $this->error('Exception 2.7 was not found');
+        }
+
+    }
+
+    private function getTraffic() {
+        $traffic_numbers = [];
+        $statutes = Statute::where('number', 'like', '301%')->get();
+        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
+
+        $statutes = Statute::where('number', 'like', '302%')->get();
+        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
+        $statutes = Statute::where('number', 'like', '303%')->get();
+        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
+        $statutes = Statute::where('number', 'like', '304%')->get();
+        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
+        $statutes = Statute::where('number', 'like', '305%')->get();
+        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
+        $statutes = Statute::where('number', 'like', '306%')->get();
+        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
+        $statutes = Statute::where('number', 'like', '307%')->get();
+        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
+
+        return $traffic_numbers;
     }
 
     private function do2_8()
     {
         $this->info('Section 2.8');
+
+        if ($exception = Exception::where('section', '2.8')->first()) {
+
+
+
+            $traffic_numbers = $this->getTraffic();
+
+
+            $query = Statute::whereNotIn('number', $traffic_numbers)
+                ->where('jurisdiction_id', Jurisdiction::JURISDICTION_MO);
+
+            $statutes = $query->get();
+            $this->applyException($exception, $statutes, '', ExceptionCodes::DOES_NOT_APPLY);
+
+        } else {
+            $this->error('Exception 2.8 was not found');
+        }
 
     }
 
@@ -463,6 +518,23 @@ EOM;
     private function do2_10()
     {
         $this->info('Section 2.10');
+
+        if ($exception = Exception::where('section', '2.10')->first()) {
+
+
+
+            $traffic_numbers = $this->getTraffic();
+
+
+            $query = Statute::whereNotIn('number', $traffic_numbers)
+                ->where('jurisdiction_id', Jurisdiction::JURISDICTION_MO);
+
+            $statutes = $query->get();
+            $this->applyException($exception, $statutes, '', ExceptionCodes::DOES_NOT_APPLY);
+
+        } else {
+            $this->error('Exception 2.10 was not found');
+        }
 
     }
 
