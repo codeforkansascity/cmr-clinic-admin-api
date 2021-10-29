@@ -43,22 +43,22 @@
                         />
                     </search-form-group>
                     &nbsp;
-                    <search-form-group
-                        class="mb-0"
-                        :errors="form_errors.statutes_eligibility"
-                        label="Eligibility"
-                        labelFor="statutes_eligibility"
-                    >
-                        <ui-select-pick-one
-                            url="/api-statutes-eligibility/options"
-                            v-model="eligibilitySelected"
-                            :selected_id="eligibilitySelected"
-                            name="statutes_eligibility"
-                            blank_text="All"
-                            blank_value="0"
-                            additional_classes="mb-2 grid-filter"
-                            styleAttr="max-width: 175px;"/>
-                    </search-form-group>
+<!--                    <search-form-group-->
+<!--                        class="mb-0"-->
+<!--                        :errors="form_errors.statutes_eligibility"-->
+<!--                        label="Eligibility"-->
+<!--                        labelFor="statutes_eligibility"-->
+<!--                    >-->
+<!--                        <ui-select-pick-one-->
+<!--                            url="/api-statutes-eligibility/options"-->
+<!--                            v-model="eligibilitySelected"-->
+<!--                            :selected_id="eligibilitySelected"-->
+<!--                            name="statutes_eligibility"-->
+<!--                            blank_text="All"-->
+<!--                            blank_value="0"-->
+<!--                            additional_classes="mb-2 grid-filter"-->
+<!--                            styleAttr="max-width: 175px;"/>-->
+<!--                    </search-form-group>-->
                 </form>
             </div>
             <div class="col-lg-4 text-lg-right mb-2"></div>
@@ -114,17 +114,17 @@
                     >
                         Name
                     </ss-grid-column-header>
-                    <ss-grid-column-header
-                        v-on:selectedSort="sortColumn"
-                        v-bind:selectedKey="sortKey"
-                        title="Sort by Eligible"
-                        :params="{
-                                sortField: 'eligible',
-                                InitialSortOrder: 'asc'
-                            }"
-                    >
-                        Eligible
-                    </ss-grid-column-header>
+<!--                    <ss-grid-column-header-->
+<!--                        v-on:selectedSort="sortColumn"-->
+<!--                        v-bind:selectedKey="sortKey"-->
+<!--                        title="Sort by Eligible"-->
+<!--                        :params="{-->
+<!--                                sortField: 'eligible',-->
+<!--                                InitialSortOrder: 'asc'-->
+<!--                            }"-->
+<!--                    >-->
+<!--                        Eligible-->
+<!--                    </ss-grid-column-header>-->
                     <th style="width:20%;" class="text-center">Actions</th>
                 </tr>
                 </thead>
@@ -171,7 +171,7 @@
                             <dsp-textarea v-model="row.note"/>
                         </div>
                     </td>
-                    <td data-title="Eligible">{{ row.eligible }}</td>
+<!--                    <td data-title="Eligible">{{ row.eligible }}</td>-->
                     <td
                         data-title="Actions"
                         class="text-lg-center text-nowrap"

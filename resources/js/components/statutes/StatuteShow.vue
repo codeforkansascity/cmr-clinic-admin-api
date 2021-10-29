@@ -7,23 +7,23 @@
 
             </div>
 
-            <div class="col-md-12 text-center2">
-                <h1 class="text-center">
-                    <span v-if="record.statutes_eligibility_id == '0'">
-                        Undetermined Eligibility
-                    </span>
-                    <span v-else-if="record.statutes_eligibility.name != 'Eligible'" style="color:red">
-                        {{record.statutes_eligibility.name}}
-                    </span>
-                    <span v-else>
-                        {{record.statutes_eligibility.name}}
-                    </span>
+<!--            <div class="col-md-12 text-center2">-->
+<!--                <h1 class="text-center">-->
+<!--                    <span v-if="record.statutes_eligibility_id == '0'">-->
+<!--                        Undetermined Eligibility-->
+<!--                    </span>-->
+<!--                    <span v-else-if="record.statutes_eligibility.name != 'Eligible'" style="color:red">-->
+<!--                        {{record.statutes_eligibility.name}}-->
+<!--                    </span>-->
+<!--                    <span v-else>-->
+<!--                        {{record.statutes_eligibility.name}}-->
+<!--                    </span>-->
 
-                </h1>
-                <h5 class="text-center">{{ jurisdiction }}</h5>
+<!--                </h1>-->
+<!--                <h5 class="text-center">{{ jurisdiction }}</h5>-->
 
 
-            </div>
+<!--            </div>-->
             <div class="col-md-12">
 
 
@@ -137,27 +137,27 @@
 
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <h5>Used in</h5>
-                <table class="table">
-                    <tr v-for="row in charges" :key="row.id">
-                        <td>
-                            {{ row.conviction.applicant.name }}
-                        </td>
-                        <td>
-                            {{ row.conviction.case_number }}
-                        </td>
-                        <td>
-                            {{ row.conviction_charge_type}}
-                            {{ row.conviction_class_type}}
-                        </td>
-                    </tr>
+<!--        <div class="row">-->
+<!--            <div class="col-md-12">-->
+<!--                <h5>Used in</h5>-->
+<!--                <table class="table">-->
+<!--                    <tr v-for="row in charges" :key="row.id">-->
+<!--                        <td>-->
+<!--                            {{ row.conviction.applicant.name }}-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            {{ row.conviction.case_number }}-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            {{ row.conviction_charge_type}}-->
+<!--                            {{ row.conviction_class_type}}-->
+<!--                        </td>-->
+<!--                    </tr>-->
 
 
-                </table>
-            </div>
-        </div>
+<!--                </table>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </template>
 

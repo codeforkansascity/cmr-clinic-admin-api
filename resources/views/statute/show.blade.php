@@ -10,7 +10,7 @@ View {{$statute->number}} {{$statute->name}}
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
     <li class="breadcrumb-item"><a href="{{ route('statute.index') }}">Statutes</a></li>
-    <li class="breadcrumb-item active" aria-current="location">View {{$statute->number}} {{$statute->name}}</li>
+    <li class="breadcrumb-item active" aria-current="location">View {{$statute->number}}</li>
 </ol>
 @endsection
 @section('content')

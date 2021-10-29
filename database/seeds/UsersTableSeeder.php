@@ -29,7 +29,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Scott Stockwell',
             'password' => bcrypt(env('TEST_USER_PASSWORD', 'secret')),
         ]);
-        $user->assignRole('super-admin');
+        $user->assignRole('read-only');
 
         $user = \App\User::create([
 //            'id' => 3,
@@ -37,7 +37,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Suni, Ellen',
             'password' => bcrypt(env('TEST_USER_PASSWORD', 'secret')),
         ]);
-        $user->assignRole('super-admin');
+        $user->assignRole('read-only');
 
         $user = \App\User::create([
 //            'id' => 4,
@@ -45,7 +45,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Pratt, Staci Jean',
             'password' => bcrypt(env('TEST_USER_PASSWORD', 'secret')),
         ]);
-        $user->assignRole('super-admin');
+        $user->assignRole('read-only');
 
         $user = \App\User::create([
 //            'id' => 5,
@@ -53,7 +53,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Ajmi, Ayyoub',
             'password' => bcrypt(env('TEST_USER_PASSWORD', 'secret')),
         ]);
-        $user->assignRole('super-admin');
+        $user->assignRole('read-only');
 
         $user = \App\User::create([
 //            'id' => 6,
@@ -61,7 +61,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Allen, Debra',
             'password' => bcrypt(env('TEST_USER_PASSWORD', 'secret')),
         ]);
-        $user->assignRole('super-admin');
+        $user->assignRole('read-only');
 
         $user = \App\User::create([
 //            'id' => 7,
@@ -105,7 +105,7 @@ class UsersTableSeeder extends Seeder
 //            'name' => 'Camilo Snapp',
 //            'password' => bcrypt(env('TEST_USER_PASSWORD', 'secret')),
 //        ]);
-//        $user->assignRole('super-admin');
+//        $user->assignRole('read-only');
 //
 //        factory(App\User::class, 4)->create()->each(function ($user) {
 //            $role = \App\Role::inRandomOrder()->first();

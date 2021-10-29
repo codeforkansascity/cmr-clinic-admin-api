@@ -28,18 +28,28 @@
                         </li>
                     @endif
                     @canany(['import_mshp_charge_code_manual index'])
-                        <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'statute') echo 'active'; @endphp">
+                        <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'import-mshp-charge-code-manual') echo 'active'; @endphp">
                             <a class="nav-link" href="{{ route('import-mshp-charge-code-manual.index') }}">Charge Code <span
                                     class="sr-only">(current)</span></a>
                         </li>
                     @endif
 
-                    @canany(['import_mshp_charge_code index'])
-                        <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'statute') echo 'active'; @endphp">
-                            <a class="nav-link" href="{{ route('import-mshp-charge-code.index') }}">Charge Code CSV<span
-                                    class="sr-only">(current)</span></a>
-                        </li>
-                    @endif
+
+
+                @canany(['exception index'])
+                    <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'exception') echo 'active'; @endphp">
+                        <a class="nav-link" href="{{ route('exception.index') }}">Exceptions <span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                @endif
+
+
+{{--            @canany(['import_mshp_charge_code index'])--}}
+{{--                        <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'statute') echo 'active'; @endphp">--}}
+{{--                            <a class="nav-link" href="{{ route('import-mshp-charge-code.index') }}">Charge Code CSV<span--}}
+{{--                                    class="sr-only">(current)</span></a>--}}
+{{--                        </li>--}}
+{{--                    @endif--}}
 
 
                     <li class="nav-item">
@@ -81,10 +91,7 @@
                                     <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'jurisdiction-type') echo 'active'; @endphp"
                                        href="/jurisdiction-type">Jurisdiction Type</a>
                                 @endcanany
-                                @can(['exception index'])
-                                    <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'exception') echo 'active' @endphp"
-                                       href="/exception">Exceptions</a>
-                                @endcan
+
 
 
                         </div>
