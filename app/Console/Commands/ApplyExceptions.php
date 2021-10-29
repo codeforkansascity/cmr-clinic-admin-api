@@ -60,19 +60,6 @@ class ApplyExceptions extends Command
         return 0;
     }
 
-    private function applyException($exception, $statutes, $note = '', $exception_code_id = null)
-    {
-        foreach ($statutes as $statute) {
-            StatuteException::updateOrCreate([
-                'statute_id' => $statute->id,
-                'exception_id' => $exception->id],
-                ['note' => $note,
-                    'exception_code_id' => $exception_code_id
-                ]);
-        }
-    }
-
-
     private function do2_1()
     {
         $this->info('Section 2.1');
@@ -112,7 +99,8 @@ EOM;
         foreach ($records as $rec) {
             $statute_id = Statute::getIdByNumber($rec->cmr_law_number, Jurisdiction::JURISDICTION_MO);
 
-            if ($rec->cnt == 1) {
+//
+            if ($rec->cnt == 1) {       // For statutes that are only one Charge Code of a F/A (Felony A) we will mark them as Exception Applies
                 StatuteException::updateOrCreate([
                     'statute_id' => $statute_id,
                     'exception_id' => $exception->id],
@@ -122,7 +110,7 @@ EOM;
 
                 $applied_ids[] = $statute_id;
 
-            } else {
+            } else { // For statutes where there are both F/A and other levels in the Charge Codes, we will mark them Exception Possibly Applies
                 StatuteException::updateOrCreate([
                     'statute_id' => $statute_id,
                     'exception_id' => $exception->id],
@@ -136,28 +124,12 @@ EOM;
             }
         }
 
-        $this->inverse($exception->id, $applied_ids, 'Charge Code Manule 2021-2022', 'Cannot be charged as a Felony A per Charge Code Manule');
+        // For all other statutes, mark as Does Not Apply.
+       // $this->inverse($exception->id, $applied_ids, 'Charge Code Manule 2021-2022', 'Cannot be charged as a Felony A per Charge Code Manule');
 
-    }
+        $statutes = Statute::whereNotIn('id', $applied_ids)->get();
+        $this->applyException($exception, $statutes, '', ExceptionCodes::DOES_NOT_APPLY);
 
-    private function inverse($exception_id, $applied_ids, $source, $note)
-    {
-        $records = Statute::select('id')
-            ->whereNotIn('id', $applied_ids)
-            ->where('jurisdiction_id', Jurisdiction::JURISDICTION_MO)
-            ->get();
-
-        foreach ($records as $rec) {
-
-            StatuteException::updateOrCreate([
-                'statute_id' => $rec->id,
-                'exception_id' => $exception_id],
-                ['source' => $source,
-                    'exception_code_id' => ExceptionCodes::DOES_NOT_APPLY,
-                    'attorney_note' => $note,
-                    'dyi_note' => '--',
-                ]);
-        }
     }
 
     private function do2_2()
@@ -185,18 +157,10 @@ EOM;
         }
     }
 
-    private function hasFelony()
-    {
-
-        return ImportMshpChargeCodeManual::select('cmr_law_number')
-            ->where('type_class', 'like', 'F%')
-            ->groupBy('cmr_law_number')
-            ->get();
-    }
-
     private function applyNotFelonyA2_2($exception_id, $felonyALawNumbers)
     {
 
+        // For all statutes that cannot be charged as a Felony, mark Does Not Apply.
         $records = Statute::select('id')
             ->whereNotIn('number', $felonyALawNumbers)
             ->where('jurisdiction_id', Jurisdiction::JURISDICTION_MO)
@@ -213,8 +177,10 @@ EOM;
                     'attorney_note' => 'Cannot be charged as a Felony A per Charge Code Manule',
                 ]);
         }
-    }
 
+        return  $records->pluck('cmr_law_number');
+
+    }
 
     private function do2_3()
     {
@@ -251,7 +217,7 @@ EOM;
         foreach ($records as $rec) {
             $statute_id = Statute::getIdByNumber($rec->cmr_law_number, Jurisdiction::JURISDICTION_MO);
 
-            if ($rec->cnt == $rec->sor_cnt) {
+            if ($rec->cnt == $rec->sor_cnt) {  // For statutes that all Charge Codes have SOR = Y, mark as Exception Applies.
                 StatuteException::updateOrCreate([
                     'statute_id' => $statute_id,
                     'exception_id' => $exception->id],
@@ -261,7 +227,8 @@ EOM;
 
                 $applied_ids[] = $statute_id;
 
-            } else {
+            } else {  // In the case where there is a mix of Y/N in SOR in the Charge Codes for a statute, mark Exception Possibly Applies.
+
                 StatuteException::updateOrCreate([
                     'statute_id' => $statute_id,
                     'exception_id' => $exception->id],
@@ -275,7 +242,13 @@ EOM;
             }
         }
 
-        $this->inverse($exception->id, $applied_ids, $source, 'Does not require registration on sex offendor list');
+        // All other statutes, mark Exception Does Not Apply.
+    //    $this->inverse($exception->id, $applied_ids, $source, 'Does not require registration on sex offendor list');
+
+//        $statutes = Statute::whereNotIn('id', $applied_ids)->get();
+//        $this->applyException($exception, $statutes, '', ExceptionCodes::DOES_NOT_APPLY);
+
+        $this->inversIds($exception,$applied_ids);
 
     }
 
@@ -284,19 +257,39 @@ EOM;
         $this->info('Section 2.4');
         if ($exception = Exception::where('section', '2.4')->first()) {
 
-            $numbers = [
-                '565.020',
-                '565.021',
-                '565.023',
-                '565.024',
-                '565.027',
+            // One of the “causes the death of…” from 565.020 through .034
+
+            $cause_of_death_numbers = [
+                "565.020",
+                "565.021",
+                "565.023",
+                "565.024",
+                "565.027",
+
+
             ];
 
-            $statutes = Statute::whereIn('number', $numbers)->get();
-            $this->applyException($exception, $statutes, 'Please Research and assign exception code', ExceptionCodes::RESEARCH);
+            $statutes = Statute::whereIn('number', $cause_of_death_numbers)
+                //   ->whereNotIn('number',$felonyALawNumbers)
+                ->get();
+            $this->applyException($exception, $statutes, 'One of the “causes the death of…” from 565.020 through .034', ExceptionCodes::APPLIES);
+
+            // Mark not felonies
+
+            $felonyALawNumbers = $this->hasFelony()->pluck('cmr_law_number');
+            // For all statutes that can not be charged as a Felony, mark Does Not Apply.
+            $notFelonyNumbers = $this->applyNotFelonyA2_2($exception->id, $felonyALawNumbers);
+
+
 
             $numbers = [
-                '198.070',
+                "565.029",
+                "565.030",
+                "565.032",
+                "565.033",
+                "565.034",
+
+                '198.070',  // In list Search of Charge Code Manule where ‘DEATH’ is in the description and is a Felony
                 '304.050',
                 '389.653',
                 '566.203',
@@ -326,14 +319,23 @@ EOM;
                 '578.024',
                 '579.055',
                 '650.520',
+                '574.080',  // Catastorophe
             ];
 
-            $statutes = Statute::whereIn('number', $numbers)->get();
+            // Research ones in list
+            $statutes = Statute::whereIn('number', $numbers)
+             //   ->whereNotIn('number',$felonyALawNumbers)
+                ->get();
             $this->applyException($exception, $statutes, 'Please Research and assign exception code, DEATH was in Charge Code Description', ExceptionCodes::RESEARCH);
 
-            $felonyALawNumbers = $this->hasFelony()->pluck('cmr_law_number');
+            // For all other statutes, mark as Does Not Apply.
+//            $this->inverse($exception->id, array_merge($cause_of_death_numbers,$notFelonyNumbers->toArray(),$numbers
+//            ), 'Charge Code Manule 2021-2022', '');
 
-            $this->applyNotFelonyA2_2($exception->id, $felonyALawNumbers);
+            $statutes = Statute::whereNotIn('number', array_merge($cause_of_death_numbers,$notFelonyNumbers->toArray(),$numbers
+            ))->get();
+            $this->applyException($exception, $statutes, '', ExceptionCodes::DOES_NOT_APPLY);
+
 
         } else {
             $this->error('Exception 2.4 was not found');
@@ -348,7 +350,7 @@ EOM;
             $numbers = [
                 '565.052',
                 '565.054',
-                '565.056',
+//                '565.056',
                 '565.072',
                 '565.073',
                 '565.074',
@@ -366,8 +368,11 @@ EOM;
 //                '565.167',
             ];
 
-            $statutes = Statute::whereIn('number', $numbers)->get();
-            $this->applyException($exception, $statutes, 'Please Research and assign exception code', ExceptionCodes::RESEARCH);
+            $query = Statute::whereIn('number', $numbers);
+            $numbers = $this->apply($exception,$query, ExceptionCodes::RESEARCH, 'Please Research and assign exception code');
+
+            $this->inversNumbers($exception,$numbers);
+
 
         } else {
             $this->error('Exception 2.5 was not found');
@@ -380,20 +385,35 @@ EOM;
 
         if ($exception = Exception::where('section', '2.6')->first()) {
             $numbers = $this->section_2_6();
+            $query = Statute::whereIn('number', $numbers);
+            $listed_numbers = $this->apply($exception,$query, ExceptionCodes::APPLIES);
 
-            $statutes = Statute::whereIn('number', $numbers)->get();
-            $listed_numbers = $statutes->pluck('number')->toArray();
-            $this->applyException($exception, $statutes, '', ExceptionCodes::APPLIES);
+            $research_numbers = ['217.360',
+                '565.084',
+                '565.085',
+                '565.086',
+                '565.095',
+                '565.200',
+                '565.214',
+                '568.080',
+                '568.090',
+                '569.030',
+                '569.035',
+                '569.067',
+                '569.072',
+                '575.350',
+                '578.008',
+                '578.305',
+                '578.310'];
 
-            $statutes = Statute::where('number', 'like', '566%')->get();
-            $in_566 = $statutes->pluck('number')->toArray();
-            $this->applyException($exception, $statutes, '', ExceptionCodes::APPLIES);
+            $query = Statute::whereIn('number', $research_numbers);
+            $research_numbers =  $this->apply($exception,$query, ExceptionCodes::RESEARCH,'',$listed_numbers);
+print_r($research_numbers);
 
-            $query = Statute::whereNotIn('number', array_merge($listed_numbers, $in_566))
-                ->where('jurisdiction_id', Jurisdiction::JURISDICTION_MO);
+            $query = Statute::where('number', 'like', '566%');
+            $in_566 =  $this->apply($exception,$query, ExceptionCodes::RESEARCH,'',array_merge($listed_numbers, $research_numbers));
 
-            $statutes = $query->get();
-            $this->applyException($exception, $statutes, '', ExceptionCodes::DOES_NOT_APPLY);
+            $this->inversNumbers($exception,array_merge($listed_numbers, $research_numbers, $in_566));
 
         } else {
             $this->error('Exception 2.6 was not found');
@@ -427,42 +447,25 @@ EOM;
 
         if ($exception = Exception::where('section', '2.7')->first()) {
 
+            $numbers = [
+                '577.010',
+                '577.012',
+                '577.013',
+                '577.014',
+                '577.015',
+                '577.016',
+                '577.017',
+            ];
 
+            $query = Statute::whereIn('number', $numbers);
+            $numbers = $this->apply($exception,$query, ExceptionCodes::RESEARCH, 'Please Research and assign exception code');
 
-            $traffic_numbers = $this->getTraffic();
-
-
-            $query = Statute::whereNotIn('number', $traffic_numbers)
-                ->where('jurisdiction_id', Jurisdiction::JURISDICTION_MO);
-
-            $statutes = $query->get();
-            $this->applyException($exception, $statutes, '', ExceptionCodes::DOES_NOT_APPLY);
+            $this->inversNumbers($exception,$numbers);
 
         } else {
             $this->error('Exception 2.7 was not found');
         }
 
-    }
-
-    private function getTraffic() {
-        $traffic_numbers = [];
-        $statutes = Statute::where('number', 'like', '301%')->get();
-        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
-
-        $statutes = Statute::where('number', 'like', '302%')->get();
-        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
-        $statutes = Statute::where('number', 'like', '303%')->get();
-        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
-        $statutes = Statute::where('number', 'like', '304%')->get();
-        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
-        $statutes = Statute::where('number', 'like', '305%')->get();
-        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
-        $statutes = Statute::where('number', 'like', '306%')->get();
-        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
-        $statutes = Statute::where('number', 'like', '307%')->get();
-        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
-
-        return $traffic_numbers;
     }
 
     private function do2_8()
@@ -472,15 +475,22 @@ EOM;
         if ($exception = Exception::where('section', '2.8')->first()) {
 
 
+            $numbers = [
+                '577.010',
+                '577.012',
+                '577.013',
+                '577.014',
+                '577.015',
+                '577.016',
+                '577.017',
+                '557.024',
+                '557.025'
+            ];
 
-            $traffic_numbers = $this->getTraffic();
+            $query = Statute::whereIn('number', $numbers);
+            $numbers = $this->apply($exception,$query, ExceptionCodes::RESEARCH, 'Please Research and assign exception code');
 
-
-            $query = Statute::whereNotIn('number', $traffic_numbers)
-                ->where('jurisdiction_id', Jurisdiction::JURISDICTION_MO);
-
-            $statutes = $query->get();
-            $this->applyException($exception, $statutes, '', ExceptionCodes::DOES_NOT_APPLY);
+            $this->inversNumbers($exception,$numbers);
 
         } else {
             $this->error('Exception 2.8 was not found');
@@ -521,16 +531,12 @@ EOM;
 
         if ($exception = Exception::where('section', '2.10')->first()) {
 
-
-
             $traffic_numbers = $this->getTraffic();
 
+            $query = Statute::whereIn('number', $traffic_numbers);
+            $numbers = $this->apply($exception,$query, ExceptionCodes::RESEARCH, 'Please Research and assign exception code');
 
-            $query = Statute::whereNotIn('number', $traffic_numbers)
-                ->where('jurisdiction_id', Jurisdiction::JURISDICTION_MO);
-
-            $statutes = $query->get();
-            $this->applyException($exception, $statutes, '', ExceptionCodes::DOES_NOT_APPLY);
+            $this->inversNumbers($exception,$numbers);
 
         } else {
             $this->error('Exception 2.10 was not found');
@@ -544,19 +550,86 @@ EOM;
 
         if ($exception = Exception::where('section', '2.11')->first()) {
 
-            $statutes = Statute::where('number', '571.030')->get();
-            $this->applyException($exception, $statutes, '', ExceptionCodes::APPLIES);
+            $query = Statute::where('number', '571.030');
+            $numbers = $this->apply($exception,$query, ExceptionCodes::POSSIBLY_APPLIES);
 
-            $query = Statute::where('number', '<>', '571.030')
-                ->where('jurisdiction_id', Jurisdiction::JURISDICTION_MO);
-
-            $statutes = $query->get();
-            $this->applyException($exception, $statutes, '', ExceptionCodes::DOES_NOT_APPLY);
+            $this->inversNumbers($exception,$numbers);
 
         } else {
             $this->error('Exception 2.11 was not found');
         }
 
     }
+
+    private function inversNumbers($exception,$numbers) {
+        $query = Statute::whereNotIn('number', $numbers);
+        $this->apply($exception,$query,ExceptionCodes::DOES_NOT_APPLY);
+
+    }
+
+    private function inversIds($exception,$ids) {
+        $query = Statute::whereNotIn('id', $ids);
+        $this->apply($exception,$query,ExceptionCodes::DOES_NOT_APPLY);
+
+    }
+
+    private function apply($exception,$query,$exception_code,$note='',$notin = false) {
+        $query->where('jurisdiction_id', Jurisdiction::JURISDICTION_MO);
+        if ($notin) {
+            $query->whereNotIn('number',$notin);
+        }
+        $statutes = $query->get();
+
+        $this->applyException($exception, $statutes, $note, $exception_code);
+
+        return $statutes->pluck('number')->toArray();
+    }
+
+
+    private function applyException($exception, $statutes, $note = '', $exception_code_id = null)
+    {
+        foreach ($statutes as $statute) {
+            StatuteException::updateOrCreate([
+                'statute_id' => $statute->id,
+                'exception_id' => $exception->id],
+                ['note' => $note,
+                    'exception_code_id' => $exception_code_id
+                ]);
+        }
+    }
+
+    private function hasFelony()
+    {
+
+        return ImportMshpChargeCodeManual::select('cmr_law_number')
+            ->where('type_class', 'like', 'F%')
+            ->groupBy('cmr_law_number')
+            ->get();
+    }
+
+    private function getTraffic() {
+        $traffic_numbers = [];
+        $statutes = Statute::where('number', 'like', '301%')->get();
+        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
+
+        $statutes = Statute::where('number', 'like', '302%')->get();
+        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
+        $statutes = Statute::where('number', 'like', '303%')->get();
+        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
+        $statutes = Statute::where('number', 'like', '304%')->get();
+        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
+        $statutes = Statute::where('number', 'like', '305%')->get();
+        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
+        $statutes = Statute::where('number', 'like', '306%')->get();
+        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
+        $statutes = Statute::where('number', 'like', '307%')->get();
+        $traffic_numbers = array_merge($statutes->pluck('number')->toArray());
+
+        return $traffic_numbers;
+    }
+
+
+
+
 
 }

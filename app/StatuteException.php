@@ -93,7 +93,7 @@ class StatuteException extends Model
     {
         $thisModel = new static;
 
-        return $thisModel::select(
+        $query = $thisModel::select(
             'statute_exceptions.id',
             'statute_exceptions.statute_id',
             'statute_exceptions.exception_id',
@@ -110,10 +110,11 @@ class StatuteException extends Model
             'statutes.note AS statute_note')
             ->leftJoin('exception_codes', 'exception_codes.id', '=', 'statute_exceptions.exception_code_id')
             ->leftJoin('statutes', 'statutes.id', '=', 'statute_exceptions.statute_id')
-            ->orderBy('statutes.name')
+            ->orderBy('statutes.number')
             ->where('statute_exceptions.exception_id', $exception_id)
-            ->whereNotIn('exception_code_id',[ExceptionCodes::DOES_NOT_APPLY, ExceptionCodes::UNDETERMINED])
-            ->get();
+            ->whereNotIn('exception_code_id',[ExceptionCodes::DOES_NOT_APPLY, ExceptionCodes::UNDETERMINED]);
+
+        return $query->get();
 
     }
 
