@@ -24,6 +24,7 @@ class CreateImportMshpChargeCodeManualsTable extends Migration
             $table->string('cmr_charge_code_effective_year')->default(null)->nullable();
             $table->string('cmr_charge_code_ncic_category')->default(null)->nullable();
             $table->string('cmr_charge_code_ncic_modifier')->default(null)->nullable();
+            $table->integer('cmr_attempt')->default(0)->nullable();
             $table->string('charge_code');
             $table->string('ncic_mod');
             $table->string('state_mod');

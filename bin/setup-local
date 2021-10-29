@@ -18,7 +18,7 @@ php artisan cmr:make-initial-exceptions
 #
 # Load Current Laws from Clinic App
 #
-php artisan cmr:import-statutes
+# php artisan cmr:import-statutes
 
 #
 # Import MO Revisor Statutes - for chapter and law name

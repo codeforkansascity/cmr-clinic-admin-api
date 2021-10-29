@@ -23,6 +23,7 @@ class ImportMshpChargeCodeManual extends Model
             'cmr_charge_code_effective_year',
             'cmr_charge_code_ncic_category',
             'cmr_charge_code_ncic_modifier',
+            'cmr_attempt',
             'charge_code',
             'ncic_mod',
             'state_mod',
@@ -92,6 +93,7 @@ class ImportMshpChargeCodeManual extends Model
                     'dna',
                     'sor',
                     'roc',
+                    'cmr_attempt',
             ])
         ->paginate($per_page);
     }

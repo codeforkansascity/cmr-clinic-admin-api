@@ -55,9 +55,8 @@
                     </div>
                 </div>
                 <div class=" row mb-2 mb-md-0 text-only">
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-10">
+
+                    <div class="col-md-12">
                         <h3>Charge Codes</h3>
                         <table class="table">
                             <tr>
@@ -66,6 +65,7 @@
                                 <th>Description</th>
                                 <th>sor</th>
                                 <th>FPrint</th>
+                                <th>Attempt</th>
                             </tr>
                             <tbody>
                             <tr v-for="(code,i)  in chargeCodes" :key="chargeCodes.id">
@@ -74,6 +74,9 @@
                                 <td>{{ code.description  }}</td>
                                 <td>{{ code.sor }}</td>
                                 <td>{{ code.cmr_charge_code_fingerprintable }}</td>
+                                <td>
+                                    <dsp-boolean v-model="code.cmr_attempt" true-display="Attempt"/>
+                                </td>
 
                             </tr>
                             </tbody>
@@ -83,10 +86,11 @@
                 </div>
 
                 <div class=" row mb-2 mb-md-0 text-only">
-                    <div class="col-md-2">
-                    </div>
-                    <div class="col-md-10">
+                    <div class="col-md-2 mb-3">
                         <h3>Exceptions</h3>
+                    </div>
+                    <div class="col-md-10 mt-4">
+
                        <dl style="list-style-type: none; padding: 0; margin: 0; font-size: 1.1rem;" v-for="(exception,i)  in exceptions" :key="exception.id"
                                >
 

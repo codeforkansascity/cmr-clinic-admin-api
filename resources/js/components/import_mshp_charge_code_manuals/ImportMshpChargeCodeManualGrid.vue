@@ -153,6 +153,18 @@
                             ROC
                         </ss-grid-column-header>
 
+                        <ss-grid-column-header
+                            v-on:selectedSort="sortColumn"
+                            v-bind:selectedKey="sortKey"
+                            title="Attempt"
+                            :params="{
+                                sortField: 'cmr_attempt',
+                                InitialSortOrder: 'asc'
+                            }"
+                        >
+                            Atmt
+                        </ss-grid-column-header>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -196,6 +208,9 @@
                         <td data-title="Dna">{{ row.dna }}</td>
                         <td data-title="Sor">{{ row.sor }}</td>
                         <td data-title="Roc">{{ row.roc }}</td>
+                        <td data-title="Roc">
+                            <dsp-boolean v-model="row.cmr_attempt" true-display="Attempt"/>
+                        </td>
 <!--                        <td-->
 <!--                            data-title="Actions"-->
 <!--                            class="text-lg-center text-nowrap"-->

@@ -80,6 +80,8 @@ class Import2020MSHPChargeCodeFiles extends Command
                     $chapter = explode(".", $charge_code[0]);
                     $row['cmr_chapter'] = $chapter[0];
 
+                    $row['cmr_attempt'] = str_contains($row['state_mod'],'1');
+
                     return $row;
                 },
                 'header' => [
