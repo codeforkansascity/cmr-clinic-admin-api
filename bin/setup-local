@@ -1,11 +1,11 @@
-composer dumpautoload
+#composer dumpautoload
 
-php artisan auth:clear-resets
-php artisan route:clear
-php artisan view:clear
-php artisan clear-compiled
-php artisan cache:clear
-php artisan config:clear;
+#php artisan auth:clear-resets
+#php artisan route:clear
+#php artisan view:clear
+#php artisan clear-compiled
+#php artisan cache:clear
+#php artisan config:clear;
 
 php artisan migrate:fresh
 php artisan migrate
@@ -14,6 +14,8 @@ php artisan migrate
 # Load Exceptions - only if they do not exist
 #
 php artisan cmr:make-initial-exceptions
+
+
 
 #
 # Load Current Laws from Clinic App
