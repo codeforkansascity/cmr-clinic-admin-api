@@ -128,7 +128,7 @@ EOM;
        // $this->inverse($exception->id, $applied_ids, 'Charge Code Manule 2021-2022', 'Cannot be charged as a Felony A per Charge Code Manule');
 
         $statutes = Statute::whereNotIn('id', $applied_ids)->get();
-        $this->applyException($exception, $statutes, '', ExceptionCodes::DOES_NOT_APPLY);
+        $this->applyException($exception, null, $statutes, '', ExceptionCodes::DOES_NOT_APPLY);
 
     }
 
@@ -146,7 +146,8 @@ EOM;
             ];
 
             $statutes = Statute::whereIn('number', $numbers)->get();
-            $this->applyException($exception, $statutes, 'Please Research and assign exception code', ExceptionCodes::RESEARCH);
+
+            $this->applyException($exception, $numbers, $statutes, 'Please Research and assign exception code', ExceptionCodes::RESEARCH);
 
             $felonyALawNumbers = $this->hasFelony()->pluck('cmr_law_number');
 
@@ -161,10 +162,23 @@ EOM;
     {
 
         // For all statutes that cannot be charged as a Felony, mark Does Not Apply.
-        $records = Statute::select('id')
+        $records = Statute::select('id','number')
             ->whereNotIn('number', $felonyALawNumbers)
             ->where('jurisdiction_id', Jurisdiction::JURISDICTION_MO)
             ->get();
+
+        if ($felonyALawNumbers) {
+            $found_numbers = $records->pluck('number');
+
+            $not_found_numbers = array_diff($felonyALawNumbers,$found_numbers->toArray());
+
+            if ($not_found_numbers) {
+                $this->error("Error: statutes not found:");
+                foreach ($not_found_numbers AS $missing_number) {
+                    $this->error("    $missing_number");
+                }
+            }
+        }
 
         foreach ($records as $rec) {
 
@@ -272,7 +286,7 @@ EOM;
             $statutes = Statute::whereIn('number', $cause_of_death_numbers)
                 //   ->whereNotIn('number',$felonyALawNumbers)
                 ->get();
-            $this->applyException($exception, $statutes, 'One of the “causes the death of…” from 565.020 through .034', ExceptionCodes::APPLIES);
+            $this->applyException($exception, $cause_of_death_numbers, $statutes, 'One of the “causes the death of…” from 565.020 through .034', ExceptionCodes::APPLIES);
 
             // Mark not felonies
 
@@ -326,7 +340,7 @@ EOM;
             $statutes = Statute::whereIn('number', $numbers)
              //   ->whereNotIn('number',$felonyALawNumbers)
                 ->get();
-            $this->applyException($exception, $statutes, 'Please Research and assign exception code, DEATH was in Charge Code Description', ExceptionCodes::RESEARCH);
+            $this->applyException($exception, $numbers, $statutes, 'Please Research and assign exception code, DEATH was in Charge Code Description', ExceptionCodes::RESEARCH);
 
             // For all other statutes, mark as Does Not Apply.
 //            $this->inverse($exception->id, array_merge($cause_of_death_numbers,$notFelonyNumbers->toArray(),$numbers
@@ -334,7 +348,7 @@ EOM;
 
             $statutes = Statute::whereNotIn('number', array_merge($cause_of_death_numbers,$notFelonyNumbers->toArray(),$numbers
             ))->get();
-            $this->applyException($exception, $statutes, '', ExceptionCodes::DOES_NOT_APPLY);
+            $this->applyException($exception, null, $statutes, '', ExceptionCodes::DOES_NOT_APPLY);
 
 
         } else {
@@ -580,20 +594,38 @@ print_r($research_numbers);
         }
         $statutes = $query->get();
 
-        $this->applyException($exception, $statutes, $note, $exception_code);
+        $this->applyException($exception, null, $statutes, $note, $exception_code);
 
         return $statutes->pluck('number')->toArray();
     }
 
 
-    private function applyException($exception, $statutes, $note = '', $exception_code_id = null)
+    private function applyException($exception, $numbers, $statutes, $note = '', $exception_code_id = null, $attorney_note=null, $dyi_note=null)
     {
+
+        if ($numbers) {
+            $found_numbers = $statutes->pluck('number');
+
+            $not_found_numbers = array_diff($numbers,$found_numbers->toArray());
+
+            if ($not_found_numbers) {
+                $this->error("Error: statutes not found:");
+                foreach ($not_found_numbers AS $missing_number) {
+                    $this->error("    $missing_number");
+                }
+            }
+        }
+
+
         foreach ($statutes as $statute) {
             StatuteException::updateOrCreate([
                 'statute_id' => $statute->id,
                 'exception_id' => $exception->id],
                 ['note' => $note,
-                    'exception_code_id' => $exception_code_id
+                    'exception_code_id' => $exception_code_id,
+                    'attorney_note' => $attorney_note,
+                    'dyi_note' => $dyi_note,
+
                 ]);
         }
     }
