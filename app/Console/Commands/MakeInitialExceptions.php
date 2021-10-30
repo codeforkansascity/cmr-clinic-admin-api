@@ -70,8 +70,8 @@ class MakeInitialExceptions extends Command
                 'section' => $section,
                 'name' => $name,
                 'short_name' => $short_name,
-                'attorney_note' => $attorney_note,
-                'dyi_note' => $dyi_note,
+                'attorney_note' => '',
+                'dyi_note' => '',
                 'logic' => $logic,
                 'sequence' => $sequence,
             ]);
