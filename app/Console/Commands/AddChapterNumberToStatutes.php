@@ -20,7 +20,7 @@ class AddChapterNumberToStatutes extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Add chapter numbers to statutes from the number field';
 
     /**
      * Create a new command instance.

@@ -170,7 +170,7 @@ EOM;
         if ($felonyALawNumbers) {
             $found_numbers = $records->pluck('number');
 
-            $not_found_numbers = array_diff($felonyALawNumbers,$found_numbers->toArray());
+            $not_found_numbers = array_diff($felonyALawNumbers->toArray(),$found_numbers->toArray());
 
             if ($not_found_numbers) {
                 $this->error("Error: statutes not found:");
