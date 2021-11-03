@@ -416,6 +416,7 @@ EOM;
                 '569.067',
                 '569.072',
                 '575.350',
+                '577.054',
                 '578.008',
                 '578.305',
                 '578.310'];
@@ -424,10 +425,47 @@ EOM;
             $research_numbers =  $this->apply($exception,$query, ExceptionCodes::RESEARCH,'',$listed_numbers);
 print_r($research_numbers);
 
-            $query = Statute::where('number', 'like', '566%');
-            $in_566 =  $this->apply($exception,$query, ExceptionCodes::RESEARCH,'',array_merge($listed_numbers, $research_numbers));
+            $numbers_105 = [
+                "105.452",
+                "105.453",
+                "105.454",
+                "105.455",
+                "105.456",
+                "105.458",
+                "105.461",
+                "105.462",
+                "105.464",
+                "105.465",
+                "105.466",
+                "105.467",
+                "105.470",
+                "105.472",
+                "105.473",
+                "105.475",
+                "105.476",
+                "105.477",
+                "105.478",
+                "105.482",
+                "105.483",
+                "105.485",
+                "105.487",
+                "105.489",
+                "105.491",
+                "105.492",
+                "105.494",
+                "105.496",
+                "105.498"];
 
-            $this->inversNumbers($exception,array_merge($listed_numbers, $research_numbers, $in_566));
+            print_r($numbers_105);
+            $query = Statute::whereIn('number', $numbers_105);
+            $numbers_105 =  $this->apply($exception,$query, ExceptionCodes::RESEARCH,'',array_merge($listed_numbers, $research_numbers));
+            print_r($numbers_105);
+            print "Count of 105 numbers " . count($numbers_105) . "\n\n";
+
+            $query = Statute::where('number', 'like', '566%');
+            $in_566 =  $this->apply($exception,$query, ExceptionCodes::RESEARCH,'',array_merge($listed_numbers, $research_numbers, $numbers_105));
+
+            $this->inversNumbers($exception,array_merge($listed_numbers, $research_numbers, $numbers_105, $in_566));
 
         } else {
             $this->error('Exception 2.6 was not found');

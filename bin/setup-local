@@ -59,6 +59,12 @@ php artisan cmr:statutes-transfer
 php artisan cmr:add-chapter-number-to-statutes
 
 
+
+# Handel the one off statutes that are missing a title
+
+php artisan cmr:add-missing-statute-titles
+
+
 # See cmr:make-traffic-stautes has function to add statu
 
 #
@@ -68,6 +74,8 @@ php artisan cmr:add-chapter-number-to-statutes
 #    2(6)
 #
 php artisan cmr:delete-all-from-statute_exceptions
+
+
 
 
 php artisan cmr:apply-exceptions
