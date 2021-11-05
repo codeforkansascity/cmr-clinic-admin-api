@@ -84,8 +84,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'captain@codeforkc.org'),
-        'name' => env('MAIL_FROM_NAME', 'Paul Barham'),
+        'address' => env('MAIL_FROM_ADDRESS', 'support@savagesoft.com'),
+        'name' => env('MAIL_FROM_NAME', 'Law Support'),
     ],
 
     /*

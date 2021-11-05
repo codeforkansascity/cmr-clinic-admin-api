@@ -6,7 +6,7 @@ namespace App\Lib;
 
 use Illuminate\Support\Facades\DB;
 
-class CsvImporter  
+class CsvImporter
 {
     protected $filename;
     protected $delimiter = ',';

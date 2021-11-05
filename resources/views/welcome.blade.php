@@ -81,8 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Clear My Record<br>
-                    Clinic App
+                    CMR Statutes
                 </div>
             </div>
         </div>
