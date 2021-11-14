@@ -89,9 +89,10 @@ class GetCriminalHistoryFromSS
                 if ($cases_in_row = $this->getCasesInRow()) {
 
                     if ($cases_in_row > 1 ) {
-                        $this->processHorizontalCases();
+                        $this->processVerticalCases($cases_in_row);
+                        $this->processVerticalCaseCharges($cases_in_row);
                     } else {
-                        $this->processVerticalCases();
+                        $this->processHorizontalCases($cases_in_row);
                     }
                 } else {
                     die("Error no cases in row");
@@ -106,14 +107,84 @@ class GetCriminalHistoryFromSS
 
     }
 
+    public function processVerticalCases($cases_in_row) {
+        print __METHOD__ . "\n";
+
+        $this->addCasesToApplicant($cases_in_row);
+        $this->getNextRow();
+
+        while($this->current_row && !$this->getRowType($this->current_row)) {
+            if (!$this->currentRowEmpty()) {
+                $this->processVerticalCasesColumns($cases_in_row);
+
+            }
+            $this->getNextRow();
+        }
+
+        $this->processVerticalCaseCharges($cases_in_row);
+    }
+
+    private function processVerticalCasesColumns($cases_in_row) {
+        for($i = 0; $i < $cases_in_row; $i++) {
+            list($label, $value) = $this->cleanRow($this->current_row,$i);
+            $this->applicant['CASES'][$i][$label] = $value;
+        }
+    }
+
+    public function processVerticalCaseCharges($cases_in_row) {
+
+        $charge_offset = -1;
+
+        while($this->current_row) {
+            if (!$this->currentRowEmpty()  && $charge_offset < 5) {
+
+                $row_type = $this->getRowTypeCharge($this->current_row,$cases_in_row);
+
+                if ($row_type == 'CHARGE') {
+                    $charge_offset++;
+                }
+                $this->processVerticalCaseChargeColumns($charge_offset, $cases_in_row);
+            }
+
+            $this->getNextRow();
+
+
+        }
+
+
+    }
+
+    private function processVerticalCaseChargeColumns($charge_offset,$cases_in_row) {
+
+        for($i = 0; $i < $cases_in_row; $i++) {
+            list($label, $value) = $this->cleanRow($this->current_row,$i);
+
+            if ($label) {
+
+                if (!array_key_exists('CHARGES', $this->applicant['CASES'][$i])) {
+                    $this->applicant['CASES'][$i]['CHARGES'] = [];
+                }
+
+                if (!array_key_exists($charge_offset, $this->applicant['CASES'][$i]['CHARGES'])) {
+                    $this->applicant['CASES'][$i]['CHARGES'][$charge_offset] = [];
+                }
+
+                $this->applicant['CASES'][$i]['CHARGES'][$charge_offset][$label] = $value;
+            }
+        }
+    }
+
+
     public function processHorizontalCases() {
         print __METHOD__ . "\n";
         die;
     }
 
-    public function processVerticalCases() {
-        print __METHOD__ . "\n";
-        die;
+    private function addCasesToApplicant($cases_in_row) {
+        $this->applicant['CASES'] = [];
+        for ($i = 0; $i < $cases_in_row; $i++) {
+            $this->applicant['CASES'][$i] = [];
+        }
     }
 
 
@@ -267,6 +338,20 @@ class GetCriminalHistoryFromSS
         return $this->getType(trim($row[0]));
     }
 
+    public function getRowTypeCharge(&$row,$cases_in_row)
+    {
+
+        $type = false;
+
+        for ($i = 0; $i < $cases_in_row; $i++) {
+            if($type = $this->getType($this->current_row[$i*2])) {
+                break;
+            }
+        }
+
+        return $type;
+    }
+
     public function getType($label) {
         $row_parts = [];
         if (0 != preg_match('/^(Case)\s*(\d+)$/', $label, $row_parts)) {
@@ -310,7 +395,6 @@ class GetCriminalHistoryFromSS
                 }
             }
         }
-        print "empty row\n";
         return true;
     }
 

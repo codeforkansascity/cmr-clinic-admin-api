@@ -54,7 +54,7 @@ class LoadSs extends Command
         $ss = new GetCriminalHistoryFromSS($this->path, $this->file_name, $data);
 
         $data = $ss->processSpreadSheet();
-
+print "Print data:\n";
         print_r($data);
 
 //            $r = new AddApplicantFromCriminalHistory($data);
