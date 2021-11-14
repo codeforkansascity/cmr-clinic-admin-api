@@ -71,17 +71,66 @@ class GetCriminalHistoryFromSS
     {
         $this->readSpreadSheet($this->path.'/'.$this->file_name);
 
+        while ($this->current_row) {
+
+            if ($this->currentRowEmpty()) {
+                $this->getNextRow();
+                continue;
+            }
+            if (!($row_type = $this->getRowType($this->current_row))) {  // CASE, CHARGE, false
+                list($label, $value) = $this->cleanRow($this->current_row,0);
+                $this->applicant[$label] = $value;
+                $this->getNextRow();
+            } else {
+
+                if ($row_type != 'CASE') {
+                    die("ERROR: Missing Case after Applicant information\n");
+                }
+                if ($cases_in_row = $this->getCasesInRow()) {
+
+                    if ($cases_in_row > 1 ) {
+                        $this->processHorizontalCases();
+                    } else {
+                        $this->processVerticalCases();
+                    }
+                } else {
+                    die("Error no cases in row");
+                }
+
+
+            }
+
+        }
+
+        return $this->applicant;
+
+    }
+
+    public function processHorizontalCases() {
+        print __METHOD__ . "\n";
+        die;
+    }
+
+    public function processVerticalCases() {
+        print __METHOD__ . "\n";
+        die;
+    }
+
+
+
+
+    public function OLDprocessSpreadSheet()
+    {
+        $this->readSpreadSheet($this->path.'/'.$this->file_name);
+
         $this->current_type = 'CLIENT';
         $this->in = 'CLIENT';
         $this->record = [];
         $this->case = [];
         while ($this->current_row) {
-            $label = $this->current_row[0];
-            $value = $this->current_row[1] ? $this->current_row[1] : '';
 
-            $row_type = $this->getRowType($this->current_row);
 
-            list($label, $value) = $this->cleanRow($this->current_row);
+            list($label, $value) = $this->cleanRow($this->current_row,0);
 
             // This code should be someplace else, but it works here
             if ($label == 'Release Date') {
@@ -90,16 +139,18 @@ class GetCriminalHistoryFromSS
 
             // print "$this->current_row_offset \$this->in=|$this->in| \$row_type=|$row_type| \$label=|$label|=\$value=|$value|\n";
 
-            if ($row_type) {
+
+            // If we are starting a CASE or CHARGE
+            if ($row_type  = $this->getRowType($this->current_row)) {  // CASE, CHARGE, false
                 switch ($this->in) {
-                    case 'CLIENT':
+                    case 'CLIENT':  // End Client
 
                         $this->record['CASES'] = [];
                         $this->applicant = $this->record;
                         $this->applicant['CASES'] = [];
                         break;
 
-                    case 'CHARGE':
+                    case 'CHARGE':  // End Charge
 
                         if (! array_key_exists('CHARGES', $this->case)) {
                             $this->case['CHARGES'] = [];
@@ -171,10 +222,14 @@ class GetCriminalHistoryFromSS
         return $this->label_map[$label];
     }
 
-    public function cleanRow($row)
+    public function cleanRow($row,$offset)
     {
-        $label = trim($row[0]);
-        $value = $row[1] ? trim($row[1]) : '';
+
+        $label_col = $offset * 2;
+        $value_col = $label_col + 1;
+
+        $label = trim($row[$label_col]);
+        $value = $row[$value_col] ? trim($row[$value_col]) : '';
         if (0 != preg_match('/(Case)\s*(\d+)$/', $label, $row_parts)) {
             $label = 'Case';
         }
@@ -209,8 +264,11 @@ class GetCriminalHistoryFromSS
 
     public function getRowType(&$row)
     {
+        return $this->getType(trim($row[0]));
+    }
+
+    public function getType($label) {
         $row_parts = [];
-        $label = trim($row[0]);
         if (0 != preg_match('/^(Case)\s*(\d+)$/', $label, $row_parts)) {
             return 'CASE';
         }
@@ -226,6 +284,37 @@ class GetCriminalHistoryFromSS
 
         return false;
     }
+
+    private function getCasesInRow() {
+        $number_of_cases = 0;
+        if ($columns = count($this->current_row)) {
+            $max_cases = intval($columns / 2);
+            for ($i = 0; $i < $max_cases; $i ++) {
+                if ($this->getType($this->current_row[$i*2]) == 'CASE'){ // if lable is case
+                    $number_of_cases++;
+                } else {
+                    print "Column " . $i * 2 . " was not a case header\n";
+                    return false;
+                }
+
+            }
+        }
+
+        return $number_of_cases;
+    }
+    private function currentRowEmpty() {
+        if ($this->current_row) {
+            foreach ($this->current_row AS $col) {
+                if ($col) {
+                    return false;
+                }
+            }
+        }
+        print "empty row\n";
+        return true;
+    }
+
+
 
     private function getNextRow()
     {
