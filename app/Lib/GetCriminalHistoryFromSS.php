@@ -30,6 +30,7 @@ class GetCriminalHistoryFromSS
 
     public $current_type = 'CLIENT';
     public $in = 'CLIENT';
+    public $case_offset = -1;
     public $record = [];
     public $case = [];
 
@@ -39,6 +40,7 @@ class GetCriminalHistoryFromSS
     public $label_map = [
         'Full Name' => 'name',
         'Date of Birth' => 'dob',
+        'Contact ID' => 'cms_client_number',
         'Client ID' => 'cms_client_number',
         'Case ID' => 'cms_matter_number',
 
@@ -71,17 +73,176 @@ class GetCriminalHistoryFromSS
     {
         $this->readSpreadSheet($this->path.'/'.$this->file_name);
 
+        while ($this->current_row) {
+
+            if ($this->currentRowEmpty()) {
+                $this->getNextRow();
+                continue;
+            }
+            if (!($row_type = $this->getRowType($this->current_row))) {  // CASE, CHARGE, false
+                list($label, $value) = $this->cleanRow($this->current_row,0);
+                $this->applicant[$this->convertLable($label)] = $value;
+                $this->getNextRow();
+            } else {
+
+                if ($row_type != 'CASE') {
+                    die("ERROR: Missing Case after Applicant information\n");
+                }
+                if ($cases_in_row = $this->getCasesInRow()) {
+
+                    if ($cases_in_row > 1 ) {
+                        $this->processVerticalCases($cases_in_row);
+                        $this->processVerticalCaseCharges($cases_in_row);
+                    } else {
+                        $this->case_offset = -1;
+                        $this->applicant['CASES'] = [];
+                        while ($this->current_row) {
+                            $this->processHorizontalCases();
+                        }
+
+                    }
+                } else {
+                    die("Error no cases in row");
+                }
+
+
+            }
+
+        }
+
+        return $this->applicant;
+
+    }
+
+    public function processVerticalCases($cases_in_row) {
+        print __METHOD__ . "\n";
+
+        $this->addCasesToApplicant($cases_in_row);
+        $this->getNextRow();
+
+        while($this->current_row && !$this->getRowType($this->current_row)) {
+            if (!$this->currentRowEmpty()) {
+                $this->processVerticalCasesColumns($cases_in_row);
+
+            }
+            $this->getNextRow();
+        }
+
+        $this->processVerticalCaseCharges($cases_in_row);
+    }
+
+    private function addCasesToApplicant($cases_in_row) {
+        $this->applicant['CASES'] = [];
+        for ($i = 0; $i < $cases_in_row; $i++) {
+            $this->applicant['CASES'][$i] = [];
+        }
+    }
+
+    private function processVerticalCasesColumns($cases_in_row) {
+        for($i = 0; $i < $cases_in_row; $i++) {
+            list($label, $value) = $this->cleanRow($this->current_row,$i);
+            $this->applicant['CASES'][$i][$this->convertLable($label)] = $value;
+        }
+    }
+
+    public function processVerticalCaseCharges($cases_in_row) {
+
+        $charge_offset = -1;
+
+        while($this->current_row) {
+            if (!$this->currentRowEmpty()  && $charge_offset < 5) {
+
+                $row_type = $this->getRowTypeCharge($this->current_row,$cases_in_row);
+
+                if ($row_type == 'CHARGE') {
+                    $charge_offset++;
+                }
+                $this->processVerticalCaseChargeColumns($charge_offset, $cases_in_row);
+            }
+            $this->getNextRow();
+        }
+    }
+
+    private function processVerticalCaseChargeColumns($charge_offset,$cases_in_row) {
+
+        for($i = 0; $i < $cases_in_row; $i++) {
+            list($label, $value) = $this->cleanRow($this->current_row,$i);
+
+            if ($label) {
+
+                if (!array_key_exists('CHARGES', $this->applicant['CASES'][$i])) {
+                    $this->applicant['CASES'][$i]['CHARGES'] = [];
+                }
+
+                if (!array_key_exists($charge_offset, $this->applicant['CASES'][$i]['CHARGES'])) {
+                    $this->applicant['CASES'][$i]['CHARGES'][$charge_offset] = [];
+                    $this->applicant['CASES'][$i]['CHARGES'][$charge_offset]['imported_statute'] = $value;
+                //
+                } else {
+
+                    $this->applicant['CASES'][$i]['CHARGES'][$charge_offset][$label] = $value;
+                }
+            }
+        }
+    }
+
+    public function processHorizontalCases() {
+        print __METHOD__ . "\n";
+
+
+        $this->getNextRow();
+        $this->case_offset++;
+        $this->applicant['CASES'][$this->case_offset] = [];
+
+        // Process the case
+        while ($this->current_row
+            && $this->getRowType($this->current_row) != 'CHARGE') {
+            list($label, $value) = $this->cleanRow($this->current_row,0);
+            $this->applicant['CASES'][$this->case_offset][$this->convertLable($label)] = $value;
+            $this->getNextRow();
+        }
+
+        // Add charges to the case
+
+        $charge_offset = 0;
+
+        while ($this->current_row
+            && (($row_type = $this->getRowType($this->current_row)) != 'CASE')) {
+
+            if ($row_type == 'CHARGE') {
+                print "new charge\n";
+                $charge_offset++;
+                $this->applicant['CASES'][$this->case_offset]['CHARGES'][$charge_offset] = [];
+                list($label, $value) = $this->cleanRow($this->current_row,0);
+                $this->applicant['CASES'][$this->case_offset]['CHARGES'][$charge_offset]['imported_statute'] = $value;
+            } else {
+                list($label, $value) = $this->cleanRow($this->current_row,0);
+                if (!empty($label)) {
+                    $this->applicant['CASES'][$this->case_offset]['CHARGES'][$charge_offset][$this->convertLable($label)] = $value;
+                }
+            }
+
+            $this->getNextRow();
+        }
+
+    }
+
+
+
+
+
+    public function OLDprocessSpreadSheet()
+    {
+        $this->readSpreadSheet($this->path.'/'.$this->file_name);
+
         $this->current_type = 'CLIENT';
         $this->in = 'CLIENT';
         $this->record = [];
         $this->case = [];
         while ($this->current_row) {
-            $label = $this->current_row[0];
-            $value = $this->current_row[1] ? $this->current_row[1] : '';
 
-            $row_type = $this->getRowType($this->current_row);
 
-            list($label, $value) = $this->cleanRow($this->current_row);
+            list($label, $value) = $this->cleanRow($this->current_row,0);
 
             // This code should be someplace else, but it works here
             if ($label == 'Release Date') {
@@ -90,16 +251,18 @@ class GetCriminalHistoryFromSS
 
             // print "$this->current_row_offset \$this->in=|$this->in| \$row_type=|$row_type| \$label=|$label|=\$value=|$value|\n";
 
-            if ($row_type) {
+
+            // If we are starting a CASE or CHARGE
+            if ($row_type  = $this->getRowType($this->current_row)) {  // CASE, CHARGE, false
                 switch ($this->in) {
-                    case 'CLIENT':
+                    case 'CLIENT':  // End Client
 
                         $this->record['CASES'] = [];
                         $this->applicant = $this->record;
                         $this->applicant['CASES'] = [];
                         break;
 
-                    case 'CHARGE':
+                    case 'CHARGE':  // End Charge
 
                         if (! array_key_exists('CHARGES', $this->case)) {
                             $this->case['CHARGES'] = [];
@@ -171,10 +334,14 @@ class GetCriminalHistoryFromSS
         return $this->label_map[$label];
     }
 
-    public function cleanRow($row)
+    public function cleanRow($row,$offset)
     {
-        $label = trim($row[0]);
-        $value = $row[1] ? trim($row[1]) : '';
+
+        $label_col = $offset * 2;
+        $value_col = $label_col + 1;
+
+        $label = trim($row[$label_col]);
+        $value = $row[$value_col] ? trim($row[$value_col]) : '';
         if (0 != preg_match('/(Case)\s*(\d+)$/', $label, $row_parts)) {
             $label = 'Case';
         }
@@ -209,8 +376,25 @@ class GetCriminalHistoryFromSS
 
     public function getRowType(&$row)
     {
+        return $this->getType(trim($row[0]));
+    }
+
+    public function getRowTypeCharge(&$row,$cases_in_row)
+    {
+
+        $type = false;
+
+        for ($i = 0; $i < $cases_in_row; $i++) {
+            if($type = $this->getType($this->current_row[$i*2])) {
+                break;
+            }
+        }
+
+        return $type;
+    }
+
+    public function getType($label) {
         $row_parts = [];
-        $label = trim($row[0]);
         if (0 != preg_match('/^(Case)\s*(\d+)$/', $label, $row_parts)) {
             return 'CASE';
         }
@@ -226,6 +410,36 @@ class GetCriminalHistoryFromSS
 
         return false;
     }
+
+    private function getCasesInRow() {
+        $number_of_cases = 0;
+        if ($columns = count($this->current_row)) {
+            $max_cases = intval($columns / 2);
+            for ($i = 0; $i < $max_cases; $i ++) {
+                if ($this->getType($this->current_row[$i*2]) == 'CASE'){ // if lable is case
+                    $number_of_cases++;
+                } else {
+                    print "Column " . $i * 2 . " was not a case header\n";
+                    return false;
+                }
+
+            }
+        }
+
+        return $number_of_cases;
+    }
+    private function currentRowEmpty() {
+        if ($this->current_row) {
+            foreach ($this->current_row AS $col) {
+                if ($col) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
 
     private function getNextRow()
     {
