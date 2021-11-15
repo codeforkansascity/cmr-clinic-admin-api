@@ -320,4 +320,24 @@ class Statute extends Model
 
         return $builder->selectSub($query->limit(1), 'jurisdiction_type');
     }
+
+    public function withSupersededRecursive($query)
+    {
+
+        /**
+         * with recursive cte (id,  superseded_id) as (
+                    select     id,
+                    superseded_id
+                    from       statutes
+                    where      id = 220
+                    union all
+                    select     p.id,
+                    p.superseded_id
+                    from       statutes p
+                    inner join cte
+                    on cte.superseded_id = p.id
+                )
+            select * from cte;
+         */
+    }
 }

@@ -123,7 +123,7 @@ class ApplicantController extends Controller
 
     public function add_from_ss(Request $request)
     {
-        info(__METHOD__ . print_r($request->all(), true));
+
 
         $data = [];
 
@@ -132,11 +132,11 @@ class ApplicantController extends Controller
         $ss = new GetCriminalHistoryFromSS($path, '/' . $request->local_file_name, $data);
 //        try {
         $data = $ss->processSpreadSheet();
-        info(print_r($data, true));
+
 
         $criminal_history = new AddApplicantFromCriminalHistory($data);
         $add = $criminal_history->addHistory();
-        info(print_r($add, true));
+
 //        } catch (\Exception $e) {
 //            print $e->getMessage() . "\n";
 //
