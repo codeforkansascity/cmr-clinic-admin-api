@@ -43,11 +43,11 @@ class LoadSs extends Command
     public function handle()
     {
 
-        DB::beginTransaction();
+//        DB::beginTransaction();
 
         $this->path = '/Users/paulb/Projects/code4kc/cmr/current-cmr/data';
-      //  $this->file_name = 'vertical.xlsx';
-        $this->file_name = 'cmr-test-Betty-Bednar.xls';
+        $this->file_name = 'vertical.xlsx';
+    //    $this->file_name = 'cmr-test-Betty-Bednar.xls';
 
         $data = [];
 
@@ -60,6 +60,8 @@ print "Print data:\n";
 //            $r = new AddApplicantFromCriminalHistory($data);
 //
 //            $r->addHistory();
+//
+//            print_r($r);
 
 
         echo "end\n";

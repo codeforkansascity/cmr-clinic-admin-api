@@ -40,6 +40,7 @@ class GetCriminalHistoryFromSS
     public $label_map = [
         'Full Name' => 'name',
         'Date of Birth' => 'dob',
+        'Contact ID' => 'cms_client_number',
         'Client ID' => 'cms_client_number',
         'Case ID' => 'cms_matter_number',
 
@@ -80,7 +81,7 @@ class GetCriminalHistoryFromSS
             }
             if (!($row_type = $this->getRowType($this->current_row))) {  // CASE, CHARGE, false
                 list($label, $value) = $this->cleanRow($this->current_row,0);
-                $this->applicant[$label] = $value;
+                $this->applicant[$this->convertLable($label)] = $value;
                 $this->getNextRow();
             } else {
 
