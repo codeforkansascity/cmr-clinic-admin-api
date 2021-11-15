@@ -115,7 +115,7 @@ class GetCriminalHistoryFromSS
     }
 
     public function processVerticalCases($cases_in_row) {
-        print __METHOD__ . "\n";
+
 
         $this->addCasesToApplicant($cases_in_row);
         $this->getNextRow();
@@ -187,8 +187,6 @@ class GetCriminalHistoryFromSS
     }
 
     public function processHorizontalCases() {
-        print __METHOD__ . "\n";
-
 
         $this->getNextRow();
         $this->case_offset++;
@@ -210,7 +208,6 @@ class GetCriminalHistoryFromSS
             && (($row_type = $this->getRowType($this->current_row)) != 'CASE')) {
 
             if ($row_type == 'CHARGE') {
-                print "new charge\n";
                 $charge_offset++;
                 $this->applicant['CASES'][$this->case_offset]['CHARGES'][$charge_offset] = [];
                 list($label, $value) = $this->cleanRow($this->current_row,0);
@@ -248,9 +245,6 @@ class GetCriminalHistoryFromSS
             if ($label == 'Release Date') {
                 $this->case[$this->convertLable($label)] = $value;
             }
-
-            // print "$this->current_row_offset \$this->in=|$this->in| \$row_type=|$row_type| \$label=|$label|=\$value=|$value|\n";
-
 
             // If we are starting a CASE or CHARGE
             if ($row_type  = $this->getRowType($this->current_row)) {  // CASE, CHARGE, false
@@ -419,7 +413,6 @@ class GetCriminalHistoryFromSS
                 if ($this->getType($this->current_row[$i*2]) == 'CASE'){ // if lable is case
                     $number_of_cases++;
                 } else {
-                    print "Column " . $i * 2 . " was not a case header\n";
                     return false;
                 }
 

@@ -171,6 +171,7 @@
                         if (res.status === 200) {
                             console.log(res.data);
                             this.saved(res.data);
+                            window.location = "/applicant";
 
                         } else {
                             this.server_message = res.status;
@@ -182,6 +183,8 @@
                                 // Clear errors out
 
                                 console.log(error.response);
+                                console.log('-----');
+                                console.log(error.response.data);
                                 this.uploadError(error.response.data);
 
                                 this.server_message = 'The given data was invalid. Please correct the fields in red below.';
