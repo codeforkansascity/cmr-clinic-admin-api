@@ -30,6 +30,7 @@ class GetCriminalHistoryFromSS
 
     public $current_type = 'CLIENT';
     public $in = 'CLIENT';
+    public $case_offset = -1;
     public $record = [];
     public $case = [];
 
@@ -92,7 +93,12 @@ class GetCriminalHistoryFromSS
                         $this->processVerticalCases($cases_in_row);
                         $this->processVerticalCaseCharges($cases_in_row);
                     } else {
-                        $this->processHorizontalCases($cases_in_row);
+                        $this->case_offset = -1;
+                        $this->applicant['CASES'] = [];
+                        while ($this->current_row) {
+                            $this->processHorizontalCases();
+                        }
+
                     }
                 } else {
                     die("Error no cases in row");
@@ -124,10 +130,17 @@ class GetCriminalHistoryFromSS
         $this->processVerticalCaseCharges($cases_in_row);
     }
 
+    private function addCasesToApplicant($cases_in_row) {
+        $this->applicant['CASES'] = [];
+        for ($i = 0; $i < $cases_in_row; $i++) {
+            $this->applicant['CASES'][$i] = [];
+        }
+    }
+
     private function processVerticalCasesColumns($cases_in_row) {
         for($i = 0; $i < $cases_in_row; $i++) {
             list($label, $value) = $this->cleanRow($this->current_row,$i);
-            $this->applicant['CASES'][$i][$label] = $value;
+            $this->applicant['CASES'][$i][$this->convertLable($label)] = $value;
         }
     }
 
@@ -145,13 +158,8 @@ class GetCriminalHistoryFromSS
                 }
                 $this->processVerticalCaseChargeColumns($charge_offset, $cases_in_row);
             }
-
             $this->getNextRow();
-
-
         }
-
-
     }
 
     private function processVerticalCaseChargeColumns($charge_offset,$cases_in_row) {
@@ -167,25 +175,57 @@ class GetCriminalHistoryFromSS
 
                 if (!array_key_exists($charge_offset, $this->applicant['CASES'][$i]['CHARGES'])) {
                     $this->applicant['CASES'][$i]['CHARGES'][$charge_offset] = [];
-                }
+                    $this->applicant['CASES'][$i]['CHARGES'][$charge_offset]['imported_statute'] = $value;
+                //
+                } else {
 
-                $this->applicant['CASES'][$i]['CHARGES'][$charge_offset][$label] = $value;
+                    $this->applicant['CASES'][$i]['CHARGES'][$charge_offset][$label] = $value;
+                }
             }
         }
     }
 
-
     public function processHorizontalCases() {
         print __METHOD__ . "\n";
-        die;
+
+
+        $this->getNextRow();
+        $this->case_offset++;
+        $this->applicant['CASES'][$this->case_offset] = [];
+
+        // Process the case
+        while ($this->current_row
+            && $this->getRowType($this->current_row) != 'CHARGE') {
+            list($label, $value) = $this->cleanRow($this->current_row,0);
+            $this->applicant['CASES'][$this->case_offset][$this->convertLable($label)] = $value;
+            $this->getNextRow();
+        }
+
+        // Add charges to the case
+
+        $charge_offset = 0;
+
+        while ($this->current_row
+            && (($row_type = $this->getRowType($this->current_row)) != 'CASE')) {
+
+            if ($row_type == 'CHARGE') {
+                print "new charge\n";
+                $charge_offset++;
+                $this->applicant['CASES'][$this->case_offset]['CHARGES'][$charge_offset] = [];
+                list($label, $value) = $this->cleanRow($this->current_row,0);
+                $this->applicant['CASES'][$this->case_offset]['CHARGES'][$charge_offset]['imported_statute'] = $value;
+            } else {
+                list($label, $value) = $this->cleanRow($this->current_row,0);
+                if (!empty($label)) {
+                    $this->applicant['CASES'][$this->case_offset]['CHARGES'][$charge_offset][$this->convertLable($label)] = $value;
+                }
+            }
+
+            $this->getNextRow();
+        }
+
     }
 
-    private function addCasesToApplicant($cases_in_row) {
-        $this->applicant['CASES'] = [];
-        for ($i = 0; $i < $cases_in_row; $i++) {
-            $this->applicant['CASES'][$i] = [];
-        }
-    }
 
 
 

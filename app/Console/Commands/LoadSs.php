@@ -46,8 +46,8 @@ class LoadSs extends Command
         DB::beginTransaction();
 
         $this->path = '/Users/paulb/Projects/code4kc/cmr/current-cmr/data';
-        $this->file_name = 'vertical.xlsx';
-      //  $this->file_name = 'cmr-test-Betty-Bednar.xls';
+      //  $this->file_name = 'vertical.xlsx';
+        $this->file_name = 'cmr-test-Betty-Bednar.xls';
 
         $data = [];
 
