@@ -203,3 +203,5 @@
                             Statute: script to update commone name
                             Statute: script that checks if jurisdiction was not set, set it to MO if number was 999.999
 
+3.2.4.9.0       2021-11-14  Spreadsheet Load: can now load a vertical format where cases are in columns with charges below them
+
