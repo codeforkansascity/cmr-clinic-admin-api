@@ -14,7 +14,7 @@
 
             <div class="col-md-12" style="padding-bottom: 1.25em;">
                 <dsp-textarea v-model="record.notes"/>
-            </div>
+            </div>vl
         </div>
         <div class="row">
             <div class="col-md-6" style="padding-left: 1em;">
