@@ -11,7 +11,9 @@
             <tbody>
             <tr v-for="row in statutes" :key="row.id">
                 <td>
+                    <a :href="'/statute/' + row.statute_id" target="_blank">
                     {{ row.statute_number }}
+                    </a>
                     <span v-if="row.statute_common_name">
                                 {{ row.statute_common_name }}
                     </span>
