@@ -15,3 +15,4 @@ php artisan make:crud import_mshp_charge_code_manuals  --force --display-name="C
 
 php artisan make:crud import_mshp_charge_codes  --force --display-name="Charge Codes" --grid-columns="mshp_version_id:legacy_charge_code:charge_code:short_description:charge_type:classification:effective_date:inactive_date"
 
+php artisan make:crud import_mshp_charge_codes  --force --display-name="Charge Codes" --grid-columns="mshp_version_id:legacy_charge_code:charge_code:short_description:charge_type:classification:effective_date:inactive_date"

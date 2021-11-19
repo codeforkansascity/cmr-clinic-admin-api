@@ -4,7 +4,8 @@
         <table class="table table-striped table-hover mb-0">
             <thead>
             <tr>
-                <th>Statute  [{{ statutes.length }}]</th>
+                <th>Statute  #</th>
+                <th>Name</th>
                 <th>Excption</br>Applies</th>
             </tr>
             </thead>
@@ -14,6 +15,8 @@
                     <a :href="'/statute/' + row.statute_id" target="_blank">
                     {{ row.statute_number }}
                     </a>
+                    </td>
+                    <td>
                     <span v-if="row.statute_common_name">
                                 {{ row.statute_common_name }}
                     </span>

@@ -1,22 +1,22 @@
 @extends('layouts.master')
 @php $nav_path = ['exception']; @endphp
 @section('page-title')
-View {{$exception->name}}
+{{$exception->section}} {{$exception->name}}
 @endsection
 @section('page-header-title')
-View {{$exception->name}}
+{{$exception->section}} {{$exception->name}}
 @endsection
 @section('page-header-breadcrumbs')
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
     <li class="breadcrumb-item"><a href="{{ route('exception.index') }}">Exceptions</a></li>
-    <li class="breadcrumb-item active" aria-current="location">View {{$exception->name}}</li>
+    <li class="breadcrumb-item active" aria-current="location">{{$exception->section}} {{$exception->name}}</li>
 </ol>
 @endsection
 @section('content')
-
+    @if ($can_edit)
     <exception-show :record='@json($exception)'></exception-show>
-
+    @endif
     <div class="row">
         <div class="col-md-12">
             <div class="row mt-4">
@@ -43,7 +43,7 @@ View {{$exception->name}}
         </div>
     </div>
 
-    <h2 class="mt-4">Statutes related to</h2>
+    <h2 class="mt-4">{{ $cnt }} Statutes related to {{$exception->section}} {{$exception->name}}</h2>
 
     <dsp-exception-statutes :statutes='@json($statutes)'></dsp-exception-statutes>
 
