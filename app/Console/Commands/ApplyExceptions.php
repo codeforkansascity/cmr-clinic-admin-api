@@ -105,7 +105,8 @@ EOM;
                     'statute_id' => $statute_id,
                     'exception_id' => $exception->id],
                     ['source' => 'Charge Code Manule 2021-2022',
-                        'exception_code_id' => ExceptionCodes::APPLIES
+                        'exception_code_id' => ExceptionCodes::APPLIES,
+                        'note' => 'Can only be charged as F/A'
                     ]);
 
                 $applied_ids[] = $statute_id;
@@ -118,6 +119,7 @@ EOM;
                         'exception_code_id' => ExceptionCodes::POSSIBLY_APPLIES,
                         'attorney_note' => 'Use charge code or research using the conviction Date and Level to determine eligibility',
                         'dyi_note' => 'Use the Charge Code of the conviction to determine elegibility',
+                        'note' => 'Conviction can be less than F/A'
                     ]);
 
                 $applied_ids[] = $statute_id;
