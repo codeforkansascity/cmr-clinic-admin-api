@@ -89,7 +89,7 @@ class StatuteException extends Model
 
     }
 
-    static public function getStatutesForExceptionsPossible($exception_id)
+    static public function getStatutesForExceptionsPossibleQuery($exception_id)
     {
         $thisModel = new static;
 
@@ -114,7 +114,7 @@ class StatuteException extends Model
             ->where('statute_exceptions.exception_id', $exception_id)
             ->whereNotIn('exception_code_id',[ExceptionCodes::DOES_NOT_APPLY, ExceptionCodes::UNDETERMINED]);
 
-        return $query->get();
+        return $query;
 
     }
 

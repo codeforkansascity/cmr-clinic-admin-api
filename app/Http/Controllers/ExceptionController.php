@@ -164,10 +164,11 @@ class ExceptionController extends Controller
         }
 
         if ($exception = $this->sanitizeAndFind($id)) {
-            $statutes = StatuteException::getStatutesForExceptionsPossible($exception->id);
+            $statutes = StatuteException::getStatutesForExceptionsPossibleQuery($exception->id)->get();
             $can_edit = Auth::user()->can('exception edit');
             $can_delete = (Auth::user()->can('exception delete') && $exception->canDelete());
-            return view('exception.show', compact('exception','statutes', 'can_edit', 'can_delete'));
+            $cnt = count($statutes);
+            return view('exception.show', compact('exception','statutes', 'cnt', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Exceptions to display.');
             return Redirect::route('exception.index');
