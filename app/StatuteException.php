@@ -15,16 +15,15 @@ class StatuteException extends Model
      * fillable - attributes that can be mass-assigned
      */
     protected $fillable = [
-        'id',
-        'statute_id',
-        'exception_id',
-        'note',
-        'attorney_note',
-        'dyi_note',
-        'source',
-        'exception_code_id',
-
-    ];
+            'id',
+            'statute_id',
+            'exception_id',
+            'note',
+            'attorney_note',
+            'dyi_note',
+            'source',
+            'exception_code_id',
+        ];
 
     protected $hidden = [
         'active',
@@ -54,7 +53,7 @@ class StatuteException extends Model
         } catch (\Exception $e) {
             info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
-        } catch (QueryException $e) {
+        } catch (\Illuminate\Database\QueryException $e) {
             info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
             throw new \Exception($e->getMessage());
         }
@@ -102,17 +101,19 @@ class StatuteException extends Model
             'statute_exceptions.dyi_note',
             'statute_exceptions.source',
             'exception_codes.name AS exception_code',
-
+            'exceptions.section AS exception',
             'statutes.id AS statute_id',
             'statutes.number AS statute_number',
             'statutes.name AS statute_name',
             'statutes.common_name AS statute_common_name',
             'statutes.note AS statute_note')
             ->leftJoin('exception_codes', 'exception_codes.id', '=', 'statute_exceptions.exception_code_id')
+            ->leftJoin('exceptions', 'exceptions.id', '=', 'statute_exceptions.exception_id')
             ->leftJoin('statutes', 'statutes.id', '=', 'statute_exceptions.statute_id')
+            ->orderBy('exceptions.sequence')
             ->orderBy('statutes.number')
-            ->where('statute_exceptions.exception_id', $exception_id)
-            ->whereNotIn('exception_code_id',[ExceptionCodes::DOES_NOT_APPLY, ExceptionCodes::UNDETERMINED]);
+//            ->where('statute_exceptions.exception_id', $exception_id)
+            ->whereNotIn('exception_code_id',[ExceptionCodes::DOES_NOT_APPLY]);
 
         return $query;
 
@@ -139,6 +140,152 @@ class StatuteException extends Model
             ->orderBy('exceptions.section')
             ->where('statute_exceptions.statute_id', $statute_id)
             ->get();
+
+    }
+
+
+    public function canDelete()
+    {
+        return true;
+    }
+
+
+    /**
+     * Get Grid/index data PAGINATED
+     *
+     * @param $per_page
+     * @param $column
+     * @param $direction
+     * @param string $keyword
+     * @return mixed
+     */
+    static function indexData(
+        $per_page,
+        $column,
+        $direction,
+        $keyword = '')
+    {
+        return self::buildBaseGridQuery($column, $direction, $keyword,
+            [ 'id',
+                    'statute_id',
+                    'exception_id',
+                    'note',
+                    'attorney_note',
+                    'dyi_note',
+                    'source',
+                    'exception_code_id',
+            ])
+        ->paginate($per_page);
+    }
+
+
+
+
+    /**
+     * Create base query to be used by Grid, Download, and PDF
+     *
+     * NOTE: to override the select you must supply all fields, ie you cannot add to the
+     *       fields being selected.
+     *
+     * @param $column
+     * @param $direction
+     * @param string $keyword
+     * @param string|array $columns
+     * @return mixed
+     */
+
+    static function buildBaseGridQuery(
+        $column,
+        $direction,
+        $keyword = '',
+        $columns = '*')
+    {
+        // Map sort direction from 1/-1 integer to asc/desc sql keyword
+        switch ($direction) {
+            case '1':
+                $direction = 'desc';
+                break;
+            case '-1':
+                $direction = 'asc';
+                break;
+            default:
+                $direction = 'asc';
+                break;
+        }
+
+        $query = StatuteException::select($columns)
+        ->orderBy($column, $direction);
+
+        if ($keyword) {
+            $query->where('name', 'like', '%' . $keyword . '%');
+        }
+        return $query;
+    }
+
+        /**
+         * Get export/Excel/download data query to send to Excel download library
+         *
+         * @param $per_page
+         * @param $column
+         * @param $direction
+         * @param string $keyword
+         * @return mixed
+         */
+
+    static function exportDataQuery(
+        $column,
+        $direction,
+        $keyword = '',
+        $columns = '*')
+    {
+
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+
+        return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
+
+    }
+
+        static function pdfDataQuery(
+            $column,
+            $direction,
+            $keyword = '',
+            $columns = '*')
+        {
+
+            info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+
+            return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
+
+        }
+
+
+    /**
+     * Get "options" for HTML select tag
+     *
+     * If flat return an array.
+     * Otherwise, return an array of records.  Helps keep in proper order durring ajax calls to Chrome
+     */
+    static public function getOptions($flat = false)
+    {
+
+        $thisModel = new static;
+
+        $records = $thisModel::select('id',
+            'name')
+            ->orderBy('name')
+            ->get();
+
+        if (!$flat) {
+            return $records;
+        } else {
+            $data = [];
+
+            foreach ($records AS $rec) {
+                $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
+            }
+
+            return $data;
+        }
 
     }
 

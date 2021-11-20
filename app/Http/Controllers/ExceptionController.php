@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 
+use App\Exports\StatuteExceptionExport;
 use App\Http\Middleware\TrimStrings;
 use App\Exception;
 use App\StatuteException;
@@ -305,6 +306,44 @@ class ExceptionController extends Controller
 
 
     public function download()
+    {
+
+        if (!Auth::user()->can('exception excel')) {
+            \Session::flash('flash_error_message', 'You do not have access to download Exceptions.');
+            if (Auth::user()->can('exception index')) {
+                return Redirect::route('exception.index');
+            } else {
+                return Redirect::route('home');
+            }
+        }
+
+        // Remember the search parameters, we saved them in the Query
+        $search = session('exception_keyword', '');
+        $column = session('exception_column', 'name');
+        $direction = session('exception_direction', '-1');
+
+        $column = $column ? $column : 'name';
+
+        // #TODO wrap in a try/catch and display english message on failuer.
+
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+
+        $exception_id = 1;
+        $exception = Exception::find($exception_id);
+        $dataQuery = Exception::exportDataQuery($column, $direction, $search);
+        $dataQuery = StatuteException::getStatutesForExceptionsPossibleQuery($exception_id);
+
+        //dump($data->toArray());
+        //if ($data->count() > 0) {
+
+        // TODO: is it possible to do 0 check before query executes somehow? i think the query would have to be executed twice, once for count, once for excel library
+        return Excel::download(
+            new StatuteExceptionExport($dataQuery),
+            $exception->section . '-exception.xlsx');
+
+    }
+
+    public function org_download()
     {
 
         if (!Auth::user()->can('exception excel')) {
