@@ -5,6 +5,7 @@ namespace App;
 use App\Traits\RecordSignature;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class StatuteException extends Model
 {
@@ -88,7 +89,7 @@ class StatuteException extends Model
 
     }
 
-    static public function getStatutesForExceptionsPossibleQuery($exception_id)
+    static public function getStatutesForBase()
     {
         $thisModel = new static;
 
@@ -106,14 +107,49 @@ class StatuteException extends Model
             'statutes.number AS statute_number',
             'statutes.name AS statute_name',
             'statutes.common_name AS statute_common_name',
-            'statutes.note AS statute_note')
+            'statutes.note AS statute_note',
+            DB::raw("SUBSTRING_INDEX(SUBSTRING_INDEX(statutes.number, '.', 1), '.', -1) as cap"),
+            DB::raw("SUBSTRING_INDEX(SUBSTRING_INDEX(statutes.number, '.', 2), '.', -1) as sec")
+
+
+
+
+        )
+
+
+
+
+
             ->leftJoin('exception_codes', 'exception_codes.id', '=', 'statute_exceptions.exception_code_id')
             ->leftJoin('exceptions', 'exceptions.id', '=', 'statute_exceptions.exception_id')
             ->leftJoin('statutes', 'statutes.id', '=', 'statute_exceptions.statute_id')
             ->orderBy('exceptions.sequence')
-            ->orderBy('statutes.number')
+            ->orderBy('cap')
+            ->orderBy('sec')
 //            ->where('statute_exceptions.exception_id', $exception_id)
             ->whereNotIn('exception_code_id',[ExceptionCodes::DOES_NOT_APPLY]);
+
+        return $query;
+
+    }
+
+
+    static public function getStatutesForExceptionsPossibleQuery($exception_id)
+    {
+        $thisModel = new static;
+
+        $query = $thisModel->getStatutesForBase();
+        $query->where('statute_exceptions.exception_id', $exception_id);
+
+        return $query;
+
+    }
+
+    static public function getStatutesForExceptionsReportQuery()
+    {
+        $thisModel = new static;
+
+        $query = $thisModel->getStatutesForBase();
 
         return $query;
 

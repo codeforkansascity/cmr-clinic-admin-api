@@ -331,7 +331,7 @@ class ExceptionController extends Controller
         $exception_id = 1;
         $exception = Exception::find($exception_id);
         $dataQuery = Exception::exportDataQuery($column, $direction, $search);
-        $dataQuery = StatuteException::getStatutesForExceptionsPossibleQuery($exception_id);
+        $dataQuery = StatuteException::getStatutesForExceptionsReportQuery($exception_id);
 
         //dump($data->toArray());
         //if ($data->count() > 0) {
@@ -339,7 +339,7 @@ class ExceptionController extends Controller
         // TODO: is it possible to do 0 check before query executes somehow? i think the query would have to be executed twice, once for count, once for excel library
         return Excel::download(
             new StatuteExceptionExport($dataQuery),
-            $exception->section . '-exception.xlsx');
+            '610.140-statute-exceptions.xlsx');
 
     }
 
