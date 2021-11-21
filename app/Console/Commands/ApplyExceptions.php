@@ -50,8 +50,6 @@ class ApplyExceptions extends Command
     public function handle()
     {
 
-
-
         $mshp_version_system_name = '2021';
         $mshp_version = MshpVersion::select('id')->where('system_name',$mshp_version_system_name)->first();
 
@@ -230,18 +228,19 @@ EOM;
             ->where('jurisdiction_id', Jurisdiction::JURISDICTION_MO)
             ->get();
 
-        if ($felonyALawNumbers) {
-            $found_numbers = $records->pluck('number');
-
-            $not_found_numbers = array_diff($felonyALawNumbers->toArray(),$found_numbers->toArray());
-
-            if ($not_found_numbers) {
-                $this->error("Error: statutes not found:");
-                foreach ($not_found_numbers AS $missing_number) {
-                    $this->error("    $missing_number");
-                }
-            }
-        }
+        // Ends up reporting what will become undetermined
+//        if ($felonyALawNumbers) {
+//            $found_numbers = $records->pluck('number');
+//
+//            $not_found_numbers = array_diff($felonyALawNumbers->toArray(),$found_numbers->toArray());
+//
+//            if ($not_found_numbers) {
+//                $this->error("Error: statutes not found:");
+//                foreach ($not_found_numbers AS $missing_number) {
+//                    $this->error("    $missing_number");
+//                }
+//            }
+//        }
 
         foreach ($records as $rec) {
 
@@ -705,18 +704,19 @@ EOM;
     private function applyException($exception, $numbers, $statutes, $note = '', $exception_code_id = null, $attorney_note=null, $dyi_note=null)
     {
 
-        if ($numbers) {
-            $found_numbers = $statutes->pluck('number');
-
-            $not_found_numbers = array_diff($numbers,$found_numbers->toArray());
-
-            if ($not_found_numbers) {
-                $this->error("Error: statutes not found:");
-                foreach ($not_found_numbers AS $missing_number) {
-                    $this->error("    $missing_number");
-                }
-            }
-        }
+        // // Ends up reporting what will become undetermined
+//        if ($numbers) {
+//            $found_numbers = $statutes->pluck('number');
+//
+//            $not_found_numbers = array_diff($numbers,$found_numbers->toArray());
+//
+//            if ($not_found_numbers) {
+//                $this->error("Error: statutes not found:");
+//                foreach ($not_found_numbers AS $missing_number) {
+//                    $this->error("    $missing_number");
+//                }
+//            }
+//        }
 
 
         foreach ($statutes as $statute) {
