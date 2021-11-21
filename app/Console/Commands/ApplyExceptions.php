@@ -466,7 +466,7 @@ EOM;
             $query = Statute::whereIn('number', $numbers);
             $listed_numbers = $this->apply($exception,$query, ExceptionCodes::APPLIES);
 
-            $research_numbers = ['217.360',
+            $repeal_transferred_numbers = ['217.360',
                 '565.084',
                 '565.085',
                 '565.086',
@@ -485,9 +485,9 @@ EOM;
                 '578.305',
                 '578.310'];
 
-            $query = Statute::whereIn('number', $research_numbers);
-            $research_numbers =  $this->apply($exception,$query, ExceptionCodes::RESEARCH,'',$listed_numbers);
-print_r($research_numbers);
+            $query = Statute::whereIn('number', $repeal_transferred_numbers);
+            $repeal_transferred_numbers =  $this->apply($exception,$query, ExceptionCodes::RESEARCH,'Repealed or Transfered by S.B. 491, 2014, effective 1-01-17',$listed_numbers);
+
 
             $numbers_105 = [
                 "105.452",
@@ -522,14 +522,14 @@ print_r($research_numbers);
 
             print_r($numbers_105);
             $query = Statute::whereIn('number', $numbers_105);
-            $numbers_105 =  $this->apply($exception,$query, ExceptionCodes::RESEARCH,'',array_merge($listed_numbers, $research_numbers));
+            $numbers_105 =  $this->apply($exception,$query, ExceptionCodes::RESEARCH,'',array_merge($listed_numbers, $repeal_transferred_numbers));
             print_r($numbers_105);
             print "Count of 105 numbers " . count($numbers_105) . "\n\n";
 
             $query = Statute::where('number', 'like', '566%');
-            $in_566 =  $this->apply($exception,$query, ExceptionCodes::RESEARCH,'',array_merge($listed_numbers, $research_numbers, $numbers_105));
+            $in_566 =  $this->apply($exception,$query, ExceptionCodes::RESEARCH,'',array_merge($listed_numbers, $repeal_transferred_numbers, $numbers_105));
 
-            $this->inversNumbers($exception,array_merge($listed_numbers, $research_numbers, $numbers_105, $in_566));
+            $this->inversNumbers($exception,array_merge($listed_numbers, $repeal_transferred_numbers, $numbers_105, $in_566));
 
         } else {
             $this->error('Exception 2.6 was not found');
