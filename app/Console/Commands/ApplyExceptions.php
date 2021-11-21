@@ -75,6 +75,25 @@ class ApplyExceptions extends Command
 	    $this->do2_10();
 	    $this->do2_11();
 
+        $sql = <<<EOM
+            DELETE FROM statute_exceptions;
+EOM;
+
+        $records = DB::select($sql);
+
+
+        $this->do2_1();
+        $this->do2_2();
+        $this->do2_3();
+        $this->do2_4();
+        $this->do2_5();
+        $this->do2_6();
+        $this->do2_7();
+        $this->do2_8();
+        $this->do2_9();
+        $this->do2_10();
+        $this->do2_11();
+
         return 0;
     }
 
@@ -464,7 +483,7 @@ EOM;
         if ($exception = Exception::where('section', '2.6')->first()) {
             $numbers = $this->section_2_6();
             $query = Statute::whereIn('number', $numbers);
-            $listed_numbers = $this->apply($numbers,$exception,$query, ExceptionCodes::APPLIES);
+            $listed_numbers = $this->apply($numbers,$exception,$query, ExceptionCodes::APPLIES, 'Listed in 2.6');
 
             $repeal_transferred_numbers = ['217.360',
                 '565.084',
@@ -491,7 +510,7 @@ EOM;
             $repeal_transferred_numbers =  $this->apply($repeal_transferred_numbers,$exception,$query, ExceptionCodes::RESEARCH,'Repealed or Transfered by S.B. 491, 2014, effective 1-01-17',$listed_numbers);
 
             $query = Statute::where('number', 'like', '566%');
-            $in_566 =  $this->apply(null, $exception,$query, ExceptionCodes::RESEARCH,'',array_merge($listed_numbers, $repeal_transferred_numbers));
+            $in_566 =  $this->apply(null, $exception,$query, ExceptionCodes::RESEARCH,'Any in chapter 566.',array_merge($listed_numbers, $repeal_transferred_numbers));
 
             $this->inversNumbers($exception,array_merge($listed_numbers, $repeal_transferred_numbers, $in_566));
 
@@ -596,6 +615,7 @@ EOM;
                     ['source' => 'All MO Statutes',
                         'exception_code_id' => ExceptionCodes::DOES_NOT_APPLY,
                         'attorney_note' => 'Cannot be an ordinance violation since it is a Missouri Statute',
+                        'note' => 'Cannot be an ordinance violation since it is a Missouri Statute',
                         'dyi_note' => '--',
                     ]);
             }
