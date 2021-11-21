@@ -6,6 +6,7 @@ use App\Exception;
 use App\ExceptionCodes;
 use App\ImportMshpChargeCodeManual;
 use App\Jurisdiction;
+use App\MshpVersion;
 use App\Statute;
 use App\StatuteException;
 use Illuminate\Console\Command;
@@ -27,6 +28,8 @@ class ApplyExceptions extends Command
      */
     protected $description = 'Apply exceptions to statutes';
 
+
+    private $mshp_version_id = 0;
     /**
      * Create a new command instance.
      *
@@ -35,6 +38,8 @@ class ApplyExceptions extends Command
     public function __construct()
     {
         parent::__construct();
+
+
     }
 
     /**
@@ -44,6 +49,20 @@ class ApplyExceptions extends Command
      */
     public function handle()
     {
+
+
+
+        $mshp_version_system_name = '2021';
+        $mshp_version = MshpVersion::select('id')->where('system_name',$mshp_version_system_name)->first();
+
+        if (!$mshp_version) {
+            $this->error('Unable to find MSHP Version system name ' . $mshp_version_system_name);
+            die;
+        }
+
+        $this->mshp_version_id = $mshp_version->id;
+
+
 
         $this->do2_1();
         $this->do2_2();
@@ -76,6 +95,8 @@ class ApplyExceptions extends Command
     private function applySection_2_1($exception)
     {
 
+        $mshp_version_id =  $this->mshp_version_id;
+
         $sql = <<<EOM
             select count(*) as cnt, cmr_law_number
             from (
@@ -85,7 +106,10 @@ class ApplyExceptions extends Command
                    (select cmr_law_number
                            from import_mshp_charge_code_manuals
                           where type_class = 'F / A'
-                        group by cmr_law_number)
+                            and mshp_version_id = $mshp_version_id
+                        group by cmr_law_number
+                    )
+                    and mshp_version_id = $mshp_version_id
                     group by cmr_law_number, type_class
                     order by cmr_law_number, type_class
                  ) as a
@@ -98,29 +122,55 @@ EOM;
 
         foreach ($records as $rec) {
             $statute_id = Statute::getIdByNumber($rec->cmr_law_number, Jurisdiction::JURISDICTION_MO);
+            $hasAttempt = $this->isStatuteAttempted($rec->cmr_law_number);
 
 //
             if ($rec->cnt == 1) {       // For statutes that are only one Charge Code of a F/A (Felony A) we will mark them as Exception Applies
-                StatuteException::updateOrCreate([
-                    'statute_id' => $statute_id,
-                    'exception_id' => $exception->id],
-                    ['source' => 'Charge Code Manule 2021-2022',
-                        'exception_code_id' => ExceptionCodes::APPLIES,
-                        'note' => 'Can only be charged as F/A'
-                    ]);
+               if ($hasAttempt) {
+                   StatuteException::updateOrCreate([
+                       'statute_id' => $statute_id,
+                       'exception_id' => $exception->id],
+                       ['source' => 'Charge Code Manule 2021-2022',
+                           'exception_code_id' => ExceptionCodes::POSSIBLY_APPLIES,
+                           'note' => 'Can only be convicted as F/A and can be attempted'
+                       ]);
+               } else {
+                   StatuteException::updateOrCreate([
+                       'statute_id' => $statute_id,
+                       'exception_id' => $exception->id],
+                       ['source' => 'Charge Code Manule 2021-2022',
+                           'exception_code_id' => ExceptionCodes::APPLIES,
+                           'note' => 'Can only be convicted as F/A'
+                       ]);
+               }
+
+
 
                 $applied_ids[] = $statute_id;
 
             } else { // For statutes where there are both F/A and other levels in the Charge Codes, we will mark them Exception Possibly Applies
-                StatuteException::updateOrCreate([
-                    'statute_id' => $statute_id,
-                    'exception_id' => $exception->id],
-                    ['source' => 'Charge Code Manule 2021-2022',
-                        'exception_code_id' => ExceptionCodes::POSSIBLY_APPLIES,
-                        'attorney_note' => 'Use charge code or research using the conviction Date and Level to determine eligibility',
-                        'dyi_note' => 'Use the Charge Code of the conviction to determine elegibility',
-                        'note' => 'Conviction can be less than F/A'
-                    ]);
+
+                if ($hasAttempt) {
+                    StatuteException::updateOrCreate([
+                        'statute_id' => $statute_id,
+                        'exception_id' => $exception->id],
+                        ['source' => 'Charge Code Manule 2021-2022',
+                            'exception_code_id' => ExceptionCodes::POSSIBLY_APPLIES,
+                            'attorney_note' => 'Use charge code or research using the conviction Date and Level to determine eligibility',
+                            'dyi_note' => 'Use the Charge Code of the conviction to determine elegibility',
+                            'note' => 'Conviction can be less than F/A and can be attempted'
+                        ]);
+                } else {
+                    StatuteException::updateOrCreate([
+                        'statute_id' => $statute_id,
+                        'exception_id' => $exception->id],
+                        ['source' => 'Charge Code Manule 2021-2022',
+                            'exception_code_id' => ExceptionCodes::POSSIBLY_APPLIES,
+                            'attorney_note' => 'Use charge code or research using the conviction Date and Level to determine eligibility',
+                            'dyi_note' => 'Use the Charge Code of the conviction to determine elegibility',
+                            'note' => 'Conviction can be less than F/A'
+                        ]);
+                }
 
                 $applied_ids[] = $statute_id;
             }
@@ -132,6 +182,17 @@ EOM;
         $statutes = Statute::whereNotIn('id', $applied_ids)->get();
         $this->applyException($exception, null, $statutes, '', ExceptionCodes::DOES_NOT_APPLY);
 
+    }
+
+    private function isStatuteAttempted($cms_law_number) {
+        $cnt = ImportMshpChargeCodeManual::where('mshp_version_id',$this->mshp_version_id)
+            ->where('cmr_law_number', $cms_law_number)
+            ->where('cmr_attempt',1)
+            ->groupBy('cmr_law_number')
+            ->count();
+
+
+        return $cnt;
     }
 
     private function do2_2()
@@ -191,6 +252,7 @@ EOM;
                     'exception_code_id' => ExceptionCodes::DOES_NOT_APPLY,
                     'dyi_note' => '--',
                     'attorney_note' => 'Cannot be charged as a Felony A per Charge Code Manule',
+                    'note' => 'Cannot be charged as a Felony A per Charge Code Manule',
                 ]);
         }
 
@@ -219,7 +281,7 @@ EOM;
             DB::raw("sum(1) as cnt"),
             DB::raw("sum(if (sor = 'Y', 1, 0)) as sor_cnt")
         )
-            ->where('mshp_version_id', 2)
+            ->where('mshp_version_id',$this->mshp_version_id)
             ->groupBy('cmr_law_number', 'effective_date')
             ->orderBy('cmr_law_number')
             ->orderBy('effective_date')
@@ -675,6 +737,7 @@ print_r($research_numbers);
 
         return ImportMshpChargeCodeManual::select('cmr_law_number')
             ->where('type_class', 'like', 'F%')
+            ->where('mshp_version_id',$this->mshp_version_id)
             ->groupBy('cmr_law_number')
             ->get();
     }
