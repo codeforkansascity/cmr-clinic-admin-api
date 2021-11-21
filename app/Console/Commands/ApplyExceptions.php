@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Exception;
 use App\ExceptionCodes;
+use App\ImportMoRevisorActiveSection;
 use App\ImportMshpChargeCodeManual;
 use App\Jurisdiction;
 use App\MshpVersion;
@@ -446,7 +447,7 @@ EOM;
             ];
 
             $query = Statute::whereIn('number', $numbers);
-            $numbers = $this->apply($exception,$query, ExceptionCodes::RESEARCH, 'Please Research and assign exception code');
+            $numbers = $this->apply($numbers,$exception,$query, ExceptionCodes::RESEARCH, 'Please Research and assign exception code');
 
             $this->inversNumbers($exception,$numbers);
 
@@ -463,7 +464,7 @@ EOM;
         if ($exception = Exception::where('section', '2.6')->first()) {
             $numbers = $this->section_2_6();
             $query = Statute::whereIn('number', $numbers);
-            $listed_numbers = $this->apply($exception,$query, ExceptionCodes::APPLIES);
+            $listed_numbers = $this->apply($numbers,$exception,$query, ExceptionCodes::APPLIES);
 
             $repeal_transferred_numbers = ['217.360',
                 '565.084',
@@ -484,11 +485,13 @@ EOM;
                 '578.305',
                 '578.310'];
 
+
+
             $query = Statute::whereIn('number', $repeal_transferred_numbers);
-            $repeal_transferred_numbers =  $this->apply($exception,$query, ExceptionCodes::RESEARCH,'Repealed or Transfered by S.B. 491, 2014, effective 1-01-17',$listed_numbers);
+            $repeal_transferred_numbers =  $this->apply($repeal_transferred_numbers,$exception,$query, ExceptionCodes::RESEARCH,'Repealed or Transfered by S.B. 491, 2014, effective 1-01-17',$listed_numbers);
 
             $query = Statute::where('number', 'like', '566%');
-            $in_566 =  $this->apply($exception,$query, ExceptionCodes::RESEARCH,'',array_merge($listed_numbers, $repeal_transferred_numbers));
+            $in_566 =  $this->apply(null, $exception,$query, ExceptionCodes::RESEARCH,'',array_merge($listed_numbers, $repeal_transferred_numbers));
 
             $this->inversNumbers($exception,array_merge($listed_numbers, $repeal_transferred_numbers, $in_566));
 
@@ -535,7 +538,7 @@ EOM;
             ];
 
             $query = Statute::whereIn('number', $numbers);
-            $numbers = $this->apply($exception,$query, ExceptionCodes::RESEARCH, 'Please Research and assign exception code');
+            $numbers = $this->apply($numbers,$exception,$query, ExceptionCodes::RESEARCH, 'Please Research and assign exception code');
 
             $this->inversNumbers($exception,$numbers);
 
@@ -565,7 +568,7 @@ EOM;
             ];
 
             $query = Statute::whereIn('number', $numbers);
-            $numbers = $this->apply($exception,$query, ExceptionCodes::RESEARCH, 'Please Research and assign exception code');
+            $numbers = $this->apply($numbers,$exception,$query, ExceptionCodes::RESEARCH, 'Please Research and assign exception code');
 
             $this->inversNumbers($exception,$numbers);
 
@@ -611,7 +614,7 @@ EOM;
             $traffic_numbers = $this->getTraffic();
 
             $query = Statute::whereIn('number', $traffic_numbers);
-            $numbers = $this->apply($exception,$query, ExceptionCodes::RESEARCH, 'Please Research and assign exception code');
+            $numbers = $this->apply($traffic_numbers, $exception,$query, ExceptionCodes::RESEARCH, 'Please Research and assign exception code');
 
             $this->inversNumbers($exception,$numbers);
 
@@ -628,7 +631,7 @@ EOM;
         if ($exception = Exception::where('section', '2.11')->first()) {
 
             $query = Statute::where('number', '571.030');
-            $numbers = $this->apply($exception,$query, ExceptionCodes::POSSIBLY_APPLIES);
+            $numbers = $this->apply(['571.030'], $exception,$query, ExceptionCodes::POSSIBLY_APPLIES);
 
             $this->inversNumbers($exception,$numbers);
 
@@ -640,17 +643,21 @@ EOM;
 
     private function inversNumbers($exception,$numbers) {
         $query = Statute::whereNotIn('number', $numbers);
-        $this->apply($exception,$query,ExceptionCodes::DOES_NOT_APPLY);
+        $this->apply($numbers, $exception,$query,ExceptionCodes::DOES_NOT_APPLY);
 
     }
 
     private function inversIds($exception,$ids) {
         $query = Statute::whereNotIn('id', $ids);
-        $this->apply($exception,$query,ExceptionCodes::DOES_NOT_APPLY);
+        $this->apply(null,$exception,$query,ExceptionCodes::DOES_NOT_APPLY);
 
     }
 
-    private function apply($exception,$query,$exception_code,$note='',$notin = false) {
+    private function apply($numbers,$exception,$query,$exception_code,$note='',$notin = false) {
+        if ($numbers) {
+            $this->findOrAddStatutes($numbers);
+        }
+
         $query->where('jurisdiction_id', Jurisdiction::JURISDICTION_MO);
         if ($notin) {
             $query->whereNotIn('number',$notin);
@@ -680,6 +687,11 @@ EOM;
 //            }
 //        }
 
+        if ($numbers) {
+            $this->findOrAddStatutes($numbers);
+        }
+
+
 
         foreach ($statutes as $statute) {
             StatuteException::updateOrCreate([
@@ -692,6 +704,44 @@ EOM;
 
                 ]);
         }
+    }
+
+    private function findOrAddStatutes($statute_numbers)
+    {
+
+        foreach ($statute_numbers as $statute_number) {
+
+            $found_statute_number = Statute::where('number', $statute_number)->count();
+
+            if (!$found_statute_number) {
+
+                $active = ImportMoRevisorActiveSection::where('number', $statute_number)
+                    ->where('jurisdiction_id',Jurisdiction::JURISDICTION_MO)
+                    ->first();
+
+                if ($active && $active->description) {
+                    $name = $active->description;
+                } else {
+                    $name = 'Added when apply-exceptions. Might have been repealed or missing charge code - please FIX';
+                }
+
+                $parts = explode('.', $statute_number);
+
+                $record = [
+                    'number' => $statute_number,
+                    'name' => $name,
+                    'note' => '',
+                    'chapter_number' => $parts[0],
+                    'jurisdiction_id' => Jurisdiction::JURISDICTION_MO,
+                    'statutes_eligibility_id' => Statute::UNDETERMINED
+                ];
+
+                Statute::create($record);
+
+                $this->info("    Added $statute_number: $name");
+            }
+        }
+
     }
 
     private function hasFelony()
