@@ -80,16 +80,14 @@ class GetCriminalHistoryFromSS
                 continue;
             }
             if (!($row_type = $this->getRowType($this->current_row))) {  // CASE, CHARGE, false
-                list($label, $value) = $this->cleanRow($this->current_row,0);
+                list($label, $value) = $this->cleanRow($this->current_row,1);
                 $this->applicant[$this->convertLable($label)] = $value;
                 $this->getNextRow();
             } else {
-
                 if ($row_type != 'CASE') {
                     die("ERROR: Missing Case after Applicant information\n");
                 }
                 if ($cases_in_row = $this->getCasesInRow()) {
-
                     if ($cases_in_row > 1 ) {
                         $this->processVerticalCases($cases_in_row);
                         $this->processVerticalCaseCharges($cases_in_row);
@@ -102,9 +100,8 @@ class GetCriminalHistoryFromSS
 
                     }
                 } else {
-                    die("Error no cases in row");
+                    die("Error no cases in row\n");
                 }
-
 
             }
 
@@ -114,13 +111,17 @@ class GetCriminalHistoryFromSS
 
     }
 
+    //////////////////////////////////////////////////////////////////////
+    //   VERTICAL
+    //////////////////////////////////////////////////////////////////////
+
     public function processVerticalCases($cases_in_row) {
 
 
         $this->addCasesToApplicant($cases_in_row);
-        $this->getNextRow();
+     //   $this->getNextRow();
 
-        while($this->current_row && !$this->getRowType($this->current_row)) {
+        while($this->current_row && $this->getRowType($this->current_row)  != 'CHARGE') {
             if (!$this->currentRowEmpty()) {
                 $this->processVerticalCasesColumns($cases_in_row);
 
@@ -133,13 +134,14 @@ class GetCriminalHistoryFromSS
 
     private function addCasesToApplicant($cases_in_row) {
         $this->applicant['CASES'] = [];
-        for ($i = 0; $i < $cases_in_row; $i++) {
+        for ($i = 1; $i < $cases_in_row; $i++) {
             $this->applicant['CASES'][$i] = [];
+            $this->applicant['CASES'][$i]['x'] = 'x';
         }
     }
 
     private function processVerticalCasesColumns($cases_in_row) {
-        for($i = 0; $i < $cases_in_row; $i++) {
+        for($i = 1; $i <= $cases_in_row; $i++) {
             list($label, $value) = $this->cleanRow($this->current_row,$i);
             $this->applicant['CASES'][$i][$this->convertLable($label)] = $value;
         }
@@ -165,10 +167,10 @@ class GetCriminalHistoryFromSS
 
     private function processVerticalCaseChargeColumns($charge_offset,$cases_in_row) {
 
-        for($i = 0; $i < $cases_in_row; $i++) {
+        for($i = 1; $i <= $cases_in_row; $i++) {
             list($label, $value) = $this->cleanRow($this->current_row,$i);
 
-            if ($label) {
+            if ($label && $value) {
 
                 if (!array_key_exists('CHARGES', $this->applicant['CASES'][$i])) {
                     $this->applicant['CASES'][$i]['CHARGES'] = [];
@@ -180,11 +182,36 @@ class GetCriminalHistoryFromSS
                 //
                 } else {
 
-                    $this->applicant['CASES'][$i]['CHARGES'][$charge_offset][$label] = $value;
+                    $this->applicant['CASES'][$i]['CHARGES'][$charge_offset][$this->convertLable($label)] = $value;
                 }
             }
         }
     }
+
+    private function getCasesInRow() {
+
+        $number_of_cases = 0;
+        if ($columns = count($this->current_row)) {
+            $max_cases = intval($columns) - 1;
+            if ($this->current_row[0] == 'Case Number'){ // if lable is case
+                for ($i = 1; $i <= $max_cases; $i ++) {
+
+                    $number_of_cases++;
+                }
+
+            } else if (0 != preg_match('/^(Case)\s*(\d+)$/', $this->current_row[0], $row_parts)) {
+                return 1;
+            } else {
+                return false;
+            }
+        }
+
+        return $number_of_cases;
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    //   Horizontal
+    //////////////////////////////////////////////////////////////////////
 
     public function processHorizontalCases() {
 
@@ -195,7 +222,7 @@ class GetCriminalHistoryFromSS
         // Process the case
         while ($this->current_row
             && $this->getRowType($this->current_row) != 'CHARGE') {
-            list($label, $value) = $this->cleanRow($this->current_row,0);
+            list($label, $value) = $this->cleanRow($this->current_row,1);
             $this->applicant['CASES'][$this->case_offset][$this->convertLable($label)] = $value;
             $this->getNextRow();
         }
@@ -210,10 +237,10 @@ class GetCriminalHistoryFromSS
             if ($row_type == 'CHARGE') {
                 $charge_offset++;
                 $this->applicant['CASES'][$this->case_offset]['CHARGES'][$charge_offset] = [];
-                list($label, $value) = $this->cleanRow($this->current_row,0);
+                list($label, $value) = $this->cleanRow($this->current_row,1);
                 $this->applicant['CASES'][$this->case_offset]['CHARGES'][$charge_offset]['imported_statute'] = $value;
             } else {
-                list($label, $value) = $this->cleanRow($this->current_row,0);
+                list($label, $value) = $this->cleanRow($this->current_row,1);
                 if (!empty($label)) {
                     $this->applicant['CASES'][$this->case_offset]['CHARGES'][$charge_offset][$this->convertLable($label)] = $value;
                 }
@@ -224,97 +251,10 @@ class GetCriminalHistoryFromSS
 
     }
 
+    //////////////////////////////////////////////////////////////////////
+    //   Shared
+    //////////////////////////////////////////////////////////////////////
 
-
-
-
-    public function OLDprocessSpreadSheet()
-    {
-        $this->readSpreadSheet($this->path.'/'.$this->file_name);
-
-        $this->current_type = 'CLIENT';
-        $this->in = 'CLIENT';
-        $this->record = [];
-        $this->case = [];
-        while ($this->current_row) {
-
-
-            list($label, $value) = $this->cleanRow($this->current_row,0);
-
-            // This code should be someplace else, but it works here
-            if ($label == 'Release Date') {
-                $this->case[$this->convertLable($label)] = $value;
-            }
-
-            // If we are starting a CASE or CHARGE
-            if ($row_type  = $this->getRowType($this->current_row)) {  // CASE, CHARGE, false
-                switch ($this->in) {
-                    case 'CLIENT':  // End Client
-
-                        $this->record['CASES'] = [];
-                        $this->applicant = $this->record;
-                        $this->applicant['CASES'] = [];
-                        break;
-
-                    case 'CHARGE':  // End Charge
-
-                        if (! array_key_exists('CHARGES', $this->case)) {
-                            $this->case['CHARGES'] = [];
-                        }
-                        $this->case['CHARGES'][] = $this->record;
-
-                        if ($row_type == 'CASE') {
-                            $this->applicant['CASES'][] = $this->case;
-                            $this->case = [];
-                        }
-
-                }
-
-                $this->record = [];
-                $this->current_type = $row_type;
-                $this->in = $row_type;
-            }
-
-            switch ($row_type) {
-
-                case 'CHARGE':
-                    $this->record['imported_statute'] = $value;
-                    break;
-
-                default:
-
-                    switch ($this->in) {
-                        case 'CASE':
-                            $this->case[$this->convertLable($label)] = $value;
-                            break;
-
-                        default:
-
-                            if ($label == 'Source') {
-                                $this->case['Source'] = $value;
-                            } else {
-                                $this->record[$this->convertLable($label)] = $value;
-                            }
-                            break;
-                    }
-
-            }
-
-            $this->getNextRow();
-        }
-
-        // Flush out any straglers
-
-        if (count($this->record)) {
-            $this->case['CHARGES'][] = $this->record;
-        }
-
-        if (count($this->case)) {
-            $this->applicant['CASES'][] = $this->case;
-        }
-
-        return $this->applicant;
-    }
 
     public function convertLable($label)
     {
@@ -322,6 +262,7 @@ class GetCriminalHistoryFromSS
         //    return $label;
 
         if (! array_key_exists($label, $this->label_map)) {
+            info(__METHOD__ . "ERROR $label");
             return "ERROR $label";
         }
 
@@ -331,8 +272,8 @@ class GetCriminalHistoryFromSS
     public function cleanRow($row,$offset)
     {
 
-        $label_col = $offset * 2;
-        $value_col = $label_col + 1;
+        $label_col = 0;
+        $value_col = $offset;
 
         $label = trim($row[$label_col]);
         $value = $row[$value_col] ? trim($row[$value_col]) : '';
@@ -378,8 +319,8 @@ class GetCriminalHistoryFromSS
 
         $type = false;
 
-        for ($i = 0; $i < $cases_in_row; $i++) {
-            if($type = $this->getType($this->current_row[$i*2])) {
+        for ($i = 1; $i <= $cases_in_row; $i++) {
+            if($type = $this->getType($this->current_row[0])) {
                 break;
             }
         }
@@ -389,6 +330,12 @@ class GetCriminalHistoryFromSS
 
     public function getType($label) {
         $row_parts = [];
+
+        $label = trim($label);
+
+        if ($label == 'Case Number') {
+            return 'CASE';
+        }
         if (0 != preg_match('/^(Case)\s*(\d+)$/', $label, $row_parts)) {
             return 'CASE';
         }
@@ -405,22 +352,7 @@ class GetCriminalHistoryFromSS
         return false;
     }
 
-    private function getCasesInRow() {
-        $number_of_cases = 0;
-        if ($columns = count($this->current_row)) {
-            $max_cases = intval($columns / 2);
-            for ($i = 0; $i < $max_cases; $i ++) {
-                if ($this->getType($this->current_row[$i*2]) == 'CASE'){ // if lable is case
-                    $number_of_cases++;
-                } else {
-                    return false;
-                }
 
-            }
-        }
-
-        return $number_of_cases;
-    }
     private function currentRowEmpty() {
         if ($this->current_row) {
             foreach ($this->current_row AS $col) {

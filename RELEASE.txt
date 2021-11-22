@@ -205,3 +205,7 @@
 
 3.2.4.9.0       2021-11-14  Spreadsheet Load: can now load a vertical format where cases are in columns with charges below them
 
+3.2.4.10.0      2021-11-22  Load SS now loads in new format, label is only in first column for cases and charges 
+
+
+
