@@ -43,11 +43,14 @@ class LoadSs extends Command
     public function handle()
     {
 
-//        DB::beginTransaction();
+        DB::beginTransaction();
 
         $this->path = '/Users/paulb/Projects/code4kc/cmr/current-cmr/data';
-        $this->file_name = 'vertical.xlsx';
-    //    $this->file_name = 'cmr-test-Betty-Bednar.xls';
+        $this->file_name = 'horizontal.xls';
+        $this->file_name = 'cmr-test-Betty-Bednar.xls';
+
+        $this->path = '/Users/paulb/Downloads';
+        $this->file_name = 'cindy_abernathy.xls';
 
         $data = [];
 

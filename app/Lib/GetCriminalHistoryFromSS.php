@@ -111,6 +111,10 @@ class GetCriminalHistoryFromSS
 
     }
 
+    //////////////////////////////////////////////////////////////////////
+    //   VERTICAL
+    //////////////////////////////////////////////////////////////////////
+
     public function processVerticalCases($cases_in_row) {
 
 
@@ -178,11 +182,36 @@ class GetCriminalHistoryFromSS
                 //
                 } else {
 
-                    $this->applicant['CASES'][$i]['CHARGES'][$charge_offset][$label] = $value;
+                    $this->applicant['CASES'][$i]['CHARGES'][$charge_offset][$this->convertLable($label)] = $value;
                 }
             }
         }
     }
+
+    private function getCasesInRow() {
+
+        $number_of_cases = 0;
+        if ($columns = count($this->current_row)) {
+            $max_cases = intval($columns) - 1;
+            if ($this->current_row[0] == 'Case Number'){ // if lable is case
+                for ($i = 1; $i <= $max_cases; $i ++) {
+
+                    $number_of_cases++;
+                }
+
+            } else if (0 != preg_match('/^(Case)\s*(\d+)$/', $this->current_row[0], $row_parts)) {
+                return 1;
+            } else {
+                return false;
+            }
+        }
+
+        return $number_of_cases;
+    }
+
+    //////////////////////////////////////////////////////////////////////
+    //   Horizontal
+    //////////////////////////////////////////////////////////////////////
 
     public function processHorizontalCases() {
 
@@ -222,12 +251,18 @@ class GetCriminalHistoryFromSS
 
     }
 
+    //////////////////////////////////////////////////////////////////////
+    //   Shared
+    //////////////////////////////////////////////////////////////////////
+
+
     public function convertLable($label)
     {
 
         //    return $label;
 
         if (! array_key_exists($label, $this->label_map)) {
+            info(__METHOD__ . "ERROR $label");
             return "ERROR $label";
         }
 
@@ -317,28 +352,7 @@ class GetCriminalHistoryFromSS
         return false;
     }
 
-    private function getCasesInRow() {
 
-        dump($this->current_row);
-
-        $number_of_cases = 0;
-        if ($columns = count($this->current_row)) {
-            $max_cases = intval($columns) - 1;
-            if ($this->current_row[0] == 'Case Number'){ // if lable is case
-                for ($i = 1; $i <= $max_cases; $i ++) {
-
-                    $number_of_cases++;
-                }
-
-            } else if (0 != preg_match('/^(Case)\s*(\d+)$/', $this->current_row[0], $row_parts)) {
-                return 1;
-            } else {
-                return false;
-            }
-        }
-
-        return $number_of_cases;
-    }
     private function currentRowEmpty() {
         if ($this->current_row) {
             foreach ($this->current_row AS $col) {
