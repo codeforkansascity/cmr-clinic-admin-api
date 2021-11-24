@@ -246,8 +246,8 @@ class InitialPermissions
 
             'exception index',
             'exception view',
-            'exception export-pdf',
-            'exception export-excel',
+//            'exception export-pdf',
+//            'exception export-excel',
             'exception add',
             'exception edit',
             'exception delete',
@@ -355,8 +355,8 @@ class InitialPermissions
 
             'exception index',
             'exception view',
-            'exception export-pdf',
-            'exception export-excel',
+//            'exception export-pdf',
+//            'exception export-excel',
             'exception add',
             'exception edit',
             'exception delete',
@@ -441,8 +441,8 @@ class InitialPermissions
 
             'exception index',
             'exception view',
-            'exception export-pdf',
-            'exception export-excel',
+//            'exception export-pdf',
+//            'exception export-excel',
             'exception add',
             'exception edit',
 
@@ -525,8 +525,8 @@ class InitialPermissions
 
             'exception index',
             'exception view',
-            'exception export-pdf',
-            'exception export-excel',
+//            'exception export-pdf',
+//            'exception export-excel',
             'exception add',
             'exception edit',
 

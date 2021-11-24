@@ -91,7 +91,7 @@ class ExceptionController extends Controller
         $can_show = Auth::user()->can('exception view');
         $can_edit = Auth::user()->can('exception edit');
         $can_delete = Auth::user()->can('exception delete');
-        $can_excel = Auth::user()->can('exception excel');
+        $can_excel = Auth::user()->can('exception export-pdf');
         $can_pdf = Auth::user()->can('exception pdf');
 
         return view('exception.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
@@ -308,7 +308,7 @@ class ExceptionController extends Controller
     public function download()
     {
 
-        if (!Auth::user()->can('exception excel')) {
+        if (!Auth::user()->can('exception export-pdf')) {
             \Session::flash('flash_error_message', 'You do not have access to download Exceptions.');
             if (Auth::user()->can('exception index')) {
                 return Redirect::route('exception.index');
@@ -346,7 +346,7 @@ class ExceptionController extends Controller
     public function org_download()
     {
 
-        if (!Auth::user()->can('exception excel')) {
+        if (!Auth::user()->can('exception export-pdf')) {
             \Session::flash('flash_error_message', 'You do not have access to download Exceptions.');
             if (Auth::user()->can('exception index')) {
                 return Redirect::route('exception.index');
